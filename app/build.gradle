@@ -1,0 +1,108 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+    signingConfigs {
+        config {
+            keyAlias 'ali_angel'
+            keyPassword 'kaka019930'
+            storeFile file('F:/android/app/keys/MyFourthKey.jks')
+            storePassword 'kaka019930'
+        }
+    }
+    defaultConfig {
+        applicationId 'com.leon.counter_reading'
+        minSdkVersion 23
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0.0.1"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        signingConfig signingConfigs.config
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
+        sourceSets {
+            androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+        }
+    }
+
+    buildTypes {
+        release {
+            clean
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+        preDexLibraries true
+        dexInProcess = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    testImplementation 'junit:junit:4.13.1'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
+    implementation 'com.github.GrenderG:Toasty:1.5.0'
+    implementation 'com.github.ali-sardari:PersianRangeDatePicker:1.2.1'
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.github.blackfizz:eazegraph:1.2.3@aar'
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'gun0912.ted:tedpermission:1.0.3'
+
+    implementation 'com.google.android.gms:play-services-location:17.1.0'
+
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.0.0-alpha02'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation "com.squareup.retrofit2:converter-scalars:2.6.2"
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    implementation 'com.github.MKergall:osmbonuspack:6.3'
+    implementation 'org.osmdroid:osmdroid-android:6.1.7@aar'
+    implementation 'com.cocoahero.android:geojson:1.0.1@jar'
+
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
+    androidTestImplementation 'android.arch.persistence.room:testing:1.1.1'
+
+    api 'io.jsonwebtoken:jjwt-api:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    runtimeOnly('io.jsonwebtoken:jjwt-orgjson:0.11.2') {
+        exclude group: 'org.json', module: 'json'
+    }
+    implementation 'com.auth0.android:jwtdecode:2.0.0'
+
+}

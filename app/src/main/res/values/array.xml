@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string-array name="test1">
+        <item>test</item>
+    </string-array>
+    <string-array name="test2">
+        <item tools:ignore="TypographyFractions">1/2</item>
+        <item tools:ignore="TypographyFractions">3/4</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="search_option">
+        <item>@string/eshterak</item>
+        <item>@string/radif</item>
+        <item>@string/counter_body_number</item>
+        <item>@string/name</item>
+        <item>@string/page_number</item>
+        <item>@string/all</item>
+    </string-array>
+
+    <string-array name="menu">
+        <item>@string/download_information</item>
+        <item>@string/reading</item>
+        <item>@string/upload_information</item>
+        <item>@string/reports</item>
+        <item>@string/location</item>
+        <item>@string/reading_setting</item>
+        <item>@string/app_setting</item>
+        <item>@string/help</item>
+        <item>@string/exit</item>
+    </string-array>
+
+    <array name="icons">
+        <item>@drawable/tiny_img_download_information</item>
+        <item>@drawable/tiny_img_readings</item>
+        <item>@drawable/tiny_img_upload</item>
+        <item>@drawable/tiny_img_reading_report</item>
+        <item>@drawable/tiny_img_location</item>
+        <item>@drawable/tiny_img_reading_settings</item>
+        <item>@drawable/tiny_img_app_settings</item>
+        <item>@drawable/tiny_img_help</item>
+        <item>@drawable/tiny_img_exit</item>
+    </array>
+    <string name="radif">ردیف</string>
+</resources>

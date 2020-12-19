@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0b2758</color>
+    <color name="colorPrimaryDark">#061f49</color>
+    <color name="colorAccent">#e91e63</color>
+
+    <color name="footer">@color/colorPrimaryDark</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="milky">#5C5C5C</color>
+    <color name="smoked">#DCD9CD</color>
+    <color name="transparent">#00000000</color>
+    <color name="text_color_dark">#E6E6E6</color>
+    <color name="text_color_light">#413f44</color>
+
+    <color name="red">#B71C1C</color>
+    <color name="forrest">#172e17</color>
+    <color name="green">#2e4e16</color>
+    <color name="blue">#0E4C92</color>
+    <color name="egyptian">#1134A6</color>
+    <color name="yellow">#F57F17</color>
+    <color name="gray">#969696</color>
+</resources>

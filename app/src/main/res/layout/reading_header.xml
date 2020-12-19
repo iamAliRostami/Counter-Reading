@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relative_layout_reading_header"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="6"
+        tools:ignore="UselessParent">
+
+        <ImageView
+            android:id="@+id/image_view_flash"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/img_flash"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/image_view_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/img_search"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/image_view_camera"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/img_camera"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/image_view_reading_report"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/img_checked"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/image_view_reverse"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/img_inverse"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,135 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/text_color_dark</item>
+        <item name="android:textColorSecondary">@color/text_color_light</item>
+        <item name="fontFamily">@font/font_1</item>
+        <item name="font">@font/font_1</item>
+        <item name="android:layoutDirection">rtl</item>
+        <item name="android:windowBackground">@drawable/img_background</item>
+        <item name="background">@color/milky</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.GreenBlue">
+        <item name="android:textColor">@color/text_color_light</item>
+        <item name="android:textColorSecondary">@color/text_color_dark</item>
+        <item name="background">@color/smoked</item>
+        <item name="android:windowBackground">@drawable/img_background_dark</item>
+        <item name="colorPrimary">@color/forrest</item>
+        <item name="colorPrimaryDark">@color/green</item>
+        <item name="colorAccent">@color/yellow</item>
+    </style>
+
+    <style name="AppTheme.GreenBlue.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.DarkGrey">
+        <item name="colorPrimary">@color/gray</item>
+        <item name="colorPrimaryDark">@color/smoked</item>
+        <item name="colorAccent">@color/yellow</item>
+        <item name="android:textColor">@color/text_color_light</item>
+        <item name="android:textColorSecondary">@color/text_color_dark</item>
+        <item name="background">@color/smoked</item>
+        <item name="android:windowBackground">@drawable/img_background_dark</item>
+    </style>
+
+    <style name="AppTheme.DarkGrey.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Indigo">
+        <item name="colorPrimary">@color/egyptian</item>
+        <item name="colorPrimaryDark">@color/blue</item>
+        <item name="colorAccent">@color/red</item>
+    </style>
+
+    <style name="AppTheme.Indigo.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Monochrome">
+        <item name="colorPrimary">@color/gray</item>
+        <item name="colorPrimaryDark">@color/blue</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Monochrome.NoActionBar">
+        <item name="colorPrimary">@color/gray</item>
+        <item name="colorPrimaryDark">@color/blue</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="backgroundColor">?colorPrimary</item>
+        <item name="background">?colorPrimary</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverFlowButton</item>
+        <item name="android:drawablePadding">2dp</item>
+    </style>
+
+    <style name="OverFlowButton">
+        <item name="android:layout_margin">3dp</item>
+    </style>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_color_light</item>
+        <item name="backgroundColor">?colorPrimary</item>
+        <item name="background">?colorPrimary</item>
+    </style>
+
+    <style name="TitleText" parent="Toolbar.TitleText">
+        <item name="android:textColor">?colorAccent</item>
+    </style>
+
+    <style name="text_bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="bottomView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/huge_dp</item>
+        <item name="android:background">?colorPrimaryDark</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_marginBottom">0dp</item>
+    </style>
+
+    <style name="DialogButton">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">?android:selectableItemBackground</item>
+        <item name="android:paddingTop">@dimen/medium_dp</item>
+        <item name="android:paddingBottom">@dimen/medium_dp</item>
+        <item name="android:paddingLeft">@dimen/large_dp</item>
+        <item name="android:paddingRight">@dimen/large_dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="NewDialog" parent="Theme.AppCompat">
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+</resources>

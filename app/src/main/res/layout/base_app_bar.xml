@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:layoutDirection="rtl"
+    tools:context="com.leon.counter_reading.base_items.BaseActivity"
+    tools:ignore="UnusedAttribute">
+
+    <include layout="@layout/toolbar" />
+
+    <include layout="@layout/base_content" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

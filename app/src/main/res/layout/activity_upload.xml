@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.leon.counter_reading.activities.UploadActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linear_layout_footer"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:padding="@dimen/small_dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimaryDark"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/text_view_upload"
+                style="@style/text_bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/border_white_2"
+                android:gravity="center"
+                android:paddingTop="@dimen/medium_dp"
+                android:paddingBottom="@dimen/medium_dp"
+                android:text="@string/upload"
+                android:textColor="@color/text_color_light" />
+
+            <TextView
+                android:id="@+id/text_view_upload_off"
+                style="@style/text_bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="@dimen/medium_dp"
+                android:paddingBottom="@dimen/medium_dp"
+                android:text="@string/upload_off"
+                android:textColor="@color/text_color_light" />
+
+            <TextView
+                android:id="@+id/text_view_upload_multimedia"
+                style="@style/text_bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="@dimen/medium_dp"
+                android:paddingBottom="@dimen/medium_dp"
+                android:text="@string/upload_multimedia"
+                android:textColor="@color/text_color_light" />
+
+        </LinearLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </LinearLayout>
+
+    <include layout="@layout/footer" />
+</RelativeLayout>
