@@ -370,12 +370,10 @@ public class ReadingActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
     }

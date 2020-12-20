@@ -7,6 +7,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.leon.counter_reading.tables.CounterStateDao;
 import com.leon.counter_reading.tables.CounterStateDto;
+import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.tables.KarbariDao;
 import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.OnOffLoadDao;
@@ -22,8 +23,8 @@ import com.leon.counter_reading.tables.TrackingDto;
 
 @Database(entities = {SavedLocation.class, KarbariDto.class, OnOffLoadDto.class,
         QotrDictionary.class, ReadingConfigDefaultDto.class, TrackingDto.class,
-        CounterStateDto.class},
-        version = 1, exportSchema = false)
+        CounterStateDto.class, Image.class},
+        version = 2, exportSchema = false)
 public abstract class MyDatabase extends RoomDatabase {
     public abstract KarbariDao karbariDao();
 
@@ -90,9 +91,18 @@ public abstract class MyDatabase extends RoomDatabase {
         }
     };
 
-    public static final Migration MIGRATION_6_7 = new Migration(18, 19) {
+    public static final Migration MIGRATION_6_7 = new Migration(1, 2) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE \"Image\" (\n" +
+                    "\t\"id\"\tINTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,\n" +
+                    "\t\"OnOffLoadId\"\tTEXT NOT NULL,\n" +
+                    "\t\"Description\"\tTEXT NOT NULL,\n" +
+                    "\t\"address\"\tTEXT,\n" +
+                    "\t\"isSent\"\tINTEGER,\n" +
+                    "\t\"isDeleted\"\tINTEGER,\n" +
+                    "\t\"isArchived\"\tINTEGER\n" +
+                    ");");
 //            database.execSQL("DROP INDEX 'id'");
 //            database.execSQL("DROP INDEX 'customId'");
 //            database.execSQL("DROP INDEX 'trackNumber'");

@@ -1,5 +1,6 @@
 package com.leon.counter_reading.infrastructure;
 
+import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.tables.LoginFeedBack;
 import com.leon.counter_reading.tables.LoginInfo;
 import com.leon.counter_reading.tables.PasswordInfo;
@@ -20,5 +21,7 @@ public interface IAbfaService {
     @POST("KontoriNew/V1/Load/Data")
     Call<ReadingData> loadData();
 
+    @POST("/V1/Upload/Single")
+    Call<Integer> fileUploadSingle(@Body Image image);
 }
 
