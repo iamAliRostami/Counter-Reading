@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.leon.counter_reading.fragments.ReadingFragment;
+import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.QotrDictionary;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
@@ -23,6 +24,7 @@ public class ViewPagerAdapterReading extends FragmentStatePagerAdapter {
     ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
     ArrayList<KarbariDto> karbariDtos = new ArrayList<>();
     ArrayList<QotrDictionary> qotrDictionaries = new ArrayList<>();
+    ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     ArrayList<String> items = new ArrayList<>();
 
     public ViewPagerAdapterReading(@NonNull FragmentManager fm, int behavior,
@@ -46,36 +48,15 @@ public class ViewPagerAdapterReading extends FragmentStatePagerAdapter {
                     qotrDictionaries.add(qotrDictionary);
             }
         }
+        counterStateDtos.addAll(readingData.counterStateDtos);
     }
 
     @NotNull
     @Override
     public Fragment getItem(int position) {
-//        ReadingConfigDefaultDto readingConfigDefaultDtoTemp = null;
-//        QotrDictionary qotrDictionaryTemp = null;
-//        KarbariDto karbariDtoTemp = null;
-//        for (ReadingConfigDefaultDto readingConfigDefaultDto :
-//                readingData.readingConfigDefaultDtos
-//        ) {
-//            if (readingConfigDefaultDto.zoneId == readingData.onOffLoadDtos.get(position).zoneId)
-//                readingConfigDefaultDtoTemp = readingConfigDefaultDto;
-//        }
-//        for (QotrDictionary qotrDictionary : readingData.qotrDictionary) {
-//            if (qotrDictionary.id == readingData.onOffLoadDtos.get(position).qotrCode)
-//                qotrDictionaryTemp = qotrDictionary;
-//
-//        }
-//        for (KarbariDto karbariDto : readingData.karbariDtos) {
-//            if (karbariDto.id == readingData.onOffLoadDtos.get(position).karbariCode)
-//                karbariDtoTemp = karbariDto;
-//
-//        }
-//        return ReadingFragment.newInstance(readingData.onOffLoadDtos.get(position),
-//                readingConfigDefaultDtoTemp, karbariDtoTemp, qotrDictionaryTemp,
-//                readingData.counterStateDtos, spinnerCustomAdapter, position);
         return ReadingFragment.newInstance(readingData.onOffLoadDtos.get(position),
                 readingConfigDefaultDtos.get(position), karbariDtos.get(position),
-                qotrDictionaries.get(position), items, position);
+                qotrDictionaries.get(position), items, counterStateDtos, position);
     }
 
     @Override
