@@ -176,8 +176,13 @@ public class ReadingActivity extends BaseActivity {
         ImageView imageViewCamera = findViewById(R.id.image_view_camera);
         imageViewCamera.setImageDrawable(activity.getDrawable(R.drawable.img_camera));
         imageViewCamera.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), TakePhotoActivity.class);
-            startActivity(intent);
+            if (readingDataTemp.onOffLoadDtos.isEmpty()) {
+                showNoEshterakFound();
+            } else {
+                Intent intent = new Intent(getApplicationContext(), TakePhotoActivity.class);
+                intent.putExtra(BundleEnum.BILL_ID.getValue(), readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
+                startActivity(intent);
+            }
         });
         //TODO
         ImageView imageViewCheck = findViewById(R.id.image_view_reading_report);

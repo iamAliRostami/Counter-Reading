@@ -3,6 +3,7 @@ package com.leon.counter_reading.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.os.Environment;
 import android.util.Log;
@@ -16,10 +17,13 @@ import com.leon.counter_reading.tables.ReadingData;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
@@ -28,6 +32,19 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 public class CustomFile {
+
+    public static Bitmap loadImage(Context context, String address) {
+        try {
+            File f = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES), context.getString(R.string.camera_folder));
+            f = new File(f, address);
+            return BitmapFactory.decodeStream(new FileInputStream(f));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.e("error", e.toString());
+            return null;
+        }
+    }
 
     @SuppressLint("SimpleDateFormat")
     public static MultipartBody.Part bitmapToFile(Bitmap bitmap, Context context) {
@@ -57,27 +74,39 @@ public class CustomFile {
         return MultipartBody.Part.createFormData("imageFile", f.getName(), reqFile);
     }
 
+    public static String bitmapToBinary(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        return Arrays.toString(byteArray);
+    }
+
+    public static Bitmap binaryToBitmap(String s) {
+        byte[] bytes = s.getBytes();
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
     public static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state);
     }
 
-    public static void saveTempBitmap(Bitmap bitmap, Context context) {
+    public static String saveTempBitmap(Bitmap bitmap, Context context) {
         if (isExternalStorageWritable()) {
-            saveImage(bitmap, context);
+            return saveImage(bitmap, context);
         } else {
-            Log.e("error", "ExternalStorage is not Writable");
             new CustomToast().warning(context.getString(R.string.error_external_storage_is_not_writable));
+            return context.getString(R.string.error_external_storage_is_not_writable);
         }
     }
 
     @SuppressLint("SimpleDateFormat")
-    static void saveImage(Bitmap bitmapImage, Context context) {
+    static String saveImage(Bitmap bitmapImage, Context context) {
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES) + context.getString(R.string.camera_folder));
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                return;
+                return null;
             }
         }
         String timeStamp = (new SimpleDateFormat(context.getString(R.string.save_format_name))).format(new Date());
@@ -94,6 +123,7 @@ public class CustomFile {
             Log.e("error", Objects.requireNonNull(e.getMessage()));
         }
         MediaScannerConnection.scanFile(context, new String[]{file.getPath()}, new String[]{"image/jpeg"}, null);
+        return fileNameToSave;
     }
 
     @SuppressLint({"SimpleDateFormat"})

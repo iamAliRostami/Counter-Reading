@@ -91,7 +91,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="upload_off">بارگذاری آفلاین</string>
-    <string name="upload_multimedia">چندرسانه</string>
+    <string name="multimedia">چندرسانه</string>
+    <string name="upload_multimedia">بارگذاری تصاویر</string>
     <string name="layers">لایه ها</string>
     <string name="location_counter">محل کنتور</string>
     <string name="submit">ثبت</string>
@@ -192,5 +193,8 @@
     <string name="end">تا</string>
     <string name="from">از</string>
     <string name="all_items">همه موارد</string>
+
+    <string name="upload_multimedia_successful">بارگذاری تصاویر با موفقیت انجام شد.</string>
+    <string name="there_is_no_images">تصویری برای بارگذاری وجود ندارد.</string>
 
 </resources>

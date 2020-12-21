@@ -6,9 +6,14 @@ import com.leon.counter_reading.tables.LoginInfo;
 import com.leon.counter_reading.tables.PasswordInfo;
 import com.leon.counter_reading.tables.ReadingData;
 
+import java.util.ArrayList;
+
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface IAbfaService {
 
@@ -21,7 +26,28 @@ public interface IAbfaService {
     @POST("KontoriNew/V1/Load/Data")
     Call<ReadingData> loadData();
 
-    @POST("/V1/Upload/Single")
-    Call<Integer> fileUploadSingle(@Body Image image);
+//    @POST("KontoriNew/V1/Upload/Single")
+//    Call<Integer> fileUploadSingle(@Body Image image);
+
+    @Multipart
+    @POST("KontoriNew/V1/Upload/Single")
+    Call<Integer> fileUploadSingle(
+            @Part MultipartBody.Part imageFiles,
+            @Part("OnOffLoadId") String OnOffLoadId,
+            @Part("Description") String Description);
+
+//    @POST("KontoriNew/V1/Upload/Grouped")
+//    Call<Integer> fileUploadGrouped(@Body Image.ImageGrouped image);
+
+    @Multipart
+    @POST("KontoriNew/V1/Upload/Grouped")
+    Call<Integer> fileUploadGrouped(
+            @Part ArrayList<MultipartBody.Part> imageFiles,
+            @Part("OnOffLoadId") String OnOffLoadId,
+            @Part("Description") String Description);
+
+    @Multipart
+    @POST("KontoriNew/V1/Upload/Multiple")
+    Call<Integer> fileUploadMultiple(@Body Image.ImageMultiple image);
 }
 

@@ -54,7 +54,7 @@
                 android:gravity="center"
                 android:paddingTop="@dimen/medium_dp"
                 android:paddingBottom="@dimen/medium_dp"
-                android:text="@string/upload_multimedia"
+                android:text="@string/multimedia"
                 android:textColor="@color/text_color_light" />
 
         </LinearLayout>

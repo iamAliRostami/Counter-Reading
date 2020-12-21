@@ -8,6 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.leon.counter_reading.tables.CounterStateDao;
 import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.Image;
+import com.leon.counter_reading.tables.ImageDao;
 import com.leon.counter_reading.tables.KarbariDao;
 import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.OnOffLoadDao;
@@ -27,6 +28,8 @@ import com.leon.counter_reading.tables.TrackingDto;
         version = 2, exportSchema = false)
 public abstract class MyDatabase extends RoomDatabase {
     public abstract KarbariDao karbariDao();
+
+    public abstract ImageDao imageDao();
 
     public abstract OnOffLoadDao onOffLoadDao();
 
