@@ -49,7 +49,7 @@ public class CustomFile {
     @SuppressLint("SimpleDateFormat")
     public static MultipartBody.Part bitmapToFile(Bitmap bitmap, Context context) {
         String timeStamp = (new SimpleDateFormat(context.getString(R.string.save_format_name))).format(new Date());
-        String fileNameToSave = "JPEG_" + timeStamp + "_";
+        String fileNameToSave = "JPEG_" + timeStamp + ".jpg";
         File f = new File(context.getCacheDir(), fileNameToSave);
         try {
             f.createNewFile();

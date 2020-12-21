@@ -44,6 +44,20 @@ public class CustomErrorHandling {
         return errorMessage;
     }
 
+    public <T> String getErrorMessage(int code) {
+        String errorMessage;
+        if (code >= 500 && code < 600) {
+            errorMessage = context.getString(R.string.error_internal);
+        } else if (code == 404) {
+            errorMessage = context.getString(R.string.error_change_server);
+        } else if (code >= 400 && code < 500) {
+            errorMessage = context.getString(R.string.error_not_auth);
+        } else {
+            errorMessage = context.getString(R.string.error_other);
+        }
+        return errorMessage;
+    }
+
     public APIError parseError(Response<?> response) {
         try {
             Converter<ResponseBody, APIError> converter =

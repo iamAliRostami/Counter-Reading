@@ -129,6 +129,7 @@ public final class NetworkHelper {
                 .baseUrl(baseUrl)
                 .client(NetworkHelper.getHttpClient())
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
     }
 

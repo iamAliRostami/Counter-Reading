@@ -24,7 +24,9 @@ public class Image {
 
 
     public static class ImageGrouped {
+//        public UUID OnOffLoadId;
         public String OnOffLoadId;
+//        public RequestBody OnOffLoadId;
         public String Description;
         public ArrayList<MultipartBody.Part> File;
 
@@ -43,5 +45,21 @@ public class Image {
             Description = new ArrayList<>();
             OnOffLoadId = new ArrayList<>();
         }
+    }
+
+    public static class ImageUploadResponse {
+        public int status;
+        public Errors errors;
+        public String message;
+        public String generationDateTime;
+        public boolean isValid;
+        public Object targetObject;
+        public String type;
+        public String title;
+        public String traceId;
+    }
+
+    public class Errors {
+        public ArrayList<String> onOffLoadId;
     }
 }

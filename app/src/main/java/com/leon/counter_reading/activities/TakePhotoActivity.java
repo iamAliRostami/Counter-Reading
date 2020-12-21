@@ -368,8 +368,13 @@ public class TakePhotoActivity extends AppCompatActivity {
                 }
             }
             if (imageGrouped.File.size() > 0) {
-                imageGrouped.OnOffLoadId = images.get(0).OnOffLoadId;
+//                imageGrouped.OnOffLoadId = RequestBody.create(images.get(0).OnOffLoadId, MediaType.parse("text/plain"));
                 imageGrouped.Description = images.get(0).Description;
+//                imageGrouped.OnOffLoadId = UUID.fromString(images.get(0).OnOffLoadId);
+//                imageGrouped.OnOffLoadId = UUID.nameUUIDFromBytes(images.get(0).OnOffLoadId.getBytes());
+                imageGrouped.OnOffLoadId = images.get(0).OnOffLoadId;
+                Log.e("uuid1", String.valueOf(images.get(0).OnOffLoadId));
+                Log.e("uuid2", String.valueOf(imageGrouped.OnOffLoadId));
                 uploadImage();
             } else {
                 CustomToast customToast = new CustomToast();
@@ -381,24 +386,36 @@ public class TakePhotoActivity extends AppCompatActivity {
     void uploadImage() {
         Retrofit retrofit = NetworkHelper.getInstance();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        Call<Integer> call = iAbfaService.fileUploadGrouped(imageGrouped.File, imageGrouped.OnOffLoadId, imageGrouped.Description);
+        //TODO
+        Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(imageGrouped.File,
+                imageGrouped.OnOffLoadId, imageGrouped.Description);
+//        Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(imageGrouped);
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                 new upload(), new uploadIncomplete(), new uploadError());
     }
 
-    class upload implements ICallback<Integer> {
+    class upload implements ICallback<Image.ImageUploadResponse> {
         @Override
-        public void execute(Response<Integer> response) {
-            saveImages(true);
-            CustomToast customToast = new CustomToast();
-            customToast.success(activity.getString(R.string.upload_multimedia_successful));
+        public void execute(Response<Image.ImageUploadResponse> response) {
+            Log.e("response", String.valueOf(response.body().status));
+            if (response.body() != null && response.body().status == 200) {
+                CustomToast customToast = new CustomToast();
+                customToast.success(activity.getString(R.string.upload_multimedia_successful));
+                saveImages(true);
+            } else
+                saveImages(false);
         }
     }
 
-    class uploadIncomplete implements ICallbackIncomplete<Integer> {
+    class uploadIncomplete implements ICallbackIncomplete<Image.ImageUploadResponse> {
 
         @Override
-        public void executeIncomplete(Response<Integer> response) {
+        public void executeIncomplete(Response<Image.ImageUploadResponse> response) {
+            if (response.body() != null) {
+                Log.e("response", response.body().toString());
+                Log.e("response", String.valueOf(response.body().errors.onOffLoadId.get(0)));
+                Log.e("response", String.valueOf(response.body().status));
+            }
             CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
             String error = customErrorHandlingNew.getErrorMessageDefault(response);
             new CustomDialog(DialogType.Yellow, activity, error,
@@ -472,6 +489,8 @@ public class TakePhotoActivity extends AppCompatActivity {
             if (replace) {
                 //TODO
                 bitmaps.set(imageNumberTemp - 1, MyApplication.bitmapSelectedImage);
+                MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().deleteImage(
+                        images.get(imageNumberTemp - 1).id);
                 images.set(imageNumberTemp - 1, image);
                 if (imageNumberTemp == 1) {
                     binding.imageView1.setImageBitmap(MyApplication.bitmapSelectedImage);

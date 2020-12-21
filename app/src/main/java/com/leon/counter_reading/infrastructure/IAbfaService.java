@@ -7,8 +7,10 @@ import com.leon.counter_reading.tables.PasswordInfo;
 import com.leon.counter_reading.tables.ReadingData;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Multipart;
@@ -36,14 +38,27 @@ public interface IAbfaService {
             @Part("OnOffLoadId") String OnOffLoadId,
             @Part("Description") String Description);
 
-//    @POST("KontoriNew/V1/Upload/Grouped")
-//    Call<Integer> fileUploadGrouped(@Body Image.ImageGrouped image);
+    @POST("KontoriNew/V1/Upload/Grouped")
+    Call<Image.ImageUploadResponse> fileUploadGrouped(@Body Image.ImageGrouped image);
 
     @Multipart
     @POST("KontoriNew/V1/Upload/Grouped")
-    Call<Integer> fileUploadGrouped(
+    Call<Image.ImageUploadResponse> fileUploadGrouped(
+            @Part ArrayList<MultipartBody.Part> imageFiles,
+            @Part("OnOffLoadId") UUID OnOffLoadId,
+            @Part("Description") String Description);
+
+    @Multipart
+    @POST("KontoriNew/V1/Upload/Grouped")
+    Call<Image.ImageUploadResponse> fileUploadGrouped(
             @Part ArrayList<MultipartBody.Part> imageFiles,
             @Part("OnOffLoadId") String OnOffLoadId,
+            @Part("Description") String Description);
+    @Multipart
+    @POST("KontoriNew/V1/Upload/Grouped")
+    Call<Image.ImageUploadResponse> fileUploadGrouped(
+            @Part ArrayList<MultipartBody.Part> imageFiles,
+            @Part("OnOffLoadId") RequestBody OnOffLoadId,
             @Part("Description") String Description);
 
     @Multipart
