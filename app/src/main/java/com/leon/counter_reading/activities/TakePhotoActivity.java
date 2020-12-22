@@ -204,38 +204,43 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     void setOnImageViewPickerClickListener() {
-        binding.imageView1.setOnClickListener(v -> {
-            replace = imageNumber > 1;
-            if (replace) {
-                imageNumberTemp = 1;
-            }
-            imagePicker();
-        });
-        binding.imageView2.setOnClickListener(v -> {
-            replace = imageNumber > 2;
-            if (replace) {
-                imageNumberTemp = 2;
-            }
-            imagePicker();
-
-        });
-        binding.imageView3.setOnClickListener(v -> {
-            replace = imageNumber > 3;
-            if (replace) {
-                imageNumberTemp = 3;
-            }
-            imagePicker();
-
-        });
-        binding.imageView4.setOnClickListener(v -> {
-            replace = imageNumber > 4;
-            if (replace) {
-                imageNumberTemp = 4;
-            }
-            imagePicker();
-        });
+//        binding.imageView1.setOnClickListener(v -> {
+//            replace = imageNumber > 1;
+//            if (replace) {
+//                imageNumberTemp = 1;
+//            }
+//            imagePicker();
+//        });
+//        binding.imageView2.setOnClickListener(v -> {
+//            replace = imageNumber > 2;
+//            if (replace) {
+//                imageNumberTemp = 2;
+//            }
+//            imagePicker();
+//
+//        });
+//        binding.imageView3.setOnClickListener(v -> {
+//            replace = imageNumber > 3;
+//            if (replace) {
+//                imageNumberTemp = 3;
+//            }
+//            imagePicker();
+//
+//        });
+//        binding.imageView4.setOnClickListener(v -> {
+//            replace = imageNumber > 4;
+//            if (replace) {
+//                imageNumberTemp = 4;
+//            }
+//            imagePicker();
+//        });
+        binding.imageView1.setOnClickListener(onPickerClickListener);
+        binding.imageView2.setOnClickListener(onPickerClickListener);
+        binding.imageView3.setOnClickListener(onPickerClickListener);
+        binding.imageView4.setOnClickListener(onPickerClickListener);
     }
 
+    @SuppressLint("NonConstantResourceId")
     View.OnClickListener onPickerClickListener = v -> {
         switch (v.getId()) {
             case R.id.image_View_1:
@@ -573,12 +578,16 @@ public class TakePhotoActivity extends AppCompatActivity {
                         images.get(imageNumberTemp - 1).id);
                 images.set(imageNumberTemp - 1, image);
                 if (imageNumberTemp == 1) {
+                    binding.imageViewSent1.setVisibility(View.GONE);
                     binding.imageView1.setImageBitmap(MyApplication.bitmapSelectedImage);
                 } else if (imageNumberTemp == 2) {
+                    binding.imageViewSent2.setVisibility(View.GONE);
                     binding.imageView2.setImageBitmap(MyApplication.bitmapSelectedImage);
                 } else if (imageNumberTemp == 3) {
+                    binding.imageViewSent3.setVisibility(View.GONE);
                     binding.imageView3.setImageBitmap(MyApplication.bitmapSelectedImage);
                 } else if (imageNumberTemp == 4) {
+                    binding.imageViewSent4.setVisibility(View.GONE);
                     binding.imageView4.setImageBitmap(MyApplication.bitmapSelectedImage);
                 }
             } else {
