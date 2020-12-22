@@ -7,7 +7,6 @@ import com.leon.counter_reading.tables.PasswordInfo;
 import com.leon.counter_reading.tables.ReadingData;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -38,31 +37,18 @@ public interface IAbfaService {
             @Part("OnOffLoadId") String OnOffLoadId,
             @Part("Description") String Description);
 
-    @POST("KontoriNew/V1/Upload/Grouped")
-    Call<Image.ImageUploadResponse> fileUploadGrouped(@Body Image.ImageGrouped image);
-
-    @Multipart
-    @POST("KontoriNew/V1/Upload/Grouped")
-    Call<Image.ImageUploadResponse> fileUploadGrouped(
-            @Part ArrayList<MultipartBody.Part> imageFiles,
-            @Part("OnOffLoadId") UUID OnOffLoadId,
-            @Part("Description") String Description);
-
-    @Multipart
-    @POST("KontoriNew/V1/Upload/Grouped")
-    Call<Image.ImageUploadResponse> fileUploadGrouped(
-            @Part ArrayList<MultipartBody.Part> imageFiles,
-            @Part("OnOffLoadId") String OnOffLoadId,
-            @Part("Description") String Description);
     @Multipart
     @POST("KontoriNew/V1/Upload/Grouped")
     Call<Image.ImageUploadResponse> fileUploadGrouped(
             @Part ArrayList<MultipartBody.Part> imageFiles,
             @Part("OnOffLoadId") RequestBody OnOffLoadId,
-            @Part("Description") String Description);
+            @Part("Description") RequestBody Description);
 
     @Multipart
     @POST("KontoriNew/V1/Upload/Multiple")
-    Call<Integer> fileUploadMultiple(@Body Image.ImageMultiple image);
+    Call<Image.ImageUploadResponse> fileUploadMultiple(
+            @Part ArrayList<MultipartBody.Part> imageFiles,
+            @Part("OnOffLoadId") ArrayList<RequestBody> OnOffLoadId,
+            @Part("Description") ArrayList<RequestBody> Description);
 }
 

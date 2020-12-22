@@ -20,6 +20,9 @@ public interface ImageDao {
     @Query("SELECT * FROM Image WHERE id = :id")
     List<Image> getImagesById(int id);
 
+    @Query("SELECT * FROM Image WHERE isSent = :isSent")
+    List<Image> getImagesByBySent(boolean isSent);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertImage(Image image);
 

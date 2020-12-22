@@ -25,6 +25,7 @@
 
 
     <string name="error">خطا</string>
+    <string name="error_upload">بارگذاری با خطا رو برو شد.</string>
     <string name="error_not_update_1">همکار گرامی لطفا نسخه به روز شده اپلیکیشن را از منوی تنظیمات  بخش به روز رسانی دریافت نمایید</string>
     <string name="error_not_update_2">لطفا نسخه به روز شده اپلیکیشن را از فهرست فوری، بخش به روز رسانی دریافت نمایید.</string>
     <string name="error_call_backup">همکار گرامی مشکلی در دریافت اطلاعات این بخش به وجود آمد، با پشتیبان بخش اسناد تماس حاصل فرمایید.</string>

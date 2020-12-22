@@ -71,7 +71,7 @@ public class CustomFile {
             e.printStackTrace();
         }
         RequestBody reqFile = RequestBody.create(f, MediaType.parse("image/jpeg"));
-        return MultipartBody.Part.createFormData("imageFile", f.getName(), reqFile);
+        return MultipartBody.Part.createFormData("File", f.getName(), reqFile);
     }
 
     public static String bitmapToBinary(Bitmap bitmap) {

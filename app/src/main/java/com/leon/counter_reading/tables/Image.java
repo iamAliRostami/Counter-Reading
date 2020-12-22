@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey;
 import java.util.ArrayList;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 @Entity(tableName = "Image", indices = @Index(value = "id", unique = true))
 public class Image {
@@ -24,10 +25,8 @@ public class Image {
 
 
     public static class ImageGrouped {
-//        public UUID OnOffLoadId;
-        public String OnOffLoadId;
-//        public RequestBody OnOffLoadId;
-        public String Description;
+        public RequestBody OnOffLoadId;
+        public RequestBody Description;
         public ArrayList<MultipartBody.Part> File;
 
         public ImageGrouped() {
@@ -36,9 +35,9 @@ public class Image {
     }
 
     public static class ImageMultiple {
-        public ArrayList<String> OnOffLoadId;
-        public ArrayList<String> Description;
-        public ArrayList<String> File;
+        public ArrayList<RequestBody> OnOffLoadId;
+        public ArrayList<RequestBody> Description;
+        public ArrayList<MultipartBody.Part> File;
 
         public ImageMultiple() {
             File = new ArrayList<>();

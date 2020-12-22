@@ -53,6 +53,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -368,13 +370,10 @@ public class TakePhotoActivity extends AppCompatActivity {
                 }
             }
             if (imageGrouped.File.size() > 0) {
-//                imageGrouped.OnOffLoadId = RequestBody.create(images.get(0).OnOffLoadId, MediaType.parse("text/plain"));
-                imageGrouped.Description = images.get(0).Description;
-//                imageGrouped.OnOffLoadId = UUID.fromString(images.get(0).OnOffLoadId);
-//                imageGrouped.OnOffLoadId = UUID.nameUUIDFromBytes(images.get(0).OnOffLoadId.getBytes());
-                imageGrouped.OnOffLoadId = images.get(0).OnOffLoadId;
-                Log.e("uuid1", String.valueOf(images.get(0).OnOffLoadId));
-                Log.e("uuid2", String.valueOf(imageGrouped.OnOffLoadId));
+                imageGrouped.OnOffLoadId = RequestBody.create(images.get(0).OnOffLoadId,
+                        MediaType.parse("text/plain"));
+                imageGrouped.Description = RequestBody.create(images.get(0).Description,
+                        MediaType.parse("text/plain"));
                 uploadImage();
             } else {
                 CustomToast customToast = new CustomToast();
@@ -386,10 +385,8 @@ public class TakePhotoActivity extends AppCompatActivity {
     void uploadImage() {
         Retrofit retrofit = NetworkHelper.getInstance();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        //TODO
         Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(imageGrouped.File,
                 imageGrouped.OnOffLoadId, imageGrouped.Description);
-//        Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(imageGrouped);
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                 new upload(), new uploadIncomplete(), new uploadError());
     }
@@ -397,13 +394,18 @@ public class TakePhotoActivity extends AppCompatActivity {
     class upload implements ICallback<Image.ImageUploadResponse> {
         @Override
         public void execute(Response<Image.ImageUploadResponse> response) {
-            Log.e("response", String.valueOf(response.body().status));
             if (response.body() != null && response.body().status == 200) {
                 CustomToast customToast = new CustomToast();
-                customToast.success(activity.getString(R.string.upload_multimedia_successful));
+                customToast.success(response.body().message);
                 saveImages(true);
-            } else
+            } else {
+                new CustomDialog(DialogType.Yellow, activity,
+                        activity.getString(R.string.error_upload),
+                        activity.getString(R.string.dear_user),
+                        activity.getString(R.string.upload_multimedia),
+                        activity.getString(R.string.accepted));
                 saveImages(false);
+            }
         }
     }
 
@@ -411,11 +413,6 @@ public class TakePhotoActivity extends AppCompatActivity {
 
         @Override
         public void executeIncomplete(Response<Image.ImageUploadResponse> response) {
-            if (response.body() != null) {
-                Log.e("response", response.body().toString());
-                Log.e("response", String.valueOf(response.body().errors.onOffLoadId.get(0)));
-                Log.e("response", String.valueOf(response.body().status));
-            }
             CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
             String error = customErrorHandlingNew.getErrorMessageDefault(response);
             new CustomDialog(DialogType.Yellow, activity, error,
