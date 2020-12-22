@@ -88,7 +88,6 @@ public class UploadFragment extends Fragment {
         });
     }
 
-
     @SuppressLint("StaticFieldLeak")
     class prepareMultimediaToUpload extends AsyncTask<Integer, Integer, Integer> {
         CustomProgressBar customProgressBar;
