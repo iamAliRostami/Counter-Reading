@@ -204,36 +204,6 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     void setOnImageViewPickerClickListener() {
-//        binding.imageView1.setOnClickListener(v -> {
-//            replace = imageNumber > 1;
-//            if (replace) {
-//                imageNumberTemp = 1;
-//            }
-//            imagePicker();
-//        });
-//        binding.imageView2.setOnClickListener(v -> {
-//            replace = imageNumber > 2;
-//            if (replace) {
-//                imageNumberTemp = 2;
-//            }
-//            imagePicker();
-//
-//        });
-//        binding.imageView3.setOnClickListener(v -> {
-//            replace = imageNumber > 3;
-//            if (replace) {
-//                imageNumberTemp = 3;
-//            }
-//            imagePicker();
-//
-//        });
-//        binding.imageView4.setOnClickListener(v -> {
-//            replace = imageNumber > 4;
-//            if (replace) {
-//                imageNumberTemp = 4;
-//            }
-//            imagePicker();
-//        });
         binding.imageView1.setOnClickListener(onPickerClickListener);
         binding.imageView2.setOnClickListener(onPickerClickListener);
         binding.imageView3.setOnClickListener(onPickerClickListener);
@@ -271,18 +241,50 @@ public class TakePhotoActivity extends AppCompatActivity {
         imagePicker();
     };
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    void setOnImageViewDeleteClickListener() {
-        binding.imageViewDelete1.setOnClickListener(v -> {
-            if (imageNumber > 1) {
-                removeImage(0);
-                binding.imageView1.setImageBitmap(((BitmapDrawable)
-                        binding.imageView2.getDrawable()).getBitmap());
-                binding.imageView2.setImageBitmap(((BitmapDrawable)
-                        binding.imageView3.getDrawable()).getBitmap());
-                binding.imageView3.setImageBitmap(((BitmapDrawable)
-                        binding.imageView4.getDrawable()).getBitmap());
-                binding.imageView4.setImageDrawable(getDrawable(R.drawable.img_take_photo));
+    @SuppressLint("NonConstantResourceId")
+    View.OnClickListener onDeleteClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            boolean b = false;
+            switch (v.getId()) {
+                case R.id.image_View_delete_1:
+                    if (imageNumber > 1) {
+                        removeImage(0);
+                        b = true;
+                        binding.imageView1.setImageBitmap(((BitmapDrawable)
+                                binding.imageView2.getDrawable()).getBitmap());
+                        binding.imageView2.setImageBitmap(((BitmapDrawable)
+                                binding.imageView3.getDrawable()).getBitmap());
+                        binding.imageView3.setImageBitmap(((BitmapDrawable)
+                                binding.imageView4.getDrawable()).getBitmap());
+                    }
+                    break;
+                case R.id.image_View_delete_2:
+                    if (imageNumber > 2) {
+                        removeImage(1);
+                        b = true;
+                        binding.imageView2.setImageBitmap(((BitmapDrawable)
+                                binding.imageView3.getDrawable()).getBitmap());
+                        binding.imageView3.setImageBitmap(((BitmapDrawable)
+                                binding.imageView4.getDrawable()).getBitmap());
+                    }
+                    break;
+                case R.id.image_View_delete_3:
+                    if (imageNumber > 3) {
+                        removeImage(2);
+                        b = true;
+                        binding.imageView3.setImageBitmap(((BitmapDrawable)
+                                binding.imageView4.getDrawable()).getBitmap());
+                    }
+                    break;
+                case R.id.image_View_delete_4:
+                    if (imageNumber > 4) {
+                        removeImage(3);
+                        b = true;
+                    }
+                    break;
+            }
+            if (b) {
                 if (imageNumber == 1) {
                     binding.imageViewDelete1.setVisibility(View.GONE);
                     binding.imageViewSent1.setVisibility(View.GONE);
@@ -296,50 +298,85 @@ public class TakePhotoActivity extends AppCompatActivity {
                     binding.imageViewDelete4.setVisibility(View.GONE);
                     binding.imageViewSent4.setVisibility(View.GONE);
                 }
+                binding.imageView4.setImageDrawable(ContextCompat.getDrawable(activity,
+                        R.drawable.img_take_photo));
             }
-        });
-        binding.imageViewDelete2.setOnClickListener(v -> {
-            if (imageNumber > 2) {
-                removeImage(1);
-                binding.imageView2.setImageBitmap(((BitmapDrawable) binding.imageView3.getDrawable()).getBitmap());
-                binding.imageView3.setImageBitmap(((BitmapDrawable) binding.imageView4.getDrawable()).getBitmap());
-                binding.imageView4.setImageDrawable(getDrawable(R.drawable.img_take_photo));
-                if (imageNumber == 2) {
-                    binding.imageViewDelete2.setVisibility(View.GONE);
-                    binding.imageViewSent2.setVisibility(View.GONE);
-                } else if (imageNumber == 3) {
-                    binding.imageViewDelete3.setVisibility(View.GONE);
-                    binding.imageViewSent3.setVisibility(View.GONE);
-                } else if (imageNumber == 4) {
-                    binding.imageViewDelete4.setVisibility(View.GONE);
-                    binding.imageViewSent4.setVisibility(View.GONE);
-                }
-            }
-        });
-        binding.imageViewDelete3.setOnClickListener(v -> {
-            if (imageNumber > 3) {
-                removeImage(2);
-                binding.imageView3.setImageBitmap(((BitmapDrawable) binding.imageView4.getDrawable()).getBitmap());
-                binding.imageView4.setImageDrawable(getDrawable(R.drawable.img_take_photo));
-                if (imageNumber == 3) {
-                    binding.imageViewDelete3.setVisibility(View.GONE);
-                    binding.imageViewSent3.setVisibility(View.GONE);
-                } else if (imageNumber == 4) {
-                    binding.imageViewDelete4.setVisibility(View.GONE);
-                    binding.imageViewSent4.setVisibility(View.GONE);
-                }
-            }
-        });
-        binding.imageViewDelete4.setOnClickListener(v -> {
-            if (imageNumber > 4) {
-                removeImage(3);
-                binding.imageView4.setImageDrawable(getDrawable(R.drawable.img_take_photo));
-                if (imageNumber == 4) {
-                    binding.imageViewDelete4.setVisibility(View.GONE);
-                    binding.imageViewSent4.setVisibility(View.GONE);
-                }
-            }
-        });
+        }
+    };
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    void setOnImageViewDeleteClickListener() {
+        binding.imageViewDelete1.setOnClickListener(onDeleteClickListener);
+        binding.imageViewDelete2.setOnClickListener(onDeleteClickListener);
+        binding.imageViewDelete3.setOnClickListener(onDeleteClickListener);
+        binding.imageViewDelete4.setOnClickListener(onDeleteClickListener);
+//        binding.imageViewDelete1.setOnClickListener(v -> {
+//            if (imageNumber > 1) {
+//                removeImage(0);
+//                binding.imageView1.setImageBitmap(((BitmapDrawable)
+//                        binding.imageView2.getDrawable()).getBitmap());
+//                binding.imageView2.setImageBitmap(((BitmapDrawable)
+//                        binding.imageView3.getDrawable()).getBitmap());
+//                binding.imageView3.setImageBitmap(((BitmapDrawable)
+//                        binding.imageView4.getDrawable()).getBitmap());
+//                binding.imageView4.setImageDrawable(getDrawable(R.drawable.img_take_photo));
+//                if (imageNumber == 1) {
+//                    binding.imageViewDelete1.setVisibility(View.GONE);
+//                    binding.imageViewSent1.setVisibility(View.GONE);
+//                } else if (imageNumber == 2) {
+//                    binding.imageViewDelete2.setVisibility(View.GONE);
+//                    binding.imageViewSent2.setVisibility(View.GONE);
+//                } else if (imageNumber == 3) {
+//                    binding.imageViewDelete3.setVisibility(View.GONE);
+//                    binding.imageViewSent3.setVisibility(View.GONE);
+//                } else if (imageNumber == 4) {
+//                    binding.imageViewDelete4.setVisibility(View.GONE);
+//                    binding.imageViewSent4.setVisibility(View.GONE);
+//                }
+//            }
+//        });
+//        binding.imageViewDelete2.setOnClickListener(v -> {
+//            if (imageNumber > 2) {
+//                removeImage(1);
+//                binding.imageView2.setImageBitmap(((BitmapDrawable) binding.imageView3.getDrawable()).getBitmap());
+//                binding.imageView3.setImageBitmap(((BitmapDrawable) binding.imageView4.getDrawable()).getBitmap());
+//                binding.imageView4.setImageDrawable(getDrawable(R.drawable.img_take_photo));
+//                if (imageNumber == 2) {
+//                    binding.imageViewDelete2.setVisibility(View.GONE);
+//                    binding.imageViewSent2.setVisibility(View.GONE);
+//                } else if (imageNumber == 3) {
+//                    binding.imageViewDelete3.setVisibility(View.GONE);
+//                    binding.imageViewSent3.setVisibility(View.GONE);
+//                } else if (imageNumber == 4) {
+//                    binding.imageViewDelete4.setVisibility(View.GONE);
+//                    binding.imageViewSent4.setVisibility(View.GONE);
+//                }
+//            }
+//        });
+//        binding.imageViewDelete3.setOnClickListener(v -> {
+//            if (imageNumber > 3) {
+//                removeImage(2);
+//                binding.imageView3.setImageBitmap(((BitmapDrawable) binding.imageView4.getDrawable()).getBitmap());
+//                binding.imageView4.setImageDrawable(getDrawable(R.drawable.img_take_photo));
+//                if (imageNumber == 3) {
+//                    binding.imageViewDelete3.setVisibility(View.GONE);
+//                    binding.imageViewSent3.setVisibility(View.GONE);
+//                } else if (imageNumber == 4) {
+//                    binding.imageViewDelete4.setVisibility(View.GONE);
+//                    binding.imageViewSent4.setVisibility(View.GONE);
+//                }
+//            }
+//        });
+//        binding.imageViewDelete4.setOnClickListener(v -> {
+//            if (imageNumber > 4) {
+//                removeImage(3);
+//                binding.imageView4.setImageDrawable(getDrawable(R.drawable.img_take_photo));
+//                if (imageNumber == 4) {
+//                    binding.imageViewDelete4.setVisibility(View.GONE);
+//                    binding.imageViewSent4.setVisibility(View.GONE);
+//                }
+//            }
+//        });
     }
 
     void removeImage(int index) {
