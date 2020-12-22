@@ -40,7 +40,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class UploadFragment extends Fragment {
-    private final int[] imageSrc = {
+    int[] imageSrc = {
             R.drawable.img_upload_on,
             R.drawable.img_upload_off,
             R.drawable.img_multimedia};
@@ -192,5 +192,13 @@ public class UploadFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding.imageViewUpload.setImageDrawable(null);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        images = null;
+        imageMultiples = null;
+        imageSrc = null;
     }
 }

@@ -64,20 +64,19 @@ import retrofit2.Retrofit;
 import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 
 public class TakePhotoActivity extends AppCompatActivity {
+    Activity activity;
     ActivityTakePhotoBinding binding;
-    ISharedPreferenceManager sharedPreferenceManager;
-    int imageNumber = 1, imageNumberTemp = 0;
     ArrayList<Bitmap> bitmaps;
+    Image.ImageGrouped imageGrouped = new Image.ImageGrouped();
+    ArrayList<Image> images;
+    int imageNumber = 1, imageNumberTemp = 0;
     boolean replace = false;
     String uuid;
-    ArrayList<Image> images;
-    Activity activity;
-    Image.ImageGrouped imageGrouped = new Image.ImageGrouped();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
+        ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
                 SharedReferenceNames.ACCOUNT.getValue());
         int theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         MyApplication.onActivitySetTheme(this, theme, true);
@@ -98,6 +97,12 @@ public class TakePhotoActivity extends AppCompatActivity {
         setOnButtonSendClickListener();
     }
 
+    void imageReset(int index) {
+        MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().deleteImage(images.get(index).id);
+        images.remove(index);
+        imageSetup();
+    }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     void imageSetup() {
         images = new ArrayList<>();
@@ -115,9 +120,7 @@ public class TakePhotoActivity extends AppCompatActivity {
                 if (images.get(0).isSent)
                     binding.imageViewSent1.setVisibility(View.VISIBLE);
             } else {
-                MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().deleteImage(images.get(0).id);
-                images.remove(0);
-                imageSetup();
+                imageReset(0);
             }
             if (images.size() > 1) {
                 bitmap = CustomFile.loadImage(activity, images.get(1).address);
@@ -129,9 +132,7 @@ public class TakePhotoActivity extends AppCompatActivity {
                     if (images.get(1).isSent)
                         binding.imageViewSent2.setVisibility(View.VISIBLE);
                 } else {
-                    MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().deleteImage(images.get(1).id);
-                    images.remove(1);
-                    imageSetup();
+                    imageReset(1);
                 }
             } else {
                 binding.imageViewDelete2.setVisibility(View.GONE);
@@ -148,9 +149,7 @@ public class TakePhotoActivity extends AppCompatActivity {
                     if (images.get(2).isSent)
                         binding.imageViewSent3.setVisibility(View.VISIBLE);
                 } else {
-                    MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().deleteImage(images.get(2).id);
-                    images.remove(2);
-                    imageSetup();
+                    imageReset(2);
                 }
             } else {
                 binding.imageViewDelete3.setVisibility(View.GONE);
@@ -166,9 +165,7 @@ public class TakePhotoActivity extends AppCompatActivity {
                     if (images.get(3).isSent)
                         binding.imageViewSent4.setVisibility(View.VISIBLE);
                 } else {
-                    MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().deleteImage(images.get(3).id);
-                    images.remove(3);
-                    imageSetup();
+                    imageReset(3);
                 }
             } else
                 binding.imageViewDelete4.setVisibility(View.GONE);
@@ -241,6 +238,47 @@ public class TakePhotoActivity extends AppCompatActivity {
         imagePicker();
     };
 
+    @SuppressLint("QueryPermissionsNeeded")
+    void imagePicker() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(TakePhotoActivity.this);
+        builder.setTitle(R.string.choose_document);
+        builder.setMessage(R.string.select_source);
+        builder.setPositiveButton(R.string.gallery, (dialog, which) -> {
+            dialog.dismiss();
+            Intent intent = new Intent("android.intent.action.PICK");
+            intent.setType("image/*");
+            startActivityForResult(intent, MyApplication.GALLERY_REQUEST);
+        });
+        builder.setNegativeButton(R.string.camera, (dialog, which) -> {
+            dialog.dismiss();
+            Intent cameraIntent = new Intent("android.media.action.IMAGE_CAPTURE");
+            if (cameraIntent.resolveActivity(TakePhotoActivity.this.getPackageManager()) != null) {
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile(activity);
+                } catch (IOException e) {
+                    Log.e("Main", e.toString());
+                }
+                if (photoFile != null) {
+                    StrictMode.VmPolicy.Builder builderTemp = new StrictMode.VmPolicy.Builder();
+                    StrictMode.setVmPolicy(builderTemp.build());
+                    cameraIntent.putExtra("output", Uri.fromFile(photoFile));
+                    startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
+                }
+            }
+        });
+        builder.setNeutralButton("", (dialog, which) -> dialog.dismiss());
+        builder.create().show();
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    void setOnImageViewDeleteClickListener() {
+        binding.imageViewDelete1.setOnClickListener(onDeleteClickListener);
+        binding.imageViewDelete2.setOnClickListener(onDeleteClickListener);
+        binding.imageViewDelete3.setOnClickListener(onDeleteClickListener);
+        binding.imageViewDelete4.setOnClickListener(onDeleteClickListener);
+    }
+
     @SuppressLint("NonConstantResourceId")
     View.OnClickListener onDeleteClickListener = new View.OnClickListener() {
         @Override
@@ -304,148 +342,12 @@ public class TakePhotoActivity extends AppCompatActivity {
         }
     };
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    void setOnImageViewDeleteClickListener() {
-        binding.imageViewDelete1.setOnClickListener(onDeleteClickListener);
-        binding.imageViewDelete2.setOnClickListener(onDeleteClickListener);
-        binding.imageViewDelete3.setOnClickListener(onDeleteClickListener);
-        binding.imageViewDelete4.setOnClickListener(onDeleteClickListener);
-//        binding.imageViewDelete1.setOnClickListener(v -> {
-//            if (imageNumber > 1) {
-//                removeImage(0);
-//                binding.imageView1.setImageBitmap(((BitmapDrawable)
-//                        binding.imageView2.getDrawable()).getBitmap());
-//                binding.imageView2.setImageBitmap(((BitmapDrawable)
-//                        binding.imageView3.getDrawable()).getBitmap());
-//                binding.imageView3.setImageBitmap(((BitmapDrawable)
-//                        binding.imageView4.getDrawable()).getBitmap());
-//                binding.imageView4.setImageDrawable(getDrawable(R.drawable.img_take_photo));
-//                if (imageNumber == 1) {
-//                    binding.imageViewDelete1.setVisibility(View.GONE);
-//                    binding.imageViewSent1.setVisibility(View.GONE);
-//                } else if (imageNumber == 2) {
-//                    binding.imageViewDelete2.setVisibility(View.GONE);
-//                    binding.imageViewSent2.setVisibility(View.GONE);
-//                } else if (imageNumber == 3) {
-//                    binding.imageViewDelete3.setVisibility(View.GONE);
-//                    binding.imageViewSent3.setVisibility(View.GONE);
-//                } else if (imageNumber == 4) {
-//                    binding.imageViewDelete4.setVisibility(View.GONE);
-//                    binding.imageViewSent4.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-//        binding.imageViewDelete2.setOnClickListener(v -> {
-//            if (imageNumber > 2) {
-//                removeImage(1);
-//                binding.imageView2.setImageBitmap(((BitmapDrawable) binding.imageView3.getDrawable()).getBitmap());
-//                binding.imageView3.setImageBitmap(((BitmapDrawable) binding.imageView4.getDrawable()).getBitmap());
-//                binding.imageView4.setImageDrawable(getDrawable(R.drawable.img_take_photo));
-//                if (imageNumber == 2) {
-//                    binding.imageViewDelete2.setVisibility(View.GONE);
-//                    binding.imageViewSent2.setVisibility(View.GONE);
-//                } else if (imageNumber == 3) {
-//                    binding.imageViewDelete3.setVisibility(View.GONE);
-//                    binding.imageViewSent3.setVisibility(View.GONE);
-//                } else if (imageNumber == 4) {
-//                    binding.imageViewDelete4.setVisibility(View.GONE);
-//                    binding.imageViewSent4.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-//        binding.imageViewDelete3.setOnClickListener(v -> {
-//            if (imageNumber > 3) {
-//                removeImage(2);
-//                binding.imageView3.setImageBitmap(((BitmapDrawable) binding.imageView4.getDrawable()).getBitmap());
-//                binding.imageView4.setImageDrawable(getDrawable(R.drawable.img_take_photo));
-//                if (imageNumber == 3) {
-//                    binding.imageViewDelete3.setVisibility(View.GONE);
-//                    binding.imageViewSent3.setVisibility(View.GONE);
-//                } else if (imageNumber == 4) {
-//                    binding.imageViewDelete4.setVisibility(View.GONE);
-//                    binding.imageViewSent4.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-//        binding.imageViewDelete4.setOnClickListener(v -> {
-//            if (imageNumber > 4) {
-//                removeImage(3);
-//                binding.imageView4.setImageDrawable(getDrawable(R.drawable.img_take_photo));
-//                if (imageNumber == 4) {
-//                    binding.imageViewDelete4.setVisibility(View.GONE);
-//                    binding.imageViewSent4.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-    }
-
     void removeImage(int index) {
         imageNumber = imageNumber - 1;
         bitmaps.remove(index);
         MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().
                 deleteImage(images.get(index).id);
         images.remove(index);
-    }
-
-    void askStoragePermission() {
-        PermissionListener permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                CustomToast customToast = new CustomToast();
-                customToast.info(getString(R.string.access_granted));
-                initialize();
-            }
-
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                PermissionManager.forceClose(activity);
-            }
-        };
-        new TedPermission(this)
-                .setPermissionListener(permissionlistener)
-                .setRationaleMessage(getString(R.string.confirm_permission))
-                .setRationaleConfirmText(getString(R.string.allow_permission))
-                .setDeniedMessage(getString(R.string.if_reject_permission))
-                .setDeniedCloseButtonText(getString(R.string.close))
-                .setGotoSettingButtonText(getString(R.string.allow_permission))
-                .setPermissions(
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ).check();
-    }
-
-    @SuppressLint("QueryPermissionsNeeded")
-    void imagePicker() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(TakePhotoActivity.this);
-        builder.setTitle(R.string.choose_document);
-        builder.setMessage(R.string.select_source);
-        builder.setPositiveButton(R.string.gallery, (dialog, which) -> {
-            dialog.dismiss();
-            Intent intent = new Intent("android.intent.action.PICK");
-            intent.setType("image/*");
-            startActivityForResult(intent, MyApplication.GALLERY_REQUEST);
-        });
-        builder.setNegativeButton(R.string.camera, (dialog, which) -> {
-            dialog.dismiss();
-            Intent cameraIntent = new Intent("android.media.action.IMAGE_CAPTURE");
-            if (cameraIntent.resolveActivity(TakePhotoActivity.this.getPackageManager()) != null) {
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile(activity);
-                } catch (IOException e) {
-                    Log.e("Main", e.toString());
-                }
-                if (photoFile != null) {
-                    StrictMode.VmPolicy.Builder builderTemp = new StrictMode.VmPolicy.Builder();
-                    StrictMode.setVmPolicy(builderTemp.build());
-                    cameraIntent.putExtra("output", Uri.fromFile(photoFile));
-                    startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
-                }
-            }
-        });
-        builder.setNeutralButton("", (dialog, which) -> dialog.dismiss());
-        builder.create().show();
     }
 
     void setOnButtonSendClickListener() {
@@ -579,6 +481,34 @@ public class TakePhotoActivity extends AppCompatActivity {
         }
     }
 
+    void askStoragePermission() {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                CustomToast customToast = new CustomToast();
+                customToast.info(getString(R.string.access_granted));
+                initialize();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                PermissionManager.forceClose(activity);
+            }
+        };
+        new TedPermission(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage(getString(R.string.confirm_permission))
+                .setRationaleConfirmText(getString(R.string.allow_permission))
+                .setDeniedMessage(getString(R.string.if_reject_permission))
+                .setDeniedCloseButtonText(getString(R.string.close))
+                .setGotoSettingButtonText(getString(R.string.allow_permission))
+                .setPermissions(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ).check();
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -675,6 +605,8 @@ public class TakePhotoActivity extends AppCompatActivity {
         binding.imageViewSent4.setImageDrawable(null);
         MyApplication.bitmapSelectedImage = null;
         bitmaps = null;
+        imageGrouped = null;
+        images = null;
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
