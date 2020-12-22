@@ -72,7 +72,7 @@ public class TakePhotoActivity extends AppCompatActivity {
     String uuid;
     ArrayList<Image> images;
     Activity activity;
-    Image.ImageGrouped imageGrouped;
+    Image.ImageGrouped imageGrouped = new Image.ImageGrouped();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +94,6 @@ public class TakePhotoActivity extends AppCompatActivity {
         if (getIntent().getExtras() != null) {
             uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
         }
-        imageGrouped = new Image.ImageGrouped();
         imageSetup();
         setOnButtonSendClickListener();
     }
@@ -194,7 +193,6 @@ public class TakePhotoActivity extends AppCompatActivity {
             binding.imageViewDelete2.setVisibility(View.GONE);
             binding.imageViewDelete3.setVisibility(View.GONE);
             binding.imageViewDelete4.setVisibility(View.GONE);
-
             binding.imageViewSent1.setVisibility(View.GONE);
             binding.imageViewSent2.setVisibility(View.GONE);
             binding.imageViewSent3.setVisibility(View.GONE);
@@ -207,44 +205,66 @@ public class TakePhotoActivity extends AppCompatActivity {
     @SuppressLint("UseCompatLoadingForDrawables")
     void setOnImageViewPickerClickListener() {
         binding.imageView1.setOnClickListener(v -> {
-            if (imageNumber > 1) {
-                replace = true;
+            replace = imageNumber > 1;
+            if (replace) {
                 imageNumberTemp = 1;
-            } else {
-                replace = false;
             }
             imagePicker();
         });
         binding.imageView2.setOnClickListener(v -> {
-            if (imageNumber > 2) {
-                replace = true;
+            replace = imageNumber > 2;
+            if (replace) {
                 imageNumberTemp = 2;
-            } else {
-                replace = false;
             }
             imagePicker();
 
         });
         binding.imageView3.setOnClickListener(v -> {
-            if (imageNumber > 3) {
-                replace = true;
+            replace = imageNumber > 3;
+            if (replace) {
                 imageNumberTemp = 3;
-            } else {
-                replace = false;
             }
             imagePicker();
 
         });
         binding.imageView4.setOnClickListener(v -> {
-            if (imageNumber > 4) {
-                replace = true;
+            replace = imageNumber > 4;
+            if (replace) {
                 imageNumberTemp = 4;
-            } else {
-                replace = false;
             }
             imagePicker();
         });
     }
+
+    View.OnClickListener onPickerClickListener = v -> {
+        switch (v.getId()) {
+            case R.id.image_View_1:
+                replace = imageNumber > 1;
+                if (replace) {
+                    imageNumberTemp = 1;
+                }
+                break;
+            case R.id.image_View_2:
+                replace = imageNumber > 2;
+                if (replace) {
+                    imageNumberTemp = 2;
+                }
+                break;
+            case R.id.image_View_3:
+                replace = imageNumber > 3;
+                if (replace) {
+                    imageNumberTemp = 3;
+                }
+                break;
+            case R.id.image_View_4:
+                replace = imageNumber > 4;
+                if (replace) {
+                    imageNumberTemp = 4;
+                }
+                break;
+        }
+        imagePicker();
+    };
 
     @SuppressLint("UseCompatLoadingForDrawables")
     void setOnImageViewDeleteClickListener() {
@@ -452,15 +472,14 @@ public class TakePhotoActivity extends AppCompatActivity {
             if (response.body() != null && response.body().status == 200) {
                 CustomToast customToast = new CustomToast();
                 customToast.success(response.body().message);
-                saveImages(true);
             } else {
                 new CustomDialog(DialogType.Yellow, activity,
                         activity.getString(R.string.error_upload),
                         activity.getString(R.string.dear_user),
                         activity.getString(R.string.upload_multimedia),
                         activity.getString(R.string.accepted));
-                saveImages(false);
             }
+            saveImages(response.body() != null && response.body().status == 200);
         }
     }
 

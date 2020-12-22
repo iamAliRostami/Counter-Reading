@@ -40,7 +40,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class UploadFragment extends Fragment {
-    private final int[] imageSrc = {R.drawable.img_upload_on, R.drawable.img_upload_off, R.drawable.img_multimedia};
+    private final int[] imageSrc = {
+            R.drawable.img_upload_on,
+            R.drawable.img_upload_off,
+            R.drawable.img_multimedia};
     int type;
     FragmentUploadBinding binding;
     ArrayList<Image> images = new ArrayList<>();
@@ -115,13 +118,13 @@ public class UploadFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             customProgressBar = new CustomProgressBar();
-            context.runOnUiThread(() -> customProgressBar.show(context, false));
+            customProgressBar.show(context, false);
             super.onPreExecute();
         }
 
         @Override
         protected void onPostExecute(Integer integer) {
-            context.runOnUiThread(() -> customProgressBar.getDialog().dismiss());
+            customProgressBar.getDialog().dismiss();
             uploadMultimedia();
             super.onPostExecute(integer);
         }

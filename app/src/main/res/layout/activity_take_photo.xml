@@ -46,17 +46,17 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
-                    app:srcCompat="@android:drawable/ic_delete"
+                    app:srcCompat="@drawable/img_delete_mark"
                     tools:ignore="ContentDescription,RtlHardcoded" />
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/image_View_sent_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    app:srcCompat="@drawable/img_blue_tick"
+                    android:layout_alignParentBottom="true"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/img_check_mark"
                     tools:ignore="ContentDescription,RtlHardcoded" />
             </RelativeLayout>
 
@@ -82,17 +82,17 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
-                    app:srcCompat="@android:drawable/ic_delete"
+                    app:srcCompat="@drawable/img_delete_mark"
                     tools:ignore="ContentDescription,RtlHardcoded" />
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/image_View_sent_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    app:srcCompat="@drawable/img_blue_tick"
+                    android:layout_alignParentBottom="true"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/img_check_mark"
                     tools:ignore="ContentDescription,RtlHardcoded" />
             </RelativeLayout>
         </LinearLayout>
@@ -128,17 +128,17 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
-                    app:srcCompat="@android:drawable/ic_delete"
+                    app:srcCompat="@drawable/img_delete_mark"
                     tools:ignore="ContentDescription,RtlHardcoded" />
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/image_View_sent_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    app:srcCompat="@drawable/img_blue_tick"
+                    android:layout_alignParentBottom="true"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/img_check_mark"
                     tools:ignore="ContentDescription,RtlHardcoded" />
             </RelativeLayout>
 
@@ -164,17 +164,17 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
-                    app:srcCompat="@android:drawable/ic_delete"
+                    app:srcCompat="@drawable/img_delete_mark"
                     tools:ignore="ContentDescription,RtlHardcoded" />
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/image_View_sent_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    app:srcCompat="@drawable/img_blue_tick"
+                    android:layout_alignParentBottom="true"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/img_check_mark"
                     tools:ignore="ContentDescription,RtlHardcoded" />
             </RelativeLayout>
         </LinearLayout>
