@@ -78,6 +78,9 @@ public class UploadFragment extends Fragment {
     }
 
     void initialize() {
+        if (type == 3) {
+            binding.linearLayoutSpinner.setVisibility(View.GONE);
+        }
         context = getActivity();
         binding.imageViewUpload.setImageResource(imageSrc[type - 1]);
         setOnButtonUploadClickListener();
