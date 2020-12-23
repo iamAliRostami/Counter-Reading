@@ -22,6 +22,7 @@ public enum BundleEnum {
     Item("item"),
     NORMAL("normal"),
     READ_STATUS("read_status"),
+    IMAGE_BITMAP("image_bitmap"),
     TYPE("type");
 
     private final String value;

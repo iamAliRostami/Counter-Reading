@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -32,6 +33,7 @@ import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
+import com.leon.counter_reading.fragments.HighQualityFragment;
 import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
@@ -207,7 +209,42 @@ public class TakePhotoActivity extends AppCompatActivity {
         binding.imageView2.setOnClickListener(onPickerClickListener);
         binding.imageView3.setOnClickListener(onPickerClickListener);
         binding.imageView4.setOnClickListener(onPickerClickListener);
+
+        binding.imageView1.setOnLongClickListener(onLongClickListener);
+        binding.imageView2.setOnLongClickListener(onLongClickListener);
+        binding.imageView3.setOnLongClickListener(onLongClickListener);
+        binding.imageView4.setOnLongClickListener(onLongClickListener);
     }
+
+    @SuppressLint("NonConstantResourceId")
+    View.OnLongClickListener onLongClickListener = v -> {
+        Bitmap bitmap = null;
+        switch (v.getId()) {
+            case R.id.image_View_1:
+                if (bitmaps.size() > 0)
+                    bitmap = bitmaps.get(0);
+                break;
+            case R.id.image_View_2:
+                if (bitmaps.size() > 1)
+                    bitmap = bitmaps.get(1);
+                break;
+            case R.id.image_View_3:
+                if (bitmaps.size() > 2)
+                    bitmap = bitmaps.get(2);
+                break;
+            case R.id.image_View_4:
+                if (bitmaps.size() > 3)
+                    bitmap = bitmaps.get(3);
+                break;
+        }
+        if (bitmap != null) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            HighQualityFragment highQualityFragment =
+                    HighQualityFragment.newInstance(bitmap);
+            highQualityFragment.show(fragmentTransaction, "Image # 2");
+        }
+        return false;
+    };
 
     @SuppressLint("NonConstantResourceId")
     View.OnClickListener onPickerClickListener = v -> {

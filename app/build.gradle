@@ -110,4 +110,5 @@ dependencies {
     }
     implementation 'com.auth0.android:jwtdecode:2.0.0'
 
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 }
