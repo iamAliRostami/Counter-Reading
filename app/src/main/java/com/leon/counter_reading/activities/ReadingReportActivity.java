@@ -30,6 +30,16 @@ public class ReadingReportActivity extends AppCompatActivity {
     }
 
     void initialize() {
+        setupRecyclerView();
+    }
+
+    void setupRecyclerView() {
+
+        setOnRecyclerViewClickListener();
+    }
+
+    void setOnRecyclerViewClickListener() {
+
     }
 
     @Override
