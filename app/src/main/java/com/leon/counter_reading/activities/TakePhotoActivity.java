@@ -76,8 +76,9 @@ public class TakePhotoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
-                SharedReferenceNames.ACCOUNT.getValue());
+        ISharedPreferenceManager sharedPreferenceManager =
+                new SharedPreferenceManager(getApplicationContext(),
+                        SharedReferenceNames.ACCOUNT.getValue());
         int theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         MyApplication.onActivitySetTheme(this, theme, true);
         binding = ActivityTakePhotoBinding.inflate(getLayoutInflater());
@@ -98,7 +99,8 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     void imageReset(int index) {
-        MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().deleteImage(images.get(index).id);
+        MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().
+                deleteImage(images.get(index).id);
         images.remove(index);
         imageSetup();
     }
