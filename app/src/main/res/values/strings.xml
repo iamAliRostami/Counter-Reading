@@ -197,5 +197,6 @@
 
     <string name="upload_multimedia_successful">بارگذاری تصاویر با موفقیت انجام شد.</string>
     <string name="there_is_no_images">تصویری برای بارگذاری وجود ندارد.</string>
+    <string name="there_is_no_offload">مسیری برای بارگذاری وجود ندارد.</string>
 
 </resources>

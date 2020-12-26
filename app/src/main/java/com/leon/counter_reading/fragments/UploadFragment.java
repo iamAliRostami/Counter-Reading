@@ -16,12 +16,14 @@ import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentUploadBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.DialogType;
+import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.Image;
+import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomDialog;
 import com.leon.counter_reading.utils.CustomErrorHandling;
@@ -51,9 +53,10 @@ public class UploadFragment extends Fragment {
     FragmentUploadBinding binding;
     ArrayList<Image> images = new ArrayList<>();
     Image.ImageMultiple imageMultiples = new Image.ImageMultiple();
-    Activity context;
+    Activity activity;
     ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
     ArrayList<String> items = new ArrayList<>();
+    ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
 
     public UploadFragment() {
     }
@@ -102,7 +105,7 @@ public class UploadFragment extends Fragment {
         if (type == 3) {
             binding.linearLayoutSpinner.setVisibility(View.GONE);
         }
-        context = getActivity();
+        activity = getActivity();
         binding.imageViewUpload.setImageResource(imageSrc[type - 1]);
         setOnButtonUploadClickListener();
         setupSpinner();
@@ -111,17 +114,75 @@ public class UploadFragment extends Fragment {
     void setupSpinner() {
         if (items.size() > 0) {
             items.add(0, getString(R.string.all_items));
-            SpinnerCustomAdapter spinnerCustomAdapter = new SpinnerCustomAdapter(context, items);
+            SpinnerCustomAdapter spinnerCustomAdapter = new SpinnerCustomAdapter(activity, items);
             binding.spinner.setAdapter(spinnerCustomAdapter);
         }
     }
 
     void setOnButtonUploadClickListener() {
         binding.buttonUpload.setOnClickListener(v -> {
-            if (type == 3) {
+            if (type == 1) {
+                new prepareOffLoadToUpload().execute();
+            } else if (type == 3) {
                 new prepareMultimediaToUpload().execute();
             }
         });
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    class prepareOffLoadToUpload extends AsyncTask<Integer, Integer, Integer> {
+        CustomProgressBar customProgressBar;
+
+        public prepareOffLoadToUpload() {
+            super();
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... integers) {
+            onOffLoadDtos.clear();
+            if (binding.spinner.getSelectedItemPosition() == 0) {
+                onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                        onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(true,
+                        OffloadStateEnum.INSERTED.getValue()));
+            } else {
+                onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                        onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(true,
+                        onOffLoadDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackingId,
+                        OffloadStateEnum.INSERTED.getValue()));
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            customProgressBar = new CustomProgressBar();
+            customProgressBar.show(activity, false);
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            customProgressBar.getDialog().dismiss();
+            uploadOffLoad();
+            super.onPostExecute(integer);
+        }
+
+        void uploadOffLoad() {
+            if (onOffLoadDtos.size() > 0) {
+                Retrofit retrofit = NetworkHelper.getInstance();
+                IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+                OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
+                offLoadData.isFinal = true;
+                for (int i = 0; i < onOffLoadDtos.size(); i++)
+                    offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDtos.get(i)));
+                Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
+                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
+                        new offLoadData(), new offLoadDataIncomplete(), new uploadError());
+            } else {
+                CustomToast customToast = new CustomToast();
+                activity.runOnUiThread(() -> customToast.info(getString(R.string.there_is_no_offload)));
+            }
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -134,11 +195,11 @@ public class UploadFragment extends Fragment {
 
         @Override
         protected Integer doInBackground(Integer... integers) {
-            images.addAll(MyDatabaseClient.getInstance(context).getMyDatabase().imageDao()
+            images.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
                     .getImagesByBySent(false));
             for (int i = 0; i < images.size(); i++) {
                 images.get(i).File = CustomFile.bitmapToFile(
-                        CustomFile.loadImage(context, images.get(i).address), context);
+                        CustomFile.loadImage(activity, images.get(i).address), activity);
                 imageMultiples.OnOffLoadId.add(RequestBody.create(images.get(i).OnOffLoadId,
                         MediaType.parse("text/plain")));
                 imageMultiples.Description.add(RequestBody.create(images.get(i).Description,
@@ -151,7 +212,7 @@ public class UploadFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             customProgressBar = new CustomProgressBar();
-            customProgressBar.show(context, false);
+            customProgressBar.show(activity, false);
             super.onPreExecute();
         }
 
@@ -168,11 +229,11 @@ public class UploadFragment extends Fragment {
                 IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
                 Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadMultiple(
                         imageMultiples.File, imageMultiples.OnOffLoadId, imageMultiples.Description);
-                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), context,
+                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                         new uploadMultimedia(), new uploadMultimediaIncomplete(), new uploadError());
             } else {
                 CustomToast customToast = new CustomToast();
-                context.runOnUiThread(() -> customToast.info(getString(R.string.there_is_no_images)));
+                activity.runOnUiThread(() -> customToast.info(getString(R.string.there_is_no_images)));
             }
         }
     }
@@ -191,24 +252,54 @@ public class UploadFragment extends Fragment {
     class uploadMultimediaIncomplete implements ICallbackIncomplete<Image.ImageUploadResponse> {
         @Override
         public void executeIncomplete(Response<Image.ImageUploadResponse> response) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(context);
+            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
             String error = customErrorHandlingNew.getErrorMessageDefault(response);
             new CustomDialog(DialogType.Yellow, getContext(), error,
-                    context.getString(R.string.dear_user),
-                    context.getString(R.string.upload_multimedia),
-                    context.getString(R.string.accepted));
+                    activity.getString(R.string.dear_user),
+                    activity.getString(R.string.upload_multimedia),
+                    activity.getString(R.string.accepted));
+        }
+    }
+
+    class offLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
+        @Override
+        public void execute(Response<OnOffLoadDto.OffLoadResponses> response) {
+            if (response.body() != null && response.body().status == 200) {
+                int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
+                        OffloadStateEnum.SENT_WITH_ERROR.getValue();
+                for (int i = 0; i < response.body().targetObject.size(); i++) {
+                    MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                            updateOnOffLoad(state, response.body().targetObject.get(i));
+                }
+                new CustomDialog(DialogType.Green, getContext(), response.body().message,
+                        activity.getString(R.string.dear_user),
+                        activity.getString(R.string.upload_information),
+                        activity.getString(R.string.accepted));
+            }
+        }
+    }
+
+    class offLoadDataIncomplete implements ICallbackIncomplete<OnOffLoadDto.OffLoadResponses> {
+        @Override
+        public void executeIncomplete(Response<OnOffLoadDto.OffLoadResponses> response) {
+            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
+            String error = customErrorHandlingNew.getErrorMessageDefault(response);
+            new CustomDialog(DialogType.Yellow, getContext(), error,
+                    activity.getString(R.string.dear_user),
+                    activity.getString(R.string.upload_information),
+                    activity.getString(R.string.accepted));
         }
     }
 
     class uploadError implements ICallbackError {
         @Override
         public void executeError(Throwable t) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(context);
+            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
             String error = customErrorHandlingNew.getErrorMessageTotal(t);
             new CustomDialog(DialogType.Red, getContext(), error,
-                    context.getString(R.string.dear_user),
-                    context.getString(R.string.upload_multimedia),
-                    context.getString(R.string.accepted));
+                    activity.getString(R.string.dear_user),
+                    activity.getString(R.string.upload_multimedia),
+                    activity.getString(R.string.accepted));
         }
     }
 

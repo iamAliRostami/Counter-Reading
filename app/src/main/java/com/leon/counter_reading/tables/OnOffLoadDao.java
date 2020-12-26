@@ -22,8 +22,15 @@ public interface OnOffLoadDao {
     @Query("select * From OnOffLoadDto WHERE isBazdid = :isBazdid AND zoneId = :zoneId")
     List<OnOffLoadDto> getAllOnOffLoadRead(boolean isBazdid, int zoneId);
 
-//    @Query("select * From OnOffLoadDto WHERE isBazdid = :isBazdid AND zoneId = :zoneId AND highLowStateId =:highLowStateId")
-//    int getOnOffLoadReadCountByStatus(boolean isBazdid, int zoneId, int highLowStateId);
+    @Query("select * From OnOffLoadDto WHERE " +
+            "isBazdid = :isBazdid AND trackingId = :trackingId AND offLoadStateId = :offLoadStateId")
+    List<OnOffLoadDto> getOnOffLoadReadByTrackingAndOffLoad
+            (boolean isBazdid, String trackingId, int offLoadStateId);
+
+    @Query("select * From OnOffLoadDto WHERE " +
+            "isBazdid = :isBazdid AND offLoadStateId = :offLoadStateId")
+    List<OnOffLoadDto> getOnOffLoadReadByTrackingAndOffLoad
+            (boolean isBazdid, int offLoadStateId);
 
     @Query("select COUNT(*) From OnOffLoadDto WHERE isBazdid = :isBazdid AND zoneId = :zoneId AND highLowStateId =:highLowStateId")
     int getOnOffLoadReadCountByStatus(boolean isBazdid, int zoneId, int highLowStateId);
