@@ -25,7 +25,7 @@ import com.leon.counter_reading.tables.TrackingDto;
 @Database(entities = {SavedLocation.class, KarbariDto.class, OnOffLoadDto.class,
         QotrDictionary.class, ReadingConfigDefaultDto.class, TrackingDto.class,
         CounterStateDto.class, Image.class},
-        version = 2, exportSchema = false)
+        version = 3, exportSchema = false)
 public abstract class MyDatabase extends RoomDatabase {
     public abstract KarbariDao karbariDao();
 
@@ -94,18 +94,23 @@ public abstract class MyDatabase extends RoomDatabase {
         }
     };
 
-    public static final Migration MIGRATION_6_7 = new Migration(1, 2) {
+    public static final Migration MIGRATION_6_7 = new Migration(2, 3) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL("CREATE TABLE \"Image\" (\n" +
-                    "\t\"id\"\tINTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,\n" +
-                    "\t\"OnOffLoadId\"\tTEXT NOT NULL,\n" +
-                    "\t\"Description\"\tTEXT NOT NULL,\n" +
-                    "\t\"address\"\tTEXT,\n" +
-                    "\t\"isSent\"\tINTEGER,\n" +
-                    "\t\"isDeleted\"\tINTEGER,\n" +
-                    "\t\"isArchived\"\tINTEGER\n" +
-                    ");");
+            database.execSQL("Alter TABLE \"OnOffLoadDto\" Add column  gisAccuracy Real;");
+            database.execSQL("Alter TABLE \"OnOffLoadDto\" Add column  x Real;");
+            database.execSQL("Alter TABLE \"OnOffLoadDto\" Add column  y Real;");
+
+
+//            database.execSQL("CREATE TABLE \"Image\" (\n" +
+//                    "\t\"id\"\tINTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,\n" +
+//                    "\t\"OnOffLoadId\"\tTEXT NOT NULL,\n" +
+//                    "\t\"Description\"\tTEXT NOT NULL,\n" +
+//                    "\t\"address\"\tTEXT,\n" +
+//                    "\t\"isSent\"\tINTEGER,\n" +
+//                    "\t\"isDeleted\"\tINTEGER,\n" +
+//                    "\t\"isArchived\"\tINTEGER\n" +
+//                    ");");
 //            database.execSQL("DROP INDEX 'id'");
 //            database.execSQL("DROP INDEX 'customId'");
 //            database.execSQL("DROP INDEX 'trackNumber'");

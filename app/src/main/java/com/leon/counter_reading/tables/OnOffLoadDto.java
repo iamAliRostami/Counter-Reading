@@ -4,7 +4,9 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "OnOffLoadDto", indices = @Index(value = {"customId"/*,"id"*/}, unique = true))
+import java.util.ArrayList;
+
+@Entity(tableName = "OnOffLoadDto", indices = @Index(value = {"customId"}, unique = true))
 public class OnOffLoadDto {
     @PrimaryKey(autoGenerate = true)
     public int customId;
@@ -51,9 +53,76 @@ public class OnOffLoadDto {
     public String possibleKarbariCode;
     public String description;
     public int zoneId;
+    public double gisAccuracy;
+    public double x;
+    public double y;
     //TODO
     public int offLoadStateId;
     public int highLowStateId;
     public boolean isBazdid;
     public Integer counterStatePosition;
+
+
+    public static class OffLoad {
+        public String id;
+        public int counterNumber;
+        public int counterStateId;
+        public String possibleAddress;
+        public String possibleCounterSerial;
+        public String possibleEshterak;
+        public String possibleMobile;
+        public String possiblePhoneNumber;
+        public String possibleAhadMaskooniOrAsli;
+        public String possibleAhadTejariOrFari;
+        public String possibleAhadSaierOrAbBaha;
+        public String possibleKarbariCode;
+        public String description;
+        public boolean counterNumberShown;
+        public double gisAccuracy;
+        public double x;
+        public double y;
+
+        public OffLoad(OnOffLoadDto onOffLoadDto) {
+            id = onOffLoadDto.id;
+            counterNumber = onOffLoadDto.counterNumber;
+            counterStateId = onOffLoadDto.counterStateId;
+            possibleAddress = onOffLoadDto.possibleAddress;
+            possibleCounterSerial = onOffLoadDto.possibleCounterSerial;
+            possibleEshterak = onOffLoadDto.possibleEshterak;
+            possibleMobile = onOffLoadDto.possibleMobile;
+            possiblePhoneNumber = onOffLoadDto.possiblePhoneNumber;
+            possibleAhadMaskooniOrAsli = onOffLoadDto.possibleAhadMaskooniOrAsli;
+            possibleAhadSaierOrAbBaha = onOffLoadDto.possibleAhadSaierOrAbBaha;
+            possibleAhadTejariOrFari = onOffLoadDto.possibleAhadTejariOrFari;
+            possibleKarbariCode = onOffLoadDto.possibleKarbariCode;
+            description = onOffLoadDto.description;
+            //counterNumberShown = onOffLoadDto.couTODO
+            x = onOffLoadDto.x;
+            y = onOffLoadDto.y;
+            gisAccuracy = onOffLoadDto.gisAccuracy;
+        }
+    }
+
+    public static class OffLoadReport {
+        public String onOffLoadId;
+        public int reportId;
+    }
+
+    public class OffLoadData {
+        public boolean isFinal;
+        public ArrayList<OffLoad> offLoads;
+        public ArrayList<OffLoadReport> offLoadReports;
+
+        public OffLoadData() {
+            offLoadReports = new ArrayList<>();
+            offLoads = new ArrayList<>();
+        }
+    }
+
+    public static class OffLoadResponses {
+        public int status;
+        public String message;
+        public String generationDateTime;
+        public boolean isValid;
+    }
 }

@@ -58,7 +58,7 @@ public class Image {
         public String traceId;
     }
 
-    public class Errors {
+    public static class Errors {
         public ArrayList<String> onOffLoadId;
     }
 }

@@ -37,6 +37,7 @@ public class GPSTracker extends Service {
     boolean canGetLocation = false;
     double latitude;
     double longitude;
+    double accuracy;
     boolean checkGPS = false;
     boolean checkNetwork = false;
     ArrayList<SavedLocation> savedLocations = new ArrayList<>();
@@ -88,7 +89,8 @@ public class GPSTracker extends Service {
         if (location != null) {
             latitude = location.getLatitude();
             longitude = location.getLongitude();
-            SavedLocation savedLocation = new SavedLocation(location.getAccuracy(), longitude, latitude);
+            accuracy = location.getAccuracy();
+            SavedLocation savedLocation = new SavedLocation(accuracy, longitude, latitude);
             MyDatabaseClient.getInstance(activity).getMyDatabase().savedLocationDao().insertSavedLocation(savedLocation);
             savedLocations.add(savedLocation);
             Log.e("accuracy " + (savedLocations.size() + 1), String.valueOf(savedLocation.accuracy));
@@ -118,6 +120,7 @@ public class GPSTracker extends Service {
                         location = locationManager
                                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                         if (location != null) {
+                            accuracy = location.getAccuracy();
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
                         }
@@ -134,6 +137,7 @@ public class GPSTracker extends Service {
                         location = locationManager
                                 .getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         if (location != null) {
+                            accuracy = location.getAccuracy();
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
                         }
@@ -178,6 +182,10 @@ public class GPSTracker extends Service {
         fusedLocationClient.getLastLocation().addOnSuccessListener(activity,
                 onSuccessListener);
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+    }
+
+    public double getAccuracy() {
+        return accuracy;
     }
 
     public double getLongitude() {

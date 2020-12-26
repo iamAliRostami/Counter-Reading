@@ -3,7 +3,7 @@ package com.leon.counter_reading.tables;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "SavedLocation"/*, indices = @Index(value = {"id"}, unique = true)*/)
+@Entity(tableName = "SavedLocation")
 public class SavedLocation {
     @PrimaryKey(autoGenerate = true)
     public int id;

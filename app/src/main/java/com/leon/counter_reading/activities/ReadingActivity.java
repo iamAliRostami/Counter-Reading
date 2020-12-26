@@ -119,6 +119,9 @@ public class ReadingActivity extends BaseActivity {
 
     void attemptSend(int position) {
         //TODO
+        readingData.onOffLoadDtos.get(position).x = ((BaseActivity) activity).getGpsTracker().getLongitude();
+        readingData.onOffLoadDtos.get(position).y = ((BaseActivity) activity).getGpsTracker().getLatitude();
+        readingData.onOffLoadDtos.get(position).gisAccuracy = ((BaseActivity) activity).getGpsTracker().getAccuracy();
         MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoad(
                 readingData.onOffLoadDtos.get(position));
         setAboveIconsSrc(position);

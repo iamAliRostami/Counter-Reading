@@ -6,6 +6,7 @@ import android.os.Debug;
 import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.leon.counter_reading.R;
@@ -39,7 +40,8 @@ public class UploadActivity extends BaseActivity {
     void textViewUploadOff() {
         binding.textViewUploadOff.setOnClickListener(view -> {
             setColor();
-            binding.textViewUploadOff.setBackground(getResources().getDrawable(R.drawable.border_white_2));
+            binding.textViewUploadOff.setBackground(
+                    ContextCompat.getDrawable(getApplicationContext(), R.drawable.border_white_2));
             setPadding();
             binding.viewPager.setCurrentItem(1);
         });
@@ -49,7 +51,8 @@ public class UploadActivity extends BaseActivity {
     void textViewUploadMultimedia() {
         binding.textViewUploadMultimedia.setOnClickListener(view -> {
             setColor();
-            binding.textViewUploadMultimedia.setBackground(getResources().getDrawable(R.drawable.border_white_2));
+            binding.textViewUploadMultimedia.setBackground(
+                    ContextCompat.getDrawable(getApplicationContext(), R.drawable.border_white_2));
             setPadding();
             binding.viewPager.setCurrentItem(2);
         });
@@ -59,7 +62,8 @@ public class UploadActivity extends BaseActivity {
     void textViewUploadNormal() {
         binding.textViewUpload.setOnClickListener(view -> {
             setColor();
-            binding.textViewUpload.setBackground(getResources().getDrawable(R.drawable.border_white_2));
+            binding.textViewUpload.setBackground(
+                    ContextCompat.getDrawable(getApplicationContext(), R.drawable.border_white_2));
             setPadding();
             binding.viewPager.setCurrentItem(0);
         });
@@ -67,11 +71,14 @@ public class UploadActivity extends BaseActivity {
 
     private void setColor() {
         binding.textViewUploadOff.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewUploadOff.setTextColor(getResources().getColor(R.color.text_color_light));
+        binding.textViewUploadOff.setTextColor(
+                ContextCompat.getColor(getApplicationContext(), R.color.text_color_light));
         binding.textViewUpload.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewUpload.setTextColor(getResources().getColor(R.color.text_color_light));
+        binding.textViewUpload.setTextColor(
+                ContextCompat.getColor(getApplicationContext(), R.color.text_color_light));
         binding.textViewUploadMultimedia.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewUploadMultimedia.setTextColor(getResources().getColor(R.color.text_color_light));
+        binding.textViewUploadMultimedia.setTextColor(
+                ContextCompat.getColor(getApplicationContext(), R.color.text_color_light));
     }
 
     private void setPadding() {
@@ -95,7 +102,6 @@ public class UploadActivity extends BaseActivity {
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override

@@ -3,6 +3,7 @@ package com.leon.counter_reading.infrastructure;
 import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.tables.LoginFeedBack;
 import com.leon.counter_reading.tables.LoginInfo;
+import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.PasswordInfo;
 import com.leon.counter_reading.tables.ReadingData;
 
@@ -27,9 +28,6 @@ public interface IAbfaService {
     @POST("KontoriNew/V1/Load/Data")
     Call<ReadingData> loadData();
 
-//    @POST("KontoriNew/V1/Upload/Single")
-//    Call<Integer> fileUploadSingle(@Body Image image);
-
     @Multipart
     @POST("KontoriNew/V1/Upload/Single")
     Call<Integer> fileUploadSingle(
@@ -50,5 +48,11 @@ public interface IAbfaService {
             @Part ArrayList<MultipartBody.Part> imageFiles,
             @Part("OnOffLoadId") ArrayList<RequestBody> OnOffLoadId,
             @Part("Description") ArrayList<RequestBody> Description);
+
+    @POST("KontoriNew/V1/OffLoad/Data")
+    Call<OnOffLoadDto.OffLoadResponses> OffLoadData(
+            @Part("isFinal") RequestBody isFinal,
+            @Part("offLoads") RequestBody offLoads,
+            @Part("offLoadReports") RequestBody offLoadReports);
 }
 
