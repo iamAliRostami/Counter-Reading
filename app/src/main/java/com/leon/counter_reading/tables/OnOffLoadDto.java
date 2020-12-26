@@ -52,12 +52,14 @@ public class OnOffLoadDto {
     public String possibleAhadSaierOrAbBaha;
     public String possibleKarbariCode;
     public String description;
+    //TODO
+    public int offLoadStateId;
     public int zoneId;
     public double gisAccuracy;
     public double x;
     public double y;
-    //TODO
-    public int offLoadStateId;
+    public boolean counterNumberShown;
+
     public int highLowStateId;
     public boolean isBazdid;
     public Integer counterStatePosition;
@@ -96,7 +98,7 @@ public class OnOffLoadDto {
             possibleAhadTejariOrFari = onOffLoadDto.possibleAhadTejariOrFari;
             possibleKarbariCode = onOffLoadDto.possibleKarbariCode;
             description = onOffLoadDto.description;
-            //counterNumberShown = onOffLoadDto.couTODO
+            counterNumberShown = onOffLoadDto.counterNumberShown;
             x = onOffLoadDto.x;
             y = onOffLoadDto.y;
             gisAccuracy = onOffLoadDto.gisAccuracy;
@@ -108,8 +110,8 @@ public class OnOffLoadDto {
         public int reportId;
     }
 
-    public class OffLoadData {
-        public boolean isFinal;
+    public static class OffLoadData {
+        public boolean isFinal;//TODO upload or reading
         public ArrayList<OffLoad> offLoads;
         public ArrayList<OffLoadReport> offLoadReports;
 
@@ -124,5 +126,6 @@ public class OnOffLoadDto {
         public String message;
         public String generationDateTime;
         public boolean isValid;
+        public ArrayList<String> targetObject;
     }
 }

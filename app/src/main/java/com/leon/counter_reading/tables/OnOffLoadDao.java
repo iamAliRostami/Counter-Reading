@@ -42,4 +42,7 @@ public interface OnOffLoadDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateOnOffLoad(OnOffLoadDto onOffLoadDto);
+
+    @Query("UPDATE OnOffLoadDto set offLoadStateId = :offLoadStateId WHERE id = :id")
+    int updateOnOffLoad(int offLoadStateId, String id);
 }

@@ -89,8 +89,9 @@
             <Spinner
                 android:id="@+id/spinner"
                 style="@style/Widget.AppCompat.Spinner.DropDown"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/background_spinner"
                 android:gravity="center"
                 android:popupBackground="@drawable/border_gray_5"

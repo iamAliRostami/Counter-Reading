@@ -1,7 +1,9 @@
 package com.leon.counter_reading.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Debug;
 import android.view.View;
 
@@ -14,11 +16,18 @@ import com.leon.counter_reading.adapters.ViewPagerAdapterTab;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityUploadBinding;
 import com.leon.counter_reading.fragments.UploadFragment;
+import com.leon.counter_reading.tables.TrackingDto;
+import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.DepthPageTransformer;
+import com.leon.counter_reading.utils.MyDatabaseClient;
+
+import java.util.ArrayList;
 
 public class UploadActivity extends BaseActivity {
     ActivityUploadBinding binding;
-    private int previousState, currentState;
+    Activity activity;
+    int previousState, currentState;
+    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
 
     @Override
     protected void initialize() {
@@ -26,8 +35,8 @@ public class UploadActivity extends BaseActivity {
         View childLayout = binding.getRoot();
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
-        setupViewPager();
-        initializeTextViews();
+        activity = this;
+        new GetDBData().execute();
     }
 
     void initializeTextViews() {
@@ -95,9 +104,9 @@ public class UploadActivity extends BaseActivity {
 
     private void setupViewPager() {
         ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
-        adapter.addFragment(UploadFragment.newInstance(1), "بارگذاری");
-        adapter.addFragment(UploadFragment.newInstance(2), "بارگذاری مجدد");
-        adapter.addFragment(UploadFragment.newInstance(3), "بارگذاری چند رسانه");
+        adapter.addFragment(UploadFragment.newInstance(1, trackingDtos), "بارگذاری");
+        adapter.addFragment(UploadFragment.newInstance(2, trackingDtos), "بارگذاری مجدد");
+        adapter.addFragment(UploadFragment.newInstance(3, new ArrayList<>()), "بارگذاری چند رسانه");
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -128,6 +137,40 @@ public class UploadActivity extends BaseActivity {
             }
         });
         binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
+    }
+
+
+    @SuppressLint("StaticFieldLeak")
+    class GetDBData extends AsyncTask<Integer, Integer, Integer> {
+        CustomProgressBar customProgressBar;
+
+        public GetDBData() {
+            super();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            customProgressBar = new CustomProgressBar();
+            customProgressBar.show(activity, false);
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            customProgressBar.getDialog().dismiss();
+            super.onPostExecute(integer);
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... integers) {
+            trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                    trackingDao().getTrackingDtos());
+            runOnUiThread(() -> {
+                setupViewPager();
+                initializeTextViews();
+            });
+            return null;
+        }
     }
 
     @Override

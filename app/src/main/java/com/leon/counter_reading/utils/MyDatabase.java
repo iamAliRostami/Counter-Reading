@@ -25,7 +25,7 @@ import com.leon.counter_reading.tables.TrackingDto;
 @Database(entities = {SavedLocation.class, KarbariDto.class, OnOffLoadDto.class,
         QotrDictionary.class, ReadingConfigDefaultDto.class, TrackingDto.class,
         CounterStateDto.class, Image.class},
-        version = 3, exportSchema = false)
+        version = 4, exportSchema = false)
 public abstract class MyDatabase extends RoomDatabase {
     public abstract KarbariDao karbariDao();
 
@@ -94,12 +94,13 @@ public abstract class MyDatabase extends RoomDatabase {
         }
     };
 
-    public static final Migration MIGRATION_6_7 = new Migration(2, 3) {
+    public static final Migration MIGRATION_6_7 = new Migration(3, 4) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL("Alter TABLE \"OnOffLoadDto\" Add column  gisAccuracy Real;");
-            database.execSQL("Alter TABLE \"OnOffLoadDto\" Add column  x Real;");
-            database.execSQL("Alter TABLE \"OnOffLoadDto\" Add column  y Real;");
+            database.execSQL("Alter TABLE \"OnOffLoadDto\" Add column  counterNumberShown Integer;");
+//            database.execSQL("Alter TABLE \"OnOffLoadDto\" Add column  gisAccuracy Real;");
+//            database.execSQL("Alter TABLE \"OnOffLoadDto\" Add column  x Real;");
+//            database.execSQL("Alter TABLE \"OnOffLoadDto\" Add column  y Real;");
 
 
 //            database.execSQL("CREATE TABLE \"Image\" (\n" +

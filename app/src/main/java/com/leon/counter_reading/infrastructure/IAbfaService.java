@@ -54,5 +54,9 @@ public interface IAbfaService {
             @Part("isFinal") RequestBody isFinal,
             @Part("offLoads") RequestBody offLoads,
             @Part("offLoadReports") RequestBody offLoadReports);
+
+
+    @POST("KontoriNew/V1/OffLoad/Data")
+    Call<OnOffLoadDto.OffLoadResponses> OffLoadData(@Body OnOffLoadDto.OffLoadData offLoads);
 }
 

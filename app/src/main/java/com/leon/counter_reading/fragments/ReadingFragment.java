@@ -1,5 +1,6 @@
 package com.leon.counter_reading.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.QotrDictionary;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.utils.Counting;
+import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,6 +41,7 @@ public class ReadingFragment extends Fragment {
     int position, counterStateCode, counterStatePosition;
     boolean canBeEmpty, canLessThanPre;
     ArrayList<String> items = new ArrayList<>();
+    Activity activity;
 
     public ReadingFragment() {
     }
@@ -58,6 +61,7 @@ public class ReadingFragment extends Fragment {
     }
 
     void initialize() {
+        activity = getActivity();
         initializeViews();
         initializeSpinner();
         onButtonSubmitClickListener();
@@ -68,18 +72,26 @@ public class ReadingFragment extends Fragment {
         binding.textViewName.setText(onOffLoadDto.firstName.concat(" ")
                 .concat(onOffLoadDto.sureName));
         binding.textViewPreDate.setText(onOffLoadDto.preDate);
-        binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber));
         binding.textViewSerial.setText(onOffLoadDto.counterSerial);
         binding.textViewRadif.setText(String.valueOf(onOffLoadDto.radif));
         binding.textViewAhadAsli.setText(String.valueOf(onOffLoadDto.ahadMaskooniOrAsli));
         binding.textViewAhadForosh.setText(String.valueOf(onOffLoadDto.ahadTejariOrFari));
         binding.textViewAhadMasraf.setText(String.valueOf(onOffLoadDto.ahadSaierOrAbBaha));
-        if (readingConfigDefaultDto.isOnQeraatCode)
+
+        if (readingConfigDefaultDto.isOnQeraatCode) {
             binding.textViewCode.setText(onOffLoadDto.qeraatCode);
-        else binding.textViewCode.setText(onOffLoadDto.eshterak);
+        } else binding.textViewCode.setText(onOffLoadDto.eshterak);
 
         binding.textViewKarbari.setText(karbariDto.title);
         binding.textViewBranch.setText(qotrDictionary.title);
+
+        if (readingConfigDefaultDto.defaultHasPreNumber)
+            binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber));
+        binding.lineaLayoutPreNumber.setOnClickListener(v -> {
+            activity.runOnUiThread(() -> binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber)));
+            onOffLoadDto.counterNumberShown = true;
+            MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoad(onOffLoadDto);
+        });
     }
 
     void initializeSpinner() {

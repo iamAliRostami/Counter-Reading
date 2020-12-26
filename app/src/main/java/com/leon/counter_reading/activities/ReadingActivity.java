@@ -28,8 +28,13 @@ import com.leon.counter_reading.databinding.ActivityReadingBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.OffloadStateEnum;
+import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.enums.ReadStatusEnum;
 import com.leon.counter_reading.fragments.SearchFragment;
+import com.leon.counter_reading.infrastructure.IAbfaService;
+import com.leon.counter_reading.infrastructure.ICallback;
+import com.leon.counter_reading.infrastructure.ICallbackError;
+import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.IFlashLightManager;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
@@ -40,10 +45,16 @@ import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DepthPageTransformer;
 import com.leon.counter_reading.utils.FlashLightManager;
+import com.leon.counter_reading.utils.HttpClientWrapper;
 import com.leon.counter_reading.utils.MyDatabaseClient;
+import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.PermissionManager;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
@@ -104,9 +115,9 @@ public class ReadingActivity extends BaseActivity {
         Log.e("here", "updateOnOffLoadByCounterNumber");
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
         readingData.onOffLoadDtos.get(position).counterNumber = number;
+        attemptSend(position);
         if (binding.viewPager.getCurrentItem() < readingData.onOffLoadDtos.size())
             binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
-        attemptSend(position);
     }
 
     public void updateOnOffLoadByCounterNumber(int position, int number, int counterStateCode,
@@ -125,6 +136,46 @@ public class ReadingActivity extends BaseActivity {
         MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoad(
                 readingData.onOffLoadDtos.get(position));
         setAboveIconsSrc(position);
+
+        Retrofit retrofit = NetworkHelper.getInstance();
+        IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+        OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
+        offLoadData.isFinal = false;
+        offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(readingData.onOffLoadDtos.get(position)));
+        Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
+        HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activity, new offLoadData(),
+                new offLoadDataIncomplete(), new offLoadError());
+    }
+
+    class offLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
+        @Override
+        public void execute(Response<OnOffLoadDto.OffLoadResponses> response) {
+            if (response.body() != null && response.body().status == 200) {
+                int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
+                        OffloadStateEnum.SENT_WITH_ERROR.getValue();
+                for (int i = 0; i < response.body().targetObject.size(); i++) {
+                    MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                            updateOnOffLoad(state, response.body().targetObject.get(i));
+                }
+            }
+        }
+    }
+
+    class offLoadDataIncomplete implements ICallbackIncomplete<OnOffLoadDto.OffLoadResponses> {
+        @Override
+        public void executeIncomplete(Response<OnOffLoadDto.OffLoadResponses> response) {
+            if (response != null) {
+                Log.e("offLoadDataIncomplete", String.valueOf(response.body()));
+                Log.e("offLoadDataIncomplete", response.toString());
+            }
+        }
+    }
+
+    class offLoadError implements ICallbackError {
+        @Override
+        public void executeError(Throwable t) {
+            Log.e("error", t.toString());
+        }
     }
 
     void setAboveIconsSrc(int position) {

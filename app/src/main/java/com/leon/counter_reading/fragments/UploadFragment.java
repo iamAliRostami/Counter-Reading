@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.Gson;
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentUploadBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.DialogType;
@@ -20,6 +22,7 @@ import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.Image;
+import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomDialog;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
@@ -49,14 +52,25 @@ public class UploadFragment extends Fragment {
     ArrayList<Image> images = new ArrayList<>();
     Image.ImageMultiple imageMultiples = new Image.ImageMultiple();
     Activity context;
+    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    ArrayList<String> items = new ArrayList<>();
 
     public UploadFragment() {
     }
 
-    public static UploadFragment newInstance(int type) {
+    public static UploadFragment newInstance(int type, ArrayList<TrackingDto> trackingDtos) {
         UploadFragment fragment = new UploadFragment();
         Bundle args = new Bundle();
         args.putInt(BundleEnum.TYPE.getValue(), type);
+
+        Gson gson = new Gson();
+        ArrayList<String> json = new ArrayList<>();
+        for (TrackingDto trackingDto : trackingDtos) {
+            String jsonTemp = gson.toJson(trackingDto);
+            json.add(jsonTemp);
+        }
+        args.putStringArrayList(BundleEnum.TRACKING.getValue(), json);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,6 +80,13 @@ public class UploadFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             type = getArguments().getInt(BundleEnum.TYPE.getValue());
+            Gson gson = new Gson();
+            ArrayList<String> json = getArguments().getStringArrayList(
+                    BundleEnum.TRACKING.getValue());
+            for (String s : json) {
+                trackingDtos.add(gson.fromJson(s, TrackingDto.class));
+                items.add(trackingDtos.get(trackingDtos.size() - 1).zoneTitle);
+            }
         }
     }
 
@@ -84,6 +105,15 @@ public class UploadFragment extends Fragment {
         context = getActivity();
         binding.imageViewUpload.setImageResource(imageSrc[type - 1]);
         setOnButtonUploadClickListener();
+        setupSpinner();
+    }
+
+    void setupSpinner() {
+        if (items.size() > 0) {
+            items.add(0, getString(R.string.all_items));
+            SpinnerCustomAdapter spinnerCustomAdapter = new SpinnerCustomAdapter(context, items);
+            binding.spinner.setAdapter(spinnerCustomAdapter);
+        }
     }
 
     void setOnButtonUploadClickListener() {
