@@ -136,7 +136,6 @@ public class ReadingActivity extends BaseActivity {
         MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoad(
                 readingData.onOffLoadDtos.get(position));
         setAboveIconsSrc(position);
-
         Retrofit retrofit = NetworkHelper.getInstance();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();

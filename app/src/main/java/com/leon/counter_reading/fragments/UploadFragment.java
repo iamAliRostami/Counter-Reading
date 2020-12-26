@@ -298,7 +298,7 @@ public class UploadFragment extends Fragment {
             String error = customErrorHandlingNew.getErrorMessageTotal(t);
             new CustomDialog(DialogType.Red, getContext(), error,
                     activity.getString(R.string.dear_user),
-                    activity.getString(R.string.upload_multimedia),
+                    activity.getString(R.string.upload),
                     activity.getString(R.string.accepted));
         }
     }
