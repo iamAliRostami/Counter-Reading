@@ -86,7 +86,7 @@ public class OnOffLoadDto {
 
         public OffLoad(OnOffLoadDto onOffLoadDto) {
             id = onOffLoadDto.id;
-            counterNumber = onOffLoadDto.counterNumber;
+            counterNumber = onOffLoadDto.counterNumber;//TODO
             counterStateId = onOffLoadDto.counterStateId;
             possibleAddress = onOffLoadDto.possibleAddress;
             possibleCounterSerial = onOffLoadDto.possibleCounterSerial;

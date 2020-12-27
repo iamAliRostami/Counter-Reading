@@ -23,7 +23,6 @@ import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.QotrDictionary;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.utils.Counting;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -89,13 +88,13 @@ public class ReadingFragment extends Fragment {
             binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber));
         binding.lineaLayoutPreNumber.setOnClickListener(v -> {
             activity.runOnUiThread(() -> binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber)));
-            onOffLoadDto.counterNumberShown = true;
-            MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoad(onOffLoadDto);
+
+            ((ReadingActivity) activity).updateOnOffLoadByIsShown(position);
         });
     }
 
     void initializeSpinner() {
-        adapter = new SpinnerCustomAdapter(getActivity(), items);
+        adapter = new SpinnerCustomAdapter(activity, items);
         binding.spinner.setAdapter(adapter);
         if (onOffLoadDto.counterStatePosition != null)
             binding.spinner.setSelection(onOffLoadDto.counterStatePosition);
@@ -153,9 +152,8 @@ public class ReadingFragment extends Fragment {
     void canBeEmpty() {
         //TODO
         if (binding.editTextNumber.getText().toString().isEmpty()) {
-            ((ReadingActivity) Objects.requireNonNull(getActivity())).
-                    updateOnOffLoadWithoutCounterNumber(position, counterStateCode,
-                            counterStatePosition);
+            ((ReadingActivity) activity).updateOnOffLoadWithoutCounterNumber(position,
+                    counterStateCode, counterStatePosition);
         } else {
             View view = binding.editTextNumber;
             int currentNumber = Integer.parseInt(binding.editTextNumber.getText().toString());
@@ -191,16 +189,14 @@ public class ReadingFragment extends Fragment {
     }
 
     void canLessThanPre(int currentNumber) {
-        ((ReadingActivity) Objects.requireNonNull(getActivity())).
-                updateOnOffLoadByCounterNumber(position, currentNumber, counterStateCode,
-                        counterStatePosition);
+        ((ReadingActivity) activity).updateOnOffLoadByCounterNumber(position, currentNumber,
+                counterStateCode, counterStatePosition);
     }
 
     void lessThanPre(int currentNumber) {
         //TODO
-        ((ReadingActivity) Objects.requireNonNull(getActivity())).
-                updateOnOffLoadByCounterNumber(position, currentNumber, counterStateCode,
-                        counterStatePosition);
+        ((ReadingActivity) activity).updateOnOffLoadByCounterNumber(position, currentNumber,
+                counterStateCode, counterStatePosition);
     }
 
     void notEmpty(int currentNumber) {
@@ -229,7 +225,7 @@ public class ReadingFragment extends Fragment {
                     areYouSureFragment.show(fragmentTransaction, getString(R.string.use_out_of_range));
                     break;
                 case 0:
-                    ((ReadingActivity) getActivity()).updateOnOffLoadByCounterNumber(position,
+                    ((ReadingActivity) activity).updateOnOffLoadByCounterNumber(position,
                             currentNumber, counterStateCode, counterStatePosition,
                             HighLowStateEnum.NORMAL.getValue());
                     break;

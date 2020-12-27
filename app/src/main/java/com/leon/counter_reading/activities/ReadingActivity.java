@@ -81,6 +81,13 @@ public class ReadingActivity extends BaseActivity {
         else PermissionManager.enableNetwork(this);
     }
 
+    public void updateOnOffLoadByIsShown(int position) {
+        readingData.onOffLoadDtos.get(position).isBazdid = true;
+        readingData.onOffLoadDtos.get(position).counterNumberShown = true;
+        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                updateOnOffLoad(readingData.onOffLoadDtos.get(position));
+    }
+
     public void updateOnOffLoad(int position, int counterStateCode, int counterStatePosition) {
         readingData.onOffLoadDtos.get(position).isBazdid = true;
         readingData.onOffLoadDtos.get(position).offLoadStateId = OffloadStateEnum.INSERTED.getValue();
@@ -93,9 +100,9 @@ public class ReadingActivity extends BaseActivity {
         //TODO
         Log.e("here", "updateOnOffLoadWithoutCounterNumber");
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
+        attemptSend(position);
         if (binding.viewPager.getCurrentItem() < readingData.onOffLoadDtos.size())
             binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
-        attemptSend(position);
     }
 
     public void updateOnOffLoadByCounterSerial(int position, int counterStatePosition,
@@ -104,9 +111,9 @@ public class ReadingActivity extends BaseActivity {
         Log.e("here", "updateOnOffLoadByCounterSerial");
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
         readingData.onOffLoadDtos.get(position).possibleCounterSerial = counterSerial;
+        attemptSend(position);
         if (binding.viewPager.getCurrentItem() < readingData.onOffLoadDtos.size())
             binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
-        attemptSend(position);
     }
 
     public void updateOnOffLoadByCounterNumber(int position, int number, int counterStateCode,
