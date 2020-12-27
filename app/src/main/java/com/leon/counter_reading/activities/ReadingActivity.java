@@ -153,6 +153,11 @@ public class ReadingActivity extends BaseActivity {
                 int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
                         OffloadStateEnum.SENT_WITH_ERROR.getValue();
                 for (int i = 0; i < response.body().targetObject.size(); i++) {
+                    for (int j = 0; j < readingData.onOffLoadDtos.size(); j++) {
+                        if (response.body().targetObject.get(i).equals(readingData.onOffLoadDtos.get(j).id)) {
+                            readingData.onOffLoadDtos.get(j).offLoadStateId = state;
+                        }
+                    }
                     MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
                             updateOnOffLoad(state, response.body().targetObject.get(i));
                 }
