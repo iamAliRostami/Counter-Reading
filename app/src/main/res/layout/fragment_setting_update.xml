@@ -13,7 +13,7 @@
         android:orientation="vertical"
         android:padding="@dimen/large_dp"
         tools:ignore="UselessParent">
-
+        
         <ImageView
             android:id="@+id/image_view_update"
             android:layout_width="match_parent"

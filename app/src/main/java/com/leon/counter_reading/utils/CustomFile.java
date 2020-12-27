@@ -216,10 +216,9 @@ public class CustomFile {
                     outputStream.flush();
                     new CustomToast().success(activity.getString(R.string.file_downloaded), Toast.LENGTH_LONG);
                     runFile(activity, fileName);
-
                     return true;
                 } catch (IOException e) {
-                    return false;
+                    Log.e("error", e.toString());
                 } finally {
                     if (inputStream != null) {
                         inputStream.close();
@@ -230,7 +229,7 @@ public class CustomFile {
                     }
                 }
             } catch (IOException e) {
-                return false;
+                Log.e("error", e.toString());
             }
         } else {
             new CustomToast().warning(activity.getString(R.string.error_external_storage_is_not_writable));

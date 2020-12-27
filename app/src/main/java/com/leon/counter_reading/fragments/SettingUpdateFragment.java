@@ -50,13 +50,13 @@ public class SettingUpdateFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentSettingUpdateBinding.inflate(inflater, container, false);
+        activity = getActivity();
         initialize();
         return binding.getRoot();
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
-        activity = getActivity();
         binding.imageViewUpdate.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.img_update));
         binding.textViewCurrentVersion.setText(BuildConfig.VERSION_NAME);
         setOnButtonReceiveClickListener();
