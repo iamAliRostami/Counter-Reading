@@ -192,10 +192,12 @@ public class CustomFile {
                 String root = Environment.getExternalStorageDirectory().toString();
                 String timeStamp = (new SimpleDateFormat(
                         activity.getString(R.string.save_format_name))).format(new Date());
-                String fileName = DifferentCompanyManager.getActiveCompanyName().toString() + "_" +
-                        timeStamp + ".apk";
-                File futureStudioIconFile = new File(root + "/Download" + File.separator +
-                        fileName);
+                String fileName = activity.getPackageName().substring(
+                        activity.getPackageName().lastIndexOf(".") + 1) + "_" +
+                        DifferentCompanyManager.getActiveCompanyName().toString() +
+                        "_" + timeStamp + ".apk";
+                File futureStudioIconFile = new File(root +
+                        File.separator + "Download" + File.separator + fileName);
                 InputStream inputStream = null;
                 OutputStream outputStream = null;
                 try {
@@ -241,7 +243,7 @@ public class CustomFile {
         String root = Environment.getExternalStorageDirectory().toString();
         StrictMode.VmPolicy.Builder newBuilder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(newBuilder.build());
-        File futureStudioIconFile = new File(root + "/Download" + File.separator + fileName);
+        File futureStudioIconFile = new File(root + File.separator + "Download" + File.separator + fileName);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.fromFile(futureStudioIconFile), "application/vnd.android.package-archive");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
