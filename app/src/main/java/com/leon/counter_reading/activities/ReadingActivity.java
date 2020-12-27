@@ -77,9 +77,11 @@ public class ReadingActivity extends BaseActivity {
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
         activity = this;
-        if (isNetworkAvailable(getApplicationContext()))
-            checkPermissions();
-        else PermissionManager.enableNetwork(this);
+        if (MyApplication.isReading) {
+            if (isNetworkAvailable(getApplicationContext()))
+                checkPermissions();
+            else PermissionManager.enableNetwork(this);
+        }
     }
 
     public void updateOnOffLoadByIsShown(int position) {
@@ -234,11 +236,8 @@ public class ReadingActivity extends BaseActivity {
         ImageView imageViewReverse = findViewById(R.id.image_view_reverse);
         imageViewReverse.setImageDrawable(activity.getDrawable(R.drawable.img_inverse));
         imageViewReverse.setOnClickListener(v -> {
-            if (!isNight) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }
+            AppCompatDelegate.setDefaultNightMode(
+                    isNight ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES);
             isNight = !isNight;
         });
         //TODO
@@ -391,7 +390,7 @@ public class ReadingActivity extends BaseActivity {
                             getAllOnOffLoadRead(true, readingConfigDefaultDto.zoneId));
                 }
             }
-            if (readingData.onOffLoadDtos != null && readingData.onOffLoadDtos.size() > 0) {
+            if (readingData != null && readingData.onOffLoadDtos != null && readingData.onOffLoadDtos.size() > 0) {
                 readingDataTemp.onOffLoadDtos.addAll(readingData.onOffLoadDtos);
                 readingDataTemp.counterStateDtos.addAll(readingData.counterStateDtos);
                 readingDataTemp.qotrDictionary.addAll(readingData.qotrDictionary);

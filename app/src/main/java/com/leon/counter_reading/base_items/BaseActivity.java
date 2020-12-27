@@ -64,9 +64,8 @@ public abstract class BaseActivity extends AppCompatActivity
         sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
                 SharedReferenceNames.ACCOUNT.getValue());
         int theme;
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            theme = extras.getInt(BundleEnum.THEME.getValue());
+        if (getIntent().getExtras() != null) {
+            theme = getIntent().getExtras().getInt(BundleEnum.THEME.getValue());
         } else {
             theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         }
@@ -101,12 +100,13 @@ public abstract class BaseActivity extends AppCompatActivity
     @SuppressLint("RtlHardcoded")
     void setOnDrawerItemClick() {
         binding.imageViewHeader.setOnClickListener(v -> {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            MyApplication.isReading = false;
             if (MyApplication.POSITION != -1) {
                 MyApplication.POSITION = -1;
                 Intent intent = new Intent(MyApplication.getContext(), HomeActivity.class);
                 startActivity(intent);
                 finish();
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             } else
                 binding.drawerLayout.closeDrawer(GravityCompat.START);
         });
@@ -116,6 +116,7 @@ public abstract class BaseActivity extends AppCompatActivity
                     @Override
                     public void onItemClick(View view, int position) {
                         binding.drawerLayout.closeDrawer(GravityCompat.START);
+                        MyApplication.isReading = false;
                         if (position == 8) {
                             MyApplication.POSITION = -1;
                             finishAffinity();
@@ -125,6 +126,7 @@ public abstract class BaseActivity extends AppCompatActivity
                             if (position == 0) {
                                 intent = new Intent(getApplicationContext(), DownloadActivity.class);
                             } else if (position == 1) {
+                                MyApplication.isReading = true;
                                 intent = new Intent(getApplicationContext(), ReadingActivity.class);
                             } else if (position == 2) {
                                 intent = new Intent(getApplicationContext(), UploadActivity.class);
