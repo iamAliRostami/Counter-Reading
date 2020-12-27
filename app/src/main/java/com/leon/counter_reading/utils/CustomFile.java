@@ -240,9 +240,9 @@ public class CustomFile {
     }
 
     public static void runFile(Activity activity, String fileName) {
-        String root = Environment.getExternalStorageDirectory().toString();
         StrictMode.VmPolicy.Builder newBuilder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(newBuilder.build());
+        String root = Environment.getExternalStorageDirectory().toString();
         File futureStudioIconFile = new File(root + File.separator + "Download" + File.separator + fileName);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.fromFile(futureStudioIconFile), "application/vnd.android.package-archive");
