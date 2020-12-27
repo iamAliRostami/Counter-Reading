@@ -137,11 +137,14 @@ public class ReadingActivity extends BaseActivity {
 
     void attemptSend(int position) {
         //TODO
-        readingData.onOffLoadDtos.get(position).x = ((BaseActivity) activity).getGpsTracker().getLongitude();
-        readingData.onOffLoadDtos.get(position).y = ((BaseActivity) activity).getGpsTracker().getLatitude();
-        readingData.onOffLoadDtos.get(position).gisAccuracy = ((BaseActivity) activity).getGpsTracker().getAccuracy();
-        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoad(
-                readingData.onOffLoadDtos.get(position));
+        readingData.onOffLoadDtos.get(position).x =
+                ((BaseActivity) activity).getGpsTracker().getLongitude();
+        readingData.onOffLoadDtos.get(position).y =
+                ((BaseActivity) activity).getGpsTracker().getLatitude();
+        readingData.onOffLoadDtos.get(position).gisAccuracy =
+                ((BaseActivity) activity).getGpsTracker().getAccuracy();
+        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                updateOnOffLoad(readingData.onOffLoadDtos.get(position));
         setAboveIconsSrc(position);
         Retrofit retrofit = NetworkHelper.getInstance();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
@@ -149,8 +152,8 @@ public class ReadingActivity extends BaseActivity {
         offLoadData.isFinal = false;
         offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(readingData.onOffLoadDtos.get(position)));
         Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
-        HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activity, new offLoadData(),
-                new offLoadDataIncomplete(), new offLoadError());
+        HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activity,
+                new offLoadData(), new offLoadDataIncomplete(), new offLoadError());
     }
 
     class offLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
