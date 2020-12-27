@@ -35,7 +35,7 @@
                 android:text="@string/version" />
 
             <TextView
-                android:id="@+id/textViewVersion"
+                android:id="@+id/text_view_version"
                 style="@style/TitleText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                 android:text="@string/update_date" />
 
             <TextView
-                android:id="@+id/textViewSize"
+                android:id="@+id/text_view_size"
                 style="@style/TitleText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -163,7 +163,7 @@
                 android:text="@string/sepehr_shamsaei" />
 
             <TextView
-                android:id="@+id/textViewPossibility"
+                android:id="@+id/text_view_possibility"
                 style="@style/TitleText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

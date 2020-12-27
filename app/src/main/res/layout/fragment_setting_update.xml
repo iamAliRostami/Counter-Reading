@@ -43,11 +43,11 @@
                 android:layout_marginRight="@dimen/medium_dp"
                 android:layout_weight="1"
                 android:padding="@dimen/low_dp"
-                android:text="@string/update_date"
+                android:text="@string/current_version"
                 android:textSize="@dimen/text_size_small" />
 
             <TextView
-                android:id="@+id/textViewDate"
+                android:id="@+id/text_view_current_version"
                 style="@style/text_bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -57,7 +57,6 @@
                 android:layout_weight="1"
                 android:padding="@dimen/low_dp"
                 android:textSize="@dimen/text_size_small" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -83,7 +82,7 @@
                 android:textSize="@dimen/text_size_small" />
 
             <TextView
-                android:id="@+id/textViewVersion"
+                android:id="@+id/text_view_version"
                 style="@style/text_bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -114,11 +113,47 @@
                 android:layout_marginRight="@dimen/medium_dp"
                 android:layout_weight="1"
                 android:padding="@dimen/low_dp"
+                android:text="@string/update_date"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/text_view_date"
+                style="@style/text_bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/medium_dp"
+                android:layout_marginTop="@dimen/medium_dp"
+                android:layout_marginRight="@dimen/medium_dp"
+                android:layout_weight="1"
+                android:padding="@dimen/low_dp"
+                android:textSize="@dimen/text_size_small" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginLeft="@dimen/large_dp"
+            android:layout_marginRight="@dimen/large_dp"
+            android:gravity="start"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                style="@style/text_bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/medium_dp"
+                android:layout_marginTop="@dimen/medium_dp"
+                android:layout_marginRight="@dimen/medium_dp"
+                android:layout_weight="1"
+                android:padding="@dimen/low_dp"
                 android:text="@string/apk_size"
                 android:textSize="@dimen/text_size_small" />
 
             <TextView
-                android:id="@+id/textViewSize"
+                android:id="@+id/text_view_size"
                 style="@style/text_bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -154,7 +189,7 @@
                 android:textSize="@dimen/text_size_small" />
 
             <TextView
-                android:id="@+id/textViewPossibility"
+                android:id="@+id/text_view_possibility"
                 style="@style/text_bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -172,7 +207,7 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/buttonReceive"
+                android:id="@+id/button_receive"
                 style="@style/text_bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
