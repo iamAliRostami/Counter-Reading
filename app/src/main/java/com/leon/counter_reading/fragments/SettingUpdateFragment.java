@@ -57,7 +57,8 @@ public class SettingUpdateFragment extends Fragment {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
-        binding.imageViewUpdate.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.img_update));
+        binding.imageViewUpdate.setImageDrawable(
+                ContextCompat.getDrawable(activity, R.drawable.img_update));
         binding.textViewCurrentVersion.setText(BuildConfig.VERSION_NAME);
         setOnButtonReceiveClickListener();
     }
@@ -75,8 +76,9 @@ public class SettingUpdateFragment extends Fragment {
     class Update implements ICallback<ResponseBody> {
         @Override
         public void execute(Response<ResponseBody> response) {
-            if (!CustomFile.writeResponseBodyToDisk(response.body(), activity))
-                activity.runOnUiThread(() -> new CustomToast().warning(activity.getString(R.string.error_update)));
+            if (!CustomFile.writeResponseApkToDisk(response.body(), activity))
+                activity.runOnUiThread(() ->
+                        new CustomToast().warning(activity.getString(R.string.error_update)));
         }
     }
 

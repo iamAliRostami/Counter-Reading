@@ -186,7 +186,7 @@ public class CustomFile {
     }
 
     @SuppressLint("SimpleDateFormat")
-    public static boolean writeResponseBodyToDisk(ResponseBody body, Activity activity) {
+    public static boolean writeResponseApkToDisk(ResponseBody body, Activity activity) {
         if (isExternalStorageWritable()) {
             try {
                 String root = Environment.getExternalStorageDirectory().toString();
@@ -216,7 +216,8 @@ public class CustomFile {
                         Log.d(".apk file", "file download: " + fileSizeDownloaded + " of " + fileSize);
                     }
                     outputStream.flush();
-                    new CustomToast().success(activity.getString(R.string.file_downloaded), Toast.LENGTH_LONG);
+                    new CustomToast().success(
+                            activity.getString(R.string.file_downloaded), Toast.LENGTH_LONG);
                     runFile(activity, fileName);
                     return true;
                 } catch (IOException e) {
@@ -234,7 +235,8 @@ public class CustomFile {
                 Log.e("error", e.toString());
             }
         } else {
-            new CustomToast().warning(activity.getString(R.string.error_external_storage_is_not_writable));
+            new CustomToast().warning(
+                    activity.getString(R.string.error_external_storage_is_not_writable));
         }
         return false;
     }
@@ -243,9 +245,11 @@ public class CustomFile {
         StrictMode.VmPolicy.Builder newBuilder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(newBuilder.build());
         String root = Environment.getExternalStorageDirectory().toString();
-        File futureStudioIconFile = new File(root + File.separator + "Download" + File.separator + fileName);
+        File futureStudioIconFile =
+                new File(root + File.separator + "Download" + File.separator + fileName);
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(futureStudioIconFile), "application/vnd.android.package-archive");
+        intent.setDataAndType(
+                Uri.fromFile(futureStudioIconFile), "application/vnd.android.package-archive");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
     }

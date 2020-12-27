@@ -46,6 +46,7 @@ import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DepthPageTransformer;
 import com.leon.counter_reading.utils.FlashLightManager;
 import com.leon.counter_reading.utils.HttpClientWrapper;
+import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.PermissionManager;
@@ -366,32 +367,28 @@ public class ReadingActivity extends BaseActivity {
             //TODO
             readingData = new ReadingData();
             readingDataTemp = new ReadingData();
-            readingData.counterStateDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    counterStateDao().getCounterStateDtos());
-            readingData.karbariDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    karbariDao().getAllKarbariDto());
-            readingData.qotrDictionary.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    qotrDictionaryDao().getAllQotrDictionaries());
-            readingData.trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    trackingDao().getTrackingDtos());
+            MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+            readingData.counterStateDtos.addAll(myDatabase.counterStateDao().getCounterStateDtos());
+            readingData.karbariDtos.addAll(myDatabase.karbariDao().getAllKarbariDto());
+            readingData.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
+            readingData.trackingDtos.addAll(myDatabase.trackingDao().getTrackingDtos());
             for (TrackingDto trackingDto : readingData.trackingDtos) {
-                readingData.readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
-                        getMyDatabase().readingConfigDefaultDao().
+                readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
                         getActiveReadingConfigDefaultDtosByZoneId(true, trackingDto.zoneId));
             }
             for (ReadingConfigDefaultDto readingConfigDefaultDto : readingData.readingConfigDefaultDtos) {
                 if (readStatus == ReadStatusEnum.ALL.getValue()) {
-                    readingData.onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getAllOnOffLoadByZone(readingConfigDefaultDto.zoneId));
+                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                            getAllOnOffLoadByZone(readingConfigDefaultDto.zoneId));
                 } else if (readStatus == ReadStatusEnum.STATE.getValue()) {
-                    readingData.onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getAllOnOffLoadByZone(readingConfigDefaultDto.zoneId, highLow));
+                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                            getAllOnOffLoadByZone(readingConfigDefaultDto.zoneId, highLow));
                 } else if (readStatus == ReadStatusEnum.UNREAD.getValue()) {
-                    readingData.onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getAllOnOffLoadRead(false, readingConfigDefaultDto.zoneId));
+                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                            getAllOnOffLoadRead(false, readingConfigDefaultDto.zoneId));
                 } else if (readStatus == ReadStatusEnum.READ.getValue()) {
-                    readingData.onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getAllOnOffLoadRead(true, readingConfigDefaultDto.zoneId));
+                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                            getAllOnOffLoadRead(true, readingConfigDefaultDto.zoneId));
                 }
             }
             if (readingData.onOffLoadDtos != null && readingData.onOffLoadDtos.size() > 0) {
