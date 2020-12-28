@@ -202,5 +202,6 @@
 
     <string name="file_downloaded">فایل برنامه دانلود شد، به مدیریت فایل مراجعه کنید</string>
     <string name="current_version">نسخه فعلی</string>
+    <string name="pre_number">شماره پیشین</string>
 
 </resources>

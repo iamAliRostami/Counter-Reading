@@ -128,10 +128,20 @@ public class ReportTemporaryFragment extends Fragment {
             json1.add(jsonTemp);
         }
         args.putStringArrayList(BundleEnum.COUNTER_STATE.getValue(), json1);
-
         args.putInt(BundleEnum.TOTAL.getValue(), total);
         args.putInt(BundleEnum.IS_MANE.getValue(), isMane);
         return args;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isFirst = true;
     }
 
     @Override

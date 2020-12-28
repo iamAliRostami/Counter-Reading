@@ -8,6 +8,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/low_dp"
         tools:ignore="UselessParent">
 
         <LinearLayout
@@ -37,6 +38,7 @@
                         style="@style/text_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/pre_number"
                         android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
 

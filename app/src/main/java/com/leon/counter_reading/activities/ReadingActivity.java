@@ -469,9 +469,10 @@ public class ReadingActivity extends BaseActivity {
                     Gson gson = new Gson();
                     ArrayList<String> json1 = getIntent().getExtras().getStringArrayList(
                             BundleEnum.IS_MANE.getValue());
-                    for (String s : json1) {
-                        isMane.add(gson.fromJson(s, Integer.class));
-                    }
+                    if (json1 != null)
+                        for (String s : json1) {
+                            isMane.add(gson.fromJson(s, Integer.class));
+                        }
                 }
                 setAboveIcons();
                 new GetDBData().execute();
