@@ -19,6 +19,7 @@ public enum BundleEnum {
     ZERO("zero"),
     HIGH("high"),
     LOW("low"),
+    IS_MANE("is_mane"),
     Item("item"),
     NORMAL("normal"),
     READ_STATUS("read_status"),

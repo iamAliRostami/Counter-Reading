@@ -1,12 +1,14 @@
 package com.leon.counter_reading.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.leon.counter_reading.MyApplication;
@@ -18,11 +20,10 @@ import com.leon.counter_reading.enums.ReadStatusEnum;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class ReportNotReadingFragment extends Fragment {
     FragmentReportNotReadingBinding binding;
     int unread, total;
+    Activity activity;
 
     public ReportNotReadingFragment() {
     }
@@ -43,6 +44,7 @@ public class ReportNotReadingFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentReportNotReadingBinding.inflate(inflater, container, false);
+        activity = getActivity();
         initialize();
         return binding.getRoot();
     }
@@ -51,12 +53,12 @@ public class ReportNotReadingFragment extends Fragment {
     void initialize() {
         binding.textViewNotRead.setText(String.valueOf(unread));
         binding.textViewTotal.setText(String.valueOf(total));
-        binding.imageViewNotRead.setImageDrawable(getResources().getDrawable(R.drawable.img_not_read));
+        binding.imageViewNotRead.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.img_not_read));
         binding.buttonContinue.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ReadingActivity.class);
+            Intent intent = new Intent(activity, ReadingActivity.class);
             intent.putExtra(BundleEnum.READ_STATUS.getValue(), ReadStatusEnum.UNREAD.getValue());
             MyApplication.POSITION = 1;
-            Objects.requireNonNull(getActivity()).startActivity(intent);
+            startActivity(intent);
         });
     }
 

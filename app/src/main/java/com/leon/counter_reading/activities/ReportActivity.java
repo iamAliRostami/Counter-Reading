@@ -32,7 +32,7 @@ public class ReportActivity extends BaseActivity {
     ActivityReportBinding binding;
     Activity activity;
     int previousState, currentState;
-    int zero, normal, high, low, unread, total;
+    int zero, normal, high, low, unread, total, isMane;
     ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     ArrayList<OnOffLoadDto> onOffLoadDtosReads = new ArrayList<>();
     ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
@@ -111,7 +111,8 @@ public class ReportActivity extends BaseActivity {
         ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
         adapter.addFragment(ReportTotalFragment.newInstance(zero, normal, high, low), "آمار کلی");
         adapter.addFragment(ReportNotReadingFragment.newInstance(total, unread), "قرائت نشده");
-        adapter.addFragment(new ReportTemporaryFragment(), "علی الحساب");
+        adapter.addFragment(ReportTemporaryFragment.newInstance(counterStateDtos, total, isMane), "علی الحساب");
+//        adapter.addFragment(new ReportTemporaryFragment(), "علی الحساب");
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -176,6 +177,14 @@ public class ReportActivity extends BaseActivity {
                         getMyDatabase().readingConfigDefaultDao().
                         getActiveReadingConfigDefaultDtosByZoneId(trackingDto.zoneId, true, false));
             }
+            counterStateDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                    counterStateDao().getCounterStateDtos());
+            ArrayList<Integer> isManes = new ArrayList<>(MyDatabaseClient.getInstance(activity).
+                    getMyDatabase().counterStateDao().getCounterStateDtosIsMane(true));
+            for (int i = 0; i < isManes.size(); i++) {
+                isMane = isMane + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                        onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i));
+            }
             for (ReadingConfigDefaultDto readingConfigDefaultDto : readingConfigDefaultDtos) {
                 onOffLoadDtosReads.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                         onOffLoadDao().getAllOnOffLoadRead(true, readingConfigDefaultDto.zoneId));
@@ -196,8 +205,6 @@ public class ReportActivity extends BaseActivity {
                 total = MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
                         getOnOffLoadCount(readingConfigDefaultDto.zoneId);
             }
-            counterStateDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    counterStateDao().getCounterStateDtos());
             runOnUiThread(ReportActivity.this::setupViewPager);
             return null;
         }

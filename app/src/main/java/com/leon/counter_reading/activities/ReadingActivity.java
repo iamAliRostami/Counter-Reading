@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.gson.Gson;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.MyApplication;
@@ -68,6 +69,7 @@ public class ReadingActivity extends BaseActivity {
     ViewPagerAdapterReading viewPagerAdapterReading;
     boolean isFlashOn = false, isNight = false;
     int readStatus = 0, highLow = 1;
+    ArrayList<Integer> isMane = new ArrayList<>();
     final int[] imageSrc = new int[12];
 
     @Override
@@ -373,7 +375,7 @@ public class ReadingActivity extends BaseActivity {
             readingData.trackingDtos.addAll(myDatabase.trackingDao().getTrackingDtos());
             for (TrackingDto trackingDto : readingData.trackingDtos) {
                 readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
-                        getActiveReadingConfigDefaultDtosByZoneId( trackingDto.zoneId,true,false));
+                        getActiveReadingConfigDefaultDtosByZoneId(trackingDto.zoneId, true, false));
             }
             for (ReadingConfigDefaultDto readingConfigDefaultDto : readingData.readingConfigDefaultDtos) {
                 if (readStatus == ReadStatusEnum.ALL.getValue()) {
@@ -388,6 +390,11 @@ public class ReadingActivity extends BaseActivity {
                 } else if (readStatus == ReadStatusEnum.READ.getValue()) {
                     readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
                             getAllOnOffLoadRead(true, readingConfigDefaultDto.zoneId));
+                } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
+                    for (int i = 0; i < isMane.size(); i++) {
+                        readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                                getOnOffLoadReadByIsMane(isMane.get(i)));
+                    }
                 }
             }
             if (readingData != null && readingData.onOffLoadDtos != null && readingData.onOffLoadDtos.size() > 0) {
@@ -458,6 +465,13 @@ public class ReadingActivity extends BaseActivity {
                     //TODO
                     readStatus = getIntent().getIntExtra(BundleEnum.READ_STATUS.getValue(), 0);
                     highLow = getIntent().getIntExtra(BundleEnum.TYPE.getValue(), 1);
+
+                    Gson gson = new Gson();
+                    ArrayList<String> json1 = getIntent().getExtras().getStringArrayList(
+                            BundleEnum.IS_MANE.getValue());
+                    for (String s : json1) {
+                        isMane.add(gson.fromJson(s, Integer.class));
+                    }
                 }
                 setAboveIcons();
                 new GetDBData().execute();

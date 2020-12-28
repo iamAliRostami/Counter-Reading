@@ -27,10 +27,11 @@ public interface OnOffLoadDao {
     List<OnOffLoadDto> getOnOffLoadReadByTrackingAndOffLoad
             (boolean isBazdid, String trackingId, int offLoadStateId);
 
-    @Query("select * From OnOffLoadDto WHERE " +
-            "isBazdid = :isBazdid AND offLoadStateId = :offLoadStateId")
-    List<OnOffLoadDto> getOnOffLoadReadByTrackingAndOffLoad
-            (boolean isBazdid, int offLoadStateId);
+    @Query("select * From OnOffLoadDto WHERE isBazdid = :isBazdid AND offLoadStateId = :offLoadStateId")
+    List<OnOffLoadDto> getOnOffLoadReadByTrackingAndOffLoad(boolean isBazdid, int offLoadStateId);
+
+    @Query("select * From OnOffLoadDto WHERE counterStateId = :counterStateId")
+    List<OnOffLoadDto> getOnOffLoadReadByIsMane(int counterStateId);
 
     @Query("select COUNT(*) From OnOffLoadDto WHERE isBazdid = :isBazdid AND zoneId = :zoneId AND highLowStateId =:highLowStateId")
     int getOnOffLoadReadCountByStatus(boolean isBazdid, int zoneId, int highLowStateId);
@@ -40,6 +41,9 @@ public interface OnOffLoadDao {
 
     @Query("select COUNT(*) From OnOffLoadDto WHERE zoneId = :zoneId")
     int getOnOffLoadCount(int zoneId);
+
+    @Query("select COUNT(*) From OnOffLoadDto WHERE counterStateId = :counterStateId")
+    int getOnOffLoadIsManeCount(int counterStateId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertOnOffLoad(OnOffLoadDto onOffLoadDto);
