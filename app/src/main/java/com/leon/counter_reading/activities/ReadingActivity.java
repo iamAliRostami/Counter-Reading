@@ -80,9 +80,9 @@ public class ReadingActivity extends BaseActivity {
         parentLayout.addView(childLayout);
         activity = this;
         if (MyApplication.POSITION == 1) {
-            if (isNetworkAvailable(getApplicationContext()))
+            if (isNetworkAvailable(activity))
                 checkPermissions();
-            else PermissionManager.enableNetwork(this);
+            else PermissionManager.enableNetwork(activity);
         }
     }
 
@@ -225,7 +225,7 @@ public class ReadingActivity extends BaseActivity {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     void setOnImageViewsClickListener() {
-        flashLightManager = new FlashLightManager(getApplicationContext());
+        flashLightManager = new FlashLightManager(activity);
         ImageView imageViewFlash = findViewById(R.id.image_view_flash);
         imageViewFlash.setImageDrawable(activity.getDrawable(R.drawable.img_flash));
         imageViewFlash.setOnClickListener(v -> {
@@ -249,8 +249,9 @@ public class ReadingActivity extends BaseActivity {
             if (readingDataTemp.onOffLoadDtos.isEmpty()) {
                 showNoEshterakFound();
             } else {
-                Intent intent = new Intent(getApplicationContext(), TakePhotoActivity.class);
-                intent.putExtra(BundleEnum.BILL_ID.getValue(), readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
+                Intent intent = new Intent(activity, TakePhotoActivity.class);
+                intent.putExtra(BundleEnum.BILL_ID.getValue(),
+                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
                 startActivity(intent);
             }
         });
@@ -258,7 +259,7 @@ public class ReadingActivity extends BaseActivity {
         ImageView imageViewCheck = findViewById(R.id.image_view_reading_report);
         imageViewCheck.setImageDrawable(activity.getDrawable(R.drawable.img_checked));
         imageViewCheck.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ReadingReportActivity.class);
+            Intent intent = new Intent(activity, ReadingReportActivity.class);
             startActivity(intent);
         });
         ImageView imageViewSearch = findViewById(R.id.image_view_search);
@@ -267,7 +268,8 @@ public class ReadingActivity extends BaseActivity {
             if (readingDataTemp.onOffLoadDtos.isEmpty()) {
                 showNoEshterakFound();
             } else {
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction =
+                        getSupportFragmentManager().beginTransaction();
                 SearchFragment searchFragment = new SearchFragment();
                 searchFragment.show(fragmentTransaction, "");
             }
@@ -456,28 +458,32 @@ public class ReadingActivity extends BaseActivity {
 
     void checkPermissions() {
         if (PermissionManager.gpsEnabled(this))
-            if (!PermissionManager.checkLocationPermission(getApplicationContext())) {
+            if (!PermissionManager.checkLocationPermission(activity)) {
                 askLocationPermission();
-            } else if (!PermissionManager.checkStoragePermission(getApplicationContext())) {
+            } else if (!PermissionManager.checkStoragePermission(activity)) {
                 askStoragePermission();
             } else {
-                if (getIntent().getExtras() != null) {
-                    //TODO
-                    readStatus = getIntent().getIntExtra(BundleEnum.READ_STATUS.getValue(), 0);
-                    highLow = getIntent().getIntExtra(BundleEnum.TYPE.getValue(), 1);
-
-                    Gson gson = new Gson();
-                    ArrayList<String> json1 = getIntent().getExtras().getStringArrayList(
-                            BundleEnum.IS_MANE.getValue());
-                    if (json1 != null)
-                        for (String s : json1) {
-                            isMane.add(gson.fromJson(s, Integer.class));
-                        }
-                }
+                getBundle();
                 setAboveIcons();
                 new GetDBData().execute();
                 setOnImageViewsClickListener();
             }
+    }
+
+    void getBundle() {
+        if (getIntent().getExtras() != null) {
+            //TODO
+            readStatus = getIntent().getIntExtra(BundleEnum.READ_STATUS.getValue(), 0);
+            highLow = getIntent().getIntExtra(BundleEnum.TYPE.getValue(), 1);
+
+            Gson gson = new Gson();
+            ArrayList<String> json1 = getIntent().getExtras().getStringArrayList(
+                    BundleEnum.IS_MANE.getValue());
+            if (json1 != null)
+                for (String s : json1) {
+                    isMane.add(gson.fromJson(s, Integer.class));
+                }
+        }
     }
 
     void askStoragePermission() {
@@ -542,12 +548,12 @@ public class ReadingActivity extends BaseActivity {
             if (requestCode == MyApplication.GPS_CODE)
                 checkPermissions();
             if (requestCode == MyApplication.REQUEST_NETWORK_CODE) {
-                if (isNetworkAvailable(getApplicationContext()))
+                if (isNetworkAvailable(activity))
                     checkPermissions();
                 else PermissionManager.setMobileWifiEnabled(this);
             }
             if (requestCode == MyApplication.REQUEST_WIFI_CODE) {
-                if (isNetworkAvailable(getApplicationContext()))
+                if (isNetworkAvailable(activity))
                     checkPermissions();
                 else PermissionManager.enableNetwork(this);
             }

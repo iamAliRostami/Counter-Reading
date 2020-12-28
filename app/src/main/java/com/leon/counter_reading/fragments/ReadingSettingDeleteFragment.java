@@ -82,7 +82,8 @@ public class ReadingSettingDeleteFragment extends Fragment {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
-        binding.imageViewDelete.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.img_delete));
+        binding.imageViewDelete.setImageDrawable(
+                ContextCompat.getDrawable(activity, R.drawable.img_delete));
         initializeSpinner();
         setOnButtonDeleteClickListener();
     }

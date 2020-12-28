@@ -1,11 +1,13 @@
 package com.leon.counter_reading.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Debug;
 import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.leon.counter_reading.R;
@@ -23,6 +25,7 @@ import com.leon.counter_reading.utils.SharedPreferenceManager;
 public class SettingActivity extends BaseActivity {
     ActivitySettingBinding binding;
     ISharedPreferenceManager sharedPreferenceManager;
+    Activity activity;
     private int previousState, currentState;
 
     @Override
@@ -33,6 +36,7 @@ public class SettingActivity extends BaseActivity {
         View childLayout = binding.getRoot();
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
+        activity = this;
         setupViewPager();
         initializeTextViews();
     }
@@ -47,7 +51,8 @@ public class SettingActivity extends BaseActivity {
     void textViewChangeTheme() {
         binding.textViewChangeTheme.setOnClickListener(view -> {
             setColor();
-            binding.textViewChangeTheme.setBackground(getResources().getDrawable(R.drawable.border_white_2));
+            binding.textViewChangeTheme.setBackground(
+                    ContextCompat.getDrawable(activity, R.drawable.border_white_2));
             setPadding();
             binding.viewPager.setCurrentItem(0);
         });
@@ -57,7 +62,8 @@ public class SettingActivity extends BaseActivity {
     void textViewChangePassword() {
         binding.textViewChangePassword.setOnClickListener(view -> {
             setColor();
-            binding.textViewChangePassword.setBackground(getResources().getDrawable(R.drawable.border_white_2));
+            binding.textViewChangePassword.setBackground(
+                    ContextCompat.getDrawable(activity, R.drawable.border_white_2));
             setPadding();
             binding.viewPager.setCurrentItem(1);
         });
@@ -67,7 +73,8 @@ public class SettingActivity extends BaseActivity {
     void textViewUpdate() {
         binding.textViewUpdate.setOnClickListener(view -> {
             setColor();
-            binding.textViewUpdate.setBackground(getResources().getDrawable(R.drawable.border_white_2));
+            binding.textViewUpdate.setBackground(
+                    ContextCompat.getDrawable(activity, R.drawable.border_white_2));
             setPadding();
             binding.viewPager.setCurrentItem(2);
         });
@@ -75,11 +82,14 @@ public class SettingActivity extends BaseActivity {
 
     private void setColor() {
         binding.textViewUpdate.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewUpdate.setTextColor(getResources().getColor(R.color.text_color_light));
+        binding.textViewUpdate.setTextColor(
+                ContextCompat.getColor(activity, R.color.text_color_light));
         binding.textViewChangeTheme.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewChangeTheme.setTextColor(getResources().getColor(R.color.text_color_light));
+        binding.textViewChangeTheme.setTextColor(
+                ContextCompat.getColor(activity, R.color.text_color_light));
         binding.textViewChangePassword.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewChangePassword.setTextColor(getResources().getColor(R.color.text_color_light));
+        binding.textViewChangePassword.setTextColor(
+                ContextCompat.getColor(activity, R.color.text_color_light));
     }
 
     private void setPadding() {

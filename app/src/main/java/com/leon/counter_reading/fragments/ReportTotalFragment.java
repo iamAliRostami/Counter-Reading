@@ -1,12 +1,14 @@
 package com.leon.counter_reading.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.leon.counter_reading.MyApplication;
@@ -25,6 +27,7 @@ import java.util.Objects;
 public class ReportTotalFragment extends Fragment {
     FragmentReportTotalBinding binding;
     int zero, normal, high, low;
+    Activity activity;
     @SuppressLint("NonConstantResourceId")
     View.OnClickListener onClickListener = v -> {
         Intent intent = new Intent(getActivity(), ReadingActivity.class);
@@ -69,6 +72,7 @@ public class ReportTotalFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentReportTotalBinding.inflate(inflater, container, false);
+        activity = getActivity();
         initialize();
         return binding.getRoot();
     }
@@ -81,10 +85,10 @@ public class ReportTotalFragment extends Fragment {
     }
 
     void setupChart() {
-        binding.pieChart.addPieSlice(new PieModel(getString(R.string.zero), zero, getResources().getColor(R.color.blue)));
-        binding.pieChart.addPieSlice(new PieModel(getString(R.string.normal), normal, getResources().getColor(R.color.green)));
-        binding.pieChart.addPieSlice(new PieModel(getString(R.string.down), low, getResources().getColor(R.color.yellow)));
-        binding.pieChart.addPieSlice(new PieModel(getString(R.string.up), high, getResources().getColor(R.color.red)));
+        binding.pieChart.addPieSlice(new PieModel(getString(R.string.zero), zero, ContextCompat.getColor(activity, R.color.blue)));
+        binding.pieChart.addPieSlice(new PieModel(getString(R.string.normal), normal, ContextCompat.getColor(activity,R.color.green)));
+        binding.pieChart.addPieSlice(new PieModel(getString(R.string.down), low, ContextCompat.getColor(activity,R.color.yellow)));
+        binding.pieChart.addPieSlice(new PieModel(getString(R.string.up), high, ContextCompat.getColor(activity,R.color.red)));
         binding.pieChart.startAnimation();
     }
 

@@ -81,7 +81,8 @@ public class TakePhotoActivity extends AppCompatActivity {
         ISharedPreferenceManager sharedPreferenceManager =
                 new SharedPreferenceManager(getApplicationContext(),
                         SharedReferenceNames.ACCOUNT.getValue());
-        int theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
+        int theme = sharedPreferenceManager.getIntData(
+                SharedReferenceKeys.THEME_STABLE.getValue());
         MyApplication.onActivitySetTheme(this, theme, true);
         binding = ActivityTakePhotoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -148,7 +149,8 @@ public class TakePhotoActivity extends AppCompatActivity {
                 if (bitmap != null) {
                     imageNumber = images.size() + 1;
                     bitmaps.add(bitmap);
-                    binding.imageView3.setImageBitmap(CustomFile.loadImage(activity, images.get(2).address));
+                    binding.imageView3.setImageBitmap(
+                            CustomFile.loadImage(activity, images.get(2).address));
                     binding.imageViewDelete3.setVisibility(View.VISIBLE);
                     if (images.get(2).isSent)
                         binding.imageViewSent3.setVisibility(View.VISIBLE);
@@ -174,22 +176,22 @@ public class TakePhotoActivity extends AppCompatActivity {
             } else
                 binding.imageViewDelete4.setVisibility(View.GONE);
         } else {
-            binding.imageView1.setImageDrawable(ContextCompat.getDrawable(activity,
-                    R.drawable.img_take_photo));
-            binding.imageView2.setImageDrawable(ContextCompat.getDrawable(activity,
-                    R.drawable.img_take_photo));
-            binding.imageView3.setImageDrawable(ContextCompat.getDrawable(activity,
-                    R.drawable.img_take_photo));
-            binding.imageView4.setImageDrawable(ContextCompat.getDrawable(activity,
-                    R.drawable.img_take_photo));
-            binding.imageViewDelete1.setImageDrawable(ContextCompat.getDrawable(activity,
-                    android.R.drawable.ic_delete));
-            binding.imageViewDelete2.setImageDrawable(ContextCompat.getDrawable(activity,
-                    android.R.drawable.ic_delete));
-            binding.imageViewDelete3.setImageDrawable(ContextCompat.getDrawable(activity,
-                    android.R.drawable.ic_delete));
-            binding.imageViewDelete4.setImageDrawable(ContextCompat.getDrawable(activity,
-                    android.R.drawable.ic_delete));
+            binding.imageView1.setImageDrawable(
+                    ContextCompat.getDrawable(activity, R.drawable.img_take_photo));
+            binding.imageView2.setImageDrawable(
+                    ContextCompat.getDrawable(activity, R.drawable.img_take_photo));
+            binding.imageView3.setImageDrawable(
+                    ContextCompat.getDrawable(activity, R.drawable.img_take_photo));
+            binding.imageView4.setImageDrawable(
+                    ContextCompat.getDrawable(activity, R.drawable.img_take_photo));
+            binding.imageViewDelete1.setImageDrawable(
+                    ContextCompat.getDrawable(activity, android.R.drawable.ic_delete));
+            binding.imageViewDelete2.setImageDrawable(
+                    ContextCompat.getDrawable(activity, android.R.drawable.ic_delete));
+            binding.imageViewDelete3.setImageDrawable(
+                    ContextCompat.getDrawable(activity, android.R.drawable.ic_delete));
+            binding.imageViewDelete4.setImageDrawable(
+                    ContextCompat.getDrawable(activity, android.R.drawable.ic_delete));
             binding.imageViewDelete1.setVisibility(View.GONE);
             binding.imageViewDelete2.setVisibility(View.GONE);
             binding.imageViewDelete3.setVisibility(View.GONE);
@@ -432,14 +434,14 @@ public class TakePhotoActivity extends AppCompatActivity {
 
         void uploadImage() {
             if (imageGrouped.File.size() > 0) {
-                imageGrouped.OnOffLoadId = RequestBody.create(images.get(0).OnOffLoadId,
-                        MediaType.parse("text/plain"));
-                imageGrouped.Description = RequestBody.create(images.get(0).Description,
-                        MediaType.parse("text/plain"));
+                imageGrouped.OnOffLoadId = RequestBody.create(
+                        images.get(0).OnOffLoadId, MediaType.parse("text/plain"));
+                imageGrouped.Description = RequestBody.create(
+                        images.get(0).Description, MediaType.parse("text/plain"));
                 Retrofit retrofit = NetworkHelper.getInstance();
                 IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-                Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(imageGrouped.File,
-                        imageGrouped.OnOffLoadId, imageGrouped.Description);
+                Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(
+                        imageGrouped.File, imageGrouped.OnOffLoadId, imageGrouped.Description);
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                         new upload(), new uploadIncomplete(), new uploadError());
             } else {

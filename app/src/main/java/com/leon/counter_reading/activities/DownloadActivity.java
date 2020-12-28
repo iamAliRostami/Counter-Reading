@@ -18,7 +18,7 @@ import com.leon.counter_reading.utils.DepthPageTransformer;
 
 public class DownloadActivity extends BaseActivity {
     ActivityDownloadBinding binding;
-    private int previousState, currentState;
+    int previousState, currentState;
 
     @Override
     protected void initialize() {
@@ -63,8 +63,8 @@ public class DownloadActivity extends BaseActivity {
     void textViewDownloadSpecial() {
         binding.textViewDownloadSpecial.setOnClickListener(view -> {
             setColor();
-            binding.textViewDownloadSpecial.setBackground(
-                    ContextCompat.getDrawable(getApplicationContext(), R.drawable.border_white_2));
+            binding.textViewDownloadSpecial.setBackground(ContextCompat.getDrawable(
+                    getApplicationContext(), R.drawable.border_white_2));
             setPadding();
             binding.viewPager.setCurrentItem(3);
         });
@@ -74,8 +74,8 @@ public class DownloadActivity extends BaseActivity {
     void textViewDownloadNormal() {
         binding.textViewDownloadNormal.setOnClickListener(view -> {
             setColor();
-            binding.textViewDownloadNormal.setBackground(
-                    ContextCompat.getDrawable(getApplicationContext(), R.drawable.border_white_2));
+            binding.textViewDownloadNormal.setBackground(ContextCompat.getDrawable(
+                    getApplicationContext(), R.drawable.border_white_2));
             setPadding();
             binding.viewPager.setCurrentItem(0);
         });

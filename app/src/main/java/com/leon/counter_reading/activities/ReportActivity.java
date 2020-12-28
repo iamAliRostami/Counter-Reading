@@ -8,6 +8,7 @@ import android.os.Debug;
 import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.leon.counter_reading.R;
@@ -59,7 +60,8 @@ public class ReportActivity extends BaseActivity {
     void textViewTotalNormal() {
         binding.textViewTotal.setOnClickListener(view -> {
             setColor();
-            binding.textViewTotal.setBackground(getResources().getDrawable(R.drawable.border_white_2));
+            binding.textViewTotal.setBackground(
+                    ContextCompat.getDrawable(activity, R.drawable.border_white_2));
             setPadding();
             binding.viewPager.setCurrentItem(0);
         });
@@ -69,7 +71,8 @@ public class ReportActivity extends BaseActivity {
     void textViewNotRead() {
         binding.textViewNotRead.setOnClickListener(view -> {
             setColor();
-            binding.textViewNotRead.setBackground(getResources().getDrawable(R.drawable.border_white_2));
+            binding.textViewNotRead.setBackground(
+                    ContextCompat.getDrawable(activity, R.drawable.border_white_2));
             setPadding();
             binding.viewPager.setCurrentItem(1);
         });
@@ -79,7 +82,8 @@ public class ReportActivity extends BaseActivity {
     void textViewTemporary() {
         binding.textViewTemporary.setOnClickListener(view -> {
             setColor();
-            binding.textViewTemporary.setBackground(getResources().getDrawable(R.drawable.border_white_2));
+            binding.textViewTemporary.setBackground(
+                    ContextCompat.getDrawable(activity, R.drawable.border_white_2));
             setPadding();
             binding.viewPager.setCurrentItem(2);
         });
@@ -87,11 +91,14 @@ public class ReportActivity extends BaseActivity {
 
     private void setColor() {
         binding.textViewNotRead.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewNotRead.setTextColor(getResources().getColor(R.color.text_color_light));
+        binding.textViewNotRead.setTextColor(
+                ContextCompat.getColor(activity, R.color.text_color_light));
         binding.textViewTotal.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewTotal.setTextColor(getResources().getColor(R.color.text_color_light));
+        binding.textViewTotal.setTextColor(
+                ContextCompat.getColor(activity, R.color.text_color_light));
         binding.textViewTemporary.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewTemporary.setTextColor(getResources().getColor(R.color.text_color_light));
+        binding.textViewTemporary.setTextColor(
+                ContextCompat.getColor(activity, R.color.text_color_light));
     }
 
     private void setPadding() {
@@ -112,7 +119,6 @@ public class ReportActivity extends BaseActivity {
         adapter.addFragment(ReportTotalFragment.newInstance(zero, normal, high, low), "آمار کلی");
         adapter.addFragment(ReportNotReadingFragment.newInstance(total, unread), "قرائت نشده");
         adapter.addFragment(ReportTemporaryFragment.newInstance(counterStateDtos, total, isMane), "علی الحساب");
-//        adapter.addFragment(new ReportTemporaryFragment(), "علی الحساب");
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

@@ -77,7 +77,8 @@ public class DeleteFragment extends DialogFragment {
                 view = binding.editTextPassword;
                 view.requestFocus();
             } else {
-                ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
+                ISharedPreferenceManager sharedPreferenceManager =
+                        new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
                 String password = binding.editTextPassword.getText().toString();
                 String username = binding.editTextUsername.getText().toString();
                 if (sharedPreferenceManager.getStringData(
@@ -104,13 +105,14 @@ public class DeleteFragment extends DialogFragment {
     }
 
     void setOnImageViewPasswordClickListener() {
-        binding.imageViewPassword.setOnClickListener(v -> binding.imageViewPassword.setOnClickListener(view -> {
-            if (binding.editTextPassword.getInputType() != InputType.TYPE_CLASS_TEXT) {
-                binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT);
-            } else
-                binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT |
-                        InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        }));
+        binding.imageViewPassword.setOnClickListener(
+                v -> binding.imageViewPassword.setOnClickListener(view -> {
+                    if (binding.editTextPassword.getInputType() != InputType.TYPE_CLASS_TEXT) {
+                        binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                    } else
+                        binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT |
+                                InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }));
     }
 
     @Override

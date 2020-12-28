@@ -22,7 +22,8 @@ public class ReadingReportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
                 SharedReferenceNames.ACCOUNT.getValue());
-        int theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
+        int theme =
+                sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         MyApplication.onActivitySetTheme(this, theme, true);
         binding = ActivityReadingReportBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -34,7 +35,6 @@ public class ReadingReportActivity extends AppCompatActivity {
     }
 
     void setupRecyclerView() {
-
         setOnRecyclerViewClickListener();
     }
 

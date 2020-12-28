@@ -39,7 +39,6 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.linear_layout_reading:
                 MyApplication.POSITION = 1;
-//                MyApplication.isReading = true;
                 intent = new Intent(getApplicationContext(), ReadingActivity.class);
                 break;
             case R.id.linear_layout_upload:
@@ -158,24 +157,24 @@ public class HomeActivity extends BaseActivity {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     void initializeImageViews() {
-        binding.imageViewAppSetting.setImageDrawable(
-                ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_app_settings));
-        binding.imageViewDownload.setImageDrawable(
-                ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_download_information));
-        binding.imageViewUpload.setImageDrawable(
-                ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_upload));
-        binding.imageViewReadingSetting.setImageDrawable(
-                ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_reading_settings));
-        binding.imageViewHelp.setImageDrawable(
-                ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_help));
-        binding.imageViewExit.setImageDrawable(
-                ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_exit));
-        binding.imageViewReading.setImageDrawable(
-                ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_readings));
-        binding.imageViewReport.setImageDrawable(
-                ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_reading_report));
-        binding.imageViewLocation.setImageDrawable(
-                ContextCompat.getDrawable(getApplicationContext(), R.drawable.img_location));
+        binding.imageViewAppSetting.setImageDrawable(ContextCompat.getDrawable(
+                getApplicationContext(), R.drawable.img_app_settings));
+        binding.imageViewDownload.setImageDrawable(ContextCompat.getDrawable(
+                getApplicationContext(), R.drawable.img_download_information));
+        binding.imageViewUpload.setImageDrawable(ContextCompat.getDrawable(
+                getApplicationContext(), R.drawable.img_upload));
+        binding.imageViewReadingSetting.setImageDrawable(ContextCompat.getDrawable(
+                getApplicationContext(), R.drawable.img_reading_settings));
+        binding.imageViewHelp.setImageDrawable(ContextCompat.getDrawable(
+                getApplicationContext(), R.drawable.img_help));
+        binding.imageViewExit.setImageDrawable(ContextCompat.getDrawable(
+                getApplicationContext(), R.drawable.img_exit));
+        binding.imageViewReading.setImageDrawable(ContextCompat.getDrawable(
+                getApplicationContext(), R.drawable.img_readings));
+        binding.imageViewReport.setImageDrawable(ContextCompat.getDrawable(
+                getApplicationContext(), R.drawable.img_reading_report));
+        binding.imageViewLocation.setImageDrawable(ContextCompat.getDrawable(
+                getApplicationContext(), R.drawable.img_location));
     }
 
     void setOnImageViewClickListener() {

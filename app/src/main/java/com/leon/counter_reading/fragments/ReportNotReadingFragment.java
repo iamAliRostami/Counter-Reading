@@ -53,7 +53,8 @@ public class ReportNotReadingFragment extends Fragment {
     void initialize() {
         binding.textViewNotRead.setText(String.valueOf(unread));
         binding.textViewTotal.setText(String.valueOf(total));
-        binding.imageViewNotRead.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.img_not_read));
+        binding.imageViewNotRead.setImageDrawable(
+                ContextCompat.getDrawable(activity, R.drawable.img_not_read));
         binding.buttonContinue.setOnClickListener(v -> {
             Intent intent = new Intent(activity, ReadingActivity.class);
             intent.putExtra(BundleEnum.READ_STATUS.getValue(), ReadStatusEnum.UNREAD.getValue());

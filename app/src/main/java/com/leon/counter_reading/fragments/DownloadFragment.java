@@ -102,7 +102,8 @@ public class DownloadFragment extends Fragment {
                 ReadingData readingData = response.body();
                 ReadingData readingDataTemp = response.body();
                 MyDatabase myDatabase = MyDatabaseClient.getInstance(context).getMyDatabase();
-                ArrayList<TrackingDto> trackingDtos = new ArrayList<>(myDatabase.trackingDao().getTrackingDtos());
+                ArrayList<TrackingDto> trackingDtos = new ArrayList<>(
+                        myDatabase.trackingDao().getTrackingDtos());
                 for (TrackingDto trackingDto : trackingDtos)
                     for (int i = 0; i < readingDataTemp.trackingDtos.size(); i++) {
                         if (trackingDto.id.equals(readingDataTemp.trackingDtos.get(i).id))

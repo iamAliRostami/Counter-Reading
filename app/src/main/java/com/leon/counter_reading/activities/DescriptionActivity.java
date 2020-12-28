@@ -15,7 +15,6 @@ import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 public class DescriptionActivity extends AppCompatActivity {
-
     ActivityDescriptionBinding binding;
     ISharedPreferenceManager sharedPreferenceManager;
 

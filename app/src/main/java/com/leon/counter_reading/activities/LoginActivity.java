@@ -59,7 +59,8 @@ public class LoginActivity extends AppCompatActivity {
         context = this;
         binding.textViewVersion.setText(getString(R.string.version).concat(" ")
                 .concat(BuildConfig.VERSION_NAME));
-        sharedPreferenceManager = new SharedPreferenceManager(context, SharedReferenceNames.ACCOUNT.getValue());
+        sharedPreferenceManager = new SharedPreferenceManager(
+                context, SharedReferenceNames.ACCOUNT.getValue());
         loadPreference();
         binding.imageViewPassword.setImageResource(R.drawable.img_password);
         binding.imageViewLogo.setImageResource(R.drawable.img_login_logo);
@@ -78,12 +79,13 @@ public class LoginActivity extends AppCompatActivity {
             if (b) {
                 binding.linearLayoutUsername.setBackground(ContextCompat.getDrawable(
                         getApplicationContext(), R.drawable.border_black_2));
-                binding.editTextPassword.setTextColor(getResources().getColor(R.color.black));
+                binding.editTextPassword.setTextColor(
+                        ContextCompat.getColor(context, R.color.black));
             } else {
                 binding.linearLayoutUsername.setBackground(ContextCompat.getDrawable(
                         getApplicationContext(), R.drawable.border_gray_2));
                 binding.editTextPassword.setTextColor(
-                        ContextCompat.getColor(getApplicationContext(), R.color.gray));
+                        ContextCompat.getColor(context, R.color.gray));
             }
         });
     }
@@ -93,27 +95,28 @@ public class LoginActivity extends AppCompatActivity {
         binding.editTextPassword.setOnFocusChangeListener((view, b) -> {
             binding.editTextPassword.setHint("");
             if (b) {
-                binding.linearLayoutPassword.setBackground(
-                        ContextCompat.getDrawable(getApplicationContext(), R.drawable.border_black_2));
-                binding.editTextPassword.setTextColor(
-                        ContextCompat.getColor(getApplicationContext(), R.color.black));
+                binding.linearLayoutPassword.setBackground(ContextCompat.getDrawable(
+                        getApplicationContext(), R.drawable.border_black_2));
+                binding.editTextPassword.setTextColor(ContextCompat.getColor(
+                        getApplicationContext(), R.color.black));
             } else {
-                binding.linearLayoutPassword.setBackground(
-                        ContextCompat.getDrawable(getApplicationContext(), R.drawable.border_gray_2));
-                binding.editTextPassword.setTextColor(
-                        ContextCompat.getColor(getApplicationContext(), R.color.gray));
+                binding.linearLayoutPassword.setBackground(ContextCompat.getDrawable(
+                        getApplicationContext(), R.drawable.border_gray_2));
+                binding.editTextPassword.setTextColor(ContextCompat.getColor(
+                        getApplicationContext(), R.color.gray));
             }
         });
     }
 
     void setOnImageViewPasswordClickListener() {
-        binding.imageViewPassword.setOnClickListener(v -> binding.imageViewPassword.setOnClickListener(view -> {
-            if (binding.editTextPassword.getInputType() != InputType.TYPE_CLASS_TEXT) {
-                binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT);
-            } else
-                binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT |
-                        InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        }));
+        binding.imageViewPassword.setOnClickListener(v ->
+                binding.imageViewPassword.setOnClickListener(view -> {
+                    if (binding.editTextPassword.getInputType() != InputType.TYPE_CLASS_TEXT) {
+                        binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                    } else
+                        binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT |
+                                InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }));
     }
 
     void setOnButtonLoginClickListener() {
@@ -150,16 +153,25 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void savePreference(LoginFeedBack loginFeedBack) {
-        sharedPreferenceManager.putData(SharedReferenceKeys.DISPLAY_NAME.getValue(), loginFeedBack.displayName);
-        sharedPreferenceManager.putData(SharedReferenceKeys.USER_CODE.getValue(), loginFeedBack.userCode);
-        sharedPreferenceManager.putData(SharedReferenceKeys.TOKEN.getValue(), loginFeedBack.access_token);
-        sharedPreferenceManager.putData(SharedReferenceKeys.REFRESH_TOKEN.getValue(), loginFeedBack.refresh_token);
-        sharedPreferenceManager.putData(SharedReferenceKeys.XSRF.getValue(), loginFeedBack.XSRFToken);
-        sharedPreferenceManager.putData(SharedReferenceKeys.USERNAME_TEMP.getValue(), username);
-        sharedPreferenceManager.putData(SharedReferenceKeys.PASSWORD_TEMP.getValue(), Crypto.encrypt(password));
+        sharedPreferenceManager.putData(
+                SharedReferenceKeys.DISPLAY_NAME.getValue(), loginFeedBack.displayName);
+        sharedPreferenceManager.putData(
+                SharedReferenceKeys.USER_CODE.getValue(), loginFeedBack.userCode);
+        sharedPreferenceManager.putData(
+                SharedReferenceKeys.TOKEN.getValue(), loginFeedBack.access_token);
+        sharedPreferenceManager.putData(
+                SharedReferenceKeys.REFRESH_TOKEN.getValue(), loginFeedBack.refresh_token);
+        sharedPreferenceManager.putData(
+                SharedReferenceKeys.XSRF.getValue(), loginFeedBack.XSRFToken);
+        sharedPreferenceManager.putData(
+                SharedReferenceKeys.USERNAME_TEMP.getValue(), username);
+        sharedPreferenceManager.putData(
+                SharedReferenceKeys.PASSWORD_TEMP.getValue(), Crypto.encrypt(password));
         if (binding.checkBoxSave.isChecked()) {
-            sharedPreferenceManager.putData(SharedReferenceKeys.USERNAME.getValue(), username);
-            sharedPreferenceManager.putData(SharedReferenceKeys.PASSWORD.getValue(), Crypto.encrypt(password));
+            sharedPreferenceManager.putData(
+                    SharedReferenceKeys.USERNAME.getValue(), username);
+            sharedPreferenceManager.putData(
+                    SharedReferenceKeys.PASSWORD.getValue(), Crypto.encrypt(password));
         }
     }
 
