@@ -160,11 +160,14 @@ public class LocationActivity extends BaseActivity {
                 (int) getResources().getDimension(R.dimen.medium_dp));
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setupViewPager() {
         ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
         adapter.addFragment(new LocationFragment(), "لایه ها ");
         adapter.addFragment(new PlaceFragment(), "مکان کنتور");
         binding.viewPager.setAdapter(adapter);
+//        binding.viewPager.setOnTouchListener((v, event) -> true);
+        binding.viewPager.beginFakeDrag();
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
