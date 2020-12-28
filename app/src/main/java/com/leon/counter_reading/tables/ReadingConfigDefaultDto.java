@@ -35,5 +35,6 @@ public class ReadingConfigDefaultDto {
     public int lowPercentRateBoundNonMaskooni;
     public int highPercentRateBoundNonMaskooni;
     public boolean isActive;
+    public boolean isArchive;
     public String zone;
 }

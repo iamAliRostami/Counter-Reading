@@ -71,7 +71,7 @@ public class ReadingSettingCustomAdapter extends BaseAdapter {
             selected.set(position, holder.checkBox.isChecked());
             MyDatabaseClient.getInstance(context).getMyDatabase().
                     readingConfigDefaultDao().updateReadingConfigDefaultByStatus(
-                    selected.get(position), zoneIds.get(position));
+                     zoneIds.get(position),selected.get(position));
         });
         holder.checkBox.setChecked(selected.get(position));
         return view;

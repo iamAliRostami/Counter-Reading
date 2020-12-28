@@ -40,7 +40,7 @@
                 android:background="@drawable/border"
                 android:gravity="center"
                 android:hint="@string/username"
-                android:inputType="number"
+                android:inputType="text"
                 android:lines="1"
                 android:padding="@dimen/medium_dp"
                 tools:ignore="Autofill" />
@@ -62,14 +62,14 @@
                 tools:ignore="ContentDescription" />
 
             <EditText
-                android:id="@+id/editTextPassword"
+                android:id="@+id/edit_text_password"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/border"
                 android:gravity="center"
                 android:hint="@string/password"
-                android:inputType="numberPassword"
+                android:inputType="textPassword"
                 android:lines="1"
                 android:padding="@dimen/medium_dp"
                 tools:ignore="Autofill" />

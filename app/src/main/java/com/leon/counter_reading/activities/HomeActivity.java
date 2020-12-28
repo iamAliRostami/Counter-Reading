@@ -39,7 +39,7 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.linear_layout_reading:
                 MyApplication.POSITION = 1;
-                MyApplication.isReading = true;
+//                MyApplication.isReading = true;
                 intent = new Intent(getApplicationContext(), ReadingActivity.class);
                 break;
             case R.id.linear_layout_upload:

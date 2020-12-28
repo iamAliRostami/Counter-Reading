@@ -77,7 +77,7 @@ public class ReadingActivity extends BaseActivity {
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
         activity = this;
-        if (MyApplication.isReading) {
+        if (MyApplication.POSITION == 1) {
             if (isNetworkAvailable(getApplicationContext()))
                 checkPermissions();
             else PermissionManager.enableNetwork(this);
@@ -373,7 +373,7 @@ public class ReadingActivity extends BaseActivity {
             readingData.trackingDtos.addAll(myDatabase.trackingDao().getTrackingDtos());
             for (TrackingDto trackingDto : readingData.trackingDtos) {
                 readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
-                        getActiveReadingConfigDefaultDtosByZoneId(true, trackingDto.zoneId));
+                        getActiveReadingConfigDefaultDtosByZoneId( trackingDto.zoneId,true,false));
             }
             for (ReadingConfigDefaultDto readingConfigDefaultDto : readingData.readingConfigDefaultDtos) {
                 if (readStatus == ReadStatusEnum.ALL.getValue()) {

@@ -8,6 +8,7 @@ import android.os.Debug;
 import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.leon.counter_reading.R;
@@ -23,7 +24,6 @@ import com.leon.counter_reading.utils.DepthPageTransformer;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ReadingSettingActivity extends BaseActivity {
     ActivityReadingSettingBinding binding;
@@ -67,14 +67,12 @@ public class ReadingSettingActivity extends BaseActivity {
         @Override
         protected Integer doInBackground(Integer... integers) {
             //TODO
-            List<TrackingDto> trackingDtosTemp =
-                    MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            trackingDao().getTrackingDtos();
-            List<ReadingConfigDefaultDto> readingConfigDefaultDtosTemp = MyDatabaseClient.
-                    getInstance(activity).getMyDatabase().readingConfigDefaultDao().
-                    getReadingConfigDefaultDtos();
-            readingConfigDefaultDtos.addAll(readingConfigDefaultDtosTemp);
-            trackingDtos.addAll(trackingDtosTemp);
+            trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                    trackingDao().getTrackingDtos());
+            for (TrackingDto trackingDto : trackingDtos)
+                readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
+                        getMyDatabase().readingConfigDefaultDao().
+                        getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId, false));
             runOnUiThread(ReadingSettingActivity.this::setupViewPager);
             return null;
         }
@@ -89,7 +87,8 @@ public class ReadingSettingActivity extends BaseActivity {
     void textViewDelete() {
         binding.textViewDelete.setOnClickListener(view -> {
             setColor();
-            binding.textViewDelete.setBackground(getResources().getDrawable(R.drawable.border_white_2));
+            binding.textViewDelete.setBackground(
+                    ContextCompat.getDrawable(activity, R.drawable.border_white_2));
             setPadding();
             binding.viewPager.setCurrentItem(1);
         });
@@ -99,7 +98,7 @@ public class ReadingSettingActivity extends BaseActivity {
     void textViewRead() {
         binding.textViewRead.setOnClickListener(view -> {
             setColor();
-            binding.textViewRead.setBackground(getResources().getDrawable(R.drawable.border_white_2));
+            binding.textViewRead.setBackground(ContextCompat.getDrawable(activity, R.drawable.border_white_2));
             setPadding();
             binding.viewPager.setCurrentItem(0);
         });
@@ -107,9 +106,9 @@ public class ReadingSettingActivity extends BaseActivity {
 
     private void setColor() {
         binding.textViewRead.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewRead.setTextColor(getResources().getColor(R.color.text_color_light));
+        binding.textViewRead.setTextColor(ContextCompat.getColor(activity, R.color.text_color_light));
         binding.textViewDelete.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewDelete.setTextColor(getResources().getColor(R.color.text_color_light));
+        binding.textViewDelete.setTextColor(ContextCompat.getColor(activity, R.color.text_color_light));
     }
 
     private void setPadding() {

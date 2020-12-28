@@ -1,11 +1,13 @@
 package com.leon.counter_reading.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
@@ -26,6 +28,7 @@ public class ReadingSettingDeleteFragment extends Fragment {
     ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
     ArrayList<String> items = new ArrayList<>();
     SpinnerCustomAdapter adapter;
+    Activity activity;
 
     public ReadingSettingDeleteFragment() {
     }
@@ -72,22 +75,43 @@ public class ReadingSettingDeleteFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentReadingSettingDeleteBinding.inflate(inflater, container, false);
+        activity = getActivity();
         initialize();
         return binding.getRoot();
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
-        binding.imageViewDelete.setImageDrawable(getResources().getDrawable(R.drawable.img_delete));
+        binding.imageViewDelete.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.img_delete));
         initializeSpinner();
+        setOnButtonDeleteClickListener();
+    }
+
+    void setOnButtonDeleteClickListener() {
+        binding.buttonDelete.setOnClickListener(v -> {
+            if (binding.spinner.getSelectedItemPosition() == 0) {
+                DeleteFragment deleteFragment = DeleteFragment.newInstance(0);
+                if (getFragmentManager() != null) {
+                    deleteFragment.show(getFragmentManager(), "");
+                }
+            } else {
+                DeleteFragment deleteFragment = DeleteFragment.newInstance(
+                        trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).zoneId);
+                if (getFragmentManager() != null) {
+                    deleteFragment.show(getFragmentManager(), "");
+                }
+            }
+        });
     }
 
     void initializeSpinner() {
-        for (TrackingDto trackingDto : trackingDtos) {
-            items.add(String.valueOf(trackingDto.trackNumber));
+        if (trackingDtos.size() > 0 && readingConfigDefaultDtos.size() > 0) {
+            for (TrackingDto trackingDto : trackingDtos) {
+                items.add(String.valueOf(trackingDto.trackNumber));
+            }
         }
         items.add(0, getString(R.string.all_items));
-        adapter = new SpinnerCustomAdapter(getActivity(), items);
+        adapter = new SpinnerCustomAdapter(activity, items);
         binding.spinner.setAdapter(adapter);
     }
 

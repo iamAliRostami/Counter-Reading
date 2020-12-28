@@ -23,6 +23,7 @@ public enum BundleEnum {
     NORMAL("normal"),
     READ_STATUS("read_status"),
     IMAGE_BITMAP("image_bitmap"),
+    ZONE_ID("zone_id"),
     TYPE("type");
 
     private final String value;

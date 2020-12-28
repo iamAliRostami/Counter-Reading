@@ -174,7 +174,7 @@ public class ReportActivity extends BaseActivity {
             for (TrackingDto trackingDto : trackingDtos) {
                 readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
                         getMyDatabase().readingConfigDefaultDao().
-                        getActiveReadingConfigDefaultDtosByZoneId(true, trackingDto.zoneId));
+                        getActiveReadingConfigDefaultDtosByZoneId(trackingDto.zoneId, true, false));
             }
             for (ReadingConfigDefaultDto readingConfigDefaultDto : readingConfigDefaultDtos) {
                 onOffLoadDtosReads.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().

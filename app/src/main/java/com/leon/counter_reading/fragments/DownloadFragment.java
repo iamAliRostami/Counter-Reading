@@ -28,6 +28,7 @@ import com.leon.counter_reading.utils.CustomDialog;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.HttpClientWrapper;
+import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
 
@@ -100,68 +101,60 @@ public class DownloadFragment extends Fragment {
             if (response != null && response.body() != null) {
                 ReadingData readingData = response.body();
                 ReadingData readingDataTemp = response.body();
-
-                ArrayList<TrackingDto> trackingDtos = new ArrayList<>(MyDatabaseClient.getInstance(context).
-                        getMyDatabase().trackingDao().getTrackingDtos());
+                MyDatabase myDatabase = MyDatabaseClient.getInstance(context).getMyDatabase();
+                ArrayList<TrackingDto> trackingDtos = new ArrayList<>(myDatabase.trackingDao().getTrackingDtos());
                 for (TrackingDto trackingDto : trackingDtos)
                     for (int i = 0; i < readingDataTemp.trackingDtos.size(); i++) {
                         if (trackingDto.id.equals(readingDataTemp.trackingDtos.get(i).id))
                             readingData.trackingDtos.remove(readingDataTemp.trackingDtos.get(i));
                     }
-                MyDatabaseClient.getInstance(context).getMyDatabase().trackingDao().
-                        insertAllTrackingDtos(readingData.trackingDtos);
+                myDatabase.trackingDao().insertAllTrackingDtos(readingData.trackingDtos);
 
-                ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>(MyDatabaseClient.getInstance(context).
-                        getMyDatabase().counterStateDao().getCounterStateDtos());
+                ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>(
+                        myDatabase.counterStateDao().getCounterStateDtos());
                 for (CounterStateDto counterStateDto : counterStateDtos)
                     if (readingDataTemp.counterStateDtos != null)
                         for (int i = 0; i < readingDataTemp.counterStateDtos.size(); i++) {
                             if (counterStateDto.id == readingDataTemp.counterStateDtos.get(i).id)
                                 readingData.counterStateDtos.remove(readingDataTemp.counterStateDtos.get(i));
                         }
-                MyDatabaseClient.getInstance(context).getMyDatabase().counterStateDao().
-                        insertAllCounterStateDto(readingData.counterStateDtos);
+                myDatabase.counterStateDao().insertAllCounterStateDto(readingData.counterStateDtos);
 
-                ArrayList<KarbariDto> karbariDtos = new ArrayList<>(MyDatabaseClient.getInstance(context).
-                        getMyDatabase().karbariDao().getAllKarbariDto());
+                ArrayList<KarbariDto> karbariDtos = new ArrayList<>(
+                        myDatabase.karbariDao().getAllKarbariDto());
                 for (KarbariDto karbariDto : karbariDtos)
                     for (int i = 0; i < readingDataTemp.karbariDtos.size(); i++) {
                         if (karbariDto.id == readingDataTemp.karbariDtos.get(i).id)
                             readingData.karbariDtos.remove(readingDataTemp.karbariDtos.get(i));
                     }
-                MyDatabaseClient.getInstance(context).getMyDatabase().
-                        karbariDao().insertAllKarbariDtos(readingData.karbariDtos);
+                myDatabase.karbariDao().insertAllKarbariDtos(readingData.karbariDtos);
 
-                ArrayList<QotrDictionary> qotrDictionaries = new ArrayList<>(MyDatabaseClient.getInstance(context).
-                        getMyDatabase().qotrDictionaryDao().getAllQotrDictionaries());
+                ArrayList<QotrDictionary> qotrDictionaries = new ArrayList<>(
+                        myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
                 for (QotrDictionary qotrDictionary : qotrDictionaries)
                     for (int i = 0; i < readingDataTemp.qotrDictionary.size(); i++) {
                         if (qotrDictionary.id == readingDataTemp.qotrDictionary.get(i).id)
                             readingData.qotrDictionary.remove(readingDataTemp.qotrDictionary.get(i));
                     }
-                MyDatabaseClient.getInstance(context).getMyDatabase().
-                        qotrDictionaryDao().insertQotrDictionaries(readingData.qotrDictionary);
+                myDatabase.qotrDictionaryDao().insertQotrDictionaries(readingData.qotrDictionary);
 
-                ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>(MyDatabaseClient.getInstance(context).
-                        getMyDatabase().readingConfigDefaultDao().getReadingConfigDefaultDtos());
+                ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>(
+                        myDatabase.readingConfigDefaultDao().getReadingConfigDefaultDtos(false));
                 for (ReadingConfigDefaultDto readingConfigDefaultDto : readingConfigDefaultDtos)
                     for (int i = 0; i < readingDataTemp.readingConfigDefaultDtos.size(); i++) {
                         if (readingConfigDefaultDto.id.equals(readingDataTemp.readingConfigDefaultDtos.get(i).id))
                             readingData.readingConfigDefaultDtos.remove(readingDataTemp.readingConfigDefaultDtos.get(i));
                     }
-                MyDatabaseClient.getInstance(context).getMyDatabase().
-                        readingConfigDefaultDao().insertAllReadingConfigDefault(
+                myDatabase.readingConfigDefaultDao().insertAllReadingConfigDefault(
                         readingData.readingConfigDefaultDtos);
 
-                ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>(MyDatabaseClient.getInstance(context).
-                        getMyDatabase().onOffLoadDao().getAllOnOffLoad());
+                ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>(myDatabase.onOffLoadDao().getAllOnOffLoad());
                 for (OnOffLoadDto onOffLoadDto : onOffLoadDtos)
                     for (int i = 0; i < readingDataTemp.onOffLoadDtos.size(); i++) {
                         if (onOffLoadDto.id.equals(readingDataTemp.onOffLoadDtos.get(i).id))
                             readingData.onOffLoadDtos.remove(readingDataTemp.onOffLoadDtos.get(i));
                     }
-                MyDatabaseClient.getInstance(context).getMyDatabase().onOffLoadDao().
-                        insertAllOnOffLoad(readingData.onOffLoadDtos);
+                myDatabase.onOffLoadDao().insertAllOnOffLoad(readingData.onOffLoadDtos);
             }
         }
     }

@@ -100,7 +100,7 @@ public abstract class BaseActivity extends AppCompatActivity
     @SuppressLint("RtlHardcoded")
     void setOnDrawerItemClick() {
         binding.imageViewHeader.setOnClickListener(v -> {
-            MyApplication.isReading = false;
+//            MyApplication.isReading = false;
             if (MyApplication.POSITION != -1) {
                 MyApplication.POSITION = -1;
                 Intent intent = new Intent(MyApplication.getContext(), HomeActivity.class);
@@ -116,7 +116,7 @@ public abstract class BaseActivity extends AppCompatActivity
                     @Override
                     public void onItemClick(View view, int position) {
                         binding.drawerLayout.closeDrawer(GravityCompat.START);
-                        MyApplication.isReading = false;
+//                        MyApplication.isReading = false;
                         if (position == 8) {
                             MyApplication.POSITION = -1;
                             finishAffinity();
@@ -126,7 +126,7 @@ public abstract class BaseActivity extends AppCompatActivity
                             if (position == 0) {
                                 intent = new Intent(getApplicationContext(), DownloadActivity.class);
                             } else if (position == 1) {
-                                MyApplication.isReading = true;
+//                                MyApplication.isReading = true;
                                 intent = new Intent(getApplicationContext(), ReadingActivity.class);
                             } else if (position == 2) {
                                 intent = new Intent(getApplicationContext(), UploadActivity.class);

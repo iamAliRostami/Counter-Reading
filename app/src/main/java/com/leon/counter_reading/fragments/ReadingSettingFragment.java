@@ -83,13 +83,10 @@ public class ReadingSettingFragment extends Fragment {
     }
 
     void setupListView() {
-        if (trackingDtos.size() > 0) {
-            for (int i = 0; i < trackingDtos.size(); i++) {
-                for (ReadingConfigDefaultDto readingConfigDefaultDto : readingConfigDefaultDtos)
-                    if (readingConfigDefaultDto.zoneId == trackingDtos.get(i).zoneId) {
-                        isActives.add(readingConfigDefaultDto.isActive);
-                        zoneIds.add(readingConfigDefaultDto.zoneId);
-                    }
+        if (trackingDtos.size() > 0 && readingConfigDefaultDtos.size() > 0) {
+            for (ReadingConfigDefaultDto readingConfigDefaultDto : readingConfigDefaultDtos) {
+                isActives.add(readingConfigDefaultDto.isActive);
+                zoneIds.add(readingConfigDefaultDto.zoneId);
             }
             ReadingSettingCustomAdapter readingSettingCustomAdapter =
                     new ReadingSettingCustomAdapter(context, trackingDtos, isActives, zoneIds);
