@@ -185,7 +185,7 @@ public class CustomFile {
         return gson.fromJson(json, ReadingData.class);
     }
 
-    @SuppressLint("SimpleDateFormat")
+    @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
     public static boolean writeResponseApkToDisk(ResponseBody body, Activity activity) {
         if (isExternalStorageWritable()) {
             try {
@@ -213,7 +213,7 @@ public class CustomFile {
                         }
                         outputStream.write(fileReader, 0, read);
                         fileSizeDownloaded += read;
-                        Log.d(".apk file", "file download: " + fileSizeDownloaded + " of " + fileSize);
+                        Log.e(".apk file", "file download: " + fileSizeDownloaded + " of " + fileSize);
                     }
                     outputStream.flush();
                     new CustomToast().success(

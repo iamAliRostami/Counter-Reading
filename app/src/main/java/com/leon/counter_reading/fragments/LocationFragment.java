@@ -32,7 +32,8 @@ public class LocationFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getActivity();
-        Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
+        Configuration.getInstance().load(context,
+                PreferenceManager.getDefaultSharedPreferences(context));
     }
 
     @Override
@@ -59,7 +60,8 @@ public class LocationFragment extends Fragment {
 
         GeoPoint startPoint = new GeoPoint(latitude, longitude);
         mapController.setCenter(startPoint);
-        MyLocationNewOverlay locationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), binding.mapView);
+        MyLocationNewOverlay locationOverlay =
+                new MyLocationNewOverlay(new GpsMyLocationProvider(context), binding.mapView);
         locationOverlay.enableMyLocation();
         binding.mapView.getOverlays().add(locationOverlay);
     }

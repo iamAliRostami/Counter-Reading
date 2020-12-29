@@ -19,6 +19,7 @@ import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
+import com.leon.counter_reading.tables.LastInfo;
 import com.leon.counter_reading.utils.CustomDialog;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
@@ -60,17 +61,55 @@ public class SettingUpdateFragment extends Fragment {
         binding.imageViewUpdate.setImageDrawable(
                 ContextCompat.getDrawable(activity, R.drawable.img_update));
         binding.textViewCurrentVersion.setText(BuildConfig.VERSION_NAME);
+        updateInfo();
         setOnButtonReceiveClickListener();
+    }
+
+    void updateInfo() {
+        Retrofit retrofit = NetworkHelper.getInstance();
+        IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+        Call<LastInfo> call = iAbfaService.getLastInfo();
+        HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activity,
+                new UpdateInfo(), new UpdateInfoIncomplete(), new UpdateError());
     }
 
     void setOnButtonReceiveClickListener() {
         binding.buttonReceive.setOnClickListener(v -> {
+            activity.runOnUiThread(() -> binding.progressBar.setVisibility(View.VISIBLE));
             Retrofit retrofit = NetworkHelper.getInstance();
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
             Call<ResponseBody> call = iAbfaService.getLastApk();
-            HttpClientWrapper.callHttpAsyncProgressDismiss(call, ProgressType.SHOW.getValue(),
+            HttpClientWrapper.callHttpAsyncProgressDismiss(call, ProgressType.NOT_SHOW.getValue(),
                     activity, new Update(), new UpdateIncomplete(), new UpdateError());
         });
+    }
+
+    class UpdateInfo implements ICallback<LastInfo> {
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void execute(Response<LastInfo> response) {
+            if (response.body() != null) {
+                activity.runOnUiThread(() -> {
+                    binding.textViewVersion.setText(response.body().versionName);
+                    binding.textViewDate.setText("13".concat(response.body().versionName.substring(0, 8).replace(".", "/")));
+
+                    binding.linearLayoutUpdate.setVisibility(View.VISIBLE);
+                    binding.progressBar.setVisibility(View.GONE);
+                });
+            }
+        }
+    }
+
+    class UpdateInfoIncomplete implements ICallbackIncomplete<LastInfo> {
+        @Override
+        public void executeIncomplete(Response<LastInfo> response) {
+            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
+            String error = customErrorHandlingNew.getErrorMessageDefault(response);
+            new CustomDialog(DialogType.Yellow, activity, error,
+                    activity.getString(R.string.dear_user),
+                    activity.getString(R.string.update),
+                    activity.getString(R.string.accepted));
+        }
     }
 
     class Update implements ICallback<ResponseBody> {
@@ -79,6 +118,7 @@ public class SettingUpdateFragment extends Fragment {
             if (!CustomFile.writeResponseApkToDisk(response.body(), activity))
                 activity.runOnUiThread(() ->
                         new CustomToast().warning(activity.getString(R.string.error_update)));
+            binding.progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -91,6 +131,7 @@ public class SettingUpdateFragment extends Fragment {
                     activity.getString(R.string.dear_user),
                     activity.getString(R.string.update),
                     activity.getString(R.string.accepted));
+            binding.progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -103,6 +144,7 @@ public class SettingUpdateFragment extends Fragment {
                     activity.getString(R.string.dear_user),
                     activity.getString(R.string.update),
                     activity.getString(R.string.accepted));
+            binding.progressBar.setVisibility(View.GONE);
         }
     }
 

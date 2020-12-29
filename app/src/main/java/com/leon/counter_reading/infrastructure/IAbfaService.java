@@ -1,6 +1,7 @@
 package com.leon.counter_reading.infrastructure;
 
 import com.leon.counter_reading.tables.Image;
+import com.leon.counter_reading.tables.LastInfo;
 import com.leon.counter_reading.tables.LoginFeedBack;
 import com.leon.counter_reading.tables.LoginInfo;
 import com.leon.counter_reading.tables.OnOffLoadDto;
@@ -63,5 +64,8 @@ public interface IAbfaService {
 
     @GET("KontoriNew/V1/Apk/Last")
     Call<ResponseBody> getLastApk();
+
+    @GET("KontoriNew/V1/Apk/LastInfo")
+    Call<LastInfo> getLastInfo();
 }
 
