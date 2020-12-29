@@ -91,7 +91,8 @@ public class SettingUpdateFragment extends Fragment {
             if (response.body() != null) {
                 activity.runOnUiThread(() -> {
                     binding.textViewVersion.setText(response.body().versionName);
-                    binding.textViewDate.setText("13".concat(response.body().versionName.substring(0, 8).replace(".", "/")));
+                    binding.textViewDate.setText("13".concat(response.body().
+                            versionName.substring(0, 8).replace(".", "/")));
 
                     binding.linearLayoutUpdate.setVisibility(View.VISIBLE);
                     binding.progressBar.setVisibility(View.GONE);
