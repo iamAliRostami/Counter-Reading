@@ -2,6 +2,7 @@ package com.leon.counter_reading.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -195,16 +196,23 @@ public class UploadFragment extends Fragment {
 
         @Override
         protected Integer doInBackground(Integer... integers) {
+            images.clear();
             images.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
                     .getImagesByBySent(false));
             for (int i = 0; i < images.size(); i++) {
-                images.get(i).File = CustomFile.bitmapToFile(
-                        CustomFile.loadImage(activity, images.get(i).address), activity);
-                imageMultiples.OnOffLoadId.add(RequestBody.create(images.get(i).OnOffLoadId,
-                        MediaType.parse("text/plain")));
-                imageMultiples.Description.add(RequestBody.create(images.get(i).Description,
-                        MediaType.parse("text/plain")));
-                imageMultiples.File.add(images.get(i).File);
+                Bitmap bitmap = CustomFile.loadImage(activity, images.get(i).address);
+                if (bitmap != null) {
+                    images.get(i).File = CustomFile.bitmapToFile(
+                            CustomFile.loadImage(activity, images.get(i).address), activity);
+                    imageMultiples.OnOffLoadId.add(RequestBody.create(images.get(i).OnOffLoadId,
+                            MediaType.parse("text/plain")));
+                    imageMultiples.Description.add(RequestBody.create(images.get(i).Description,
+                            MediaType.parse("text/plain")));
+                    imageMultiples.File.add(images.get(i).File);
+                } else {
+                    MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().
+                            deleteImage(images.get(i).id);
+                }
             }
             return null;
         }
@@ -244,7 +252,7 @@ public class UploadFragment extends Fragment {
             if (response.body() != null && response.body().status == 200) {
                 CustomToast customToast = new CustomToast();
                 customToast.success(response.body().message);
-                saveImages();
+                updateImages();
             }
         }
     }
@@ -303,13 +311,12 @@ public class UploadFragment extends Fragment {
         }
     }
 
-    void saveImages() {
+    void updateImages() {
         for (int i = 0; i < images.size(); i++) {
             images.get(i).isSent = true;
             MyDatabaseClient.getInstance(getContext()).getMyDatabase().imageDao()
                     .updateImage(images.get(i));
         }
-        images.clear();
     }
 
     @Override
@@ -324,5 +331,8 @@ public class UploadFragment extends Fragment {
         images = null;
         imageMultiples = null;
         imageSrc = null;
+        trackingDtos = null;
+        onOffLoadDtos = null;
+        items = null;
     }
 }

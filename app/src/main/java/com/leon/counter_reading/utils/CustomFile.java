@@ -117,7 +117,8 @@ public class CustomFile {
                 return null;
             }
         }
-        String timeStamp = (new SimpleDateFormat(context.getString(R.string.save_format_name))).format(new Date());
+        String timeStamp = (new SimpleDateFormat(
+                context.getString(R.string.save_format_name_melli))).format(new Date());
         String fileNameToSave = "JPEG_" + timeStamp + ".jpg";
         File file = new File(mediaStorageDir, fileNameToSave);
         if (file.exists()) file.delete();
@@ -143,6 +144,7 @@ public class CustomFile {
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         StringBuilder stringBuilder = (new StringBuilder()).append("file:");
         Objects.requireNonNull(image);
+        MyApplication.fileName = null;
         MyApplication.fileName = stringBuilder.append(image.getAbsolutePath()).toString();
         return image;
     }

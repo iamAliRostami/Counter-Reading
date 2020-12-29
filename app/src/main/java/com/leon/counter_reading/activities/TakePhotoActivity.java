@@ -16,6 +16,7 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -29,7 +30,6 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivityTakePhotoBinding;
 import com.leon.counter_reading.enums.BundleEnum;
-import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
@@ -40,7 +40,6 @@ import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.Image;
-import com.leon.counter_reading.utils.CustomDialog;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomProgressBar;
@@ -405,6 +404,7 @@ public class TakePhotoActivity extends AppCompatActivity {
 
         @Override
         protected Integer doInBackground(Integer... integers) {
+            imageGrouped.File.clear();
             for (int i = 0; i < images.size(); i++) {
                 if (images.get(i).File == null)
                     images.get(i).File = CustomFile.bitmapToFile(bitmaps.get(i), activity);
@@ -455,16 +455,12 @@ public class TakePhotoActivity extends AppCompatActivity {
         @Override
         public void execute(Response<Image.ImageUploadResponse> response) {
             if (response.body() != null && response.body().status == 200) {
-                CustomToast customToast = new CustomToast();
-                customToast.success(response.body().message);
+                new CustomToast().success(response.body().message, Toast.LENGTH_LONG);
             } else {
-                new CustomDialog(DialogType.Yellow, activity,
-                        activity.getString(R.string.error_upload),
-                        activity.getString(R.string.dear_user),
-                        activity.getString(R.string.upload_multimedia),
-                        activity.getString(R.string.accepted));
+                new CustomToast().warning(activity.getString(R.string.error_upload), Toast.LENGTH_LONG);
             }
             saveImages(response.body() != null && response.body().status == 200);
+            finish();
         }
     }
 
@@ -474,11 +470,9 @@ public class TakePhotoActivity extends AppCompatActivity {
         public void executeIncomplete(Response<Image.ImageUploadResponse> response) {
             CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
             String error = customErrorHandlingNew.getErrorMessageDefault(response);
-            new CustomDialog(DialogType.Yellow, activity, error,
-                    activity.getString(R.string.dear_user),
-                    activity.getString(R.string.upload_multimedia),
-                    activity.getString(R.string.accepted));
+            new CustomToast().warning(error, Toast.LENGTH_LONG);
             saveImages(false);
+            finish();
         }
     }
 
@@ -487,11 +481,9 @@ public class TakePhotoActivity extends AppCompatActivity {
         public void executeError(Throwable t) {
             CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
             String error = customErrorHandlingNew.getErrorMessageTotal(t);
-            new CustomDialog(DialogType.Red, activity, error,
-                    activity.getString(R.string.dear_user),
-                    activity.getString(R.string.upload_multimedia),
-                    activity.getString(R.string.accepted));
+            new CustomToast().error(error, Toast.LENGTH_LONG);
             saveImages(false);
+            finish();
         }
     }
 
@@ -499,10 +491,10 @@ public class TakePhotoActivity extends AppCompatActivity {
         for (int i = 0; i < images.size(); i++) {
             images.get(i).isSent = isSent;
             if (MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                    .getImagesById(images.get(i).id).size() > 0)
+                    .getImagesById(images.get(i).id).size() > 0) {
                 MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
                         .updateImage(images.get(i));
-            else {
+            } else {
                 String address = CustomFile.saveTempBitmap(bitmaps.get(i), getApplicationContext());
                 if (!address.equals(getString(R.string.error_external_storage_is_not_writable))) {
                     images.get(i).address = address;
@@ -552,6 +544,7 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        MyApplication.bitmapSelectedImage = null;
         if (resultCode == RESULT_OK) {
             if (requestCode == MyApplication.GALLERY_REQUEST && data != null) {
                 Uri selectedImage = data.getData();

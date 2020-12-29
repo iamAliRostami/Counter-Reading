@@ -16,6 +16,7 @@
     <string name="camera_folder">/AbfaCamera/</string>
     <string name="audio_folder">/AbfaAudioRecord/</string>
     <string name="save_format_name">yyyyMMdd_HHmmss</string>
+    <string name="save_format_name_melli">yyyyMMdd_HHmmss_SSS</string>
     <string name="copy_right">شبکه تارنما سپاهان</string>
     <string name="version">نسخه</string>
     <string name="username">نام کاربری</string>
