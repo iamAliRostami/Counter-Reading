@@ -55,7 +55,7 @@ public interface OnOffLoadDao {
     void updateOnOffLoad(OnOffLoadDto onOffLoadDto);
 
     @Query("UPDATE OnOffLoadDto set offLoadStateId = :offLoadStateId WHERE id = :id")
-    int updateOnOffLoad(int offLoadStateId, String id);
+    void updateOnOffLoad(int offLoadStateId, String id);
 
     @Query("DELETE FROM OnOffLoadDto WHERE trackingId = :id")
     void deleteOnOffLoad(String id);

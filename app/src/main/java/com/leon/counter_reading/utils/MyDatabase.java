@@ -5,6 +5,8 @@ import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.leon.counter_reading.tables.CounterReportDao;
+import com.leon.counter_reading.tables.CounterReportDto;
 import com.leon.counter_reading.tables.CounterStateDao;
 import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.Image;
@@ -24,8 +26,8 @@ import com.leon.counter_reading.tables.TrackingDto;
 
 @Database(entities = {SavedLocation.class, KarbariDto.class, OnOffLoadDto.class,
         QotrDictionary.class, ReadingConfigDefaultDto.class, TrackingDto.class,
-        CounterStateDto.class, Image.class},
-        version = 5, exportSchema = false)
+        CounterStateDto.class, Image.class, CounterReportDto.class},
+        version = 6, exportSchema = false)
 public abstract class MyDatabase extends RoomDatabase {
     public abstract KarbariDao karbariDao();
 
@@ -42,6 +44,8 @@ public abstract class MyDatabase extends RoomDatabase {
     public abstract CounterStateDao counterStateDao();
 
     public abstract TrackingDao trackingDao();
+
+    public abstract CounterReportDao counterReportDao();
 
     public static final Migration MIGRATION_4_5 = new Migration(16, 17) {
         @Override
@@ -94,10 +98,22 @@ public abstract class MyDatabase extends RoomDatabase {
         }
     };
 
-    public static final Migration MIGRATION_6_7 = new Migration(4, 5) {
+    public static final Migration MIGRATION_6_7 = new Migration(5, 6) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL("Alter TABLE \"ReadingConfigDefaultDto\" Add column  isArchive Integer;");
+            database.execSQL("CREATE TABLE \"CounterReportDto\" (\n" +
+                    "\t\"customId\"\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                    "\t\"id\"\tINTEGER,\n" +
+                    "\t\"moshtarakinId\"\tINTEGER,\n" +
+                    "\t\"title\"\tTEXT,\n" +
+                    "\t\"zoneId\"\tINTEGER,\n" +
+                    "\t\"isAhad\"\tINTEGER,\n" +
+                    "\t\"isKarbari\"\tINTEGER,\n" +
+                    "\t\"canNumberBeLessThanPre\"\tINTEGER,\n" +
+                    "\t\"isTavizi\"\tINTEGER,\n" +
+                    "\t\"clientOrder\"\tINTEGER\n" +
+                    ");");
+//            database.execSQL("Alter TABLE \"ReadingConfigDefaultDto\" Add column  isArchive Integer;");
 //            database.execSQL("Alter TABLE \"OnOffLoadDto\" Add column  counterNumberShown Integer;");
 //            database.execSQL("Alter TABLE \"OnOffLoadDto\" Add column  gisAccuracy Real;");
 //            database.execSQL("Alter TABLE \"OnOffLoadDto\" Add column  x Real;");

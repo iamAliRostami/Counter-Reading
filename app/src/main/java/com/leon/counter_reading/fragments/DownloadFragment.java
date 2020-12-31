@@ -17,6 +17,7 @@ import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
+import com.leon.counter_reading.tables.CounterReportDto;
 import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
@@ -156,6 +157,14 @@ public class DownloadFragment extends Fragment {
                             readingData.onOffLoadDtos.remove(readingDataTemp.onOffLoadDtos.get(i));
                     }
                 myDatabase.onOffLoadDao().insertAllOnOffLoad(readingData.onOffLoadDtos);
+                ArrayList<CounterReportDto> counterReportDtos = new ArrayList<>(myDatabase.counterReportDao().getAllCounterStateReport());
+                for (CounterReportDto counterReportDto : counterReportDtos) {
+                    for (int i = 0; i < readingDataTemp.counterReportDtos.size(); i++) {
+                        if (counterReportDto.id == readingDataTemp.counterReportDtos.get(i).id)
+                            readingData.counterReportDtos.remove(readingDataTemp.counterReportDtos.get(i));
+                    }
+                }
+                myDatabase.counterReportDao().insertAllCounterStateReport(readingData.counterReportDtos);
             }
         }
     }

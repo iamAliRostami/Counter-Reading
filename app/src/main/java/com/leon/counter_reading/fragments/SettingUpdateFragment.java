@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentSettingUpdateBinding;
 import com.leon.counter_reading.enums.DialogType;
@@ -28,6 +27,8 @@ import com.leon.counter_reading.utils.HttpClientWrapper;
 import com.leon.counter_reading.utils.NetworkHelper;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.text.DecimalFormat;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -60,7 +61,6 @@ public class SettingUpdateFragment extends Fragment {
     void initialize() {
         binding.imageViewUpdate.setImageDrawable(
                 ContextCompat.getDrawable(activity, R.drawable.img_update));
-        binding.textViewCurrentVersion.setText(BuildConfig.VERSION_NAME);
         updateInfo();
         setOnButtonReceiveClickListener();
     }
@@ -91,8 +91,11 @@ public class SettingUpdateFragment extends Fragment {
             if (response.body() != null) {
                 activity.runOnUiThread(() -> {
                     binding.textViewVersion.setText(response.body().versionName);
-                    binding.textViewDate.setText("13".concat(response.body().
-                            versionName.substring(0, 8).replace(".", "/")));
+                    binding.textViewDate.setText(response.body().uploadDateJalali);
+                    binding.textViewPossibility.setText(response.body().description);
+                    float size = (float) response.body().sizeInByte / (1028 * 1028);
+                    binding.textViewSize.setText(new DecimalFormat("###.##").format(size).
+                            concat(getString(R.string.mega_byte)));
 
                     binding.linearLayoutUpdate.setVisibility(View.VISIBLE);
                     binding.progressBar.setVisibility(View.GONE);

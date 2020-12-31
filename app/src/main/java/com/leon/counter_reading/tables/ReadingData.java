@@ -9,6 +9,7 @@ public class ReadingData {
     public ArrayList<KarbariDto> karbariDtos;
     public ArrayList<QotrDictionary> qotrDictionary;
     public ArrayList<CounterStateDto> counterStateDtos;
+    public ArrayList<CounterReportDto> counterReportDtos;
 
     public ReadingData() {
         trackingDtos = new ArrayList<>();
@@ -17,5 +18,6 @@ public class ReadingData {
         karbariDtos = new ArrayList<>();
         qotrDictionary = new ArrayList<>();
         counterStateDtos = new ArrayList<>();
+        counterReportDtos = new ArrayList<>();
     }
 }
