@@ -88,8 +88,8 @@ public class ReadingFragment extends Fragment {
             binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber));
         binding.lineaLayoutPreNumber.setOnClickListener(v -> {
             activity.runOnUiThread(() -> binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber)));
-
-            ((ReadingActivity) activity).updateOnOffLoadByIsShown(position);
+            if (!readingConfigDefaultDto.defaultHasPreNumber)
+                ((ReadingActivity) activity).updateOnOffLoadByIsShown(position);
         });
     }
 

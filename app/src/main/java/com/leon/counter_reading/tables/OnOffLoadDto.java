@@ -105,11 +105,6 @@ public class OnOffLoadDto {
         }
     }
 
-    public static class OffLoadReport {
-        public String onOffLoadId;
-        public int reportId;
-    }
-
     public static class OffLoadData {
         public boolean isFinal;//TODO upload or reading
         public ArrayList<OffLoad> offLoads;

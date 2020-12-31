@@ -27,17 +27,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class DeleteFragment extends DialogFragment {
-    int zoneId;
+    String uuid;
     FragmentDeleteBinding binding;
     Activity activity;
 
     public DeleteFragment() {
     }
 
-    public static DeleteFragment newInstance(int zoneId) {
+    public static DeleteFragment newInstance(String uuid) {
         DeleteFragment fragment = new DeleteFragment();
         Bundle args = new Bundle();
-        args.putInt(BundleEnum.ZONE_ID.getValue(), zoneId);
+        args.putString(BundleEnum.BILL_ID.getValue(), uuid);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,7 +46,7 @@ public class DeleteFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            zoneId = getArguments().getInt(BundleEnum.ZONE_ID.getValue());
+            uuid = getArguments().getString(BundleEnum.BILL_ID.getValue());
         }
     }
 
@@ -86,12 +86,12 @@ public class DeleteFragment extends DialogFragment {
                         Crypto.decrypt(sharedPreferenceManager.getStringData(
                                 SharedReferenceKeys.PASSWORD.getValue())).contains(password)
                 ) {
-                    if (zoneId == 0) {
+                    if (uuid.isEmpty()) {
                         MyDatabaseClient.getInstance(activity).getMyDatabase().
-                                readingConfigDefaultDao().updateReadingConfigDefaultByArchive(true);
+                                trackingDao().updateTrackingDtoByArchive(true);
                     } else {
                         MyDatabaseClient.getInstance(activity).getMyDatabase().
-                                readingConfigDefaultDao().updateReadingConfigDefaultByArchive(zoneId, true);
+                                trackingDao().updateTrackingDtoByArchive(uuid, true);
                     }
                     Intent intent = activity.getIntent();
                     activity.finish();

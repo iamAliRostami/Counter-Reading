@@ -27,4 +27,7 @@ public class TrackingDto {
     public boolean hasPreNumber;
     public boolean displayBillId;
     public boolean displayRadif;
+
+    public boolean isActive;
+    public boolean isArchive;
 }

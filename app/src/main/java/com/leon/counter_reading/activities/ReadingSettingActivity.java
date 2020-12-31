@@ -68,11 +68,11 @@ public class ReadingSettingActivity extends BaseActivity {
         protected Integer doInBackground(Integer... integers) {
             //TODO
             trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    trackingDao().getTrackingDtos());
+                    trackingDao().getTrackingDtoNotArchive(false));
             for (TrackingDto trackingDto : trackingDtos)
                 readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
                         getMyDatabase().readingConfigDefaultDao().
-                        getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId, false));
+                        getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
             runOnUiThread(ReadingSettingActivity.this::setupViewPager);
             return null;
         }

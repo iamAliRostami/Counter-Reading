@@ -13,6 +13,8 @@ import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.tables.ImageDao;
 import com.leon.counter_reading.tables.KarbariDao;
 import com.leon.counter_reading.tables.KarbariDto;
+import com.leon.counter_reading.tables.OffLoadReport;
+import com.leon.counter_reading.tables.OffLoadReportDao;
 import com.leon.counter_reading.tables.OnOffLoadDao;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.QotrDictionary;
@@ -26,8 +28,8 @@ import com.leon.counter_reading.tables.TrackingDto;
 
 @Database(entities = {SavedLocation.class, KarbariDto.class, OnOffLoadDto.class,
         QotrDictionary.class, ReadingConfigDefaultDto.class, TrackingDto.class,
-        CounterStateDto.class, Image.class, CounterReportDto.class},
-        version = 6, exportSchema = false)
+        CounterStateDto.class, Image.class, CounterReportDto.class, OffLoadReport.class},
+        version = 8, exportSchema = false)
 public abstract class MyDatabase extends RoomDatabase {
     public abstract KarbariDao karbariDao();
 
@@ -46,6 +48,8 @@ public abstract class MyDatabase extends RoomDatabase {
     public abstract TrackingDao trackingDao();
 
     public abstract CounterReportDao counterReportDao();
+
+    public abstract OffLoadReportDao offLoadReportDao();
 
     public static final Migration MIGRATION_4_5 = new Migration(16, 17) {
         @Override
@@ -98,21 +102,17 @@ public abstract class MyDatabase extends RoomDatabase {
         }
     };
 
-    public static final Migration MIGRATION_6_7 = new Migration(5, 6) {
+    public static final Migration MIGRATION_6_7 = new Migration(6, 7) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL("CREATE TABLE \"CounterReportDto\" (\n" +
-                    "\t\"customId\"\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                    "\t\"id\"\tINTEGER,\n" +
-                    "\t\"moshtarakinId\"\tINTEGER,\n" +
-                    "\t\"title\"\tTEXT,\n" +
-                    "\t\"zoneId\"\tINTEGER,\n" +
-                    "\t\"isAhad\"\tINTEGER,\n" +
-                    "\t\"isKarbari\"\tINTEGER,\n" +
-                    "\t\"canNumberBeLessThanPre\"\tINTEGER,\n" +
-                    "\t\"isTavizi\"\tINTEGER,\n" +
-                    "\t\"clientOrder\"\tINTEGER\n" +
-                    ");");
+            database.execSQL("Alter TABLE TrackingDto Add Column isActive INTEGER");
+            database.execSQL("Alter TABLE TrackingDto Add Column isArchive INTEGER");
+
+//            database.execSQL("CREATE TABLE \"OffLoadReport\" (\n" +
+//                    "\t\"customId\"\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+//                    "\t\"onOffLoadId\"\tTEXT,\n" +
+//                    "\t\"reportId\"\tINTEGER\n" +
+//                    ");");
 //            database.execSQL("Alter TABLE \"ReadingConfigDefaultDto\" Add column  isArchive Integer;");
 //            database.execSQL("Alter TABLE \"OnOffLoadDto\" Add column  counterNumberShown Integer;");
 //            database.execSQL("Alter TABLE \"OnOffLoadDto\" Add column  gisAccuracy Real;");

@@ -10,17 +10,11 @@ import java.util.List;
 
 @Dao
 public interface ReadingConfigDefaultDao {
-    @Query("Select * From ReadingConfigDefaultDto WHERE isArchive = :isArchive")
-    List<ReadingConfigDefaultDto> getReadingConfigDefaultDtos(boolean isArchive);
+    @Query("Select * From ReadingConfigDefaultDto")
+    List<ReadingConfigDefaultDto> getReadingConfigDefaultDtos();
 
-    @Query("Select * From ReadingConfigDefaultDto Where isActive = :isActive")
-    List<ReadingConfigDefaultDto> getActiveReadingConfigDefaultDtos(boolean isActive);
-
-    @Query("Select * From ReadingConfigDefaultDto Where isActive = :isActive and zoneId = :zoneId AND isArchive = :isArchive")
-    List<ReadingConfigDefaultDto> getActiveReadingConfigDefaultDtosByZoneId(int zoneId, boolean isActive, boolean isArchive);
-
-    @Query("Select * From ReadingConfigDefaultDto Where zoneId = :zoneId AND isArchive= :isArchive")
-    List<ReadingConfigDefaultDto> getReadingConfigDefaultDtosByZoneId(int zoneId, boolean isArchive);
+    @Query("Select * From ReadingConfigDefaultDto Where zoneId = :zoneId")
+    List<ReadingConfigDefaultDto> getReadingConfigDefaultDtosByZoneId(int zoneId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertReadingConfigDefault(ReadingConfigDefaultDto readingConfigDefault);

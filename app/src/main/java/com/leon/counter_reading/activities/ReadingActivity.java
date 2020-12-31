@@ -37,6 +37,7 @@ import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.IFlashLightManager;
+import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.ReadingData;
@@ -64,6 +65,7 @@ public class ReadingActivity extends BaseActivity {
     ActivityReadingBinding binding;
     Activity activity;
     IFlashLightManager flashLightManager;
+    ArrayList<OffLoadReport> offLoadReports = new ArrayList<>();
     ReadingData readingData;
     ReadingData readingDataTemp;
     ViewPagerAdapterReading viewPagerAdapterReading;
@@ -154,7 +156,10 @@ public class ReadingActivity extends BaseActivity {
         Retrofit retrofit = NetworkHelper.getInstance();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
+
         offLoadData.isFinal = false;
+        offLoadData.offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                offLoadReportDao().getAllOffLoadReportById(readingData.onOffLoadDtos.get(position).id));
         offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(readingData.onOffLoadDtos.get(position)));
         Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
         HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activity,
@@ -259,8 +264,14 @@ public class ReadingActivity extends BaseActivity {
         ImageView imageViewCheck = findViewById(R.id.image_view_reading_report);
         imageViewCheck.setImageDrawable(activity.getDrawable(R.drawable.img_checked));
         imageViewCheck.setOnClickListener(v -> {
-            Intent intent = new Intent(activity, ReadingReportActivity.class);
-            startActivity(intent);
+            if (readingDataTemp.onOffLoadDtos.isEmpty()) {
+                showNoEshterakFound();
+            } else {
+                Intent intent = new Intent(activity, ReadingReportActivity.class);
+                intent.putExtra(BundleEnum.BILL_ID.getValue(),
+                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
+                startActivity(intent);
+            }
         });
         ImageView imageViewSearch = findViewById(R.id.image_view_search);
         imageViewSearch.setImageDrawable(activity.getDrawable(R.drawable.img_search));
@@ -374,10 +385,11 @@ public class ReadingActivity extends BaseActivity {
             readingData.counterStateDtos.addAll(myDatabase.counterStateDao().getCounterStateDtos());
             readingData.karbariDtos.addAll(myDatabase.karbariDao().getAllKarbariDto());
             readingData.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
-            readingData.trackingDtos.addAll(myDatabase.trackingDao().getTrackingDtos());
+            readingData.trackingDtos.addAll(myDatabase.trackingDao().
+                    getTrackingDtosIsActiveNotArchive(true, false));//TODO
             for (TrackingDto trackingDto : readingData.trackingDtos) {
                 readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
-                        getActiveReadingConfigDefaultDtosByZoneId(trackingDto.zoneId, true, false));
+                        getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
             }
             for (ReadingConfigDefaultDto readingConfigDefaultDto : readingData.readingConfigDefaultDtos) {
                 if (readStatus == ReadStatusEnum.ALL.getValue()) {
@@ -399,6 +411,7 @@ public class ReadingActivity extends BaseActivity {
                     }
                 }
             }
+
             if (readingData != null && readingData.onOffLoadDtos != null && readingData.onOffLoadDtos.size() > 0) {
                 readingDataTemp.onOffLoadDtos.addAll(readingData.onOffLoadDtos);
                 readingDataTemp.counterStateDtos.addAll(readingData.counterStateDtos);

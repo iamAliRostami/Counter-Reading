@@ -1,6 +1,7 @@
 package com.leon.counter_reading.tables;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -17,4 +18,7 @@ public class CounterReportDto {
     public boolean canNumberBeLessThanPre;
     public boolean isTavizi;
     public int clientOrder;
+
+    @Ignore
+    public boolean isSelected;
 }

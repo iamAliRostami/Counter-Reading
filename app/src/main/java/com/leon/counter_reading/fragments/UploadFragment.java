@@ -24,6 +24,7 @@ import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.Image;
+import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomDialog;
@@ -55,9 +56,10 @@ public class UploadFragment extends Fragment {
     ArrayList<Image> images = new ArrayList<>();
     Image.ImageMultiple imageMultiples = new Image.ImageMultiple();
     Activity activity;
-    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
     ArrayList<String> items = new ArrayList<>();
+    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
     ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
+    ArrayList<OffLoadReport> offLoadReports = new ArrayList<>();
 
     public UploadFragment() {
     }
@@ -151,6 +153,11 @@ public class UploadFragment extends Fragment {
                         onOffLoadDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackingId,
                         OffloadStateEnum.INSERTED.getValue()));
             }
+            offLoadReports.clear();
+            for (int i = 0; i < onOffLoadDtos.size(); i++) {
+                offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                        offLoadReportDao().getAllOffLoadReportById(onOffLoadDtos.get(i).id));
+            }
             return null;
         }
 
@@ -176,6 +183,7 @@ public class UploadFragment extends Fragment {
                 offLoadData.isFinal = true;
                 for (int i = 0; i < onOffLoadDtos.size(); i++)
                     offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDtos.get(i)));
+                offLoadData.offLoadReports.addAll(offLoadReports);
                 Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                         new offLoadData(), new offLoadDataIncomplete(), new uploadError());
