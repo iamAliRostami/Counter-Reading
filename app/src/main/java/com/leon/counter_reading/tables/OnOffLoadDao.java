@@ -13,6 +13,9 @@ public interface OnOffLoadDao {
     @Query("select * From OnOffLoadDto")
     List<OnOffLoadDto> getAllOnOffLoad();
 
+    @Query("select * From OnOffLoadDto WHERE id = :id")
+    OnOffLoadDto getAllOnOffLoadById(String id);
+
     @Query("select * From OnOffLoadDto Where zoneId = :zoneId")
     List<OnOffLoadDto> getAllOnOffLoadByZone(int zoneId);
 
@@ -67,7 +70,7 @@ public interface OnOffLoadDao {
     void updateOnOffLoad(String id, int possibleKarbariCode);
 
     @Query("UPDATE OnOffLoadDto set possibleAhadMaskooniOrAsli = :possibleAhadMaskooniOrAsli, possibleAhadTejariOrFari = :possibleAhadTejariOrFari WHERE id = :id")
-    void updateOnOffLoad(String possibleAhadMaskooniOrAsli, String possibleAhadTejariOrFari, String id);
+    void updateOnOffLoad(int possibleAhadMaskooniOrAsli, int possibleAhadTejariOrFari, String id);
 
     @Query("DELETE FROM OnOffLoadDto WHERE trackingId = :id")
     void deleteOnOffLoad(String id);

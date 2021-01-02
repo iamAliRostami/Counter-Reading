@@ -24,6 +24,7 @@ public class KarbariFragment extends DialogFragment {
 
     FragmentKarbariBinding binding;
     String uuid;
+    int position;
     Activity activity;
     ArrayList<KarbariDto> karbariDtos;
     ArrayList<String> items = new ArrayList<>();
@@ -31,10 +32,11 @@ public class KarbariFragment extends DialogFragment {
     public KarbariFragment() {
     }
 
-    public static KarbariFragment newInstance(String uuid) {
+    public static KarbariFragment newInstance(String uuid, int position) {
         KarbariFragment fragment = new KarbariFragment();
         Bundle args = new Bundle();
         args.putString(BundleEnum.BILL_ID.getValue(), uuid);
+        args.putInt(BundleEnum.POSITION.getValue(), position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,6 +46,7 @@ public class KarbariFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             uuid = getArguments().getString(BundleEnum.BILL_ID.getValue());
+            position = getArguments().getInt(BundleEnum.POSITION.getValue());
         }
     }
 
@@ -73,6 +76,8 @@ public class KarbariFragment extends DialogFragment {
     void setOnButtonClickListener() {
         binding.buttonClose.setOnClickListener(v -> dismiss());
         binding.buttonSubmit.setOnClickListener(v -> {
+//            ((ReadingActivity) getActivity()).updateOnOffLoadByKarbari(position,
+//                    karbariDtos.get(binding.spinnerKarbari.getSelectedItemPosition()).moshtarakinId);
             MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
                     updateOnOffLoad(uuid,
                             karbariDtos.get(binding.spinnerKarbari.getSelectedItemPosition()).moshtarakinId);

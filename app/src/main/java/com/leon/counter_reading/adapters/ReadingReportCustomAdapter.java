@@ -25,15 +25,17 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
     ArrayList<CounterReportDto> counterReportDtos;
     ArrayList<OffLoadReport> offLoadReports;
     String uuid;
+    int position;
     LayoutInflater inflater;
     Context context;
 
-    public ReadingReportCustomAdapter(Context context, String uuid,
+    public ReadingReportCustomAdapter(Context context, String uuid, int position,
                                       ArrayList<CounterReportDto> counterReportDtos,
                                       ArrayList<OffLoadReport> offLoadReports) {
         this.counterReportDtos = counterReportDtos;
         this.offLoadReports = offLoadReports;
         this.uuid = uuid;
+        this.position = position;
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -75,19 +77,19 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
                         updateOnOffLoad(true, uuid);
                 offLoadReports.add(offLoadReport);
                 if (counterReportDtos.get(position).isAhad) {
-                    AhadFragment ahadFragment = AhadFragment.newInstance(uuid);
+                    AhadFragment ahadFragment = AhadFragment.newInstance(uuid, position);
                     FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
                     ahadFragment.show(fragmentManager, context.getString(R.string.ahad_number));
                 }
                 if (counterReportDtos.get(position).isTavizi) {
-                    TaviziFragment taviziFragment = TaviziFragment.newInstance(uuid);
+                    TaviziFragment taviziFragment = TaviziFragment.newInstance(uuid, position);
                     FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
                     if (fragmentManager != null) {
                         taviziFragment.show(fragmentManager, context.getString(R.string.counter_serial));
                     }
                 }
                 if (counterReportDtos.get(position).isKarbari) {
-                    KarbariFragment karbariFragment = KarbariFragment.newInstance(uuid);
+                    KarbariFragment karbariFragment = KarbariFragment.newInstance(uuid, position);
                     FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
                     if (fragmentManager != null) {
                         karbariFragment.show(fragmentManager, context.getString(R.string.karbari));

@@ -2,6 +2,7 @@ package com.leon.counter_reading.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Debug;
@@ -32,6 +33,7 @@ public class ReadingReportActivity extends AppCompatActivity {
     ReadingReportCustomAdapter readingReportCustomAdapter;
     Activity activity;
     String uuid;
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +51,16 @@ public class ReadingReportActivity extends AppCompatActivity {
     void initialize() {
         if (getIntent().getExtras() != null) {
             uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
+            position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
         }
         new GetDBData().execute();
-        binding.buttonSubmit.setOnClickListener(v -> finish());
+        binding.buttonSubmit.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.putExtra(BundleEnum.POSITION.getValue(), position);
+            intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);
+            setResult(RESULT_OK, intent);
+            finish();
+        });
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -93,7 +102,7 @@ public class ReadingReportActivity extends AppCompatActivity {
         }
 
         void setupRecyclerView() {
-            readingReportCustomAdapter = new ReadingReportCustomAdapter(activity, uuid,
+            readingReportCustomAdapter = new ReadingReportCustomAdapter(activity, uuid, position,
                     counterReportDtos, offLoadReports);
             binding.listViewReports.setAdapter(readingReportCustomAdapter);
         }

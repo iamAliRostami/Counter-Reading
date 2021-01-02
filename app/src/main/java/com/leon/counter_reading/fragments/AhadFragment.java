@@ -22,15 +22,17 @@ public class AhadFragment extends DialogFragment {
 
     FragmentAhadBinding binding;
     String uuid;
+    int position;
     Context context;
 
     public AhadFragment() {
     }
 
-    public static AhadFragment newInstance(String uuid) {
+    public static AhadFragment newInstance(String uuid, int position) {
         AhadFragment fragment = new AhadFragment();
         Bundle args = new Bundle();
         args.putString(BundleEnum.BILL_ID.getValue(), uuid);
+        args.putInt(BundleEnum.POSITION.getValue(), position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -40,6 +42,7 @@ public class AhadFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             uuid = getArguments().getString(BundleEnum.BILL_ID.getValue());
+            position = getArguments().getInt(BundleEnum.POSITION.getValue());
         }
     }
 
@@ -59,8 +62,7 @@ public class AhadFragment extends DialogFragment {
     void setOnButtonClickListener() {
         binding.buttonClose.setOnClickListener(v -> dismiss());
         binding.buttonSubmit.setOnClickListener(v -> {
-            String asli = "";
-            String fari = "";
+            int asli = 0, fari = 0;
             boolean cancel = false;
             if (binding.editTextAhadAsli.getText().toString().isEmpty() &&
                     binding.editTextAhadFari.getText().toString().isEmpty()) {
@@ -71,16 +73,16 @@ public class AhadFragment extends DialogFragment {
                 cancel = true;
             } else if (!binding.editTextAhadAsli.getText().toString().isEmpty() &&
                     !binding.editTextAhadFari.getText().toString().isEmpty()) {
-                asli = binding.editTextAhadAsli.getText().toString();
-                fari = binding.editTextAhadFari.getText().toString();
+                asli = Integer.parseInt(binding.editTextAhadAsli.getText().toString());
+                fari = Integer.parseInt(binding.editTextAhadFari.getText().toString());
             } else {
                 if (!binding.editTextAhadAsli.getText().toString().isEmpty()) {
-                    asli = binding.editTextAhadAsli.getText().toString();
+                    asli = Integer.parseInt(binding.editTextAhadAsli.getText().toString());
                 } else if (!binding.editTextAhadFari.getText().toString().isEmpty()) {
-                    fari = binding.editTextAhadFari.getText().toString();
+                    fari = Integer.parseInt(binding.editTextAhadFari.getText().toString());
                 }
             }
-            if (!cancel) {
+            if (!cancel) {//TODO
                 MyDatabaseClient.getInstance(context).getMyDatabase().onOffLoadDao().
                         updateOnOffLoad(asli, fari, uuid);
                 dismiss();

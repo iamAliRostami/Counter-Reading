@@ -142,6 +142,25 @@ public class ReadingActivity extends BaseActivity {
         updateOnOffLoadByCounterNumber(position, number, counterStateCode, counterStatePosition);
     }
 
+    public void updateOnOffLoadByAhad(int position, int ahadAsli, int ahadFari) {
+        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                updateOnOffLoad(ahadAsli, ahadFari, readingData.onOffLoadDtos.get(position).id);
+        readingData.onOffLoadDtos.get(position).possibleAhadMaskooniOrAsli = ahadAsli;
+        readingData.onOffLoadDtos.get(position).possibleAhadTejariOrFari = ahadFari;
+    }
+
+    public void updateOnOffLoadByKarbari(int position, int karbari) {
+        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                updateOnOffLoad(readingData.onOffLoadDtos.get(position).id, karbari);
+        readingData.onOffLoadDtos.get(position).possibleKarbariCode = karbari;
+    }
+
+    public void updateOnOffLoadByCounterSerial(int position, String counterSerial) {
+        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                updateOnOffLoad(counterSerial, readingData.onOffLoadDtos.get(position).id);
+        readingData.onOffLoadDtos.get(position).possibleCounterSerial = counterSerial;
+    }
+
     void attemptSend(int position) {
         //TODO
         readingData.onOffLoadDtos.get(position).x =
@@ -270,7 +289,9 @@ public class ReadingActivity extends BaseActivity {
                 Intent intent = new Intent(activity, ReadingReportActivity.class);
                 intent.putExtra(BundleEnum.BILL_ID.getValue(),
                         readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
-                startActivity(intent);
+                intent.putExtra(BundleEnum.POSITION.getValue(),
+                        binding.viewPager.getCurrentItem());
+                startActivityForResult(intent, MyApplication.REPORT);
             }
         });
         ImageView imageViewSearch = findViewById(R.id.image_view_search);
@@ -557,7 +578,17 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == MyApplication.REPORT && resultCode == RESULT_OK) {
+            int position = data.getExtras().getInt(BundleEnum.POSITION.getValue());
+            String uuid = data.getExtras().getString(BundleEnum.BILL_ID.getValue());
+            Log.e("id", uuid);
+            Log.e("position", String.valueOf(position));
+            readingData.onOffLoadDtos.set(position, MyDatabaseClient.getInstance(activity).
+                    getMyDatabase().onOffLoadDao().getAllOnOffLoadById(uuid));
+            for (int i = 0; i < readingDataTemp.onOffLoadDtos.size(); i++)
+                if (readingDataTemp.onOffLoadDtos.get(i).id.equals(uuid))
+                    readingDataTemp.onOffLoadDtos.set(i, readingData.onOffLoadDtos.get(position));
+        } else if (resultCode == PackageManager.PERMISSION_GRANTED) {
             if (requestCode == MyApplication.GPS_CODE)
                 checkPermissions();
             if (requestCode == MyApplication.REQUEST_NETWORK_CODE) {
