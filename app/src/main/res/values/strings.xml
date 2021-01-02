@@ -208,5 +208,6 @@
     <string name="ahad_asli_number">تعداد آحاد اصلی</string>
     <string name="ahad_fari_number">تعداد آحاد فرعی</string>
     <string name="karbari">کاربری</string>
+    <string name="submit_for_back">برای بازگشت، دکمه ثبت را فشار دهید.</string>
 
 </resources>

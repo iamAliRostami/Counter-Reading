@@ -142,25 +142,6 @@ public class ReadingActivity extends BaseActivity {
         updateOnOffLoadByCounterNumber(position, number, counterStateCode, counterStatePosition);
     }
 
-    public void updateOnOffLoadByAhad(int position, int ahadAsli, int ahadFari) {
-        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                updateOnOffLoad(ahadAsli, ahadFari, readingData.onOffLoadDtos.get(position).id);
-        readingData.onOffLoadDtos.get(position).possibleAhadMaskooniOrAsli = ahadAsli;
-        readingData.onOffLoadDtos.get(position).possibleAhadTejariOrFari = ahadFari;
-    }
-
-    public void updateOnOffLoadByKarbari(int position, int karbari) {
-        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                updateOnOffLoad(readingData.onOffLoadDtos.get(position).id, karbari);
-        readingData.onOffLoadDtos.get(position).possibleKarbariCode = karbari;
-    }
-
-    public void updateOnOffLoadByCounterSerial(int position, String counterSerial) {
-        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                updateOnOffLoad(counterSerial, readingData.onOffLoadDtos.get(position).id);
-        readingData.onOffLoadDtos.get(position).possibleCounterSerial = counterSerial;
-    }
-
     void attemptSend(int position) {
         //TODO
         readingData.onOffLoadDtos.get(position).x =
@@ -458,16 +439,17 @@ public class ReadingActivity extends BaseActivity {
         binding.viewPager.setAdapter(viewPagerAdapterReading);
         binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
         setOnPageChangeListener();
+        int currentItem = 0;
         if (lastUnseen) {
             for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
                 OnOffLoadDto onOffLoadDto = readingData.onOffLoadDtos.get(i);
                 if (!onOffLoadDto.isBazdid) {
-                    binding.viewPager.setCurrentItem(i);
+                    currentItem = i;
                     i = readingData.onOffLoadDtos.size();
                 }
             }
-        } else
-            binding.viewPager.setCurrentItem(0);
+        }
+        binding.viewPager.setCurrentItem(currentItem);
     }
 
     void setOnPageChangeListener() {

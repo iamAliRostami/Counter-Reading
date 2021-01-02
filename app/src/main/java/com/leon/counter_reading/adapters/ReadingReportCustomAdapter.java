@@ -113,7 +113,6 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
 
     static class CheckBoxViewHolder {
         CheckedTextView checkBox;
-
         CheckBoxViewHolder(View view) {
             checkBox = view.findViewById(android.R.id.text1);
         }

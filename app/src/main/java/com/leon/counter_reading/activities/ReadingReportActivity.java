@@ -10,6 +10,7 @@ import android.os.Debug;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.ReadingReportCustomAdapter;
 import com.leon.counter_reading.databinding.ActivityReadingReportBinding;
 import com.leon.counter_reading.enums.BundleEnum;
@@ -19,6 +20,7 @@ import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.CounterReportDto;
 import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.utils.CustomProgressBar;
+import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
@@ -106,6 +108,12 @@ public class ReadingReportActivity extends AppCompatActivity {
                     counterReportDtos, offLoadReports);
             binding.listViewReports.setAdapter(readingReportCustomAdapter);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        new CustomToast().warning(getString(R.string.submit_for_back));
     }
 
     @Override

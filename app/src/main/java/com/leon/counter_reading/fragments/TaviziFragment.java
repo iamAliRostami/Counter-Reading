@@ -67,7 +67,6 @@ public class TaviziFragment extends DialogFragment {
                 binding.editTextSerial.setError(getString(R.string.error_empty));
                 view.requestFocus();
             } else {
-//                ((ReadingActivity) getActivity()).updateOnOffLoadByCounterSerial(position, number);
                 MyDatabaseClient.getInstance(context).getMyDatabase().onOffLoadDao().
                         updateOnOffLoad(number, uuid);
                 dismiss();

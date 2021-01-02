@@ -82,7 +82,7 @@ public class AhadFragment extends DialogFragment {
                     fari = Integer.parseInt(binding.editTextAhadFari.getText().toString());
                 }
             }
-            if (!cancel) {//TODO
+            if (!cancel) {
                 MyDatabaseClient.getInstance(context).getMyDatabase().onOffLoadDao().
                         updateOnOffLoad(asli, fari, uuid);
                 dismiss();
