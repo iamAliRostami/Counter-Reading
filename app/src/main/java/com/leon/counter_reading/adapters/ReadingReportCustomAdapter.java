@@ -8,7 +8,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.fragments.AhadFragment;
+import com.leon.counter_reading.fragments.KarbariFragment;
+import com.leon.counter_reading.fragments.TaviziFragment;
 import com.leon.counter_reading.tables.CounterReportDto;
 import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.utils.MyDatabaseClient;
@@ -65,7 +71,28 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
                 offLoadReport.onOffLoadId = uuid;
                 MyDatabaseClient.getInstance(context).getMyDatabase().offLoadReportDao().
                         insertOffLoadReport(offLoadReport);
+                MyDatabaseClient.getInstance(context).getMyDatabase().onOffLoadDao().
+                        updateOnOffLoad(true, uuid);
                 offLoadReports.add(offLoadReport);
+                if (counterReportDtos.get(position).isAhad) {
+                    AhadFragment ahadFragment = AhadFragment.newInstance(uuid);
+                    FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+                    ahadFragment.show(fragmentManager, context.getString(R.string.ahad_number));
+                }
+                if (counterReportDtos.get(position).isTavizi) {
+                    TaviziFragment taviziFragment = TaviziFragment.newInstance(uuid);
+                    FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+                    if (fragmentManager != null) {
+                        taviziFragment.show(fragmentManager, context.getString(R.string.counter_serial));
+                    }
+                }
+                if (counterReportDtos.get(position).isKarbari) {
+                    KarbariFragment karbariFragment = KarbariFragment.newInstance(uuid);
+                    FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+                    if (fragmentManager != null) {
+                        karbariFragment.show(fragmentManager, context.getString(R.string.karbari));
+                    }
+                }
             } else {
                 for (int i = 0; i < offLoadReports.size(); i++) {
                     if (offLoadReports.get(i).reportId == counterReportDtos.get(position).id) {

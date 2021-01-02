@@ -205,5 +205,8 @@
     <string name="current_version">نسخه فعلی</string>
     <string name="pre_number">شماره پیشین</string>
     <string name="mega_byte">مگابایت</string>
+    <string name="ahad_asli_number">تعداد آحاد اصلی</string>
+    <string name="ahad_fari_number">تعداد آحاد فرعی</string>
+    <string name="karbari">کاربری</string>
 
 </resources>

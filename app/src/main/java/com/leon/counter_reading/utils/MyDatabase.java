@@ -29,7 +29,7 @@ import com.leon.counter_reading.tables.TrackingDto;
 @Database(entities = {SavedLocation.class, KarbariDto.class, OnOffLoadDto.class,
         QotrDictionary.class, ReadingConfigDefaultDto.class, TrackingDto.class,
         CounterStateDto.class, Image.class, CounterReportDto.class, OffLoadReport.class},
-        version = 8, exportSchema = false)
+        version = 11, exportSchema = false)
 public abstract class MyDatabase extends RoomDatabase {
     public abstract KarbariDao karbariDao();
 
@@ -102,11 +102,62 @@ public abstract class MyDatabase extends RoomDatabase {
         }
     };
 
-    public static final Migration MIGRATION_6_7 = new Migration(6, 7) {
+    public static final Migration MIGRATION_6_7 = new Migration(10, 11) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL("Alter TABLE TrackingDto Add Column isActive INTEGER");
-            database.execSQL("Alter TABLE TrackingDto Add Column isArchive INTEGER");
+            database.execSQL("CREATE TABLE \"OnOffLoadDtoTemp\" (\n" +
+                    "\t\"customId\"\tINTEGER NOT NULL,\n" +
+                    "\t\"id\"\tINTEGER NOT NULL,\n" +
+                    "\t\"billId\"\tTEXT,\n" +
+                    "\t\"radif\"\tINTEGER NOT NULL,\n" +
+                    "\t\"eshterak\"\tTEXT,\n" +
+                    "\t\"qeraatCode\"\tTEXT,\n" +
+                    "\t\"firstName\"\tTEXT,\n" +
+                    "\t\"sureName\"\tTEXT,\n" +
+                    "\t\"address\"\tTEXT,\n" +
+                    "\t\"pelak\"\tTEXT,\n" +
+                    "\t\"karbariCode\"\tINTEGER NOT NULL,\n" +
+                    "\t\"ahadMaskooniOrAsli\"\tINTEGER NOT NULL,\n" +
+                    "\t\"ahadTejariOrFari\"\tINTEGER NOT NULL,\n" +
+                    "\t\"ahadSaierOrAbBaha\"\tINTEGER NOT NULL,\n" +
+                    "\t\"qotrCode\"\tINTEGER NOT NULL,\n" +
+                    "\t\"sifoonQotrCode\"\tINTEGER NOT NULL,\n" +
+                    "\t\"postalCode\"\tTEXT,\n" +
+                    "\t\"preNumber\"\tINTEGER NOT NULL,\n" +
+                    "\t\"preDate\"\tTEXT,\n" +
+                    "\t\"preDateMiladi\"\tTEXT,\n" +
+                    "\t\"preAverage\"\tREAL NOT NULL,\n" +
+                    "\t\"preCounterStateCode\"\tINTEGER NOT NULL,\n" +
+                    "\t\"counterSerial\"\tTEXT,\n" +
+                    "\t\"counterInstallDate\"\tTEXT,\n" +
+                    "\t\"tavizDate\"\tTEXT,\n" +
+                    "\t\"tavizNumber\"\tTEXT,\n" +
+                    "\t\"trackingId\"\tTEXT,\n" +
+                    "\t\"zarfiat\"\tINTEGER NOT NULL,\n" +
+                    "\t\"mobile\"\tTEXT,\n" +
+                    "\t\"hazf\"\tINTEGER NOT NULL,\n" +
+                    "\t\"noeVagozariId\"\tINTEGER NOT NULL,\n" +
+                    "\t\"counterNumber\"\tINTEGER NOT NULL,\n" +
+                    "\t\"counterStateId\"\tINTEGER NOT NULL,\n" +
+                    "\t\"possibleAddress\"\tTEXT,\n" +
+                    "\t\"possibleCounterSerial\"\tTEXT,\n" +
+                    "\t\"possibleEshterak\"\tTEXT,\n" +
+                    "\t\"possibleMobile\"\tTEXT,\n" +
+                    "\t\"possiblePhoneNumber\"\tTEXT,\n" +
+                    "\t\"possibleAhadMaskooniOrAsli\"\tINTEGER,\n" +
+                    "\t\"possibleAhadTejariOrFari\"\tINTEGER,\n" +
+                    "\t\"possibleAhadSaierOrAbBaha\"\tINTEGER,\n" +
+                    "\t\"possibleKarbariCode\"\tINTEGER,\n" +
+                    "\t\"description\"\tTEXT,\n" +
+                    "\t\"zoneId\"\tINTEGER NOT NULL,\n" +
+                    "\t\"offLoadStateId\"\tINTEGER NOT NULL,\n" +
+                    "\t\"highLowStateId\"\tINTEGER NOT NULL,\n" +
+                    "\t\"isBazdid\"\tINTEGER NOT NULL,\n" +
+                    "\t\"counterStatePosition\"\tINTEGER,\n" +
+                    "\tPRIMARY KEY(\"customId\")\n" +
+                    ");");
+            database.execSQL("DROP TABLE OnOffLoadDto");
+            database.execSQL("ALTER TABLE OnOffLoadDtoTemp RENAME TO OnOffLoadDto");
 
 //            database.execSQL("CREATE TABLE \"OffLoadReport\" (\n" +
 //                    "\t\"customId\"\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +

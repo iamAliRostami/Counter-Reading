@@ -115,11 +115,9 @@ public class UploadFragment extends Fragment {
     }
 
     void setupSpinner() {
-        if (items.size() > 0) {
-            items.add(0, getString(R.string.all_items));
-            SpinnerCustomAdapter spinnerCustomAdapter = new SpinnerCustomAdapter(activity, items);
-            binding.spinner.setAdapter(spinnerCustomAdapter);
-        }
+        items.add(0, getString(R.string.all_items));
+        SpinnerCustomAdapter spinnerCustomAdapter = new SpinnerCustomAdapter(activity, items);
+        binding.spinner.setAdapter(spinnerCustomAdapter);
     }
 
     void setOnButtonUploadClickListener() {

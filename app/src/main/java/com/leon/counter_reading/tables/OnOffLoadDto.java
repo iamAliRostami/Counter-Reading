@@ -47,10 +47,10 @@ public class OnOffLoadDto {
     public String possibleEshterak;
     public String possibleMobile;
     public String possiblePhoneNumber;
-    public String possibleAhadMaskooniOrAsli;
-    public String possibleAhadTejariOrFari;
-    public String possibleAhadSaierOrAbBaha;
-    public String possibleKarbariCode;
+    public int possibleAhadMaskooniOrAsli;
+    public int possibleAhadTejariOrFari;
+    public int possibleAhadSaierOrAbBaha;
+    public int possibleKarbariCode;
     public String description;
     //TODO
     public int offLoadStateId;
@@ -74,10 +74,10 @@ public class OnOffLoadDto {
         public String possibleEshterak;
         public String possibleMobile;
         public String possiblePhoneNumber;
-        public String possibleAhadMaskooniOrAsli;
-        public String possibleAhadTejariOrFari;
-        public String possibleAhadSaierOrAbBaha;
-        public String possibleKarbariCode;
+        public int possibleAhadMaskooniOrAsli;
+        public int possibleAhadTejariOrFari;
+        public int possibleAhadSaierOrAbBaha;
+        public int possibleKarbariCode;
         public String description;
         public boolean counterNumberShown;
         public double gisAccuracy;

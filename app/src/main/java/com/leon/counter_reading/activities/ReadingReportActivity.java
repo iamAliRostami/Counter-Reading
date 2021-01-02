@@ -51,6 +51,7 @@ public class ReadingReportActivity extends AppCompatActivity {
             uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
         }
         new GetDBData().execute();
+        binding.buttonSubmit.setOnClickListener(v -> finish());
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -80,7 +81,6 @@ public class ReadingReportActivity extends AppCompatActivity {
                     getMyDatabase().counterReportDao().getAllCounterStateReport());
             offLoadReports = new ArrayList<>(MyDatabaseClient.getInstance(activity).getMyDatabase().
                     offLoadReportDao().getAllOffLoadReportById(uuid));
-
             for (int i = 0; i < offLoadReports.size(); i++) {
                 for (int j = 0; j < counterReportDtos.size(); j++) {
                     if (offLoadReports.get(i).reportId == counterReportDtos.get(j).id) {

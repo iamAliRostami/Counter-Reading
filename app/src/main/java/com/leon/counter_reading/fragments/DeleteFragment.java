@@ -71,7 +71,6 @@ public class DeleteFragment extends DialogFragment {
                 binding.editTextUsername.setError(getString(R.string.error_empty));
                 view = binding.editTextUsername;
                 view.requestFocus();
-
             } else if (binding.editTextPassword.getText().toString().isEmpty()) {
                 binding.editTextPassword.setError(getString(R.string.error_empty));
                 view = binding.editTextPassword;
