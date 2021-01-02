@@ -198,7 +198,8 @@ public class ReadingActivity extends BaseActivity {
     class offLoadError implements ICallbackError {
         @Override
         public void executeError(Throwable t) {
-            Log.e("error", t.toString());
+            if (t != null)
+                Log.e("error", t.toString());
         }
     }
 
