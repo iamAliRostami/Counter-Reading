@@ -37,7 +37,6 @@ import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.IFlashLightManager;
-import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.ReadingData;
@@ -65,7 +64,6 @@ public class ReadingActivity extends BaseActivity {
     ActivityReadingBinding binding;
     Activity activity;
     IFlashLightManager flashLightManager;
-    ArrayList<OffLoadReport> offLoadReports = new ArrayList<>();
     ReadingData readingData;
     ReadingData readingDataTemp;
     ViewPagerAdapterReading viewPagerAdapterReading;
