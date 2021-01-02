@@ -5,6 +5,17 @@
     android:layout_height="match_parent"
     tools:context="com.leon.counter_reading.fragments.ReadingSettingFragment">
 
+    <TextView
+        android:id="@+id/text_view_not_found"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/data_not_found"
+        android:textColor="@color/red"
+        android:textSize="@dimen/text_size_large"
+        android:visibility="gone" />
+
     <ListView
         android:id="@+id/listViewRead"
         android:layout_width="match_parent"

@@ -16,6 +16,15 @@ public interface ReadingConfigDefaultDao {
     @Query("Select * From ReadingConfigDefaultDto Where zoneId = :zoneId")
     List<ReadingConfigDefaultDto> getReadingConfigDefaultDtosByZoneId(int zoneId);
 
+    @Query("Select * From ReadingConfigDefaultDto Where isArchive = :isArchive")
+    List<ReadingConfigDefaultDto> getNotArchiveReadingConfigDefaultDtosByZoneId(boolean isArchive);
+
+    @Query("Select * From ReadingConfigDefaultDto Where zoneId = :zoneId AND isActive = :isActive")
+    List<ReadingConfigDefaultDto> getActiveReadingConfigDefaultDtosByZoneId(int zoneId, boolean isActive);
+
+    @Query("Select * From ReadingConfigDefaultDto Where zoneId = :zoneId AND isArchive = :isArchive")
+    List<ReadingConfigDefaultDto> getNotArchiveReadingConfigDefaultDtosByZoneId(int zoneId, boolean isArchive);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertReadingConfigDefault(ReadingConfigDefaultDto readingConfigDefault);
 
@@ -28,9 +37,9 @@ public interface ReadingConfigDefaultDao {
     @Query("Update ReadingConfigDefaultDto Set isActive = :isActive Where zoneId = :zoneId")
     void updateReadingConfigDefaultByStatus(int zoneId, boolean isActive);
 
-    @Query("Update ReadingConfigDefaultDto Set isArchive = :isArchive Where zoneId = :zoneId")
-    void updateReadingConfigDefaultByArchive(int zoneId, boolean isArchive);
+    @Query("Update ReadingConfigDefaultDto Set isArchive = :isArchive, isActive = :isActive Where zoneId = :zoneId")
+    void updateReadingConfigDefaultByArchive(int zoneId, boolean isArchive, boolean isActive);
 
-    @Query("Update ReadingConfigDefaultDto Set isArchive = :isArchive")
-    void updateReadingConfigDefaultByArchive(boolean isArchive);
+    @Query("Update ReadingConfigDefaultDto Set isArchive = :isArchive, isActive = :isActive")
+    void updateReadingConfigDefaultByArchive(boolean isArchive, boolean isActive);
 }

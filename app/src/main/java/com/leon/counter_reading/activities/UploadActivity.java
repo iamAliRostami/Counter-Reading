@@ -164,7 +164,7 @@ public class UploadActivity extends BaseActivity {
         @Override
         protected Integer doInBackground(Integer... integers) {
             trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    trackingDao().getTrackingDtoNotArchive(false));
+                    trackingDao().getTrackingDto());
             runOnUiThread(() -> {
                 setupViewPager();
                 initializeTextViews();

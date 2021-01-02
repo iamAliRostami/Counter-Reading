@@ -92,6 +92,9 @@ public class ReadingSettingFragment extends Fragment {
                     new ReadingSettingCustomAdapter(context, trackingDtos, isActives, zoneIds);
             binding.listViewRead.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
             binding.listViewRead.setAdapter(readingSettingCustomAdapter);
+        } else {
+            binding.listViewRead.setVisibility(View.GONE);
+            binding.textViewNotFound.setVisibility(View.VISIBLE);
         }
     }
 

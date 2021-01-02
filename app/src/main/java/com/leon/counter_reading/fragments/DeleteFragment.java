@@ -27,17 +27,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class DeleteFragment extends DialogFragment {
-    String uuid;
+    int zoneId;
     FragmentDeleteBinding binding;
     Activity activity;
 
     public DeleteFragment() {
     }
 
-    public static DeleteFragment newInstance(String uuid) {
+    public static DeleteFragment newInstance(int zoneId) {
         DeleteFragment fragment = new DeleteFragment();
         Bundle args = new Bundle();
-        args.putString(BundleEnum.BILL_ID.getValue(), uuid);
+        args.putInt(BundleEnum.ZONE_ID.getValue(), zoneId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,7 +46,7 @@ public class DeleteFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            uuid = getArguments().getString(BundleEnum.BILL_ID.getValue());
+            zoneId = getArguments().getInt(BundleEnum.ZONE_ID.getValue());
         }
     }
 
@@ -83,14 +83,14 @@ public class DeleteFragment extends DialogFragment {
                 if (sharedPreferenceManager.getStringData(
                         SharedReferenceKeys.USERNAME_TEMP.getValue()).contains(username) &&
                         Crypto.decrypt(sharedPreferenceManager.getStringData(
-                                SharedReferenceKeys.PASSWORD.getValue())).contains(password)
+                                SharedReferenceKeys.PASSWORD_TEMP.getValue())).contains(password)
                 ) {
-                    if (uuid.isEmpty()) {
+                    if (zoneId == 0) {
                         MyDatabaseClient.getInstance(activity).getMyDatabase().
-                                trackingDao().updateTrackingDtoByArchive(true);
+                                readingConfigDefaultDao().updateReadingConfigDefaultByArchive(true, false);
                     } else {
                         MyDatabaseClient.getInstance(activity).getMyDatabase().
-                                trackingDao().updateTrackingDtoByArchive(uuid, true);
+                                readingConfigDefaultDao().updateReadingConfigDefaultByArchive(zoneId, true, false);
                     }
                     Intent intent = activity.getIntent();
                     activity.finish();

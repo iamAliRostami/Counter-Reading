@@ -91,13 +91,13 @@ public class ReadingSettingDeleteFragment extends Fragment {
     void setOnButtonDeleteClickListener() {
         binding.buttonDelete.setOnClickListener(v -> {
             if (binding.spinner.getSelectedItemPosition() == 0) {
-                DeleteFragment deleteFragment = DeleteFragment.newInstance("");
+                DeleteFragment deleteFragment = DeleteFragment.newInstance(0);
                 if (getFragmentManager() != null) {
                     deleteFragment.show(getFragmentManager(), "");
                 }
             } else {
                 DeleteFragment deleteFragment = DeleteFragment.newInstance(
-                        trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id);
+                        trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).zoneId);
                 if (getFragmentManager() != null) {
                     deleteFragment.show(getFragmentManager(), "");
                 }

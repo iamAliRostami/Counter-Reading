@@ -177,11 +177,11 @@ public class ReportActivity extends BaseActivity {
         @Override
         protected Integer doInBackground(Integer... integers) {
             trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    trackingDao().getTrackingDtosIsActiveNotArchive(true,false));
+                    trackingDao().getTrackingDto());
             for (TrackingDto trackingDto : trackingDtos) {
                 readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
                         getMyDatabase().readingConfigDefaultDao().
-                        getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
+                        getNotArchiveReadingConfigDefaultDtosByZoneId(trackingDto.zoneId, false));
             }
             counterStateDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                     counterStateDao().getCounterStateDtos());

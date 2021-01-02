@@ -5,8 +5,8 @@
         android:id="@+id/menu_navigation"
         android:title="@string/navigation"
         app:showAsAction="never" />
-
-    <!--    <group android:checkableBehavior="all">-->
-
-    <!--    </group>-->
+    <item
+        android:id="@+id/menu_report_forbid"
+        android:title="@string/report_forbid"
+        app:showAsAction="never" />
 </menu>

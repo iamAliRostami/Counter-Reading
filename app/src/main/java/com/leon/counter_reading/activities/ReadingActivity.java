@@ -389,10 +389,10 @@ public class ReadingActivity extends BaseActivity {
             readingData.karbariDtos.addAll(myDatabase.karbariDao().getAllKarbariDto());
             readingData.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
             readingData.trackingDtos.addAll(myDatabase.trackingDao().
-                    getTrackingDtosIsActiveNotArchive(true, false));//TODO
+                    getTrackingDto());//TODO
             for (TrackingDto trackingDto : readingData.trackingDtos) {
                 readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
-                        getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
+                        getActiveReadingConfigDefaultDtosByZoneId(trackingDto.zoneId, true));
             }
             for (ReadingConfigDefaultDto readingConfigDefaultDto : readingData.readingConfigDefaultDtos) {
                 if (readStatus == ReadStatusEnum.ALL.getValue()) {
@@ -559,7 +559,7 @@ public class ReadingActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.reading_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -568,10 +568,15 @@ public class ReadingActivity extends BaseActivity {
         int id = item.getItemId();
         Intent intent;
         if (id == R.id.menu_navigation) {
-            intent = new Intent(activity, NavigationActivity.class);
-            intent.putExtra(BundleEnum.BILL_ID.getValue(), readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
-            intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
-            startActivityForResult(intent, MyApplication.NAVIGATION);
+            if (readingDataTemp.onOffLoadDtos.isEmpty()) {
+                showNoEshterakFound();
+            } else {
+                intent = new Intent(activity, NavigationActivity.class);
+                intent.putExtra(BundleEnum.BILL_ID.getValue(),
+                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
+                intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
+                startActivityForResult(intent, MyApplication.NAVIGATION);
+            }
         }
         return super.onOptionsItemSelected(item);
     }
