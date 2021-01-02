@@ -1,22 +1,31 @@
 package com.leon.counter_reading.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
+import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivityNavigationBinding;
+import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
+import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 public class NavigationActivity extends AppCompatActivity {
     ActivityNavigationBinding binding;
     ISharedPreferenceManager sharedPreferenceManager;
+    Activity activity;
+    String uuid;
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +36,60 @@ public class NavigationActivity extends AppCompatActivity {
         MyApplication.onActivitySetTheme(this, theme, true);
         binding = ActivityNavigationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        activity = this;
         initialize();
     }
 
     void initialize() {
+        if (getIntent().getExtras() != null) {
+            uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
+            position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
+        }
         initializeImageViews();
+        setOnButtonNavigationClickListener();
+    }
+
+    void setOnButtonNavigationClickListener() {
+        binding.buttonNavigation.setOnClickListener(v -> {
+            View view = null;
+            boolean cancel = false;
+            if (binding.editTextAccount.getText().toString().isEmpty()) {
+                binding.editTextAccount.setError(getString(R.string.error_empty));
+                view = binding.editTextAccount;
+                cancel = true;
+            } else if (binding.editTextPhone.getText().toString().length() < 8) {
+                binding.editTextPhone.setError(getString(R.string.error_format));
+                view = binding.editTextPhone;
+                cancel = true;
+            } else if (binding.editTextMobile.getText().toString().length() < 11 ||
+                    !binding.editTextMobile.getText().toString().substring(0, 2).contains("09")) {
+                binding.editTextMobile.setError(getString(R.string.error_format));
+                view = binding.editTextMobile;
+                cancel = true;
+            } else if (binding.editTextSerialCounter.getText().toString().isEmpty()) {
+                binding.editTextSerialCounter.setError(getString(R.string.error_empty));
+                view = binding.editTextSerialCounter;
+                cancel = true;
+            } else if (binding.editTextAddress.getText().toString().isEmpty()) {
+                binding.editTextAddress.setError(getString(R.string.error_empty));
+                view = binding.editTextAddress;
+                cancel = true;
+            }
+            if (!cancel) {
+                Log.e("id", uuid);
+                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                        updateOnOffLoad(uuid, binding.editTextAccount.getText().toString(),
+                                binding.editTextMobile.getText().toString(),
+                                binding.editTextPhone.getText().toString(),
+                                binding.editTextSerialCounter.getText().toString(),
+                                binding.editTextAddress.getText().toString());
+                Intent intent = new Intent();
+                intent.putExtra(BundleEnum.POSITION.getValue(), position);
+                intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);
+                setResult(RESULT_OK, intent);
+                finish();
+            } else view.requestFocus();
+        });
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

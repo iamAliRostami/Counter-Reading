@@ -46,6 +46,7 @@
     <string name="error_change_server">سرور در حال تغییرات است، لطفا منتظر بمانید و در صورت برطرف نشدن مشکل با پشتیبان تماس حاصل فرمایید.</string>
     <string name="error_user_password">نام کاربری و گذرواژه در سیستم موجود نیست، لطفا در ورود اطلاعات دقت قرمایید.</string>
     <string name="error_empty">این فیلد باید پر شود.</string>
+    <string name="error_format">فرمت وارد شده صحیح نمیباشد.</string>
     <string name="error_is_not_match">نام کاربری و گذرواژه با یکدیگر مطابقت ندارند</string>
     <string name="ex_msg_dialog_choice_confirm">Confirm button is only for multi choice lists. You must call setMultiChoiceItems first</string>
     <string name="ex_msg_dialog_view_not_set">You must call method setView before calling configureView.</string>

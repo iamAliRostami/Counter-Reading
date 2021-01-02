@@ -170,7 +170,7 @@
                         tools:ignore="ContentDescription" />
 
                     <EditText
-                        android:id="@+id/edit_text_counter"
+                        android:id="@+id/edit_text_serial_counter"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

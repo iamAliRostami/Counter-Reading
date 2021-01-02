@@ -24,6 +24,7 @@ public class MyApplication extends Application {
     public static final int CAMERA_REQUEST = 1888;
     public static final int GALLERY_REQUEST = 1889;
     public static final int REPORT = 1445;
+    public static final int NAVIGATION = 1903;
     public static final int TOAST_TEXT_SIZE = 20;
 //    public static boolean isReading;
 

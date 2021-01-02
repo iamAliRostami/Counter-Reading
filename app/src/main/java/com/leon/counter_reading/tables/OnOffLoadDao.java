@@ -69,8 +69,16 @@ public interface OnOffLoadDao {
     @Query("UPDATE OnOffLoadDto set possibleKarbariCode = :possibleKarbariCode WHERE id = :id")
     void updateOnOffLoad(String id, int possibleKarbariCode);
 
-    @Query("UPDATE OnOffLoadDto set possibleAhadMaskooniOrAsli = :possibleAhadMaskooniOrAsli, possibleAhadTejariOrFari = :possibleAhadTejariOrFari WHERE id = :id")
+    @Query("UPDATE OnOffLoadDto set possibleAhadMaskooniOrAsli = :possibleAhadMaskooniOrAsli, " +
+            "possibleAhadTejariOrFari = :possibleAhadTejariOrFari WHERE id = :id")
     void updateOnOffLoad(int possibleAhadMaskooniOrAsli, int possibleAhadTejariOrFari, String id);
+
+
+    @Query("UPDATE OnOffLoadDto set possibleAddress = :address, possibleCounterSerial = :serialNumber," +
+            " possibleMobile = :possibleMobile, possibleEshterak = :possibleEshterak," +
+            " possiblePhoneNumber = :phoneNumber WHERE id = :id")
+    void updateOnOffLoad(String id, String possibleEshterak, String possibleMobile,
+                         String phoneNumber, String serialNumber, String address);
 
     @Query("DELETE FROM OnOffLoadDto WHERE trackingId = :id")
     void deleteOnOffLoad(String id);

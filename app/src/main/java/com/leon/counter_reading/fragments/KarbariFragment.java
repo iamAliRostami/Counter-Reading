@@ -77,8 +77,8 @@ public class KarbariFragment extends DialogFragment {
         binding.buttonClose.setOnClickListener(v -> dismiss());
         binding.buttonSubmit.setOnClickListener(v -> {
             MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                    updateOnOffLoad(uuid,
-                            karbariDtos.get(binding.spinnerKarbari.getSelectedItemPosition()).moshtarakinId);
+                    updateOnOffLoad(uuid, karbariDtos.get(
+                            binding.spinnerKarbari.getSelectedItemPosition()).moshtarakinId);
             dismiss();
         });
     }

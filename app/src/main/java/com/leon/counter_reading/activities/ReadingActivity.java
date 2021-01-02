@@ -8,9 +8,12 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Debug;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -378,8 +381,7 @@ public class ReadingActivity extends BaseActivity {
         }
 
         @Override
-        protected Integer doInBackground(Integer... integers) {
-            //TODO
+        protected Integer doInBackground(Integer... integers) {//TODO
             readingData = new ReadingData();
             readingDataTemp = new ReadingData();
             MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
@@ -486,11 +488,9 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void getBundle() {
-        if (getIntent().getExtras() != null) {
-            //TODO
+        if (getIntent().getExtras() != null) {//TODO
             readStatus = getIntent().getIntExtra(BundleEnum.READ_STATUS.getValue(), 0);
             highLow = getIntent().getIntExtra(BundleEnum.TYPE.getValue(), 1);
-
             Gson gson = new Gson();
             ArrayList<String> json1 = getIntent().getExtras().getStringArrayList(
                     BundleEnum.IS_MANE.getValue());
@@ -557,9 +557,30 @@ public class ReadingActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.reading_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        Intent intent;
+        if (id == R.id.menu_navigation) {
+            intent = new Intent(activity, NavigationActivity.class);
+            intent.putExtra(BundleEnum.BILL_ID.getValue(), readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
+            intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
+            startActivityForResult(intent, MyApplication.NAVIGATION);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == MyApplication.REPORT && resultCode == RESULT_OK) {
+        if ((requestCode == MyApplication.REPORT || requestCode == MyApplication.NAVIGATION)
+                && resultCode == RESULT_OK) {
             int position = data.getExtras().getInt(BundleEnum.POSITION.getValue());
             String uuid = data.getExtras().getString(BundleEnum.BILL_ID.getValue());
             readingData.onOffLoadDtos.set(position, MyDatabaseClient.getInstance(activity).
