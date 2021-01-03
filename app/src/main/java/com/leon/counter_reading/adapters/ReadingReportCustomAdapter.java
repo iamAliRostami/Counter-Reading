@@ -73,8 +73,6 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
                 offLoadReport.onOffLoadId = uuid;
                 MyDatabaseClient.getInstance(context).getMyDatabase().offLoadReportDao().
                         insertOffLoadReport(offLoadReport);
-                MyDatabaseClient.getInstance(context).getMyDatabase().onOffLoadDao().
-                        updateOnOffLoad(true, uuid);
                 offLoadReports.add(offLoadReport);
                 if (counterReportDtos.get(position).isAhad) {
                     AhadFragment ahadFragment = AhadFragment.newInstance(uuid, position);

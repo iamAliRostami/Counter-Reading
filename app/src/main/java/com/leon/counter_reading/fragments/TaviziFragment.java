@@ -62,9 +62,9 @@ public class TaviziFragment extends DialogFragment {
         binding.buttonClose.setOnClickListener(v -> dismiss());
         binding.buttonSubmit.setOnClickListener(v -> {
             String number = binding.editTextSerial.getText().toString();
-            if (number.isEmpty()) {
+            if (number.length()<3) {
                 View view = binding.editTextSerial;
-                binding.editTextSerial.setError(getString(R.string.error_empty));
+                binding.editTextSerial.setError(getString(R.string.error_format));
                 view.requestFocus();
             } else {
                 MyDatabaseClient.getInstance(context).getMyDatabase().onOffLoadDao().

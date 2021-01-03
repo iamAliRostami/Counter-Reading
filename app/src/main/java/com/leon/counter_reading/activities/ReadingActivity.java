@@ -588,6 +588,8 @@ public class ReadingActivity extends BaseActivity {
                 && resultCode == RESULT_OK) {
             int position = data.getExtras().getInt(BundleEnum.POSITION.getValue());
             String uuid = data.getExtras().getString(BundleEnum.BILL_ID.getValue());
+            MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                    updateOnOffLoad(true, uuid);
             readingData.onOffLoadDtos.set(position, MyDatabaseClient.getInstance(activity).
                     getMyDatabase().onOffLoadDao().getAllOnOffLoadById(uuid));
             for (int i = 0; i < readingDataTemp.onOffLoadDtos.size(); i++)

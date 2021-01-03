@@ -5,7 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,14 +48,15 @@ public class NavigationActivity extends AppCompatActivity {
         }
         initializeImageViews();
         setOnButtonNavigationClickListener();
+        setOnEditTextChangeListener();
     }
 
     void setOnButtonNavigationClickListener() {
         binding.buttonNavigation.setOnClickListener(v -> {
             View view = null;
             boolean cancel = false;
-            if (binding.editTextAccount.getText().toString().isEmpty()) {
-                binding.editTextAccount.setError(getString(R.string.error_empty));
+            if (binding.editTextAccount.getText().toString().length() < 7) {
+                binding.editTextAccount.setError(getString(R.string.error_format));
                 view = binding.editTextAccount;
                 cancel = true;
             } else if (binding.editTextPhone.getText().toString().length() < 8) {
@@ -66,8 +68,8 @@ public class NavigationActivity extends AppCompatActivity {
                 binding.editTextMobile.setError(getString(R.string.error_format));
                 view = binding.editTextMobile;
                 cancel = true;
-            } else if (binding.editTextSerialCounter.getText().toString().isEmpty()) {
-                binding.editTextSerialCounter.setError(getString(R.string.error_empty));
+            } else if (binding.editTextSerialCounter.getText().toString().length() < 3) {
+                binding.editTextSerialCounter.setError(getString(R.string.error_format));
                 view = binding.editTextSerialCounter;
                 cancel = true;
             } else if (binding.editTextAddress.getText().toString().isEmpty()) {
@@ -76,7 +78,6 @@ public class NavigationActivity extends AppCompatActivity {
                 cancel = true;
             }
             if (!cancel) {
-                Log.e("id", uuid);
                 MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
                         updateOnOffLoad(uuid, binding.editTextAccount.getText().toString(),
                                 binding.editTextMobile.getText().toString(),
@@ -89,6 +90,86 @@ public class NavigationActivity extends AppCompatActivity {
                 setResult(RESULT_OK, intent);
                 finish();
             } else view.requestFocus();
+        });
+    }
+
+    void setOnEditTextChangeListener() {
+        binding.editTextAccount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() == 15) {
+                    View view = binding.editTextPhone;
+                    view.requestFocus();
+                }
+            }
+        });
+        binding.editTextPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() == 8) {
+                    View view = binding.editTextMobile;
+                    view.requestFocus();
+                }
+            }
+        });
+
+        binding.editTextMobile.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() == 11 && s.toString().substring(0, 2).contains("09")) {
+                    View view = binding.editTextSerialCounter;
+                    view.requestFocus();
+                } else binding.editTextMobile.setError(getString(R.string.error_format));
+            }
+        });
+        binding.editTextSerialCounter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() == 15) {
+                    View view = binding.editTextAddress;
+                    view.requestFocus();
+                }
+            }
         });
     }
 

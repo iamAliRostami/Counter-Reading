@@ -34,7 +34,7 @@ public interface ReadingConfigDefaultDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateReadingConfigDefaultByStatus(ReadingConfigDefaultDto readingConfigDefaultDto);
 
-    @Query("Update ReadingConfigDefaultDto Set isActive = :isActive Where zoneId = :zoneId")
+    @Query("Update ReadingConfigDefaultDto Set isActive = :isActive Where zoneId = :zoneId AND isArchive = 0")
     void updateReadingConfigDefaultByStatus(int zoneId, boolean isActive);
 
     @Query("Update ReadingConfigDefaultDto Set isArchive = :isArchive, isActive = :isActive Where zoneId = :zoneId")
