@@ -278,7 +278,6 @@ public class TakePhotoActivity extends AppCompatActivity {
         imagePicker();
     };
 
-    @SuppressLint("QueryPermissionsNeeded")
     void imagePicker() {
         AlertDialog.Builder builder = new AlertDialog.Builder(TakePhotoActivity.this);
         builder.setTitle(R.string.choose_document);

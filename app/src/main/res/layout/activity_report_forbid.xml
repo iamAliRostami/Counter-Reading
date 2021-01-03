@@ -51,7 +51,7 @@
                     android:gravity="center"
                     android:inputType="number"
                     android:lines="1"
-                    android:maxLength="10"
+                    android:maxLength="15"
                     android:padding="@dimen/low_dp"
                     tools:ignore="Autofill,LabelFor" />
             </LinearLayout>
@@ -89,7 +89,7 @@
                     android:gravity="center"
                     android:inputType="number"
                     android:lines="1"
-                    android:maxLength="10"
+                    android:maxLength="15"
                     android:padding="@dimen/low_dp"
                     tools:ignore="Autofill,LabelFor" />
             </LinearLayout>
@@ -100,11 +100,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/address"
+                android:text="@string/postal_code"
                 android:textSize="@dimen/text_size_large" />
 
             <LinearLayout
-                android:id="@+id/linear_layout_address"
+                android:id="@+id/linear_layout_postal_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/large_dp"
@@ -113,20 +113,22 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/image_view_address"
+                    android:id="@+id/image_view_postal_code"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/img_address"
                     tools:ignore="ContentDescription" />
 
                 <EditText
-                    android:id="@+id/edit_text_address"
+                    android:id="@+id/edit_text_postal_code"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/border"
                     android:gravity="center"
+                    android:inputType="number"
                     android:lines="1"
+                    android:maxLength="10"
                     android:padding="@dimen/low_dp"
                     tools:ignore="Autofill,LabelFor,TextFields" />
 
@@ -170,6 +172,45 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/text_view_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/description"
+                android:textSize="@dimen/text_size_large" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/large_dp"
+                android:layout_marginRight="@dimen/large_dp"
+                android:background="@drawable/border_gray_3"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/image_view_description"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_description"
+                    tools:ignore="ContentDescription" />
+
+                <EditText
+                    android:id="@+id/edit_text_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/border"
+                    android:gravity="center"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:lines="1"
+                    android:padding="@dimen/low_dp"
+                    tools:ignore="Autofill,LabelFor" />
+
+            </LinearLayout>
+
             <Button
                 android:id="@+id/button_photo"
                 style="@style/text_bold"
@@ -184,6 +225,30 @@
                 android:textColor="@color/text_color_light"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/relative_layout_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+
+                <ImageView
+                    android:id="@+id/image_view_taken"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/image_view_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/img_delete_mark"
+                    tools:ignore="ContentDescription,RtlHardcoded" />
+
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/button_submit"

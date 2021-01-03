@@ -23,6 +23,7 @@ import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
+import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.tables.OnOffLoadDto;
@@ -60,6 +61,7 @@ public class UploadFragment extends Fragment {
     ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
     ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
     ArrayList<OffLoadReport> offLoadReports = new ArrayList<>();
+    ArrayList<ForbiddenDto> forbiddenDtos = new ArrayList<>();
 
     public UploadFragment() {
     }
@@ -140,6 +142,9 @@ public class UploadFragment extends Fragment {
 
         @Override
         protected Integer doInBackground(Integer... integers) {
+            forbiddenDtos.clear();
+            forbiddenDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                    forbiddenDao().getAllForbiddenDto(false));
             onOffLoadDtos.clear();
             if (binding.spinner.getSelectedItemPosition() == 0) {
                 onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
@@ -169,8 +174,17 @@ public class UploadFragment extends Fragment {
         @Override
         protected void onPostExecute(Integer integer) {
             customProgressBar.getDialog().dismiss();
-            uploadOffLoad();
+            if (onOffLoadDtos.size() > 0 || forbiddenDtos.size() > 0) {
+                uploadOffLoad();
+                uploadForbid();
+            } else {
+                activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.there_is_no_offload)));
+            }
             super.onPostExecute(integer);
+        }
+
+        void uploadForbid() {
+//TODO
         }
 
         void uploadOffLoad() {
@@ -185,9 +199,6 @@ public class UploadFragment extends Fragment {
                 Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                         new offLoadData(), new offLoadDataIncomplete(), new uploadError());
-            } else {
-                CustomToast customToast = new CustomToast();
-                activity.runOnUiThread(() -> customToast.info(getString(R.string.there_is_no_offload)));
             }
         }
     }

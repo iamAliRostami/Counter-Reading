@@ -577,6 +577,12 @@ public class ReadingActivity extends BaseActivity {
                 intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
                 startActivityForResult(intent, MyApplication.NAVIGATION);
             }
+        } else if (id == R.id.menu_report_forbid) {
+            intent = new Intent(activity, ReportForbidActivity.class);
+            if (readingData.onOffLoadDtos.size() > 0)
+                intent.putExtra(BundleEnum.ZONE_ID.getValue(), readingData.onOffLoadDtos.
+                        get(binding.viewPager.getCurrentItem()).zoneId);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

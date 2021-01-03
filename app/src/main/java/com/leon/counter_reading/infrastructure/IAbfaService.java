@@ -1,5 +1,6 @@
 package com.leon.counter_reading.infrastructure;
 
+import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.tables.LastInfo;
 import com.leon.counter_reading.tables.LoginFeedBack;
@@ -67,5 +68,47 @@ public interface IAbfaService {
 
     @GET("KontoriNew/V1/Apk/LastInfo")
     Call<LastInfo> getLastInfo();
+
+    @Multipart
+    @POST("KontoriNew/V1/Forbidden/Single")
+    Call<ForbiddenDto.ForbiddenDtoResponses> singleForbidden(
+            @Part ArrayList<MultipartBody.Part> files,
+            @Part("zoneId") int zoneId,
+            @Part("Description") String Description,
+            @Part("PreEshterak") String preEshterak,
+            @Part("NextEshterak") String nextEshterak,
+            @Part("PostalCode") String postalCode,
+            @Part("TedadVahed") int TedadVahed,
+            @Part("x") String x,
+            @Part("y") String y,
+            @Part("GisAccuracy") String gisAccuracy);
+
+    @Multipart
+    @POST("KontoriNew/V1/Forbidden/Single")
+    Call<ForbiddenDto.ForbiddenDtoResponses> singleForbidden(
+            @Part ArrayList<MultipartBody.Part> files,
+            @Part("zoneId") RequestBody zoneId,
+            @Part("Description") RequestBody Description,
+            @Part("PreEshterak") RequestBody preEshterak,
+            @Part("NextEshterak") RequestBody nextEshterak,
+            @Part("PostalCode") RequestBody postalCode,
+            @Part("TedadVahed") RequestBody TedadVahed,
+            @Part("x") RequestBody x,
+            @Part("y") RequestBody y,
+            @Part("GisAccuracy") RequestBody gisAccuracy);
+
+    @Multipart
+    @POST("KontoriNew/V1/Forbidden//V1/Forbidden/Multiple")
+    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(
+            @Part ArrayList<MultipartBody.Part> files,
+            @Part("zoneId") int zoneId,
+            @Part("Description") String Description,
+            @Part("PreEshterak") String preEshterak,
+            @Part("NextEshterak") String nextEshterak,
+            @Part("PostalCode") String postalCode,
+            @Part("TedadVahed") int TedadVahed,
+            @Part("x") String x,
+            @Part("y") String y,
+            @Part("GisAccuracy") String gisAccuracy);
 }
 
