@@ -184,7 +184,7 @@ public class UploadFragment extends Fragment {
         }
 
         void uploadForbid() {
-//TODO
+            //TODO
         }
 
         void uploadOffLoad() {
