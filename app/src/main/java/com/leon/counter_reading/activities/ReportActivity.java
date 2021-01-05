@@ -110,7 +110,6 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void setupViewPager() {
-        //TODO
         ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
         adapter.addFragment(ReportTotalFragment.newInstance(zero, normal, high, low), "آمار کلی");
         adapter.addFragment(ReportNotReadingFragment.newInstance(total, unread), "قرائت نشده");
@@ -119,7 +118,6 @@ public class ReportActivity extends BaseActivity {
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override

@@ -140,8 +140,6 @@ public class DownloadFragment extends Fragment {
                     }
                 myDatabase.qotrDictionaryDao().insertQotrDictionaries(readingData.qotrDictionary);
 
-//                ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>(
-//                        myDatabase.readingConfigDefaultDao().getNotArchiveReadingConfigDefaultDtosByZoneId(false));
                 ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>(
                         myDatabase.readingConfigDefaultDao().getReadingConfigDefaultDtos());
                 for (ReadingConfigDefaultDto readingConfigDefaultDto : readingConfigDefaultDtos)
