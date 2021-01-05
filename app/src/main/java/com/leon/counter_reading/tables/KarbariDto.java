@@ -15,4 +15,5 @@ public class KarbariDto {
     public boolean isMaskooni;
     public boolean isSaxt;
     public boolean hasReadingVibrate;
+    public boolean isTejari;
 }

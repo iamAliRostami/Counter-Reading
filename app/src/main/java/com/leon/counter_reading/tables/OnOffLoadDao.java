@@ -16,37 +16,39 @@ public interface OnOffLoadDao {
     @Query("select * From OnOffLoadDto WHERE id = :id")
     OnOffLoadDto getAllOnOffLoadById(String id);
 
-    @Query("select * From OnOffLoadDto Where zoneId = :zoneId")
-    List<OnOffLoadDto> getAllOnOffLoadByZone(int zoneId);
+    @Query("select * From OnOffLoadDto Where trackingId = :trackingId")
+    List<OnOffLoadDto> getAllOnOffLoadByTracking(String trackingId);
 
-    @Query("select * From OnOffLoadDto Where zoneId = :zoneId AND highLowStateId = :highLow")
-    List<OnOffLoadDto> getAllOnOffLoadByZone(int zoneId, int highLow);
+    @Query("select * From OnOffLoadDto Where trackingId = :trackingId AND highLowStateId = :highLow")
+    List<OnOffLoadDto> getAllOnOffLoadByHighLowAndTracking(String trackingId, int highLow);
 
-    @Query("select * From OnOffLoadDto WHERE isBazdid = :isBazdid AND zoneId = :zoneId")
-    List<OnOffLoadDto> getAllOnOffLoadRead(boolean isBazdid, int zoneId);
+    @Query("select * From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId AND trackingId = :trackingId")
+    List<OnOffLoadDto> getAllOnOffLoadRead(int offLoadStateId, String trackingId);
 
-    @Query("select * From OnOffLoadDto WHERE " +
-            "isBazdid = :isBazdid AND trackingId = :trackingId AND offLoadStateId = :offLoadStateId")
+    @Query("select * From OnOffLoadDto WHERE offLoadStateId != :offLoadStateId AND trackingId = :trackingId")
+    List<OnOffLoadDto> getAllOnOffLoadNotRead(int offLoadStateId, String trackingId);
+
+    @Query("select * From OnOffLoadDto WHERE trackingId = :trackingId AND offLoadStateId = :offLoadStateId")
     List<OnOffLoadDto> getOnOffLoadReadByTrackingAndOffLoad
-            (boolean isBazdid, String trackingId, int offLoadStateId);
+            (String trackingId, int offLoadStateId);
 
-    @Query("select * From OnOffLoadDto WHERE isBazdid = :isBazdid AND offLoadStateId = :offLoadStateId")
-    List<OnOffLoadDto> getOnOffLoadReadByTrackingAndOffLoad(boolean isBazdid, int offLoadStateId);
+    @Query("select * From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId")
+    List<OnOffLoadDto> getOnOffLoadReadByOffLoad(int offLoadStateId);
 
-    @Query("select * From OnOffLoadDto WHERE counterStateId = :counterStateId")
-    List<OnOffLoadDto> getOnOffLoadReadByIsMane(int counterStateId);
+    @Query("select * From OnOffLoadDto WHERE counterStateId = :counterStateId AND trackingId = :trackingId")
+    List<OnOffLoadDto> getOnOffLoadReadByIsMane(int counterStateId, String trackingId);
 
-    @Query("select COUNT(*) From OnOffLoadDto WHERE isBazdid = :isBazdid AND zoneId = :zoneId AND highLowStateId =:highLowStateId")
-    int getOnOffLoadReadCountByStatus(boolean isBazdid, int zoneId, int highLowStateId);
+    @Query("select COUNT(*) From OnOffLoadDto WHERE trackingId = :trackingId AND highLowStateId =:highLowStateId")
+    int getOnOffLoadReadCountByStatus(String trackingId, int highLowStateId);
 
-    @Query("select COUNT(*) From OnOffLoadDto WHERE isBazdid = :isBazdid AND zoneId = :zoneId")
-    int getOnOffLoadReadCount(boolean isBazdid, int zoneId);
+    @Query("select COUNT(*) From OnOffLoadDto WHERE offLoadStateId != :offLoadStateId AND trackingId = :trackingId")
+    int getOnOffLoadReadCount(int offLoadStateId, String trackingId);
 
-    @Query("select COUNT(*) From OnOffLoadDto WHERE zoneId = :zoneId")
-    int getOnOffLoadCount(int zoneId);
+    @Query("select COUNT(*) From OnOffLoadDto WHERE trackingId = :trackingId")
+    int getOnOffLoadCount(String trackingId);
 
-    @Query("select COUNT(*) From OnOffLoadDto WHERE counterStateId = :counterStateId")
-    int getOnOffLoadIsManeCount(int counterStateId);
+    @Query("select COUNT(*) From OnOffLoadDto WHERE counterStateId = :counterStateId AND trackingId = :trackingId")
+    int getOnOffLoadIsManeCount(int counterStateId, String trackingId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertOnOffLoad(OnOffLoadDto onOffLoadDto);

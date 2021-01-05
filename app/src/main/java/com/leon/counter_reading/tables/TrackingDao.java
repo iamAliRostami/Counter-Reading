@@ -13,12 +13,11 @@ public interface TrackingDao {
     @Query("Select * From TrackingDto")
     List<TrackingDto> getTrackingDto();
 
-//    @Query("Select * From TrackingDto WHERE isArchive = :isArchive")
-//    List<TrackingDto> getTrackingDtoNotArchive(boolean isArchive);
-//
-//
-//    @Query("Select * From TrackingDto WHERE isArchive = :isArchive AND isActive = :isActive")
-//    List<TrackingDto> getTrackingDtosIsActiveNotArchive(boolean isActive, boolean isArchive);
+    @Query("Select * From TrackingDto WHERE isArchive = :isArchive")
+    List<TrackingDto> getTrackingDtoNotArchive(boolean isArchive);
+
+    @Query("Select * From TrackingDto WHERE isArchive = :isArchive AND isActive = :isActive")
+    List<TrackingDto> getTrackingDtosIsActiveNotArchive(boolean isActive, boolean isArchive);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertTrackingDto(TrackingDto trackingDto);
@@ -27,12 +26,12 @@ public interface TrackingDao {
     void insertAllTrackingDtos(ArrayList<TrackingDto> trackingDtos);
 
 
-    @Query("Update TrackingDto Set isActive = :isActive Where id = :id AND isArchive != 1")
+    @Query("Update TrackingDto Set isActive = :isActive Where id = :id AND isArchive = 0")
     void updateTrackingDtoByStatus(String id, boolean isActive);
 
-    @Query("Update TrackingDto Set isArchive = :isArchive AND isActive = :isArchive Where id = :id")
-    void updateTrackingDtoByArchive(String id, boolean isArchive);
+    @Query("Update TrackingDto Set isArchive = :isArchive, isActive = :isActive Where id = :id")
+    void updateTrackingDtoByArchive(String id, boolean isArchive, boolean isActive);
 
-    @Query("Update TrackingDto Set isArchive = :isArchive AND isActive = :isArchive")
-    void updateTrackingDtoByArchive(boolean isArchive);
+    @Query("Update TrackingDto Set isArchive = :isArchive, isActive = :isActive")
+    void updateTrackingDtoByArchive(boolean isArchive, boolean isActive);
 }

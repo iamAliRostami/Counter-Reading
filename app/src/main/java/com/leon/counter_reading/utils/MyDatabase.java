@@ -32,7 +32,7 @@ import com.leon.counter_reading.tables.TrackingDto;
         QotrDictionary.class, ReadingConfigDefaultDto.class, TrackingDto.class,
         CounterStateDto.class, Image.class, CounterReportDto.class, OffLoadReport.class,
         ForbiddenDto.class},
-        version = 13, exportSchema = false)
+        version = 14, exportSchema = false)
 public abstract class MyDatabase extends RoomDatabase {
     public abstract KarbariDao karbariDao();
 
@@ -96,7 +96,6 @@ public abstract class MyDatabase extends RoomDatabase {
             database.execSQL("DROP TABLE t1_backup");
         }
     };
-
     public static final Migration MIGRATION_3_4 = new Migration(18, 19) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
@@ -106,11 +105,10 @@ public abstract class MyDatabase extends RoomDatabase {
             database.execSQL("DROP TABLE t1_backup");
         }
     };
-
-    public static final Migration MIGRATION_6_7 = new Migration(12, 13) {
+    public static final Migration MIGRATION_6_7 = new Migration(13, 14) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL("ALter TABLE ForbiddenDto Add column isSent INTEGER");
+            database.execSQL("ALter TABLE KarbariDto Add column isTejari INTEGER");
 //            database.execSQL("CREATE TABLE \"ForbiddenDto\" (\n" +
 //                    "\t\"customId\"\tINTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,\n" +
 //                    "\t\"zoneId\"\tINTEGER,\n" +

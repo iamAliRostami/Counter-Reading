@@ -1,13 +1,12 @@
 package com.leon.counter_reading.tables;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
@@ -29,39 +28,12 @@ public class ForbiddenDto {
     public String y;
     public String gisAccuracy;
     public boolean isSent;
-
-    @Ignore
-    @SerializedName("zoneId")
-    public RequestBody zoneIdRequestBody;
-    @Ignore
-    @SerializedName("description")
-    public RequestBody descriptionRequestBody;
-    @Ignore
-    @SerializedName("preEshterak")
-    public RequestBody preEshterakRequestBody;
-    @Ignore
-    @SerializedName("nextEshterak")
-    public RequestBody nextEshterakRequestBody;
-    @Ignore
-    @SerializedName("postalCode")
-    public RequestBody postalCodeRequestBody;
-    @Ignore
-    @SerializedName("tedadVahed")
-    public RequestBody tedadVahedRequestBody;
-    @Ignore
-    @SerializedName("x")
-    public RequestBody xRequestBody;
-    @Ignore
-    @SerializedName("y")
-    public RequestBody yRequestBody;
-    @Ignore
-    @SerializedName("gisAccuracy")
-    public RequestBody gisAccuracyRequestBody;
-
     @Ignore
     public ArrayList<MultipartBody.Part> File;
     @Ignore
     public ArrayList<Bitmap> bitmaps;
+    @Ignore
+    public ForbiddenDtoRequest forbiddenDtoRequest;
 
     public void prepareToSend(double gisAccuracy, double x, double y, String postalCode,
                               String description, String preEshterak, String nextEshterak,
@@ -76,18 +48,43 @@ public class ForbiddenDto {
         this.nextEshterak = nextEshterak;
         this.tedadVahed = Integer.parseInt(tedadVahed);
         this.zoneId = zoneId;
+        forbiddenDtoRequest = new ForbiddenDtoRequest();
+        prepareRequestBody(File, zoneId, description, preEshterak, nextEshterak, tedadVahed, x, y, gisAccuracy);
+    }
 
-        zoneIdRequestBody = RequestBody.create(String.valueOf(zoneId),
+    void prepareRequestBody(ArrayList<MultipartBody.Part> file, int zoneId, String description,
+                            String preEshterak, String nextEshterak, String tedadVahed,
+                            double x, double y, double gisAccuracy) {
+        File.addAll(file);
+        forbiddenDtoRequest.description = RequestBody.create(description, MediaType.parse("text/plain"));
+        forbiddenDtoRequest.preEshterak = RequestBody.create(preEshterak, MediaType.parse("text/plain"));
+        forbiddenDtoRequest.nextEshterak = RequestBody.create(nextEshterak, MediaType.parse("text/plain"));
+        forbiddenDtoRequest.postalCode = RequestBody.create(postalCode, MediaType.parse("text/plain"));
+        forbiddenDtoRequest.tedadVahed = RequestBody.create(tedadVahed,
                 MediaType.parse("text/plain"));
-        descriptionRequestBody = RequestBody.create(description, MediaType.parse("text/plain"));
-        preEshterakRequestBody = RequestBody.create(preEshterak, MediaType.parse("text/plain"));
-        nextEshterakRequestBody = RequestBody.create(nextEshterak, MediaType.parse("text/plain"));
-        postalCodeRequestBody = RequestBody.create(postalCode, MediaType.parse("text/plain"));
-        tedadVahedRequestBody = RequestBody.create(tedadVahed,
+        forbiddenDtoRequest.x = RequestBody.create(String.valueOf(x), MediaType.parse("text/plain"));
+        forbiddenDtoRequest.y = RequestBody.create(String.valueOf(y), MediaType.parse("text/plain"));
+        forbiddenDtoRequest.gisAccuracy = RequestBody.create(String.valueOf(gisAccuracy), MediaType.parse("text/plain"));
+        Log.e("zone", String.valueOf(zoneId));
+        forbiddenDtoRequest.zoneId = RequestBody.create(String.valueOf(zoneId),
                 MediaType.parse("text/plain"));
-        xRequestBody = RequestBody.create(this.x, MediaType.parse("text/plain"));
-        yRequestBody = RequestBody.create(this.y, MediaType.parse("text/plain"));
-        gisAccuracyRequestBody = RequestBody.create(this.gisAccuracy, MediaType.parse("text/plain"));
+    }
+
+    public ForbiddenDtoRequest prepareRequestBody() {
+        forbiddenDtoRequest = new ForbiddenDtoRequest();
+        forbiddenDtoRequest.description = RequestBody.create(description, MediaType.parse("text/plain"));
+        forbiddenDtoRequest.preEshterak = RequestBody.create(preEshterak, MediaType.parse("text/plain"));
+        forbiddenDtoRequest.nextEshterak = RequestBody.create(nextEshterak, MediaType.parse("text/plain"));
+        forbiddenDtoRequest.postalCode = RequestBody.create(postalCode, MediaType.parse("text/plain"));
+        forbiddenDtoRequest.tedadVahed = RequestBody.create(String.valueOf(tedadVahed),
+                MediaType.parse("text/plain"));
+        forbiddenDtoRequest.x = RequestBody.create(String.valueOf(x), MediaType.parse("text/plain"));
+        forbiddenDtoRequest.y = RequestBody.create(String.valueOf(y), MediaType.parse("text/plain"));
+        forbiddenDtoRequest.gisAccuracy = RequestBody.create(String.valueOf(gisAccuracy), MediaType.parse("text/plain"));
+        Log.e("zone", String.valueOf(zoneId));
+        forbiddenDtoRequest.zoneId = RequestBody.create(String.valueOf(zoneId),
+                MediaType.parse("text/plain"));
+        return forbiddenDtoRequest;
     }
 
     public static class ForbiddenDtoResponses {
@@ -96,5 +93,20 @@ public class ForbiddenDto {
         public String generationDateTime;
         public boolean isValid;
         public ArrayList<String> targetObject;
+    }
+
+    public static class ForbiddenDtoRequest {
+        public RequestBody zoneId;
+        public RequestBody description;
+        public RequestBody preEshterak;
+        public RequestBody nextEshterak;
+        public RequestBody postalCode;
+        public RequestBody tedadVahed;
+        public RequestBody x;
+        public RequestBody y;
+        public RequestBody gisAccuracy;
+
+        public ForbiddenDtoRequest() {
+        }
     }
 }

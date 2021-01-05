@@ -62,6 +62,7 @@ public class UploadFragment extends Fragment {
     ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
     ArrayList<OffLoadReport> offLoadReports = new ArrayList<>();
     ArrayList<ForbiddenDto> forbiddenDtos = new ArrayList<>();
+    ArrayList<ForbiddenDto.ForbiddenDtoRequest> forbiddenDtoRequests = new ArrayList<>();
 
     public UploadFragment() {
     }
@@ -148,11 +149,11 @@ public class UploadFragment extends Fragment {
             onOffLoadDtos.clear();
             if (binding.spinner.getSelectedItemPosition() == 0) {
                 onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(true,
+                        onOffLoadDao().getOnOffLoadReadByOffLoad(
                         OffloadStateEnum.INSERTED.getValue()));
             } else {
                 onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(true,
+                        onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(
                         onOffLoadDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackingId,
                         OffloadStateEnum.INSERTED.getValue()));
             }
@@ -185,6 +186,19 @@ public class UploadFragment extends Fragment {
 
         void uploadForbid() {
             //TODO
+            if (forbiddenDtos.size() > 0) {
+                forbiddenDtoRequests.clear();
+                Retrofit retrofit = NetworkHelper.getInstance();
+                IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+                for (int i = 0; i < forbiddenDtos.size(); i++) {
+                    forbiddenDtoRequests.add(forbiddenDtos.get(i).prepareRequestBody());
+                }
+                //TODO
+
+//                Call<ForbiddenDto.ForbiddenDtoResponses> call = iAbfaService.multipleForbidden(forbiddenDtoRequests);
+//                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
+//                        new Forbidden(), new ForbiddenIncomplete(), new Error());
+            }
         }
 
         void uploadOffLoad() {
@@ -283,6 +297,30 @@ public class UploadFragment extends Fragment {
                     activity.getString(R.string.dear_user),
                     activity.getString(R.string.upload_multimedia),
                     activity.getString(R.string.accepted));
+        }
+    }
+
+    class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
+        @Override
+        public void execute(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
+            if (!response.isSuccessful()) {
+                MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
+                        updateAllForbiddenDtoBySent(true);
+            } else {
+                new CustomToast().success(response.body().message);
+            }
+        }
+    }
+
+    class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDto.ForbiddenDtoResponses> {
+        @Override
+        public void executeIncomplete(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
+        }
+    }
+
+    class Error implements ICallbackError {
+        @Override
+        public void executeError(Throwable t) {
         }
     }
 

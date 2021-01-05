@@ -35,6 +35,7 @@ import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.utils.CustomFile;
+import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.GPSTracker;
 import com.leon.counter_reading.utils.HttpClientWrapper;
 import com.leon.counter_reading.utils.MyDatabaseClient;
@@ -197,17 +198,50 @@ public class ReportForbidActivity extends AppCompatActivity {
 
         Retrofit retrofit = NetworkHelper.getInstance();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        Call<ForbiddenDto.ForbiddenDtoResponses> call = iAbfaService.singleForbidden(
-                forbiddenDto.File,
-                forbiddenDto.zoneIdRequestBody,
-                forbiddenDto.descriptionRequestBody,
-                forbiddenDto.preEshterakRequestBody,
-                forbiddenDto.nextEshterakRequestBody,
-                forbiddenDto.postalCodeRequestBody,
-                forbiddenDto.tedadVahedRequestBody,
-                forbiddenDto.xRequestBody,
-                forbiddenDto.yRequestBody,
-                forbiddenDto.gisAccuracyRequestBody);
+        Call<ForbiddenDto.ForbiddenDtoResponses> call = null;
+        if (zoneId != 0 && forbiddenDto.File.size() > 0) {
+            call = iAbfaService.singleForbidden(forbiddenDto.File,
+                    forbiddenDto.forbiddenDtoRequest.zoneId,
+                    forbiddenDto.forbiddenDtoRequest.description,
+                    forbiddenDto.forbiddenDtoRequest.preEshterak,
+                    forbiddenDto.forbiddenDtoRequest.nextEshterak,
+                    forbiddenDto.forbiddenDtoRequest.postalCode,
+                    forbiddenDto.forbiddenDtoRequest.tedadVahed,
+                    forbiddenDto.forbiddenDtoRequest.x,
+                    forbiddenDto.forbiddenDtoRequest.y,
+                    forbiddenDto.forbiddenDtoRequest.gisAccuracy);
+        } else if (zoneId == 0) {
+            call = iAbfaService.singleForbidden(forbiddenDto.File,
+                    forbiddenDto.forbiddenDtoRequest.description,
+                    forbiddenDto.forbiddenDtoRequest.preEshterak,
+                    forbiddenDto.forbiddenDtoRequest.nextEshterak,
+                    forbiddenDto.forbiddenDtoRequest.postalCode,
+                    forbiddenDto.forbiddenDtoRequest.tedadVahed,
+                    forbiddenDto.forbiddenDtoRequest.x,
+                    forbiddenDto.forbiddenDtoRequest.y,
+                    forbiddenDto.forbiddenDtoRequest.gisAccuracy);
+        } else if (forbiddenDto.File.size() > 0) {
+            call = iAbfaService.singleForbidden(
+                    forbiddenDto.forbiddenDtoRequest.zoneId,
+                    forbiddenDto.forbiddenDtoRequest.description,
+                    forbiddenDto.forbiddenDtoRequest.preEshterak,
+                    forbiddenDto.forbiddenDtoRequest.nextEshterak,
+                    forbiddenDto.forbiddenDtoRequest.postalCode,
+                    forbiddenDto.forbiddenDtoRequest.tedadVahed,
+                    forbiddenDto.forbiddenDtoRequest.x,
+                    forbiddenDto.forbiddenDtoRequest.y,
+                    forbiddenDto.forbiddenDtoRequest.gisAccuracy);
+        }else {
+            call = iAbfaService.singleForbidden(
+                    forbiddenDto.forbiddenDtoRequest.description,
+                    forbiddenDto.forbiddenDtoRequest.preEshterak,
+                    forbiddenDto.forbiddenDtoRequest.nextEshterak,
+                    forbiddenDto.forbiddenDtoRequest.postalCode,
+                    forbiddenDto.forbiddenDtoRequest.tedadVahed,
+                    forbiddenDto.forbiddenDtoRequest.x,
+                    forbiddenDto.forbiddenDtoRequest.y,
+                    forbiddenDto.forbiddenDtoRequest.gisAccuracy);
+        }
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                 new Forbidden(), new ForbiddenIncomplete(), new Error());
     }
@@ -261,6 +295,9 @@ public class ReportForbidActivity extends AppCompatActivity {
             if (!response.isSuccessful())
                 MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
                         insertForbiddenDto(forbiddenDto);
+            else {
+                new CustomToast().success(response.body().message);
+            }
             finish();
         }
     }

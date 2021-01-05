@@ -10,6 +10,7 @@ import com.leon.counter_reading.tables.PasswordInfo;
 import com.leon.counter_reading.tables.ReadingData;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -20,6 +21,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.QueryMap;
 
 public interface IAbfaService {
 
@@ -73,21 +75,45 @@ public interface IAbfaService {
     @POST("KontoriNew/V1/Forbidden/Single")
     Call<ForbiddenDto.ForbiddenDtoResponses> singleForbidden(
             @Part ArrayList<MultipartBody.Part> files,
-            @Part("zoneId") int zoneId,
-            @Part("Description") String Description,
-            @Part("PreEshterak") String preEshterak,
-            @Part("NextEshterak") String nextEshterak,
-            @Part("PostalCode") String postalCode,
-            @Part("TedadVahed") int TedadVahed,
-            @Part("x") String x,
-            @Part("y") String y,
-            @Part("GisAccuracy") String gisAccuracy);
+            @Part("zoneId") RequestBody zoneId,
+            @Part("Description") RequestBody Description,
+            @Part("PreEshterak") RequestBody preEshterak,
+            @Part("NextEshterak") RequestBody nextEshterak,
+            @Part("PostalCode") RequestBody postalCode,
+            @Part("TedadVahed") RequestBody TedadVahed,
+            @Part("x") RequestBody x,
+            @Part("y") RequestBody y,
+            @Part("GisAccuracy") RequestBody gisAccuracy);
+
+    @Multipart
+    @POST("KontoriNew/V1/Forbidden/Single")
+    Call<ForbiddenDto.ForbiddenDtoResponses> singleForbidden(
+            @Part("zoneId") RequestBody zoneId,
+            @Part("Description") RequestBody Description,
+            @Part("PreEshterak") RequestBody preEshterak,
+            @Part("NextEshterak") RequestBody nextEshterak,
+            @Part("PostalCode") RequestBody postalCode,
+            @Part("TedadVahed") RequestBody TedadVahed,
+            @Part("x") RequestBody x,
+            @Part("y") RequestBody y,
+            @Part("GisAccuracy") RequestBody gisAccuracy);
 
     @Multipart
     @POST("KontoriNew/V1/Forbidden/Single")
     Call<ForbiddenDto.ForbiddenDtoResponses> singleForbidden(
             @Part ArrayList<MultipartBody.Part> files,
-            @Part("zoneId") RequestBody zoneId,
+            @Part("Description") RequestBody Description,
+            @Part("PreEshterak") RequestBody preEshterak,
+            @Part("NextEshterak") RequestBody nextEshterak,
+            @Part("PostalCode") RequestBody postalCode,
+            @Part("TedadVahed") RequestBody TedadVahed,
+            @Part("x") RequestBody x,
+            @Part("y") RequestBody y,
+            @Part("GisAccuracy") RequestBody gisAccuracy);
+
+    @Multipart
+    @POST("KontoriNew/V1/Forbidden/Single")
+    Call<ForbiddenDto.ForbiddenDtoResponses> singleForbidden(
             @Part("Description") RequestBody Description,
             @Part("PreEshterak") RequestBody preEshterak,
             @Part("NextEshterak") RequestBody nextEshterak,
@@ -100,15 +126,43 @@ public interface IAbfaService {
     @Multipart
     @POST("KontoriNew/V1/Forbidden//V1/Forbidden/Multiple")
     Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(
-            @Part ArrayList<MultipartBody.Part> files,
-            @Part("zoneId") int zoneId,
-            @Part("Description") String Description,
-            @Part("PreEshterak") String preEshterak,
-            @Part("NextEshterak") String nextEshterak,
-            @Part("PostalCode") String postalCode,
-            @Part("TedadVahed") int TedadVahed,
-            @Part("x") String x,
-            @Part("y") String y,
-            @Part("GisAccuracy") String gisAccuracy);
+            @Part("zoneId") RequestBody zoneId,
+            @Part("Description") RequestBody Description,
+            @Part("PreEshterak") RequestBody preEshterak,
+            @Part("NextEshterak") RequestBody nextEshterak,
+            @Part("PostalCode") RequestBody postalCode,
+            @Part("TedadVahed") RequestBody TedadVahed,
+            @Part("x") RequestBody x,
+            @Part("y") RequestBody y,
+            @Part("GisAccuracy") RequestBody gisAccuracy);
+
+    //    @Multipart
+    @POST("KontoriNew/V1/Forbidden//V1/Forbidden/Multiple")
+    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(
+            @Body RequestBody requestBody);
+
+
+    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(
+            @Body ArrayList<RequestBody> requestBodies);
+
+//    @POST("KontoriNew/V1/Forbidden//V1/Forbidden/Multiple")
+//    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(
+//            @QueryMap Map<String, ArrayList<ForbiddenDto.ForbiddenDtoRequest>> map);
+
+    @POST("KontoriNew/V1/Forbidden//V1/Forbidden/Multiple")
+    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(
+            @QueryMap Map<String, ForbiddenDto.ForbiddenDtoRequest> map);
+
+    @Multipart
+    @POST("KontoriNew/V1/Forbidden//V1/Forbidden/Multiple")
+    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(
+            @Part("Description") RequestBody Description,
+            @Part("PreEshterak") RequestBody preEshterak,
+            @Part("NextEshterak") RequestBody nextEshterak,
+            @Part("PostalCode") RequestBody postalCode,
+            @Part("TedadVahed") RequestBody TedadVahed,
+            @Part("x") RequestBody x,
+            @Part("y") RequestBody y,
+            @Part("GisAccuracy") RequestBody gisAccuracy);
 }
 

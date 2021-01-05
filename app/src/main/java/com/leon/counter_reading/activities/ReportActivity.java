@@ -20,8 +20,6 @@ import com.leon.counter_reading.fragments.ReportNotReadingFragment;
 import com.leon.counter_reading.fragments.ReportTemporaryFragment;
 import com.leon.counter_reading.fragments.ReportTotalFragment;
 import com.leon.counter_reading.tables.CounterStateDto;
-import com.leon.counter_reading.tables.OnOffLoadDto;
-import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.DepthPageTransformer;
@@ -35,9 +33,7 @@ public class ReportActivity extends BaseActivity {
     int previousState, currentState;
     int zero, normal, high, low, unread, total, isMane;
     ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
-    ArrayList<OnOffLoadDto> onOffLoadDtosReads = new ArrayList<>();
     ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
-    ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
 
     @Override
     protected void initialize() {
@@ -177,39 +173,33 @@ public class ReportActivity extends BaseActivity {
         @Override
         protected Integer doInBackground(Integer... integers) {
             trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    trackingDao().getTrackingDto());
-            for (TrackingDto trackingDto : trackingDtos) {
-                readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
-                        getMyDatabase().readingConfigDefaultDao().
-                        getNotArchiveReadingConfigDefaultDtosByZoneId(trackingDto.zoneId, false));
-            }
+                    trackingDao().getTrackingDtosIsActiveNotArchive(true, false));
             counterStateDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                     counterStateDao().getCounterStateDtos());
             ArrayList<Integer> isManes = new ArrayList<>(MyDatabaseClient.getInstance(activity).
                     getMyDatabase().counterStateDao().getCounterStateDtosIsMane(true));
-            for (int i = 0; i < isManes.size(); i++) {
-                isMane = isMane + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i));
-            }
-            for (ReadingConfigDefaultDto readingConfigDefaultDto : readingConfigDefaultDtos) {
-                onOffLoadDtosReads.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        onOffLoadDao().getAllOnOffLoadRead(true, readingConfigDefaultDto.zoneId));
-                zero = MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                        getOnOffLoadReadCountByStatus(true, readingConfigDefaultDto.zoneId,
-                                HighLowStateEnum.ZERO.getValue());
-                high = MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                        getOnOffLoadReadCountByStatus(true, readingConfigDefaultDto.zoneId,
-                                HighLowStateEnum.HIGH.getValue());
-                low = MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                        getOnOffLoadReadCountByStatus(true, readingConfigDefaultDto.zoneId,
-                                HighLowStateEnum.LOW.getValue());
-                normal = MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                        getOnOffLoadReadCountByStatus(true, readingConfigDefaultDto.zoneId,
-                                HighLowStateEnum.NORMAL.getValue());
-                unread = MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                        getOnOffLoadReadCount(false, readingConfigDefaultDto.zoneId);
-                total = MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                        getOnOffLoadCount(readingConfigDefaultDto.zoneId);
+
+            for (TrackingDto trackingDto : trackingDtos) {
+                for (int i = 0; i < isManes.size(); i++) {
+                    isMane = isMane + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                            onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i), trackingDto.id);
+                }
+                zero = zero + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                        onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                        HighLowStateEnum.ZERO.getValue());
+                high = high + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                        onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                        HighLowStateEnum.HIGH.getValue());
+                low = low + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                        onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                        HighLowStateEnum.LOW.getValue());
+                normal = normal + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                        onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                        HighLowStateEnum.NORMAL.getValue());
+                unread = unread + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                        onOffLoadDao().getOnOffLoadReadCount(0, trackingDto.id);
+                total = total + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                        onOffLoadDao().getOnOffLoadCount(trackingDto.id);
             }
             runOnUiThread(ReportActivity.this::setupViewPager);
             return null;

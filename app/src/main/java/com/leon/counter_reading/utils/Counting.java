@@ -16,6 +16,10 @@ public class Counting {
         return dailyAverage(preNumber, currentNumber, preDate) * 30;
     }
 
+    public static double monthlyAverage(int preNumber, int currentNumber, String preDate, int zarib) {
+        return dailyAverage(preNumber, currentNumber, preDate) * 30 / zarib;
+    }
+
     public static int checkHighLow(OnOffLoadDto onOffLoadDto,
                                    KarbariDto karbariDto,
                                    ReadingConfigDefaultDto readingConfigDefaultDto,
@@ -23,7 +27,12 @@ public class Counting {
         double average = monthlyAverage(onOffLoadDto.preNumber, currentNumber, onOffLoadDto.preDate);
         double preAverage = onOffLoadDto.preAverage;
         int difference = currentNumber - onOffLoadDto.preNumber;
+        /*if (karbariDto.isMaskooni && karbariDto.isTejari) {
+            //TODO فرمول میانگین گیری عجیب احتمالا
+        } else*/
         if (karbariDto.isMaskooni) {
+            //TODO ضرایب
+            average = monthlyAverage(onOffLoadDto.preNumber, currentNumber, onOffLoadDto.preDate, onOffLoadDto.ahadMaskooniOrAsli);
             if (readingConfigDefaultDto.highConstBoundMaskooni < difference)
                 return 1;
             else if (readingConfigDefaultDto.lowConstBoundMaskooni > difference)
@@ -32,7 +41,18 @@ public class Counting {
                 return 1;
             else if ((100 - readingConfigDefaultDto.lowPercentBoundMaskooni) * preAverage > (average * 100))
                 return -1;
-        } else if (karbariDto.isSaxt) {
+        } else if (karbariDto.isTejari) {
+            //TODO محاسبه فقط تجاری ساده با ظرفیت
+            average = monthlyAverage(onOffLoadDto.preNumber, currentNumber, onOffLoadDto.preDate, onOffLoadDto.ahadTejariOrFari);
+            if (readingConfigDefaultDto.highConstZarfiatBound < difference)
+                return 1;
+            else if (readingConfigDefaultDto.lowConstZarfiatBound > difference)
+                return -1;
+            else if ((100 + readingConfigDefaultDto.highPercentZarfiatBound) * preAverage < (average * 100))
+                return 1;
+            else if ((100 - readingConfigDefaultDto.lowPercentZarfiatBound) * preAverage > (average * 100))
+                return -1;
+        } else if (karbariDto.isSaxt || onOffLoadDto.noeVagozariId == 4) {
             if (readingConfigDefaultDto.highConstBoundSaxt < difference)
                 return 1;
             else if (readingConfigDefaultDto.lowConstBoundSaxt > difference)
@@ -41,7 +61,7 @@ public class Counting {
                 return 1;
             else if ((100 - readingConfigDefaultDto.lowPercentBoundSaxt) * preAverage > (average * 100))
                 return -1;
-        } else if (onOffLoadDto.ahadTejariOrFari > 0) {
+        } else {
             if ((100 + readingConfigDefaultDto.highPercentRateBoundNonMaskooni) * preAverage < (average * 100))
                 return 1;
             else if ((100 - readingConfigDefaultDto.lowPercentRateBoundNonMaskooni) * preAverage > (average * 100))

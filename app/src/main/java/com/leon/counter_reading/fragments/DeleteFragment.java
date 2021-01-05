@@ -27,17 +27,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class DeleteFragment extends DialogFragment {
-    int zoneId;
+    String id;
     FragmentDeleteBinding binding;
     Activity activity;
 
     public DeleteFragment() {
     }
 
-    public static DeleteFragment newInstance(int zoneId) {
+    public static DeleteFragment newInstance(String id) {
         DeleteFragment fragment = new DeleteFragment();
         Bundle args = new Bundle();
-        args.putInt(BundleEnum.ZONE_ID.getValue(), zoneId);
+        args.putString(BundleEnum.BILL_ID.getValue(), id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,7 +46,7 @@ public class DeleteFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            zoneId = getArguments().getInt(BundleEnum.ZONE_ID.getValue());
+            id = getArguments().getString(BundleEnum.BILL_ID.getValue());
         }
     }
 
@@ -85,12 +85,16 @@ public class DeleteFragment extends DialogFragment {
                         Crypto.decrypt(sharedPreferenceManager.getStringData(
                                 SharedReferenceKeys.PASSWORD_TEMP.getValue())).contains(password)
                 ) {
-                    if (zoneId == 0) {
+                    if (id.isEmpty()) {
+//                        MyDatabaseClient.getInstance(activity).getMyDatabase().
+//                                readingConfigDefaultDao().updateReadingConfigDefaultByArchive(true, false);
                         MyDatabaseClient.getInstance(activity).getMyDatabase().
-                                readingConfigDefaultDao().updateReadingConfigDefaultByArchive(true, false);
+                                trackingDao().updateTrackingDtoByArchive(true, false);
                     } else {
+//                        MyDatabaseClient.getInstance(activity).getMyDatabase().
+//                                readingConfigDefaultDao().updateReadingConfigDefaultByArchive(zoneId, true, false);
                         MyDatabaseClient.getInstance(activity).getMyDatabase().
-                                readingConfigDefaultDao().updateReadingConfigDefaultByArchive(zoneId, true, false);
+                                trackingDao().updateTrackingDtoByArchive(id, true, false);
                     }
                     Intent intent = activity.getIntent();
                     activity.finish();

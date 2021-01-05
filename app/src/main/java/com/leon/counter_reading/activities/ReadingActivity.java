@@ -41,7 +41,6 @@ import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.IFlashLightManager;
 import com.leon.counter_reading.tables.OnOffLoadDto;
-import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.ReadingData;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomDialog;
@@ -389,32 +388,31 @@ public class ReadingActivity extends BaseActivity {
             readingData.karbariDtos.addAll(myDatabase.karbariDao().getAllKarbariDto());
             readingData.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
             readingData.trackingDtos.addAll(myDatabase.trackingDao().
-                    getTrackingDto());//TODO
+                    getTrackingDtosIsActiveNotArchive(true, false));//TODO
             for (TrackingDto trackingDto : readingData.trackingDtos) {
                 readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
-                        getActiveReadingConfigDefaultDtosByZoneId(trackingDto.zoneId, true));
+                        getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
             }
-            for (ReadingConfigDefaultDto readingConfigDefaultDto : readingData.readingConfigDefaultDtos) {
+            for (TrackingDto trackingDto : readingData.trackingDtos) {
                 if (readStatus == ReadStatusEnum.ALL.getValue()) {
                     readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadByZone(readingConfigDefaultDto.zoneId));
+                            getAllOnOffLoadByTracking(trackingDto.id));
                 } else if (readStatus == ReadStatusEnum.STATE.getValue()) {
                     readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadByZone(readingConfigDefaultDto.zoneId, highLow));
+                            getAllOnOffLoadByHighLowAndTracking(trackingDto.id, highLow));
                 } else if (readStatus == ReadStatusEnum.UNREAD.getValue()) {
                     readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadRead(false, readingConfigDefaultDto.zoneId));
+                            getAllOnOffLoadNotRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));
                 } else if (readStatus == ReadStatusEnum.READ.getValue()) {
                     readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadRead(true, readingConfigDefaultDto.zoneId));
+                            getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));
                 } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
                     for (int i = 0; i < isMane.size(); i++) {
                         readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                                getOnOffLoadReadByIsMane(isMane.get(i)));
+                                getOnOffLoadReadByIsMane(isMane.get(i), trackingDto.id));
                     }
                 }
             }
-
             if (readingData != null && readingData.onOffLoadDtos != null && readingData.onOffLoadDtos.size() > 0) {
                 readingDataTemp.onOffLoadDtos.addAll(readingData.onOffLoadDtos);
                 readingDataTemp.counterStateDtos.addAll(readingData.counterStateDtos);

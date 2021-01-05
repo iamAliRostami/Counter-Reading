@@ -104,7 +104,7 @@ public class DownloadFragment extends Fragment {
                 ReadingData readingDataTemp = response.body();
                 MyDatabase myDatabase = MyDatabaseClient.getInstance(context).getMyDatabase();
                 ArrayList<TrackingDto> trackingDtos = new ArrayList<>(
-                        myDatabase.trackingDao().getTrackingDto());
+                        myDatabase.trackingDao().getTrackingDtoNotArchive(false));
                 for (TrackingDto trackingDto : trackingDtos)
                     for (int i = 0; i < readingDataTemp.trackingDtos.size(); i++) {
                         if (trackingDto.id.equals(readingDataTemp.trackingDtos.get(i).id))
@@ -140,8 +140,10 @@ public class DownloadFragment extends Fragment {
                     }
                 myDatabase.qotrDictionaryDao().insertQotrDictionaries(readingData.qotrDictionary);
 
+//                ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>(
+//                        myDatabase.readingConfigDefaultDao().getNotArchiveReadingConfigDefaultDtosByZoneId(false));
                 ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>(
-                        myDatabase.readingConfigDefaultDao().getNotArchiveReadingConfigDefaultDtosByZoneId(false));
+                        myDatabase.readingConfigDefaultDao().getReadingConfigDefaultDtos());
                 for (ReadingConfigDefaultDto readingConfigDefaultDto : readingConfigDefaultDtos)
                     for (int i = 0; i < readingDataTemp.readingConfigDefaultDtos.size(); i++) {
                         if (readingConfigDefaultDto.id.equals(readingDataTemp.readingConfigDefaultDtos.get(i).id))

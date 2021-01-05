@@ -17,17 +17,14 @@ import com.leon.counter_reading.utils.MyDatabaseClient;
 import java.util.ArrayList;
 
 public class ReadingSettingCustomAdapter extends BaseAdapter {
-    ArrayList<Boolean> selected;
-    ArrayList<Integer> zoneIds;
+//    ArrayList<Boolean> selected;
+//    ArrayList<Integer> zoneIds;
     ArrayList<TrackingDto> trackingDtos;
     LayoutInflater inflater;
     Context context;
 
-    public ReadingSettingCustomAdapter(Context context, ArrayList<TrackingDto> trackingDtos,
-                                       ArrayList<Boolean> selected, ArrayList<Integer> zoneIds) {
+    public ReadingSettingCustomAdapter(Context context, ArrayList<TrackingDto> trackingDtos) {
         this.trackingDtos = trackingDtos;
-        this.zoneIds = zoneIds;
-        this.selected = selected;
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -68,12 +65,16 @@ public class ReadingSettingCustomAdapter extends BaseAdapter {
 
         holder.linearLayout.setOnClickListener(view1 -> {
             holder.checkBox.setChecked(!holder.checkBox.isChecked());
-            selected.set(position, holder.checkBox.isChecked());
+            trackingDtos.get(position).isActive = holder.checkBox.isChecked();
+//            selected.set(position, holder.checkBox.isChecked());
+//            MyDatabaseClient.getInstance(context).getMyDatabase().
+//                    readingConfigDefaultDao().updateReadingConfigDefaultByStatus(
+//                    zoneIds.get(position), selected.get(position));
             MyDatabaseClient.getInstance(context).getMyDatabase().
-                    readingConfigDefaultDao().updateReadingConfigDefaultByStatus(
-                    zoneIds.get(position), selected.get(position));
+                    trackingDao().updateTrackingDtoByStatus(
+                    trackingDtos.get(position).id, trackingDtos.get(position).isActive);
         });
-        holder.checkBox.setChecked(selected.get(position));
+        holder.checkBox.setChecked(trackingDtos.get(position).isActive);
         return view;
     }
 
