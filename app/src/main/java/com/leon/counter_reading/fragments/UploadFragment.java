@@ -94,7 +94,7 @@ public class UploadFragment extends Fragment {
                     BundleEnum.TRACKING.getValue());
             for (String s : json) {
                 trackingDtos.add(gson.fromJson(s, TrackingDto.class));
-                items.add(trackingDtos.get(trackingDtos.size() - 1).zoneTitle);
+                items.add(String.valueOf(trackingDtos.get(trackingDtos.size() - 1).trackNumber));
             }
         }
     }
@@ -154,14 +154,12 @@ public class UploadFragment extends Fragment {
             } else {
                 onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                         onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(
-                        onOffLoadDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackingId,
+                        trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id,
                         OffloadStateEnum.INSERTED.getValue()));
             }
             offLoadReports.clear();
-            for (int i = 0; i < onOffLoadDtos.size(); i++) {
-                offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        offLoadReportDao().getAllOffLoadReportById(onOffLoadDtos.get(i).id));
-            }
+            offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                    offLoadReportDao().getAllOffLoadReport());
             return null;
         }
 
@@ -328,12 +326,24 @@ public class UploadFragment extends Fragment {
         @Override
         public void execute(Response<OnOffLoadDto.OffLoadResponses> response) {
             if (response.body() != null && response.body().status == 200) {
-                int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
-                        OffloadStateEnum.SENT_WITH_ERROR.getValue();
+//                int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
+//                        OffloadStateEnum.SENT_WITH_ERROR.getValue();
                 for (int i = 0; i < response.body().targetObject.size(); i++) {
+//                    MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+//                            updateOnOffLoad(state, response.body().targetObject.get(i));
                     MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                            updateOnOffLoad(state, response.body().targetObject.get(i));
+                            deleteOnOffLoad(response.body().targetObject.get(i));
                 }
+                if (binding.spinner.getSelectedItemPosition() == 0) {
+                    MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
+                            updateTrackingDtoByArchive(true, false);
+                } else {
+                    MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
+                            updateTrackingDtoByArchive(trackingDtos.get(
+                                    binding.spinner.getSelectedItemPosition() - 1).id, true, false);
+                }
+                MyDatabaseClient.getInstance(activity).getMyDatabase().offLoadReportDao().
+                        deleteAllOffLoadReport();
                 new CustomDialog(DialogType.Green, getContext(), response.body().message,
                         activity.getString(R.string.dear_user),
                         activity.getString(R.string.upload_information),

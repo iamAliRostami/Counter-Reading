@@ -85,7 +85,7 @@ public interface OnOffLoadDao {
     void updateOnOffLoad(String id, String possibleEshterak, String possibleMobile,
                          String phoneNumber, String serialNumber, String address);
 
-    @Query("DELETE FROM OnOffLoadDto WHERE trackingId = :id")
+    @Query("DELETE FROM OnOffLoadDto WHERE id = :id")
     void deleteOnOffLoad(String id);
 
     @Query("DELETE FROM OnOffLoadDto")

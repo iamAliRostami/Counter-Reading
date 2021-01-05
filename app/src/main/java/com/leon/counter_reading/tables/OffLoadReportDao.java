@@ -29,6 +29,8 @@ public interface OffLoadReportDao {
     @Query("DELETE FROM OffLoadReport WHERE customId = :id")
     void deleteOffLoadReport(int id);
 
+    @Query("DELETE FROM OffLoadReport")
+    void deleteAllOffLoadReport();
 
     @Query("DELETE FROM OffLoadReport WHERE reportId = :reportId AND onOffLoadId = :onOffLoadId")
     void deleteOffLoadReport(int reportId, String onOffLoadId);

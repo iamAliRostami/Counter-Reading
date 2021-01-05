@@ -180,6 +180,8 @@ public class ReadingActivity extends BaseActivity {
         @Override
         public void execute(Response<OnOffLoadDto.OffLoadResponses> response) {
             if (response.body() != null && response.body().status == 200) {
+                MyDatabaseClient.getInstance(activity).getMyDatabase().offLoadReportDao().
+                        deleteAllOffLoadReport();
                 int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
                         OffloadStateEnum.SENT_WITH_ERROR.getValue();
                 for (int i = 0; i < response.body().targetObject.size(); i++) {

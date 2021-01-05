@@ -25,7 +25,6 @@ public interface TrackingDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAllTrackingDtos(ArrayList<TrackingDto> trackingDtos);
 
-
     @Query("Update TrackingDto Set isActive = :isActive Where id = :id AND isArchive = 0")
     void updateTrackingDtoByStatus(String id, boolean isActive);
 
