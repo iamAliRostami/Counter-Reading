@@ -118,7 +118,8 @@ public class DownloadFragment extends Fragment {
                     if (readingDataTemp.counterStateDtos != null)
                         for (int i = 0; i < readingDataTemp.counterStateDtos.size(); i++) {
                             if (counterStateDto.id == readingDataTemp.counterStateDtos.get(i).id)
-                                readingData.counterStateDtos.remove(readingDataTemp.counterStateDtos.get(i));
+                                readingData.counterStateDtos.remove(
+                                        readingDataTemp.counterStateDtos.get(i));
                         }
                 myDatabase.counterStateDao().insertAllCounterStateDto(readingData.counterStateDtos);
 
@@ -144,27 +145,33 @@ public class DownloadFragment extends Fragment {
                         myDatabase.readingConfigDefaultDao().getReadingConfigDefaultDtos());
                 for (ReadingConfigDefaultDto readingConfigDefaultDto : readingConfigDefaultDtos)
                     for (int i = 0; i < readingDataTemp.readingConfigDefaultDtos.size(); i++) {
-                        if (readingConfigDefaultDto.id.equals(readingDataTemp.readingConfigDefaultDtos.get(i).id))
-                            readingData.readingConfigDefaultDtos.remove(readingDataTemp.readingConfigDefaultDtos.get(i));
+                        if (readingConfigDefaultDto.id.equals(
+                                readingDataTemp.readingConfigDefaultDtos.get(i).id)) readingData.
+                                readingConfigDefaultDtos.remove(readingDataTemp.
+                                readingConfigDefaultDtos.get(i));
                     }
                 myDatabase.readingConfigDefaultDao().insertAllReadingConfigDefault(
                         readingData.readingConfigDefaultDtos);
 
-                ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>(myDatabase.onOffLoadDao().getAllOnOffLoad());
+                ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>(
+                        myDatabase.onOffLoadDao().getAllOnOffLoad());
                 for (OnOffLoadDto onOffLoadDto : onOffLoadDtos)
                     for (int i = 0; i < readingDataTemp.onOffLoadDtos.size(); i++) {
                         if (onOffLoadDto.id.equals(readingDataTemp.onOffLoadDtos.get(i).id))
                             readingData.onOffLoadDtos.remove(readingDataTemp.onOffLoadDtos.get(i));
                     }
                 myDatabase.onOffLoadDao().insertAllOnOffLoad(readingData.onOffLoadDtos);
-                ArrayList<CounterReportDto> counterReportDtos = new ArrayList<>(myDatabase.counterReportDao().getAllCounterStateReport());
+                ArrayList<CounterReportDto> counterReportDtos = new ArrayList<>(
+                        myDatabase.counterReportDao().getAllCounterStateReport());
                 for (CounterReportDto counterReportDto : counterReportDtos) {
                     for (int i = 0; i < readingDataTemp.counterReportDtos.size(); i++) {
                         if (counterReportDto.id == readingDataTemp.counterReportDtos.get(i).id)
-                            readingData.counterReportDtos.remove(readingDataTemp.counterReportDtos.get(i));
+                            readingData.counterReportDtos.remove(
+                                    readingDataTemp.counterReportDtos.get(i));
                     }
                 }
-                myDatabase.counterReportDao().insertAllCounterStateReport(readingData.counterReportDtos);
+                myDatabase.counterReportDao().insertAllCounterStateReport(
+                        readingData.counterReportDtos);
             }
         }
     }

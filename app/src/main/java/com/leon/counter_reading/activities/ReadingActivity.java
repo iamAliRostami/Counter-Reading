@@ -158,9 +158,19 @@ public class ReadingActivity extends BaseActivity {
         OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
 
         offLoadData.isFinal = false;
+        offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(readingData.onOffLoadDtos.get(position)));
         offLoadData.offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                 offLoadReportDao().getAllOffLoadReportById(readingData.onOffLoadDtos.get(position).id));
-        offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(readingData.onOffLoadDtos.get(position)));
+
+        ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>(
+                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                        getAllOnOffLoadRead(OffloadStateEnum.INSERTED.getValue()));
+        for (OnOffLoadDto onOffLoadDto : onOffLoadDtos) {
+            offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDto));
+            offLoadData.offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                    offLoadReportDao().getAllOffLoadReportById(onOffLoadDto.id));
+        }
+
         Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
         HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activity,
                 new offLoadData(), new offLoadDataIncomplete(), new offLoadError());
