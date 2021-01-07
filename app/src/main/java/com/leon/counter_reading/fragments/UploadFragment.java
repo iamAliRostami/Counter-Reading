@@ -8,11 +8,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentUploadBinding;
@@ -64,7 +64,6 @@ public class UploadFragment extends Fragment {
     ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
     ArrayList<OffLoadReport> offLoadReports = new ArrayList<>();
     ArrayList<ForbiddenDto> forbiddenDtos = new ArrayList<>();
-    ArrayList<ForbiddenDto.ForbiddenDtoRequest> forbiddenDtoRequests = new ArrayList<>();
 
     public UploadFragment() {
     }
@@ -219,13 +218,12 @@ public class UploadFragment extends Fragment {
         void uploadForbid() {
             //TODO
             if (forbiddenDtos.size() > 0) {
-                forbiddenDtoRequests.clear();
                 ForbiddenDto.ForbiddenDtoRequestMultiple forbiddenDtoRequestMultiple =
                         new ForbiddenDto.ForbiddenDtoRequestMultiple();
                 Retrofit retrofit = NetworkHelper.getInstance();
                 IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
 
-                for (int i = 0; i < 1/*forbiddenDtos.size()*/; i++) {
+                for (int i = 0; i < forbiddenDtos.size(); i++) {
                     ForbiddenDto.ForbiddenDtoMultiple forbiddenDtoMultiple =
                             new ForbiddenDto.ForbiddenDtoMultiple(forbiddenDtos.get(i).zoneId,
                                     forbiddenDtos.get(i).description,
@@ -238,38 +236,8 @@ public class UploadFragment extends Fragment {
                                     forbiddenDtos.get(i).gisAccuracy);
                     forbiddenDtoRequestMultiple.forbiddenDtos.add(forbiddenDtoMultiple);
                 }
-
-                Gson gson = new GsonBuilder().create();
-                String request = gson.toJson(forbiddenDtoRequestMultiple);
-                request = request.replaceFirst("\\{\"forbiddenDtos\":", "");
-                request = request.substring(0, request.length() - 1);
-                request="[\n" +
-                        "  {\n" +
-                        "    \"zoneId\": 131301,\n" +
-                        "    \"description\": \"string\",\n" +
-                        "    \"preEshterak\": \"string\",\n" +
-                        "    \"nextEshterak\": \"string\",\n" +
-                        "    \"postalCode\": \"4343434343\",\n" +
-                        "    \"tedadVahed\": 0,\n" +
-                        "    \"x\": \"12.87\",\n" +
-                        "    \"y\": \"23.87\",\n" +
-                        "    \"gisAccuracy\": \"67\"\n" +
-                        "  }\n" +
-                        ",\n" +
-                        "  {\n" +
-                        "    \"zoneId\": 131301,\n" +
-                        "    \"description\": \"string\",\n" +
-                        "    \"preEshterak\": \"string\",\n" +
-                        "    \"nextEshterak\": \"string\",\n" +
-                        "    \"postalCode\": \"string\",\n" +
-                        "    \"tedadVahed\": 0,\n" +
-                        "    \"x\": \"12.87\",\n" +
-                        "    \"y\": \"23.87\",\n" +
-                        "    \"gisAccuracy\": \"67\"\n" +
-                        "  }\n" +
-                        "]";
                 Call<ForbiddenDto.ForbiddenDtoResponses> call =
-                        iAbfaService.multipleForbidden(request);
+                        iAbfaService.multipleForbidden(forbiddenDtoRequestMultiple);
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                         new Forbidden(), new ForbiddenIncomplete(), new Error());
             }
@@ -377,11 +345,11 @@ public class UploadFragment extends Fragment {
     class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
         @Override
         public void execute(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
-            if (!response.isSuccessful()) {
+            if (response.isSuccessful()) {
                 MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
                         updateAllForbiddenDtoBySent(true);
-            } else {
-                new CustomToast().success(response.body().message);
+                new CustomToast().success(getString(R.string.report_forbid) + "\n" +
+                        response.body().message, Toast.LENGTH_LONG);
             }
         }
     }

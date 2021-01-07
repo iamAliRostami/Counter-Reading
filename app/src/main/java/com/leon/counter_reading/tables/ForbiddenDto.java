@@ -121,7 +121,8 @@ public class ForbiddenDto {
         public ForbiddenDtoMultiple(Integer zoneId, String description, String preEshterak,
                                     String nextEshterak, String postalCode, int tedadVahed,
                                     String x, String y, String gisAccuracy) {
-            this.zoneId = zoneId;
+            if (zoneId != 0)
+                this.zoneId = zoneId;
             this.description = description;
             this.preEshterak = preEshterak;
             this.nextEshterak = nextEshterak;

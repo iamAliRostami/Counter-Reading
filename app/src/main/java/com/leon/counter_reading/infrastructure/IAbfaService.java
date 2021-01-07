@@ -124,12 +124,5 @@ public interface IAbfaService {
     //    @Multipart
     @POST("KontoriNew/V1/Forbidden/Multiple")
     Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(@Body ForbiddenDto.ForbiddenDtoRequestMultiple forbiddenDto);
-
-    @POST("KontoriNew/V1/Forbidden/Multiple")
-    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(@Body String requestBody);
-
-    @POST("KontoriNew/V1/Forbidden/Multiple")
-    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(@Body ForbiddenDto.ForbiddenDtoRequest ForbiddenDtoRequest);
-
 }
 

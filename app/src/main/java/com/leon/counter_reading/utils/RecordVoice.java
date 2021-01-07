@@ -24,7 +24,7 @@ public final class RecordVoice {
     @SuppressLint("SimpleDateFormat")
     public RecordVoice(Context context) {
         this.context = context;
-        FileName=CustomFile.createAudioFile(context);
+        FileName = CustomFile.createAudioFile(context);
 //        FileName = context.getExternalCacheDir().getAbsolutePath() + context.getString(R.string.audio_folder) +
 //                new SimpleDateFormat(context.getString(R.string.save_format_name)).format(new Date()) + ".amr";
     }
@@ -95,8 +95,8 @@ public final class RecordVoice {
             Recorder.prepare();
             Recorder.start();
         } catch (IOException e) {
-            Log.e("error",e.toString());
-            Log.e("error",e.getMessage());
+            Log.e("error", e.toString());
+            Log.e("error", e.getMessage());
             new CustomToast().warning(context.getString(R.string.error_in_record_voice));
         }
     }

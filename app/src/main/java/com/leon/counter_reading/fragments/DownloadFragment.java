@@ -172,6 +172,13 @@ public class DownloadFragment extends Fragment {
                 }
                 myDatabase.counterReportDao().insertAllCounterStateReport(
                         readingData.counterReportDtos);
+
+                new CustomDialog(DialogType.Green, context,
+                        "تعداد ".concat(String.valueOf(readingData.trackingDtos.size())).concat(" مسیر و ").
+                                concat(String.valueOf(readingData.onOffLoadDtos.size())).concat(" اشتراک بارگیری شد."),
+                        context.getString(R.string.dear_user),
+                        context.getString(R.string.download),
+                        context.getString(R.string.accepted));
             }
         }
     }

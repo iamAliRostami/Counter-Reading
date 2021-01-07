@@ -152,7 +152,8 @@ public class CustomFile {
     public static String createAudioFile(Context context){
         String timeStamp = (new SimpleDateFormat(context.getString(R.string.save_format_name))).format(new Date());
         String imageFileName = "Audio_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+//        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+        File storageDir = Environment.getExternalStorageDirectory();
         storageDir.mkdirs();
         File audio = null;
         try {

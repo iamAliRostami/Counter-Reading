@@ -3,13 +3,9 @@ package com.leon.counter_reading.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Debug;
-import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,23 +29,19 @@ import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.RecordVoice;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class DescriptionActivity extends AppCompatActivity {
+public class DescriptionActivity1 extends AppCompatActivity {
     ActivityDescriptionBinding binding;
     ISharedPreferenceManager sharedPreferenceManager;
     String uuid;
     int position;
     Activity activity;
     Voice voice;
-    String pathSave;
-    MediaPlayer mediaPlayer;
-    MediaRecorder mediaRecorder;
     boolean play = false;
+    boolean hasVoice = false;
+    RecordVoice recordVoice;
     final double[] startTime = {0};
     final double[] finalTime = {0};
     final int[] oneTimeOnly = {0};
@@ -65,8 +57,9 @@ public class DescriptionActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         activity = this;
 
-        if (PermissionManager.checkRecorderPermission(getApplicationContext()))
+        if (PermissionManager.checkRecorderPermission(getApplicationContext())) {
             initialize();
+        }
         else askRecorderPermission();
     }
 
@@ -76,47 +69,70 @@ public class DescriptionActivity extends AppCompatActivity {
             uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
             position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
         }
+        recordVoice = new RecordVoice(activity);
         binding.imageViewRecord.setImageDrawable(getDrawable(R.drawable.img_record));
         checkMultimediaAndToggle();
         setImageViewRecordClickListener();
         setImageViewPausePlayClickListener();
-        setOnButtonSendClickListener();
         setSeekBarChangeListener();
+        setOnButtonSendClickListener();
     }
 
-    @SuppressLint("ClickableViewAccessibility,SimpleDateFormat")
-    void setImageViewRecordClickListener() {
-        binding.imageViewRecord.setLongClickable(true);
-        binding.imageViewRecord.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                String timeStamp = (
-                        new SimpleDateFormat(getString(R.string.save_format_name))).format(new Date());
-                String audioFileName = "audio_" + timeStamp;
-                pathSave = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                        "/" + audioFileName + ".amr";
-                setupMediaRecorder();
-                try {
-                    mediaRecorder.prepare();
-                    mediaRecorder.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
+    @SuppressLint("DefaultLocale")
+    void setImageViewPausePlayClickListener() {
+        binding.imageViewPlay.setOnClickListener(v -> {
+            if (!play) {
+                recordVoice.onPlay(true);
+                finalTime[0] = recordVoice.Player.getDuration();
+                startTime[0] = recordVoice.Player.getCurrentPosition();
+                if (oneTimeOnly[0] == 0) {
+                    binding.seekBar.setMax((int) finalTime[0]);
+                    oneTimeOnly[0] = 1;
                 }
-            }
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                mediaRecorder.stop();
-                binding.imageViewPlay.setImageResource(R.drawable.img_play);
-                binding.imageViewPlay.setEnabled(true);
-            }
-            return false;
-        });
-    }
+                final Handler myHandler = new Handler();
+                binding.seekBar.setProgress((int) startTime[0]);
+                Runnable UpdateSongTime = new Runnable() {
+                    public void run() {
+                        startTime[0] = recordVoice.Player.getCurrentPosition();
+                        binding.textViewCurrent.setText(String.format("%d min, %d sec",
+                                TimeUnit.MILLISECONDS.toMinutes((long) startTime[0]),
+                                TimeUnit.MILLISECONDS.toSeconds((long) startTime[0]) -
+                                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
+                                                toMinutes((long) startTime[0])))
+                        );
+                        binding.seekBar.setProgress((int) startTime[0]);
+                        myHandler.postDelayed(this, 100);
+                        if (startTime[0] == finalTime[0]) {
+                            final ImageView imageView = findViewById(R.id.image_view_play);
+                            imageView.setImageResource(R.drawable.img_pause);
+                            play = false;
 
-    private void setupMediaRecorder() {
-        mediaRecorder = new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-        mediaRecorder.setOutputFile(pathSave);
+                        }
+                    }
+                };
+                binding.textViewTotal.setText(String.format("%d min, %d sec",
+                        TimeUnit.MILLISECONDS.toMinutes((long) finalTime[0]),
+                        TimeUnit.MILLISECONDS.toSeconds((long) finalTime[0]) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long)
+                                        finalTime[0])))
+                );
+                binding.textViewCurrent.setText(String.format("%d min, %d sec",
+                        TimeUnit.MILLISECONDS.toMinutes((long) startTime[0]),
+                        TimeUnit.MILLISECONDS.toSeconds((long) startTime[0]) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long)
+                                        startTime[0])))
+                );
+                myHandler.postDelayed(UpdateSongTime, 100);
+
+                binding.imageViewPlay.setImageResource(R.drawable.img_pause);
+                play = true;
+            } else {
+//                    recordVoice.Player.pause();
+                recordVoice.onPlay(false);
+                binding.imageViewPlay.setImageResource(R.drawable.img_play);
+                play = false;
+            }
+        });
     }
 
     void setSeekBarChangeListener() {
@@ -134,7 +150,7 @@ public class DescriptionActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mediaPlayer.seekTo(progressChangedValue);
+                recordVoice.Player.seekTo(progressChangedValue);
                 startTime[0] = progressChangedValue;
                 if (progressChangedValue == finalTime[0]) {
                     binding.imageViewPlay.setImageResource(R.drawable.img_play);
@@ -144,76 +160,24 @@ public class DescriptionActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressLint("DefaultLocale")
-    void setImageViewPausePlayClickListener() {
-        binding.imageViewPlay.setOnClickListener(v -> {
-            Log.e("status", String.valueOf(play));
-            if (!play) {
-                Log.e("here", "false");
-                play = !play;
-                mediaPlayer = new MediaPlayer();
-                try {
-                    mediaPlayer.setDataSource(pathSave);
-                    mediaPlayer.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                mediaPlayer.start();
-                //TODO
-                finalTime[0] = mediaPlayer.getDuration();
-                startTime[0] = mediaPlayer.getCurrentPosition();
-                if (oneTimeOnly[0] == 0) {
-                    binding.seekBar.setMax((int) finalTime[0]);
-                    oneTimeOnly[0] = 1;
-                }
-                final Handler myHandler = new Handler();
-                binding.seekBar.setProgress((int) startTime[0]);
-                Runnable UpdateSongTime = new Runnable() {
-                    public void run() {
-                        if (play) {
-                            startTime[0] = mediaPlayer.getCurrentPosition();
-                            binding.textViewCurrent.setText(String.format("%d min, %d sec",
-                                    TimeUnit.MILLISECONDS.toMinutes((long) startTime[0]),
-                                    TimeUnit.MILLISECONDS.toSeconds((long) startTime[0]) -
-                                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
-                                                    toMinutes((long) startTime[0])))
-                            );
-                            binding.seekBar.setProgress((int) startTime[0]);
-                            myHandler.postDelayed(this, 100);
-                            if (startTime[0] == finalTime[0]) {
-                                final ImageView imageView = findViewById(R.id.image_view_play);
-                                imageView.setImageResource(R.drawable.img_pause);
-                                play = false;
-
-                            }
-                        }
-                    }
-                };
-                binding.textViewTotal.setText(String.format("%d min, %d sec",
-                        TimeUnit.MILLISECONDS.toMinutes((long) finalTime[0]),
-                        TimeUnit.MILLISECONDS.toSeconds((long) finalTime[0]) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long)
-                                        finalTime[0])))
-                );
-                binding.textViewCurrent.setText(String.format("%d min, %d sec",
-                        TimeUnit.MILLISECONDS.toMinutes((long) startTime[0]),
-                        TimeUnit.MILLISECONDS.toSeconds((long) startTime[0]) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long)
-                                        startTime[0])))
-                );
-                myHandler.postDelayed(UpdateSongTime, 100);
-                //TODO
-                binding.imageViewPlay.setImageResource(R.drawable.img_pause);
-            } else {
-                Log.e("here", "true");
-                if (mediaPlayer != null) {
-                    mediaPlayer.stop();
-                    mediaPlayer.release();
-                    setupMediaRecorder();
-                }
-                binding.imageViewPlay.setImageResource(R.drawable.img_play);
-                play = !play;
+    @SuppressLint("ClickableViewAccessibility")
+    void setImageViewRecordClickListener() {
+        binding.imageViewRecord.setOnTouchListener((v, event) -> {
+            play = false;
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                binding.buttonSend.setEnabled(false);
+                binding.imageViewPlay.setEnabled(false);
+                recordVoice.onRecord(true);
+                binding.imageViewPlay.setImageResource(R.drawable.img_play_pause);
             }
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                recordVoice.onRecord(false);
+                binding.buttonSend.setEnabled(true);
+                binding.imageViewPlay.setEnabled(true);
+                binding.imageViewPlay.setImageResource(R.drawable.img_play);
+                hasVoice = true;
+            }
+            return true;
         });
     }
 
