@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentUploadBinding;
@@ -34,6 +35,7 @@ import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.HttpClientWrapper;
+import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
 
@@ -118,15 +120,47 @@ public class UploadFragment extends Fragment {
     }
 
     void setupSpinner() {
-        items.add(0, getString(R.string.all_items));
+        items.add(0, getString(R.string.select_one));
         SpinnerCustomAdapter spinnerCustomAdapter = new SpinnerCustomAdapter(activity, items);
         binding.spinner.setAdapter(spinnerCustomAdapter);
+    }
+
+    boolean checkOnOffLoad() {
+        int total = 0, mane = 0, unread = 0, alalPercent = 0;
+        MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+        if (binding.spinner.getSelectedItemPosition() != 0) {
+            total = myDatabase.onOffLoadDao().getOnOffLoadCount(
+                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id);
+            unread = myDatabase.onOffLoadDao().getOnOffLoadUnreadCount(0,
+                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id);
+            ArrayList<Integer> isManes = new ArrayList<>(myDatabase.counterStateDao().
+                    getCounterStateDtosIsMane(true));
+            for (int i = 0; i < isManes.size(); i++) {
+                mane = mane + myDatabase.onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i),
+                        trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id);
+            }
+            alalPercent = myDatabase.readingConfigDefaultDao().getAlalHesabByZoneId(
+                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).zoneId);
+        }
+        if (trackingDtos.size() > 0) {
+            if (unread > 0) {
+                new CustomToast().info("همکار گرامی! تعداد " + unread + " اشتراک قرائت نشده است.");
+                return false;
+            } else if (mane > 0 && mane / total * 100 > alalPercent) {
+                new CustomToast().info("همکار گرامی درصد علی الحساب بالاتر از حد مجاز است.");
+                return false;
+            }
+        }
+        return true;
     }
 
     void setOnButtonUploadClickListener() {
         binding.buttonUpload.setOnClickListener(v -> {
             if (type == 1) {
+                //TODO
                 new prepareOffLoadToUpload().execute();
+//                if (checkOnOffLoad())
+//                    new prepareOffLoadToUpload().execute();
             } else if (type == 3) {
                 new prepareMultimediaToUpload().execute();
             }
@@ -186,16 +220,58 @@ public class UploadFragment extends Fragment {
             //TODO
             if (forbiddenDtos.size() > 0) {
                 forbiddenDtoRequests.clear();
+                ForbiddenDto.ForbiddenDtoRequestMultiple forbiddenDtoRequestMultiple =
+                        new ForbiddenDto.ForbiddenDtoRequestMultiple();
                 Retrofit retrofit = NetworkHelper.getInstance();
                 IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-                for (int i = 0; i < forbiddenDtos.size(); i++) {
-                    forbiddenDtoRequests.add(forbiddenDtos.get(i).prepareRequestBody());
-                }
-                //TODO
 
-//                Call<ForbiddenDto.ForbiddenDtoResponses> call = iAbfaService.multipleForbidden(forbiddenDtoRequests);
-//                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-//                        new Forbidden(), new ForbiddenIncomplete(), new Error());
+                for (int i = 0; i < 1/*forbiddenDtos.size()*/; i++) {
+                    ForbiddenDto.ForbiddenDtoMultiple forbiddenDtoMultiple =
+                            new ForbiddenDto.ForbiddenDtoMultiple(forbiddenDtos.get(i).zoneId,
+                                    forbiddenDtos.get(i).description,
+                                    forbiddenDtos.get(i).preEshterak,
+                                    forbiddenDtos.get(i).nextEshterak,
+                                    forbiddenDtos.get(i).postalCode,
+                                    forbiddenDtos.get(i).tedadVahed,
+                                    forbiddenDtos.get(i).x,
+                                    forbiddenDtos.get(i).y,
+                                    forbiddenDtos.get(i).gisAccuracy);
+                    forbiddenDtoRequestMultiple.forbiddenDtos.add(forbiddenDtoMultiple);
+                }
+
+                Gson gson = new GsonBuilder().create();
+                String request = gson.toJson(forbiddenDtoRequestMultiple);
+                request = request.replaceFirst("\\{\"forbiddenDtos\":", "");
+                request = request.substring(0, request.length() - 1);
+                request="[\n" +
+                        "  {\n" +
+                        "    \"zoneId\": 131301,\n" +
+                        "    \"description\": \"string\",\n" +
+                        "    \"preEshterak\": \"string\",\n" +
+                        "    \"nextEshterak\": \"string\",\n" +
+                        "    \"postalCode\": \"4343434343\",\n" +
+                        "    \"tedadVahed\": 0,\n" +
+                        "    \"x\": \"12.87\",\n" +
+                        "    \"y\": \"23.87\",\n" +
+                        "    \"gisAccuracy\": \"67\"\n" +
+                        "  }\n" +
+                        ",\n" +
+                        "  {\n" +
+                        "    \"zoneId\": 131301,\n" +
+                        "    \"description\": \"string\",\n" +
+                        "    \"preEshterak\": \"string\",\n" +
+                        "    \"nextEshterak\": \"string\",\n" +
+                        "    \"postalCode\": \"string\",\n" +
+                        "    \"tedadVahed\": 0,\n" +
+                        "    \"x\": \"12.87\",\n" +
+                        "    \"y\": \"23.87\",\n" +
+                        "    \"gisAccuracy\": \"67\"\n" +
+                        "  }\n" +
+                        "]";
+                Call<ForbiddenDto.ForbiddenDtoResponses> call =
+                        iAbfaService.multipleForbidden(request);
+                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
+                        new Forbidden(), new ForbiddenIncomplete(), new Error());
             }
         }
 
@@ -326,13 +402,14 @@ public class UploadFragment extends Fragment {
         @Override
         public void execute(Response<OnOffLoadDto.OffLoadResponses> response) {
             if (response.body() != null && response.body().status == 200) {
-//                int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
-//                        OffloadStateEnum.SENT_WITH_ERROR.getValue();
+                int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
+                        OffloadStateEnum.SENT_WITH_ERROR.getValue();
                 for (int i = 0; i < response.body().targetObject.size(); i++) {
-//                    MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-//                            updateOnOffLoad(state, response.body().targetObject.get(i));
                     MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                            deleteOnOffLoad(response.body().targetObject.get(i));
+                            updateOnOffLoad(state, response.body().targetObject.get(i));
+                    if (response.body().isValid)
+                        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                                deleteOnOffLoad(response.body().targetObject.get(i));
                 }
                 if (binding.spinner.getSelectedItemPosition() == 0) {
                     MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().

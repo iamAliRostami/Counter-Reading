@@ -1,7 +1,6 @@
 package com.leon.counter_reading.tables;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -65,7 +64,6 @@ public class ForbiddenDto {
         forbiddenDtoRequest.x = RequestBody.create(String.valueOf(x), MediaType.parse("text/plain"));
         forbiddenDtoRequest.y = RequestBody.create(String.valueOf(y), MediaType.parse("text/plain"));
         forbiddenDtoRequest.gisAccuracy = RequestBody.create(String.valueOf(gisAccuracy), MediaType.parse("text/plain"));
-        Log.e("zone", String.valueOf(zoneId));
         forbiddenDtoRequest.zoneId = RequestBody.create(String.valueOf(zoneId),
                 MediaType.parse("text/plain"));
     }
@@ -81,7 +79,6 @@ public class ForbiddenDto {
         forbiddenDtoRequest.x = RequestBody.create(String.valueOf(x), MediaType.parse("text/plain"));
         forbiddenDtoRequest.y = RequestBody.create(String.valueOf(y), MediaType.parse("text/plain"));
         forbiddenDtoRequest.gisAccuracy = RequestBody.create(String.valueOf(gisAccuracy), MediaType.parse("text/plain"));
-        Log.e("zone", String.valueOf(zoneId));
         forbiddenDtoRequest.zoneId = RequestBody.create(String.valueOf(zoneId),
                 MediaType.parse("text/plain"));
         return forbiddenDtoRequest;
@@ -107,6 +104,40 @@ public class ForbiddenDto {
         public RequestBody gisAccuracy;
 
         public ForbiddenDtoRequest() {
+        }
+    }
+
+    public static class ForbiddenDtoMultiple {
+        public Integer zoneId;
+        public String description;
+        public String preEshterak;
+        public String nextEshterak;
+        public String postalCode;
+        public int tedadVahed;
+        public String x;
+        public String y;
+        public String gisAccuracy;
+
+        public ForbiddenDtoMultiple(Integer zoneId, String description, String preEshterak,
+                                    String nextEshterak, String postalCode, int tedadVahed,
+                                    String x, String y, String gisAccuracy) {
+            this.zoneId = zoneId;
+            this.description = description;
+            this.preEshterak = preEshterak;
+            this.nextEshterak = nextEshterak;
+            this.postalCode = postalCode;
+            this.tedadVahed = tedadVahed;
+            this.x = x;
+            this.y = y;
+            this.gisAccuracy = gisAccuracy;
+        }
+    }
+
+    public static class ForbiddenDtoRequestMultiple {
+        public ArrayList<ForbiddenDtoMultiple> forbiddenDtos;
+
+        public ForbiddenDtoRequestMultiple() {
+            forbiddenDtos = new ArrayList<>();
         }
     }
 }

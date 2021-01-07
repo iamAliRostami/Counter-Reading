@@ -22,25 +22,124 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class PermissionManager {
+    public static boolean checkRecorderPermission(Context context) {
+        return ActivityCompat.checkSelfPermission(context,
+                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context,
+                        Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static boolean checkRecorderPermission(Activity activity) {
+        if (ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.RECORD_AUDIO) ==
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            askRecorderPermission(activity);
+        }
+        return false;
+    }
+
+    public static void askRecorderPermission(Activity activity) {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                CustomToast customToast = new CustomToast();
+                customToast.info(activity.getString(R.string.access_granted));
+                checkRecorderPermission(activity);
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                forceClose(activity);
+            }
+        };
+        new TedPermission(activity)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage(activity.getString(R.string.confirm_permission))
+                .setRationaleConfirmText(activity.getString(R.string.allow_permission))
+                .setDeniedMessage(activity.getString(R.string.if_reject_permission))
+                .setDeniedCloseButtonText(activity.getString(R.string.close))
+                .setGotoSettingButtonText(activity.getString(R.string.allow_permission))
+                .setPermissions(
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ).check();
+    }
+
+    public static boolean checkCameraPermission(Context context) {
+        return ActivityCompat.checkSelfPermission(context,
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context,
+                        Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static boolean checkCameraPermission(Activity activity) {
+        if (ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.CAMERA) ==
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            askCameraPermission(activity);
+        }
+        return false;
+    }
+
+    public static void askCameraPermission(Activity activity) {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                CustomToast customToast = new CustomToast();
+                customToast.info(activity.getString(R.string.access_granted));
+                checkCameraPermission(activity);
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                forceClose(activity);
+            }
+        };
+        new TedPermission(activity)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage(activity.getString(R.string.confirm_permission))
+                .setRationaleConfirmText(activity.getString(R.string.allow_permission))
+                .setDeniedMessage(activity.getString(R.string.if_reject_permission))
+                .setDeniedCloseButtonText(activity.getString(R.string.close))
+                .setGotoSettingButtonText(activity.getString(R.string.allow_permission))
+                .setPermissions(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ).check();
+    }
 
     public static boolean checkStoragePermission(Context context) {
         return ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(context,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED ||
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context,
                         Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
     public static boolean checkStoragePermission(Activity activity) {
         if (ActivityCompat.checkSelfPermission(activity,
-                Manifest.permission.CAMERA)
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(activity,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(activity,
-                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
                         == PackageManager.PERMISSION_GRANTED) {
             return true;
         } else {
@@ -71,7 +170,6 @@ public class PermissionManager {
                 .setDeniedCloseButtonText(activity.getString(R.string.close))
                 .setGotoSettingButtonText(activity.getString(R.string.allow_permission))
                 .setPermissions(
-                        Manifest.permission.CAMERA,
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ).check();
@@ -167,10 +265,12 @@ public class PermissionManager {
         activity.startActivityForResult(
                 new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS), MyApplication.REQUEST_NETWORK_CODE);
     }
+
     public static void setMobileWifiEnabled(Activity activity) {
         activity.startActivityForResult(
                 new Intent(Settings.ACTION_WIFI_SETTINGS), MyApplication.REQUEST_WIFI_CODE);
     }
+
     public static void forceClose(Activity activity) {
         CustomToast customToast = new CustomToast();
         customToast.error(activity.getString(R.string.permission_not_completed));

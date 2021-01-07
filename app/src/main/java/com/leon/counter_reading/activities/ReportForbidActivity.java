@@ -1,5 +1,6 @@
 package com.leon.counter_reading.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -20,6 +21,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivityReportForbidBinding;
@@ -40,6 +43,7 @@ import com.leon.counter_reading.utils.GPSTracker;
 import com.leon.counter_reading.utils.HttpClientWrapper;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
+import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import java.io.File;
@@ -71,7 +75,11 @@ public class ReportForbidActivity extends AppCompatActivity {
         binding = ActivityReportForbidBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         activity = this;
-        initialize();
+        //TODO check permission
+
+        if (PermissionManager.checkCameraPermission(getApplicationContext()))
+            initialize();
+        else askCameraPermission();
     }
 
     void initialize() {
@@ -198,7 +206,7 @@ public class ReportForbidActivity extends AppCompatActivity {
 
         Retrofit retrofit = NetworkHelper.getInstance();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        Call<ForbiddenDto.ForbiddenDtoResponses> call = null;
+        Call<ForbiddenDto.ForbiddenDtoResponses> call;
         if (zoneId != 0 && forbiddenDto.File.size() > 0) {
             call = iAbfaService.singleForbidden(forbiddenDto.File,
                     forbiddenDto.forbiddenDtoRequest.zoneId,
@@ -320,6 +328,33 @@ public class ReportForbidActivity extends AppCompatActivity {
         }
     }
 
+    void askCameraPermission() {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                CustomToast customToast = new CustomToast();
+                customToast.info(getString(R.string.access_granted));
+                initialize();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                PermissionManager.forceClose(activity);
+            }
+        };
+        new TedPermission(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage(getString(R.string.confirm_permission))
+                .setRationaleConfirmText(getString(R.string.allow_permission))
+                .setDeniedMessage(getString(R.string.if_reject_permission))
+                .setDeniedCloseButtonText(getString(R.string.close))
+                .setGotoSettingButtonText(getString(R.string.allow_permission))
+                .setPermissions(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ).check();
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

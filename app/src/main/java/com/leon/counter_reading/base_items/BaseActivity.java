@@ -1,7 +1,10 @@
 package com.leon.counter_reading.base_items;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -10,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -19,6 +23,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.navigation.NavigationView;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
@@ -40,10 +46,13 @@ import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.GPSTracker;
 import com.leon.counter_reading.utils.MyDatabaseClient;
+import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,6 +61,7 @@ public abstract class BaseActivity extends AppCompatActivity
     NavigationDrawerAdapter adapter;
     List<NavigationDrawerAdapter.DrawerItem> dataList;
     BaseActivityBinding binding;
+    Activity activity;
     ISharedPreferenceManager sharedPreferenceManager;
     GPSTracker gpsTracker;
 
@@ -70,16 +80,81 @@ public abstract class BaseActivity extends AppCompatActivity
             theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         }
         MyApplication.onActivitySetTheme(this, theme, false);
-        gpsTracker = new GPSTracker(this);
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         overridePendingTransition(R.anim.slide_up_info, R.anim.no_change);
         binding = BaseActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         MyDatabaseClient.migration(this);
-
         initializeBase();
-        initialize();
+        if (isNetworkAvailable(getApplicationContext()))
+            checkPermissions();
+        else PermissionManager.enableNetwork(this);
+    }
+
+    void checkPermissions() {
+        if (PermissionManager.gpsEnabled(this))
+            if (!PermissionManager.checkLocationPermission(getApplicationContext())) {
+                askLocationPermission();
+            } else if (!PermissionManager.checkStoragePermission(getApplicationContext())) {
+                askStoragePermission();
+            } else {
+                initialize();
+                gpsTracker = new GPSTracker(this);
+            }
+    }
+
+    void askStoragePermission() {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                CustomToast customToast = new CustomToast();
+                customToast.info(getString(R.string.access_granted));
+                checkPermissions();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                PermissionManager.forceClose(activity);
+            }
+        };
+        new TedPermission(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage(getString(R.string.confirm_permission))
+                .setRationaleConfirmText(getString(R.string.allow_permission))
+                .setDeniedMessage(getString(R.string.if_reject_permission))
+                .setDeniedCloseButtonText(getString(R.string.close))
+                .setGotoSettingButtonText(getString(R.string.allow_permission))
+                .setPermissions(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ).check();
+    }
+
+    void askLocationPermission() {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                CustomToast customToast = new CustomToast();
+                customToast.info(getString(R.string.access_granted));
+                checkPermissions();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                PermissionManager.forceClose(activity);
+            }
+        };
+        new TedPermission(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage(getString(R.string.confirm_permission))
+                .setRationaleConfirmText(getString(R.string.allow_permission))
+                .setDeniedMessage(getString(R.string.if_reject_permission))
+                .setDeniedCloseButtonText(getString(R.string.close))
+                .setGotoSettingButtonText(getString(R.string.allow_permission))
+                .setPermissions(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                ).check();
     }
 
     @Override
@@ -100,7 +175,6 @@ public abstract class BaseActivity extends AppCompatActivity
     @SuppressLint("RtlHardcoded")
     void setOnDrawerItemClick() {
         binding.imageViewHeader.setOnClickListener(v -> {
-//            MyApplication.isReading = false;
             if (MyApplication.POSITION != -1) {
                 MyApplication.POSITION = -1;
                 Intent intent = new Intent(MyApplication.getContext(), HomeActivity.class);
@@ -116,7 +190,6 @@ public abstract class BaseActivity extends AppCompatActivity
                     @Override
                     public void onItemClick(View view, int position) {
                         binding.drawerLayout.closeDrawer(GravityCompat.START);
-//                        MyApplication.isReading = false;
                         if (position == 8) {
                             MyApplication.POSITION = -1;
                             finishAffinity();
@@ -156,6 +229,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @SuppressLint("WrongConstant")
     private void initializeBase() {
+        activity = this;
         TextView textView = findViewById(R.id.text_view_title);
         textView.setText(sharedPreferenceManager.getStringData(
                 SharedReferenceKeys.DISPLAY_NAME.getValue()).
@@ -199,7 +273,24 @@ public abstract class BaseActivity extends AppCompatActivity
     public GPSTracker getGpsTracker() {
         return gpsTracker;
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == PackageManager.PERMISSION_GRANTED) {
+            if (requestCode == MyApplication.GPS_CODE)
+                checkPermissions();
+            if (requestCode == MyApplication.REQUEST_NETWORK_CODE) {
+                if (isNetworkAvailable(getApplicationContext()))
+                    checkPermissions();
+                else PermissionManager.setMobileWifiEnabled(this);
+            }
+            if (requestCode == MyApplication.REQUEST_WIFI_CODE) {
+                if (isNetworkAvailable(getApplicationContext()))
+                    checkPermissions();
+                else PermissionManager.enableNetwork(this);
+            }
+        }
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

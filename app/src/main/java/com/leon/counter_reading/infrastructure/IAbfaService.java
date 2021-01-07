@@ -10,7 +10,6 @@ import com.leon.counter_reading.tables.PasswordInfo;
 import com.leon.counter_reading.tables.ReadingData;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -21,7 +20,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.QueryMap;
 
 public interface IAbfaService {
 
@@ -37,7 +35,7 @@ public interface IAbfaService {
     @Multipart
     @POST("KontoriNew/V1/Upload/Single")
     Call<Integer> fileUploadSingle(
-            @Part MultipartBody.Part imageFiles,
+            @Part MultipartBody.Part voice,
             @Part("OnOffLoadId") String OnOffLoadId,
             @Part("Description") String Description);
 
@@ -123,46 +121,15 @@ public interface IAbfaService {
             @Part("y") RequestBody y,
             @Part("GisAccuracy") RequestBody gisAccuracy);
 
-    @Multipart
-    @POST("KontoriNew/V1/Forbidden//V1/Forbidden/Multiple")
-    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(
-            @Part("zoneId") RequestBody zoneId,
-            @Part("Description") RequestBody Description,
-            @Part("PreEshterak") RequestBody preEshterak,
-            @Part("NextEshterak") RequestBody nextEshterak,
-            @Part("PostalCode") RequestBody postalCode,
-            @Part("TedadVahed") RequestBody TedadVahed,
-            @Part("x") RequestBody x,
-            @Part("y") RequestBody y,
-            @Part("GisAccuracy") RequestBody gisAccuracy);
-
     //    @Multipart
-    @POST("KontoriNew/V1/Forbidden//V1/Forbidden/Multiple")
-    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(
-            @Body RequestBody requestBody);
+    @POST("KontoriNew/V1/Forbidden/Multiple")
+    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(@Body ForbiddenDto.ForbiddenDtoRequestMultiple forbiddenDto);
 
+    @POST("KontoriNew/V1/Forbidden/Multiple")
+    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(@Body String requestBody);
 
-    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(
-            @Body ArrayList<RequestBody> requestBodies);
+    @POST("KontoriNew/V1/Forbidden/Multiple")
+    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(@Body ForbiddenDto.ForbiddenDtoRequest ForbiddenDtoRequest);
 
-//    @POST("KontoriNew/V1/Forbidden//V1/Forbidden/Multiple")
-//    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(
-//            @QueryMap Map<String, ArrayList<ForbiddenDto.ForbiddenDtoRequest>> map);
-
-    @POST("KontoriNew/V1/Forbidden//V1/Forbidden/Multiple")
-    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(
-            @QueryMap Map<String, ForbiddenDto.ForbiddenDtoRequest> map);
-
-    @Multipart
-    @POST("KontoriNew/V1/Forbidden//V1/Forbidden/Multiple")
-    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(
-            @Part("Description") RequestBody Description,
-            @Part("PreEshterak") RequestBody preEshterak,
-            @Part("NextEshterak") RequestBody nextEshterak,
-            @Part("PostalCode") RequestBody postalCode,
-            @Part("TedadVahed") RequestBody TedadVahed,
-            @Part("x") RequestBody x,
-            @Part("y") RequestBody y,
-            @Part("GisAccuracy") RequestBody gisAccuracy);
 }
 

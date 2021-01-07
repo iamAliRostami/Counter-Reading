@@ -487,7 +487,7 @@ public class ReadingActivity extends BaseActivity {
         if (PermissionManager.gpsEnabled(this))
             if (!PermissionManager.checkLocationPermission(activity)) {
                 askLocationPermission();
-            } else if (!PermissionManager.checkStoragePermission(activity)) {
+            } else if (!PermissionManager.checkStoragePermission(getApplicationContext())) {
                 askStoragePermission();
             } else {
                 getBundle();
@@ -593,6 +593,17 @@ public class ReadingActivity extends BaseActivity {
                 intent.putExtra(BundleEnum.ZONE_ID.getValue(), readingData.onOffLoadDtos.
                         get(binding.viewPager.getCurrentItem()).zoneId);
             startActivity(intent);
+        } else if (id == R.id.menu_description) {
+            /*if (readingDataTemp.onOffLoadDtos.isEmpty()) {
+                showNoEshterakFound();
+            } else {*/
+                intent = new Intent(activity, DescriptionActivity.class);
+//                intent.putExtra(BundleEnum.BILL_ID.getValue(),
+//                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
+            intent.putExtra(BundleEnum.BILL_ID.getValue(),"872387");
+//                intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
+                startActivityForResult(intent, MyApplication.DESCRIPTION);
+//            }
         }
         return super.onOptionsItemSelected(item);
     }

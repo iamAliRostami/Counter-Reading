@@ -27,12 +27,14 @@ import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.tables.SavedLocationsDao;
 import com.leon.counter_reading.tables.TrackingDao;
 import com.leon.counter_reading.tables.TrackingDto;
+import com.leon.counter_reading.tables.Voice;
+import com.leon.counter_reading.tables.VoiceDao;
 
 @Database(entities = {SavedLocation.class, KarbariDto.class, OnOffLoadDto.class,
-        QotrDictionary.class, ReadingConfigDefaultDto.class, TrackingDto.class,
+        QotrDictionary.class, ReadingConfigDefaultDto.class, TrackingDto.class, Voice.class,
         CounterStateDto.class, Image.class, CounterReportDto.class, OffLoadReport.class,
         ForbiddenDto.class},
-        version = 14, exportSchema = false)
+        version = 15, exportSchema = false)
 public abstract class MyDatabase extends RoomDatabase {
     public abstract KarbariDao karbariDao();
 
@@ -55,6 +57,8 @@ public abstract class MyDatabase extends RoomDatabase {
     public abstract OffLoadReportDao offLoadReportDao();
 
     public abstract ForbiddenDao forbiddenDao();
+
+    public abstract VoiceDao voiceDao();
 
     public static final Migration MIGRATION_4_5 = new Migration(16, 17) {
         @Override
@@ -105,10 +109,11 @@ public abstract class MyDatabase extends RoomDatabase {
             database.execSQL("DROP TABLE t1_backup");
         }
     };
-    public static final Migration MIGRATION_6_7 = new Migration(13, 14) {
+    public static final Migration MIGRATION_6_7 = new Migration(14, 15) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL("ALter TABLE KarbariDto Add column isTejari INTEGER");
+            database.execSQL("CREATE TABLE Voice AS SELECT * FROM Image");
+//            database.execSQL("ALter TABLE KarbariDto Add column isTejari INTEGER");
 //            database.execSQL("CREATE TABLE \"ForbiddenDto\" (\n" +
 //                    "\t\"customId\"\tINTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,\n" +
 //                    "\t\"zoneId\"\tINTEGER,\n" +

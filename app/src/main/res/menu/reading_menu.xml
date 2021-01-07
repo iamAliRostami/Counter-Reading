@@ -9,4 +9,9 @@
         android:id="@+id/menu_report_forbid"
         android:title="@string/report_forbid"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_description"
+        android:title="@string/description"
+        app:showAsAction="never" />
 </menu>

@@ -13,6 +13,9 @@ public interface ReadingConfigDefaultDao {
     @Query("Select * From ReadingConfigDefaultDto")
     List<ReadingConfigDefaultDto> getReadingConfigDefaultDtos();
 
+    @Query("Select maxAlalHesab From ReadingConfigDefaultDto Where zoneId = :zoneId")
+    int getAlalHesabByZoneId(int zoneId);
+
     @Query("Select * From ReadingConfigDefaultDto Where zoneId = :zoneId")
     List<ReadingConfigDefaultDto> getReadingConfigDefaultDtosByZoneId(int zoneId);
 

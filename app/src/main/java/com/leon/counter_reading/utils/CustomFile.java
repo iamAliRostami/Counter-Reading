@@ -148,7 +148,24 @@ public class CustomFile {
         MyApplication.fileName = stringBuilder.append(image.getAbsolutePath()).toString();
         return image;
     }
-
+    @SuppressLint({"SimpleDateFormat"})
+    public static String createAudioFile(Context context){
+        String timeStamp = (new SimpleDateFormat(context.getString(R.string.save_format_name))).format(new Date());
+        String imageFileName = "Audio_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+        storageDir.mkdirs();
+        File audio = null;
+        try {
+            audio = File.createTempFile(imageFileName, ".amr", storageDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("ERROR",e.getMessage());
+            Log.e("ERROR",e.toString());
+        }
+        StringBuilder stringBuilder = (new StringBuilder()).append("file:");
+        Objects.requireNonNull(audio);
+        return stringBuilder.append(audio.getAbsolutePath()).toString();
+    }
     static File findFile(File dir, String name) {
         File[] children = dir.listFiles();
         if (children != null) {

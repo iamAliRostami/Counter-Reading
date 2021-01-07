@@ -10,8 +10,6 @@ import com.leon.counter_reading.R;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -26,13 +24,14 @@ public final class RecordVoice {
     @SuppressLint("SimpleDateFormat")
     public RecordVoice(Context context) {
         this.context = context;
-        FileName = context.getExternalCacheDir().getAbsolutePath() + context.getString(R.string.audio_folder) +
-                new SimpleDateFormat(context.getString(R.string.save_format_name)).format(new Date()) + ".amr";
+        FileName=CustomFile.createAudioFile(context);
+//        FileName = context.getExternalCacheDir().getAbsolutePath() + context.getString(R.string.audio_folder) +
+//                new SimpleDateFormat(context.getString(R.string.save_format_name)).format(new Date()) + ".amr";
     }
 
     public static MultipartBody.Part prepareVoiceToSend(File file) {
-        RequestBody requestFile = RequestBody.create(MediaType.parse(("multipart/form-data")), file);
-        return MultipartBody.Part.createFormData("voice", file.getName(), requestFile);
+        RequestBody requestFile = RequestBody.create(file, MediaType.parse(("multipart/form-data")));
+        return MultipartBody.Part.createFormData("FILE", file.getName(), requestFile);
     }
 
     public String getFileName() {
@@ -76,38 +75,30 @@ public final class RecordVoice {
             Player.prepare();
             Player.start();
         } catch (IOException e) {
-//            new CustomDialog(DialogType.Yellow, context,
-//                    context.getString(R.string.error_in_play_voice),
-//                    context.getString(R.string.dear_user),
-//                    context.getString(R.string.error),
-//                    context.getString(R.string.accepted));
             new CustomToast().warning(context.getString(R.string.error_in_play_voice));
         }
     }
 
     private void stopPlaying() {
         Player.pause();
-//        Player.release();
-//        Player = null;
+        Player.release();
+        Player = null;
     }
 
     private void startRecording() {
         Recorder = new MediaRecorder();
         Recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         Recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        Recorder.setOutputFile(FileName);
         Recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        Recorder.setOutputFile(FileName);
         try {
             Recorder.prepare();
+            Recorder.start();
         } catch (IOException e) {
-//            new CustomDialog(DialogType.Yellow, context,
-//                    context.getString(R.string.error_in_record_voice),
-//                    context.getString(R.string.dear_user),
-//                    context.getString(R.string.error),
-//                    context.getString(R.string.accepted));
+            Log.e("error",e.toString());
+            Log.e("error",e.getMessage());
             new CustomToast().warning(context.getString(R.string.error_in_record_voice));
         }
-        Recorder.start();
     }
 
     private void stopRecording() {

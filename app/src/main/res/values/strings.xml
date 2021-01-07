@@ -37,7 +37,7 @@
     <string name="error_unknown">خطای ناشناخته رخ داده است.</string>
     <string name="error_code">\nکد خطا:</string>
     <string name="error_external_storage_is_not_writable">حافظه خارجی قابلی نوشتن نیست.</string>
-    <string name="error_in_record_voice">در ضبظ صدا مشکلی به وجود آمد</string>
+    <string name="error_in_record_voice">در ضبط صدا مشکلی به وجود آمد</string>
     <string name="error_in_play_voice">در پخش صدا مشکلی به وجود آمد</string>
     <string name="dear_user">همکار گرامی!</string>
     <string name="error_other">در حال حاضر خدمات مقدور نمیباشد، لطفا مجددا تلاش فرمایید.</string>
@@ -211,5 +211,6 @@
     <string name="karbari">کاربری</string>
     <string name="submit_for_back">برای بازگشت، دکمه ثبت را فشار دهید.</string>
     <string name="postal_code">کد پستی</string>
+    <string name="select_one">یکی از موارد را انتخاب کنید</string>
 
 </resources>

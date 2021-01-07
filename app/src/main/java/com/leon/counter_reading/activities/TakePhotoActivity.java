@@ -86,9 +86,9 @@ public class TakePhotoActivity extends AppCompatActivity {
         binding = ActivityTakePhotoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         activity = this;
-        if (PermissionManager.checkStoragePermission(getApplicationContext()))
+        if (PermissionManager.checkCameraPermission(getApplicationContext()))
             initialize();
-        else askStoragePermission();
+        else askCameraPermission();
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -513,7 +513,7 @@ public class TakePhotoActivity extends AppCompatActivity {
         }
     }
 
-    void askStoragePermission() {
+    void askCameraPermission() {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
