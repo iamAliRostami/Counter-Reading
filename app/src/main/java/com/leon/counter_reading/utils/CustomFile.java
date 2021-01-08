@@ -29,6 +29,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -52,6 +54,12 @@ public class CustomFile {
             Log.e("error", e.toString());
             return null;
         }
+    }
+
+    public static MultipartBody.Part prepareVoiceToSend(String fileName) {
+        File file = new File(fileName);
+        RequestBody requestFile = RequestBody.create(file, MediaType.parse(("multipart/form-data")));
+        return MultipartBody.Part.createFormData("FILE", file.getName(), requestFile);
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -148,25 +156,24 @@ public class CustomFile {
         MyApplication.fileName = stringBuilder.append(image.getAbsolutePath()).toString();
         return image;
     }
-    @SuppressLint({"SimpleDateFormat"})
-    public static String createAudioFile(Context context){
-        String timeStamp = (new SimpleDateFormat(context.getString(R.string.save_format_name))).format(new Date());
-        String imageFileName = "Audio_" + timeStamp + "_";
-//        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
-        File storageDir = Environment.getExternalStorageDirectory();
-        storageDir.mkdirs();
-        File audio = null;
+
+    @SuppressLint({"SimpleDateFormat", "NewApi"})
+    public static String createAudioFile(Context context) {
         try {
-            audio = File.createTempFile(imageFileName, ".amr", storageDir);
+            Files.createDirectories(
+                    Paths.get(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                            context.getString(R.string.audio_folder)));
         } catch (IOException e) {
+            new CustomToast().warning(context.getString(R.string.error_external_storage_is_not_writable));
             e.printStackTrace();
-            Log.e("ERROR",e.getMessage());
-            Log.e("ERROR",e.toString());
         }
-        StringBuilder stringBuilder = (new StringBuilder()).append("file:");
-        Objects.requireNonNull(audio);
-        return stringBuilder.append(audio.getAbsolutePath()).toString();
+        String timeStamp = (new SimpleDateFormat(
+                context.getString(R.string.save_format_name))).format(new Date());
+        String audioFileName = "audio_" + timeStamp;
+        return Environment.getExternalStorageDirectory().getAbsolutePath() +
+                context.getString(R.string.audio_folder) + audioFileName + ".amr";
     }
+
     static File findFile(File dir, String name) {
         File[] children = dir.listFiles();
         if (children != null) {

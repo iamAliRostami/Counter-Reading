@@ -10,6 +10,8 @@ import com.leon.counter_reading.R;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -24,9 +26,8 @@ public final class RecordVoice {
     @SuppressLint("SimpleDateFormat")
     public RecordVoice(Context context) {
         this.context = context;
-        FileName = CustomFile.createAudioFile(context);
-//        FileName = context.getExternalCacheDir().getAbsolutePath() + context.getString(R.string.audio_folder) +
-//                new SimpleDateFormat(context.getString(R.string.save_format_name)).format(new Date()) + ".amr";
+        FileName = context.getExternalCacheDir().getAbsolutePath() + context.getString(R.string.audio_folder) +
+                new SimpleDateFormat(context.getString(R.string.save_format_name)).format(new Date()) + ".amr";
     }
 
     public static MultipartBody.Part prepareVoiceToSend(File file) {

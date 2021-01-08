@@ -51,7 +51,9 @@
 
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
+            android:id="@+id/linear_layout_seek"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 

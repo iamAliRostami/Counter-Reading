@@ -597,12 +597,12 @@ public class ReadingActivity extends BaseActivity {
             /*if (readingDataTemp.onOffLoadDtos.isEmpty()) {
                 showNoEshterakFound();
             } else {*/
-                intent = new Intent(activity, DescriptionActivity.class);
+            intent = new Intent(activity, DescriptionActivity.class);
 //                intent.putExtra(BundleEnum.BILL_ID.getValue(),
 //                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
-            intent.putExtra(BundleEnum.BILL_ID.getValue(),"872387");
+            intent.putExtra(BundleEnum.BILL_ID.getValue(), "8723871");
 //                intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
-                startActivityForResult(intent, MyApplication.DESCRIPTION);
+            startActivity(intent);
 //            }
         }
         return super.onOptionsItemSelected(item);
