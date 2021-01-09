@@ -237,12 +237,6 @@ public class DescriptionActivity extends AppCompatActivity {
                                     TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long)
                                             finalTime)))
                     );
-                    binding.textViewCurrent.setText(String.format("%d دقیقه، %d ثانیه",
-                            TimeUnit.MILLISECONDS.toMinutes((long) startTime),
-                            TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
-                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long)
-                                            startTime)))
-                    );
                     myHandler.postDelayed(UpdateSongTime, 1);
                     binding.imageViewPlay.setImageResource(R.drawable.img_pause);
                     binding.imageViewRecord.setEnabled(false);
@@ -266,18 +260,11 @@ public class DescriptionActivity extends AppCompatActivity {
             binding.imageViewPlay.setImageResource(R.drawable.img_play_pause);
         } else {
             binding.buttonSend.setEnabled(!voice.isSent);
-            binding.editTextMessage.setEnabled(!voice.isSent);
+            binding.editTextMessage.setEnabled(false);
             binding.imageViewRecord.setEnabled(false);
-            if (voice.Description.length() > 0) {
-                binding.editTextMessage.setText(voice.Description);
-            }
-            if (voice.address == null || voice.address.length() < 1) {
-                binding.imageViewPlay.setEnabled(false);
-                binding.imageViewPlay.setImageResource(R.drawable.img_play_pause);
-            } else {
-                binding.imageViewPlay.setEnabled(true);
-                binding.imageViewPlay.setImageResource(R.drawable.img_play);
-            }
+            binding.editTextMessage.setText(voice.Description);
+            binding.imageViewPlay.setEnabled(true);
+            binding.imageViewPlay.setImageResource(R.drawable.img_play);
         }
     }
 
