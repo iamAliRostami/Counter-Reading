@@ -158,7 +158,7 @@ public class ReadingActivity extends BaseActivity {
         OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
 
         offLoadData.isFinal = false;
-        offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(readingData.onOffLoadDtos.get(position)));
+//        offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(readingData.onOffLoadDtos.get(position)));
         offLoadData.offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                 offLoadReportDao().getAllOffLoadReportById(readingData.onOffLoadDtos.get(position).id));
 
