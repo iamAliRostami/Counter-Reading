@@ -90,6 +90,8 @@ public interface OnOffLoadDao {
             "possibleAhadTejariOrFari = :possibleAhadTejariOrFari WHERE id = :id")
     void updateOnOffLoad(int possibleAhadMaskooniOrAsli, int possibleAhadTejariOrFari, String id);
 
+    @Query("UPDATE OnOffLoadDto set description = :description WHERE id = :id")
+    void updateOnOffLoadDescription(String id, String description);
 
     @Query("UPDATE OnOffLoadDto set possibleAddress = :address, possibleCounterSerial = :serialNumber," +
             " possibleMobile = :possibleMobile, possibleEshterak = :possibleEshterak," +

@@ -594,16 +594,15 @@ public class ReadingActivity extends BaseActivity {
                         get(binding.viewPager.getCurrentItem()).zoneId);
             startActivity(intent);
         } else if (id == R.id.menu_description) {
-            /*if (readingDataTemp.onOffLoadDtos.isEmpty()) {
+            if (readingDataTemp.onOffLoadDtos.isEmpty()) {
                 showNoEshterakFound();
-            } else {*/
-            intent = new Intent(activity, DescriptionActivity.class);
-//                intent.putExtra(BundleEnum.BILL_ID.getValue(),
-//                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
-            intent.putExtra(BundleEnum.BILL_ID.getValue(), "8723871");
-//                intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
-            startActivity(intent);
-//            }
+            } else {
+                intent = new Intent(activity, DescriptionActivity.class);
+                intent.putExtra(BundleEnum.BILL_ID.getValue(),
+                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
+                intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
+                startActivityForResult(intent, MyApplication.DESCRIPTION);
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -611,8 +610,8 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if ((requestCode == MyApplication.REPORT || requestCode == MyApplication.NAVIGATION)
-                && resultCode == RESULT_OK) {
+        if ((requestCode == MyApplication.REPORT || requestCode == MyApplication.NAVIGATION ||
+                requestCode == MyApplication.DESCRIPTION) && resultCode == RESULT_OK) {
             int position = data.getExtras().getInt(BundleEnum.POSITION.getValue());
             String uuid = data.getExtras().getString(BundleEnum.BILL_ID.getValue());
             MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().

@@ -96,6 +96,7 @@
     <string name="upload_off">بارگذاری آفلاین</string>
     <string name="multimedia">چندرسانه</string>
     <string name="upload_multimedia">بارگذاری تصاویر</string>
+    <string name="upload_message">بارگذاری پیام ها</string>
     <string name="layers">لایه ها</string>
     <string name="location_counter">محل کنتور</string>
     <string name="submit">ثبت</string>
@@ -199,6 +200,7 @@
 
     <string name="upload_multimedia_successful">بارگذاری تصاویر با موفقیت انجام شد.</string>
     <string name="there_is_no_images">تصویری برای بارگذاری وجود ندارد.</string>
+    <string name="there_is_no_message">پیامی برای بارگذاری وجود ندارد.</string>
     <string name="there_is_no_offload">مسیری برای بارگذاری وجود ندارد.</string>
     <string name="error_update">به روزرسانی با خطا روبرو شد. مجددا تلاش کنید.</string>
 

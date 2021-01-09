@@ -8,6 +8,7 @@ import com.leon.counter_reading.tables.LoginInfo;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.PasswordInfo;
 import com.leon.counter_reading.tables.ReadingData;
+import com.leon.counter_reading.tables.Voice;
 
 import java.util.ArrayList;
 
@@ -47,8 +48,27 @@ public interface IAbfaService {
             @Part("Description") RequestBody Description);
 
     @Multipart
+    @POST("KontoriNew/V1/Upload/Grouped")
+    Call<Image.ImageUploadResponse> fileUploadGrouped(
+            @Part("OnOffLoadId") RequestBody OnOffLoadId,
+            @Part("Description") RequestBody Description);
+
+    @Multipart
+    @POST("KontoriNew/V1/Upload/Grouped")
+    Call<Image.ImageUploadResponse> fileUploadGrouped(
+            @Part ArrayList<MultipartBody.Part> imageFiles,
+            @Part("OnOffLoadId") RequestBody OnOffLoadId);
+
+    @Multipart
     @POST("KontoriNew/V1/Upload/Multiple")
     Call<Image.ImageUploadResponse> fileUploadMultiple(
+            @Part ArrayList<MultipartBody.Part> imageFiles,
+            @Part("OnOffLoadId") ArrayList<RequestBody> OnOffLoadId,
+            @Part("Description") ArrayList<RequestBody> Description);
+
+    @Multipart
+    @POST("KontoriNew/V1/Upload/Multiple")
+    Call<Voice.VoiceUploadResponse> voiceUploadMultiple(
             @Part ArrayList<MultipartBody.Part> imageFiles,
             @Part("OnOffLoadId") ArrayList<RequestBody> OnOffLoadId,
             @Part("Description") ArrayList<RequestBody> Description);

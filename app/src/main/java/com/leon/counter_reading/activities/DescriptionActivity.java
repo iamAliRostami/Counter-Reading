@@ -3,6 +3,7 @@ package com.leon.counter_reading.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
@@ -148,7 +149,8 @@ public class DescriptionActivity extends AppCompatActivity {
 
     void stopPlaying() {
         play = false;
-        binding.imageViewRecord.setEnabled(true);
+        if (voice.id == 0)
+            binding.imageViewRecord.setEnabled(true);
         binding.linearLayoutSeek.setVisibility(View.GONE);
         binding.imageViewPlay.setImageResource(R.drawable.img_play);
         if (mediaPlayer != null) {
@@ -264,15 +266,18 @@ public class DescriptionActivity extends AppCompatActivity {
             binding.imageViewPlay.setImageResource(R.drawable.img_play_pause);
         } else {
             binding.buttonSend.setEnabled(!voice.isSent);
+            binding.editTextMessage.setEnabled(!voice.isSent);
             binding.imageViewRecord.setEnabled(false);
-            binding.imageViewPlay.setEnabled(true);
-            binding.imageViewPlay.setImageResource(R.drawable.img_play);
-            if (!voice.Description.isEmpty()) {
+            if (voice.Description.length() > 0) {
                 binding.editTextMessage.setText(voice.Description);
             }
-//            if (!voice.address.isEmpty()) {
-//                voice.File = CustomFile.prepareVoiceToSend(voice.address);
-//            }
+            if (voice.address == null || voice.address.length() < 1) {
+                binding.imageViewPlay.setEnabled(false);
+                binding.imageViewPlay.setImageResource(R.drawable.img_play_pause);
+            } else {
+                binding.imageViewPlay.setEnabled(true);
+                binding.imageViewPlay.setImageResource(R.drawable.img_play);
+            }
         }
     }
 
@@ -280,10 +285,11 @@ public class DescriptionActivity extends AppCompatActivity {
         binding.buttonSend.setOnClickListener(v -> {
             voice.OnOffLoadId = uuid;
             String message = binding.editTextMessage.getText().toString();
-            if (!message.isEmpty() ||
-                    !(voice.address == null || voice.address.isEmpty()))
+            if (voice.address != null && voice.address.length() > 0)
                 new prepareMultiMedia().execute();
-            else {
+            else if (message.length() > 0) {
+                finishDescription(message);
+            } else {
                 View view = binding.editTextMessage;
                 binding.editTextMessage.setError(getString(R.string.error_empty));
                 view.requestFocus();
@@ -303,10 +309,8 @@ public class DescriptionActivity extends AppCompatActivity {
         @Override
         protected Integer doInBackground(Integer... integers) {
             voiceGrouped.File.clear();
-            if (voice.address != null && !voice.address.isEmpty()) {
-                voice.File = CustomFile.prepareVoiceToSend(voice.address);
-                voiceGrouped.File.add(voice.File);
-            }
+            voice.File = CustomFile.prepareVoiceToSend(voice.address);
+            voiceGrouped.File.add(voice.File);
             if (binding.editTextMessage.getText().toString().isEmpty())
                 voice.Description = getString(R.string.description);
             else voice.Description = binding.editTextMessage.getText().toString();
@@ -325,10 +329,10 @@ public class DescriptionActivity extends AppCompatActivity {
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
             customProgressBar.getDialog().dismiss();
-            uploadImage();
+            uploadVoice();
         }
 
-        void uploadImage() {
+        void uploadVoice() {
             voiceGrouped.OnOffLoadId = RequestBody.create(
                     voice.OnOffLoadId, MediaType.parse("text/plain"));
             voiceGrouped.Description = RequestBody.create(
@@ -351,7 +355,7 @@ public class DescriptionActivity extends AppCompatActivity {
                 new CustomToast().warning(activity.getString(R.string.error_upload), Toast.LENGTH_LONG);
             }
             saveVoice(response.body() != null && response.body().status == 200);
-            finish();
+            finishDescription(voice.Description);
         }
     }
 
@@ -363,7 +367,7 @@ public class DescriptionActivity extends AppCompatActivity {
             String error = customErrorHandlingNew.getErrorMessageDefault(response);
             new CustomToast().warning(error, Toast.LENGTH_LONG);
             saveVoice(false);
-            finish();
+            finishDescription(voice.Description);
         }
     }
 
@@ -374,7 +378,7 @@ public class DescriptionActivity extends AppCompatActivity {
             String error = customErrorHandlingNew.getErrorMessageTotal(t);
             new CustomToast().error(error, Toast.LENGTH_LONG);
             saveVoice(false);
-            finish();
+            finishDescription(voice.Description);
         }
     }
 
@@ -386,6 +390,16 @@ public class DescriptionActivity extends AppCompatActivity {
         } else {
             MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().insertVoice(voice);
         }
+    }
+
+    void finishDescription(String message) {
+        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                updateOnOffLoadDescription(uuid, message);
+        Intent intent = new Intent();
+        intent.putExtra(BundleEnum.POSITION.getValue(), position);
+        intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     void askRecorderPermission() {
