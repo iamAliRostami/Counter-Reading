@@ -84,6 +84,7 @@ public abstract class BaseActivity extends AppCompatActivity
         overridePendingTransition(R.anim.slide_up_info, R.anim.no_change);
         binding = BaseActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         MyDatabaseClient.migration(this);
         initializeBase();
         if (isNetworkAvailable(getApplicationContext()))
@@ -273,6 +274,7 @@ public abstract class BaseActivity extends AppCompatActivity
     public GPSTracker getGpsTracker() {
         return gpsTracker;
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -291,6 +293,7 @@ public abstract class BaseActivity extends AppCompatActivity
             }
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

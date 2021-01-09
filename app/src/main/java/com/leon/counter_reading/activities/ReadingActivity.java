@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -73,6 +74,7 @@ public class ReadingActivity extends BaseActivity {
     int readStatus = 0, highLow = 1;
     ArrayList<Integer> isMane = new ArrayList<>();
     final int[] imageSrc = new int[12];
+    boolean isReading = false;
 
     @Override
     protected void initialize() {
@@ -81,6 +83,7 @@ public class ReadingActivity extends BaseActivity {
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
         activity = this;
+
         if (MyApplication.POSITION == 1) {
             if (isNetworkAvailable(activity))
                 checkPermissions();
@@ -461,6 +464,10 @@ public class ReadingActivity extends BaseActivity {
             }
         }
         binding.viewPager.setCurrentItem(currentItem);
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (MyApplication.focusOnEditText)
+            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        isReading = true;
     }
 
     void setOnPageChangeListener() {
@@ -603,6 +610,16 @@ public class ReadingActivity extends BaseActivity {
                 intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
                 startActivityForResult(intent, MyApplication.DESCRIPTION);
             }
+        } else if (id == R.id.menu_keyboard) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            if (MyApplication.focusOnEditText)
+                try {
+                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                } catch (Exception ignored) {
+                }
+            else
+                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            MyApplication.focusOnEditText = !MyApplication.focusOnEditText;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -638,8 +655,33 @@ public class ReadingActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (isReading) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            if (MyApplication.focusOnEditText)
+                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        try {
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception ignored) {
+        }
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        try {
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception ignored) {
+        }
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
@@ -649,6 +691,11 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        try {
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception ignored) {
+        }
         ImageView imageViewFlash = findViewById(R.id.image_view_flash);
         imageViewFlash.setImageDrawable(null);
         ImageView imageViewReverse = findViewById(R.id.image_view_reverse);

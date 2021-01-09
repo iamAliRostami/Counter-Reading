@@ -215,5 +215,6 @@
     <string name="postal_code">کد پستی</string>
     <string name="select_one">یکی از موارد را انتخاب کنید</string>
     <string name="insert_message">یک پیام نوشته یا ضبط شود.</string>
+    <string name="visible_hide_keyboard">نمایش / عدم نمایش صفحه کلید</string>
 
 </resources>

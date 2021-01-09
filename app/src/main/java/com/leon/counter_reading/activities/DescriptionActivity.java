@@ -418,6 +418,12 @@ public class DescriptionActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        stopPlaying();
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         Runtime.getRuntime().totalMemory();

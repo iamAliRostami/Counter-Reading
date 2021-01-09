@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.Gson;
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
@@ -61,6 +62,14 @@ public class ReadingFragment extends Fragment {
 
     void initialize() {
         activity = getActivity();
+        if (MyApplication.focusOnEditText) {
+            View viewFocus = binding.editTextNumber;
+            viewFocus.requestFocus();
+        }
+        binding.editTextNumber.setOnLongClickListener(view -> {
+            binding.editTextNumber.setText("");
+            return false;
+        });
         initializeViews();
         initializeSpinner();
         onButtonSubmitClickListener();

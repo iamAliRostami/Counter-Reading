@@ -14,4 +14,9 @@
         android:id="@+id/menu_description"
         android:title="@string/description"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_keyboard"
+        android:title="@string/visible_hide_keyboard"
+        app:showAsAction="never" />
 </menu>

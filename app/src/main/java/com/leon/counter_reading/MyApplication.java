@@ -27,7 +27,7 @@ public class MyApplication extends Application {
     public static final int NAVIGATION = 1903;
     public static final int DESCRIPTION = 1909;
     public static final int TOAST_TEXT_SIZE = 20;
-//    public static boolean isReading;
+    public static boolean focusOnEditText = false;
 
     public static Context getContext() {
         return appContext;
