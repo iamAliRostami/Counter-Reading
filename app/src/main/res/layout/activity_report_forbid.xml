@@ -167,6 +167,7 @@
                     android:gravity="center"
                     android:inputType="number"
                     android:lines="1"
+                    android:maxLength="9"
                     android:padding="@dimen/low_dp"
                     tools:ignore="Autofill,LabelFor" />
 
@@ -204,8 +205,8 @@
                     android:background="@drawable/border"
                     android:gravity="center"
                     android:inputType="text"
-                    android:maxLines="1"
                     android:lines="1"
+                    android:maxLines="1"
                     android:padding="@dimen/low_dp"
                     tools:ignore="Autofill,LabelFor" />
 

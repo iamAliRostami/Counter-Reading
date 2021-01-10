@@ -30,6 +30,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
+
 public class ReadingFragment extends Fragment {
     FragmentReadingBinding binding;
     SpinnerCustomAdapter adapter;
@@ -131,6 +133,7 @@ public class ReadingFragment extends Fragment {
                         onOffLoadDto.counterStatePosition != binding.spinner.getSelectedItemPosition()) {
                     if ((counterStateDto.isTavizi || counterStateDto.isXarab) &&
                             counterStateDto.moshtarakinId != onOffLoadDto.preCounterStateCode) {
+                        makeRing(activity);
                         SerialFragment serialFragment = SerialFragment.newInstance(position,
                                 counterStateDto.moshtarakinId, counterStatePosition);
                         if (getFragmentManager() != null) {
@@ -142,7 +145,6 @@ public class ReadingFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
@@ -170,6 +172,7 @@ public class ReadingFragment extends Fragment {
             if (canLessThanPre) {
                 lessThanPre(currentNumber);
             } else if (use < 0) {
+                makeRing(activity);
                 binding.editTextNumber.setError(getString(R.string.less_than_pre));
                 view.requestFocus();
             } else {
@@ -181,6 +184,7 @@ public class ReadingFragment extends Fragment {
     void canNotBeEmpty() {
         View view = binding.editTextNumber;
         if (binding.editTextNumber.getText().toString().isEmpty()) {
+            makeRing(activity);
             binding.editTextNumber.setError(getString(R.string.counter_empty));
             view.requestFocus();
         } else {
@@ -189,6 +193,7 @@ public class ReadingFragment extends Fragment {
             if (canLessThanPre) {
                 lessThanPre(currentNumber);
             } else if (use < 0) {
+                makeRing(activity);
                 binding.editTextNumber.setError(getString(R.string.less_than_pre));
                 view.requestFocus();
             } else {
@@ -213,6 +218,7 @@ public class ReadingFragment extends Fragment {
                 getSupportFragmentManager().beginTransaction();
         AreYouSureFragment areYouSureFragment;
         if (currentNumber == onOffLoadDto.preNumber) {
+            makeRing(activity);
             areYouSureFragment = AreYouSureFragment.newInstance(
                     position, currentNumber, HighLowStateEnum.ZERO.getValue(),
                     counterStateCode, counterStatePosition);
@@ -222,12 +228,14 @@ public class ReadingFragment extends Fragment {
                     currentNumber);
             switch (status) {
                 case 1:
+                    makeRing(activity);
                     areYouSureFragment = AreYouSureFragment.newInstance(
                             position, currentNumber, HighLowStateEnum.HIGH.getValue(),
                             counterStateCode, counterStatePosition);
                     areYouSureFragment.show(fragmentTransaction, getString(R.string.use_out_of_range));
                     break;
                 case -1:
+                    makeRing(activity);
                     areYouSureFragment = AreYouSureFragment.newInstance(
                             position, currentNumber, HighLowStateEnum.LOW.getValue(),
                             counterStateCode, counterStatePosition);

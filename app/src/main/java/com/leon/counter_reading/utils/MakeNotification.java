@@ -18,6 +18,7 @@ public class MakeNotification {
     }
 
     public static void makeRing(Context context) {
+        makeVibrate(context);
         try {
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             Ringtone r = RingtoneManager.getRingtone(context, notification);

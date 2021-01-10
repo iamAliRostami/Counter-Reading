@@ -90,6 +90,15 @@ public class ReadingActivity extends BaseActivity {
         }
     }
 
+    void changePage() {
+        if (binding.viewPager.getCurrentItem() + 1 < readingData.onOffLoadDtos.size())
+            binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
+        else {
+            new CustomToast().success(getString(R.string.all_masir_bazdid));
+            binding.viewPager.setCurrentItem(0);
+        }
+    }
+
     public void updateOnOffLoadByIsShown(int position) {
         readingData.onOffLoadDtos.get(position).isBazdid = true;
         readingData.onOffLoadDtos.get(position).counterNumberShown = true;
@@ -110,8 +119,7 @@ public class ReadingActivity extends BaseActivity {
         Log.e("here", "updateOnOffLoadWithoutCounterNumber");
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
         attemptSend(position);
-        if (binding.viewPager.getCurrentItem() < readingData.onOffLoadDtos.size())
-            binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
+        changePage();
     }
 
     public void updateOnOffLoadByCounterSerial(int position, int counterStatePosition,
@@ -120,9 +128,9 @@ public class ReadingActivity extends BaseActivity {
         Log.e("here", "updateOnOffLoadByCounterSerial");
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
         readingData.onOffLoadDtos.get(position).possibleCounterSerial = counterSerial;
-        attemptSend(position);
-        if (binding.viewPager.getCurrentItem() < readingData.onOffLoadDtos.size())
-            binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
+//        attemptSend(position);
+//        if (binding.viewPager.getCurrentItem() < readingData.onOffLoadDtos.size())
+//            binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
     }
 
     public void updateOnOffLoadByCounterNumber(int position, int number, int counterStateCode,
@@ -132,8 +140,7 @@ public class ReadingActivity extends BaseActivity {
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
         readingData.onOffLoadDtos.get(position).counterNumber = number;
         attemptSend(position);
-        if (binding.viewPager.getCurrentItem() < readingData.onOffLoadDtos.size())
-            binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
+        changePage();
     }
 
     public void updateOnOffLoadByCounterNumber(int position, int number, int counterStateCode,
@@ -310,7 +317,7 @@ public class ReadingActivity extends BaseActivity {
         } else if (type == 5) {
             readingData.onOffLoadDtos.clear();
             readingData.onOffLoadDtos.addAll(readingDataTemp.onOffLoadDtos);
-            runOnUiThread(() -> setupViewPager());
+            runOnUiThread(this::setupViewPager);
         } else {
             switch (type) {
                 case 0:

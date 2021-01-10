@@ -145,10 +145,11 @@ public class UploadFragment extends Fragment {
                     trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).zoneId);
         }
         if (trackingDtos.size() > 0) {
+            double alalMane = (double) mane / total * 100;
             if (unread > 0) {
                 new CustomToast().info("همکار گرامی! تعداد " + unread + " اشتراک قرائت نشده است.");
                 return false;
-            } else if (mane > 0 && mane / total * 100 > alalPercent) {
+            } else if (mane > 0 && alalMane * 100 > (double) alalPercent) {
                 new CustomToast().info("همکار گرامی درصد علی الحساب بالاتر از حد مجاز است.");
                 return false;
             }
@@ -160,9 +161,8 @@ public class UploadFragment extends Fragment {
         binding.buttonUpload.setOnClickListener(v -> {
             if (type == 1) {
                 //TODO
-                new prepareOffLoadToUpload().execute();
-//                if (checkOnOffLoad())
-//                    new prepareOffLoadToUpload().execute();
+                if (checkOnOffLoad())
+                    new prepareOffLoadToUpload().execute();
             } else if (type == 3) {
                 new prepareMultimediaToUpload().execute();
             }
@@ -183,16 +183,10 @@ public class UploadFragment extends Fragment {
             forbiddenDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                     forbiddenDao().getAllForbiddenDto(false));
             onOffLoadDtos.clear();
-            if (binding.spinner.getSelectedItemPosition() == 0) {
-                onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        onOffLoadDao().getOnOffLoadReadByOffLoad(
-                        OffloadStateEnum.INSERTED.getValue()));
-            } else {
-                onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(
-                        trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id,
-                        OffloadStateEnum.INSERTED.getValue()));
-            }
+            onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                    onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(
+                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id,
+                    OffloadStateEnum.INSERTED.getValue()));
             offLoadReports.clear();
             offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                     offLoadReportDao().getAllOffLoadReport());
@@ -213,7 +207,7 @@ public class UploadFragment extends Fragment {
                 uploadOffLoad();
                 uploadForbid();
             } else {
-                activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.there_is_no_offload)));
+                thankYou();
             }
             super.onPostExecute(integer);
         }
@@ -258,8 +252,17 @@ public class UploadFragment extends Fragment {
                 Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                         new offLoadData(), new offLoadDataIncomplete(), new uploadError());
+            } else {
+                thankYou();
             }
         }
+    }
+
+    void thankYou() {
+        MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
+                updateTrackingDtoByArchive(trackingDtos.get(
+                        binding.spinner.getSelectedItemPosition() - 1).id, true, false);
+        activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.thank_you)));
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -398,14 +401,17 @@ public class UploadFragment extends Fragment {
                     activity.getString(R.string.accepted));
         }
     }
+
     class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
         @Override
         public void execute(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
             if (response.isSuccessful()) {
                 MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
                         updateAllForbiddenDtoBySent(true);
-                new CustomToast().success(getString(R.string.report_forbid) + "\n" +
-                        response.body().message, Toast.LENGTH_LONG);
+                if (response.body() != null) {
+                    new CustomToast().success(getString(R.string.report_forbid) + "\n" +
+                            response.body().message, Toast.LENGTH_LONG);
+                }
             }
         }
     }
@@ -431,18 +437,10 @@ public class UploadFragment extends Fragment {
                 for (int i = 0; i < response.body().targetObject.size(); i++) {
                     MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
                             updateOnOffLoad(state, response.body().targetObject.get(i));
-                    if (response.body().isValid)
-                        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                                deleteOnOffLoad(response.body().targetObject.get(i));
                 }
-                if (binding.spinner.getSelectedItemPosition() == 0) {
-                    MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
-                            updateTrackingDtoByArchive(true, false);
-                } else {
-                    MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
-                            updateTrackingDtoByArchive(trackingDtos.get(
-                                    binding.spinner.getSelectedItemPosition() - 1).id, true, false);
-                }
+                MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
+                        updateTrackingDtoByArchive(trackingDtos.get(
+                                binding.spinner.getSelectedItemPosition() - 1).id, true, false);
                 MyDatabaseClient.getInstance(activity).getMyDatabase().offLoadReportDao().
                         deleteAllOffLoadReport();
                 new CustomDialog(DialogType.Green, getContext(), response.body().message,
@@ -484,6 +482,7 @@ public class UploadFragment extends Fragment {
                     .updateImage(images.get(i));
         }
     }
+
     void updateVoice() {
         for (int i = 0; i < voice.size(); i++) {
             voice.get(i).isSent = true;
@@ -491,6 +490,7 @@ public class UploadFragment extends Fragment {
                     .updateVoice(voice.get(i));
         }
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

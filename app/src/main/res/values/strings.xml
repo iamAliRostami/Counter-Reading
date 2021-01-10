@@ -217,5 +217,7 @@
     <string name="insert_message">یک پیام نوشته یا ضبط شود.</string>
     <string name="visible_hide_keyboard">نمایش / عدم نمایش صفحه کلید</string>
     <string name="last_unread">آخرین بازدید نشده</string>
+    <string name="thank_you">همکار گرامی خداقوت!</string>
+    <string name="all_masir_bazdid">همه مسیرها بازدید شد.</string>
 
 </resources>
