@@ -15,7 +15,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -311,7 +310,7 @@ public class ReadingActivity extends BaseActivity {
         } else if (type == 5) {
             readingData.onOffLoadDtos.clear();
             readingData.onOffLoadDtos.addAll(readingDataTemp.onOffLoadDtos);
-            runOnUiThread(() -> setupViewPager(false));
+            runOnUiThread(() -> setupViewPager());
         } else {
             switch (type) {
                 case 0:
@@ -347,7 +346,7 @@ public class ReadingActivity extends BaseActivity {
                     }
                     break;
             }
-            runOnUiThread(() -> setupViewPager(false));
+            runOnUiThread(this::setupViewPager);
         }
 
     }
@@ -437,12 +436,12 @@ public class ReadingActivity extends BaseActivity {
                 readingDataTemp.readingConfigDefaultDtos.addAll(readingData.readingConfigDefaultDtos);
                 setAboveIconsSrc(0);
             }
-            runOnUiThread(() -> setupViewPager(true));
+            runOnUiThread(() -> setupViewPager());
             return null;
         }
     }
 
-    void setupViewPager(boolean lastUnseen) {
+    void setupViewPager() {
         binding.textViewNotFound.setVisibility(!(readingData.onOffLoadDtos.size() > 0) ? View.VISIBLE : View.GONE);
         binding.linearLayoutAbove.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
         binding.viewPager.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
@@ -453,17 +452,7 @@ public class ReadingActivity extends BaseActivity {
         binding.viewPager.setAdapter(viewPagerAdapterReading);
         binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
         setOnPageChangeListener();
-        int currentItem = 0;
-        if (lastUnseen) {
-            for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
-                OnOffLoadDto onOffLoadDto = readingData.onOffLoadDtos.get(i);
-                if (!onOffLoadDto.isBazdid) {
-                    currentItem = i;
-                    i = readingData.onOffLoadDtos.size();
-                }
-            }
-        }
-        binding.viewPager.setCurrentItem(currentItem);
+
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         if (MyApplication.focusOnEditText)
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
@@ -612,20 +601,35 @@ public class ReadingActivity extends BaseActivity {
             }
         } else if (id == R.id.menu_keyboard) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            if (MyApplication.focusOnEditText)
+            if (MyApplication.focusOnEditText) {
                 try {
                     inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 } catch (Exception ignored) {
                 }
-            else
+            } else {
                 inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            }
             MyApplication.focusOnEditText = !MyApplication.focusOnEditText;
+        } else if (id == R.id.menu_last) {
+            if (readingData.onOffLoadDtos.isEmpty()) {
+                showNoEshterakFound();
+            } else {
+                int currentItem = 0;
+                for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
+                    OnOffLoadDto onOffLoadDto = readingData.onOffLoadDtos.get(i);
+                    if (!onOffLoadDto.isBazdid) {
+                        currentItem = i;
+                        i = readingData.onOffLoadDtos.size();
+                    }
+                }
+                binding.viewPager.setCurrentItem(currentItem);
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if ((requestCode == MyApplication.REPORT || requestCode == MyApplication.NAVIGATION ||
                 requestCode == MyApplication.DESCRIPTION) && resultCode == RESULT_OK) {

@@ -47,7 +47,7 @@ public interface OnOffLoadDao {
     @Query("select COUNT(*) From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId")
     int getAllOnOffLoadReadCount(int offLoadStateId);
 
-    @Query("select COUNT(*) From OnOffLoadDto WHERE offLoadStateId != :offLoadStateId AND trackingId = :trackingId")
+    @Query("select COUNT(*) From OnOffLoadDto WHERE offLoadStateId == :offLoadStateId AND trackingId = :trackingId")
     int getOnOffLoadReadCount(int offLoadStateId, String trackingId);
 
     @Query("select COUNT(*) From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId AND trackingId = :trackingId")

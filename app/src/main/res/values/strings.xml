@@ -216,5 +216,6 @@
     <string name="select_one">یکی از موارد را انتخاب کنید</string>
     <string name="insert_message">یک پیام نوشته یا ضبط شود.</string>
     <string name="visible_hide_keyboard">نمایش / عدم نمایش صفحه کلید</string>
+    <string name="last_unread">آخرین بازدید نشده</string>
 
 </resources>
