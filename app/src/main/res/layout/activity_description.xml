@@ -19,6 +19,8 @@
             android:layout_weight="1"
             android:background="@drawable/border_gray_3"
             android:gravity="top|start"
+            android:textColor="?android:textColor"
+            android:textColorHint="?android:textColor"
             android:importantForAutofill="no"
             android:inputType="textMultiLine"
             android:lines="10"

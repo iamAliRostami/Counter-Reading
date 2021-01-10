@@ -69,7 +69,7 @@ public class SettingUpdateFragment extends Fragment {
         Retrofit retrofit = NetworkHelper.getInstance();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         Call<LastInfo> call = iAbfaService.getLastInfo();
-        HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activity,
+        HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                 new UpdateInfo(), new UpdateInfoIncomplete(), new UpdateError());
     }
 
@@ -156,5 +156,11 @@ public class SettingUpdateFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding.imageViewUpdate.setImageDrawable(null);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        HttpClientWrapper.call.cancel();
     }
 }

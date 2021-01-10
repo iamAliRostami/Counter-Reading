@@ -7,5 +7,5 @@
         android:left="@dimen/small_dp"
         android:right="@dimen/small_dp"
         android:top="@dimen/small_dp" />
-    <solid android:color="@color/white" />
+    <solid android:color="@color/milky" />
 </shape>

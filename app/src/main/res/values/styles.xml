@@ -14,6 +14,8 @@
     </style>
 
     <style name="AppTheme.NoActionBar">
+        <item name="android:itemBackground">?colorPrimaryDark</item>
+        <item name="android:itemTextAppearance">@style/MyActionBar.MenuTextStyle</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -29,6 +31,8 @@
     </style>
 
     <style name="AppTheme.GreenBlue.NoActionBar">
+        <item name="android:itemBackground">?colorPrimaryDark</item>
+        <item name="android:itemTextAppearance">@style/MyActionBar.MenuTextStyle</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -44,6 +48,8 @@
     </style>
 
     <style name="AppTheme.DarkGrey.NoActionBar">
+        <item name="android:itemBackground">?colorPrimaryDark</item>
+        <item name="android:itemTextAppearance">@style/MyActionBar.MenuTextStyle</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -55,6 +61,8 @@
     </style>
 
     <style name="AppTheme.Indigo.NoActionBar">
+        <item name="android:itemBackground">?colorPrimaryDark</item>
+        <item name="android:itemTextAppearance">@style/MyActionBar.MenuTextStyle</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -91,6 +99,13 @@
         <item name="backgroundColor">?colorPrimary</item>
         <item name="background">?colorPrimary</item>
     </style>
+
+    <style name="MyActionBar.MenuTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+
 
     <style name="TitleText" parent="Toolbar.TitleText">
         <item name="android:textColor">?colorAccent</item>

@@ -10,5 +10,5 @@
     <solid android:color="@color/transparent" />
     <stroke
         android:width="@dimen/small_dp"
-        android:color="@color/white" />
+        android:color="@color/milky" />
 </shape>

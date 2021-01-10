@@ -218,12 +218,12 @@ public class DescriptionActivity extends AppCompatActivity {
                             if (play) {
                                 startTime = mediaPlayer.getCurrentPosition();
                                 binding.textViewCurrent.setText(String.format("%d دقیقه، %d ثانیه",
-                                        TimeUnit.MILLISECONDS.toMinutes((long) startTime),
-                                        TimeUnit.MILLISECONDS.toSeconds((long) startTime) -
+                                        TimeUnit.MILLISECONDS.toMinutes(startTime),
+                                        TimeUnit.MILLISECONDS.toSeconds(startTime) -
                                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.
-                                                        toMinutes((long) startTime)))
+                                                        toMinutes(startTime)))
                                 );
-                                binding.seekBar.setProgress((int) startTime);
+                                binding.seekBar.setProgress(startTime);
                                 myHandler.postDelayed(this, 1);
                                 if (startTime == finalTime) {
                                     stopPlaying();
@@ -232,10 +232,9 @@ public class DescriptionActivity extends AppCompatActivity {
                         }
                     };
                     binding.textViewTotal.setText(String.format("%d دقیقه، %d ثانیه",
-                            TimeUnit.MILLISECONDS.toMinutes((long) finalTime),
-                            TimeUnit.MILLISECONDS.toSeconds((long) finalTime) -
-                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long)
-                                            finalTime)))
+                            TimeUnit.MILLISECONDS.toMinutes(finalTime),
+                            TimeUnit.MILLISECONDS.toSeconds(finalTime) -
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(finalTime)))
                     );
                     myHandler.postDelayed(UpdateSongTime, 1);
                     binding.imageViewPlay.setImageResource(R.drawable.img_pause);
@@ -277,9 +276,6 @@ public class DescriptionActivity extends AppCompatActivity {
             else if (message.length() > 0) {
                 finishDescription(message);
             } else {
-                View view = binding.editTextMessage;
-                binding.editTextMessage.setError(getString(R.string.error_empty));
-                view.requestFocus();
                 new CustomToast().warning(getString(R.string.insert_message));
             }
         });

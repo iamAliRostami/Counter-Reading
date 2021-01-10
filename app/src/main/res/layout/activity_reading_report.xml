@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/button_submit"
-        android:dividerHeight="@dimen/low_dp"
         android:layout_marginLeft="@dimen/large_dp"
         android:layout_marginRight="@dimen/large_dp"
         tools:listitem="@layout/item_public" />
@@ -27,6 +26,6 @@
         android:layout_marginBottom="@dimen/low_dp"
         android:background="@drawable/border_green_3"
         android:text="@string/submit"
-        android:textColor="@color/text_color_light"
+        android:textColor="?android:textColorSecondary"
         android:textSize="@dimen/text_size_large" />
 </RelativeLayout>
