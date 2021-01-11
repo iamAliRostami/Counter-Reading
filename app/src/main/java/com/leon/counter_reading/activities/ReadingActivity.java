@@ -115,8 +115,6 @@ public class ReadingActivity extends BaseActivity {
 
     public void updateOnOffLoadWithoutCounterNumber(int position, int counterStateCode,
                                                     int counterStatePosition) {
-        //TODO
-        Log.e("here", "updateOnOffLoadWithoutCounterNumber");
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
         attemptSend(position);
         changePage();
@@ -124,19 +122,12 @@ public class ReadingActivity extends BaseActivity {
 
     public void updateOnOffLoadByCounterSerial(int position, int counterStatePosition,
                                                int counterStateCode, String counterSerial) {
-        //TODO
-        Log.e("here", "updateOnOffLoadByCounterSerial");
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
         readingData.onOffLoadDtos.get(position).possibleCounterSerial = counterSerial;
-//        attemptSend(position);
-//        if (binding.viewPager.getCurrentItem() < readingData.onOffLoadDtos.size())
-//            binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
     }
 
     public void updateOnOffLoadByCounterNumber(int position, int number, int counterStateCode,
                                                int counterStatePosition) {
-        //TODO
-        Log.e("here", "updateOnOffLoadByCounterNumber");
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
         readingData.onOffLoadDtos.get(position).counterNumber = number;
         attemptSend(position);
@@ -145,14 +136,11 @@ public class ReadingActivity extends BaseActivity {
 
     public void updateOnOffLoadByCounterNumber(int position, int number, int counterStateCode,
                                                int counterStatePosition, int type) {
-        //TODO
-        Log.e("here", "updateOnOffLoadByCounterNumber");
         readingData.onOffLoadDtos.get(position).highLowStateId = type;
         updateOnOffLoadByCounterNumber(position, number, counterStateCode, counterStatePosition);
     }
 
     void attemptSend(int position) {
-        //TODO
         readingData.onOffLoadDtos.get(position).x =
                 ((BaseActivity) activity).getGpsTracker().getLongitude();
         readingData.onOffLoadDtos.get(position).y =
@@ -167,7 +155,6 @@ public class ReadingActivity extends BaseActivity {
         OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
 
         offLoadData.isFinal = false;
-//        offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(readingData.onOffLoadDtos.get(position)));
         offLoadData.offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                 offLoadReportDao().getAllOffLoadReportById(readingData.onOffLoadDtos.get(position).id));
 
@@ -230,7 +217,6 @@ public class ReadingActivity extends BaseActivity {
                     isNight ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES);
             isNight = !isNight;
         });
-        //TODO
         ImageView imageViewCamera = findViewById(R.id.image_view_camera);
         imageViewCamera.setImageDrawable(activity.getDrawable(R.drawable.img_camera));
         imageViewCamera.setOnClickListener(v -> {
@@ -243,7 +229,6 @@ public class ReadingActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-        //TODO
         ImageView imageViewCheck = findViewById(R.id.image_view_reading_report);
         imageViewCheck.setImageDrawable(activity.getDrawable(R.drawable.img_checked));
         imageViewCheck.setOnClickListener(v -> {
@@ -393,7 +378,7 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void getBundle() {
-        if (getIntent().getExtras() != null) {//TODO
+        if (getIntent().getExtras() != null) {
             readStatus = getIntent().getIntExtra(BundleEnum.READ_STATUS.getValue(), 0);
             highLow = getIntent().getIntExtra(BundleEnum.TYPE.getValue(), 1);
             Gson gson = new Gson();
@@ -642,7 +627,7 @@ public class ReadingActivity extends BaseActivity {
         }
     }
 
-    class offLoadDataIncomplete implements ICallbackIncomplete<OnOffLoadDto.OffLoadResponses> {
+    static class offLoadDataIncomplete implements ICallbackIncomplete<OnOffLoadDto.OffLoadResponses> {
         @Override
         public void executeIncomplete(Response<OnOffLoadDto.OffLoadResponses> response) {
             if (response != null) {
@@ -652,7 +637,7 @@ public class ReadingActivity extends BaseActivity {
         }
     }
 
-    class offLoadError implements ICallbackError {
+    static class offLoadError implements ICallbackError {
         @Override
         public void executeError(Throwable t) {
             if (t != null)
@@ -682,7 +667,7 @@ public class ReadingActivity extends BaseActivity {
         }
 
         @Override
-        protected Integer doInBackground(Integer... integers) {//TODO
+        protected Integer doInBackground(Integer... integers) {
             readingData = new ReadingData();
             readingDataTemp = new ReadingData();
             MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
@@ -690,10 +675,10 @@ public class ReadingActivity extends BaseActivity {
             readingData.karbariDtos.addAll(myDatabase.karbariDao().getAllKarbariDto());
             readingData.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
             readingData.trackingDtos.addAll(myDatabase.trackingDao().
-                    getTrackingDtosIsActiveNotArchive(true, false));//TODO
-            for (TrackingDto trackingDto : readingData.trackingDtos) {
+                    getTrackingDtosIsActiveNotArchive(true, false));
+            for (TrackingDto dto : readingData.trackingDtos) {
                 readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
-                        getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
+                        getReadingConfigDefaultDtosByZoneId(dto.zoneId));
             }
             for (TrackingDto trackingDto : readingData.trackingDtos) {
                 if (readStatus == ReadStatusEnum.ALL.getValue()) {

@@ -144,23 +144,22 @@ public class UploadFragment extends Fragment {
             alalPercent = myDatabase.readingConfigDefaultDao().getAlalHesabByZoneId(
                     trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).zoneId);
         }
-        if (trackingDtos.size() > 0) {
-            double alalMane = (double) mane / total * 100;
-            if (unread > 0) {
-                new CustomToast().info("همکار گرامی! تعداد " + unread + " اشتراک قرائت نشده است.");
-                return false;
-            } else if (mane > 0 && alalMane * 100 > (double) alalPercent) {
-                new CustomToast().info("همکار گرامی درصد علی الحساب بالاتر از حد مجاز است.");
-                return false;
-            }
+        double alalMane = (double) mane / total * 100;
+        if (unread > 0) {
+            new CustomToast().info("همکار گرامی!\nتعداد " + unread + " اشتراک قرائت نشده است.", Toast.LENGTH_LONG);
+            return false;
+        } else if (mane > 0 && alalMane * 100 > (double) alalPercent) {
+            new CustomToast().info("همکار گرامی!\nدرصد علی الحساب بالاتر از حد مجاز است.", Toast.LENGTH_LONG);
+            return false;
         }
+//        if (trackingDtos.size() > 0) {
+//        }
         return true;
     }
 
     void setOnButtonUploadClickListener() {
         binding.buttonUpload.setOnClickListener(v -> {
-            if (type == 1) {
-                //TODO
+            if (type == 1 || type == 2) {
                 if (checkOnOffLoad())
                     new prepareOffLoadToUpload().execute();
             } else if (type == 3) {
@@ -173,7 +172,7 @@ public class UploadFragment extends Fragment {
         MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
                 updateTrackingDtoByArchive(trackingDtos.get(
                         binding.spinner.getSelectedItemPosition() - 1).id, true, false);
-        activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.thank_you)));
+        activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.thank_you), Toast.LENGTH_LONG));
     }
 
     void updateImages() {
@@ -244,8 +243,8 @@ public class UploadFragment extends Fragment {
         protected void onPostExecute(Integer integer) {
             customProgressBar.getDialog().dismiss();
             if (onOffLoadDtos.size() > 0 || forbiddenDtos.size() > 0) {
-                uploadOffLoad();
                 uploadForbid();
+                uploadOffLoad();
             } else {
                 thankYou();
             }
@@ -253,24 +252,31 @@ public class UploadFragment extends Fragment {
         }
 
         void uploadForbid() {
-            //TODO
             if (forbiddenDtos.size() > 0) {
                 ForbiddenDto.ForbiddenDtoRequestMultiple forbiddenDtoRequestMultiple =
                         new ForbiddenDto.ForbiddenDtoRequestMultiple();
                 Retrofit retrofit = NetworkHelper.getInstance();
                 IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-
-                for (int i = 0; i < forbiddenDtos.size(); i++) {
+//                for (int i = 0; i < forbiddenDtos.size(); i++) {
+//                    ForbiddenDto.ForbiddenDtoMultiple forbiddenDtoMultiple =
+//                            new ForbiddenDto.ForbiddenDtoMultiple(forbiddenDtos.get(i).zoneId,
+//                                    forbiddenDtos.get(i).description,
+//                                    forbiddenDtos.get(i).preEshterak,
+//                                    forbiddenDtos.get(i).nextEshterak,
+//                                    forbiddenDtos.get(i).postalCode,
+//                                    forbiddenDtos.get(i).tedadVahed,
+//                                    forbiddenDtos.get(i).x,
+//                                    forbiddenDtos.get(i).y,
+//                                    forbiddenDtos.get(i).gisAccuracy);
+//                    forbiddenDtoRequestMultiple.forbiddenDtos.add(forbiddenDtoMultiple);
+//                }
+                for (ForbiddenDto forbiddenDto : forbiddenDtos) {
                     ForbiddenDto.ForbiddenDtoMultiple forbiddenDtoMultiple =
-                            new ForbiddenDto.ForbiddenDtoMultiple(forbiddenDtos.get(i).zoneId,
-                                    forbiddenDtos.get(i).description,
-                                    forbiddenDtos.get(i).preEshterak,
-                                    forbiddenDtos.get(i).nextEshterak,
-                                    forbiddenDtos.get(i).postalCode,
-                                    forbiddenDtos.get(i).tedadVahed,
-                                    forbiddenDtos.get(i).x,
-                                    forbiddenDtos.get(i).y,
-                                    forbiddenDtos.get(i).gisAccuracy);
+                            new ForbiddenDto.ForbiddenDtoMultiple(forbiddenDto.zoneId,
+                                    forbiddenDto.description, forbiddenDto.preEshterak,
+                                    forbiddenDto.nextEshterak, forbiddenDto.postalCode,
+                                    forbiddenDto.tedadVahed, forbiddenDto.x, forbiddenDto.y,
+                                    forbiddenDto.gisAccuracy);
                     forbiddenDtoRequestMultiple.forbiddenDtos.add(forbiddenDtoMultiple);
                 }
                 Call<ForbiddenDto.ForbiddenDtoResponses> call =
@@ -370,7 +376,7 @@ public class UploadFragment extends Fragment {
                         new uploadVoice(), new uploadVoiceIncomplete(), new uploadError());
             } else {
                 CustomToast customToast = new CustomToast();
-                activity.runOnUiThread(() -> customToast.info(getString(R.string.there_is_no_message)));
+                activity.runOnUiThread(() -> customToast.info(getString(R.string.there_is_no_message), Toast.LENGTH_LONG));
             }
         }
 
@@ -384,7 +390,7 @@ public class UploadFragment extends Fragment {
                         new uploadMultimedia(), new uploadMultimediaIncomplete(), new uploadError());
             } else {
                 CustomToast customToast = new CustomToast();
-                activity.runOnUiThread(() -> customToast.info(getString(R.string.there_is_no_images)));
+                activity.runOnUiThread(() -> customToast.info(getString(R.string.there_is_no_images), Toast.LENGTH_LONG));
             }
         }
     }
@@ -449,13 +455,13 @@ public class UploadFragment extends Fragment {
         }
     }
 
-    class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDto.ForbiddenDtoResponses> {
+    static class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDto.ForbiddenDtoResponses> {
         @Override
         public void executeIncomplete(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
         }
     }
 
-    class Error implements ICallbackError {
+    static class Error implements ICallbackError {
         @Override
         public void executeError(Throwable t) {
         }

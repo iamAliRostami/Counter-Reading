@@ -86,13 +86,13 @@ public class DownloadFragment extends Fragment {
     }
 
     void downloadType() {
-        if (type == 1) {
-            Retrofit retrofit = NetworkHelper.getInstance();
-            IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-            Call<ReadingData> call = iAbfaService.loadData();
-            HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), context,
-                    new DownloadCompleted(), new DownloadIncomplete(), new DownloadError());
-        }
+        Retrofit retrofit = NetworkHelper.getInstance();
+        IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+        Call<ReadingData> call = iAbfaService.loadData();
+        HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), context,
+                new DownloadCompleted(), new DownloadIncomplete(), new DownloadError());
+//        if (type == 1) {
+//        }
     }
 
     @Override

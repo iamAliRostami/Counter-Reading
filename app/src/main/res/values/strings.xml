@@ -193,9 +193,10 @@
     <string name="insert_message">یک پیام نوشته یا ضبط شود.</string>
     <string name="visible_hide_keyboard">نمایش / عدم نمایش صفحه کلید</string>
     <string name="last_unread">آخرین بازدید نشده</string>
-    <string name="thank_you">همکار گرامی خداقوت!</string>
+    <string name="thank_you">همکار گرامی!\n خداقوت!</string>
     <string name="all_masir_bazdid">همه مسیرها بازدید شد.</string>
     <string name="this_feature_is_not_active">این ویژگی در این منطقه فعال نشده است.</string>
     <string name="dash">-</string>
+    <string name="contact_us">ارتباط با ما</string>
 
 </resources>

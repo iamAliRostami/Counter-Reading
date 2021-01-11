@@ -1,22 +1,22 @@
 package com.leon.counter_reading.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Debug;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityHelpBinding;
-import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
-import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 public class HelpActivity extends BaseActivity {
     ActivityHelpBinding binding;
-    ISharedPreferenceManager sharedPreferenceManager;
+    Activity activity;
 
     @Override
     protected void initialize() {
@@ -24,14 +24,25 @@ public class HelpActivity extends BaseActivity {
         View childLayout = binding.getRoot();
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
-        sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
-                SharedReferenceNames.ACCOUNT.getValue());
-        if (sharedPreferenceManager.checkIsNotEmpty(SharedReferenceKeys.USERNAME_TEMP.getValue()))
-            binding.textViewDate.setText(sharedPreferenceManager.getStringData(SharedReferenceKeys.DATE.getValue()));
-        binding.textViewVersion.setText(getString(R.string.version).concat(" ")
-                .concat(BuildConfig.VERSION_NAME));
+        binding.pdfView.fromAsset("counter_reading.pdf").load();
+        activity = this;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.help_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menu_contact_us) {
+            Intent intent = new Intent(activity, ContactUsActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onStop() {
