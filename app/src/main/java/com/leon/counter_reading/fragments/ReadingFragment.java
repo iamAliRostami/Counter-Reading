@@ -48,6 +48,55 @@ public class ReadingFragment extends Fragment {
     public ReadingFragment() {
     }
 
+    public static ReadingFragment newInstance(
+            OnOffLoadDto onOffLoadDto,
+            ReadingConfigDefaultDto readingConfigDefaultDto,
+            KarbariDto karbariDto,
+            QotrDictionary qotrDictionary,
+            ArrayList<String> items,
+            ArrayList<CounterStateDto> counterStateDtos,
+            int position) {
+        ReadingFragment fragment = new ReadingFragment();
+        fragment.setArguments(putBundle(onOffLoadDto, readingConfigDefaultDto, karbariDto,
+                qotrDictionary, items, counterStateDtos, position));
+        return fragment;
+    }
+
+    static Bundle putBundle(OnOffLoadDto onOffLoadDto,
+                            ReadingConfigDefaultDto readingConfigDefaultDto,
+                            KarbariDto karbariDto,
+                            QotrDictionary qotrDictionary,
+                            ArrayList<String> items,
+                            ArrayList<CounterStateDto> counterStateDtos,
+                            int position) {
+        Bundle args = new Bundle();
+        Gson gson = new Gson();
+        String json1 = gson.toJson(onOffLoadDto);
+        args.putString(BundleEnum.ON_OFF_LOAD.getValue(), json1);
+        String json2 = gson.toJson(readingConfigDefaultDto);
+        args.putString(BundleEnum.READING_CONFIG.getValue(), json2);
+        String json3 = gson.toJson(karbariDto);
+        args.putString(BundleEnum.KARBARI_DICTONARY.getValue(), json3);
+        String json4 = gson.toJson(qotrDictionary);
+        args.putString(BundleEnum.QOTR_DICTIONARY.getValue(), json4);
+
+        ArrayList<String> json6 = new ArrayList<>();
+        for (String s : items) {
+            String json = gson.toJson(s);
+            json6.add(json);
+        }
+        args.putStringArrayList(BundleEnum.Item.getValue(), json6);
+
+        ArrayList<String> json7 = new ArrayList<>();
+        for (CounterStateDto s : counterStateDtos) {
+            String json = gson.toJson(s);
+            json7.add(json);
+        }
+        args.putStringArrayList(BundleEnum.COUNTER_STATE.getValue(), json7);
+        args.putInt(BundleEnum.POSITION.getValue(), position);
+        return args;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -250,20 +299,6 @@ public class ReadingFragment extends Fragment {
         }
     }
 
-    public static ReadingFragment newInstance(
-            OnOffLoadDto onOffLoadDto,
-            ReadingConfigDefaultDto readingConfigDefaultDto,
-            KarbariDto karbariDto,
-            QotrDictionary qotrDictionary,
-            ArrayList<String> items,
-            ArrayList<CounterStateDto> counterStateDtos,
-            int position) {
-        ReadingFragment fragment = new ReadingFragment();
-        fragment.setArguments(putBundle(onOffLoadDto, readingConfigDefaultDto, karbariDto,
-                qotrDictionary, items, counterStateDtos, position));
-        return fragment;
-    }
-
     void getBundle() {
         if (getArguments() != null) {
             Gson gson = new Gson();
@@ -290,41 +325,6 @@ public class ReadingFragment extends Fragment {
                 counterStateDtos.add(gson.fromJson(s, CounterStateDto.class));
             }
         }
-    }
-
-    static Bundle putBundle(OnOffLoadDto onOffLoadDto,
-                            ReadingConfigDefaultDto readingConfigDefaultDto,
-                            KarbariDto karbariDto,
-                            QotrDictionary qotrDictionary,
-                            ArrayList<String> items,
-                            ArrayList<CounterStateDto> counterStateDtos,
-                            int position) {
-        Bundle args = new Bundle();
-        Gson gson = new Gson();
-        String json1 = gson.toJson(onOffLoadDto);
-        args.putString(BundleEnum.ON_OFF_LOAD.getValue(), json1);
-        String json2 = gson.toJson(readingConfigDefaultDto);
-        args.putString(BundleEnum.READING_CONFIG.getValue(), json2);
-        String json3 = gson.toJson(karbariDto);
-        args.putString(BundleEnum.KARBARI_DICTONARY.getValue(), json3);
-        String json4 = gson.toJson(qotrDictionary);
-        args.putString(BundleEnum.QOTR_DICTIONARY.getValue(), json4);
-
-        ArrayList<String> json6 = new ArrayList<>();
-        for (String s : items) {
-            String json = gson.toJson(s);
-            json6.add(json);
-        }
-        args.putStringArrayList(BundleEnum.Item.getValue(), json6);
-
-        ArrayList<String> json7 = new ArrayList<>();
-        for (CounterStateDto s : counterStateDtos) {
-            String json = gson.toJson(s);
-            json7.add(json);
-        }
-        args.putStringArrayList(BundleEnum.COUNTER_STATE.getValue(), json7);
-        args.putInt(BundleEnum.POSITION.getValue(), position);
-        return args;
     }
 
     @Override

@@ -86,13 +86,9 @@ public class DeleteFragment extends DialogFragment {
                                 SharedReferenceKeys.PASSWORD_TEMP.getValue())).contains(password)
                 ) {
                     if (id.isEmpty()) {
-//                        MyDatabaseClient.getInstance(activity).getMyDatabase().
-//                                readingConfigDefaultDao().updateReadingConfigDefaultByArchive(true, false);
                         MyDatabaseClient.getInstance(activity).getMyDatabase().
                                 trackingDao().updateTrackingDtoByArchive(true, false);
                     } else {
-//                        MyDatabaseClient.getInstance(activity).getMyDatabase().
-//                                readingConfigDefaultDao().updateReadingConfigDefaultByArchive(zoneId, true, false);
                         MyDatabaseClient.getInstance(activity).getMyDatabase().
                                 trackingDao().updateTrackingDtoByArchive(id, true, false);
                     }

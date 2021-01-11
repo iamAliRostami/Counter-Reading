@@ -62,6 +62,16 @@ public class ReportTotalFragment extends Fragment {
         return fragment;
     }
 
+    static Bundle putBundle(int zero, int normal, int high,
+                            int low) {
+        Bundle args = new Bundle();
+        args.putInt(BundleEnum.ZERO.getValue(), zero);
+        args.putInt(BundleEnum.HIGH.getValue(), high);
+        args.putInt(BundleEnum.LOW.getValue(), low);
+        args.putInt(BundleEnum.NORMAL.getValue(), normal);
+        return args;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,9 +96,9 @@ public class ReportTotalFragment extends Fragment {
 
     void setupChart() {
         binding.pieChart.addPieSlice(new PieModel(getString(R.string.zero), zero, ContextCompat.getColor(activity, R.color.blue)));
-        binding.pieChart.addPieSlice(new PieModel(getString(R.string.normal), normal, ContextCompat.getColor(activity,R.color.green)));
-        binding.pieChart.addPieSlice(new PieModel(getString(R.string.down), low, ContextCompat.getColor(activity,R.color.yellow)));
-        binding.pieChart.addPieSlice(new PieModel(getString(R.string.up), high, ContextCompat.getColor(activity,R.color.red)));
+        binding.pieChart.addPieSlice(new PieModel(getString(R.string.normal), normal, ContextCompat.getColor(activity, R.color.green)));
+        binding.pieChart.addPieSlice(new PieModel(getString(R.string.down), low, ContextCompat.getColor(activity, R.color.yellow)));
+        binding.pieChart.addPieSlice(new PieModel(getString(R.string.up), high, ContextCompat.getColor(activity, R.color.red)));
         binding.pieChart.startAnimation();
     }
 
@@ -106,16 +116,6 @@ public class ReportTotalFragment extends Fragment {
         binding.linearLayoutZero.setOnClickListener(onClickListener);
         binding.linearLayoutNormal.setOnClickListener(onClickListener);
         binding.linearLayoutTotal.setOnClickListener(onClickListener);
-    }
-
-    static Bundle putBundle(int zero, int normal, int high,
-                            int low) {
-        Bundle args = new Bundle();
-        args.putInt(BundleEnum.ZERO.getValue(), zero);
-        args.putInt(BundleEnum.HIGH.getValue(), high);
-        args.putInt(BundleEnum.LOW.getValue(), low);
-        args.putInt(BundleEnum.NORMAL.getValue(), normal);
-        return args;
     }
 
     void getBundle() {

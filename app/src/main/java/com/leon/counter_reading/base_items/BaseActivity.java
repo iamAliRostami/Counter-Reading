@@ -81,7 +81,7 @@ public abstract class BaseActivity extends AppCompatActivity
         }
         MyApplication.onActivitySetTheme(this, theme, false);
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        overridePendingTransition(R.anim.slide_up_info, R.anim.no_change);
+//        overridePendingTransition(R.anim.slide_up_info, R.anim.no_change);
         binding = BaseActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

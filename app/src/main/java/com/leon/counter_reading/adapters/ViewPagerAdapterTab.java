@@ -1,5 +1,6 @@
 package com.leon.counter_reading.adapters;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -14,9 +15,12 @@ public class ViewPagerAdapterTab extends FragmentPagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
-    public ViewPagerAdapterTab(FragmentManager manager) {
-        super(manager);
+    public ViewPagerAdapterTab(@NonNull FragmentManager fm, int behavior) {
+        super(fm, behavior);
     }
+//    public ViewPagerAdapterTab(FragmentManager manager) {
+//        super(manager);
+//    }
 
     @NotNull
     @Override

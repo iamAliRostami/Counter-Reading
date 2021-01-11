@@ -20,25 +20,13 @@ import com.leon.counter_reading.tables.SavedLocationsDao;
 import com.leon.counter_reading.tables.TrackingDao;
 import com.leon.counter_reading.tables.TrackingDto;
 
+import org.jetbrains.annotations.NotNull;
+
 @Database(entities = {SavedLocation.class, KarbariDto.class, OnOffLoadDto.class,
         QotrDictionary.class, ReadingConfigDefaultDto.class, TrackingDto.class,
         CounterStateDto.class},
         version = 1, exportSchema = false)
 public abstract class MyDatabaseTemp extends RoomDatabase {
-    public abstract KarbariDao karbariDao();
-
-    public abstract OnOffLoadDao onOffLoadDao();
-
-    public abstract QotrDictionaryDao qotrDictionaryDao();
-
-    public abstract ReadingConfigDefaultDao readingConfigDefaultDao();
-
-    public abstract SavedLocationsDao savedLocationDao();
-
-    public abstract CounterStateDao counterStateDao();
-
-    public abstract TrackingDao trackingDao();
-
     public static final Migration MIGRATION_4_5 = new Migration(16, 17) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
@@ -79,7 +67,6 @@ public abstract class MyDatabaseTemp extends RoomDatabase {
             database.execSQL("DROP TABLE t1_backup");
         }
     };
-
     public static final Migration MIGRATION_3_4 = new Migration(3, 4) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
@@ -89,10 +76,9 @@ public abstract class MyDatabaseTemp extends RoomDatabase {
             database.execSQL("DROP TABLE t1_backup");
         }
     };
-
     public static final Migration MIGRATION_6_7 = new Migration(1, 2) {
         @Override
-        public void migrate(SupportSQLiteDatabase database) {
+        public void migrate(@NotNull SupportSQLiteDatabase database) {
 //            database.execSQL("Drop Database MyDatabaseTemp");
 //            database.execSQL("DROP INDEX 'id'");
 //            database.execSQL("DROP INDEX 'customId'");
@@ -135,4 +121,18 @@ public abstract class MyDatabaseTemp extends RoomDatabase {
 //            database.execSQL("DROP INDEX 'id' ON CounterStateDto(id);");
         }
     };
+
+    public abstract KarbariDao karbariDao();
+
+    public abstract OnOffLoadDao onOffLoadDao();
+
+    public abstract QotrDictionaryDao qotrDictionaryDao();
+
+    public abstract ReadingConfigDefaultDao readingConfigDefaultDao();
+
+    public abstract SavedLocationsDao savedLocationDao();
+
+    public abstract CounterStateDao counterStateDao();
+
+    public abstract TrackingDao trackingDao();
 }

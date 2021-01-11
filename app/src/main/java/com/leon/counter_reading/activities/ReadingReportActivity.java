@@ -65,6 +65,32 @@ public class ReadingReportActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        new CustomToast().warning(getString(R.string.submit_for_back));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Debug.getNativeHeapAllocatedSize();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        counterReportDtos = null;
+        offLoadReports = null;
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Debug.getNativeHeapAllocatedSize();
+    }
+
     @SuppressLint("StaticFieldLeak")
     class GetDBData extends AsyncTask<Integer, Integer, Integer> {
         CustomProgressBar customProgressBar;
@@ -108,31 +134,5 @@ public class ReadingReportActivity extends AppCompatActivity {
                     counterReportDtos, offLoadReports);
             binding.listViewReports.setAdapter(readingReportCustomAdapter);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-//        super.onBackPressed();
-        new CustomToast().warning(getString(R.string.submit_for_back));
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        counterReportDtos = null;
-        offLoadReports = null;
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
     }
 }

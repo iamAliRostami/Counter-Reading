@@ -8,10 +8,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Debug;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.gun0912.tedpermission.PermissionListener;
@@ -55,6 +57,7 @@ public class LocationActivity extends BaseActivity {
             } else if (!PermissionManager.checkStoragePermission(getApplicationContext())) {
                 askStoragePermission();
             } else {
+                new CustomToast().info(getString(R.string.this_feature_is_not_active), Toast.LENGTH_LONG);
                 setupViewPager();
                 initializeTextViews();
             }
@@ -162,7 +165,8 @@ public class LocationActivity extends BaseActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void setupViewPager() {
-        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
+        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager(),
+                FragmentStatePagerAdapter.POSITION_NONE);
         adapter.addFragment(new LocationFragment(), "لایه ها ");
         adapter.addFragment(new PlaceFragment(), "مکان کنتور");
         binding.viewPager.setAdapter(adapter);

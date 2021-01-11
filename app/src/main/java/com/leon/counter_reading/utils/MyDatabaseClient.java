@@ -24,10 +24,6 @@ public class MyDatabaseClient {
         return mInstance;
     }
 
-    public MyDatabase getMyDatabase() {
-        return myDatabase;
-    }
-
     public static void migration(Context context) {
         Room.databaseBuilder(context, MyDatabase.class,
                 MyApplication.getDBName()).
@@ -44,5 +40,9 @@ public class MyDatabaseClient {
         database.execSQL(deleteTable);
         String deleteSqLiteSequence = "DELETE FROM sqlite_sequence WHERE name = '" + MyApplication.getDBName() + "'";
         database.execSQL(deleteSqLiteSequence);
+    }
+
+    public MyDatabase getMyDatabase() {
+        return myDatabase;
     }
 }

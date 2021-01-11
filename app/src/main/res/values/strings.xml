@@ -4,10 +4,6 @@
     <string name="navigation_drawer_open">باز کردن منو</string>
     <string name="navigation_drawer_close">بستن منو</string>
 
-    <string name="gps_is_not_active">جی پی اس فعال نیست!</string>
-    <string name="would_you_want_active_gps">آیا میخواهید جی پی اس را فعال کنید؟</string>
-    <string name="yes">بله</string>
-    <string name="no">خیر</string>
     <string name="services_is_not_available">سرویس در دسترس  نیست</string>
     <string name="canceled">عملیات متوقف شد.</string>
     <string name="waiting">لطفا صبر کنید…</string>
@@ -25,34 +21,21 @@
     <string name="save">ذخیره</string>
 
 
-    <string name="error">خطا</string>
     <string name="error_upload">بارگذاری با خطا رو برو شد.</string>
-    <string name="error_not_update_1">همکار گرامی لطفا نسخه به روز شده اپلیکیشن را از منوی تنظیمات  بخش به روز رسانی دریافت نمایید</string>
-    <string name="error_not_update_2">لطفا نسخه به روز شده اپلیکیشن را از فهرست فوری، بخش به روز رسانی دریافت نمایید.</string>
-    <string name="error_call_backup">همکار گرامی مشکلی در دریافت اطلاعات این بخش به وجود آمد، با پشتیبان بخش اسناد تماس حاصل فرمایید.</string>
     <string name="error_not_auth">ممجوزهای دسترسی به شما اعطا نشده است، با پشتیبان تماس گرفته و از برنامه خارج و مجددا وارد شوید.</string>
-    <string name="error_bill_id">شناسه قبض صحیح نمیباشد.</string>
-    <string name="error_disconnected">برقراری ارتباط حین جابجایی اطلاعات با خطا مواجه شد</string>
     <string name="error_connection">خطا در جابجایی اطلاعات، اتصالات خود را بررسی و مجدد تلاش کنید.</string>
-    <string name="error_unknown">خطای ناشناخته رخ داده است.</string>
-    <string name="error_code">\nکد خطا:</string>
     <string name="error_external_storage_is_not_writable">حافظه خارجی قابلی نوشتن نیست.</string>
     <string name="error_in_record_voice">در ضبط صدا مشکلی به وجود آمد</string>
     <string name="error_in_play_voice">در پخش صدا مشکلی به وجود آمد</string>
     <string name="dear_user">همکار گرامی!</string>
     <string name="error_other">در حال حاضر خدمات مقدور نمیباشد، لطفا مجددا تلاش فرمایید.</string>
     <string name="error_internal">با عرض پوزش، سرور در حال به روزرسانی، لطفا دقایقی دیگر امتحان فرمایید.</string>
-    <string name="error_input">ورودی های خود را چک کنید.</string>
     <string name="error_change_server">سرور در حال تغییرات است، لطفا منتظر بمانید و در صورت برطرف نشدن مشکل با پشتیبان تماس حاصل فرمایید.</string>
-    <string name="error_user_password">نام کاربری و گذرواژه در سیستم موجود نیست، لطفا در ورود اطلاعات دقت قرمایید.</string>
     <string name="error_empty">این فیلد باید پر شود.</string>
     <string name="error_format">فرمت وارد شده صحیح نمیباشد.</string>
     <string name="error_is_not_match">نام کاربری و گذرواژه با یکدیگر مطابقت ندارند</string>
     <string name="ex_msg_dialog_choice_confirm">Confirm button is only for multi choice lists. You must call setMultiChoiceItems first</string>
     <string name="ex_msg_dialog_view_not_set">You must call method setView before calling configureView.</string>
-
-    <string name="loading_getting_info">ارتباط با سرویس دهنده</string>
-    <string name="loading_connecting">ارتباط با سرور</string>
 
     <string name="no_eshterak_found">اشتراک فعالی وجود ندارد</string>
     <string name="eshterak">اشتراک</string>
@@ -92,7 +75,6 @@
     <string name="special">ویژه</string>
     <string name="again">مجدد</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="upload_off">بارگذاری آفلاین</string>
     <string name="multimedia">چندرسانه</string>
     <string name="upload_multimedia">بارگذاری تصاویر</string>
@@ -158,16 +140,13 @@
     <string name="attach_image">الصاق عکس</string>
     <string name="theme_changed">تغییر پوسته با موفقیت انجام گرفت</string>
     <string name="camera">دوربین</string>
-    <string name="photo">عکس</string>
     <string name="gps_setting">تنظیمات جی پی اس</string>
     <string name="setting">تنظیمات</string>
-    <string name="force_close">مجوز ها کامل نیست</string>
     <string name="allow_permission">اعطای دسترسی</string>
     <string name="permission_not_completed">مجوزها کامل نیست، پس از اعطای دسترسی کامل، مجددا تلاش کنید.</string>
     <string name="active_gps">مکان یابی شما غیر فعال است، با مراجعه به تنظیمات، آن را فعال کنید.</string>
     <string name="confirm_permission">جهت استفاده از برنامه مجوزهای پیشنهادی را قبول فرمایید</string>
     <string name="if_reject_permission">در صورت رد این مجوز قادر به استفاده از این دستگاه نخواهید بود\nلطفا با فشار دادن دکمه اعطای دسترسی و سپس در بخش دسترسی ها با این مجوز ها موافقت نمایید</string>
-    <string name="permission_reject">مجوز رد شد</string>
     <string name="access_granted">مجوز ها داده شده</string>
     <string name="has_no_flash">دستگاه شما مجهز به چراغ قوه نیست</string>
     <string name="choose_document">انتخاب مدرک</string>
@@ -188,8 +167,6 @@
     <string name="high_use">رقم وارد شده بالاتر از میانگین بلند مدت است. آیا از رقم وارد شده اطمینان دارید؟</string>
     <string name="low_use">رقم وارد شده پایین تر از میانگین بلند مدت است. آیا از رقم وارد شده اطمینان دارید؟</string>
     <string name="counter_body_number">شماره بدنه کنتور</string>
-    <string name="parvande_number">شماره پرونده</string>
-    <string name="shenase">شناسه</string>
     <string name="page_number">شماره صفحه</string>
     <string name="name">نام</string>
     <string name="all">همه</string>
@@ -198,14 +175,11 @@
     <string name="from">از</string>
     <string name="all_items">همه موارد</string>
 
-    <string name="upload_multimedia_successful">بارگذاری تصاویر با موفقیت انجام شد.</string>
     <string name="there_is_no_images">تصویری برای بارگذاری وجود ندارد.</string>
     <string name="there_is_no_message">پیامی برای بارگذاری وجود ندارد.</string>
-    <string name="there_is_no_offload">مسیری برای بارگذاری وجود ندارد.</string>
     <string name="error_update">به روزرسانی با خطا روبرو شد. مجددا تلاش کنید.</string>
 
     <string name="file_downloaded">فایل برنامه دانلود شد، به مدیریت فایل مراجعه کنید</string>
-    <string name="current_version">نسخه فعلی</string>
     <string name="pre_number">شماره پیشین</string>
     <string name="mega_byte">مگابایت</string>
     <string name="ahad_asli_number">تعداد آحاد اصلی</string>
@@ -219,5 +193,6 @@
     <string name="last_unread">آخرین بازدید نشده</string>
     <string name="thank_you">همکار گرامی خداقوت!</string>
     <string name="all_masir_bazdid">همه مسیرها بازدید شد.</string>
+    <string name="this_feature_is_not_active">این ویژگی در این منطقه فعال نشده است.</string>
 
 </resources>

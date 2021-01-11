@@ -9,6 +9,7 @@ import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.leon.counter_reading.R;
@@ -41,45 +42,6 @@ public class ReadingSettingActivity extends BaseActivity {
         activity = this;
         new getDBData().execute();
         initializeTextViews();
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    class getDBData extends AsyncTask<Integer, Integer, Integer> {
-        CustomProgressBar customProgressBar;
-
-        public getDBData() {
-            super();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            customProgressBar = new CustomProgressBar();
-            customProgressBar.show(activity, false);
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            customProgressBar.getDialog().dismiss();
-            super.onPostExecute(integer);
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... integers) {
-            //TODO
-            trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    trackingDao().getTrackingDtoNotArchive(false));
-            for (TrackingDto trackingDto : trackingDtos) {
-//                readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
-//                        getMyDatabase().readingConfigDefaultDao().
-//                        getNotArchiveReadingConfigDefaultDtosByZoneId(trackingDto.zoneId, false));
-                readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
-                        getMyDatabase().readingConfigDefaultDao().
-                        getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
-            }
-            runOnUiThread(ReadingSettingActivity.this::setupViewPager);
-            return null;
-        }
     }
 
     void initializeTextViews() {
@@ -125,7 +87,8 @@ public class ReadingSettingActivity extends BaseActivity {
     }
 
     private void setupViewPager() {
-        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
+        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager(),
+                FragmentStatePagerAdapter.POSITION_NONE);
         adapter.addFragment(ReadingSettingFragment.newInstance(trackingDtos,
                 readingConfigDefaultDtos), "تنظیمات قرائت");
         adapter.addFragment(ReadingSettingDeleteFragment.newInstance(trackingDtos,
@@ -176,5 +139,44 @@ public class ReadingSettingActivity extends BaseActivity {
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
         Debug.getNativeHeapAllocatedSize();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    class getDBData extends AsyncTask<Integer, Integer, Integer> {
+        CustomProgressBar customProgressBar;
+
+        public getDBData() {
+            super();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            customProgressBar = new CustomProgressBar();
+            customProgressBar.show(activity, false);
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            customProgressBar.getDialog().dismiss();
+            super.onPostExecute(integer);
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... integers) {
+            //TODO
+            trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                    trackingDao().getTrackingDtoNotArchive(false));
+            for (TrackingDto trackingDto : trackingDtos) {
+//                readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
+//                        getMyDatabase().readingConfigDefaultDao().
+//                        getNotArchiveReadingConfigDefaultDtosByZoneId(trackingDto.zoneId, false));
+                readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
+                        getMyDatabase().readingConfigDefaultDao().
+                        getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
+            }
+            runOnUiThread(ReadingSettingActivity.this::setupViewPager);
+            return null;
+        }
     }
 }

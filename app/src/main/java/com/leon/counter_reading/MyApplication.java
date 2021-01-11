@@ -11,9 +11,6 @@ import androidx.multidex.MultiDex;
 import es.dmoral.toasty.Toasty;
 
 public class MyApplication extends Application {
-    public static Bitmap bitmapSelectedImage;
-    public static int POSITION = -1;
-    public static String fileName;
     public static final String FONT_NAME = "font/font_1.ttf";
     public static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
     public static final long MIN_TIME_BW_UPDATES = 10000;
@@ -27,13 +24,15 @@ public class MyApplication extends Application {
     public static final int NAVIGATION = 1903;
     public static final int DESCRIPTION = 1909;
     public static final int TOAST_TEXT_SIZE = 20;
+    public static Bitmap bitmapSelectedImage;
+    public static int POSITION = -1;
+    public static String fileName;
     public static boolean focusOnEditText = false;
+    static Context appContext;
 
     public static Context getContext() {
         return appContext;
     }
-
-    static Context appContext;
 
     public static void onActivitySetTheme(Activity activity, int theme, boolean actionBar) {
         if (!actionBar) {
@@ -59,6 +58,10 @@ public class MyApplication extends Application {
         }
     }
 
+    public static String getDBName() {
+        return "MyDatabase";
+    }
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -74,9 +77,5 @@ public class MyApplication extends Application {
                 .setTextSize(TOAST_TEXT_SIZE)
                 .allowQueue(true).apply();
         super.onCreate();
-    }
-
-    public static String getDBName() {
-        return "MyDatabase";
     }
 }

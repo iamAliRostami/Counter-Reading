@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 public class PlaceFragment extends Fragment {
     FragmentPlaceBinding binding;
     Activity activity;
+
     public PlaceFragment() {
     }
 
@@ -38,7 +39,7 @@ public class PlaceFragment extends Fragment {
     @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
         binding.imageViewLocation.setImageDrawable(
-                ContextCompat.getDrawable(activity,R.drawable.img_location));
+                ContextCompat.getDrawable(activity, R.drawable.img_location));
     }
 
     @Override

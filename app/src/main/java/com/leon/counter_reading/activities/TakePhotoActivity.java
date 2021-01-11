@@ -73,6 +73,127 @@ public class TakePhotoActivity extends AppCompatActivity {
     int imageNumber = 1, imageNumberTemp = 0;
     boolean replace = false;
     String uuid;
+    @SuppressLint("NonConstantResourceId")
+    View.OnLongClickListener onLongClickListener = v -> {
+        Bitmap bitmap = null;
+        switch (v.getId()) {
+            case R.id.image_View_1:
+                if (bitmaps.size() > 0)
+                    bitmap = bitmaps.get(0);
+                break;
+            case R.id.image_View_2:
+                if (bitmaps.size() > 1)
+                    bitmap = bitmaps.get(1);
+                break;
+            case R.id.image_View_3:
+                if (bitmaps.size() > 2)
+                    bitmap = bitmaps.get(2);
+                break;
+            case R.id.image_View_4:
+                if (bitmaps.size() > 3)
+                    bitmap = bitmaps.get(3);
+                break;
+        }
+        if (bitmap != null) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            HighQualityFragment highQualityFragment =
+                    HighQualityFragment.newInstance(bitmap);
+            highQualityFragment.show(fragmentTransaction, "Image # 2");
+        }
+        return false;
+    };
+    @SuppressLint("NonConstantResourceId")
+    View.OnClickListener onPickerClickListener = v -> {
+        switch (v.getId()) {
+            case R.id.image_View_1:
+                replace = imageNumber > 1;
+                if (replace) {
+                    imageNumberTemp = 1;
+                }
+                break;
+            case R.id.image_View_2:
+                replace = imageNumber > 2;
+                if (replace) {
+                    imageNumberTemp = 2;
+                }
+                break;
+            case R.id.image_View_3:
+                replace = imageNumber > 3;
+                if (replace) {
+                    imageNumberTemp = 3;
+                }
+                break;
+            case R.id.image_View_4:
+                replace = imageNumber > 4;
+                if (replace) {
+                    imageNumberTemp = 4;
+                }
+                break;
+        }
+        imagePicker();
+    };
+    @SuppressLint("NonConstantResourceId")
+    View.OnClickListener onDeleteClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            boolean b = false;
+            switch (v.getId()) {
+                case R.id.image_View_delete_1:
+                    if (imageNumber > 1) {
+                        removeImage(0);
+                        b = true;
+                        binding.imageView1.setImageBitmap(((BitmapDrawable)
+                                binding.imageView2.getDrawable()).getBitmap());
+                        binding.imageView2.setImageBitmap(((BitmapDrawable)
+                                binding.imageView3.getDrawable()).getBitmap());
+                        binding.imageView3.setImageBitmap(((BitmapDrawable)
+                                binding.imageView4.getDrawable()).getBitmap());
+                    }
+                    break;
+                case R.id.image_View_delete_2:
+                    if (imageNumber > 2) {
+                        removeImage(1);
+                        b = true;
+                        binding.imageView2.setImageBitmap(((BitmapDrawable)
+                                binding.imageView3.getDrawable()).getBitmap());
+                        binding.imageView3.setImageBitmap(((BitmapDrawable)
+                                binding.imageView4.getDrawable()).getBitmap());
+                    }
+                    break;
+                case R.id.image_View_delete_3:
+                    if (imageNumber > 3) {
+                        removeImage(2);
+                        b = true;
+                        binding.imageView3.setImageBitmap(((BitmapDrawable)
+                                binding.imageView4.getDrawable()).getBitmap());
+                    }
+                    break;
+                case R.id.image_View_delete_4:
+                    if (imageNumber > 4) {
+                        removeImage(3);
+                        b = true;
+                    }
+                    break;
+            }
+            if (b) {
+                if (imageNumber == 1) {
+                    binding.imageViewDelete1.setVisibility(View.GONE);
+                    binding.imageViewSent1.setVisibility(View.GONE);
+                } else if (imageNumber == 2) {
+                    binding.imageViewDelete2.setVisibility(View.GONE);
+                    binding.imageViewSent2.setVisibility(View.GONE);
+                } else if (imageNumber == 3) {
+                    binding.imageViewDelete3.setVisibility(View.GONE);
+                    binding.imageViewSent3.setVisibility(View.GONE);
+                } else if (imageNumber == 4) {
+                    binding.imageViewDelete4.setVisibility(View.GONE);
+                    binding.imageViewSent4.setVisibility(View.GONE);
+                }
+                binding.imageView4.setImageDrawable(ContextCompat.getDrawable(activity,
+                        R.drawable.img_take_photo));
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,67 +338,6 @@ public class TakePhotoActivity extends AppCompatActivity {
         binding.imageView4.setOnLongClickListener(onLongClickListener);
     }
 
-    @SuppressLint("NonConstantResourceId")
-    View.OnLongClickListener onLongClickListener = v -> {
-        Bitmap bitmap = null;
-        switch (v.getId()) {
-            case R.id.image_View_1:
-                if (bitmaps.size() > 0)
-                    bitmap = bitmaps.get(0);
-                break;
-            case R.id.image_View_2:
-                if (bitmaps.size() > 1)
-                    bitmap = bitmaps.get(1);
-                break;
-            case R.id.image_View_3:
-                if (bitmaps.size() > 2)
-                    bitmap = bitmaps.get(2);
-                break;
-            case R.id.image_View_4:
-                if (bitmaps.size() > 3)
-                    bitmap = bitmaps.get(3);
-                break;
-        }
-        if (bitmap != null) {
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            HighQualityFragment highQualityFragment =
-                    HighQualityFragment.newInstance(bitmap);
-            highQualityFragment.show(fragmentTransaction, "Image # 2");
-        }
-        return false;
-    };
-
-    @SuppressLint("NonConstantResourceId")
-    View.OnClickListener onPickerClickListener = v -> {
-        switch (v.getId()) {
-            case R.id.image_View_1:
-                replace = imageNumber > 1;
-                if (replace) {
-                    imageNumberTemp = 1;
-                }
-                break;
-            case R.id.image_View_2:
-                replace = imageNumber > 2;
-                if (replace) {
-                    imageNumberTemp = 2;
-                }
-                break;
-            case R.id.image_View_3:
-                replace = imageNumber > 3;
-                if (replace) {
-                    imageNumberTemp = 3;
-                }
-                break;
-            case R.id.image_View_4:
-                replace = imageNumber > 4;
-                if (replace) {
-                    imageNumberTemp = 4;
-                }
-                break;
-        }
-        imagePicker();
-    };
-
     void imagePicker() {
         AlertDialog.Builder builder = new AlertDialog.Builder(TakePhotoActivity.this);
         builder.setTitle(R.string.choose_document);
@@ -318,69 +378,6 @@ public class TakePhotoActivity extends AppCompatActivity {
         binding.imageViewDelete4.setOnClickListener(onDeleteClickListener);
     }
 
-    @SuppressLint("NonConstantResourceId")
-    View.OnClickListener onDeleteClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            boolean b = false;
-            switch (v.getId()) {
-                case R.id.image_View_delete_1:
-                    if (imageNumber > 1) {
-                        removeImage(0);
-                        b = true;
-                        binding.imageView1.setImageBitmap(((BitmapDrawable)
-                                binding.imageView2.getDrawable()).getBitmap());
-                        binding.imageView2.setImageBitmap(((BitmapDrawable)
-                                binding.imageView3.getDrawable()).getBitmap());
-                        binding.imageView3.setImageBitmap(((BitmapDrawable)
-                                binding.imageView4.getDrawable()).getBitmap());
-                    }
-                    break;
-                case R.id.image_View_delete_2:
-                    if (imageNumber > 2) {
-                        removeImage(1);
-                        b = true;
-                        binding.imageView2.setImageBitmap(((BitmapDrawable)
-                                binding.imageView3.getDrawable()).getBitmap());
-                        binding.imageView3.setImageBitmap(((BitmapDrawable)
-                                binding.imageView4.getDrawable()).getBitmap());
-                    }
-                    break;
-                case R.id.image_View_delete_3:
-                    if (imageNumber > 3) {
-                        removeImage(2);
-                        b = true;
-                        binding.imageView3.setImageBitmap(((BitmapDrawable)
-                                binding.imageView4.getDrawable()).getBitmap());
-                    }
-                    break;
-                case R.id.image_View_delete_4:
-                    if (imageNumber > 4) {
-                        removeImage(3);
-                        b = true;
-                    }
-                    break;
-            }
-            if (b) {
-                if (imageNumber == 1) {
-                    binding.imageViewDelete1.setVisibility(View.GONE);
-                    binding.imageViewSent1.setVisibility(View.GONE);
-                } else if (imageNumber == 2) {
-                    binding.imageViewDelete2.setVisibility(View.GONE);
-                    binding.imageViewSent2.setVisibility(View.GONE);
-                } else if (imageNumber == 3) {
-                    binding.imageViewDelete3.setVisibility(View.GONE);
-                    binding.imageViewSent3.setVisibility(View.GONE);
-                } else if (imageNumber == 4) {
-                    binding.imageViewDelete4.setVisibility(View.GONE);
-                    binding.imageViewSent4.setVisibility(View.GONE);
-                }
-                binding.imageView4.setImageDrawable(ContextCompat.getDrawable(activity,
-                        R.drawable.img_take_photo));
-            }
-        }
-    };
-
     void removeImage(int index) {
         imageNumber = imageNumber - 1;
         bitmaps.remove(index);
@@ -391,99 +388,6 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     void setOnButtonSendClickListener() {
         binding.buttonSaveSend.setOnClickListener(v -> new prepareMultiMedia().execute());
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    class prepareMultiMedia extends AsyncTask<Integer, Integer, Integer> {
-        CustomProgressBar customProgressBar;
-
-        public prepareMultiMedia() {
-            super();
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... integers) {
-            imageGrouped.File.clear();
-            for (int i = 0; i < images.size(); i++) {
-                if (images.get(i).File == null)
-                    images.get(i).File = CustomFile.bitmapToFile(bitmaps.get(i), activity);
-                if (binding.editTextDescription.getText().toString().isEmpty())
-                    images.get(i).Description = getString(R.string.description);
-                else images.get(i).Description = binding.editTextDescription.getText().toString();
-                if (!images.get(i).isSent) {
-                    imageGrouped.File.add(images.get(i).File);
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            customProgressBar = new CustomProgressBar();
-            customProgressBar.show(activity, false);
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
-            customProgressBar.getDialog().dismiss();
-            uploadImage();
-        }
-
-        void uploadImage() {
-            if (imageGrouped.File.size() > 0) {
-                imageGrouped.OnOffLoadId = RequestBody.create(
-                        images.get(0).OnOffLoadId, MediaType.parse("text/plain"));
-                imageGrouped.Description = RequestBody.create(
-                        images.get(0).Description, MediaType.parse("text/plain"));
-                Retrofit retrofit = NetworkHelper.getInstance();
-                IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-                Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(
-                        imageGrouped.File, imageGrouped.OnOffLoadId, imageGrouped.Description);
-                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                        new upload(), new uploadIncomplete(), new uploadError());
-            } else {
-                CustomToast customToast = new CustomToast();
-                activity.runOnUiThread(() -> customToast.warning(getString(R.string.there_is_no_images)));
-            }
-        }
-    }
-
-    class upload implements ICallback<Image.ImageUploadResponse> {
-        @Override
-        public void execute(Response<Image.ImageUploadResponse> response) {
-            if (response.body() != null && response.body().status == 200) {
-                new CustomToast().success(response.body().message, Toast.LENGTH_LONG);
-            } else {
-                new CustomToast().warning(activity.getString(R.string.error_upload), Toast.LENGTH_LONG);
-            }
-            saveImages(response.body() != null && response.body().status == 200);
-            finish();
-        }
-    }
-
-    class uploadIncomplete implements ICallbackIncomplete<Image.ImageUploadResponse> {
-
-        @Override
-        public void executeIncomplete(Response<Image.ImageUploadResponse> response) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-            String error = customErrorHandlingNew.getErrorMessageDefault(response);
-            new CustomToast().warning(error, Toast.LENGTH_LONG);
-            saveImages(false);
-            finish();
-        }
-    }
-
-    class uploadError implements ICallbackError {
-        @Override
-        public void executeError(Throwable t) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-            String error = customErrorHandlingNew.getErrorMessageTotal(t);
-            new CustomToast().error(error, Toast.LENGTH_LONG);
-            saveImages(false);
-            finish();
-        }
     }
 
     void saveImages(boolean isSent) {
@@ -644,5 +548,98 @@ public class TakePhotoActivity extends AppCompatActivity {
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
         Debug.getNativeHeapAllocatedSize();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    class prepareMultiMedia extends AsyncTask<Integer, Integer, Integer> {
+        CustomProgressBar customProgressBar;
+
+        public prepareMultiMedia() {
+            super();
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... integers) {
+            imageGrouped.File.clear();
+            for (int i = 0; i < images.size(); i++) {
+                if (images.get(i).File == null)
+                    images.get(i).File = CustomFile.bitmapToFile(bitmaps.get(i), activity);
+                if (binding.editTextDescription.getText().toString().isEmpty())
+                    images.get(i).Description = getString(R.string.description);
+                else images.get(i).Description = binding.editTextDescription.getText().toString();
+                if (!images.get(i).isSent) {
+                    imageGrouped.File.add(images.get(i).File);
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            customProgressBar = new CustomProgressBar();
+            customProgressBar.show(activity, false);
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+            customProgressBar.getDialog().dismiss();
+            uploadImage();
+        }
+
+        void uploadImage() {
+            if (imageGrouped.File.size() > 0) {
+                imageGrouped.OnOffLoadId = RequestBody.create(
+                        images.get(0).OnOffLoadId, MediaType.parse("text/plain"));
+                imageGrouped.Description = RequestBody.create(
+                        images.get(0).Description, MediaType.parse("text/plain"));
+                Retrofit retrofit = NetworkHelper.getInstance();
+                IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+                Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(
+                        imageGrouped.File, imageGrouped.OnOffLoadId, imageGrouped.Description);
+                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
+                        new upload(), new uploadIncomplete(), new uploadError());
+            } else {
+                CustomToast customToast = new CustomToast();
+                activity.runOnUiThread(() -> customToast.warning(getString(R.string.there_is_no_images)));
+            }
+        }
+    }
+
+    class upload implements ICallback<Image.ImageUploadResponse> {
+        @Override
+        public void execute(Response<Image.ImageUploadResponse> response) {
+            if (response.body() != null && response.body().status == 200) {
+                new CustomToast().success(response.body().message, Toast.LENGTH_LONG);
+            } else {
+                new CustomToast().warning(activity.getString(R.string.error_upload), Toast.LENGTH_LONG);
+            }
+            saveImages(response.body() != null && response.body().status == 200);
+            finish();
+        }
+    }
+
+    class uploadIncomplete implements ICallbackIncomplete<Image.ImageUploadResponse> {
+
+        @Override
+        public void executeIncomplete(Response<Image.ImageUploadResponse> response) {
+            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
+            String error = customErrorHandlingNew.getErrorMessageDefault(response);
+            new CustomToast().warning(error, Toast.LENGTH_LONG);
+            saveImages(false);
+            finish();
+        }
+    }
+
+    class uploadError implements ICallbackError {
+        @Override
+        public void executeError(Throwable t) {
+            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
+            String error = customErrorHandlingNew.getErrorMessageTotal(t);
+            new CustomToast().error(error, Toast.LENGTH_LONG);
+            saveImages(false);
+            finish();
+        }
     }
 }

@@ -169,6 +169,46 @@ public class UploadFragment extends Fragment {
         });
     }
 
+    void thankYou() {
+        MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
+                updateTrackingDtoByArchive(trackingDtos.get(
+                        binding.spinner.getSelectedItemPosition() - 1).id, true, false);
+        activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.thank_you)));
+    }
+
+    void updateImages() {
+        for (int i = 0; i < images.size(); i++) {
+            images.get(i).isSent = true;
+            MyDatabaseClient.getInstance(getContext()).getMyDatabase().imageDao()
+                    .updateImage(images.get(i));
+        }
+    }
+
+    void updateVoice() {
+        for (int i = 0; i < voice.size(); i++) {
+            voice.get(i).isSent = true;
+            MyDatabaseClient.getInstance(getContext()).getMyDatabase().voiceDao()
+                    .updateVoice(voice.get(i));
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding.imageViewUpload.setImageDrawable(null);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        images = null;
+        imageMultiples = null;
+        imageSrc = null;
+        trackingDtos = null;
+        onOffLoadDtos = null;
+        items = null;
+    }
+
     @SuppressLint("StaticFieldLeak")
     class prepareOffLoadToUpload extends AsyncTask<Integer, Integer, Integer> {
         CustomProgressBar customProgressBar;
@@ -256,13 +296,6 @@ public class UploadFragment extends Fragment {
                 thankYou();
             }
         }
-    }
-
-    void thankYou() {
-        MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
-                updateTrackingDtoByArchive(trackingDtos.get(
-                        binding.spinner.getSelectedItemPosition() - 1).id, true, false);
-        activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.thank_you)));
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -473,38 +506,5 @@ public class UploadFragment extends Fragment {
                     activity.getString(R.string.upload),
                     activity.getString(R.string.accepted));
         }
-    }
-
-    void updateImages() {
-        for (int i = 0; i < images.size(); i++) {
-            images.get(i).isSent = true;
-            MyDatabaseClient.getInstance(getContext()).getMyDatabase().imageDao()
-                    .updateImage(images.get(i));
-        }
-    }
-
-    void updateVoice() {
-        for (int i = 0; i < voice.size(); i++) {
-            voice.get(i).isSent = true;
-            MyDatabaseClient.getInstance(getContext()).getMyDatabase().voiceDao()
-                    .updateVoice(voice.get(i));
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding.imageViewUpload.setImageDrawable(null);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        images = null;
-        imageMultiples = null;
-        imageSrc = null;
-        trackingDtos = null;
-        onOffLoadDtos = null;
-        items = null;
     }
 }

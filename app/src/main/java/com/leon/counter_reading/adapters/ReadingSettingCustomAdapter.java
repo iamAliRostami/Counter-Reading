@@ -17,7 +17,7 @@ import com.leon.counter_reading.utils.MyDatabaseClient;
 import java.util.ArrayList;
 
 public class ReadingSettingCustomAdapter extends BaseAdapter {
-//    ArrayList<Boolean> selected;
+    //    ArrayList<Boolean> selected;
 //    ArrayList<Integer> zoneIds;
     ArrayList<TrackingDto> trackingDtos;
     LayoutInflater inflater;

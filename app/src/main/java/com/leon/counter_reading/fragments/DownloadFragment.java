@@ -95,6 +95,12 @@ public class DownloadFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding.imageViewDownload.setImageDrawable(null);
+    }
+
     class DownloadCompleted implements ICallback<ReadingData> {
         @Override
         public void execute(Response<ReadingData> response) {
@@ -203,11 +209,5 @@ public class DownloadFragment extends Fragment {
             CustomToast customToast = new CustomToast();
             customToast.error(error);
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding.imageViewDownload.setImageDrawable(null);
     }
 }

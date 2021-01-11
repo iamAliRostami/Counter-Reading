@@ -9,6 +9,7 @@ import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.leon.counter_reading.R;
@@ -110,7 +111,8 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void setupViewPager() {
-        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
+        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager(),
+                FragmentStatePagerAdapter.POSITION_NONE);
         adapter.addFragment(ReportTotalFragment.newInstance(zero, normal, high, low), "آمار کلی");
         adapter.addFragment(ReportNotReadingFragment.newInstance(total, unread), "قرائت نشده");
         adapter.addFragment(ReportTemporaryFragment.newInstance(counterStateDtos, total, isMane), "علی الحساب");
@@ -146,6 +148,23 @@ public class ReportActivity extends BaseActivity {
         binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Debug.getNativeHeapAllocatedSize();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Debug.getNativeHeapAllocatedSize();
+    }
 
     @SuppressLint("StaticFieldLeak")
     class GetDBData extends AsyncTask<Integer, Integer, Integer> {
@@ -202,23 +221,5 @@ public class ReportActivity extends BaseActivity {
             runOnUiThread(ReportActivity.this::setupViewPager);
             return null;
         }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
     }
 }

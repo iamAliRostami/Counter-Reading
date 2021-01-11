@@ -36,30 +36,6 @@ import com.leon.counter_reading.tables.VoiceDao;
         ForbiddenDto.class},
         version = 15, exportSchema = false)
 public abstract class MyDatabase extends RoomDatabase {
-    public abstract KarbariDao karbariDao();
-
-    public abstract ImageDao imageDao();
-
-    public abstract OnOffLoadDao onOffLoadDao();
-
-    public abstract QotrDictionaryDao qotrDictionaryDao();
-
-    public abstract ReadingConfigDefaultDao readingConfigDefaultDao();
-
-    public abstract SavedLocationsDao savedLocationDao();
-
-    public abstract CounterStateDao counterStateDao();
-
-    public abstract TrackingDao trackingDao();
-
-    public abstract CounterReportDao counterReportDao();
-
-    public abstract OffLoadReportDao offLoadReportDao();
-
-    public abstract ForbiddenDao forbiddenDao();
-
-    public abstract VoiceDao voiceDao();
-
     public static final Migration MIGRATION_4_5 = new Migration(16, 17) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
@@ -242,4 +218,28 @@ public abstract class MyDatabase extends RoomDatabase {
 //            database.execSQL("DROP INDEX 'id' ON CounterStateDto(id);");
         }
     };
+
+    public abstract KarbariDao karbariDao();
+
+    public abstract ImageDao imageDao();
+
+    public abstract OnOffLoadDao onOffLoadDao();
+
+    public abstract QotrDictionaryDao qotrDictionaryDao();
+
+    public abstract ReadingConfigDefaultDao readingConfigDefaultDao();
+
+    public abstract SavedLocationsDao savedLocationDao();
+
+    public abstract CounterStateDao counterStateDao();
+
+    public abstract TrackingDao trackingDao();
+
+    public abstract CounterReportDao counterReportDao();
+
+    public abstract OffLoadReportDao offLoadReportDao();
+
+    public abstract ForbiddenDao forbiddenDao();
+
+    public abstract VoiceDao voiceDao();
 }

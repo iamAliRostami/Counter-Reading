@@ -38,6 +38,27 @@ public class ReportTemporaryFragment extends Fragment {
     public ReportTemporaryFragment() {
     }
 
+    public static ReportTemporaryFragment newInstance(
+            ArrayList<CounterStateDto> counterStateDtos, int total, int isMane) {
+        ReportTemporaryFragment fragment = new ReportTemporaryFragment();
+        fragment.setArguments(putBundle(counterStateDtos, total, isMane));
+        return fragment;
+    }
+
+    static Bundle putBundle(ArrayList<CounterStateDto> counterStateDtos, int total, int isMane) {
+        Bundle args = new Bundle();
+        Gson gson = new Gson();
+        ArrayList<String> json1 = new ArrayList<>();
+        for (CounterStateDto counterStateDto : counterStateDtos) {
+            String jsonTemp = gson.toJson(counterStateDto);
+            json1.add(jsonTemp);
+        }
+        args.putStringArrayList(BundleEnum.COUNTER_STATE.getValue(), json1);
+        args.putInt(BundleEnum.TOTAL.getValue(), total);
+        args.putInt(BundleEnum.IS_MANE.getValue(), isMane);
+        return args;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,13 +119,6 @@ public class ReportTemporaryFragment extends Fragment {
         });
     }
 
-    public static ReportTemporaryFragment newInstance(
-            ArrayList<CounterStateDto> counterStateDtos, int total, int isMane) {
-        ReportTemporaryFragment fragment = new ReportTemporaryFragment();
-        fragment.setArguments(putBundle(counterStateDtos, total, isMane));
-        return fragment;
-    }
-
     void getBundle() {
         if (getArguments() != null) {
             Gson gson = new Gson();
@@ -117,20 +131,6 @@ public class ReportTemporaryFragment extends Fragment {
             total = getArguments().getInt(BundleEnum.TOTAL.getValue());
             isMane = getArguments().getInt(BundleEnum.IS_MANE.getValue());
         }
-    }
-
-    static Bundle putBundle(ArrayList<CounterStateDto> counterStateDtos, int total, int isMane) {
-        Bundle args = new Bundle();
-        Gson gson = new Gson();
-        ArrayList<String> json1 = new ArrayList<>();
-        for (CounterStateDto counterStateDto : counterStateDtos) {
-            String jsonTemp = gson.toJson(counterStateDto);
-            json1.add(jsonTemp);
-        }
-        args.putStringArrayList(BundleEnum.COUNTER_STATE.getValue(), json1);
-        args.putInt(BundleEnum.TOTAL.getValue(), total);
-        args.putInt(BundleEnum.IS_MANE.getValue(), isMane);
-        return args;
     }
 
     @Override

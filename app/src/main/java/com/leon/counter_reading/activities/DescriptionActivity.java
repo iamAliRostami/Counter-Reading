@@ -281,6 +281,80 @@ public class DescriptionActivity extends AppCompatActivity {
         });
     }
 
+    void saveVoice(boolean isSent) {
+        voice.isSent = isSent;
+        if (MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
+                .getImagesById(voice.id).size() > 0) {
+            MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().updateVoice(voice);
+        } else {
+            MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().insertVoice(voice);
+        }
+    }
+
+    void finishDescription(String message) {
+        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                updateOnOffLoadDescription(uuid, message);
+        Intent intent = new Intent();
+        intent.putExtra(BundleEnum.POSITION.getValue(), position);
+        intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    void askRecorderPermission() {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                CustomToast customToast = new CustomToast();
+                customToast.info(getString(R.string.access_granted));
+                initialize();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                PermissionManager.forceClose(activity);
+            }
+        };
+        new TedPermission(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage(getString(R.string.confirm_permission))
+                .setRationaleConfirmText(getString(R.string.allow_permission))
+                .setDeniedMessage(getString(R.string.if_reject_permission))
+                .setDeniedCloseButtonText(getString(R.string.close))
+                .setGotoSettingButtonText(getString(R.string.allow_permission))
+                .setPermissions(
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ).check();
+    }
+
+    @Override
+    public void onBackPressed() {
+        stopPlaying();
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Debug.getNativeHeapAllocatedSize();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding.imageViewPlay.setImageDrawable(null);
+        binding.imageViewRecord.setImageDrawable(null);
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Debug.getNativeHeapAllocatedSize();
+    }
+
     @SuppressLint("StaticFieldLeak")
     class prepareMultiMedia extends AsyncTask<Integer, Integer, Integer> {
         CustomProgressBar customProgressBar;
@@ -363,79 +437,5 @@ public class DescriptionActivity extends AppCompatActivity {
             saveVoice(false);
             finishDescription(voice.Description);
         }
-    }
-
-    void saveVoice(boolean isSent) {
-        voice.isSent = isSent;
-        if (MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                .getImagesById(voice.id).size() > 0) {
-            MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().updateVoice(voice);
-        } else {
-            MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().insertVoice(voice);
-        }
-    }
-
-    void finishDescription(String message) {
-        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                updateOnOffLoadDescription(uuid, message);
-        Intent intent = new Intent();
-        intent.putExtra(BundleEnum.POSITION.getValue(), position);
-        intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    void askRecorderPermission() {
-        PermissionListener permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                CustomToast customToast = new CustomToast();
-                customToast.info(getString(R.string.access_granted));
-                initialize();
-            }
-
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                PermissionManager.forceClose(activity);
-            }
-        };
-        new TedPermission(this)
-                .setPermissionListener(permissionlistener)
-                .setRationaleMessage(getString(R.string.confirm_permission))
-                .setRationaleConfirmText(getString(R.string.allow_permission))
-                .setDeniedMessage(getString(R.string.if_reject_permission))
-                .setDeniedCloseButtonText(getString(R.string.close))
-                .setGotoSettingButtonText(getString(R.string.allow_permission))
-                .setPermissions(
-                        Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ).check();
-    }
-
-    @Override
-    public void onBackPressed() {
-        stopPlaying();
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        binding.imageViewPlay.setImageDrawable(null);
-        binding.imageViewRecord.setImageDrawable(null);
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
     }
 }

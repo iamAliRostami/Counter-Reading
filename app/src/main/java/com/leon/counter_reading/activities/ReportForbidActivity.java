@@ -239,7 +239,7 @@ public class ReportForbidActivity extends AppCompatActivity {
                     forbiddenDto.forbiddenDtoRequest.x,
                     forbiddenDto.forbiddenDtoRequest.y,
                     forbiddenDto.forbiddenDtoRequest.gisAccuracy);
-        }else {
+        } else {
             call = iAbfaService.singleForbidden(
                     forbiddenDto.forbiddenDtoRequest.description,
                     forbiddenDto.forbiddenDtoRequest.preEshterak,
@@ -297,37 +297,6 @@ public class ReportForbidActivity extends AppCompatActivity {
         });
     }
 
-    class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
-        @Override
-        public void execute(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
-            if (!response.isSuccessful())
-                MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
-                        insertForbiddenDto(forbiddenDto);
-            else {
-                new CustomToast().success(response.body().message);
-            }
-            finish();
-        }
-    }
-
-    class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDto.ForbiddenDtoResponses> {
-        @Override
-        public void executeIncomplete(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
-            MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
-                    insertForbiddenDto(forbiddenDto);
-            finish();
-        }
-    }
-
-    class Error implements ICallbackError {
-        @Override
-        public void executeError(Throwable t) {
-            MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
-                    insertForbiddenDto(forbiddenDto);
-            finish();
-        }
-    }
-
     void askCameraPermission() {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
@@ -355,6 +324,7 @@ public class ReportForbidActivity extends AppCompatActivity {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ).check();
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -406,5 +376,36 @@ public class ReportForbidActivity extends AppCompatActivity {
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
         Debug.getNativeHeapAllocatedSize();
+    }
+
+    class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
+        @Override
+        public void execute(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
+            if (!response.isSuccessful())
+                MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
+                        insertForbiddenDto(forbiddenDto);
+            else {
+                new CustomToast().success(response.body().message);
+            }
+            finish();
+        }
+    }
+
+    class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDto.ForbiddenDtoResponses> {
+        @Override
+        public void executeIncomplete(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
+            MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
+                    insertForbiddenDto(forbiddenDto);
+            finish();
+        }
+    }
+
+    class Error implements ICallbackError {
+        @Override
+        public void executeError(Throwable t) {
+            MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
+                    insertForbiddenDto(forbiddenDto);
+            finish();
+        }
     }
 }

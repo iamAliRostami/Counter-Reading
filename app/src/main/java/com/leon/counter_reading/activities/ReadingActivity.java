@@ -63,6 +63,7 @@ import retrofit2.Retrofit;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public class ReadingActivity extends BaseActivity {
+    final int[] imageSrc = new int[12];
     ActivityReadingBinding binding;
     Activity activity;
     IFlashLightManager flashLightManager;
@@ -72,7 +73,6 @@ public class ReadingActivity extends BaseActivity {
     boolean isFlashOn = false, isNight = false;
     int readStatus = 0, highLow = 1;
     ArrayList<Integer> isMane = new ArrayList<>();
-    final int[] imageSrc = new int[12];
     boolean isReading = false;
 
     @Override
@@ -183,45 +183,6 @@ public class ReadingActivity extends BaseActivity {
         Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
         HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activity,
                 new offLoadData(), new offLoadDataIncomplete(), new offLoadError());
-    }
-
-    class offLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
-        @Override
-        public void execute(Response<OnOffLoadDto.OffLoadResponses> response) {
-            if (response.body() != null && response.body().status == 200) {
-                MyDatabaseClient.getInstance(activity).getMyDatabase().offLoadReportDao().
-                        deleteAllOffLoadReport();
-                int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
-                        OffloadStateEnum.SENT_WITH_ERROR.getValue();
-                for (int i = 0; i < response.body().targetObject.size(); i++) {
-                    for (int j = 0; j < readingData.onOffLoadDtos.size(); j++) {
-                        if (response.body().targetObject.get(i).equals(readingData.onOffLoadDtos.get(j).id)) {
-                            readingData.onOffLoadDtos.get(j).offLoadStateId = state;
-                        }
-                    }
-                    MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                            updateOnOffLoad(state, response.body().targetObject.get(i));
-                }
-            }
-        }
-    }
-
-    class offLoadDataIncomplete implements ICallbackIncomplete<OnOffLoadDto.OffLoadResponses> {
-        @Override
-        public void executeIncomplete(Response<OnOffLoadDto.OffLoadResponses> response) {
-            if (response != null) {
-                Log.e("offLoadDataIncomplete", String.valueOf(response.body()));
-                Log.e("offLoadDataIncomplete", response.toString());
-            }
-        }
-    }
-
-    class offLoadError implements ICallbackError {
-        @Override
-        public void executeError(Throwable t) {
-            if (t != null)
-                Log.e("error", t.toString());
-        }
     }
 
     void setAboveIconsSrc(int position) {
@@ -379,82 +340,13 @@ public class ReadingActivity extends BaseActivity {
         imageSrc[11] = R.drawable.img_failure;
     }
 
-    @SuppressLint("StaticFieldLeak")
-    class GetDBData extends AsyncTask<Integer, Integer, Integer> {
-        CustomProgressBar customProgressBar;
-
-        public GetDBData() {
-            super();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            customProgressBar = new CustomProgressBar();
-            customProgressBar.show(activity, false);
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            customProgressBar.getDialog().dismiss();
-            super.onPostExecute(integer);
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... integers) {//TODO
-            readingData = new ReadingData();
-            readingDataTemp = new ReadingData();
-            MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
-            readingData.counterStateDtos.addAll(myDatabase.counterStateDao().getCounterStateDtos());
-            readingData.karbariDtos.addAll(myDatabase.karbariDao().getAllKarbariDto());
-            readingData.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
-            readingData.trackingDtos.addAll(myDatabase.trackingDao().
-                    getTrackingDtosIsActiveNotArchive(true, false));//TODO
-            for (TrackingDto trackingDto : readingData.trackingDtos) {
-                readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
-                        getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
-            }
-            for (TrackingDto trackingDto : readingData.trackingDtos) {
-                if (readStatus == ReadStatusEnum.ALL.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadByTracking(trackingDto.id));
-                } else if (readStatus == ReadStatusEnum.STATE.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadByHighLowAndTracking(trackingDto.id, highLow));
-                } else if (readStatus == ReadStatusEnum.UNREAD.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadNotRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));
-                } else if (readStatus == ReadStatusEnum.READ.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));
-                } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
-                    for (int i = 0; i < isMane.size(); i++) {
-                        readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                                getOnOffLoadReadByIsMane(isMane.get(i), trackingDto.id));
-                    }
-                }
-            }
-            if (readingData != null && readingData.onOffLoadDtos != null && readingData.onOffLoadDtos.size() > 0) {
-                readingDataTemp.onOffLoadDtos.addAll(readingData.onOffLoadDtos);
-                readingDataTemp.counterStateDtos.addAll(readingData.counterStateDtos);
-                readingDataTemp.qotrDictionary.addAll(readingData.qotrDictionary);
-                readingDataTemp.trackingDtos.addAll(readingData.trackingDtos);
-                readingDataTemp.karbariDtos.addAll(readingData.karbariDtos);
-                readingDataTemp.readingConfigDefaultDtos.addAll(readingData.readingConfigDefaultDtos);
-                setAboveIconsSrc(0);
-            }
-            runOnUiThread(() -> setupViewPager());
-            return null;
-        }
-    }
-
     void setupViewPager() {
         binding.textViewNotFound.setVisibility(!(readingData.onOffLoadDtos.size() > 0) ? View.VISIBLE : View.GONE);
         binding.linearLayoutAbove.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
         binding.viewPager.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
         viewPagerAdapterReading =
                 new ViewPagerAdapterReading(getSupportFragmentManager(),
-                        FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
+                        FragmentStatePagerAdapter.POSITION_NONE,
                         readingData);
         binding.viewPager.setAdapter(viewPagerAdapterReading);
         binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
@@ -727,5 +619,113 @@ public class ReadingActivity extends BaseActivity {
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
         Debug.getNativeHeapAllocatedSize();
+    }
+
+    class offLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
+        @Override
+        public void execute(Response<OnOffLoadDto.OffLoadResponses> response) {
+            if (response.body() != null && response.body().status == 200) {
+                MyDatabaseClient.getInstance(activity).getMyDatabase().offLoadReportDao().
+                        deleteAllOffLoadReport();
+                int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
+                        OffloadStateEnum.SENT_WITH_ERROR.getValue();
+                for (int i = 0; i < response.body().targetObject.size(); i++) {
+                    for (int j = 0; j < readingData.onOffLoadDtos.size(); j++) {
+                        if (response.body().targetObject.get(i).equals(readingData.onOffLoadDtos.get(j).id)) {
+                            readingData.onOffLoadDtos.get(j).offLoadStateId = state;
+                        }
+                    }
+                    MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                            updateOnOffLoad(state, response.body().targetObject.get(i));
+                }
+            }
+        }
+    }
+
+    class offLoadDataIncomplete implements ICallbackIncomplete<OnOffLoadDto.OffLoadResponses> {
+        @Override
+        public void executeIncomplete(Response<OnOffLoadDto.OffLoadResponses> response) {
+            if (response != null) {
+                Log.e("offLoadDataIncomplete", String.valueOf(response.body()));
+                Log.e("offLoadDataIncomplete", response.toString());
+            }
+        }
+    }
+
+    class offLoadError implements ICallbackError {
+        @Override
+        public void executeError(Throwable t) {
+            if (t != null)
+                Log.e("error", t.toString());
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    class GetDBData extends AsyncTask<Integer, Integer, Integer> {
+        CustomProgressBar customProgressBar;
+
+        public GetDBData() {
+            super();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            customProgressBar = new CustomProgressBar();
+            customProgressBar.show(activity, false);
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            customProgressBar.getDialog().dismiss();
+            super.onPostExecute(integer);
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... integers) {//TODO
+            readingData = new ReadingData();
+            readingDataTemp = new ReadingData();
+            MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+            readingData.counterStateDtos.addAll(myDatabase.counterStateDao().getCounterStateDtos());
+            readingData.karbariDtos.addAll(myDatabase.karbariDao().getAllKarbariDto());
+            readingData.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
+            readingData.trackingDtos.addAll(myDatabase.trackingDao().
+                    getTrackingDtosIsActiveNotArchive(true, false));//TODO
+            for (TrackingDto trackingDto : readingData.trackingDtos) {
+                readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
+                        getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
+            }
+            for (TrackingDto trackingDto : readingData.trackingDtos) {
+                if (readStatus == ReadStatusEnum.ALL.getValue()) {
+                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                            getAllOnOffLoadByTracking(trackingDto.id));
+                } else if (readStatus == ReadStatusEnum.STATE.getValue()) {
+                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                            getAllOnOffLoadByHighLowAndTracking(trackingDto.id, highLow));
+                } else if (readStatus == ReadStatusEnum.UNREAD.getValue()) {
+                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                            getAllOnOffLoadNotRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));
+                } else if (readStatus == ReadStatusEnum.READ.getValue()) {
+                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                            getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));
+                } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
+                    for (int i = 0; i < isMane.size(); i++) {
+                        readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                                getOnOffLoadReadByIsMane(isMane.get(i), trackingDto.id));
+                    }
+                }
+            }
+            if (readingData != null && readingData.onOffLoadDtos != null && readingData.onOffLoadDtos.size() > 0) {
+                readingDataTemp.onOffLoadDtos.addAll(readingData.onOffLoadDtos);
+                readingDataTemp.counterStateDtos.addAll(readingData.counterStateDtos);
+                readingDataTemp.qotrDictionary.addAll(readingData.qotrDictionary);
+                readingDataTemp.trackingDtos.addAll(readingData.trackingDtos);
+                readingDataTemp.karbariDtos.addAll(readingData.karbariDtos);
+                readingDataTemp.readingConfigDefaultDtos.addAll(readingData.readingConfigDefaultDtos);
+                setAboveIconsSrc(0);
+            }
+            runOnUiThread(() -> setupViewPager());
+            return null;
+        }
     }
 }

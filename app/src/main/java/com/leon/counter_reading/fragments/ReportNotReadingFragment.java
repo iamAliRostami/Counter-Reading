@@ -34,6 +34,13 @@ public class ReportNotReadingFragment extends Fragment {
         return fragment;
     }
 
+    static Bundle putBundle(int total, int unread) {
+        Bundle args = new Bundle();
+        args.putInt(BundleEnum.UNREAD.getValue(), unread);
+        args.putInt(BundleEnum.TOTAL.getValue(), total);
+        return args;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,13 +68,6 @@ public class ReportNotReadingFragment extends Fragment {
             MyApplication.POSITION = 1;
             startActivity(intent);
         });
-    }
-
-    static Bundle putBundle(int total, int unread) {
-        Bundle args = new Bundle();
-        args.putInt(BundleEnum.UNREAD.getValue(), unread);
-        args.putInt(BundleEnum.TOTAL.getValue(), total);
-        return args;
     }
 
     void getBundle() {

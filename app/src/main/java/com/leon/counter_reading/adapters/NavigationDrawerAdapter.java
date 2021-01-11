@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.leon.counter_reading.MyApplication;
@@ -39,7 +39,6 @@ public class NavigationDrawerAdapter extends
     @NonNull
     @Override
     public DrawerItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.e("viewType", String.valueOf(viewType));
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View drawerView = inflater.inflate(R.layout.item_navigation_drawer, parent, false);
@@ -51,14 +50,14 @@ public class NavigationDrawerAdapter extends
     public void onBindViewHolder(@NonNull DrawerItemHolder holder, int position) {
         DrawerItem drawerItem = drawerItemList.get(position);
         if (position == 8) {
-            holder.textViewTitle.setTextColor(context.getResources().getColor(R.color.red));
+            holder.textViewTitle.setTextColor(ContextCompat.getColor(context, R.color.red));
         } else if (position == MyApplication.POSITION) {
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = context.getTheme();
             theme.resolveAttribute(android.R.attr.textColorSecondary, typedValue, true);
             @ColorInt int color = typedValue.data;
             holder.textViewTitle.setTextColor(color);
-            holder.linearLayout.setBackground(context.getResources().getDrawable(R.drawable.border_red_3));
+            holder.linearLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.border_red_3));
         }
         holder.imageViewIcon.setImageDrawable(drawerItem.drawable);
         holder.textViewTitle.setText(drawerItem.ItemName);
