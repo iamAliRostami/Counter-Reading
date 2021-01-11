@@ -75,8 +75,6 @@ public class ReportForbidActivity extends AppCompatActivity {
         binding = ActivityReportForbidBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         activity = this;
-        //TODO check permission
-
         if (PermissionManager.checkCameraPermission(getApplicationContext()))
             initialize();
         else askCameraPermission();
@@ -325,6 +323,39 @@ public class ReportForbidActivity extends AppCompatActivity {
                 ).check();
     }
 
+
+    class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
+        @Override
+        public void execute(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
+            if (!response.isSuccessful())
+                MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
+                        insertForbiddenDto(forbiddenDto);
+            else {
+                if (response.body() != null) {
+                    new CustomToast().success(response.body().message);
+                }
+            }
+            finish();
+        }
+    }
+
+    class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDto.ForbiddenDtoResponses> {
+        @Override
+        public void executeIncomplete(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
+            MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
+                    insertForbiddenDto(forbiddenDto);
+            finish();
+        }
+    }
+
+    class Error implements ICallbackError {
+        @Override
+        public void executeError(Throwable t) {
+            MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
+                    insertForbiddenDto(forbiddenDto);
+            finish();
+        }
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -372,42 +403,11 @@ public class ReportForbidActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Debug.getNativeHeapAllocatedSize();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
-    }
-
-    class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
-        @Override
-        public void execute(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
-            if (!response.isSuccessful())
-                MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
-                        insertForbiddenDto(forbiddenDto);
-            else {
-                if (response.body() != null) {
-                    new CustomToast().success(response.body().message);
-                }
-            }
-            finish();
-        }
-    }
-
-    class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDto.ForbiddenDtoResponses> {
-        @Override
-        public void executeIncomplete(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
-            MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
-                    insertForbiddenDto(forbiddenDto);
-            finish();
-        }
-    }
-
-    class Error implements ICallbackError {
-        @Override
-        public void executeError(Throwable t) {
-            MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
-                    insertForbiddenDto(forbiddenDto);
-            finish();
-        }
+        Runtime.getRuntime().gc();
+        System.gc();
     }
 }

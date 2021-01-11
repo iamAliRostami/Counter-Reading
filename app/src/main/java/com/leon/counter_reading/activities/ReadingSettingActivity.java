@@ -123,24 +123,6 @@ public class ReadingSettingActivity extends BaseActivity {
         binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
-    }
-
     @SuppressLint("StaticFieldLeak")
     class getDBData extends AsyncTask<Integer, Integer, Integer> {
         CustomProgressBar customProgressBar;
@@ -168,9 +150,6 @@ public class ReadingSettingActivity extends BaseActivity {
             trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                     trackingDao().getTrackingDtoNotArchive(false));
             for (TrackingDto trackingDto : trackingDtos) {
-//                readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
-//                        getMyDatabase().readingConfigDefaultDao().
-//                        getNotArchiveReadingConfigDefaultDtosByZoneId(trackingDto.zoneId, false));
                 readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
                         getMyDatabase().readingConfigDefaultDao().
                         getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
@@ -178,5 +157,25 @@ public class ReadingSettingActivity extends BaseActivity {
             runOnUiThread(ReadingSettingActivity.this::setupViewPager);
             return null;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Debug.getNativeHeapAllocatedSize();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Debug.getNativeHeapAllocatedSize();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Runtime.getRuntime().gc();
+        System.gc();
     }
 }

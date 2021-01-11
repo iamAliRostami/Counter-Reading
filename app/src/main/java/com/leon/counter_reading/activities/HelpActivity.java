@@ -56,9 +56,11 @@ public class HelpActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Debug.getNativeHeapAllocatedSize();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
+        Runtime.getRuntime().gc();
+        System.gc();
     }
 }

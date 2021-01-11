@@ -542,69 +542,6 @@ public class ReadingActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (isReading) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            if (MyApplication.focusOnEditText)
-                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        try {
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        } catch (Exception ignored) {
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        try {
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        } catch (Exception ignored) {
-        }
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        try {
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        } catch (Exception ignored) {
-        }
-        ImageView imageViewFlash = findViewById(R.id.image_view_flash);
-        imageViewFlash.setImageDrawable(null);
-        ImageView imageViewReverse = findViewById(R.id.image_view_reverse);
-        imageViewReverse.setImageDrawable(null);
-        ImageView imageViewCamera = findViewById(R.id.image_view_camera);
-        imageViewCamera.setImageDrawable(null);
-        ImageView imageViewSearch = findViewById(R.id.image_view_search);
-        imageViewSearch.setImageDrawable(null);
-        ImageView imageViewCheck = findViewById(R.id.image_view_reading_report);
-        imageViewCheck.setImageDrawable(null);
-        binding.imageViewHighLowState.setImageDrawable(null);
-        binding.imageViewOffLoadState.setImageDrawable(null);
-        binding.imageViewReadingType.setImageDrawable(null);
-        readingData = null;
-        readingDataTemp = null;
-        viewPagerAdapterReading = null;
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
-    }
 
     class offLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
         @Override
@@ -712,5 +649,71 @@ public class ReadingActivity extends BaseActivity {
             runOnUiThread(ReadingActivity.this::setupViewPager);
             return null;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isReading) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            if (MyApplication.focusOnEditText)
+                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        try {
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception ignored) {
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        try {
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception ignored) {
+        }
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Debug.getNativeHeapAllocatedSize();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        try {
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception ignored) {
+        }
+        ImageView imageViewFlash = findViewById(R.id.image_view_flash);
+        imageViewFlash.setImageDrawable(null);
+        ImageView imageViewReverse = findViewById(R.id.image_view_reverse);
+        imageViewReverse.setImageDrawable(null);
+        ImageView imageViewCamera = findViewById(R.id.image_view_camera);
+        imageViewCamera.setImageDrawable(null);
+        ImageView imageViewSearch = findViewById(R.id.image_view_search);
+        imageViewSearch.setImageDrawable(null);
+        ImageView imageViewCheck = findViewById(R.id.image_view_reading_report);
+        imageViewCheck.setImageDrawable(null);
+        binding.imageViewHighLowState.setImageDrawable(null);
+        binding.imageViewOffLoadState.setImageDrawable(null);
+        binding.imageViewReadingType.setImageDrawable(null);
+        readingData = null;
+        readingDataTemp = null;
+        viewPagerAdapterReading = null;
+        Debug.getNativeHeapAllocatedSize();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Runtime.getRuntime().gc();
+        System.gc();
     }
 }

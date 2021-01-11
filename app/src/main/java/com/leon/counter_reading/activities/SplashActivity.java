@@ -77,9 +77,11 @@ public class SplashActivity extends AppCompatActivity {
         super.onDestroy();
         binding.shimmerViewContainer.setShimmer(null);
         binding.imageViewSplashScreen.setImageDrawable(null);
+        Debug.getNativeHeapAllocatedSize();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
+        Runtime.getRuntime().gc();
+        System.gc();
     }
 }

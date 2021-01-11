@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Debug;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -194,13 +195,13 @@ public abstract class BaseActivity extends AppCompatActivity
                         if (position == 8) {
                             MyApplication.POSITION = -1;
                             finishAffinity();
+                            android.os.Process.killProcess(android.os.Process.myPid());
                         } else if (MyApplication.POSITION != position) {
                             MyApplication.POSITION = position;
                             Intent intent = new Intent();
                             if (position == 0) {
                                 intent = new Intent(getApplicationContext(), DownloadActivity.class);
                             } else if (position == 1) {
-//                                MyApplication.isReading = true;
                                 intent = new Intent(getApplicationContext(), ReadingActivity.class);
                             } else if (position == 2) {
                                 intent = new Intent(getApplicationContext(), UploadActivity.class);
@@ -243,7 +244,7 @@ public abstract class BaseActivity extends AppCompatActivity
             relativeLayout.setVisibility(View.VISIBLE);
         }
         toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);//TODO
+        setSupportActionBar(toolbar);
         dataList = new ArrayList<>();
         fillDrawerListView();
         setOnDrawerItemClick();
@@ -298,5 +299,11 @@ public abstract class BaseActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         gpsTracker.onBind(getIntent());
+        Debug.getNativeHeapAllocatedSize();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Runtime.getRuntime().gc();
+        System.gc();
     }
 }

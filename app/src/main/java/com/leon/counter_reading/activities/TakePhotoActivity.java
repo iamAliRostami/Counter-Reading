@@ -544,10 +544,12 @@ public class TakePhotoActivity extends AppCompatActivity {
         bitmaps = null;
         imageGrouped = null;
         images = null;
+        Debug.getNativeHeapAllocatedSize();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
+        Runtime.getRuntime().gc();
+        System.gc();
     }
 
     @SuppressLint("StaticFieldLeak")

@@ -60,9 +60,11 @@ public class DistributionBillActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         binding.imageViewBill.setImageDrawable(null);
+        Debug.getNativeHeapAllocatedSize();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
+        Runtime.getRuntime().gc();
+        System.gc();
     }
 }

@@ -199,12 +199,12 @@ public class LoginActivity extends AppCompatActivity {
         binding.imageViewPassword.setImageDrawable(null);
         binding.imageViewLogo.setImageDrawable(null);
         binding.imageViewUsername.setImageDrawable(null);
-        System.gc();
-        Runtime.getRuntime().gc();
+        Debug.getNativeHeapAllocatedSize();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
+        Runtime.getRuntime().gc();
+        System.gc();
     }
 
     @Override
@@ -215,12 +215,12 @@ public class LoginActivity extends AppCompatActivity {
         binding.imageViewPassword.setImageDrawable(null);
         binding.imageViewLogo.setImageDrawable(null);
         binding.imageViewUsername.setImageDrawable(null);
-        System.gc();
-        Runtime.getRuntime().gc();
+        Debug.getNativeHeapAllocatedSize();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
+        Runtime.getRuntime().gc();
+        System.gc();
     }
 
     class Login implements ICallback<LoginFeedBack> {

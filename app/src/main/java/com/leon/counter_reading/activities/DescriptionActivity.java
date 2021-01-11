@@ -329,32 +329,6 @@ public class DescriptionActivity extends AppCompatActivity {
                 ).check();
     }
 
-    @Override
-    public void onBackPressed() {
-        stopPlaying();
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        binding.imageViewPlay.setImageDrawable(null);
-        binding.imageViewRecord.setImageDrawable(null);
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
-    }
-
     @SuppressLint("StaticFieldLeak")
     class prepareMultiMedia extends AsyncTask<Integer, Integer, Integer> {
         CustomProgressBar customProgressBar;
@@ -437,5 +411,33 @@ public class DescriptionActivity extends AppCompatActivity {
             saveVoice(false);
             finishDescription(voice.Description);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        stopPlaying();
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Debug.getNativeHeapAllocatedSize();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding.imageViewPlay.setImageDrawable(null);
+        binding.imageViewRecord.setImageDrawable(null);
+        Debug.getNativeHeapAllocatedSize();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Runtime.getRuntime().gc();
+        System.gc();
     }
 }

@@ -131,9 +131,11 @@ public class HomeActivity extends BaseActivity {
         binding.imageViewReading.setImageDrawable(null);
         binding.imageViewReport.setImageDrawable(null);
         binding.imageViewLocation.setImageDrawable(null);
+        Debug.getNativeHeapAllocatedSize();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
+        Runtime.getRuntime().gc();
+        System.gc();
     }
 }
