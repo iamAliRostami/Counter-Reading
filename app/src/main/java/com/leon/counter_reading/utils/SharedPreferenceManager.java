@@ -15,11 +15,20 @@ public class SharedPreferenceManager implements ISharedPreferenceManager {
         this.context = context;
         appPrefs = this.context.getSharedPreferences(xml, MODE_PRIVATE);
     }
+//
+//    public boolean checkIsNotEmpty(String key) {
+//        if (appPrefs == null) {
+//            return true;
+//        } else if (appPrefs.getString(key, "").length() < 1) {
+//            return true;
+//        } else return !appPrefs.getString(key, "").isEmpty();
+//    }
+
 
     public boolean checkIsNotEmpty(String key) {
         if (appPrefs == null) {
-            return true;
-        } else if (appPrefs.getString(key, "").length() < 1) {
+            return false;
+        } else if (appPrefs.getString(key, "").length() > 0) {
             return true;
         } else return !appPrefs.getString(key, "").isEmpty();
     }

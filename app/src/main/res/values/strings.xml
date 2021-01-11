@@ -59,6 +59,8 @@
     <string name="team">تیم نرم افزاری شبکه تارنما سپاهان</string>
     <string name="www_abfa_ir">www.abfa.ir</string>
     <string name="sepehr_shamsaei">سپهر شمسایی</string>
+    <string name="email">ایمیل</string>
+    <string name="email_tarnama">info@tarnama.com</string>
     <string name="update_date">تاریخ به روزرسانی</string>
     <string name="date_custom">1399/08/08</string>
     <string name="version_custom">1.0.1.1</string>
@@ -194,5 +196,6 @@
     <string name="thank_you">همکار گرامی خداقوت!</string>
     <string name="all_masir_bazdid">همه مسیرها بازدید شد.</string>
     <string name="this_feature_is_not_active">این ویژگی در این منطقه فعال نشده است.</string>
+    <string name="dash">-</string>
 
 </resources>

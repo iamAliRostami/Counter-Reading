@@ -13,6 +13,7 @@ public enum SharedReferenceKeys {
     USER_CODE("user_code"),
     DISPLAY_NAME("display_name"),
     THEME_STABLE("theme_stable"),
+    DATE("date"),
     THEME_TEMPORARY("theme_temporary");
 
     private final String value;

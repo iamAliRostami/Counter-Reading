@@ -14,10 +14,13 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentSettingUpdateBinding;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.ProgressType;
+import com.leon.counter_reading.enums.SharedReferenceKeys;
+import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
+import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.LastInfo;
 import com.leon.counter_reading.utils.CustomDialog;
 import com.leon.counter_reading.utils.CustomErrorHandling;
@@ -25,6 +28,7 @@ import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.HttpClientWrapper;
 import com.leon.counter_reading.utils.NetworkHelper;
+import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -103,6 +107,10 @@ public class SettingUpdateFragment extends Fragment {
             if (response.body() != null) {
                 activity.runOnUiThread(() -> {
                     binding.textViewVersion.setText(response.body().versionName);
+                    ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(
+                            activity, SharedReferenceNames.ACCOUNT.getValue());
+                    sharedPreferenceManager.putData(SharedReferenceKeys.DATE.getValue(),
+                            response.body().uploadDateJalali);
                     binding.textViewDate.setText(response.body().uploadDateJalali);
                     binding.textViewPossibility.setText(response.body().description);
                     float size = (float) response.body().sizeInByte / (1028 * 1028);
