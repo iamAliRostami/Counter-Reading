@@ -40,12 +40,12 @@ public class GPSTracker extends Service {
     double accuracy;
     boolean checkGPS = false;
     boolean checkNetwork = false;
-    ArrayList<SavedLocation> savedLocations = new ArrayList<>();
+    final ArrayList<SavedLocation> savedLocations = new ArrayList<>();
     Location location;
     LocationManager locationManager;
     FusedLocationProviderClient fusedLocationClient;
     LocationRequest locationRequest;
-    LocationCallback locationCallback = new LocationCallback() {
+    final LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             if (locationResult == null) {
@@ -56,8 +56,8 @@ public class GPSTracker extends Service {
             }
         }
     };
-    OnSuccessListener<Location> onSuccessListener = this::addLocation;
-    LocationListener locationListener = new LocationListener() {
+    final OnSuccessListener<Location> onSuccessListener = this::addLocation;
+    final LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
             if (locationManager != null)
                 locationManager.removeUpdates(locationListener);

@@ -14,8 +14,11 @@ import com.leon.counter_reading.utils.custom_dialogue.LovelyStandardDialog;
 public class CustomDialog {
     @SuppressLint("StaticFieldLeak")
     static LovelyStandardDialog lovelyStandardDialog;
-    Context context;
-    String Top, Title, Message, ButtonText;
+    final Context context;
+    final String Top;
+    final String Title;
+    final String Message;
+    final String ButtonText;
 
     public CustomDialog(DialogType choose, Context context, String message, String title, String top, String buttonText) {
         this.context = context;

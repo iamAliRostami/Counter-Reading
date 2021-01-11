@@ -7,9 +7,9 @@ import androidx.room.PrimaryKey;
 public class SavedLocation {
     @PrimaryKey(autoGenerate = true)
     public int id;
-    public double accuracy;
-    public double longitude;
-    public double latitude;
+    public final double accuracy;
+    public final double longitude;
+    public final double latitude;
 
     public SavedLocation(double accuracy, double longitude, double latitude) {
         this.accuracy = accuracy;

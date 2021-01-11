@@ -218,7 +218,7 @@ public class ReportForbidActivity extends AppCompatActivity {
                     forbiddenDto.forbiddenDtoRequest.x,
                     forbiddenDto.forbiddenDtoRequest.y,
                     forbiddenDto.forbiddenDtoRequest.gisAccuracy);
-        } else if (zoneId == 0) {
+        } else if (zoneId == 0 && forbiddenDto.File.size() > 0) {
             call = iAbfaService.singleForbidden(forbiddenDto.File,
                     forbiddenDto.forbiddenDtoRequest.description,
                     forbiddenDto.forbiddenDtoRequest.preEshterak,
@@ -228,7 +228,7 @@ public class ReportForbidActivity extends AppCompatActivity {
                     forbiddenDto.forbiddenDtoRequest.x,
                     forbiddenDto.forbiddenDtoRequest.y,
                     forbiddenDto.forbiddenDtoRequest.gisAccuracy);
-        } else if (forbiddenDto.File.size() > 0) {
+        } else if (zoneId != 0) {
             call = iAbfaService.singleForbidden(
                     forbiddenDto.forbiddenDtoRequest.zoneId,
                     forbiddenDto.forbiddenDtoRequest.description,
@@ -385,7 +385,9 @@ public class ReportForbidActivity extends AppCompatActivity {
                 MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
                         insertForbiddenDto(forbiddenDto);
             else {
-                new CustomToast().success(response.body().message);
+                if (response.body() != null) {
+                    new CustomToast().success(response.body().message);
+                }
             }
             finish();
         }

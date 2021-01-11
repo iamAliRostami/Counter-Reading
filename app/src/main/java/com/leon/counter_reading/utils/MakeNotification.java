@@ -28,7 +28,7 @@ public class MakeNotification {
         }
     }
 
-    public static void makeAboveNotification(Context context, Class aClass, String actionName,
+    public static void makeAboveNotification(Context context, Class<?> aClass, String actionName,
                                              String title, String text, String actionTitle,
                                              int smallIcon, int actionIcon) {
         Intent intent = new Intent(context, aClass);

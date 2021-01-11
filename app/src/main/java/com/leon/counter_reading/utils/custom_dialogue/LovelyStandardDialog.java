@@ -9,6 +9,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 
 import com.leon.counter_reading.R;
 
@@ -49,7 +50,7 @@ public class LovelyStandardDialog extends AbsLovelyDialog<LovelyStandardDialog> 
     public LovelyStandardDialog setPositiveButton(String text, @Nullable View.OnClickListener listener) {
         positiveButton.setVisibility(VISIBLE);
         positiveButton.setText(text);
-        positiveButton.setTextColor(context.getResources().getColor(R.color.white));
+        positiveButton.setTextColor(ContextCompat.getColor(context, R.color.white));
 //        positiveButton.setTextSize(context.getResources().getDimension(R.dimen.textSizeMedium));
         positiveButton.setOnClickListener(new ClickListenerDecorator(listener, true));
         return this;
@@ -106,9 +107,9 @@ public class LovelyStandardDialog extends AbsLovelyDialog<LovelyStandardDialog> 
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private LovelyStandardDialog setButtonsBackgroundRes(int res) {
-        positiveButton.setBackgroundDrawable(context.getResources().getDrawable(res));
-        negativeButton.setBackgroundDrawable(context.getResources().getDrawable(res));
-        neutralButton.setBackgroundDrawable(context.getResources().getDrawable(res));
+        positiveButton.setBackground(ContextCompat.getDrawable(context,res));
+        negativeButton.setBackground(ContextCompat.getDrawable(context,res));
+        neutralButton.setBackground(ContextCompat.getDrawable(context,res));
         return this;
     }
 

@@ -1,8 +1,8 @@
 package com.leon.counter_reading.tables;
 
 public class LoginFeedBack {
-    public String access_token;
-    public String refresh_token;
+    public final String access_token;
+    public final String refresh_token;
     public String displayName;
     public String userCode;
     public String XSRFToken;

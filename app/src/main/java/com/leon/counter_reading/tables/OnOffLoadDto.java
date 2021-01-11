@@ -66,23 +66,23 @@ public class OnOffLoadDto {
 
 
     public static class OffLoad {
-        public String id;
-        public int counterNumber;
-        public int counterStateId;
-        public String possibleAddress;
-        public String possibleCounterSerial;
-        public String possibleEshterak;
-        public String possibleMobile;
-        public String possiblePhoneNumber;
-        public int possibleAhadMaskooniOrAsli;
-        public int possibleAhadTejariOrFari;
-        public int possibleAhadSaierOrAbBaha;
-        public int possibleKarbariCode;
-        public String description;
-        public boolean counterNumberShown;
-        public double gisAccuracy;
-        public double x;
-        public double y;
+        public final String id;
+        public final int counterNumber;
+        public final int counterStateId;
+        public final String possibleAddress;
+        public final String possibleCounterSerial;
+        public final String possibleEshterak;
+        public final String possibleMobile;
+        public final String possiblePhoneNumber;
+        public final int possibleAhadMaskooniOrAsli;
+        public final int possibleAhadTejariOrFari;
+        public final int possibleAhadSaierOrAbBaha;
+        public final int possibleKarbariCode;
+        public final String description;
+        public final boolean counterNumberShown;
+        public final double gisAccuracy;
+        public final double x;
+        public final double y;
 
         public OffLoad(OnOffLoadDto onOffLoadDto) {
             id = onOffLoadDto.id;
@@ -107,8 +107,8 @@ public class OnOffLoadDto {
 
     public static class OffLoadData {
         public boolean isFinal;//TODO upload or reading
-        public ArrayList<OffLoad> offLoads;
-        public ArrayList<OffLoadReport> offLoadReports;
+        public final ArrayList<OffLoad> offLoads;
+        public final ArrayList<OffLoadReport> offLoadReports;
 
         public OffLoadData() {
             offLoadReports = new ArrayList<>();

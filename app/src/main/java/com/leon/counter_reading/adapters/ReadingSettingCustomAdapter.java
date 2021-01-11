@@ -19,9 +19,9 @@ import java.util.ArrayList;
 public class ReadingSettingCustomAdapter extends BaseAdapter {
     //    ArrayList<Boolean> selected;
 //    ArrayList<Integer> zoneIds;
-    ArrayList<TrackingDto> trackingDtos;
-    LayoutInflater inflater;
-    Context context;
+    final ArrayList<TrackingDto> trackingDtos;
+    final LayoutInflater inflater;
+    final Context context;
 
     public ReadingSettingCustomAdapter(Context context, ArrayList<TrackingDto> trackingDtos) {
         this.trackingDtos = trackingDtos;
@@ -79,14 +79,14 @@ public class ReadingSettingCustomAdapter extends BaseAdapter {
     }
 
     static class CheckBoxViewHolder {
-        CheckedTextView checkBox;
-        LinearLayout linearLayout;
-        TextView textViewTrackNumber;
-        TextView textViewZoneTitle;
-        TextView textViewStartDate;
-        TextView textViewEndDate;
-        TextView textViewStartEshterak;
-        TextView textViewEndEshterak;
+        final CheckedTextView checkBox;
+        final LinearLayout linearLayout;
+        final TextView textViewTrackNumber;
+        final TextView textViewZoneTitle;
+        final TextView textViewStartDate;
+        final TextView textViewEndDate;
+        final TextView textViewStartEshterak;
+        final TextView textViewEndEshterak;
 
         CheckBoxViewHolder(View view) {
             checkBox = view.findViewById(android.R.id.text1);

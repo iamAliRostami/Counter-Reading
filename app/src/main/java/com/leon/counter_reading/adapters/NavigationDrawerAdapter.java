@@ -29,7 +29,7 @@ import java.util.List;
 public class NavigationDrawerAdapter extends
         RecyclerView.Adapter<NavigationDrawerAdapter.DrawerItemHolder> {
     private final List<DrawerItem> drawerItemList;
-    public Context context;
+    public final Context context;
 
     public NavigationDrawerAdapter(Context context, List<DrawerItem> listItems) {
         this.context = context;
@@ -75,7 +75,7 @@ public class NavigationDrawerAdapter extends
     }
 
     public static class DrawerItem {
-        String ItemName;
+        final String ItemName;
         Drawable drawable;
 
         DrawerItem(String itemName, Drawable drawable) {
@@ -102,9 +102,9 @@ public class NavigationDrawerAdapter extends
     }
 
     static class DrawerItemHolder extends RecyclerView.ViewHolder {
-        TextView textViewTitle;
-        ImageView imageViewIcon;
-        LinearLayout linearLayout;
+        final TextView textViewTitle;
+        final ImageView imageViewIcon;
+        final LinearLayout linearLayout;
 
         public DrawerItemHolder(View viewItem) {
             super(viewItem);
@@ -116,7 +116,7 @@ public class NavigationDrawerAdapter extends
 
     public static class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
         final OnItemClickListener mListener;
-        GestureDetector mGestureDetector;
+        final GestureDetector mGestureDetector;
 
         public RecyclerItemClickListener(Context context, final RecyclerView recyclerView,
                                          OnItemClickListener listener) {

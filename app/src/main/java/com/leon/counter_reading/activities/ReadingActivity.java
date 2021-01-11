@@ -724,7 +724,7 @@ public class ReadingActivity extends BaseActivity {
                 readingDataTemp.readingConfigDefaultDtos.addAll(readingData.readingConfigDefaultDtos);
                 setAboveIconsSrc(0);
             }
-            runOnUiThread(() -> setupViewPager());
+            runOnUiThread(ReadingActivity.this::setupViewPager);
             return null;
         }
     }

@@ -13,11 +13,11 @@
         tools:ignore="UselessParent">
 
         <LinearLayout
-            android:padding="@dimen/small_dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimaryDark"
             android:orientation="horizontal"
+            android:padding="@dimen/small_dp"
             android:weightSum="2">
 
             <TextView

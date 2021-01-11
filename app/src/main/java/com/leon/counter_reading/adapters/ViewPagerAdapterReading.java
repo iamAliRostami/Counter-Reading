@@ -20,12 +20,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class ViewPagerAdapterReading extends FragmentStatePagerAdapter {
-    ReadingData readingData;
-    ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
-    ArrayList<KarbariDto> karbariDtos = new ArrayList<>();
-    ArrayList<QotrDictionary> qotrDictionaries = new ArrayList<>();
-    ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
-    ArrayList<String> items = new ArrayList<>();
+    final ReadingData readingData;
+    final ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
+    final ArrayList<KarbariDto> karbariDtos = new ArrayList<>();
+    final ArrayList<QotrDictionary> qotrDictionaries = new ArrayList<>();
+    final ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
+    final ArrayList<String> items = new ArrayList<>();
 
     public ViewPagerAdapterReading(@NonNull FragmentManager fm, int behavior,
                                    ReadingData readingData) {

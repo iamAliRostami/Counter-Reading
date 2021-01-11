@@ -184,13 +184,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/medium_dp"
-            android:textColor="?android:textColor"
-            android:textColorHint="?android:textColor"
             android:background="@drawable/border_gray_3"
             android:gravity="top"
             android:hint="@string/description"
             android:lines="4"
             android:padding="@dimen/low_dp"
+            android:textColor="?android:textColor"
+            android:textColorHint="?android:textColor"
             tools:ignore="Autofill,TextFields" />
 
         <Button

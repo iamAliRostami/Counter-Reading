@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class CalendarTool {
 
-    static String[] iranianWeekDayStr = {
+    static final String[] iranianWeekDayStr = {
             "دوشنبه",
             "سه شنبه",
             "چهارشنبه",
@@ -21,7 +21,7 @@ public class CalendarTool {
             "جمعه",
             "شنبه",
             "یکشنبه"};
-    static String[] iranianMonthStr = new String[]{
+    static final String[] iranianMonthStr = new String[]{
             "NA",
             "فروردین",
             "اردیبهشت",

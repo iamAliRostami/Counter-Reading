@@ -8,8 +8,8 @@ import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import static android.content.Context.MODE_PRIVATE;
 
 public class SharedPreferenceManager implements ISharedPreferenceManager {
-    Context context;
-    SharedPreferences appPrefs;
+    final Context context;
+    final SharedPreferences appPrefs;
 
     public SharedPreferenceManager(Context context, String xml) {
         this.context = context;

@@ -17,7 +17,7 @@ import okhttp3.Response;
 
 public class ReceivedCookiesInterceptor implements Interceptor {
 
-    ISharedPreferenceManager sharedPreferenceManager;
+    final ISharedPreferenceManager sharedPreferenceManager;
 
     public ReceivedCookiesInterceptor(Context context) {
         sharedPreferenceManager = new SharedPreferenceManager(context, SharedReferenceNames.ACCOUNT.getValue());

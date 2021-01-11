@@ -3,13 +3,13 @@ package com.leon.counter_reading.tables;
 import java.util.ArrayList;
 
 public class ReadingData {
-    public ArrayList<TrackingDto> trackingDtos;
-    public ArrayList<OnOffLoadDto> onOffLoadDtos;
-    public ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos;
-    public ArrayList<KarbariDto> karbariDtos;
-    public ArrayList<QotrDictionary> qotrDictionary;
-    public ArrayList<CounterStateDto> counterStateDtos;
-    public ArrayList<CounterReportDto> counterReportDtos;
+    public final ArrayList<TrackingDto> trackingDtos;
+    public final ArrayList<OnOffLoadDto> onOffLoadDtos;
+    public final ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos;
+    public final ArrayList<KarbariDto> karbariDtos;
+    public final ArrayList<QotrDictionary> qotrDictionary;
+    public final ArrayList<CounterStateDto> counterStateDtos;
+    public final ArrayList<CounterReportDto> counterReportDtos;
 
     public ReadingData() {
         trackingDtos = new ArrayList<>();

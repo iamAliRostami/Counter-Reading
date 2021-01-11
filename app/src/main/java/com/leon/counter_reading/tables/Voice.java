@@ -27,7 +27,7 @@ public class Voice {
     public static class VoiceGrouped {
         public RequestBody OnOffLoadId;
         public RequestBody Description;
-        public ArrayList<MultipartBody.Part> File;
+        public final ArrayList<MultipartBody.Part> File;
 
         public VoiceGrouped() {
             File = new ArrayList<>();
@@ -35,9 +35,9 @@ public class Voice {
     }
 
     public static class VoiceMultiple {
-        public ArrayList<RequestBody> OnOffLoadId;
-        public ArrayList<RequestBody> Description;
-        public ArrayList<MultipartBody.Part> File;
+        public final ArrayList<RequestBody> OnOffLoadId;
+        public final ArrayList<RequestBody> Description;
+        public final ArrayList<MultipartBody.Part> File;
 
         public VoiceMultiple() {
             File = new ArrayList<>();

@@ -24,12 +24,12 @@ import java.util.ArrayList;
 import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class ReadingReportCustomAdapter extends BaseAdapter {
-    ArrayList<CounterReportDto> counterReportDtos;
-    ArrayList<OffLoadReport> offLoadReports;
-    String uuid;
-    int position;
-    LayoutInflater inflater;
-    Context context;
+    final ArrayList<CounterReportDto> counterReportDtos;
+    final ArrayList<OffLoadReport> offLoadReports;
+    final String uuid;
+    final int position;
+    final LayoutInflater inflater;
+    final Context context;
 
     public ReadingReportCustomAdapter(Context context, String uuid, int position,
                                       ArrayList<CounterReportDto> counterReportDtos,
@@ -111,7 +111,7 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
     }
 
     static class CheckBoxViewHolder {
-        CheckedTextView checkBox;
+        final CheckedTextView checkBox;
 
         CheckBoxViewHolder(View view) {
             checkBox = view.findViewById(android.R.id.text1);

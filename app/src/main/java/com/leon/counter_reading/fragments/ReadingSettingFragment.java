@@ -22,8 +22,8 @@ import java.util.ArrayList;
 
 public class ReadingSettingFragment extends Fragment {
     FragmentReadingSettingBinding binding;
-    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
-    ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
+    final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    final ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
     //    ArrayList<Boolean> isActives = new ArrayList<>();
 //    ArrayList<Integer> zoneIds = new ArrayList<>();
     Context context;

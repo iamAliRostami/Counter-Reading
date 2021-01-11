@@ -109,14 +109,14 @@ public class ForbiddenDto {
 
     public static class ForbiddenDtoMultiple {
         public Integer zoneId;
-        public String description;
-        public String preEshterak;
-        public String nextEshterak;
-        public String postalCode;
-        public int tedadVahed;
-        public String x;
-        public String y;
-        public String gisAccuracy;
+        public final String description;
+        public final String preEshterak;
+        public final String nextEshterak;
+        public final String postalCode;
+        public final int tedadVahed;
+        public final String x;
+        public final String y;
+        public final String gisAccuracy;
 
         public ForbiddenDtoMultiple(Integer zoneId, String description, String preEshterak,
                                     String nextEshterak, String postalCode, int tedadVahed,
@@ -135,7 +135,7 @@ public class ForbiddenDto {
     }
 
     public static class ForbiddenDtoRequestMultiple {
-        public ArrayList<ForbiddenDtoMultiple> forbiddenDtos;
+        public final ArrayList<ForbiddenDtoMultiple> forbiddenDtos;
 
         public ForbiddenDtoRequestMultiple() {
             forbiddenDtos = new ArrayList<>();

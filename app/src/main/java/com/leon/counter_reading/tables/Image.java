@@ -27,7 +27,7 @@ public class Image {
     public static class ImageGrouped {
         public RequestBody OnOffLoadId;
         public RequestBody Description;
-        public ArrayList<MultipartBody.Part> File;
+        public final ArrayList<MultipartBody.Part> File;
 
         public ImageGrouped() {
             File = new ArrayList<>();
@@ -35,9 +35,9 @@ public class Image {
     }
 
     public static class ImageMultiple {
-        public ArrayList<RequestBody> OnOffLoadId;
-        public ArrayList<RequestBody> Description;
-        public ArrayList<MultipartBody.Part> File;
+        public final ArrayList<RequestBody> OnOffLoadId;
+        public final ArrayList<RequestBody> Description;
+        public final ArrayList<MultipartBody.Part> File;
 
         public ImageMultiple() {
             File = new ArrayList<>();

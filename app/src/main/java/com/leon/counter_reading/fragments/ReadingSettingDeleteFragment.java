@@ -26,8 +26,8 @@ import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class ReadingSettingDeleteFragment extends Fragment {
     FragmentReadingSettingDeleteBinding binding;
-    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
-    ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
+    final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    final ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
     ArrayList<String> items = new ArrayList<>();
     SpinnerCustomAdapter adapter;
     Activity activity;
