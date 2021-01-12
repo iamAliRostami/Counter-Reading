@@ -193,34 +193,36 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         context = null;
         binding.imageViewPerson.setImageDrawable(null);
         binding.imageViewPassword.setImageDrawable(null);
         binding.imageViewLogo.setImageDrawable(null);
         binding.imageViewUsername.setImageDrawable(null);
         Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
         Runtime.getRuntime().gc();
         System.gc();
+        super.onDestroy();
     }
 
     @Override
     protected void onStop() {
-        super.onStop();
         context = null;
         binding.imageViewPerson.setImageDrawable(null);
         binding.imageViewPassword.setImageDrawable(null);
         binding.imageViewLogo.setImageDrawable(null);
         binding.imageViewUsername.setImageDrawable(null);
         Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
         Runtime.getRuntime().gc();
         System.gc();
+        super.onStop();
     }
 
     class Login implements ICallback<LoginFeedBack> {

@@ -82,7 +82,6 @@ public class ReadingActivity extends BaseActivity {
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
         activity = this;
-
         if (MyApplication.POSITION == 1) {
             if (isNetworkAvailable(activity))
                 checkPermissions();
@@ -484,16 +483,20 @@ public class ReadingActivity extends BaseActivity {
                 startActivityForResult(intent, MyApplication.DESCRIPTION);
             }
         } else if (id == R.id.menu_keyboard) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            if (MyApplication.focusOnEditText) {
-                try {
-                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                } catch (Exception ignored) {
-                }
+            if (readingData.onOffLoadDtos.isEmpty()) {
+                showNoEshterakFound();
             } else {
-                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                if (MyApplication.focusOnEditText) {
+                    try {
+                        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    } catch (Exception ignored) {
+                    }
+                } else {
+                    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                }
+                MyApplication.focusOnEditText = !MyApplication.focusOnEditText;
             }
-            MyApplication.focusOnEditText = !MyApplication.focusOnEditText;
         } else if (id == R.id.menu_last) {
             if (readingData.onOffLoadDtos.isEmpty()) {
                 showNoEshterakFound();
@@ -541,7 +544,6 @@ public class ReadingActivity extends BaseActivity {
             }
         }
     }
-
 
     class offLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
         @Override
@@ -679,10 +681,13 @@ public class ReadingActivity extends BaseActivity {
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         } catch (Exception ignored) {
         }
+        Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
+        Runtime.getRuntime().gc();
+        System.gc();
     }
 
     @Override
@@ -710,6 +715,7 @@ public class ReadingActivity extends BaseActivity {
         readingDataTemp = null;
         viewPagerAdapterReading = null;
         Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();

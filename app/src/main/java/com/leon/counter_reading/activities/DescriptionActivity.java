@@ -421,23 +421,27 @@ public class DescriptionActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        super.onStop();
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
         Debug.getNativeHeapAllocatedSize();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        binding.imageViewPlay.setImageDrawable(null);
-        binding.imageViewRecord.setImageDrawable(null);
-        Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
         Runtime.getRuntime().gc();
         System.gc();
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        binding.imageViewPlay.setImageDrawable(null);
+        binding.imageViewRecord.setImageDrawable(null);
+        Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Runtime.getRuntime().gc();
+        System.gc();
+        super.onDestroy();
     }
 }

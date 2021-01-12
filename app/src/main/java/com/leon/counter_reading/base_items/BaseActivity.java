@@ -65,6 +65,7 @@ public abstract class BaseActivity extends AppCompatActivity
     Activity activity;
     ISharedPreferenceManager sharedPreferenceManager;
     GPSTracker gpsTracker;
+    boolean exit = false;
 
     protected abstract void initialize();
 
@@ -194,8 +195,8 @@ public abstract class BaseActivity extends AppCompatActivity
                         binding.drawerLayout.closeDrawer(GravityCompat.START);
                         if (position == 8) {
                             MyApplication.POSITION = -1;
+                            exit = true;
                             finishAffinity();
-                            android.os.Process.killProcess(android.os.Process.myPid());
                         } else if (MyApplication.POSITION != position) {
                             MyApplication.POSITION = position;
                             Intent intent = new Intent();
@@ -294,16 +295,30 @@ public abstract class BaseActivity extends AppCompatActivity
             }
         }
     }
-
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        gpsTracker.onBind(getIntent());
+    protected void onStop() {
         Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
         Runtime.getRuntime().gc();
         System.gc();
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        gpsTracker.onBind(getIntent());
+        Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Runtime.getRuntime().gc();
+        System.gc();
+        if (exit)
+            android.os.Process.killProcess(android.os.Process.myPid());
+        super.onDestroy();
     }
 }

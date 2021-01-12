@@ -17,6 +17,7 @@ import com.leon.counter_reading.databinding.ActivityHomeBinding;
 public class HomeActivity extends BaseActivity {
     ActivityHomeBinding binding;
     Activity activity;
+    boolean exit = false;
     @SuppressLint("NonConstantResourceId")
     View.OnClickListener onClickListener = v -> {
         int id = v.getId();
@@ -55,6 +56,7 @@ public class HomeActivity extends BaseActivity {
                 intent = new Intent(getApplicationContext(), HelpActivity.class);
                 break;
             case R.id.linear_layout_exit:
+                exit = true;
                 finishAffinity();
                 break;
         }
@@ -112,16 +114,18 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void onStop() {
-        super.onStop();
+        Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
+        Runtime.getRuntime().gc();
+        System.gc();
+        super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         binding.imageViewAppSetting.setImageDrawable(null);
         binding.imageViewDownload.setImageDrawable(null);
         binding.imageViewUpload.setImageDrawable(null);
@@ -132,10 +136,14 @@ public class HomeActivity extends BaseActivity {
         binding.imageViewReport.setImageDrawable(null);
         binding.imageViewLocation.setImageDrawable(null);
         Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
         Runtime.getRuntime().gc();
         System.gc();
+        if (exit)
+            android.os.Process.killProcess(android.os.Process.myPid());
+        super.onDestroy();
     }
 }

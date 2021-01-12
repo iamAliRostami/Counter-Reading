@@ -518,16 +518,18 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        super.onStop();
+        Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
+        Runtime.getRuntime().gc();
+        System.gc();
+        super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         binding.imageView1.setImageDrawable(null);
         binding.imageView2.setImageDrawable(null);
         binding.imageView3.setImageDrawable(null);
@@ -545,11 +547,13 @@ public class TakePhotoActivity extends AppCompatActivity {
         imageGrouped = null;
         images = null;
         Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
         Runtime.getRuntime().gc();
         System.gc();
+        super.onDestroy();
     }
 
     @SuppressLint("StaticFieldLeak")

@@ -185,16 +185,18 @@ public class NavigationActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        super.onStop();
+        Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
-        Debug.getNativeHeapAllocatedSize();
+        Runtime.getRuntime().gc();
+        System.gc();
+        super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         binding.imageViewAccount.setImageDrawable(null);
         binding.imageViewAddress.setImageDrawable(null);
         binding.imageViewCounterSerial.setImageDrawable(null);
@@ -202,10 +204,12 @@ public class NavigationActivity extends AppCompatActivity {
         binding.imageViewMobile.setImageDrawable(null);
         binding.imageViewEmpty.setImageDrawable(null);
         Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
         Runtime.getRuntime().totalMemory();
         Runtime.getRuntime().freeMemory();
         Runtime.getRuntime().maxMemory();
         Runtime.getRuntime().gc();
         System.gc();
+        super.onDestroy();
     }
 }
