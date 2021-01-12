@@ -286,13 +286,15 @@
                     android:layout_weight="1"
                     android:background="@drawable/border_yellow_white"
                     android:digits="0123456789"
+                    android:focusable="true"
+                    android:focusedByDefault="true"
                     android:gravity="center"
                     android:hint="@string/_0"
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:maxLength="9"
                     android:textSize="@dimen/text_size_large"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill,UnusedAttribute" />
             </LinearLayout>
 
             <LinearLayout

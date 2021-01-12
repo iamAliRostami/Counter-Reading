@@ -492,10 +492,12 @@ public class ReadingActivity extends BaseActivity {
                         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                     } catch (Exception ignored) {
                     }
+                    MyApplication.focusOnEditText = !MyApplication.focusOnEditText;
                 } else {
                     inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    MyApplication.focusOnEditText = !MyApplication.focusOnEditText;
+                    viewPagerAdapterReading.notifyDataSetChanged();
                 }
-                MyApplication.focusOnEditText = !MyApplication.focusOnEditText;
             }
         } else if (id == R.id.menu_last) {
             if (readingData.onOffLoadDtos.isEmpty()) {
@@ -656,7 +658,7 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (isReading) {
+        if (isReading && !readingData.onOffLoadDtos.isEmpty()) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
             if (MyApplication.focusOnEditText)
                 inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);

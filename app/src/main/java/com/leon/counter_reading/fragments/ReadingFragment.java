@@ -15,7 +15,6 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
-import com.leon.counter_reading.databinding.FragmentReadingBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.HighLowStateEnum;
 import com.leon.counter_reading.tables.CounterStateDto;
@@ -33,7 +32,7 @@ import java.util.Objects;
 import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class ReadingFragment extends Fragment {
-    FragmentReadingBinding binding;
+    com.leon.counter_reading.databinding.FragmentReadingBinding binding;
     SpinnerCustomAdapter adapter;
     OnOffLoadDto onOffLoadDto;
     ReadingConfigDefaultDto readingConfigDefaultDto;
@@ -106,17 +105,14 @@ public class ReadingFragment extends Fragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentReadingBinding.inflate(inflater, container, false);
+        binding = com.leon.counter_reading.databinding.FragmentReadingBinding.inflate(inflater, container, false);
         initialize();
         return binding.getRoot();
     }
 
     void initialize() {
         activity = getActivity();
-        if (MyApplication.focusOnEditText) {
-            View viewFocus = binding.editTextNumber;
-            viewFocus.requestFocus();
-        }
+
         binding.editTextNumber.setOnLongClickListener(view -> {
             binding.editTextNumber.setText("");
             return false;
@@ -324,6 +320,15 @@ public class ReadingFragment extends Fragment {
             for (String s : json1) {
                 counterStateDtos.add(gson.fromJson(s, CounterStateDto.class));
             }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (MyApplication.focusOnEditText) {
+            View viewFocus = binding.editTextNumber;
+            viewFocus.requestFocus();
         }
     }
 
