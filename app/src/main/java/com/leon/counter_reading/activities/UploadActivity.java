@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Debug;
+import android.util.Log;
 import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -188,12 +189,15 @@ public class UploadActivity extends BaseActivity {
 
         @Override
         protected Integer doInBackground(Integer... integers) {
+            Log.e("here","before");
             trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                     trackingDao().getTrackingDtoNotArchive(false));
+            Log.e("here","current");
             runOnUiThread(() -> {
                 setupViewPager();
                 initializeTextViews();
             });
+            Log.e("here","after");
             return null;
         }
     }

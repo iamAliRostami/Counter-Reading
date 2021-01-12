@@ -56,6 +56,7 @@ public class UploadFragment extends Fragment {
             R.drawable.img_upload_off,
             R.drawable.img_multimedia};
     int type;
+    ArrayList<String> json;
     FragmentUploadBinding binding;
     ArrayList<Image> images = new ArrayList<>();
     ArrayList<Voice> voice = new ArrayList<>();
@@ -79,8 +80,7 @@ public class UploadFragment extends Fragment {
         Gson gson = new Gson();
         ArrayList<String> json = new ArrayList<>();
         for (TrackingDto trackingDto : trackingDtos) {
-            String jsonTemp = gson.toJson(trackingDto);
-            json.add(jsonTemp);
+            json.add(gson.toJson(trackingDto));
         }
         args.putStringArrayList(BundleEnum.TRACKING.getValue(), json);
 
@@ -93,13 +93,9 @@ public class UploadFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             type = getArguments().getInt(BundleEnum.TYPE.getValue());
-            Gson gson = new Gson();
-            ArrayList<String> json = getArguments().getStringArrayList(
+            json = getArguments().getStringArrayList(
                     BundleEnum.TRACKING.getValue());
-            for (String s : json) {
-                trackingDtos.add(gson.fromJson(s, TrackingDto.class));
-                items.add(String.valueOf(trackingDtos.get(trackingDtos.size() - 1).trackNumber));
-            }
+
         }
     }
 
@@ -112,13 +108,19 @@ public class UploadFragment extends Fragment {
     }
 
     void initialize() {
+        activity = getActivity();
         if (type == 3) {
             binding.linearLayoutSpinner.setVisibility(View.GONE);
+        } else {
+            for (String s : json) {
+                Gson gson = new Gson();
+                trackingDtos.add(gson.fromJson(s, TrackingDto.class));
+                items.add(String.valueOf(trackingDtos.get(trackingDtos.size() - 1).trackNumber));
+            }
+            setupSpinner();
         }
-        activity = getActivity();
         binding.imageViewUpload.setImageResource(imageSrc[type - 1]);
         setOnButtonUploadClickListener();
-        setupSpinner();
     }
 
     void setupSpinner() {
