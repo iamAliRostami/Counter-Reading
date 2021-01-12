@@ -40,7 +40,7 @@ public class ReadingFragment extends Fragment {
     QotrDictionary qotrDictionary;
     ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     int position, counterStateCode, counterStatePosition;
-    boolean canBeEmpty, canLessThanPre;
+    boolean canBeEmpty, canLessThanPre, isMakoos;
     ArrayList<String> items = new ArrayList<>();
     Activity activity;
 
@@ -174,6 +174,7 @@ public class ReadingFragment extends Fragment {
                         || counterStateDto.shouldEnterNumber);
                 canBeEmpty = !counterStateDto.shouldEnterNumber;
                 canLessThanPre = counterStateDto.canNumberBeLessThanPre;
+                isMakoos = counterStateDto.title.equals("معکوس");
                 if (onOffLoadDto.counterStatePosition == null ||
                         onOffLoadDto.counterStatePosition != binding.spinner.getSelectedItemPosition()) {
                     if ((counterStateDto.isTavizi || counterStateDto.isXarab) &&
@@ -220,9 +221,10 @@ public class ReadingFragment extends Fragment {
                 makeRing(activity);
                 binding.editTextNumber.setError(getString(R.string.less_than_pre));
                 view.requestFocus();
-            } else {
-                canLessThanPre(currentNumber);
             }
+//            else {
+//                canLessThanPre(currentNumber);
+//            }
         }
     }
 
@@ -253,9 +255,49 @@ public class ReadingFragment extends Fragment {
     }
 
     void lessThanPre(int currentNumber) {
-        //TODO
-        ((ReadingActivity) activity).updateOnOffLoadByCounterNumber(position, currentNumber,
-                counterStateCode, counterStatePosition);
+        if (!isMakoos)
+            ((ReadingActivity) activity).updateOnOffLoadByCounterNumber(position, currentNumber,
+                    counterStateCode, counterStatePosition);
+        else {//TODO
+            notEmptyIsMakoos(currentNumber);
+        }
+    }
+
+    void notEmptyIsMakoos(int currentNumber) {
+        FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity()).
+                getSupportFragmentManager().beginTransaction();
+        AreYouSureFragment areYouSureFragment;
+        if (currentNumber == onOffLoadDto.preNumber) {
+            makeRing(activity);
+            areYouSureFragment = AreYouSureFragment.newInstance(
+                    position, currentNumber, HighLowStateEnum.ZERO.getValue(),
+                    counterStateCode, counterStatePosition);
+            areYouSureFragment.show(fragmentTransaction, getString(R.string.use_out_of_range));
+        } else {
+            int status = Counting.checkHighLowMakoos(onOffLoadDto, karbariDto, readingConfigDefaultDto,
+                    currentNumber);
+            switch (status) {
+                case 1:
+                    makeRing(activity);
+                    areYouSureFragment = AreYouSureFragment.newInstance(
+                            position, currentNumber, HighLowStateEnum.HIGH.getValue(),
+                            counterStateCode, counterStatePosition);
+                    areYouSureFragment.show(fragmentTransaction, getString(R.string.use_out_of_range));
+                    break;
+                case -1:
+                    makeRing(activity);
+                    areYouSureFragment = AreYouSureFragment.newInstance(
+                            position, currentNumber, HighLowStateEnum.LOW.getValue(),
+                            counterStateCode, counterStatePosition);
+                    areYouSureFragment.show(fragmentTransaction, getString(R.string.use_out_of_range));
+                    break;
+                case 0:
+                    ((ReadingActivity) activity).updateOnOffLoadByCounterNumber(position,
+                            currentNumber, counterStateCode, counterStatePosition,
+                            HighLowStateEnum.NORMAL.getValue());
+                    break;
+            }
+        }
     }
 
     void notEmpty(int currentNumber) {
