@@ -112,11 +112,14 @@ public class UploadFragment extends Fragment {
         if (type == 3) {
             binding.linearLayoutSpinner.setVisibility(View.GONE);
         } else {
+            trackingDtos.clear();
+            items.clear();
             for (String s : json) {
                 Gson gson = new Gson();
                 trackingDtos.add(gson.fromJson(s, TrackingDto.class));
                 items.add(String.valueOf(trackingDtos.get(trackingDtos.size() - 1).trackNumber));
             }
+            items.add(0, getString(R.string.select_one));
             setupSpinner();
         }
         binding.imageViewUpload.setImageResource(imageSrc[type - 1]);
@@ -124,7 +127,6 @@ public class UploadFragment extends Fragment {
     }
 
     void setupSpinner() {
-        items.add(0, getString(R.string.select_one));
         SpinnerCustomAdapter spinnerCustomAdapter = new SpinnerCustomAdapter(activity, items);
         binding.spinner.setAdapter(spinnerCustomAdapter);
     }
@@ -259,19 +261,6 @@ public class UploadFragment extends Fragment {
                         new ForbiddenDto.ForbiddenDtoRequestMultiple();
                 Retrofit retrofit = NetworkHelper.getInstance();
                 IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-//                for (int i = 0; i < forbiddenDtos.size(); i++) {
-//                    ForbiddenDto.ForbiddenDtoMultiple forbiddenDtoMultiple =
-//                            new ForbiddenDto.ForbiddenDtoMultiple(forbiddenDtos.get(i).zoneId,
-//                                    forbiddenDtos.get(i).description,
-//                                    forbiddenDtos.get(i).preEshterak,
-//                                    forbiddenDtos.get(i).nextEshterak,
-//                                    forbiddenDtos.get(i).postalCode,
-//                                    forbiddenDtos.get(i).tedadVahed,
-//                                    forbiddenDtos.get(i).x,
-//                                    forbiddenDtos.get(i).y,
-//                                    forbiddenDtos.get(i).gisAccuracy);
-//                    forbiddenDtoRequestMultiple.forbiddenDtos.add(forbiddenDtoMultiple);
-//                }
                 for (ForbiddenDto forbiddenDto : forbiddenDtos) {
                     ForbiddenDto.ForbiddenDtoMultiple forbiddenDtoMultiple =
                             new ForbiddenDto.ForbiddenDtoMultiple(forbiddenDto.zoneId,

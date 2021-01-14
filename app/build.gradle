@@ -114,8 +114,8 @@ dependencies {
 
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 
-    //noinspection GradleDependency
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
-    //noinspection GradleDependency
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
+//    //noinspection GradleDependency
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
+//    //noinspection GradleDependency
+//    releaseImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
 }
