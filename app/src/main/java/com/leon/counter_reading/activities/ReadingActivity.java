@@ -617,6 +617,10 @@ public class ReadingActivity extends BaseActivity {
             readingData.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
             readingData.trackingDtos.addAll(myDatabase.trackingDao().
                     getTrackingDtosIsActiveNotArchive(true, false));
+
+//            readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
+//                    getReadingConfigDefaultDtosByZoneId(myDatabase.trackingDao().getZoneIdIsActiveNotArchive(true, false)));
+
             for (TrackingDto dto : readingData.trackingDtos) {
                 readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
                         getReadingConfigDefaultDtosByZoneId(dto.zoneId));

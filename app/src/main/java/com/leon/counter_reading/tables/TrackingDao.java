@@ -19,6 +19,14 @@ public interface TrackingDao {
     @Query("Select * From TrackingDto WHERE isArchive = :isArchive AND isActive = :isActive")
     List<TrackingDto> getTrackingDtosIsActiveNotArchive(boolean isActive, boolean isArchive);
 
+    @Query("SELECT * FROM TrackingDto INNER JOIN ReadingConfigDefaultDto ON " +
+            "TrackingDto.zoneId=ReadingConfigDefaultDto.zoneId " +
+            "WHERE ReadingConfigDefaultDto.id = :id")
+    List<TrackingDto> getUsersForRepository(int id);
+
+    @Query("Select zoneId From TrackingDto WHERE isArchive = :isArchive AND isActive = :isActive")
+    List<Integer> getZoneIdIsActiveNotArchive(boolean isActive, boolean isArchive);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertTrackingDto(TrackingDto trackingDto);
 

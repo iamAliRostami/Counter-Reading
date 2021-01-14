@@ -216,4 +216,11 @@ public class GPSTracker extends Service {
         stopListener();
         return null;
     }
+
+    @Override
+    public void onDestroy() {
+        stopFusedLocation();
+        stopListener();
+        super.onDestroy();
+    }
 }

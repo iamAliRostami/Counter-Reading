@@ -19,6 +19,9 @@ public interface ReadingConfigDefaultDao {
     @Query("Select * From ReadingConfigDefaultDto Where zoneId = :zoneId")
     List<ReadingConfigDefaultDto> getReadingConfigDefaultDtosByZoneId(int zoneId);
 
+    @Query("Select * From ReadingConfigDefaultDto Where zoneId IN (:zoneId)")
+    List<ReadingConfigDefaultDto> getReadingConfigDefaultDtosByZoneId(List<Integer> zoneId);
+
     @Query("Select * From ReadingConfigDefaultDto Where isArchive = :isArchive")
     List<ReadingConfigDefaultDto> getNotArchiveReadingConfigDefaultDtosByZoneId(boolean isArchive);
 

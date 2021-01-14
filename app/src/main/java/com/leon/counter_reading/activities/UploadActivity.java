@@ -189,15 +189,12 @@ public class UploadActivity extends BaseActivity {
 
         @Override
         protected Integer doInBackground(Integer... integers) {
-            Log.e("here","before");
             trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                     trackingDao().getTrackingDtoNotArchive(false));
-            Log.e("here","current");
             runOnUiThread(() -> {
                 setupViewPager();
                 initializeTextViews();
             });
-            Log.e("here","after");
             return null;
         }
     }

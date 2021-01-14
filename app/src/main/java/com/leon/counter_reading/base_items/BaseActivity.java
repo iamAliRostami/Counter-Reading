@@ -295,6 +295,7 @@ public abstract class BaseActivity extends AppCompatActivity
             }
         }
     }
+
     @Override
     protected void onStop() {
         Debug.getNativeHeapAllocatedSize();
@@ -310,6 +311,7 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         gpsTracker.onBind(getIntent());
+        gpsTracker.onDestroy();
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();
