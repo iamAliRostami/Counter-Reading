@@ -171,9 +171,9 @@ public class UploadFragment extends Fragment {
     }
 
     void thankYou() {
-        MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
-                updateTrackingDtoByArchive(trackingDtos.get(
-                        binding.spinner.getSelectedItemPosition() - 1).id, true, false);
+//        MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
+//                updateTrackingDtoByArchive(trackingDtos.get(
+//                        binding.spinner.getSelectedItemPosition() - 1).id, true, false);
         activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.thank_you), Toast.LENGTH_LONG));
     }
 
