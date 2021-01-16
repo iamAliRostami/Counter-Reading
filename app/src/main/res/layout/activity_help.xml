@@ -5,11 +5,17 @@
     android:layout_height="match_parent"
     tools:context=".activities.HelpActivity">
 
-    <com.github.barteksc.pdfviewer.PDFView
-        android:id="@+id/pdf_view"
+    <WebView
+        android:id="@+id/web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/linear_layout_footer" />
+        android:layout_above="@+id/linear_layout_footer"
+        android:visibility="gone" />
+    <!--    <com.github.barteksc.pdfviewer.PDFView-->
+    <!--        android:id="@+id/pdf_view"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_above="@+id/linear_layout_footer" />-->
 
     <include layout="@layout/footer" />
 </RelativeLayout>

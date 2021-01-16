@@ -132,7 +132,7 @@ public class UploadFragment extends Fragment {
     }
 
     boolean checkOnOffLoad() {
-        int total = 0, mane = 0, unread = 0, alalPercent = 0;
+        int total, mane = 0, unread, alalPercent;
         MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
         if (binding.spinner.getSelectedItemPosition() != 0) {
             total = myDatabase.onOffLoadDao().getOnOffLoadCount(
@@ -147,7 +147,7 @@ public class UploadFragment extends Fragment {
             }
             alalPercent = myDatabase.readingConfigDefaultDao().getAlalHesabByZoneId(
                     trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).zoneId);
-        }
+        } else return false;
         double alalMane = (double) mane / total * 100;
         if (unread > 0) {
             new CustomToast().info("همکار گرامی!\nتعداد " + unread + " اشتراک قرائت نشده است.", Toast.LENGTH_LONG);
@@ -156,8 +156,6 @@ public class UploadFragment extends Fragment {
             new CustomToast().info("همکار گرامی!\nدرصد علی الحساب بالاتر از حد مجاز است.", Toast.LENGTH_LONG);
             return false;
         }
-//        if (trackingDtos.size() > 0) {
-//        }
         return true;
     }
 
@@ -228,6 +226,7 @@ public class UploadFragment extends Fragment {
             onOffLoadDtos.clear();
             onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                     onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(
+//                    "12126666",
                     trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id,
                     OffloadStateEnum.INSERTED.getValue()));
             offLoadReports.clear();
@@ -246,52 +245,51 @@ public class UploadFragment extends Fragment {
         @Override
         protected void onPostExecute(Integer integer) {
             customProgressBar.getDialog().dismiss();
-            if (onOffLoadDtos.size() > 0 || forbiddenDtos.size() > 0) {
+            uploadOffLoad();
+            if (forbiddenDtos.size() > 0) {
                 uploadForbid();
-                uploadOffLoad();
-            } else {
-                thankYou();
             }
             super.onPostExecute(integer);
         }
 
         void uploadForbid() {
-            if (forbiddenDtos.size() > 0) {
-                ForbiddenDto.ForbiddenDtoRequestMultiple forbiddenDtoRequestMultiple =
-                        new ForbiddenDto.ForbiddenDtoRequestMultiple();
-                Retrofit retrofit = NetworkHelper.getInstance();
-                IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-                for (ForbiddenDto forbiddenDto : forbiddenDtos) {
-                    ForbiddenDto.ForbiddenDtoMultiple forbiddenDtoMultiple =
-                            new ForbiddenDto.ForbiddenDtoMultiple(forbiddenDto.zoneId,
-                                    forbiddenDto.description, forbiddenDto.preEshterak,
-                                    forbiddenDto.nextEshterak, forbiddenDto.postalCode,
-                                    forbiddenDto.tedadVahed, forbiddenDto.x, forbiddenDto.y,
-                                    forbiddenDto.gisAccuracy);
-                    forbiddenDtoRequestMultiple.forbiddenDtos.add(forbiddenDtoMultiple);
-                }
-                Call<ForbiddenDto.ForbiddenDtoResponses> call =
-                        iAbfaService.multipleForbidden(forbiddenDtoRequestMultiple);
-                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                        new Forbidden(), new ForbiddenIncomplete(), new Error());
+            ForbiddenDto.ForbiddenDtoRequestMultiple forbiddenDtoRequestMultiple =
+                    new ForbiddenDto.ForbiddenDtoRequestMultiple();
+            Retrofit retrofit = NetworkHelper.getInstance();
+            IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+            for (ForbiddenDto forbiddenDto : forbiddenDtos) {
+                ForbiddenDto.ForbiddenDtoMultiple forbiddenDtoMultiple =
+                        new ForbiddenDto.ForbiddenDtoMultiple(forbiddenDto.zoneId,
+                                forbiddenDto.description, forbiddenDto.preEshterak,
+                                forbiddenDto.nextEshterak, forbiddenDto.postalCode,
+                                forbiddenDto.tedadVahed, forbiddenDto.x, forbiddenDto.y,
+                                forbiddenDto.gisAccuracy);
+                forbiddenDtoRequestMultiple.forbiddenDtos.add(forbiddenDtoMultiple);
             }
+            Call<ForbiddenDto.ForbiddenDtoResponses> call =
+                    iAbfaService.multipleForbidden(forbiddenDtoRequestMultiple);
+            HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
+                    new Forbidden(), new ForbiddenIncomplete(), new Error());
         }
 
         void uploadOffLoad() {
-            if (onOffLoadDtos.size() > 0) {
-                Retrofit retrofit = NetworkHelper.getInstance();
-                IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-                OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
-                offLoadData.isFinal = true;
-                for (int i = 0; i < onOffLoadDtos.size(); i++)
-                    offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDtos.get(i)));
-                offLoadData.offLoadReports.addAll(offLoadReports);
-                Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
-                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                        new offLoadData(), new offLoadDataIncomplete(), new uploadError());
-            } else {
+            if (onOffLoadDtos.size() <= 0) {
                 thankYou();
+                onOffLoadDtos.add(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                        onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(
+                        trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id));
             }
+            Retrofit retrofit = NetworkHelper.getInstance();
+            IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+            OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
+            offLoadData.isFinal = true;
+            for (int i = 0; i < onOffLoadDtos.size(); i++)
+                offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDtos.get(i)));
+            offLoadData.offLoadReports.addAll(offLoadReports);
+            Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
+            HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
+                    new offLoadData(), new offLoadDataIncomplete(), new uploadError());
+
         }
     }
 

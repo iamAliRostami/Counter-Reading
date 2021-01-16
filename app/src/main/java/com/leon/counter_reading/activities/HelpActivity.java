@@ -1,11 +1,14 @@
 package com.leon.counter_reading.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Debug;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -18,13 +21,23 @@ public class HelpActivity extends BaseActivity {
     ActivityHelpBinding binding;
     Activity activity;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void initialize() {
         binding = ActivityHelpBinding.inflate(getLayoutInflater());
         View childLayout = binding.getRoot();
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
-        binding.pdfView.fromAsset("counter_reading.pdf").load();
+//        binding.pdfView.fromAsset("counter_reading.pdf").load();
+        WebSettings settings = binding.webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+
+
+        settings.setAllowFileAccessFromFileURLs(true);
+        settings.setAllowUniversalAccessFromFileURLs(true);
+        settings.setBuiltInZoomControls(true);
+        binding.webView.setWebChromeClient(new WebChromeClient());
+        binding.webView.loadUrl("file:///android_asset/counter_reading.pdf");
         activity = this;
     }
 

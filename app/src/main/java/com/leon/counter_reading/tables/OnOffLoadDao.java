@@ -35,6 +35,10 @@ public interface OnOffLoadDao {
     List<OnOffLoadDto> getOnOffLoadReadByTrackingAndOffLoad
             (String trackingId, int offLoadStateId);
 
+    @Query("select * From OnOffLoadDto WHERE trackingId = :trackingId LIMIT 1")
+    OnOffLoadDto getOnOffLoadReadByTrackingAndOffLoad
+            (String trackingId);
+
     @Query("select * From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId")
     List<OnOffLoadDto> getOnOffLoadReadByOffLoad(int offLoadStateId);
 
