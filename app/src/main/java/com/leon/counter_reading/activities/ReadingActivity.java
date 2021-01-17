@@ -618,9 +618,6 @@ public class ReadingActivity extends BaseActivity {
             readingData.trackingDtos.addAll(myDatabase.trackingDao().
                     getTrackingDtosIsActiveNotArchive(true, false));
 
-//            readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
-//                    getReadingConfigDefaultDtosByZoneId(myDatabase.trackingDao().getZoneIdIsActiveNotArchive(true, false)));
-
             for (TrackingDto dto : readingData.trackingDtos) {
                 readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
                         getReadingConfigDefaultDtosByZoneId(dto.zoneId));
@@ -634,7 +631,8 @@ public class ReadingActivity extends BaseActivity {
                             getAllOnOffLoadByHighLowAndTracking(trackingDto.id, highLow));
                 } else if (readStatus == ReadStatusEnum.UNREAD.getValue()) {
                     readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadNotRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));
+//                            getAllOnOffLoadNotRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));
+        getAllOnOffLoadNotRead(0, trackingDto.id));
                 } else if (readStatus == ReadStatusEnum.READ.getValue()) {
                     readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
                             getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));

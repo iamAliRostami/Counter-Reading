@@ -28,8 +28,8 @@ public interface OnOffLoadDao {
     @Query("select * From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId")
     List<OnOffLoadDto> getAllOnOffLoadRead(int offLoadStateId);
 
-    @Query("select * From OnOffLoadDto WHERE offLoadStateId != :offLoadStateId AND trackingId = :trackingId")
-    List<OnOffLoadDto> getAllOnOffLoadNotRead(int offLoadStateId, String trackingId);
+    @Query("select * From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId AND trackingId = :trackingId")
+    List<OnOffLoadDto> getAllOnOffLoadNotRead(int offLoadStateId, String trackingId);//TODO
 
     @Query("select * From OnOffLoadDto WHERE trackingId = :trackingId AND offLoadStateId = :offLoadStateId")
     List<OnOffLoadDto> getOnOffLoadReadByTrackingAndOffLoad
