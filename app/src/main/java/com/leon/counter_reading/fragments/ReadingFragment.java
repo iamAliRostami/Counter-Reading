@@ -156,7 +156,7 @@ public class ReadingFragment extends Fragment {
             binding.spinner.setSelection(onOffLoadDto.counterStatePosition);
         else {
             for (int i = 0; i < counterStateDtos.size(); i++)
-                if (counterStateDtos.get(i).moshtarakinId == onOffLoadDto.preCounterStateCode)
+                if (counterStateDtos.get(i).id == onOffLoadDto.preCounterStateCode)
                     binding.spinner.setSelection(i);
         }
         setOnSpinnerSelectedListener();
@@ -168,7 +168,7 @@ public class ReadingFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int i, long id) {
                 counterStatePosition = i;
-                counterStateCode = counterStateDtos.get(counterStatePosition).moshtarakinId;
+                counterStateCode = counterStateDtos.get(counterStatePosition).id;
                 CounterStateDto counterStateDto = counterStateDtos.get(counterStatePosition);
                 binding.editTextNumber.setEnabled(counterStateDto.canEnterNumber
                         || counterStateDto.shouldEnterNumber);
@@ -178,10 +178,10 @@ public class ReadingFragment extends Fragment {
                 if (onOffLoadDto.counterStatePosition == null ||
                         onOffLoadDto.counterStatePosition != binding.spinner.getSelectedItemPosition()) {
                     if ((counterStateDto.isTavizi || counterStateDto.isXarab) &&
-                            counterStateDto.moshtarakinId != onOffLoadDto.preCounterStateCode) {
+                            counterStateDto.id != onOffLoadDto.preCounterStateCode) {
                         makeRing(activity);
                         SerialFragment serialFragment = SerialFragment.newInstance(position,
-                                counterStateDto.moshtarakinId, counterStatePosition);
+                                counterStateDto.id, counterStatePosition);
                         if (getFragmentManager() != null) {
                             serialFragment.show(getFragmentManager(), getString(R.string.counter_serial));
                         }
@@ -359,6 +359,7 @@ public class ReadingFragment extends Fragment {
             position = getArguments().getInt(BundleEnum.POSITION.getValue());
             ArrayList<String> json1 = getArguments().getStringArrayList(
                     BundleEnum.COUNTER_STATE.getValue());
+            counterStateDtos.clear();
             for (String s : json1) {
                 counterStateDtos.add(gson.fromJson(s, CounterStateDto.class));
             }

@@ -12,7 +12,7 @@ public interface CounterStateDao {
     @Query("Select * From CounterStateDto")
     List<CounterStateDto> getCounterStateDtos();
 
-    @Query("Select moshtarakinId From CounterStateDto WHERE isMane = :isMane")
+    @Query("Select id From CounterStateDto WHERE isMane = :isMane")
     List<Integer> getCounterStateDtosIsMane(boolean isMane);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -99,11 +99,11 @@ public class ReportTemporaryFragment extends Fragment {
                 ArrayList<String> json1 = new ArrayList<>();
                 if (position == 0) {
                     for (CounterStateDto counterStateDto : counterStateDtos) {
-                        String jsonTemp = gson.toJson(counterStateDto.moshtarakinId);
+                        String jsonTemp = gson.toJson(counterStateDto.id);
                         json1.add(jsonTemp);
                     }
                 } else {
-                    String jsonTemp = gson.toJson(counterStateDtos.get(position - 1).moshtarakinId);
+                    String jsonTemp = gson.toJson(counterStateDtos.get(position - 1).id);
                     json1.add(jsonTemp);
                 }
                 intent.putExtra(BundleEnum.IS_MANE.getValue(), json1);
