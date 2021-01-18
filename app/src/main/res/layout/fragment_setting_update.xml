@@ -26,14 +26,14 @@
             android:id="@+id/progress_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/linear_layout_update"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -192,7 +192,7 @@
                     android:layout_marginRight="@dimen/large_dp"
                     android:layout_marginBottom="@dimen/medium_dp"
                     android:background="@drawable/border_yellow_3"
-                    android:text="@string/receive_file"
+                    android:text="@string/receive_information"
                     android:textColor="@color/text_color_light"
                     android:textSize="@dimen/text_size_large" />
             </LinearLayout>

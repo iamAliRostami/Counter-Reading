@@ -56,7 +56,7 @@
     <string name="app_setting">تنظیمات برنامه</string>
     <string name="exit">خروج</string>
     <string name="how_to_exit">جهت خروج، از فهرست، گزینه «خروج» را بزنید.</string>
-    <string name="team">تیم نرم افزاری شبکه تارنما سپاهان</string>
+    <string name="team">شبکه تارنما سپاهان</string>
     <string name="www_abfa_ir">www.abfa.ir</string>
     <string name="sepehr_shamsaei">سپهر شمسایی</string>
     <string name="email">ایمیل</string>
@@ -198,5 +198,7 @@
     <string name="this_feature_is_not_active">این ویژگی در این منطقه فعال نشده است.</string>
     <string name="dash">-</string>
     <string name="contact_us">ارتباط با ما</string>
+    <string name="receive_information">دریافت اطلاعات</string>
+    <string name="recording">در حال ضبط صدا...</string>
 
 </resources>

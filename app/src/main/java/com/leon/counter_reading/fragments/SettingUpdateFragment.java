@@ -43,6 +43,7 @@ public class SettingUpdateFragment extends Fragment {
 
     FragmentSettingUpdateBinding binding;
     Activity activity;
+    boolean fisrtTime = true;
 
     public SettingUpdateFragment() {
     }
@@ -65,7 +66,7 @@ public class SettingUpdateFragment extends Fragment {
     void initialize() {
         binding.imageViewUpdate.setImageDrawable(
                 ContextCompat.getDrawable(activity, R.drawable.img_update));
-        updateInfo();
+//        updateInfo();
         setOnButtonReceiveClickListener();
     }
 
@@ -79,12 +80,16 @@ public class SettingUpdateFragment extends Fragment {
 
     void setOnButtonReceiveClickListener() {
         binding.buttonReceive.setOnClickListener(v -> {
-            activity.runOnUiThread(() -> binding.progressBar.setVisibility(View.VISIBLE));
-            Retrofit retrofit = NetworkHelper.getInstance();
-            IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-            Call<ResponseBody> call = iAbfaService.getLastApk();
-            HttpClientWrapper.callHttpAsyncProgressDismiss(call, ProgressType.NOT_SHOW.getValue(),
-                    activity, new Update(), new UpdateIncomplete(), new UpdateError());
+            if (fisrtTime) {
+                updateInfo();
+            } else {
+                activity.runOnUiThread(() -> binding.progressBar.setVisibility(View.VISIBLE));
+                Retrofit retrofit = NetworkHelper.getInstance();
+                IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+                Call<ResponseBody> call = iAbfaService.getLastApk();
+                HttpClientWrapper.callHttpAsyncProgressDismiss(call, ProgressType.NOT_SHOW.getValue(),
+                        activity, new Update(), new UpdateIncomplete(), new UpdateError());
+            }
         });
     }
 
@@ -119,6 +124,8 @@ public class SettingUpdateFragment extends Fragment {
 
                     binding.linearLayoutUpdate.setVisibility(View.VISIBLE);
                     binding.progressBar.setVisibility(View.GONE);
+                    binding.buttonReceive.setText(getString(R.string.receive_file));
+                    fisrtTime = false;
                 });
             }
         }

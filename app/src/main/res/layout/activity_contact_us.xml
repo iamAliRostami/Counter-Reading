@@ -13,13 +13,15 @@
         android:layout_margin="@dimen/large_dp"
         android:background="@drawable/border_white_1"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="5">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_gravity="start"
             android:layout_margin="@dimen/medium_dp"
+            android:layout_weight="1"
             android:gravity="start"
             android:orientation="horizontal"
             android:weightSum="2">
@@ -32,7 +34,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="@dimen/medium_dp"
-                android:text="@string/version" />
+                android:text="@string/version"
+                tools:ignore="NestedWeights" />
 
             <TextView
                 android:id="@+id/text_view_version"
@@ -49,9 +52,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_gravity="start"
             android:layout_margin="@dimen/medium_dp"
+            android:layout_weight="1"
             android:gravity="start"
             android:orientation="horizontal"
             android:weightSum="2">
@@ -64,7 +68,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="@dimen/medium_dp"
-                android:text="@string/update_date" />
+                android:text="@string/update_date"
+                tools:ignore="NestedWeights" />
 
             <TextView
                 android:id="@+id/text_view_date"
@@ -81,9 +86,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_gravity="start"
             android:layout_margin="@dimen/medium_dp"
+            android:layout_weight="1"
             android:gravity="start"
             android:orientation="horizontal"
             android:weightSum="2">
@@ -96,7 +102,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="@dimen/medium_dp"
-                android:text="@string/design_by" />
+                android:text="@string/design_by"
+                tools:ignore="NestedWeights" />
 
             <TextView
                 android:id="@+id/text_view_design"
@@ -113,9 +120,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_gravity="start"
             android:layout_margin="@dimen/medium_dp"
+            android:layout_weight="1"
             android:gravity="start"
             android:orientation="horizontal"
             android:weightSum="2">
@@ -128,7 +136,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="@dimen/medium_dp"
-                android:text="@string/website" />
+                android:text="@string/website"
+                tools:ignore="NestedWeights" />
 
             <TextView
                 android:id="@+id/text_view_site"
@@ -145,9 +154,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_gravity="start"
             android:layout_margin="@dimen/medium_dp"
+            android:layout_weight="1"
             android:gravity="start"
             android:orientation="horizontal"
             android:weightSum="2">
@@ -160,7 +170,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="@dimen/medium_dp"
-                android:text="@string/email" />
+                android:text="@string/email"
+                tools:ignore="NestedWeights" />
 
             <TextView
                 android:id="@+id/text_view_email"

@@ -101,6 +101,7 @@ public class DescriptionActivity extends AppCompatActivity {
         binding.imageViewRecord.setLongClickable(true);
         binding.imageViewRecord.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                new CustomToast().info(getString(R.string.recording),Toast.LENGTH_LONG);
                 binding.imageViewPlay.setEnabled(false);
                 voice.address = CustomFile.createAudioFile(activity);
                 setupMediaRecorder();
