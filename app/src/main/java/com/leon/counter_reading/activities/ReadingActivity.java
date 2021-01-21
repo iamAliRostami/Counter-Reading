@@ -203,11 +203,12 @@ public class ReadingActivity extends BaseActivity {
         ImageView imageViewFlash = findViewById(R.id.image_view_flash);
         imageViewFlash.setImageDrawable(activity.getDrawable(R.drawable.img_flash));
         imageViewFlash.setOnClickListener(v -> {
-            if (isFlashOn) {
-                isFlashOn = flashLightManager.turnOff();
-            } else {
-                isFlashOn = flashLightManager.turnOn();
-            }
+            flashLightManager.toggleFlash();
+//            if (isFlashOn) {
+//                isFlashOn = flashLightManager.turnOff();
+//            } else {
+//                isFlashOn = flashLightManager.turnOn();
+//            }
         });
         ImageView imageViewReverse = findViewById(R.id.image_view_reverse);
         imageViewReverse.setImageDrawable(activity.getDrawable(R.drawable.img_inverse));

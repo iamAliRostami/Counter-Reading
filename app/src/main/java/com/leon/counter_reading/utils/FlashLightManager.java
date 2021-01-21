@@ -48,7 +48,7 @@ public final class FlashLightManager implements IFlashLightManager {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
-        return !isFlashOn;
+        return isFlashOn;
     }
 
     public boolean toggleFlash() {
