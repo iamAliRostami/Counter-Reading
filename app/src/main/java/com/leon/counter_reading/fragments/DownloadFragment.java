@@ -121,12 +121,11 @@ public class DownloadFragment extends Fragment {
                 ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>(
                         myDatabase.counterStateDao().getCounterStateDtos());
                 for (CounterStateDto counterStateDto : counterStateDtos)
-                    if (readingDataTemp.counterStateDtos != null)
-                        for (int i = 0; i < readingDataTemp.counterStateDtos.size(); i++) {
-                            if (counterStateDto.id == readingDataTemp.counterStateDtos.get(i).id)
-                                readingData.counterStateDtos.remove(
-                                        readingDataTemp.counterStateDtos.get(i));
-                        }
+                    for (int i = 0; i < readingDataTemp.counterStateDtos.size(); i++) {
+                        if (counterStateDto.id == readingDataTemp.counterStateDtos.get(i).id)
+                            readingData.counterStateDtos.remove(
+                                    readingDataTemp.counterStateDtos.get(i));
+                    }
                 myDatabase.counterStateDao().insertAllCounterStateDto(readingData.counterStateDtos);
 
                 ArrayList<KarbariDto> karbariDtos = new ArrayList<>(
