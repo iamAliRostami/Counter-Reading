@@ -171,7 +171,7 @@ public class CustomFile {
                 context.getString(R.string.save_format_name))).format(new Date());
         String audioFileName = "audio_" + timeStamp;
         return Environment.getExternalStorageDirectory().getAbsolutePath() +
-                context.getString(R.string.audio_folder) + audioFileName + ".amr";
+                context.getString(R.string.audio_folder) + audioFileName + ".ogg";
     }
 
     static File findFile(File dir, String name) {
