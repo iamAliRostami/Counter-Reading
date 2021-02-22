@@ -271,8 +271,8 @@ public class ReadingActivity extends BaseActivity {
                     for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
                         if (onOffLoadDto.eshterak.toLowerCase().contains(key))
                             readingData.onOffLoadDtos.add(onOffLoadDto);
-                        if (onOffLoadDto.qeraatCode.toLowerCase().contains(key))
-                            readingData.onOffLoadDtos.add(onOffLoadDto);
+//                        if (onOffLoadDto.qeraatCode.toLowerCase().contains(key))
+//                            readingData.onOffLoadDtos.add(onOffLoadDto);
                     }
                     break;
                 case 1:
