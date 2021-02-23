@@ -11,7 +11,7 @@
         android:foregroundGravity="center"
         android:gravity="center"
         android:orientation="horizontal"
-        android:weightSum="6"
+        android:weightSum="5"
         tools:ignore="UselessParent">
 
         <ImageView
