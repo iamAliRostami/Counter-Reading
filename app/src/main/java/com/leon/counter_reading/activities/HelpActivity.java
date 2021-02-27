@@ -31,8 +31,6 @@ public class HelpActivity extends BaseActivity {
 //        binding.pdfView.fromAsset("counter_reading.pdf").load();
         WebSettings settings = binding.webView.getSettings();
         settings.setJavaScriptEnabled(true);
-
-
         settings.setAllowFileAccessFromFileURLs(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setBuiltInZoomControls(true);

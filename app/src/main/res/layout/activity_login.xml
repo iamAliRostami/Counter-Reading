@@ -117,6 +117,7 @@
             </LinearLayout>
 
             <CheckBox
+                android:checked="true"
                 android:id="@+id/check_box_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
