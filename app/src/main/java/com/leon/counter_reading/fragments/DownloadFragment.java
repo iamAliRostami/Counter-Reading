@@ -162,7 +162,9 @@ public class DownloadFragment extends Fragment {
                         myDatabase.onOffLoadDao().getAllOnOffLoad());
                 for (OnOffLoadDto onOffLoadDto : onOffLoadDtos)
                     for (int i = 0; i < readingDataTemp.onOffLoadDtos.size(); i++) {
-                        if (onOffLoadDto.id.equals(readingDataTemp.onOffLoadDtos.get(i).id))
+                        if (onOffLoadDto.id.equals(readingDataTemp.onOffLoadDtos.get(i).id) &&
+                                onOffLoadDto.trackingId.equals(readingDataTemp.onOffLoadDtos.get(i).trackingId)
+                        )
                             readingData.onOffLoadDtos.remove(readingDataTemp.onOffLoadDtos.get(i));
                     }
                 myDatabase.onOffLoadDao().insertAllOnOffLoad(readingData.onOffLoadDtos);

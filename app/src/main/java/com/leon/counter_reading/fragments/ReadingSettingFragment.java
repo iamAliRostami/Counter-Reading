@@ -88,6 +88,7 @@ public class ReadingSettingFragment extends Fragment {
 //                isActives.add(readingConfigDefaultDto.isActive);
 //                zoneIds.add(readingConfigDefaultDto.zoneId);
 //            }
+
             ReadingSettingCustomAdapter readingSettingCustomAdapter =
                     new ReadingSettingCustomAdapter(context, trackingDtos);
             binding.listViewRead.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);

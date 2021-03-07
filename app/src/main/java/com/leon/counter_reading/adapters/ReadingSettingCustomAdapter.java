@@ -30,6 +30,16 @@ public class ReadingSettingCustomAdapter extends BaseAdapter {
     }
 
     @Override
+    public int getViewTypeCount() {
+        return getCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
     public int getCount() {
         return trackingDtos.size();
     }
@@ -47,15 +57,14 @@ public class ReadingSettingCustomAdapter extends BaseAdapter {
     @SuppressLint("InflateParams")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CheckBoxViewHolder holder;
-        View view = convertView;
-        if (view == null) {
+//        View view = convertView;
+        if (convertView == null) {
             if (position % 2 == 1)
-                view = inflater.inflate(R.layout.item_reading_setting_1, null);
+                convertView = inflater.inflate(R.layout.item_reading_setting_1, null);
             else
-                view = inflater.inflate(R.layout.item_reading_setting_2, null);
+                convertView = inflater.inflate(R.layout.item_reading_setting_2, null);
         }
-        holder = new CheckBoxViewHolder(view);
+        CheckBoxViewHolder holder = new CheckBoxViewHolder(convertView);
         holder.textViewTrackNumber.setText(String.valueOf(trackingDtos.get(position).trackNumber));
         holder.textViewZoneTitle.setText(trackingDtos.get(position).zoneTitle);
         holder.textViewStartEshterak.setText(trackingDtos.get(position).fromEshterak);
@@ -75,7 +84,7 @@ public class ReadingSettingCustomAdapter extends BaseAdapter {
                     trackingDtos.get(position).id, trackingDtos.get(position).isActive);
         });
         holder.checkBox.setChecked(trackingDtos.get(position).isActive);
-        return view;
+        return convertView;
     }
 
     static class CheckBoxViewHolder {
