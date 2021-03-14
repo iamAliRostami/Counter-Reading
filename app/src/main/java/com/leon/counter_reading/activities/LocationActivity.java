@@ -52,9 +52,9 @@ public class LocationActivity extends BaseActivity {
 
     void checkPermissions() {
         if (PermissionManager.gpsEnabled(this))
-            if (!PermissionManager.checkLocationPermission(getApplicationContext())) {
+            if (PermissionManager.checkLocationPermission(getApplicationContext())) {
                 askLocationPermission();
-            } else if (!PermissionManager.checkStoragePermission(getApplicationContext())) {
+            } else if (PermissionManager.checkStoragePermission(getApplicationContext())) {
                 askStoragePermission();
             } else {
                 new CustomToast().info(getString(R.string.this_feature_is_not_active), Toast.LENGTH_LONG);

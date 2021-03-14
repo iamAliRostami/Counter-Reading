@@ -70,7 +70,7 @@ public class ReadingActivity extends BaseActivity {
     ReadingData readingData;
     ReadingData readingDataTemp;
     ViewPagerAdapterReading viewPagerAdapterReading;
-    boolean isFlashOn = false, isNight = false;
+    boolean isNight = false;
     int readStatus = 0, highLow = 1;
     ArrayList<Integer> isMane = new ArrayList<>();
     boolean isReading = false;
@@ -202,14 +202,7 @@ public class ReadingActivity extends BaseActivity {
         flashLightManager = new FlashLightManager(activity);
         ImageView imageViewFlash = findViewById(R.id.image_view_flash);
         imageViewFlash.setImageDrawable(activity.getDrawable(R.drawable.img_flash));
-        imageViewFlash.setOnClickListener(v -> {
-            flashLightManager.toggleFlash();
-//            if (isFlashOn) {
-//                isFlashOn = flashLightManager.turnOff();
-//            } else {
-//                isFlashOn = flashLightManager.turnOn();
-//            }
-        });
+        imageViewFlash.setOnClickListener(v -> flashLightManager.toggleFlash());
         ImageView imageViewReverse = findViewById(R.id.image_view_reverse);
         imageViewReverse.setImageDrawable(activity.getDrawable(R.drawable.img_inverse));
         imageViewReverse.setOnClickListener(v -> {
@@ -365,9 +358,9 @@ public class ReadingActivity extends BaseActivity {
 
     void checkPermissions() {
         if (PermissionManager.gpsEnabled(this))
-            if (!PermissionManager.checkLocationPermission(activity)) {
+            if (PermissionManager.checkLocationPermission(getApplicationContext())) {
                 askLocationPermission();
-            } else if (!PermissionManager.checkStoragePermission(getApplicationContext())) {
+            } else if (PermissionManager.checkStoragePermission(getApplicationContext())) {
                 askStoragePermission();
             } else {
                 getBundle();
@@ -632,8 +625,7 @@ public class ReadingActivity extends BaseActivity {
                             getAllOnOffLoadByHighLowAndTracking(trackingDto.id, highLow));
                 } else if (readStatus == ReadStatusEnum.UNREAD.getValue()) {
                     readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-//                            getAllOnOffLoadNotRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));
-        getAllOnOffLoadNotRead(0, trackingDto.id));
+                            getAllOnOffLoadNotRead(0, trackingDto.id));
                 } else if (readStatus == ReadStatusEnum.READ.getValue()) {
                     readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
                             getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));

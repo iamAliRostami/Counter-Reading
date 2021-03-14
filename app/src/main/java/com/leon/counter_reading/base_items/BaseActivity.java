@@ -96,9 +96,9 @@ public abstract class BaseActivity extends AppCompatActivity
 
     void checkPermissions() {
         if (PermissionManager.gpsEnabled(this))
-            if (!PermissionManager.checkLocationPermission(getApplicationContext())) {
+            if (PermissionManager.checkLocationPermission(getApplicationContext())) {
                 askLocationPermission();
-            } else if (!PermissionManager.checkStoragePermission(getApplicationContext())) {
+            } else if (PermissionManager.checkStoragePermission(getApplicationContext())) {
                 askStoragePermission();
             } else {
                 initialize();
@@ -137,13 +137,13 @@ public abstract class BaseActivity extends AppCompatActivity
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CustomToast customToast = new CustomToast();
-                customToast.info(getString(R.string.access_granted));
+                new CustomToast().info(getString(R.string.access_granted));
                 checkPermissions();
             }
 
             @Override
             public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+
                 PermissionManager.forceClose(activity);
             }
         };

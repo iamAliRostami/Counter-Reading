@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -57,12 +58,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 import static com.leon.counter_reading.utils.CustomFile.createImageFile;
+import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public class ReportForbidActivity extends AppCompatActivity {
     ActivityReportForbidBinding binding;
     ISharedPreferenceManager sharedPreferenceManager;
     Activity activity;
     int zoneId;
+    GPSTracker gpsTracker;
     ForbiddenDto forbiddenDto = new ForbiddenDto();
 
     @Override
@@ -75,14 +78,78 @@ public class ReportForbidActivity extends AppCompatActivity {
         binding = ActivityReportForbidBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         activity = this;
-        if (PermissionManager.checkCameraPermission(getApplicationContext()))
-            initialize();
-        else askCameraPermission();
+        checkPermissions();
+    }
+
+    void checkPermissions() {
+        if (PermissionManager.gpsEnabled(this))
+            if (PermissionManager.checkLocationPermission(getApplicationContext())) {
+                askLocationPermission();
+            } else if (!PermissionManager.checkCameraPermission(getApplicationContext())) {
+                askCameraPermission();
+            } else {
+                initialize();
+            }
+    }
+
+    void askLocationPermission() {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                new CustomToast().info(getString(R.string.access_granted));
+                checkPermissions();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                PermissionManager.forceClose(activity);
+            }
+        };
+        new TedPermission(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage(getString(R.string.confirm_permission))
+                .setRationaleConfirmText(getString(R.string.allow_permission))
+                .setDeniedMessage(getString(R.string.if_reject_permission))
+                .setDeniedCloseButtonText(getString(R.string.close))
+                .setGotoSettingButtonText(getString(R.string.allow_permission))
+                .setPermissions(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                ).check();
+    }
+
+    void askCameraPermission() {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                CustomToast customToast = new CustomToast();
+                customToast.info(getString(R.string.access_granted));
+                checkPermissions();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                PermissionManager.forceClose(activity);
+            }
+        };
+        new TedPermission(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage(getString(R.string.confirm_permission))
+                .setRationaleConfirmText(getString(R.string.allow_permission))
+                .setDeniedMessage(getString(R.string.if_reject_permission))
+                .setDeniedCloseButtonText(getString(R.string.close))
+                .setGotoSettingButtonText(getString(R.string.allow_permission))
+                .setPermissions(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ).check();
     }
 
     void initialize() {
         if (getIntent().getExtras() != null)
             zoneId = getIntent().getExtras().getInt(BundleEnum.ZONE_ID.getValue());
+        gpsTracker = new GPSTracker(activity);
         forbiddenDto.File = new ArrayList<>();
         forbiddenDto.bitmaps = new ArrayList<>();
         setOnButtonPhotoClickListener();
@@ -193,7 +260,6 @@ public class ReportForbidActivity extends AppCompatActivity {
     }
 
     void sendForbid() {
-        GPSTracker gpsTracker = new GPSTracker(activity);
         forbiddenDto.prepareToSend(
                 gpsTracker.getAccuracy(), gpsTracker.getLongitude(), gpsTracker.getLatitude(),
                 binding.editTextPostalCode.getText().toString(),
@@ -295,35 +361,6 @@ public class ReportForbidActivity extends AppCompatActivity {
         });
     }
 
-    void askCameraPermission() {
-        PermissionListener permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                CustomToast customToast = new CustomToast();
-                customToast.info(getString(R.string.access_granted));
-                initialize();
-            }
-
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                PermissionManager.forceClose(activity);
-            }
-        };
-        new TedPermission(this)
-                .setPermissionListener(permissionlistener)
-                .setRationaleMessage(getString(R.string.confirm_permission))
-                .setRationaleConfirmText(getString(R.string.allow_permission))
-                .setDeniedMessage(getString(R.string.if_reject_permission))
-                .setDeniedCloseButtonText(getString(R.string.close))
-                .setGotoSettingButtonText(getString(R.string.allow_permission))
-                .setPermissions(
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ).check();
-    }
-
-
     class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
         @Override
         public void execute(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
@@ -356,9 +393,25 @@ public class ReportForbidActivity extends AppCompatActivity {
             finish();
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == PackageManager.PERMISSION_GRANTED) {
+            if (requestCode == MyApplication.GPS_CODE)
+                checkPermissions();
+            if (requestCode == MyApplication.REQUEST_NETWORK_CODE) {
+                if (isNetworkAvailable(getApplicationContext()))
+                    checkPermissions();
+                else PermissionManager.setMobileWifiEnabled(this);
+            }
+            if (requestCode == MyApplication.REQUEST_WIFI_CODE) {
+                if (isNetworkAvailable(getApplicationContext()))
+                    checkPermissions();
+                else PermissionManager.enableNetwork(this);
+            }
+        }
+
         MyApplication.bitmapSelectedImage = null;
         if (resultCode == RESULT_OK) {
             if (requestCode == MyApplication.GALLERY_REQUEST && data != null) {

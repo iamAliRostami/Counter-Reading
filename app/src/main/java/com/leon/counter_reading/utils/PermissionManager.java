@@ -31,20 +31,15 @@ public class PermissionManager {
                         Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
-    public static boolean checkRecorderPermission(Activity activity) {
+    public static void checkRecorderPermission(Activity activity) {
         if (ActivityCompat.checkSelfPermission(activity,
-                Manifest.permission.RECORD_AUDIO) ==
-                PackageManager.PERMISSION_GRANTED &&
+                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(activity,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
-                        == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(activity,
+                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             askRecorderPermission(activity);
         }
-        return false;
     }
 
     public static void askRecorderPermission(Activity activity) {
@@ -84,20 +79,15 @@ public class PermissionManager {
                         Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
-    public static boolean checkCameraPermission(Activity activity) {
+    public static void checkCameraPermission(Activity activity) {
         if (ActivityCompat.checkSelfPermission(activity,
-                Manifest.permission.CAMERA) ==
-                PackageManager.PERMISSION_GRANTED &&
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(activity,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
-                        == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(activity,
+                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             askCameraPermission(activity);
         }
-        return false;
     }
 
     public static void askCameraPermission(Activity activity) {
@@ -130,22 +120,17 @@ public class PermissionManager {
 
     public static boolean checkStoragePermission(Context context) {
         return ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(context,
-                        Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED;
     }
 
-    public static boolean checkStoragePermission(Activity activity) {
+    public static void checkStoragePermission(Activity activity) {
         if (ActivityCompat.checkSelfPermission(activity,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
-                        == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             askStoragePermission(activity);
         }
-        return false;
     }
 
     public static void askStoragePermission(Activity activity) {
@@ -177,9 +162,9 @@ public class PermissionManager {
 
     public static boolean checkLocationPermission(Context context) {
         return ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context,
-                        Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED;
     }
 
     public static boolean checkLocationPermission(Activity activity) {
@@ -235,6 +220,29 @@ public class PermissionManager {
             alertDialog.setNegativeButton(R.string.close, (dialog, which) -> {
                 dialog.cancel();
                 forceClose(activity);
+            });
+            alertDialog.show();
+        }
+        return enabled;
+    }
+
+    public static boolean gpsEnabledNew(Activity activity) {
+        LocationManager locationManager = (LocationManager)
+                activity.getSystemService(Context.LOCATION_SERVICE);
+        boolean enabled =
+                LocationManagerCompat.isLocationEnabled(Objects.requireNonNull(locationManager));
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
+        if (!enabled) {
+            alertDialog.setCancelable(false);
+            alertDialog.setTitle(activity.getString(R.string.gps_setting));
+            alertDialog.setMessage(R.string.active_gps);
+            alertDialog.setPositiveButton(R.string.setting, (dialog, which) -> {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                activity.startActivity(intent);
+            });
+            alertDialog.setNegativeButton(R.string.close, (dialog, which) -> {
+                new CustomToast().warning("به علت عدم دسترسی به مکان یابی، امکان ثبت وجود ندارد.");
+                dialog.cancel();
             });
             alertDialog.show();
         }

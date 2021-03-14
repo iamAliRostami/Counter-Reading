@@ -1,5 +1,6 @@
 package com.leon.counter_reading.fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,10 +12,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.Gson;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
+import com.leon.counter_reading.databinding.FragmentReadingBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.HighLowStateEnum;
 import com.leon.counter_reading.tables.CounterStateDto;
@@ -23,6 +27,8 @@ import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.QotrDictionary;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.utils.Counting;
+import com.leon.counter_reading.utils.CustomToast;
+import com.leon.counter_reading.utils.PermissionManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +38,7 @@ import java.util.Objects;
 import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class ReadingFragment extends Fragment {
-    com.leon.counter_reading.databinding.FragmentReadingBinding binding;
+    FragmentReadingBinding binding;
     SpinnerCustomAdapter adapter;
     OnOffLoadDto onOffLoadDto;
     ReadingConfigDefaultDto readingConfigDefaultDto;
@@ -105,7 +111,8 @@ public class ReadingFragment extends Fragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = com.leon.counter_reading.databinding.FragmentReadingBinding.inflate(inflater, container, false);
+        binding = com.leon.counter_reading.databinding.FragmentReadingBinding.inflate(inflater,
+                container, false);
         initialize();
         return binding.getRoot();
     }
@@ -163,7 +170,6 @@ public class ReadingFragment extends Fragment {
     }
 
     void setOnSpinnerSelectedListener() {
-        //TODO
         binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int i, long id) {
@@ -195,19 +201,50 @@ public class ReadingFragment extends Fragment {
         });
     }
 
-    void onButtonSubmitClickListener() {
-        //TODO
-        binding.buttonSubmit.setOnClickListener(v -> {
-            if (canBeEmpty) {
-                canBeEmpty();
-            } else {
-                canNotBeEmpty();
+    void askLocationPermission() {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                new CustomToast().info(getString(R.string.access_granted));
+                checkPermissions();
             }
-        });
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                new CustomToast().warning("به علت عدم دسترسی به مکان یابی، امکان ثبت وجود ندارد.");
+            }
+        };
+        new TedPermission(activity)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage(getString(R.string.confirm_permission))
+                .setRationaleConfirmText(getString(R.string.allow_permission))
+                .setDeniedMessage(getString(R.string.if_reject_permission))
+                .setDeniedCloseButtonText(getString(R.string.close))
+                .setGotoSettingButtonText(getString(R.string.allow_permission))
+                .setPermissions(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                ).check();
+    }
+
+    void checkPermissions() {
+        if (PermissionManager.gpsEnabledNew(activity))
+            if (PermissionManager.checkLocationPermission(getContext())) {
+                askLocationPermission();
+            } else {
+                if (canBeEmpty) {
+                    canBeEmpty();
+                } else {
+                    canNotBeEmpty();
+                }
+            }
+    }
+
+    void onButtonSubmitClickListener() {
+        binding.buttonSubmit.setOnClickListener(v -> checkPermissions());
     }
 
     void canBeEmpty() {
-        //TODO
         if (binding.editTextNumber.getText().toString().isEmpty()) {
             ((ReadingActivity) activity).updateOnOffLoadWithoutCounterNumber(position,
                     counterStateCode, counterStatePosition);
@@ -249,16 +286,11 @@ public class ReadingFragment extends Fragment {
         }
     }
 
-    void canLessThanPre(int currentNumber) {
-        ((ReadingActivity) activity).updateOnOffLoadByCounterNumber(position, currentNumber,
-                counterStateCode, counterStatePosition);
-    }
-
     void lessThanPre(int currentNumber) {
         if (!isMakoos)
             ((ReadingActivity) activity).updateOnOffLoadByCounterNumber(position, currentNumber,
                     counterStateCode, counterStatePosition);
-        else {//TODO
+        else {
             notEmptyIsMakoos(currentNumber);
         }
     }
