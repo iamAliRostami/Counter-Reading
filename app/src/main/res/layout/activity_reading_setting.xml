@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimaryDark"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="3">
 
             <TextView
                 android:id="@+id/text_view_read"
@@ -66,6 +66,21 @@
                 android:text="@string/delete_data"
                 android:textColor="@color/text_color_light" />
 
+            <TextView
+                android:id="@+id/text_view_navigation"
+                style="@style/text_bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/large_dp"
+                android:layout_marginTop="@dimen/low_dp"
+                android:layout_marginRight="@dimen/large_dp"
+                android:layout_marginBottom="@dimen/low_dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="@dimen/medium_dp"
+                android:paddingBottom="@dimen/medium_dp"
+                android:text="@string/dynamic_navigation"
+                android:textColor="@color/text_color_light" />
 
         </LinearLayout>
 

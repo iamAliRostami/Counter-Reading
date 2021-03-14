@@ -90,10 +90,16 @@
     <string name="distance_from_left">فاصله از دیوار سمت چپ</string>
     <string name="pre_date">تاریخ قبلی</string>
     <string name="branch_radius">قطر انشعاب</string>
-    <string name="ahad_asli">آحاداصلی:</string>
     <string name="siphon_radius">قطر سیفون</string>
+    <string name="ahad_asli">آحاداصلی:</string>
     <string name="ahad_fari">آحاد فرعی:</string>
     <string name="ahad_masraf">آحاد مصرف:</string>
+
+
+    <string name="ahad_asli_">آحاد مسکونی/اصلی</string>
+    <string name="ahad_fari_">آحاد تجاری/فرعی</string>
+    <string name="ahad_masraf_">آحاد مصرف/سایر</string>
+
     <string name="insert_information">ورود اطلاعات</string>
     <string name="search">جستجو</string>
     <string name="close">بستن</string>
@@ -199,5 +205,9 @@
     <string name="contact_us">ارتباط با ما</string>
     <string name="receive_information">دریافت اطلاعات</string>
     <string name="recording">در حال ضبط صدا…</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dynamic_navigation">پیمایش پویا</string>
+    <string name="none">هیچکدام</string>
 
 </resources>

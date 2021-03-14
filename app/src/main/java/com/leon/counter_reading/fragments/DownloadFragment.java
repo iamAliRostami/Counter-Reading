@@ -91,8 +91,6 @@ public class DownloadFragment extends Fragment {
         Call<ReadingData> call = iAbfaService.loadData();
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), context,
                 new DownloadCompleted(), new DownloadIncomplete(), new DownloadError());
-//        if (type == 1) {
-//        }
     }
 
     @Override
@@ -211,4 +209,5 @@ public class DownloadFragment extends Fragment {
             customToast.error(error);
         }
     }
+
 }

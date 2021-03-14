@@ -1,6 +1,16 @@
 package com.leon.counter_reading.enums;
 
 public enum SharedReferenceKeys {
+    ACCOUNT("account"),
+    MOBILE("mobile"),
+    SERIAL("serial"),
+    ADDRESS("address"),
+    AHAD_KHALI("ahad_khali"),
+    AHAD_ASLI("ahad_asli"),
+    AHAD_FARI("ahad_fari"),
+    AHAD_OTHER("ahad_other"),
+    KARBARI("karbari"),
+
     USERNAME_TEMP("username_temp"),
     PASSWORD_TEMP("password_temp"),
     USERNAME("username"),

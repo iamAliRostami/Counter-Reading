@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.ReadingPossibleSettingFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:id="@+id/radio_group_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/medium_dp">
+
+            <CheckBox
+                android:id="@+id/check_box_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/low_dp"
+                android:background="@drawable/border_gray_2"
+                android:text="@string/mobile_number"
+                android:textColor="@color/text_color_dark"
+                android:textSize="@dimen/text_size_large" />
+
+            <CheckBox
+                android:id="@+id/check_box_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/low_dp"
+                android:background="@drawable/border_gray_2"
+                android:text="@string/address"
+                android:textColor="@color/text_color_dark"
+                android:textSize="@dimen/text_size_large" />
+
+            <CheckBox
+                android:id="@+id/check_box_karbari"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/low_dp"
+                android:background="@drawable/border_gray_2"
+                android:text="@string/karbari"
+                android:textColor="@color/text_color_dark"
+                android:textSize="@dimen/text_size_large" />
+
+            <CheckBox
+                android:id="@+id/check_box_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/low_dp"
+                android:background="@drawable/border_gray_2"
+                android:text="@string/account"
+                android:textColor="@color/text_color_dark"
+                android:textSize="@dimen/text_size_large" />
+
+            <CheckBox
+                android:id="@+id/check_box_serial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/low_dp"
+                android:background="@drawable/border_gray_2"
+                android:text="@string/counter_serial"
+                android:textColor="@color/text_color_dark"
+                android:textSize="@dimen/text_size_large" />
+
+            <CheckBox
+                android:id="@+id/check_box_ahad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/low_dp"
+                android:background="@drawable/border_gray_2"
+                android:text="@string/empty_ahad"
+                android:textColor="@color/text_color_dark"
+                android:textSize="@dimen/text_size_large" />
+
+            <CheckBox
+                android:id="@+id/check_box_maskooni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/low_dp"
+                android:background="@drawable/border_gray_2"
+                android:text="@string/ahad_asli_"
+                android:textColor="@color/text_color_dark"
+                android:textSize="@dimen/text_size_large" />
+
+            <CheckBox
+                android:id="@+id/check_box_tejari"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/low_dp"
+                android:background="@drawable/border_gray_2"
+                android:text="@string/ahad_fari_"
+                android:textColor="@color/text_color_dark"
+                android:textSize="@dimen/text_size_large" />
+
+            <CheckBox
+                android:id="@+id/check_box_other"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/low_dp"
+                android:background="@drawable/border_gray_2"
+                android:text="@string/ahad_masraf_"
+                android:textColor="@color/text_color_dark"
+                android:textSize="@dimen/text_size_large" />
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

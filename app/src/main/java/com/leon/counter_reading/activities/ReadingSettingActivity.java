@@ -16,6 +16,7 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.ViewPagerAdapterTab;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityReadingSettingBinding;
+import com.leon.counter_reading.fragments.ReadingPossibleSettingFragment;
 import com.leon.counter_reading.fragments.ReadingSettingDeleteFragment;
 import com.leon.counter_reading.fragments.ReadingSettingFragment;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
@@ -47,6 +48,18 @@ public class ReadingSettingActivity extends BaseActivity {
     void initializeTextViews() {
         textViewRead();
         textViewDelete();
+        textViewNavigation();
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    void textViewRead() {
+        binding.textViewRead.setOnClickListener(view -> {
+            setColor();
+            binding.textViewRead.setBackground(
+                    ContextCompat.getDrawable(activity, R.drawable.border_white_2));
+            setPadding();
+            binding.viewPager.setCurrentItem(0);
+        });
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -61,12 +74,13 @@ public class ReadingSettingActivity extends BaseActivity {
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    void textViewRead() {
-        binding.textViewRead.setOnClickListener(view -> {
+    void textViewNavigation() {
+        binding.textViewNavigation.setOnClickListener(view -> {
             setColor();
-            binding.textViewRead.setBackground(ContextCompat.getDrawable(activity, R.drawable.border_white_2));
+            binding.textViewNavigation.setBackground(
+                    ContextCompat.getDrawable(activity, R.drawable.border_white_2));
             setPadding();
-            binding.viewPager.setCurrentItem(0);
+            binding.viewPager.setCurrentItem(2);
         });
     }
 
@@ -75,6 +89,8 @@ public class ReadingSettingActivity extends BaseActivity {
         binding.textViewRead.setTextColor(ContextCompat.getColor(activity, R.color.text_color_light));
         binding.textViewDelete.setBackgroundColor(Color.TRANSPARENT);
         binding.textViewDelete.setTextColor(ContextCompat.getColor(activity, R.color.text_color_light));
+        binding.textViewNavigation.setBackgroundColor(Color.TRANSPARENT);
+        binding.textViewNavigation.setTextColor(ContextCompat.getColor(activity, R.color.text_color_light));
     }
 
     private void setPadding() {
@@ -82,6 +98,9 @@ public class ReadingSettingActivity extends BaseActivity {
                 (int) getResources().getDimension(R.dimen.medium_dp), 0,
                 (int) getResources().getDimension(R.dimen.medium_dp));
         binding.textViewDelete.setPadding(0,
+                (int) getResources().getDimension(R.dimen.medium_dp), 0,
+                (int) getResources().getDimension(R.dimen.medium_dp));
+        binding.textViewNavigation.setPadding(0,
                 (int) getResources().getDimension(R.dimen.medium_dp), 0,
                 (int) getResources().getDimension(R.dimen.medium_dp));
     }
@@ -93,6 +112,7 @@ public class ReadingSettingActivity extends BaseActivity {
                 readingConfigDefaultDtos), "تنظیمات قرائت");
         adapter.addFragment(ReadingSettingDeleteFragment.newInstance(trackingDtos,
                 readingConfigDefaultDtos), "حذف");
+        adapter.addFragment(new ReadingPossibleSettingFragment(), "پیمایش پویا");
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -105,17 +125,18 @@ public class ReadingSettingActivity extends BaseActivity {
                     binding.textViewRead.callOnClick();
                 } else if (position == 1) {
                     binding.textViewDelete.callOnClick();
+                } else if (position == 2) {
+                    binding.textViewNavigation.callOnClick();
                 }
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
                 int currentPage = binding.viewPager.getCurrentItem();
-                if (currentPage == 1 || currentPage == 0) {
+                if (currentPage == 2 || currentPage == 0) {
                     previousState = currentState;
                     currentState = state;
                     if (previousState == 1 && currentState == 0) {
-                        binding.viewPager.setCurrentItem(currentPage == 0 ? 1 : 0);
+                        binding.viewPager.setCurrentItem(currentPage == 0 ? 2 : 0);
                     }
                 }
             }

@@ -2,6 +2,7 @@ package com.leon.counter_reading.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 
@@ -50,6 +51,7 @@ public class SharedPreferenceManager implements ISharedPreferenceManager {
 
     @Override
     public void putData(String key, boolean value) {
+        Log.e("check 1", String.valueOf(value));
         SharedPreferences.Editor prefsEditor = appPrefs.edit();
         prefsEditor.putBoolean(key, value);
         prefsEditor.apply();
