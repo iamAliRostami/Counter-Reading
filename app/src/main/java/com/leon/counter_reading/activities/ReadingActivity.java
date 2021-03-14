@@ -34,12 +34,16 @@ import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.enums.ReadStatusEnum;
+import com.leon.counter_reading.enums.SharedReferenceKeys;
+import com.leon.counter_reading.enums.SharedReferenceNames;
+import com.leon.counter_reading.fragments.PossibleFragment;
 import com.leon.counter_reading.fragments.SearchFragment;
 import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.IFlashLightManager;
+import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.ReadingData;
 import com.leon.counter_reading.tables.TrackingDto;
@@ -53,6 +57,7 @@ import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.PermissionManager;
+import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import java.util.ArrayList;
 
@@ -70,6 +75,7 @@ public class ReadingActivity extends BaseActivity {
     ReadingData readingData;
     ReadingData readingDataTemp;
     ViewPagerAdapterReading viewPagerAdapterReading;
+    ISharedPreferenceManager sharedPreferenceManager;
     boolean isNight = false;
     int readStatus = 0, highLow = 1;
     ArrayList<Integer> isMane = new ArrayList<>();
@@ -82,6 +88,7 @@ public class ReadingActivity extends BaseActivity {
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
         activity = this;
+        sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
         if (MyApplication.POSITION == 1) {
             if (isNetworkAvailable(activity))
                 checkPermissions();
@@ -115,8 +122,7 @@ public class ReadingActivity extends BaseActivity {
     public void updateOnOffLoadWithoutCounterNumber(int position, int counterStateCode,
                                                     int counterStatePosition) {
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
-        attemptSend(position);
-        changePage();
+        attemptSend(position, false);
     }
 
     public void updateOnOffLoadByCounterSerial(int position, int counterStatePosition,
@@ -129,8 +135,7 @@ public class ReadingActivity extends BaseActivity {
                                                int counterStatePosition) {
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
         readingData.onOffLoadDtos.get(position).counterNumber = number;
-        attemptSend(position);
-        changePage();
+        attemptSend(position, false);
     }
 
     public void updateOnOffLoadByCounterNumber(int position, int number, int counterStateCode,
@@ -139,7 +144,20 @@ public class ReadingActivity extends BaseActivity {
         updateOnOffLoadByCounterNumber(position, number, counterStateCode, counterStatePosition);
     }
 
-    void attemptSend(int position) {
+    public void updateOnOffLoadByNavigation(int position, OnOffLoadDto onOffLoadDto) {
+        //TODO
+        readingData.onOffLoadDtos.get(position).possibleCounterSerial = onOffLoadDto.possibleCounterSerial;
+        readingData.onOffLoadDtos.get(position).possibleKarbariCode = onOffLoadDto.possibleKarbariCode;
+        readingData.onOffLoadDtos.get(position).possibleAhadTejariOrFari = onOffLoadDto.possibleAhadTejariOrFari;
+        readingData.onOffLoadDtos.get(position).possibleAhadMaskooniOrAsli = onOffLoadDto.possibleAhadMaskooniOrAsli;
+        readingData.onOffLoadDtos.get(position).possibleAhadSaierOrAbBaha = onOffLoadDto.possibleAhadSaierOrAbBaha;
+        readingData.onOffLoadDtos.get(position).possibleMobile = onOffLoadDto.possibleCounterSerial;
+        readingData.onOffLoadDtos.get(position).possibleAddress = onOffLoadDto.possibleCounterSerial;
+        readingData.onOffLoadDtos.get(position).possibleEshterak = onOffLoadDto.possibleEshterak;
+        attemptSend(position, true);
+    }
+
+    void update(int position) {
         readingData.onOffLoadDtos.get(position).x =
                 ((BaseActivity) activity).getGpsTracker().getLongitude();
         readingData.onOffLoadDtos.get(position).y =
@@ -148,7 +166,29 @@ public class ReadingActivity extends BaseActivity {
                 ((BaseActivity) activity).getGpsTracker().getAccuracy();
         MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
                 updateOnOffLoad(readingData.onOffLoadDtos.get(position));
-        setAboveIconsSrc(position);
+    }
+
+    void attemptSend(int position, boolean isForm) {
+        //TODO
+        if (!isForm && (sharedPreferenceManager.getBoolData(SharedReferenceKeys.SERIAL.getValue())
+                || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_FARI.getValue())
+                || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_ASLI.getValue())
+                || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_OTHER.getValue())
+                || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_EMPTY.getValue())
+                || sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue())
+                || sharedPreferenceManager.getBoolData(SharedReferenceKeys.ADDRESS.getValue())
+                || sharedPreferenceManager.getBoolData(SharedReferenceKeys.ACCOUNT.getValue())
+                || sharedPreferenceManager.getBoolData(SharedReferenceKeys.MOBILE.getValue()))) {
+            showPossible(position);
+        } else {
+            setAboveIconsSrc(position);
+            update(position);
+            prepareToSend(position);
+            changePage();
+        }
+    }
+
+    void prepareToSend(int position) {
         Retrofit retrofit = NetworkHelper.getInstance();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
@@ -169,6 +209,13 @@ public class ReadingActivity extends BaseActivity {
         Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
         HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activity,
                 new offLoadData(), new offLoadDataIncomplete(), new offLoadError());
+    }
+
+    void showPossible(int position) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        PossibleFragment possibleFragment;
+        possibleFragment = PossibleFragment.newInstance(readingData.onOffLoadDtos.get(position), position);
+        possibleFragment.show(fragmentTransaction, getString(R.string.dynamic_navigation));
     }
 
     void setAboveIconsSrc(int position) {

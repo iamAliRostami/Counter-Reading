@@ -25,7 +25,7 @@
             android:layout_margin="@dimen/low_dp"
             android:background="@drawable/border_gray_2"
             android:gravity="center"
-            android:hint="@string/counter_body_number"
+            android:hint="@string/counter_serial"
             android:inputType="number"
             android:maxLength="15"
             android:maxLines="1"

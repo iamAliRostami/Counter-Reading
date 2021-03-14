@@ -53,7 +53,7 @@ public class ReadingPossibleSettingFragment extends Fragment {
         binding.checkBoxOther.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_OTHER.getValue()));
         binding.checkBoxAccount.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.ACCOUNT.getValue()));
         binding.checkBoxAddress.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.ADDRESS.getValue()));
-        binding.checkBoxAhad.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_KHALI.getValue()));
+        binding.checkBoxAhad.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_EMPTY.getValue()));
         binding.checkBoxMobile.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.MOBILE.getValue()));
         binding.checkBoxKarbari.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue()));
         binding.checkBoxSerial.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.SERIAL.getValue()));
@@ -67,7 +67,7 @@ public class ReadingPossibleSettingFragment extends Fragment {
         });
         binding.checkBoxAhad.setOnClickListener(v -> {
 //            binding.checkBoxAhad.setChecked(!binding.checkBoxAhad.isChecked());
-            sharedPreferenceManager.putData(SharedReferenceKeys.AHAD_KHALI.getValue(), binding.checkBoxAhad.isChecked());
+            sharedPreferenceManager.putData(SharedReferenceKeys.AHAD_EMPTY.getValue(), binding.checkBoxAhad.isChecked());
         });
         binding.checkBoxAddress.setOnClickListener(v -> {
 //            binding.checkBoxAddress.setChecked(!binding.checkBoxAddress.isChecked());

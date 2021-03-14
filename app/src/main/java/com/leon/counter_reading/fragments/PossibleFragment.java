@@ -1,65 +1,127 @@
 package com.leon.counter_reading.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.DialogFragment;
 
-import com.leon.counter_reading.R;
+import com.google.gson.Gson;
+import com.leon.counter_reading.databinding.FragmentPossibleBinding;
+import com.leon.counter_reading.enums.BundleEnum;
+import com.leon.counter_reading.enums.SharedReferenceKeys;
+import com.leon.counter_reading.enums.SharedReferenceNames;
+import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
+import com.leon.counter_reading.tables.OnOffLoadDto;
+import com.leon.counter_reading.utils.SharedPreferenceManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PossibleFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class PossibleFragment extends Fragment {
+import org.jetbrains.annotations.NotNull;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.util.Objects;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class PossibleFragment extends DialogFragment {
+    FragmentPossibleBinding binding;
+    OnOffLoadDto onOffLoadDto;
+    int position;
+    Activity activity;
+    ISharedPreferenceManager sharedPreferenceManager;
 
     public PossibleFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PossibleFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PossibleFragment newInstance(String param1, String param2) {
+    public static PossibleFragment newInstance(OnOffLoadDto onOffLoadDto, int position) {
         PossibleFragment fragment = new PossibleFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+        fragment.setArguments(putBundle(onOffLoadDto, position));
         return fragment;
+    }
+
+    static Bundle putBundle(OnOffLoadDto onOffLoadDto, int position) {
+        Bundle args = new Bundle();
+        Gson gson = new Gson();
+        String json1 = gson.toJson(onOffLoadDto);
+        args.putString(BundleEnum.ON_OFF_LOAD.getValue(), json1);
+        args.putInt(BundleEnum.POSITION.getValue(), position);
+        return args;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getBundle();
+    }
+
+    void getBundle() {
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            Gson gson = new Gson();
+            onOffLoadDto = gson.fromJson(getArguments().getString(
+                    BundleEnum.ON_OFF_LOAD.getValue()), OnOffLoadDto.class);
+            position = getArguments().getInt(BundleEnum.POSITION.getValue());
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_possible, container, false);
+        binding = FragmentPossibleBinding.inflate(inflater, container, false);
+        activity = getActivity();
+        initialize();
+        return binding.getRoot();
+    }
+
+    void initialize() {
+        sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
+        initializeTextViews();
+    }
+
+    void initializeTextViews() {
+        //TODO
+        binding.editTextSerial.setVisibility(
+                sharedPreferenceManager.getBoolData(SharedReferenceKeys.SERIAL.getValue()) ?
+                        View.VISIBLE : View.GONE);
+        binding.editTextAddress.setVisibility(
+                sharedPreferenceManager.getBoolData(SharedReferenceKeys.ADDRESS.getValue()) ?
+                        View.VISIBLE : View.GONE);
+        binding.editTextAccount.setVisibility(
+                sharedPreferenceManager.getBoolData(SharedReferenceKeys.ACCOUNT.getValue()) ?
+                        View.VISIBLE : View.GONE);
+        binding.editTextAhadEmpty.setVisibility(
+                sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_EMPTY.getValue()) ?
+                        View.VISIBLE : View.GONE);
+        if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_OTHER.getValue())) {
+
+        }
+        initializeSpinner();
+    }
+
+    void initializeSpinner() {
+        binding.spinnerKarbari.setVisibility(
+                sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue()) ?
+                        View.VISIBLE : View.GONE);
+        if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue())) {
+
+        }
+    }
+
+    @Override
+    public void onResume() {
+        WindowManager.LayoutParams params = Objects.requireNonNull(getDialog()).getWindow().getAttributes();
+        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        getDialog().getWindow().setAttributes(params);
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

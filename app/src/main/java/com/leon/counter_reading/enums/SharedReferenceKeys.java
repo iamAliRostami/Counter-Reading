@@ -5,7 +5,7 @@ public enum SharedReferenceKeys {
     MOBILE("mobile"),
     SERIAL("serial"),
     ADDRESS("address"),
-    AHAD_KHALI("ahad_khali"),
+    AHAD_EMPTY("ahad_empty"),
     AHAD_ASLI("ahad_asli"),
     AHAD_FARI("ahad_fari"),
     AHAD_OTHER("ahad_other"),

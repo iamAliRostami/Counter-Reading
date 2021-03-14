@@ -21,6 +21,8 @@ import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentReadingBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.HighLowStateEnum;
+import com.leon.counter_reading.enums.SharedReferenceNames;
+import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
@@ -29,6 +31,7 @@ import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.utils.Counting;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.PermissionManager;
+import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,6 +42,7 @@ import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class ReadingFragment extends Fragment {
     FragmentReadingBinding binding;
+    ISharedPreferenceManager sharedPreferenceManager;
     SpinnerCustomAdapter adapter;
     OnOffLoadDto onOffLoadDto;
     ReadingConfigDefaultDto readingConfigDefaultDto;
@@ -119,7 +123,7 @@ public class ReadingFragment extends Fragment {
 
     void initialize() {
         activity = getActivity();
-
+        sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
         binding.editTextNumber.setOnLongClickListener(view -> {
             binding.editTextNumber.setText("");
             return false;
@@ -231,17 +235,41 @@ public class ReadingFragment extends Fragment {
         if (PermissionManager.gpsEnabledNew(activity))
             if (PermissionManager.checkLocationPermission(getContext())) {
                 askLocationPermission();
-            } else {
-                if (canBeEmpty) {
-                    canBeEmpty();
-                } else {
-                    canNotBeEmpty();
-                }
+                //TODO
+            } else /*if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.SERIAL.getValue())
+                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_FARI.getValue())
+                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_ASLI.getValue())
+                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_OTHER.getValue())
+                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_KHALI.getValue())
+                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue())
+                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.ADDRESS.getValue())
+                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.ACCOUNT.getValue())
+                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.MOBILE.getValue())) {
+                showPossible();
+            } else */ {
+                attemptSend();
             }
     }
 
     void onButtonSubmitClickListener() {
         binding.buttonSubmit.setOnClickListener(v -> checkPermissions());
+    }
+
+    public void attemptSend() {
+        if (canBeEmpty) {
+            canBeEmpty();
+        } else {
+            canNotBeEmpty();
+        }
+    }
+
+    void showPossible() {
+        FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity()).
+                getSupportFragmentManager().beginTransaction();
+        PossibleFragment possibleFragment;
+        possibleFragment = PossibleFragment.newInstance(onOffLoadDto, position);
+        possibleFragment.show(fragmentTransaction, getString(R.string.dynamic_navigation));
+
     }
 
     void canBeEmpty() {
@@ -259,9 +287,6 @@ public class ReadingFragment extends Fragment {
                 binding.editTextNumber.setError(getString(R.string.less_than_pre));
                 view.requestFocus();
             }
-//            else {
-//                canLessThanPre(currentNumber);
-//            }
         }
     }
 
