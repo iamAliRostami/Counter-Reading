@@ -1,6 +1,7 @@
 package com.leon.counter_reading.tables;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -50,6 +51,8 @@ public class OnOffLoadDto {
     public int possibleAhadMaskooniOrAsli;
     public int possibleAhadTejariOrFari;
     public int possibleAhadSaierOrAbBaha;
+    @Ignore
+    public int possibleAhadEmpty;
     public int possibleKarbariCode;
     public String description;
     //TODO
@@ -77,6 +80,7 @@ public class OnOffLoadDto {
         public final int possibleAhadMaskooniOrAsli;
         public final int possibleAhadTejariOrFari;
         public final int possibleAhadSaierOrAbBaha;
+        public final int possibleAhadEmpty;
         public final int possibleKarbariCode;
         public final String description;
         public final boolean counterNumberShown;
@@ -96,6 +100,7 @@ public class OnOffLoadDto {
             possibleAhadMaskooniOrAsli = onOffLoadDto.possibleAhadMaskooniOrAsli;
             possibleAhadSaierOrAbBaha = onOffLoadDto.possibleAhadSaierOrAbBaha;
             possibleAhadTejariOrFari = onOffLoadDto.possibleAhadTejariOrFari;
+            possibleAhadEmpty = onOffLoadDto.possibleAhadEmpty;
             possibleKarbariCode = onOffLoadDto.possibleKarbariCode;
             description = onOffLoadDto.description;
             counterNumberShown = onOffLoadDto.counterNumberShown;

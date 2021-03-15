@@ -23,9 +23,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/low_dp"
                 android:background="@drawable/border_gray_2"
+                android:padding="@dimen/low_dp"
                 android:text="@string/mobile_number"
                 android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/check_box_address"
@@ -33,9 +35,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/low_dp"
                 android:background="@drawable/border_gray_2"
+                android:padding="@dimen/low_dp"
                 android:text="@string/address"
                 android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/check_box_karbari"
@@ -43,9 +47,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/low_dp"
                 android:background="@drawable/border_gray_2"
+                android:padding="@dimen/low_dp"
                 android:text="@string/karbari"
                 android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/check_box_account"
@@ -53,9 +59,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/low_dp"
                 android:background="@drawable/border_gray_2"
+                android:padding="@dimen/low_dp"
                 android:text="@string/account"
                 android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/check_box_serial"
@@ -63,9 +71,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/low_dp"
                 android:background="@drawable/border_gray_2"
+                android:padding="@dimen/low_dp"
                 android:text="@string/counter_serial"
                 android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/check_box_ahad"
@@ -73,9 +83,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/low_dp"
                 android:background="@drawable/border_gray_2"
+                android:padding="@dimen/low_dp"
                 android:text="@string/empty_ahad"
                 android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/check_box_maskooni"
@@ -83,9 +95,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/low_dp"
                 android:background="@drawable/border_gray_2"
+                android:padding="@dimen/low_dp"
                 android:text="@string/ahad_asli_"
                 android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/check_box_tejari"
@@ -93,9 +107,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/low_dp"
                 android:background="@drawable/border_gray_2"
+                android:padding="@dimen/low_dp"
                 android:text="@string/ahad_fari_"
                 android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/check_box_other"
@@ -103,9 +119,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/low_dp"
                 android:background="@drawable/border_gray_2"
+                android:padding="@dimen/low_dp"
                 android:text="@string/ahad_masraf_"
                 android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

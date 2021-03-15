@@ -77,7 +77,9 @@ public class NavigationActivity extends AppCompatActivity {
                 view = binding.editTextAddress;
                 cancel = true;
             }
-            if (!cancel) {
+            if (cancel) {
+                view.requestFocus();
+            } else {
                 MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
                         updateOnOffLoad(uuid, binding.editTextAccount.getText().toString(),
                                 binding.editTextMobile.getText().toString(),
@@ -89,7 +91,7 @@ public class NavigationActivity extends AppCompatActivity {
                 intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);
                 setResult(RESULT_OK, intent);
                 finish();
-            } else view.requestFocus();
+            }
         });
     }
 

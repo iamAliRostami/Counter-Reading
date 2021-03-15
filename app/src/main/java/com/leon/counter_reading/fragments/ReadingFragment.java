@@ -263,15 +263,6 @@ public class ReadingFragment extends Fragment {
         }
     }
 
-    void showPossible() {
-        FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity()).
-                getSupportFragmentManager().beginTransaction();
-        PossibleFragment possibleFragment;
-        possibleFragment = PossibleFragment.newInstance(onOffLoadDto, position);
-        possibleFragment.show(fragmentTransaction, getString(R.string.dynamic_navigation));
-
-    }
-
     void canBeEmpty() {
         if (binding.editTextNumber.getText().toString().isEmpty()) {
             ((ReadingActivity) activity).updateOnOffLoadWithoutCounterNumber(position,

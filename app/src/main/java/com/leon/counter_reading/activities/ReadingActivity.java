@@ -151,8 +151,10 @@ public class ReadingActivity extends BaseActivity {
         readingData.onOffLoadDtos.get(position).possibleAhadTejariOrFari = onOffLoadDto.possibleAhadTejariOrFari;
         readingData.onOffLoadDtos.get(position).possibleAhadMaskooniOrAsli = onOffLoadDto.possibleAhadMaskooniOrAsli;
         readingData.onOffLoadDtos.get(position).possibleAhadSaierOrAbBaha = onOffLoadDto.possibleAhadSaierOrAbBaha;
-        readingData.onOffLoadDtos.get(position).possibleMobile = onOffLoadDto.possibleCounterSerial;
-        readingData.onOffLoadDtos.get(position).possibleAddress = onOffLoadDto.possibleCounterSerial;
+
+        readingData.onOffLoadDtos.get(position).possibleAhadEmpty = onOffLoadDto.possibleAhadEmpty;
+        readingData.onOffLoadDtos.get(position).possibleMobile = onOffLoadDto.possibleMobile;
+        readingData.onOffLoadDtos.get(position).possibleAddress = onOffLoadDto.possibleAddress;
         readingData.onOffLoadDtos.get(position).possibleEshterak = onOffLoadDto.possibleEshterak;
         attemptSend(position, true);
     }

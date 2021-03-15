@@ -51,7 +51,6 @@ public class SharedPreferenceManager implements ISharedPreferenceManager {
 
     @Override
     public void putData(String key, boolean value) {
-        Log.e("check 1", String.valueOf(value));
         SharedPreferences.Editor prefsEditor = appPrefs.edit();
         prefsEditor.putBoolean(key, value);
         prefsEditor.apply();
