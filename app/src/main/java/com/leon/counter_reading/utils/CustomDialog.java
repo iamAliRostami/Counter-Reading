@@ -20,7 +20,8 @@ public class CustomDialog {
     final String Message;
     final String ButtonText;
 
-    public CustomDialog(DialogType choose, Context context, String message, String title, String top, String buttonText) {
+    public CustomDialog(DialogType choose, Context context, String message, String title,
+                        String top, String buttonText) {
         this.context = context;
         Message = message;
         Title = title;

@@ -30,7 +30,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/account"
-                    android:textColor="@color/text_color_dark"
                     android:textSize="@dimen/text_size_large" />
 
                 <LinearLayout
@@ -69,7 +68,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/phone_number"
-                    android:textColor="@color/text_color_dark"
                     android:textSize="@dimen/text_size_large" />
 
                 <LinearLayout
@@ -109,7 +107,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/mobile_number"
-                    android:textColor="@color/text_color_dark"
                     android:textSize="@dimen/text_size_large" />
 
                 <LinearLayout
@@ -150,7 +147,6 @@
                     android:layout_gravity="center"
                     android:maxLines="15"
                     android:text="@string/counter_serial"
-                    android:textColor="@color/text_color_dark"
                     android:textSize="@dimen/text_size_large" />
 
                 <LinearLayout
@@ -191,7 +187,6 @@
                     android:layout_gravity="center"
                     android:maxLength="50"
                     android:text="@string/address"
-                    android:textColor="@color/text_color_dark"
                     android:textSize="@dimen/text_size_large" />
 
                 <LinearLayout
@@ -231,7 +226,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/empty_ahad"
-                    android:textColor="@color/text_color_dark"
                     android:textSize="@dimen/text_size_large" />
 
                 <LinearLayout
