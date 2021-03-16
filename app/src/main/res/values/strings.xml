@@ -22,15 +22,15 @@
 
 
     <string name="error_upload">بارگذاری با خطا رو برو شد.</string>
-    <string name="error_not_auth">ممجوزهای دسترسی به شما اعطا نشده است، با پشتیبان تماس گرفته و از برنامه خارج و مجددا وارد شوید.</string>
+    <string name="error_not_auth">مجوزهای دسترسی شما باطل شده،از برنامه خارج و مجددا وارد شوید. در صورت عدم رفع مشکل با پشتیبان تماس بگیرید.</string>
     <string name="error_connection">خطا در جابجایی اطلاعات، اتصالات خود را بررسی و مجدد تلاش کنید.</string>
     <string name="error_external_storage_is_not_writable">حافظه خارجی قابلی نوشتن نیست.</string>
     <string name="error_in_record_voice">در ضبط صدا مشکلی به وجود آمد</string>
     <string name="error_in_play_voice">در پخش صدا مشکلی به وجود آمد</string>
     <string name="dear_user">همکار گرامی!</string>
-    <string name="error_other">در حال حاضر خدمات مقدور نمیباشد، لطفا مجددا تلاش فرمایید.</string>
-    <string name="error_internal">با عرض پوزش، سرور در حال به روزرسانی، لطفا دقایقی دیگر امتحان فرمایید.</string>
-    <string name="error_change_server">سرور در حال تغییرات است، لطفا منتظر بمانید و در صورت برطرف نشدن مشکل با پشتیبان تماس حاصل فرمایید.</string>
+    <string name="error_other">خدمات فعلا مقدور نمیباشد، لحظاتی دیگر مجددا تلاش فرمایید.</string>
+    <string name="error_internal">در حال به روزرسانی، لحظاتی دیگر امتحان فرمایید.</string>
+    <string name="error_change_server">در حال تغییرات، منتظر بمانید و در صورت برطرف نشدن مشکل، با پشتیبان تماس حاصل فرمایید.</string>
     <string name="error_empty">این فیلد باید پر شود.</string>
     <string name="error_format">فرمت وارد شده صحیح نمیباشد.</string>
     <string name="error_is_not_match">نام کاربری و گذرواژه با یکدیگر مطابقت ندارند</string>
@@ -209,5 +209,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dynamic_navigation">پیمایش پویا</string>
     <string name="none">هیچکدام</string>
+    <string name="not_respond">پاسخی دریافت نشد.</string>
+    <string name="error_overload">به علت حجم بالای درخواست، امکان پاسخ دهی وجود ندارد. مجددا تلاش کنید.</string>
+    <string name="error_turn_off_proxy">از خاموش بودن پروکسی بر روی دستگاه خود اطمینان حاصل کنید.</string>
 
 </resources>

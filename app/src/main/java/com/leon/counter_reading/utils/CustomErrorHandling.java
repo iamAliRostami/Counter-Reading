@@ -32,11 +32,19 @@ public class CustomErrorHandling {
     public <T> String getErrorMessageDefault(Response<T> response) {
         String errorMessage;
         int code = response.code();
-        if (code >= 500 && code < 600) {
+        if (code == 504) {
+            errorMessage = context.getString(R.string.not_respond);
+        } else if (code == 503) {
+            errorMessage = context.getString(R.string.error_overload);
+        }
+//        else if (code == 502) {
+//            errorMessage = context.getString(R.string.error_turn_off_proxy);
+//        }
+        else if (code >= 500 && code < 600) {
             errorMessage = context.getString(R.string.error_internal);
         } else if (code == 404) {
             errorMessage = context.getString(R.string.error_change_server);
-        } else if (code >= 400 && code < 500) {
+        } else if (code == 401 || code == 403) {
             errorMessage = context.getString(R.string.error_not_auth);
         } else {
             errorMessage = context.getString(R.string.error_other);

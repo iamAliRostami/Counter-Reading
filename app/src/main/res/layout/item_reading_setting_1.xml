@@ -44,7 +44,7 @@
                 android:layout_margin="@dimen/small_dp"
                 android:gravity="center"
                 android:text="@string/eshterak"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_light"
                 android:textSize="@dimen/text_size_small" />
 
             <TextView
@@ -54,7 +54,7 @@
                 android:layout_margin="@dimen/small_dp"
                 android:gravity="center"
                 android:text="@string/from"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_light"
                 android:textSize="@dimen/text_size_small" />
 
             <TextView
@@ -65,7 +65,7 @@
                 android:layout_margin="@dimen/low_dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_light"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
@@ -76,7 +76,7 @@
                 android:layout_margin="@dimen/small_dp"
                 android:gravity="center"
                 android:text="@string/end"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_light"
                 android:textSize="@dimen/text_size_small" />
 
             <TextView
@@ -87,7 +87,7 @@
                 android:layout_margin="@dimen/low_dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_light"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -112,7 +112,7 @@
                 android:layout_margin="@dimen/low_dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_light"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
@@ -129,7 +129,7 @@
                 android:layout_margin="@dimen/low_dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_light"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -153,7 +153,7 @@
                 android:layout_margin="@dimen/small_dp"
                 android:gravity="center"
                 android:text="@string/date"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_light"
                 android:textSize="@dimen/text_size_small" />
 
             <TextView
@@ -163,7 +163,7 @@
                 android:layout_margin="@dimen/small_dp"
                 android:gravity="center"
                 android:text="@string/from"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_light"
                 android:textSize="@dimen/text_size_small" />
 
             <TextView
@@ -174,7 +174,7 @@
                 android:layout_margin="@dimen/low_dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_light"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
@@ -185,7 +185,7 @@
                 android:layout_margin="@dimen/small_dp"
                 android:gravity="center"
                 android:text="@string/end"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_light"
                 android:textSize="@dimen/text_size_small" />
 
             <TextView
@@ -196,7 +196,7 @@
                 android:layout_margin="@dimen/low_dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_light"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </LinearLayout>

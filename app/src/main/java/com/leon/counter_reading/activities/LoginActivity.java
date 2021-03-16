@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Debug;
 import android.text.InputType;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -232,7 +233,7 @@ public class LoginActivity extends AppCompatActivity {
                     loginFeedBack.access_token.length() < 1 ||
                     loginFeedBack.refresh_token.length() < 1) {
                 CustomToast customToast = new CustomToast();
-                customToast.warning(getString(R.string.error_is_not_match));
+                customToast.warning(getString(R.string.error_is_not_match), Toast.LENGTH_LONG);
             } else {
                 List<String> cookieList = response.headers().values("Set-Cookie");
                 loginFeedBack.XSRFToken = (cookieList.get(1).split(";"))[0];
@@ -255,7 +256,7 @@ public class LoginActivity extends AppCompatActivity {
             if (response.code() == 401) {
                 error = LoginActivity.this.getString(R.string.error_is_not_match);
                 CustomToast customToast = new CustomToast();
-                customToast.warning(error);
+                customToast.warning(error, Toast.LENGTH_LONG);
             } else
                 new CustomDialog(DialogType.Yellow, LoginActivity.this, error,
                         LoginActivity.this.getString(R.string.dear_user),
