@@ -3,6 +3,7 @@ package com.leon.counter_reading.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,10 +50,12 @@ public class ReportTemporaryFragment extends Fragment {
         Bundle args = new Bundle();
         Gson gson = new Gson();
         ArrayList<String> json1 = new ArrayList<>();
-        for (CounterStateDto counterStateDto : counterStateDtos) {
-            String jsonTemp = gson.toJson(counterStateDto);
-            json1.add(jsonTemp);
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            counterStateDtos.forEach(counterStateDto -> json1.add(gson.toJson(counterStateDto)));
+        else
+            for (CounterStateDto counterStateDto : counterStateDtos) {
+                json1.add(gson.toJson(counterStateDto));
+            }
         args.putStringArrayList(BundleEnum.COUNTER_STATE.getValue(), json1);
         args.putInt(BundleEnum.TOTAL.getValue(), total);
         args.putInt(BundleEnum.IS_MANE.getValue(), isMane);
@@ -98,13 +101,14 @@ public class ReportTemporaryFragment extends Fragment {
                 Gson gson = new Gson();
                 ArrayList<String> json1 = new ArrayList<>();
                 if (position == 0) {
-                    for (CounterStateDto counterStateDto : counterStateDtos) {
-                        String jsonTemp = gson.toJson(counterStateDto.id);
-                        json1.add(jsonTemp);
-                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        counterStateDtos.forEach(counterStateDto -> json1.add(gson.toJson(counterStateDto.id)));
+                    } else
+                        for (CounterStateDto counterStateDto : counterStateDtos) {
+                            json1.add(gson.toJson(counterStateDto.id));
+                        }
                 } else {
-                    String jsonTemp = gson.toJson(counterStateDtos.get(position - 1).id);
-                    json1.add(jsonTemp);
+                    json1.add(gson.toJson(counterStateDtos.get(position - 1).id));
                 }
                 intent.putExtra(BundleEnum.IS_MANE.getValue(), json1);
                 intent.putExtra(BundleEnum.READ_STATUS.getValue(), ReadStatusEnum.ALL_MANE.getValue());
@@ -121,15 +125,22 @@ public class ReportTemporaryFragment extends Fragment {
 
     void getBundle() {
         if (getArguments() != null) {
+            total = getArguments().getInt(BundleEnum.TOTAL.getValue());
+            isMane = getArguments().getInt(BundleEnum.IS_MANE.getValue());
             Gson gson = new Gson();
             ArrayList<String> json1 = getArguments().getStringArrayList(
                     BundleEnum.COUNTER_STATE.getValue());
-            for (String s : json1) {
-                counterStateDtos.add(gson.fromJson(s, CounterStateDto.class));
-                items.add(counterStateDtos.get(counterStateDtos.size() - 1).title);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                json1.forEach(s -> {
+                    counterStateDtos.add(gson.fromJson(s, CounterStateDto.class));
+                    items.add(counterStateDtos.get(counterStateDtos.size() - 1).title);
+                });
+            } else {
+                for (String s : json1) {
+                    counterStateDtos.add(gson.fromJson(s, CounterStateDto.class));
+                    items.add(counterStateDtos.get(counterStateDtos.size() - 1).title);
+                }
             }
-            total = getArguments().getInt(BundleEnum.TOTAL.getValue());
-            isMane = getArguments().getInt(BundleEnum.IS_MANE.getValue());
         }
     }
 

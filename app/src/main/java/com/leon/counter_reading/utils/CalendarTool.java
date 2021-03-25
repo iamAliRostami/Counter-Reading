@@ -63,9 +63,13 @@ public class CalendarTool {
     @SuppressLint("SimpleDateFormat")
     public static long findDifferentDays(String preDate) {
         CalendarTool calendarToolPre = new CalendarTool();
-        calendarToolPre.setIranianDate(1300 + Integer.parseInt(preDate.substring(0, 2)),
-                Integer.parseInt(preDate.substring(3, 5)),
-                Integer.parseInt(preDate.substring(6, 8)));
+        if (preDate.length() == 8)
+            calendarToolPre.setIranianDate(1300 + Integer.parseInt(preDate.substring(0, 2)),
+                    Integer.parseInt(preDate.substring(3, 5)),
+                    Integer.parseInt(preDate.substring(6, 8)));
+        else calendarToolPre.setIranianDate(Integer.parseInt(preDate.substring(0, 4)),
+                Integer.parseInt(preDate.substring(5, 7)),
+                Integer.parseInt(preDate.substring(8, 10)));
 
         String date = calendarToolPre.getGregorianYear() + "-";
         if (calendarToolPre.getGregorianMonth() < 10)

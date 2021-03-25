@@ -1,6 +1,7 @@
 package com.leon.counter_reading.fragments;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +14,13 @@ import com.leon.counter_reading.databinding.FragmentDownloadBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.ProgressType;
+import com.leon.counter_reading.enums.SharedReferenceKeys;
+import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
+import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.CounterReportDto;
 import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.KarbariDto;
@@ -32,6 +36,7 @@ import com.leon.counter_reading.utils.HttpClientWrapper;
 import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
+import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -86,7 +91,8 @@ public class DownloadFragment extends Fragment {
     }
 
     void downloadType() {
-        Retrofit retrofit = NetworkHelper.getInstance();
+        ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(context, SharedReferenceNames.ACCOUNT.getValue());
+        Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         Call<ReadingData> call = iAbfaService.loadData();
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), context,
@@ -109,25 +115,54 @@ public class DownloadFragment extends Fragment {
                 MyDatabase myDatabase = MyDatabaseClient.getInstance(context).getMyDatabase();
                 ArrayList<TrackingDto> trackingDtos = new ArrayList<>(
                         myDatabase.trackingDao().getTrackingDtoNotArchive(false));
-                for (TrackingDto trackingDto : trackingDtos)
-                    for (int i = 0; i < readingDataTemp.trackingDtos.size(); i++) {
-                        if (trackingDto.id.equals(readingDataTemp.trackingDtos.get(i).id))
-                            readingData.trackingDtos.remove(readingDataTemp.trackingDtos.get(i));
-                    }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    trackingDtos.forEach(trackingDto -> {
+                        for (int i = 0; i < readingDataTemp.trackingDtos.size(); i++) {
+                            if (trackingDto.id.equals(readingDataTemp.trackingDtos.get(i).id))
+                                readingData.trackingDtos.remove(readingDataTemp.trackingDtos.get(i));
+                        }
+                    });
+                } else
+                    for (TrackingDto trackingDto : trackingDtos)
+                        for (TrackingDto trackingDto1 : readingDataTemp.trackingDtos) {
+                            if (trackingDto.id.equals(trackingDto1.id))
+                                readingData.trackingDtos.remove(trackingDto1);
+                        }
                 myDatabase.trackingDao().insertAllTrackingDtos(readingData.trackingDtos);
 
                 ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>(
                         myDatabase.counterStateDao().getCounterStateDtos());
-                for (CounterStateDto counterStateDto : counterStateDtos)
-                    for (int i = 0; i < readingDataTemp.counterStateDtos.size(); i++) {
-                        if (counterStateDto.id == readingDataTemp.counterStateDtos.get(i).id)
-                            readingData.counterStateDtos.remove(
-                                    readingDataTemp.counterStateDtos.get(i));
-                    }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    counterStateDtos.forEach(counterStateDto -> {
+                        for (int i = 0; i < readingDataTemp.counterStateDtos.size(); i++) {
+                            if (counterStateDto.id == readingDataTemp.counterStateDtos.get(i).id)
+                                readingData.counterStateDtos.remove(
+                                        readingDataTemp.counterStateDtos.get(i));
+                        }
+                    });
+                } else
+                    for (CounterStateDto counterStateDto : counterStateDtos)
+                        for (CounterStateDto counterStateDto1 : readingDataTemp.counterStateDtos) {
+                            if (counterStateDto.id == counterStateDto1.id)
+                                readingData.counterStateDtos.remove(counterStateDto1);
+                        }
                 myDatabase.counterStateDao().insertAllCounterStateDto(readingData.counterStateDtos);
 
                 ArrayList<KarbariDto> karbariDtos = new ArrayList<>(
                         myDatabase.karbariDao().getAllKarbariDto());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    karbariDtos.forEach(karbariDto -> {
+                        for (int i = 0; i < readingDataTemp.karbariDtos.size(); i++) {
+                            if (karbariDto.id == readingDataTemp.karbariDtos.get(i).id)
+                                readingData.karbariDtos.remove(readingDataTemp.karbariDtos.get(i));
+                        }
+                    });
+                } else
+                    for (KarbariDto karbariDto : karbariDtos)
+                        for (KarbariDto karbariDto1 : readingDataTemp.karbariDtos) {
+                            if (karbariDto.id == karbariDto1.id)
+                                readingData.karbariDtos.remove(karbariDto1);
+                        }
                 for (KarbariDto karbariDto : karbariDtos)
                     for (int i = 0; i < readingDataTemp.karbariDtos.size(); i++) {
                         if (karbariDto.id == readingDataTemp.karbariDtos.get(i).id)
@@ -205,8 +240,7 @@ public class DownloadFragment extends Fragment {
         public void executeError(Throwable t) {
             CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(context);
             String error = customErrorHandlingNew.getErrorMessageTotal(t);
-            CustomToast customToast = new CustomToast();
-            customToast.error(error);
+            new CustomToast().error(error);
         }
     }
 

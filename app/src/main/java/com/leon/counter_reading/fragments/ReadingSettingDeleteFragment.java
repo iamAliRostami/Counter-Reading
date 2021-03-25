@@ -2,6 +2,7 @@ package com.leon.counter_reading.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,13 +64,18 @@ public class ReadingSettingDeleteFragment extends Fragment {
             Gson gson = new Gson();
             ArrayList<String> json = getArguments().getStringArrayList(
                     BundleEnum.TRACKING.getValue());
-            for (String s : json) {
-                trackingDtos.add(gson.fromJson(s, TrackingDto.class));
-            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                json.forEach(s -> trackingDtos.add(gson.fromJson(s, TrackingDto.class)));
+            } else
+                for (String s : json) trackingDtos.add(gson.fromJson(s, TrackingDto.class));
+
             json = getArguments().getStringArrayList(BundleEnum.READING_CONFIG.getValue());
-            for (String s : json) {
-                readingConfigDefaultDtos.add(gson.fromJson(s, ReadingConfigDefaultDto.class));
-            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                json.forEach(s -> readingConfigDefaultDtos.add(gson.fromJson(s, ReadingConfigDefaultDto.class)));
+            } else
+                for (String s : json) {
+                    readingConfigDefaultDtos.add(gson.fromJson(s, ReadingConfigDefaultDto.class));
+                }
         }
     }
 
@@ -110,9 +116,12 @@ public class ReadingSettingDeleteFragment extends Fragment {
 
     void initializeSpinner() {
         if (trackingDtos.size() > 0 && readingConfigDefaultDtos.size() > 0) {
-            for (TrackingDto trackingDto : trackingDtos) {
-                items.add(String.valueOf(trackingDto.trackNumber));
-            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                trackingDtos.forEach(trackingDto -> items.add(String.valueOf(trackingDto.trackNumber)));
+            } else
+                for (TrackingDto trackingDto : trackingDtos) {
+                    items.add(String.valueOf(trackingDto.trackNumber));
+                }
         }
         items.add(0, getString(R.string.all_items));
         adapter = new SpinnerCustomAdapter(activity, items);

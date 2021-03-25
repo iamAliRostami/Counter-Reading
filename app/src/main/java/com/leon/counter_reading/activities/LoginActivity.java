@@ -46,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
     Context context;
     String username, password;
+    int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,9 +139,26 @@ public class LoginActivity extends AppCompatActivity {
             if (!cancel) {
                 username = binding.editTextUsername.getText().toString();
                 password = binding.editTextPassword.getText().toString();
-                attemptLogin();
+                counter++;
+                if (counter < 4)
+                    attemptLogin();
+                else
+                    offlineLogin();
             }
         });
+    }
+
+    void offlineLogin() {
+        if (sharedPreferenceManager.getStringData(SharedReferenceKeys.USERNAME.getValue()).equals(username) &&
+                Crypto.decrypt(sharedPreferenceManager.getStringData(SharedReferenceKeys.PASSWORD.getValue()))
+                        .equals(password)) {
+            new CustomToast().info(getString(R.string.check_connection), Toast.LENGTH_LONG);
+            Intent intent = new Intent(context, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            new CustomToast().warning(getString(R.string.error_is_not_match), Toast.LENGTH_LONG);
+        }
     }
 
     void attemptLogin() {
@@ -232,8 +250,7 @@ public class LoginActivity extends AppCompatActivity {
                     loginFeedBack.refresh_token == null ||
                     loginFeedBack.access_token.length() < 1 ||
                     loginFeedBack.refresh_token.length() < 1) {
-                CustomToast customToast = new CustomToast();
-                customToast.warning(getString(R.string.error_is_not_match), Toast.LENGTH_LONG);
+                new CustomToast().warning(getString(R.string.error_is_not_match), Toast.LENGTH_LONG);
             } else {
                 List<String> cookieList = response.headers().values("Set-Cookie");
                 loginFeedBack.XSRFToken = (cookieList.get(1).split(";"))[0];
@@ -255,8 +272,7 @@ public class LoginActivity extends AppCompatActivity {
             String error = customErrorHandlingNew.getErrorMessageDefault(response);
             if (response.code() == 401) {
                 error = LoginActivity.this.getString(R.string.error_is_not_match);
-                CustomToast customToast = new CustomToast();
-                customToast.warning(error, Toast.LENGTH_LONG);
+                new CustomToast().warning(error, Toast.LENGTH_LONG);
             } else
                 new CustomDialog(DialogType.Yellow, LoginActivity.this, error,
                         LoginActivity.this.getString(R.string.dear_user),

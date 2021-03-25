@@ -58,8 +58,7 @@ public class HttpClientWrapper {
         } else {
             if (progressBar.getDialog() != null)
                 progressBar.getDialog().dismiss();
-            CustomToast customToast = new CustomToast();
-            customToast.warning(context.getString(R.string.turn_internet_on));
+            new CustomToast().warning(context.getString(R.string.turn_internet_on));
         }
     }
 
@@ -101,8 +100,7 @@ public class HttpClientWrapper {
         } else {
             if (progressBarCancelable.getDialog() != null)
                 progressBarCancelable.getDialog().dismiss();
-            CustomToast customToast = new CustomToast();
-            customToast.warning(context.getString(R.string.turn_internet_on));
+            new CustomToast().warning(context.getString(R.string.turn_internet_on));
         }
     }
 }

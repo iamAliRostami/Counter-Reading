@@ -1,6 +1,7 @@
 package com.leon.counter_reading.fragments;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +25,6 @@ public class ReadingSettingFragment extends Fragment {
     FragmentReadingSettingBinding binding;
     final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
     final ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
-    //    ArrayList<Boolean> isActives = new ArrayList<>();
-//    ArrayList<Integer> zoneIds = new ArrayList<>();
     Context context;
 
     public ReadingSettingFragment() {
@@ -59,13 +58,17 @@ public class ReadingSettingFragment extends Fragment {
             Gson gson = new Gson();
             ArrayList<String> json = getArguments().getStringArrayList(
                     BundleEnum.TRACKING.getValue());
-            for (String s : json) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                json.forEach(s -> trackingDtos.add(gson.fromJson(s, TrackingDto.class)));
+            } else for (String s : json) {
                 trackingDtos.add(gson.fromJson(s, TrackingDto.class));
             }
             json = getArguments().getStringArrayList(BundleEnum.READING_CONFIG.getValue());
-            for (String s : json) {
-                readingConfigDefaultDtos.add(gson.fromJson(s, ReadingConfigDefaultDto.class));
-            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                json.forEach(s -> readingConfigDefaultDtos.add(gson.fromJson(s, ReadingConfigDefaultDto.class)));
+            else
+                for (String s : json)
+                    readingConfigDefaultDtos.add(gson.fromJson(s, ReadingConfigDefaultDto.class));
         }
     }
 

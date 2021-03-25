@@ -31,8 +31,7 @@ public final class FlashLightManager implements IFlashLightManager {
                 e.printStackTrace();
             }
         } else {
-            CustomToast customToast = new CustomToast();
-            customToast.error(context.getString(R.string.has_no_flash));
+            new CustomToast().error(context.getString(R.string.has_no_flash));
         }
         return isFlashOn;
     }

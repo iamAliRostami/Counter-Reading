@@ -57,7 +57,6 @@ public class LocationFragment extends Fragment {
         mapController.setZoom(19.0);
         double latitude = ((BaseActivity) context).getGpsTracker().getLatitude();
         double longitude = ((BaseActivity) context).getGpsTracker().getLongitude();
-
         GeoPoint startPoint = new GeoPoint(latitude, longitude);
         mapController.setCenter(startPoint);
         MyLocationNewOverlay locationOverlay =

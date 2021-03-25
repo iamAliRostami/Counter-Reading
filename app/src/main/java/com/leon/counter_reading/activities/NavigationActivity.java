@@ -55,34 +55,36 @@ public class NavigationActivity extends AppCompatActivity {
         binding.buttonNavigation.setOnClickListener(v -> {
             View view = null;
             boolean cancel = false;
-            if (binding.editTextAccount.getText().toString().length() < 7) {
+            if (binding.editTextAccount.getText().toString().length() > 0 &&
+                    binding.editTextAccount.getText().toString().length() < 7) {
                 binding.editTextAccount.setError(getString(R.string.error_format));
                 view = binding.editTextAccount;
                 cancel = true;
-            } else if (binding.editTextPhone.getText().toString().length() < 8) {
+            } else if (binding.editTextPhone.getText().toString().length() > 0 &&
+                    binding.editTextPhone.getText().toString().length() < 8) {
                 binding.editTextPhone.setError(getString(R.string.error_format));
                 view = binding.editTextPhone;
                 cancel = true;
-            } else if (binding.editTextMobile.getText().toString().length() < 11 ||
-                    !binding.editTextMobile.getText().toString().substring(0, 2).contains("09")) {
+            } else if (binding.editTextMobile.getText().toString().length() > 0 &&
+                    (binding.editTextMobile.getText().toString().length() < 11 ||
+                            !binding.editTextMobile.getText().toString().substring(0, 2).contains("09"))) {
                 binding.editTextMobile.setError(getString(R.string.error_format));
                 view = binding.editTextMobile;
                 cancel = true;
-            } else if (binding.editTextSerialCounter.getText().toString().length() < 3) {
+            } else if (binding.editTextSerialCounter.getText().toString().length() > 0 &&
+                    binding.editTextSerialCounter.getText().toString().length() < 3) {
                 binding.editTextSerialCounter.setError(getString(R.string.error_format));
                 view = binding.editTextSerialCounter;
-                cancel = true;
-            } else if (binding.editTextAddress.getText().toString().isEmpty()) {
-                binding.editTextAddress.setError(getString(R.string.error_empty));
-                view = binding.editTextAddress;
                 cancel = true;
             }
             if (cancel) {
                 view.requestFocus();
             } else {
+                int possibleEmpty = binding.editTextEmpty.getText().length() > 0 ? Integer.parseInt(binding.editTextEmpty.getText().toString()) : 0;
                 MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
                         updateOnOffLoad(uuid, binding.editTextAccount.getText().toString(),
                                 binding.editTextMobile.getText().toString(),
+                                possibleEmpty,
                                 binding.editTextPhone.getText().toString(),
                                 binding.editTextSerialCounter.getText().toString(),
                                 binding.editTextAddress.getText().toString());

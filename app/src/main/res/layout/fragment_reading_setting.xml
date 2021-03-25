@@ -23,5 +23,5 @@
         android:layout_margin="@dimen/low_dp"
         android:divider="@null"
         android:dividerHeight="@dimen/low_dp"
-        tools:listitem="@layout/item_public" />
+        tools:listitem="@layout/item_reading_setting_2" />
 </FrameLayout>

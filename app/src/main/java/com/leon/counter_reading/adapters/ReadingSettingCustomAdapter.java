@@ -71,14 +71,11 @@ public class ReadingSettingCustomAdapter extends BaseAdapter {
         holder.textViewEndEshterak.setText(trackingDtos.get(position).toEshterak);
         holder.textViewStartDate.setText(trackingDtos.get(position).fromDate);
         holder.textViewEndDate.setText(trackingDtos.get(position).toDate);
+        holder.textViewNumber.setText(String.valueOf(trackingDtos.get(position).itemQuantity));
 
         holder.linearLayout.setOnClickListener(view1 -> {
             holder.checkBox.setChecked(!holder.checkBox.isChecked());
             trackingDtos.get(position).isActive = holder.checkBox.isChecked();
-//            selected.set(position, holder.checkBox.isChecked());
-//            MyDatabaseClient.getInstance(context).getMyDatabase().
-//                    readingConfigDefaultDao().updateReadingConfigDefaultByStatus(
-//                    zoneIds.get(position), selected.get(position));
             MyDatabaseClient.getInstance(context).getMyDatabase().
                     trackingDao().updateTrackingDtoByStatus(
                     trackingDtos.get(position).id, trackingDtos.get(position).isActive);
@@ -96,6 +93,7 @@ public class ReadingSettingCustomAdapter extends BaseAdapter {
         final TextView textViewEndDate;
         final TextView textViewStartEshterak;
         final TextView textViewEndEshterak;
+        final TextView textViewNumber;
 
         CheckBoxViewHolder(View view) {
             checkBox = view.findViewById(android.R.id.text1);
@@ -106,6 +104,7 @@ public class ReadingSettingCustomAdapter extends BaseAdapter {
             textViewStartEshterak = view.findViewById(R.id.text_view_start_eshterak);
             textViewTrackNumber = view.findViewById(R.id.text_view_track_number);
             textViewZoneTitle = view.findViewById(R.id.text_view_zone_title);
+            textViewNumber = view.findViewById(R.id.text_view_number);
         }
     }
 }

@@ -122,8 +122,7 @@ public class ReportForbidActivity extends AppCompatActivity {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CustomToast customToast = new CustomToast();
-                customToast.info(getString(R.string.access_granted));
+                new CustomToast().info(getString(R.string.access_granted));
                 checkPermissions();
             }
 
@@ -268,7 +267,7 @@ public class ReportForbidActivity extends AppCompatActivity {
                 binding.editTextNextAccount.getText().toString(),
                 binding.editTextAhadNumber.getText().toString(), zoneId);
 
-        Retrofit retrofit = NetworkHelper.getInstance();
+        Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         Call<ForbiddenDto.ForbiddenDtoResponses> call;
         if (zoneId != 0 && forbiddenDto.File.size() > 0) {

@@ -66,6 +66,7 @@ import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 
 public class TakePhotoActivity extends AppCompatActivity {
     Activity activity;
+    ISharedPreferenceManager sharedPreferenceManager;
     ActivityTakePhotoBinding binding;
     ArrayList<Bitmap> bitmaps;
     Image.ImageGrouped imageGrouped = new Image.ImageGrouped();
@@ -214,6 +215,7 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
+        sharedPreferenceManager = new SharedPreferenceManager(activity,SharedReferenceNames.ACCOUNT.getValue());
         if (getIntent().getExtras() != null) {
             uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
         }
@@ -421,8 +423,7 @@ public class TakePhotoActivity extends AppCompatActivity {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CustomToast customToast = new CustomToast();
-                customToast.info(getString(R.string.access_granted));
+                new CustomToast().info(getString(R.string.access_granted));
                 initialize();
             }
 
@@ -600,15 +601,14 @@ public class TakePhotoActivity extends AppCompatActivity {
                         images.get(0).OnOffLoadId, MediaType.parse("text/plain"));
                 imageGrouped.Description = RequestBody.create(
                         images.get(0).Description, MediaType.parse("text/plain"));
-                Retrofit retrofit = NetworkHelper.getInstance();
+                Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
                 IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
                 Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(
                         imageGrouped.File, imageGrouped.OnOffLoadId, imageGrouped.Description);
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                         new upload(), new uploadIncomplete(), new uploadError());
             } else {
-                CustomToast customToast = new CustomToast();
-                activity.runOnUiThread(() -> customToast.warning(getString(R.string.there_is_no_images)));
+                activity.runOnUiThread(() -> new CustomToast().warning(getString(R.string.there_is_no_images)));
             }
         }
     }

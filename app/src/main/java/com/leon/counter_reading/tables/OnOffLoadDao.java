@@ -99,8 +99,8 @@ public interface OnOffLoadDao {
 
     @Query("UPDATE OnOffLoadDto set possibleAddress = :address, possibleCounterSerial = :serialNumber," +
             " possibleMobile = :possibleMobile, possibleEshterak = :possibleEshterak," +
-            " possiblePhoneNumber = :phoneNumber WHERE id = :id")
-    void updateOnOffLoad(String id, String possibleEshterak, String possibleMobile,
+            " possiblePhoneNumber = :phoneNumber, possibleEmpty = :possibleEmpty WHERE id = :id")
+    void updateOnOffLoad(String id, String possibleEshterak, String possibleMobile, int possibleEmpty,
                          String phoneNumber, String serialNumber, String address);
 
     @Query("DELETE FROM OnOffLoadDto WHERE id = :id")

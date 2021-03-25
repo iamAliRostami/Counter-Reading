@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Debug;
 import android.view.View;
 
@@ -129,6 +130,7 @@ public class ReadingSettingActivity extends BaseActivity {
                     binding.textViewNavigation.callOnClick();
                 }
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
                 int currentPage = binding.viewPager.getCurrentItem();
@@ -170,11 +172,18 @@ public class ReadingSettingActivity extends BaseActivity {
             //TODO
             trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                     trackingDao().getTrackingDtoNotArchive(false));
-            for (TrackingDto trackingDto : trackingDtos) {
-                readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
-                        getMyDatabase().readingConfigDefaultDao().
-                        getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
-            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                trackingDtos.forEach(trackingDto -> {
+                    readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
+                            getMyDatabase().readingConfigDefaultDao().
+                            getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
+                });
+            } else
+                for (TrackingDto trackingDto : trackingDtos) {
+                    readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
+                            getMyDatabase().readingConfigDefaultDao().
+                            getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
+                }
             runOnUiThread(ReadingSettingActivity.this::setupViewPager);
             return null;
         }

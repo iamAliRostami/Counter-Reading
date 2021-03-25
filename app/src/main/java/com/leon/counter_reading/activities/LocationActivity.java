@@ -67,8 +67,7 @@ public class LocationActivity extends BaseActivity {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CustomToast customToast = new CustomToast();
-                customToast.info(getString(R.string.access_granted));
+                new CustomToast().info(getString(R.string.access_granted));
                 checkPermissions();
             }
 
@@ -95,8 +94,7 @@ public class LocationActivity extends BaseActivity {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CustomToast customToast = new CustomToast();
-                customToast.info(getString(R.string.access_granted));
+                new CustomToast().info(getString(R.string.access_granted));
                 checkPermissions();
             }
 

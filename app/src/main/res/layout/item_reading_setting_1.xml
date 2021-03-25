@@ -100,6 +100,46 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/low_dp"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="@string/number"
+                android:textColor="@color/text_color_light"
+                android:textSize="@dimen/text_size_small"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/text_view_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/low_dp"
+                android:textStyle="bold"
+                android:textColor="@color/text_color_light"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/low_dp"
+                android:layout_weight="1"
+                android:text="@string/account"
+                android:textColor="@color/text_color_light"
+                android:textSize="@dimen/text_size_small" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="2"
             tools:ignore="UselessParent">

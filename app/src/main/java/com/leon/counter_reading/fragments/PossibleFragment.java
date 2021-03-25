@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
-import com.leon.counter_reading.databinding.FragmentPossibleBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class PossibleFragment extends DialogFragment {
-    FragmentPossibleBinding binding;
+    com.leon.counter_reading.databinding.FragmentPossibleBinding binding;
     OnOffLoadDto onOffLoadDto;
     int position;
     Activity activity;
@@ -74,7 +73,7 @@ public class PossibleFragment extends DialogFragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentPossibleBinding.inflate(inflater, container, false);
+        binding = com.leon.counter_reading.databinding.FragmentPossibleBinding.inflate(inflater, container, false);
         activity = getActivity();
 
         initialize();
@@ -132,7 +131,7 @@ public class PossibleFragment extends DialogFragment {
                 onOffLoadDto.possibleAhadMaskooniOrAsli = Integer.parseInt(binding.editTextAhadAsli.getText().toString());
 
             if (binding.editTextAhadEmpty.getText().length() > 0)
-                onOffLoadDto.possibleAhadEmpty = Integer.parseInt(binding.editTextAhadEmpty.getText().toString());
+                onOffLoadDto.possibleEmpty = Integer.parseInt(binding.editTextAhadEmpty.getText().toString());
 
             if (cancel)
                 view.requestFocus();
@@ -156,11 +155,17 @@ public class PossibleFragment extends DialogFragment {
         binding.editTextAhadEmpty.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.AHAD_EMPTY.getValue()) ? View.VISIBLE : View.GONE);
 
+        binding.linearLayoutAhadAsli.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_ASLI.getValue()) ? View.VISIBLE : View.GONE);
+
         binding.editTextAhadAsli.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.AHAD_ASLI.getValue()) ? View.VISIBLE : View.GONE);
         binding.textViewAhadAsli.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.AHAD_ASLI.getValue()) ? View.VISIBLE : View.GONE);
         binding.textViewAhadAsli.setText(String.valueOf(onOffLoadDto.ahadMaskooniOrAsli));
+
+        binding.linearLayoutAhadFari.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_FARI.getValue()) ? View.VISIBLE : View.GONE);
 
         binding.editTextAhadFari.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.AHAD_FARI.getValue()) ? View.VISIBLE : View.GONE);
@@ -168,12 +173,16 @@ public class PossibleFragment extends DialogFragment {
                 getBoolData(SharedReferenceKeys.AHAD_FARI.getValue()) ? View.VISIBLE : View.GONE);
         binding.textViewAhadFari.setText(String.valueOf(onOffLoadDto.ahadTejariOrFari));
 
+        binding.linearLayoutAhadOther.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_OTHER.getValue()) ? View.VISIBLE : View.GONE);
         binding.editTextAhadOther.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.AHAD_OTHER.getValue()) ? View.VISIBLE : View.GONE);
         binding.textViewAhadOther.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.AHAD_OTHER.getValue()) ? View.VISIBLE : View.GONE);
         binding.textViewAhadOther.setText(String.valueOf(onOffLoadDto.ahadSaierOrAbBaha));
 
+        binding.linearLayoutMobile.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.MOBILE.getValue()) ? View.VISIBLE : View.GONE);
         binding.editTextMobile.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.MOBILE.getValue()) ? View.VISIBLE : View.GONE);
         binding.textViewMobile.setVisibility(sharedPreferenceManager.

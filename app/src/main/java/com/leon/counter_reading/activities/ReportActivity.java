@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Debug;
 import android.view.View;
 
@@ -178,33 +179,56 @@ public class ReportActivity extends BaseActivity {
                     counterStateDao().getCounterStateDtos());
             ArrayList<Integer> isManes = new ArrayList<>(MyDatabaseClient.getInstance(activity).
                     getMyDatabase().counterStateDao().getCounterStateDtosIsMane(true));
-
-            for (TrackingDto trackingDto : trackingDtos) {
-                for (int i = 0; i < isManes.size(); i++) {
-                    isMane = isMane + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i), trackingDto.id);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                trackingDtos.forEach(trackingDto -> {
+                    isManes.forEach(integer ->
+                            isMane = isMane + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                            onOffLoadDao().getOnOffLoadIsManeCount(integer, trackingDto.id));
+                    zero = zero + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            HighLowStateEnum.ZERO.getValue());
+                    high = high + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            HighLowStateEnum.HIGH.getValue());
+                    low = low + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            HighLowStateEnum.LOW.getValue());
+                    normal = normal + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            HighLowStateEnum.NORMAL.getValue());
+                    unread = unread + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                            onOffLoadDao().getOnOffLoadReadCount(0, trackingDto.id);
+                    total = total + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                            onOffLoadDao().getOnOffLoadCount(trackingDto.id);
+                });
+            } else
+                for (TrackingDto trackingDto : trackingDtos) {
+                    for (int i = 0; i < isManes.size(); i++) {
+                        isMane = isMane + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                                onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i), trackingDto.id);
+                    }
+                    zero = zero + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            HighLowStateEnum.ZERO.getValue());
+                    high = high + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            HighLowStateEnum.HIGH.getValue());
+                    low = low + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            HighLowStateEnum.LOW.getValue());
+                    normal = normal + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            HighLowStateEnum.NORMAL.getValue());
+                    unread = unread + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                            onOffLoadDao().getOnOffLoadReadCount(0, trackingDto.id);
+                    total = total + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                            onOffLoadDao().getOnOffLoadCount(trackingDto.id);
                 }
-                zero = zero + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
-                        HighLowStateEnum.ZERO.getValue());
-                high = high + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
-                        HighLowStateEnum.HIGH.getValue());
-                low = low + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
-                        HighLowStateEnum.LOW.getValue());
-                normal = normal + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
-                        HighLowStateEnum.NORMAL.getValue());
-                unread = unread + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        onOffLoadDao().getOnOffLoadReadCount(0, trackingDto.id);
-                total = total + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        onOffLoadDao().getOnOffLoadCount(trackingDto.id);
-            }
             runOnUiThread(ReportActivity.this::setupViewPager);
             return null;
         }
     }
+
     @Override
     protected void onStop() {
         Debug.getNativeHeapAllocatedSize();

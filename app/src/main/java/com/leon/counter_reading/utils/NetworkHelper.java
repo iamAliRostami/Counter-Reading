@@ -114,7 +114,7 @@ public final class NetworkHelper {
     }
 
     public static Retrofit getInstance(String token) {
-        return getInstance(token);
+        return getInstance(token,true);
     }
 
     public static Retrofit getInstance(boolean b) {

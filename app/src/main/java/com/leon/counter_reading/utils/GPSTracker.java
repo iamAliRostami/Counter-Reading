@@ -106,8 +106,7 @@ public class GPSTracker extends Service {
             // get network provider status
             checkNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
             if (!checkGPS && !checkNetwork) {
-                CustomToast customToast = new CustomToast();
-                customToast.warning(getString(R.string.services_is_not_available));
+                new CustomToast().warning(getString(R.string.services_is_not_available));
             } else {
                 this.canGetLocation = true;
                 if (checkNetwork) {
@@ -152,7 +151,6 @@ public class GPSTracker extends Service {
 
     boolean checkGooglePlayServices() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        CustomToast customToast = new CustomToast();
         String message;
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(activity);
         if (resultCode != ConnectionResult.SUCCESS) {
@@ -161,7 +159,7 @@ public class GPSTracker extends Service {
             } else {
                 message = activity.getString(R.string.google_is_not_available);
             }
-            customToast.warning(message);
+            new CustomToast().warning(message);
             return false;
         }
         return true;

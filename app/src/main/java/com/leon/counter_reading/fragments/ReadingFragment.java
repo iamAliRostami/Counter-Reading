@@ -50,7 +50,7 @@ public class ReadingFragment extends Fragment {
     QotrDictionary qotrDictionary;
     ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     int position, counterStateCode, counterStatePosition;
-    boolean canBeEmpty, canLessThanPre, isMakoos;
+    boolean canBeEmpty, canLessThanPre, isMakoos, isMane;
     ArrayList<String> items = new ArrayList<>();
     Activity activity;
 
@@ -182,6 +182,7 @@ public class ReadingFragment extends Fragment {
                 CounterStateDto counterStateDto = counterStateDtos.get(counterStatePosition);
                 binding.editTextNumber.setEnabled(counterStateDto.canEnterNumber
                         || counterStateDto.shouldEnterNumber);
+                isMane = counterStateDto.isMane;
                 canBeEmpty = !counterStateDto.shouldEnterNumber;
                 canLessThanPre = counterStateDto.canNumberBeLessThanPre;
                 isMakoos = counterStateDto.title.equals("معکوس");
@@ -236,17 +237,7 @@ public class ReadingFragment extends Fragment {
             if (PermissionManager.checkLocationPermission(getContext())) {
                 askLocationPermission();
                 //TODO
-            } else /*if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.SERIAL.getValue())
-                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_FARI.getValue())
-                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_ASLI.getValue())
-                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_OTHER.getValue())
-                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_KHALI.getValue())
-                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue())
-                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.ADDRESS.getValue())
-                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.ACCOUNT.getValue())
-                    || sharedPreferenceManager.getBoolData(SharedReferenceKeys.MOBILE.getValue())) {
-                showPossible();
-            } else */ {
+            } else {
                 attemptSend();
             }
     }
@@ -263,8 +254,8 @@ public class ReadingFragment extends Fragment {
         }
     }
 
-    void canBeEmpty() {
-        if (binding.editTextNumber.getText().toString().isEmpty()) {
+    void canBeEmpty() {//TODO
+        if (binding.editTextNumber.getText().toString().isEmpty() || isMane) {
             ((ReadingActivity) activity).updateOnOffLoadWithoutCounterNumber(position,
                     counterStateCode, counterStatePosition);
         } else {

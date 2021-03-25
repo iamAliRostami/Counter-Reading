@@ -61,42 +61,24 @@ public class ReadingPossibleSettingFragment extends Fragment {
     }
 
     void setCheckBoxClickListener() {
-        binding.checkBoxSerial.setOnClickListener(v -> {
-//            binding.checkBoxSerial.setChecked(!binding.checkBoxSerial.isChecked());
-            sharedPreferenceManager.putData(SharedReferenceKeys.SERIAL.getValue(), binding.checkBoxSerial.isChecked());
-        });
-        binding.checkBoxAhad.setOnClickListener(v -> {
-//            binding.checkBoxAhad.setChecked(!binding.checkBoxAhad.isChecked());
-            sharedPreferenceManager.putData(SharedReferenceKeys.AHAD_EMPTY.getValue(), binding.checkBoxAhad.isChecked());
-        });
-        binding.checkBoxAddress.setOnClickListener(v -> {
-//            binding.checkBoxAddress.setChecked(!binding.checkBoxAddress.isChecked());
-            sharedPreferenceManager.putData(SharedReferenceKeys.ADDRESS.getValue(), binding.checkBoxAddress.isChecked());
-        });
-        binding.checkBoxAccount.setOnClickListener(v -> {
-//            binding.checkBoxAccount.setChecked(!binding.checkBoxAccount.isChecked());
-            sharedPreferenceManager.putData(SharedReferenceKeys.ACCOUNT.getValue(), binding.checkBoxAccount.isChecked());
-        });
-        binding.checkBoxTejari.setOnClickListener(v -> {
-//            binding.checkBoxTejari.setChecked(!binding.checkBoxTejari.isChecked());
-            sharedPreferenceManager.putData(SharedReferenceKeys.AHAD_FARI.getValue(), binding.checkBoxTejari.isChecked());
-        });
-        binding.checkBoxMaskooni.setOnClickListener(v -> {
-//            binding.checkBoxMaskooni.setChecked(!binding.checkBoxMaskooni.isChecked());
-            sharedPreferenceManager.putData(SharedReferenceKeys.AHAD_ASLI.getValue(), binding.checkBoxMaskooni.isChecked());
-        });
-        binding.checkBoxOther.setOnClickListener(v -> {
-//            binding.checkBoxOther.setChecked(!binding.checkBoxOther.isChecked());
-            sharedPreferenceManager.putData(SharedReferenceKeys.AHAD_OTHER.getValue(), binding.checkBoxOther.isChecked());
-        });
-        binding.checkBoxMobile.setOnClickListener(v -> {
-//            binding.checkBoxMobile.setChecked(!binding.checkBoxMobile.isChecked());
-            sharedPreferenceManager.putData(SharedReferenceKeys.MOBILE.getValue(), binding.checkBoxMobile.isChecked());
-        });
-        binding.checkBoxKarbari.setOnClickListener(v -> {
-//            binding.checkBoxKarbari.setChecked(!binding.checkBoxKarbari.isChecked());
-            sharedPreferenceManager.putData(SharedReferenceKeys.KARBARI.getValue(), binding.checkBoxKarbari.isChecked());
-        });
+        binding.checkBoxSerial.setOnClickListener(v -> sharedPreferenceManager.putData(
+                SharedReferenceKeys.SERIAL.getValue(), binding.checkBoxSerial.isChecked()));
+        binding.checkBoxAhad.setOnClickListener(v -> sharedPreferenceManager.putData(
+                SharedReferenceKeys.AHAD_EMPTY.getValue(), binding.checkBoxAhad.isChecked()));
+        binding.checkBoxAddress.setOnClickListener(v -> sharedPreferenceManager.putData(
+                SharedReferenceKeys.ADDRESS.getValue(), binding.checkBoxAddress.isChecked()));
+        binding.checkBoxAccount.setOnClickListener(v -> sharedPreferenceManager.putData(
+                SharedReferenceKeys.ACCOUNT.getValue(), binding.checkBoxAccount.isChecked()));
+        binding.checkBoxTejari.setOnClickListener(v -> sharedPreferenceManager.putData(
+                SharedReferenceKeys.AHAD_FARI.getValue(), binding.checkBoxTejari.isChecked()));
+        binding.checkBoxMaskooni.setOnClickListener(v -> sharedPreferenceManager.putData(
+                SharedReferenceKeys.AHAD_ASLI.getValue(), binding.checkBoxMaskooni.isChecked()));
+        binding.checkBoxOther.setOnClickListener(v -> sharedPreferenceManager.putData(
+                SharedReferenceKeys.AHAD_OTHER.getValue(), binding.checkBoxOther.isChecked()));
+        binding.checkBoxMobile.setOnClickListener(v -> sharedPreferenceManager.putData(
+                SharedReferenceKeys.MOBILE.getValue(), binding.checkBoxMobile.isChecked()));
+        binding.checkBoxKarbari.setOnClickListener(v -> sharedPreferenceManager.putData(
+                SharedReferenceKeys.KARBARI.getValue(), binding.checkBoxKarbari.isChecked()));
     }
 
     @Override

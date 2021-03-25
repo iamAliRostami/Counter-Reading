@@ -43,7 +43,8 @@ public class SettingUpdateFragment extends Fragment {
 
     FragmentSettingUpdateBinding binding;
     Activity activity;
-    boolean fisrtTime = true;
+    boolean firstTime = true;
+    ISharedPreferenceManager sharedPreferenceManager;
 
     public SettingUpdateFragment() {
     }
@@ -64,14 +65,14 @@ public class SettingUpdateFragment extends Fragment {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
+        sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
         binding.imageViewUpdate.setImageDrawable(
                 ContextCompat.getDrawable(activity, R.drawable.img_update));
-//        updateInfo();
         setOnButtonReceiveClickListener();
     }
 
     void updateInfo() {
-        Retrofit retrofit = NetworkHelper.getInstance();
+        Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         Call<LastInfo> call = iAbfaService.getLastInfo();
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
@@ -80,11 +81,11 @@ public class SettingUpdateFragment extends Fragment {
 
     void setOnButtonReceiveClickListener() {
         binding.buttonReceive.setOnClickListener(v -> {
-            if (fisrtTime) {
+            if (firstTime) {
                 updateInfo();
             } else {
                 activity.runOnUiThread(() -> binding.progressBar.setVisibility(View.VISIBLE));
-                Retrofit retrofit = NetworkHelper.getInstance();
+                Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
                 IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
                 Call<ResponseBody> call = iAbfaService.getLastApk();
                 HttpClientWrapper.callHttpAsyncProgressDismiss(call, ProgressType.NOT_SHOW.getValue(),
@@ -125,7 +126,7 @@ public class SettingUpdateFragment extends Fragment {
                     binding.linearLayoutUpdate.setVisibility(View.VISIBLE);
                     binding.progressBar.setVisibility(View.GONE);
                     binding.buttonReceive.setText(getString(R.string.receive_file));
-                    fisrtTime = false;
+                    firstTime = false;
                 });
             }
         }

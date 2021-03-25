@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +21,13 @@ import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.enums.ProgressType;
+import com.leon.counter_reading.enums.SharedReferenceKeys;
+import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
+import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.tables.OffLoadReport;
@@ -39,6 +43,7 @@ import com.leon.counter_reading.utils.HttpClientWrapper;
 import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
+import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -68,6 +73,7 @@ public class UploadFragment extends Fragment {
     ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
     ArrayList<OffLoadReport> offLoadReports = new ArrayList<>();
     ArrayList<ForbiddenDto> forbiddenDtos = new ArrayList<>();
+    ISharedPreferenceManager sharedPreferenceManager;
 
     public UploadFragment() {
     }
@@ -79,11 +85,12 @@ public class UploadFragment extends Fragment {
 
         Gson gson = new Gson();
         ArrayList<String> json = new ArrayList<>();
-        for (TrackingDto trackingDto : trackingDtos) {
-            json.add(gson.toJson(trackingDto));
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            trackingDtos.forEach(trackingDto -> json.add(gson.toJson(trackingDto)));
+        else
+            for (TrackingDto trackingDto : trackingDtos)
+                json.add(gson.toJson(trackingDto));
         args.putStringArrayList(BundleEnum.TRACKING.getValue(), json);
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -109,16 +116,24 @@ public class UploadFragment extends Fragment {
 
     void initialize() {
         activity = getActivity();
+        sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
         if (type == 3) {
             binding.linearLayoutSpinner.setVisibility(View.GONE);
         } else {
             trackingDtos.clear();
             items.clear();
-            for (String s : json) {
-                Gson gson = new Gson();
-                trackingDtos.add(gson.fromJson(s, TrackingDto.class));
-                items.add(String.valueOf(trackingDtos.get(trackingDtos.size() - 1).trackNumber));
-            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                json.forEach(s -> {
+                    Gson gson = new Gson();
+                    trackingDtos.add(gson.fromJson(s, TrackingDto.class));
+                    items.add(String.valueOf(trackingDtos.get(trackingDtos.size() - 1).trackNumber));
+                });
+            } else
+                for (String s : json) {
+                    Gson gson = new Gson();
+                    trackingDtos.add(gson.fromJson(s, TrackingDto.class));
+                    items.add(String.valueOf(trackingDtos.get(trackingDtos.size() - 1).trackNumber));
+                }
             items.add(0, getString(R.string.select_one));
             setupSpinner();
         }
@@ -171,9 +186,6 @@ public class UploadFragment extends Fragment {
     }
 
     void thankYou() {
-//        MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
-//                updateTrackingDtoByArchive(trackingDtos.get(
-//                        binding.spinner.getSelectedItemPosition() - 1).id, true, false);
         activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.thank_you), Toast.LENGTH_LONG));
     }
 
@@ -255,7 +267,7 @@ public class UploadFragment extends Fragment {
         void uploadForbid() {
             ForbiddenDto.ForbiddenDtoRequestMultiple forbiddenDtoRequestMultiple =
                     new ForbiddenDto.ForbiddenDtoRequestMultiple();
-            Retrofit retrofit = NetworkHelper.getInstance();
+            Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
             for (ForbiddenDto forbiddenDto : forbiddenDtos) {
                 ForbiddenDto.ForbiddenDtoMultiple forbiddenDtoMultiple =
@@ -275,11 +287,18 @@ public class UploadFragment extends Fragment {
         void uploadOffLoad() {
             if (onOffLoadDtos.size() <= 0) {
                 thankYou();
+                onOffLoadDtos.clear();
                 onOffLoadDtos.add(MyDatabaseClient.getInstance(activity).getMyDatabase().
                         onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(
                         trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id));
             }
-            Retrofit retrofit = NetworkHelper.getInstance();
+            if (onOffLoadDtos.size() == 0 || onOffLoadDtos.get(0) == null) {
+                MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
+                        updateTrackingDtoByArchive(trackingDtos.get(
+                                binding.spinner.getSelectedItemPosition() - 1).id, true, false);
+                return;
+            }
+            Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
             OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
             offLoadData.isFinal = true;
@@ -357,29 +376,27 @@ public class UploadFragment extends Fragment {
 
         void uploadVoice() {
             if (voice.size() > 0) {
-                Retrofit retrofit = NetworkHelper.getInstance();
+                Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
                 IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
                 Call<Voice.VoiceUploadResponse> call = iAbfaService.voiceUploadMultiple(
                         voiceMultiples.File, voiceMultiples.OnOffLoadId, voiceMultiples.Description);
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                         new uploadVoice(), new uploadVoiceIncomplete(), new uploadError());
             } else {
-                CustomToast customToast = new CustomToast();
-                activity.runOnUiThread(() -> customToast.info(getString(R.string.there_is_no_message), Toast.LENGTH_LONG));
+                activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.there_is_no_message), Toast.LENGTH_LONG));
             }
         }
 
         void uploadMultimedia() {
             if (images.size() > 0) {
-                Retrofit retrofit = NetworkHelper.getInstance();
+                Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
                 IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
                 Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadMultiple(
                         imageMultiples.File, imageMultiples.OnOffLoadId, imageMultiples.Description);
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                         new uploadMultimedia(), new uploadMultimediaIncomplete(), new uploadError());
             } else {
-                CustomToast customToast = new CustomToast();
-                activity.runOnUiThread(() -> customToast.info(getString(R.string.there_is_no_images), Toast.LENGTH_LONG));
+                activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.there_is_no_images), Toast.LENGTH_LONG));
             }
         }
     }
@@ -388,8 +405,7 @@ public class UploadFragment extends Fragment {
         @Override
         public void execute(Response<Image.ImageUploadResponse> response) {
             if (response.body() != null && response.body().status == 200) {
-                CustomToast customToast = new CustomToast();
-                customToast.success(response.body().message);
+                new CustomToast().success(response.body().message);
                 updateImages();
             }
         }
@@ -411,8 +427,7 @@ public class UploadFragment extends Fragment {
         @Override
         public void execute(Response<Voice.VoiceUploadResponse> response) {
             if (response.body() != null && response.body().status == 200) {
-                CustomToast customToast = new CustomToast();
-                customToast.success(response.body().message);
+                new CustomToast().success(response.body().message);
                 updateVoice();
             }
         }

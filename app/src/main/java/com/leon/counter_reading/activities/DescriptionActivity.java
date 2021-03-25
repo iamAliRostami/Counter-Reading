@@ -101,7 +101,7 @@ public class DescriptionActivity extends AppCompatActivity {
         binding.imageViewRecord.setLongClickable(true);
         binding.imageViewRecord.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                new CustomToast().info(getString(R.string.recording),Toast.LENGTH_LONG);
+                new CustomToast().info(getString(R.string.recording), Toast.LENGTH_LONG);
                 binding.imageViewPlay.setEnabled(false);
                 voice.address = CustomFile.createAudioFile(activity);
                 setupMediaRecorder();
@@ -306,8 +306,7 @@ public class DescriptionActivity extends AppCompatActivity {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CustomToast customToast = new CustomToast();
-                customToast.info(getString(R.string.access_granted));
+                new CustomToast().info(getString(R.string.access_granted));
                 initialize();
             }
 
@@ -369,7 +368,7 @@ public class DescriptionActivity extends AppCompatActivity {
                     voice.OnOffLoadId, MediaType.parse("text/plain"));
             voiceGrouped.Description = RequestBody.create(
                     voice.Description, MediaType.parse("text/plain"));
-            Retrofit retrofit = NetworkHelper.getInstance();
+            Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
             Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(
                     voiceGrouped.File, voiceGrouped.OnOffLoadId, voiceGrouped.Description);

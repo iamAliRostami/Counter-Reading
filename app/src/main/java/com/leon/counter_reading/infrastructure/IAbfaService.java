@@ -8,6 +8,7 @@ import com.leon.counter_reading.tables.LoginInfo;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.PasswordInfo;
 import com.leon.counter_reading.tables.ReadingData;
+import com.leon.counter_reading.tables.SimpleResponse;
 import com.leon.counter_reading.tables.Voice;
 
 import java.util.ArrayList;
@@ -27,8 +28,8 @@ public interface IAbfaService {
     @POST("kontoriNew/V1/Account/Login")
     Call<LoginFeedBack> login(@Body LoginInfo logininfo);
 
-    @POST("kontoriNew/v1/api/ChangePassword")
-    Call<Integer> changePassword(@Body PasswordInfo passwordInfo);
+    @POST("kontoriNew/V1/Account/ChangePassword")
+    Call<SimpleResponse> changePassword(@Body PasswordInfo passwordInfo);
 
     @POST("KontoriNew/V1/Load/Data")
     Call<ReadingData> loadData();
@@ -88,6 +89,7 @@ public interface IAbfaService {
 
     @GET("KontoriNew/V1/Apk/LastInfo")
     Call<LastInfo> getLastInfo();
+
 
     @Multipart
     @POST("KontoriNew/V1/Forbidden/Single")

@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:ignore="UselessParent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/small_dp"
@@ -28,15 +29,28 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/text_view_mobile"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
+                    android:id="@+id/linear_layout_mobile"
                     android:background="@drawable/border_gray_6"
-                    android:gravity="center"
-                    android:padding="@dimen/medium_dp"
-                    android:textSize="@dimen/text_size_large" />
+                    android:orientation="horizontal"
+                    android:padding="@dimen/medium_dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mobile_number"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <TextView
+                        android:id="@+id/text_view_mobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size_large" />
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/edit_text_mobile"
@@ -134,15 +148,28 @@
                     android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill" />
 
-                <TextView
-                    android:id="@+id/text_view_ahad_asli"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
+                    android:id="@+id/linear_layout_ahad_asli"
                     android:background="@drawable/border_gray_6"
-                    android:gravity="center"
-                    android:padding="@dimen/medium_dp"
-                    android:textSize="@dimen/text_size_large" />
+                    android:orientation="horizontal"
+                    android:padding="@dimen/medium_dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ahad_asli_"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <TextView
+                        android:id="@+id/text_view_ahad_asli"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size_large" />
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/edit_text_ahad_asli"
@@ -159,15 +186,28 @@
                     android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill" />
 
-                <TextView
-                    android:id="@+id/text_view_ahad_fari"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
+                    android:id="@+id/linear_layout_ahad_fari"
                     android:background="@drawable/border_gray_6"
-                    android:gravity="center"
-                    android:padding="@dimen/medium_dp"
-                    android:textSize="@dimen/text_size_large" />
+                    android:orientation="horizontal"
+                    android:padding="@dimen/medium_dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ahad_fari_"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <TextView
+                        android:id="@+id/text_view_ahad_fari"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size_large" />
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/edit_text_ahad_fari"
@@ -184,15 +224,28 @@
                     android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill" />
 
-                <TextView
-                    android:id="@+id/text_view_ahad_other"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
+                    android:id="@+id/linear_layout_ahad_other"
                     android:background="@drawable/border_gray_6"
-                    android:gravity="center"
-                    android:padding="@dimen/medium_dp"
-                    android:textSize="@dimen/text_size_large" />
+                    android:orientation="horizontal"
+                    android:padding="@dimen/medium_dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ahad_masraf_"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <TextView
+                        android:id="@+id/text_view_ahad_other"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size_large" />
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/edit_text_ahad_other"

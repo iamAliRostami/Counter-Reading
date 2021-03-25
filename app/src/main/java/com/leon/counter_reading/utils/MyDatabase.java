@@ -34,7 +34,7 @@ import com.leon.counter_reading.tables.VoiceDao;
         QotrDictionary.class, ReadingConfigDefaultDto.class, TrackingDto.class, Voice.class,
         CounterStateDto.class, Image.class, CounterReportDto.class, OffLoadReport.class,
         ForbiddenDto.class},
-        version = 15, exportSchema = false)
+        version = 16, exportSchema = false)
 public abstract class MyDatabase extends RoomDatabase {
     public static final Migration MIGRATION_4_5 = new Migration(16, 17) {
         @Override
@@ -85,11 +85,11 @@ public abstract class MyDatabase extends RoomDatabase {
             database.execSQL("DROP TABLE t1_backup");
         }
     };
-    public static final Migration MIGRATION_6_7 = new Migration(14, 15) {
+    public static final Migration MIGRATION_6_7 = new Migration(15, 16) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL("CREATE TABLE Voice AS SELECT * FROM Image");
-//            database.execSQL("ALter TABLE KarbariDto Add column isTejari INTEGER");
+            database.execSQL("ALter TABLE OnOffLoadDto Add column possibleEmpty INTEGER");
+//            database.execSQL("CREATE TABLE Voice AS SELECT * FROM Image");
 //            database.execSQL("CREATE TABLE \"ForbiddenDto\" (\n" +
 //                    "\t\"customId\"\tINTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,\n" +
 //                    "\t\"zoneId\"\tINTEGER,\n" +

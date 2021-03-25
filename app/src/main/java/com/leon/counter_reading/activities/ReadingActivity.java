@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Debug;
 import android.util.Log;
 import android.view.Menu;
@@ -152,7 +153,7 @@ public class ReadingActivity extends BaseActivity {
         readingData.onOffLoadDtos.get(position).possibleAhadMaskooniOrAsli = onOffLoadDto.possibleAhadMaskooniOrAsli;
         readingData.onOffLoadDtos.get(position).possibleAhadSaierOrAbBaha = onOffLoadDto.possibleAhadSaierOrAbBaha;
 
-        readingData.onOffLoadDtos.get(position).possibleAhadEmpty = onOffLoadDto.possibleAhadEmpty;
+        readingData.onOffLoadDtos.get(position).possibleEmpty = onOffLoadDto.possibleEmpty;
         readingData.onOffLoadDtos.get(position).possibleMobile = onOffLoadDto.possibleMobile;
         readingData.onOffLoadDtos.get(position).possibleAddress = onOffLoadDto.possibleAddress;
         readingData.onOffLoadDtos.get(position).possibleEshterak = onOffLoadDto.possibleEshterak;
@@ -191,7 +192,7 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void prepareToSend(int position) {
-        Retrofit retrofit = NetworkHelper.getInstance();
+        Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
 
@@ -202,11 +203,18 @@ public class ReadingActivity extends BaseActivity {
         ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>(
                 MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
                         getAllOnOffLoadRead(OffloadStateEnum.INSERTED.getValue()));
-        for (OnOffLoadDto onOffLoadDto : onOffLoadDtos) {
-            offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDto));
-            offLoadData.offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    offLoadReportDao().getAllOffLoadReportById(onOffLoadDto.id));
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            onOffLoadDtos.forEach(onOffLoadDto -> {
+                offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDto));
+                offLoadData.offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                        offLoadReportDao().getAllOffLoadReportById(onOffLoadDto.id));
+            });
+        } else
+            for (OnOffLoadDto onOffLoadDto : onOffLoadDtos) {
+                offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDto));
+                offLoadData.offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                        offLoadReportDao().getAllOffLoadReportById(onOffLoadDto.id));
+            }
 
         Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
         HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activity,
@@ -310,35 +318,58 @@ public class ReadingActivity extends BaseActivity {
             switch (type) {
                 case 0:
                     readingData.onOffLoadDtos.clear();
-                    for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
-                        if (onOffLoadDto.eshterak.toLowerCase().contains(key))
-                            readingData.onOffLoadDtos.add(onOffLoadDto);
-//                        if (onOffLoadDto.qeraatCode.toLowerCase().contains(key))
-//                            readingData.onOffLoadDtos.add(onOffLoadDto);
-                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
+                            if (onOffLoadDto.eshterak.toLowerCase().contains(key))
+                                readingData.onOffLoadDtos.add(onOffLoadDto);
+                        });
+                    } else
+                        for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
+                            if (onOffLoadDto.eshterak.toLowerCase().contains(key))
+                                readingData.onOffLoadDtos.add(onOffLoadDto);
+                        }
                     break;
                 case 1:
                     readingData.onOffLoadDtos.clear();
-                    for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
-                        if (onOffLoadDto.radif == Integer.parseInt(key))
-                            readingData.onOffLoadDtos.add(onOffLoadDto);
-                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
+
+                            if (onOffLoadDto.radif == Integer.parseInt(key))
+                                readingData.onOffLoadDtos.add(onOffLoadDto);
+                        });
+                    } else
+                        for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
+                            if (onOffLoadDto.radif == Integer.parseInt(key))
+                                readingData.onOffLoadDtos.add(onOffLoadDto);
+                        }
                     break;
                 case 2:
                     readingData.onOffLoadDtos.clear();
-                    for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
-                        if (onOffLoadDto.counterSerial.toLowerCase().contains(key))
-                            readingData.onOffLoadDtos.add(onOffLoadDto);
-                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
+                            if (onOffLoadDto.counterSerial.toLowerCase().contains(key))
+                                readingData.onOffLoadDtos.add(onOffLoadDto);
+                        });
+                    } else
+                        for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
+                            if (onOffLoadDto.counterSerial.toLowerCase().contains(key))
+                                readingData.onOffLoadDtos.add(onOffLoadDto);
+                        }
                     break;
                 case 3:
                     readingData.onOffLoadDtos.clear();
-                    for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
-                        if (onOffLoadDto.firstName.toLowerCase().contains(key))
-                            readingData.onOffLoadDtos.add(onOffLoadDto);
-                        if (onOffLoadDto.sureName.toLowerCase().contains(key))
-                            readingData.onOffLoadDtos.add(onOffLoadDto);
-                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
+                            if (onOffLoadDto.firstName.toLowerCase().contains(key) ||
+                                    onOffLoadDto.sureName.toLowerCase().contains(key))
+                                readingData.onOffLoadDtos.add(onOffLoadDto);
+                        });
+                    } else
+                        for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
+                            if (onOffLoadDto.firstName.toLowerCase().contains(key)||
+                                    onOffLoadDto.sureName.toLowerCase().contains(key))
+                                readingData.onOffLoadDtos.add(onOffLoadDto);
+                        }
                     break;
             }
             runOnUiThread(this::setupViewPager);
@@ -426,10 +457,14 @@ public class ReadingActivity extends BaseActivity {
             Gson gson = new Gson();
             ArrayList<String> json1 = getIntent().getExtras().getStringArrayList(
                     BundleEnum.IS_MANE.getValue());
-            if (json1 != null)
-                for (String s : json1) {
-                    isMane.add(gson.fromJson(s, Integer.class));
-                }
+            if (json1 != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    json1.forEach(s -> isMane.add(gson.fromJson(s, Integer.class)));
+                } else
+                    for (String s : json1) {
+                        isMane.add(gson.fromJson(s, Integer.class));
+                    }
+            }
         }
     }
 
@@ -437,8 +472,7 @@ public class ReadingActivity extends BaseActivity {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CustomToast customToast = new CustomToast();
-                customToast.info(getString(R.string.access_granted));
+                new CustomToast().info(getString(R.string.access_granted));
                 checkPermissions();
             }
 
@@ -465,8 +499,7 @@ public class ReadingActivity extends BaseActivity {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CustomToast customToast = new CustomToast();
-                customToast.info(getString(R.string.access_granted));
+                new CustomToast().info(getString(R.string.access_granted));
                 checkPermissions();
             }
 
@@ -546,13 +579,13 @@ public class ReadingActivity extends BaseActivity {
             if (readingData.onOffLoadDtos.isEmpty()) {
                 showNoEshterakFound();
             } else {
-                int currentItem = 0;
-                for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
-                    OnOffLoadDto onOffLoadDto = readingData.onOffLoadDtos.get(i);
+                int currentItem = 0, i = 0;
+                for (OnOffLoadDto onOffLoadDto : readingData.onOffLoadDtos) {
                     if (!onOffLoadDto.isBazdid) {
                         currentItem = i;
-                        i = readingData.onOffLoadDtos.size();
+                        break;
                     }
+                    i++;
                 }
                 binding.viewPager.setCurrentItem(currentItem);
             }
@@ -571,9 +604,12 @@ public class ReadingActivity extends BaseActivity {
                     updateOnOffLoad(true, uuid);
             readingData.onOffLoadDtos.set(position, MyDatabaseClient.getInstance(activity).
                     getMyDatabase().onOffLoadDao().getAllOnOffLoadById(uuid));
-            for (int i = 0; i < readingDataTemp.onOffLoadDtos.size(); i++)
-                if (readingDataTemp.onOffLoadDtos.get(i).id.equals(uuid))
+            int i = 0;
+            for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
+                if (onOffLoadDto.id.equals(uuid))
                     readingDataTemp.onOffLoadDtos.set(i, readingData.onOffLoadDtos.get(position));
+                i++;
+            }
         } else if (resultCode == PackageManager.PERMISSION_GRANTED) {
             if (requestCode == MyApplication.GPS_CODE)
                 checkPermissions();
@@ -598,14 +634,26 @@ public class ReadingActivity extends BaseActivity {
                         deleteAllOffLoadReport();
                 int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
                         OffloadStateEnum.SENT_WITH_ERROR.getValue();
-                for (int i = 0; i < response.body().targetObject.size(); i++) {
-                    for (int j = 0; j < readingData.onOffLoadDtos.size(); j++) {
-                        if (response.body().targetObject.get(i).equals(readingData.onOffLoadDtos.get(j).id)) {
-                            readingData.onOffLoadDtos.get(j).offLoadStateId = state;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    response.body().targetObject.forEach(s -> {
+                        for (int j = 0; j < readingData.onOffLoadDtos.size(); j++) {
+                            if (s.equals(readingData.onOffLoadDtos.get(j).id)) {
+                                readingData.onOffLoadDtos.get(j).offLoadStateId = state;
+                            }
                         }
+                        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                                updateOnOffLoad(state, s);
+                    });
+                } else {
+                    for (String s : response.body().targetObject) {
+                        for (int j = 0; j < readingData.onOffLoadDtos.size(); j++) {
+                            if (s.equals(readingData.onOffLoadDtos.get(j).id)) {
+                                readingData.onOffLoadDtos.get(j).offLoadStateId = state;
+                            }
+                        }
+                        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                                updateOnOffLoad(state, s);
                     }
-                    MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                            updateOnOffLoad(state, response.body().targetObject.get(i));
                 }
             }
         }
@@ -660,31 +708,58 @@ public class ReadingActivity extends BaseActivity {
             readingData.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
             readingData.trackingDtos.addAll(myDatabase.trackingDao().
                     getTrackingDtosIsActiveNotArchive(true, false));
-
-            for (TrackingDto dto : readingData.trackingDtos) {
-                readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
-                        getReadingConfigDefaultDtosByZoneId(dto.zoneId));
-            }
-            for (TrackingDto trackingDto : readingData.trackingDtos) {
-                if (readStatus == ReadStatusEnum.ALL.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadByTracking(trackingDto.id));
-                } else if (readStatus == ReadStatusEnum.STATE.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadByHighLowAndTracking(trackingDto.id, highLow));
-                } else if (readStatus == ReadStatusEnum.UNREAD.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadNotRead(0, trackingDto.id));
-                } else if (readStatus == ReadStatusEnum.READ.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));
-                } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
-                    for (int i = 0; i < isMane.size(); i++) {
-                        readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                                getOnOffLoadReadByIsMane(isMane.get(i), trackingDto.id));
-                    }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                readingData.trackingDtos.forEach(trackingDto ->
+                        readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
+                                getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId)));
+            } else {
+                for (TrackingDto dto : readingData.trackingDtos) {
+                    readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
+                            getReadingConfigDefaultDtosByZoneId(dto.zoneId));
                 }
             }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                readingData.trackingDtos.forEach(trackingDto -> {
+                    if (readStatus == ReadStatusEnum.ALL.getValue()) {
+                        readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                                getAllOnOffLoadByTracking(trackingDto.id));
+                    } else if (readStatus == ReadStatusEnum.STATE.getValue()) {
+                        readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                                getAllOnOffLoadByHighLowAndTracking(trackingDto.id, highLow));
+                    } else if (readStatus == ReadStatusEnum.UNREAD.getValue()) {
+                        readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                                getAllOnOffLoadNotRead(0, trackingDto.id));
+                    } else if (readStatus == ReadStatusEnum.READ.getValue()) {
+                        readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                                getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));
+                    } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
+                        isMane.forEach(integer ->
+                                readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                                        getOnOffLoadReadByIsMane(integer, trackingDto.id)));
+
+                    }
+                });
+            else
+                for (TrackingDto trackingDto : readingData.trackingDtos) {
+                    if (readStatus == ReadStatusEnum.ALL.getValue()) {
+                        readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                                getAllOnOffLoadByTracking(trackingDto.id));
+                    } else if (readStatus == ReadStatusEnum.STATE.getValue()) {
+                        readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                                getAllOnOffLoadByHighLowAndTracking(trackingDto.id, highLow));
+                    } else if (readStatus == ReadStatusEnum.UNREAD.getValue()) {
+                        readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                                getAllOnOffLoadNotRead(0, trackingDto.id));
+                    } else if (readStatus == ReadStatusEnum.READ.getValue()) {
+                        readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                                getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));
+                    } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
+                        for (int i : isMane) {
+                            readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                                    getOnOffLoadReadByIsMane(i, trackingDto.id));
+                        }
+                    }
+                }
             if (readingData != null && readingData.onOffLoadDtos != null && readingData.onOffLoadDtos.size() > 0) {
                 readingDataTemp.onOffLoadDtos.addAll(readingData.onOffLoadDtos);
                 readingDataTemp.counterStateDtos.addAll(readingData.counterStateDtos);

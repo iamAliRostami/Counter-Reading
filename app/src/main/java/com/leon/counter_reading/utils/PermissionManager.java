@@ -46,8 +46,7 @@ public class PermissionManager {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CustomToast customToast = new CustomToast();
-                customToast.info(activity.getString(R.string.access_granted));
+                new CustomToast().info(activity.getString(R.string.access_granted));
                 checkRecorderPermission(activity);
             }
 
@@ -94,8 +93,7 @@ public class PermissionManager {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CustomToast customToast = new CustomToast();
-                customToast.info(activity.getString(R.string.access_granted));
+                new CustomToast().info(activity.getString(R.string.access_granted));
                 checkCameraPermission(activity);
             }
 
@@ -137,8 +135,7 @@ public class PermissionManager {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CustomToast customToast = new CustomToast();
-                customToast.info(activity.getString(R.string.access_granted));
+                new CustomToast().info(activity.getString(R.string.access_granted));
                 checkStoragePermission(activity);
             }
 
@@ -181,8 +178,7 @@ public class PermissionManager {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CustomToast customToast = new CustomToast();
-                customToast.info(activity.getString(R.string.access_granted));
+                new CustomToast().info(activity.getString(R.string.access_granted));
             }
 
             @Override
@@ -280,8 +276,7 @@ public class PermissionManager {
     }
 
     public static void forceClose(Activity activity) {
-        CustomToast customToast = new CustomToast();
-        customToast.error(activity.getString(R.string.permission_not_completed));
+        new CustomToast().error(activity.getString(R.string.permission_not_completed));
         MyApplication.POSITION = -1;
         activity.finish();
     }
