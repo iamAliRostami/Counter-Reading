@@ -78,6 +78,8 @@ public abstract class BaseActivity extends AppCompatActivity
         int theme;
         if (getIntent().getExtras() != null) {
             theme = getIntent().getExtras().getInt(BundleEnum.THEME.getValue());
+            if (theme == 0)
+                theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         } else {
             theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         }
@@ -309,8 +311,10 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        gpsTracker.onBind(getIntent());
-        gpsTracker.onDestroy();
+        if (gpsTracker != null) {
+            gpsTracker.onBind(getIntent());
+            gpsTracker.onDestroy();
+        }
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

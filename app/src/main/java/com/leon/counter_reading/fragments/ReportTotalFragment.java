@@ -22,8 +22,6 @@ import com.leon.counter_reading.enums.ReadStatusEnum;
 import org.eazegraph.lib.models.PieModel;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class ReportTotalFragment extends Fragment {
     FragmentReportTotalBinding binding;
     int zero, normal, high, low;
@@ -50,7 +48,7 @@ public class ReportTotalFragment extends Fragment {
         }
         MyApplication.POSITION = 1;
         startActivity(intent);
-        Objects.requireNonNull(getActivity()).finish();
+        activity.finish();
     };
 
     public ReportTotalFragment() {
