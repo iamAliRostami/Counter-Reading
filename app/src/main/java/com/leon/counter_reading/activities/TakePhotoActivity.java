@@ -72,7 +72,8 @@ public class TakePhotoActivity extends AppCompatActivity {
     Image.ImageGrouped imageGrouped = new Image.ImageGrouped();
     ArrayList<Image> images;
     int imageNumber = 1, imageNumberTemp = 0;
-    boolean replace = false;
+    boolean replace = false, result;
+    int position;
     String uuid;
     @SuppressLint("NonConstantResourceId")
     View.OnLongClickListener onLongClickListener = v -> {
@@ -215,9 +216,11 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
-        sharedPreferenceManager = new SharedPreferenceManager(activity,SharedReferenceNames.ACCOUNT.getValue());
+        sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
         if (getIntent().getExtras() != null) {
             uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
+            position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
+            result = getIntent().getExtras().getBoolean(BundleEnum.IMAGE.getValue());
         }
         imageSetup();
         setOnButtonSendClickListener();
@@ -233,8 +236,9 @@ public class TakePhotoActivity extends AppCompatActivity {
     @SuppressLint("UseCompatLoadingForDrawables")
     void imageSetup() {
         images = new ArrayList<>();
-        images.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                .getImagesByOnOffLoadId(uuid));
+        if (!result)
+            images.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
+                    .getImagesByOnOffLoadId(uuid));
         bitmaps = new ArrayList<>();
         if (images.size() > 0) {
             binding.editTextDescription.setText(images.get(0).Description);
@@ -607,6 +611,9 @@ public class TakePhotoActivity extends AppCompatActivity {
                         imageGrouped.File, imageGrouped.OnOffLoadId, imageGrouped.Description);
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                         new upload(), new uploadIncomplete(), new uploadError());
+            } else if (result) {
+                setResult();
+                finish();
             } else {
                 activity.runOnUiThread(() -> new CustomToast().warning(getString(R.string.there_is_no_images)));
             }
@@ -622,6 +629,8 @@ public class TakePhotoActivity extends AppCompatActivity {
                 new CustomToast().warning(activity.getString(R.string.error_upload), Toast.LENGTH_LONG);
             }
             saveImages(response.body() != null && response.body().status == 200);
+            if (result)
+                setResult();
             finish();
         }
     }
@@ -634,6 +643,8 @@ public class TakePhotoActivity extends AppCompatActivity {
             String error = customErrorHandlingNew.getErrorMessageDefault(response);
             new CustomToast().warning(error, Toast.LENGTH_LONG);
             saveImages(false);
+            if (result)
+                setResult();
             finish();
         }
     }
@@ -645,7 +656,15 @@ public class TakePhotoActivity extends AppCompatActivity {
             String error = customErrorHandlingNew.getErrorMessageTotal(t);
             new CustomToast().error(error, Toast.LENGTH_LONG);
             saveImages(false);
+            if (result)
+                setResult();
             finish();
         }
+    }
+
+    void setResult() {
+        Intent intent = new Intent();
+        intent.putExtra(BundleEnum.POSITION.getValue(), position);
+        setResult(RESULT_OK, intent);
     }
 }

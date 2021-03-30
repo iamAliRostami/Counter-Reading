@@ -25,6 +25,7 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.tables.SavedLocation;
 
+import org.jetbrains.annotations.NotNull;
 import org.osmdroid.config.Configuration;
 
 import java.util.ArrayList;
@@ -35,8 +36,8 @@ import static com.leon.counter_reading.MyApplication.MIN_DISTANCE_CHANGE_FOR_UPD
 public class GPSTracker extends Service {
     final Activity activity;
     boolean canGetLocation = false;
-    double latitude;
-    double longitude;
+    static double latitude;
+    static double longitude;
     double accuracy;
     boolean checkGPS = false;
     boolean checkNetwork = false;
@@ -47,10 +48,7 @@ public class GPSTracker extends Service {
     LocationRequest locationRequest;
     final LocationCallback locationCallback = new LocationCallback() {
         @Override
-        public void onLocationResult(LocationResult locationResult) {
-            if (locationResult == null) {
-                return;
-            }
+        public void onLocationResult(@NotNull LocationResult locationResult) {
             for (Location location : locationResult.getLocations()) {
                 addLocation(location);
             }
@@ -86,7 +84,9 @@ public class GPSTracker extends Service {
     }
 
     void addLocation(Location location) {
-        if (location != null) {
+        if (location != null && (location.getLatitude() != 0 || location.getLongitude() != 0)) {
+            Log.e("latitude", String.valueOf(location.getLatitude()));
+            Log.e("longitude", String.valueOf(location.getLongitude()));
             latitude = location.getLatitude();
             longitude = location.getLongitude();
             accuracy = location.getAccuracy();

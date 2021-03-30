@@ -2,6 +2,7 @@ package com.leon.counter_reading.enums;
 
 public enum BundleEnum {
     BILL_ID("bill_Id"),
+    IMAGE("image"),
     THEME("theme"),
     ON_OFF_LOAD("on_off_load"),
     READING_CONFIG("reading_config"),

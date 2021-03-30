@@ -45,7 +45,6 @@
                 android:text="@string/location_counter"
                 android:textColor="@color/text_color_light" />
 
-
         </LinearLayout>
 
         <androidx.viewpager.widget.ViewPager

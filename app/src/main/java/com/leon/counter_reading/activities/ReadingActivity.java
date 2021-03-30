@@ -123,7 +123,7 @@ public class ReadingActivity extends BaseActivity {
     public void updateOnOffLoadWithoutCounterNumber(int position, int counterStateCode,
                                                     int counterStatePosition) {
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
-        attemptSend(position, false);
+        attemptSend(position, true, true);
     }
 
     public void updateOnOffLoadByCounterSerial(int position, int counterStatePosition,
@@ -136,7 +136,7 @@ public class ReadingActivity extends BaseActivity {
                                                int counterStatePosition) {
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
         readingData.onOffLoadDtos.get(position).counterNumber = number;
-        attemptSend(position, false);
+        attemptSend(position, true, true);
     }
 
     public void updateOnOffLoadByCounterNumber(int position, int number, int counterStateCode,
@@ -157,7 +157,7 @@ public class ReadingActivity extends BaseActivity {
         readingData.onOffLoadDtos.get(position).possibleMobile = onOffLoadDto.possibleMobile;
         readingData.onOffLoadDtos.get(position).possibleAddress = onOffLoadDto.possibleAddress;
         readingData.onOffLoadDtos.get(position).possibleEshterak = onOffLoadDto.possibleEshterak;
-        attemptSend(position, true);
+        attemptSend(position, false, true);
     }
 
     void update(int position) {
@@ -171,9 +171,29 @@ public class ReadingActivity extends BaseActivity {
                 updateOnOffLoad(readingData.onOffLoadDtos.get(position));
     }
 
-    void attemptSend(int position, boolean isForm) {
+//    public void updateOnOffLoadImage(int position) {
+//        attemptSend(position, false, false);
+//    }
+
+    void showImage(int position) {
+//        if (PermissionManager.checkStoragePermission(getApplicationContext())) {
+//            askStoragePermission();
+//        } else {
+//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            ImageFragment imageFragment = ImageFragment.newInstance(readingData.onOffLoadDtos.get(position).billId, position);
+//            imageFragment.show(fragmentTransaction, getString(R.string.dynamic_navigation));
+//        }
+        Intent intent = new Intent(activity, TakePhotoActivity.class);
+        intent.putExtra(BundleEnum.BILL_ID.getValue(),
+                readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
+        intent.putExtra(BundleEnum.POSITION.getValue(), position);
+        intent.putExtra(BundleEnum.IMAGE.getValue(), true);
+        startActivityForResult(intent, MyApplication.CAMERA);
+    }
+
+    void attemptSend(int position, boolean isForm, boolean isImage) {
         //TODO
-        if (!isForm && (sharedPreferenceManager.getBoolData(SharedReferenceKeys.SERIAL.getValue())
+        if (isForm && (sharedPreferenceManager.getBoolData(SharedReferenceKeys.SERIAL.getValue())
                 || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_FARI.getValue())
                 || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_ASLI.getValue())
                 || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_OTHER.getValue())
@@ -183,6 +203,8 @@ public class ReadingActivity extends BaseActivity {
                 || sharedPreferenceManager.getBoolData(SharedReferenceKeys.ACCOUNT.getValue())
                 || sharedPreferenceManager.getBoolData(SharedReferenceKeys.MOBILE.getValue()))) {
             showPossible(position);
+        } else if (isImage && sharedPreferenceManager.getBoolData(SharedReferenceKeys.IMAGE.getValue())) {
+            showImage(position);
         } else {
             setAboveIconsSrc(position);
             update(position);
@@ -223,8 +245,7 @@ public class ReadingActivity extends BaseActivity {
 
     void showPossible(int position) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        PossibleFragment possibleFragment;
-        possibleFragment = PossibleFragment.newInstance(readingData.onOffLoadDtos.get(position), position);
+        PossibleFragment possibleFragment = PossibleFragment.newInstance(readingData.onOffLoadDtos.get(position), position);
         possibleFragment.show(fragmentTransaction, getString(R.string.dynamic_navigation));
     }
 
@@ -366,7 +387,7 @@ public class ReadingActivity extends BaseActivity {
                         });
                     } else
                         for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
-                            if (onOffLoadDto.firstName.toLowerCase().contains(key)||
+                            if (onOffLoadDto.firstName.toLowerCase().contains(key) ||
                                     onOffLoadDto.sureName.toLowerCase().contains(key))
                                 readingData.onOffLoadDtos.add(onOffLoadDto);
                         }
@@ -623,6 +644,9 @@ public class ReadingActivity extends BaseActivity {
                     checkPermissions();
                 else PermissionManager.enableNetwork(this);
             }
+        } else if (requestCode == MyApplication.CAMERA && resultCode == RESULT_OK) {
+            int position = data.getExtras().getInt(BundleEnum.POSITION.getValue());
+            attemptSend(position, false, false);
         }
     }
 

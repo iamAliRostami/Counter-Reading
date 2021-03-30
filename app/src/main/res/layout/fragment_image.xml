@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.AhadFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:weightSum="2"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            tools:ignore="DisableBaselineAlignment">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/medium_dp"
+                android:layout_weight="1"
+                android:background="@drawable/border_gray_4"
+                android:padding="@dimen/low_dp"
+                tools:ignore="NestedWeights">
+
+                <ImageView
+                    android:id="@+id/image_View_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_take_photo"
+                    tools:ignore="ContentDescription,NestedWeights" />
+
+                <ImageView
+                    android:id="@+id/image_View_delete_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    app:srcCompat="@drawable/img_delete_mark"
+                    tools:ignore="ContentDescription,RtlHardcoded" />
+
+                <ImageView
+                    android:id="@+id/image_View_sent_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/img_check_mark"
+                    tools:ignore="ContentDescription,RtlHardcoded" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/medium_dp"
+                android:layout_weight="1"
+                android:background="@drawable/border_gray_4"
+                android:padding="@dimen/low_dp"
+                tools:ignore="NestedWeights">
+
+                <ImageView
+                    android:id="@+id/image_View_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_take_photo"
+                    tools:ignore="ContentDescription,NestedWeights" />
+
+                <ImageView
+                    android:id="@+id/image_View_delete_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    app:srcCompat="@drawable/img_delete_mark"
+                    tools:ignore="ContentDescription,RtlHardcoded" />
+
+                <ImageView
+                    android:id="@+id/image_View_sent_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/img_check_mark"
+                    tools:ignore="ContentDescription,RtlHardcoded" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            tools:ignore="DisableBaselineAlignment">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/medium_dp"
+                android:layout_weight="1"
+                android:background="@drawable/border_gray_4"
+                android:padding="@dimen/low_dp"
+                tools:ignore="NestedWeights">
+
+                <ImageView
+                    android:id="@+id/image_View_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_take_photo"
+                    tools:ignore="ContentDescription,NestedWeights" />
+
+                <ImageView
+                    android:id="@+id/image_View_delete_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    app:srcCompat="@drawable/img_delete_mark"
+                    tools:ignore="ContentDescription,RtlHardcoded" />
+
+                <ImageView
+                    android:id="@+id/image_View_sent_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/img_check_mark"
+                    tools:ignore="ContentDescription,RtlHardcoded" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/medium_dp"
+                android:layout_weight="1"
+                android:background="@drawable/border_gray_4"
+                android:padding="@dimen/low_dp"
+                tools:ignore="NestedWeights">
+
+                <ImageView
+                    android:id="@+id/image_View_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_take_photo"
+                    tools:ignore="ContentDescription,NestedWeights" />
+
+                <ImageView
+                    android:id="@+id/image_View_delete_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    app:srcCompat="@drawable/img_delete_mark"
+                    tools:ignore="ContentDescription,RtlHardcoded" />
+
+                <ImageView
+                    android:id="@+id/image_View_sent_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/img_check_mark"
+                    tools:ignore="ContentDescription,RtlHardcoded" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/edit_text_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/medium_dp"
+            android:background="@drawable/border_gray_3"
+            android:gravity="top"
+            android:hint="@string/description"
+            android:lines="4"
+            android:padding="@dimen/low_dp"
+            android:textColor="?android:textColor"
+            android:textColorHint="?android:textColor"
+            tools:ignore="Autofill,TextFields" />
+
+        <Button
+            android:id="@+id/button_save_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/medium_dp"
+            android:background="@drawable/border_green_1"
+            android:text="@string/save_send"
+            android:textColor="@color/text_color_light"
+            android:textSize="@dimen/text_size_large" />
+    </LinearLayout>
+
+</FrameLayout>

@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.FragmentLocationBinding;
+import com.leon.counter_reading.utils.GPSTracker;
 
 import org.jetbrains.annotations.NotNull;
 import org.osmdroid.api.IMapController;
@@ -55,8 +55,16 @@ public class LocationFragment extends Fragment {
         binding.mapView.setMultiTouchControls(true);
         IMapController mapController = binding.mapView.getController();
         mapController.setZoom(19.0);
-        double latitude = ((BaseActivity) context).getGpsTracker().getLatitude();
-        double longitude = ((BaseActivity) context).getGpsTracker().getLongitude();
+        GPSTracker gpsTracker = new GPSTracker(getActivity());
+//        double latitude = ((BaseActivity) context).getGpsTracker().getLatitude();
+//        double longitude = ((BaseActivity) context).getGpsTracker().getLongitude();
+
+        double latitude = gpsTracker.getLatitude();
+        double longitude = gpsTracker.getLongitude();
+        if (latitude == 0 || longitude == 0) {
+            latitude = 32.65;
+            longitude = 51.66;
+        }
         GeoPoint startPoint = new GeoPoint(latitude, longitude);
         mapController.setCenter(startPoint);
         MyLocationNewOverlay locationOverlay =

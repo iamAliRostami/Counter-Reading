@@ -237,9 +237,38 @@ public class ReadingFragment extends Fragment {
             if (PermissionManager.checkLocationPermission(getContext())) {
                 askLocationPermission();
                 //TODO
+            } else if (PermissionManager.checkStoragePermission(getContext())) {
+                askStoragePermission();
             } else {
                 attemptSend();
             }
+    }
+
+    void askStoragePermission() {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                new CustomToast().info(getString(R.string.access_granted));
+                checkPermissions();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                PermissionManager.forceClose(activity);
+            }
+        };
+        new TedPermission(activity)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage(getString(R.string.confirm_permission))
+                .setRationaleConfirmText(getString(R.string.allow_permission))
+                .setDeniedMessage(getString(R.string.if_reject_permission))
+                .setDeniedCloseButtonText(getString(R.string.close))
+                .setGotoSettingButtonText(getString(R.string.allow_permission))
+                .setPermissions(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ).check();
     }
 
     void onButtonSubmitClickListener() {
