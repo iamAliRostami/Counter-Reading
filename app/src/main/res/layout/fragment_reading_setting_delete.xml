@@ -30,7 +30,7 @@
             android:layout_marginTop="@dimen/low_dp"
             android:layout_marginRight="@dimen/large_dp"
             android:layout_marginBottom="@dimen/low_dp"
-            android:background="@drawable/border_gray_5"
+            android:background="@drawable/border_gray_1"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -56,7 +56,7 @@
             android:layout_marginTop="@dimen/medium_dp"
             android:layout_marginRight="@dimen/large_dp"
             android:layout_marginBottom="@dimen/medium_dp"
-            android:background="@drawable/border_yellow_3"
+            android:background="@drawable/border_yellow_1"
             android:text="@string/delete"
             android:textColor="@color/text_color_light"
             android:textSize="@dimen/text_size_large" />
