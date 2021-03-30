@@ -237,7 +237,6 @@ public class ReadingActivity extends BaseActivity {
                 offLoadData.offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                         offLoadReportDao().getAllOffLoadReportById(onOffLoadDto.id));
             }
-
         Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
         HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activity,
                 new offLoadData(), new offLoadDataIncomplete(), new offLoadError());

@@ -2,7 +2,6 @@ package com.leon.counter_reading.utils;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +9,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.provider.Settings;
 
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.app.ActivityCompat;
 import androidx.core.location.LocationManagerCompat;
 
@@ -204,7 +204,8 @@ public class PermissionManager {
                 activity.getSystemService(Context.LOCATION_SERVICE);
         boolean enabled =
                 LocationManagerCompat.isLocationEnabled(Objects.requireNonNull(locationManager));
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
+//        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
+        androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(activity,R.style.AlertDialogCustom));
         if (!enabled) {
             alertDialog.setCancelable(false);
             alertDialog.setTitle(activity.getString(R.string.gps_setting));
@@ -227,7 +228,8 @@ public class PermissionManager {
                 activity.getSystemService(Context.LOCATION_SERVICE);
         boolean enabled =
                 LocationManagerCompat.isLocationEnabled(Objects.requireNonNull(locationManager));
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
+//        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
+        androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(activity,R.style.AlertDialogCustom));
         if (!enabled) {
             alertDialog.setCancelable(false);
             alertDialog.setTitle(activity.getString(R.string.gps_setting));
@@ -253,7 +255,8 @@ public class PermissionManager {
     }
 
     public static void enableNetwork(Activity activity) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
+//        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
+        androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(activity,R.style.AlertDialogCustom));
         alertDialog.setCancelable(false);
         alertDialog.setTitle(activity.getString(R.string.network_setting));
         alertDialog.setMessage(R.string.active_network);

@@ -20,6 +20,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.gun0912.tedpermission.PermissionListener;
@@ -328,7 +329,8 @@ public class ReportForbidActivity extends AppCompatActivity {
 
     void setOnButtonPhotoClickListener() {
         binding.buttonPhoto.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(ReportForbidActivity.this);
+//            AlertDialog.Builder builder = new AlertDialog.Builder(ReportForbidActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(ReportForbidActivity.this,R.style.AlertDialogCustom));
             builder.setTitle(R.string.choose_document);
             builder.setMessage(R.string.select_source);
             builder.setPositiveButton(R.string.gallery, (dialog, which) -> {
