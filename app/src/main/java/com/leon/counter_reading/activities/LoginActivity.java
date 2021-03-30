@@ -159,6 +159,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             new CustomToast().warning(getString(R.string.error_is_not_match), Toast.LENGTH_LONG);
         }
+        counter = 0;
     }
 
     void attemptLogin() {

@@ -45,8 +45,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="@dimen/medium_dp"
-                android:text="@string/version_custom" />
+                android:padding="@dimen/medium_dp"/>
 
         </LinearLayout>
 

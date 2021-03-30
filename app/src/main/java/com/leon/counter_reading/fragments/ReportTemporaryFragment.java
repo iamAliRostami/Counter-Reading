@@ -87,7 +87,6 @@ public class ReportTemporaryFragment extends Fragment {
     }
 
     void initializeSpinner() {
-        items.add(0, getString(R.string.all_items));
         adapter = new SpinnerCustomAdapter(activity, items);
         binding.spinner.setAdapter(adapter);
         binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -124,6 +123,8 @@ public class ReportTemporaryFragment extends Fragment {
     }
 
     void getBundle() {
+        items.clear();
+        items.add(getString(R.string.all_items));
         if (getArguments() != null) {
             total = getArguments().getInt(BundleEnum.TOTAL.getValue());
             isMane = getArguments().getInt(BundleEnum.IS_MANE.getValue());
