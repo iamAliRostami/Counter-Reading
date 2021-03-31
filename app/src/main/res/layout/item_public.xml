@@ -18,6 +18,9 @@
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
         android:gravity="center_vertical"
         android:padding="@dimen/medium_dp"
+        android:textStyle="bold"
+        android:text="@string/save_send"
+        android:textSize="@dimen/text_size_medium"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:textColor="@color/text_color_dark"
         tools:ignore="RedundantNamespace,RtlCompat" />
