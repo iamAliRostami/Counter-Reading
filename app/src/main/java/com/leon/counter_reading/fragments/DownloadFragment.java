@@ -115,54 +115,43 @@ public class DownloadFragment extends Fragment {
                 MyDatabase myDatabase = MyDatabaseClient.getInstance(context).getMyDatabase();
                 ArrayList<TrackingDto> trackingDtos = new ArrayList<>(
                         myDatabase.trackingDao().getTrackingDtoNotArchive(false));
+                final boolean[] isActive = {false};
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     trackingDtos.forEach(trackingDto -> {
                         for (int i = 0; i < readingDataTemp.trackingDtos.size(); i++) {
                             if (trackingDto.id.equals(readingDataTemp.trackingDtos.get(i).id))
                                 readingData.trackingDtos.remove(readingDataTemp.trackingDtos.get(i));
+                            if (trackingDto.isActive)
+                                isActive[0] = true;
                         }
                     });
-                } else
-                    for (TrackingDto trackingDto : trackingDtos)
+                } else {
+                    for (TrackingDto trackingDto : trackingDtos) {
                         for (TrackingDto trackingDto1 : readingDataTemp.trackingDtos) {
                             if (trackingDto.id.equals(trackingDto1.id))
                                 readingData.trackingDtos.remove(trackingDto1);
                         }
-                myDatabase.trackingDao().insertAllTrackingDtos(readingData.trackingDtos);
-
+                        if (trackingDto.isActive)
+                            isActive[0] = true;
+                    }
+                }
+                if (readingData.trackingDtos.size() > 0) {
+                    if (!isActive[0])
+                        readingData.trackingDtos.get(0).isActive = true;
+                    myDatabase.trackingDao().insertAllTrackingDtos(readingData.trackingDtos);
+                }
                 ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>(
                         myDatabase.counterStateDao().getCounterStateDtos());
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    counterStateDtos.forEach(counterStateDto -> {
-                        for (int i = 0; i < readingDataTemp.counterStateDtos.size(); i++) {
-                            if (counterStateDto.id == readingDataTemp.counterStateDtos.get(i).id)
-                                readingData.counterStateDtos.remove(
-                                        readingDataTemp.counterStateDtos.get(i));
-                        }
-                    });
-                } else
-                    for (CounterStateDto counterStateDto : counterStateDtos)
-                        for (CounterStateDto counterStateDto1 : readingDataTemp.counterStateDtos) {
-                            if (counterStateDto.id == counterStateDto1.id)
-                                readingData.counterStateDtos.remove(counterStateDto1);
-                        }
+                for (CounterStateDto counterStateDto : counterStateDtos)
+                    for (int i = 0; i < readingDataTemp.counterStateDtos.size(); i++) {
+                        if (counterStateDto.id == readingDataTemp.counterStateDtos.get(i).id)
+                            readingData.counterStateDtos.remove(
+                                    readingDataTemp.counterStateDtos.get(i));
+                    }
                 myDatabase.counterStateDao().insertAllCounterStateDto(readingData.counterStateDtos);
 
                 ArrayList<KarbariDto> karbariDtos = new ArrayList<>(
                         myDatabase.karbariDao().getAllKarbariDto());
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    karbariDtos.forEach(karbariDto -> {
-                        for (int i = 0; i < readingDataTemp.karbariDtos.size(); i++) {
-                            if (karbariDto.id == readingDataTemp.karbariDtos.get(i).id)
-                                readingData.karbariDtos.remove(readingDataTemp.karbariDtos.get(i));
-                        }
-                    });
-                } else
-                    for (KarbariDto karbariDto : karbariDtos)
-                        for (KarbariDto karbariDto1 : readingDataTemp.karbariDtos) {
-                            if (karbariDto.id == karbariDto1.id)
-                                readingData.karbariDtos.remove(karbariDto1);
-                        }
                 for (KarbariDto karbariDto : karbariDtos)
                     for (int i = 0; i < readingDataTemp.karbariDtos.size(); i++) {
                         if (karbariDto.id == readingDataTemp.karbariDtos.get(i).id)
