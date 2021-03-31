@@ -9,8 +9,7 @@
     android:padding="@dimen/low_dp"
     tools:ignore="UnusedAttribute">
 
-    <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <CheckedTextView
         android:id="@android:id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

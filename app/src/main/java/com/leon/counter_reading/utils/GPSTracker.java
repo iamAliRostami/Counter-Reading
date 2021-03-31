@@ -85,13 +85,12 @@ public class GPSTracker extends Service {
 
     void addLocation(Location location) {
         if (location != null && (location.getLatitude() != 0 || location.getLongitude() != 0)) {
-            Log.e("latitude", String.valueOf(location.getLatitude()));
-            Log.e("longitude", String.valueOf(location.getLongitude()));
             latitude = location.getLatitude();
             longitude = location.getLongitude();
             accuracy = location.getAccuracy();
             SavedLocation savedLocation = new SavedLocation(accuracy, longitude, latitude);
-            MyDatabaseClient.getInstance(activity).getMyDatabase().savedLocationDao().insertSavedLocation(savedLocation);
+            MyDatabaseClient.getInstance(activity).getMyDatabase().savedLocationDao().
+                    insertSavedLocation(savedLocation);
             savedLocations.add(savedLocation);
         }
     }
@@ -176,8 +175,7 @@ public class GPSTracker extends Service {
 
     @SuppressLint("MissingPermission")
     void registerRequestUpdateGoogle() {
-        fusedLocationClient.getLastLocation().addOnSuccessListener(activity,
-                onSuccessListener);
+        fusedLocationClient.getLastLocation().addOnSuccessListener(activity, onSuccessListener);
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
     }
 
