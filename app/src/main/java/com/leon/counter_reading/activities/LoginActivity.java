@@ -3,6 +3,7 @@ package com.leon.counter_reading.activities;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
 import android.text.InputType;
@@ -58,8 +59,11 @@ public class LoginActivity extends AppCompatActivity {
 
     void initialize() {
         context = this;
-        binding.textViewVersion.setText(getString(R.string.version).concat(" ")
-                .concat(BuildConfig.VERSION_NAME));
+//        binding.textViewVersion.setText(getString(R.string.version).concat(" ")
+//                .concat(BuildConfig.VERSION_NAME));
+        binding.textViewVersion.setText(getString(R.string.version).concat(" ").concat(getAndroidVersion())
+                .concat(" *** ").concat(BuildConfig.VERSION_NAME));
+
         sharedPreferenceManager = new SharedPreferenceManager(
                 context, SharedReferenceNames.ACCOUNT.getValue());
         loadPreference();
@@ -71,6 +75,12 @@ public class LoginActivity extends AppCompatActivity {
         setOnImageViewPasswordClickListener();
         setEditTextUsernameOnFocusChangeListener();
         setEditTextPasswordOnFocusChangeListener();
+    }
+
+    String getAndroidVersion() {
+        String release = Build.VERSION.RELEASE;
+        int sdkVersion = Build.VERSION.SDK_INT;
+        return "Android SDK: " + sdkVersion + " (" + release + ")";
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
