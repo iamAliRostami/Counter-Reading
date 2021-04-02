@@ -25,6 +25,8 @@ public class MyApplication extends Application {
     public static final int NAVIGATION = 1903;
     public static final int DESCRIPTION = 1909;
     public static final int TOAST_TEXT_SIZE = 20;
+    public static final int CARRIER_PRIVILEGE_STATUS = 901;
+    public static final int READ_PHONE_STATE = 911;
     public static Bitmap bitmapSelectedImage;
     public static int POSITION = -1;
     public static String fileName;
