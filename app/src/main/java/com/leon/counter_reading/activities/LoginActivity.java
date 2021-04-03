@@ -186,20 +186,6 @@ public class LoginActivity extends AppCompatActivity {
         binding.buttonLogin.setOnClickListener(v -> attempt(true));
     }
 
-    void offlineLogin() {
-        if (sharedPreferenceManager.getStringData(SharedReferenceKeys.USERNAME.getValue()).equals(username) &&
-                Crypto.decrypt(sharedPreferenceManager.getStringData(SharedReferenceKeys.PASSWORD.getValue()))
-                        .equals(password)) {
-            new CustomToast().info(getString(R.string.check_connection), Toast.LENGTH_LONG);
-            Intent intent = new Intent(activity, HomeActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            new CustomToast().warning(getString(R.string.error_is_not_match), Toast.LENGTH_LONG);
-        }
-        counter = 0;
-    }
-
     void attempt(boolean isLogin) {
         View view;
         boolean cancel = false;
@@ -228,6 +214,20 @@ public class LoginActivity extends AppCompatActivity {
                 attemptRegister();
             }
         }
+    }
+
+    void offlineLogin() {
+        if (sharedPreferenceManager.getStringData(SharedReferenceKeys.USERNAME.getValue()).equals(username) &&
+                Crypto.decrypt(sharedPreferenceManager.getStringData(SharedReferenceKeys.PASSWORD.getValue()))
+                        .equals(password)) {
+            new CustomToast().info(getString(R.string.check_connection), Toast.LENGTH_LONG);
+            Intent intent = new Intent(activity, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            new CustomToast().warning(getString(R.string.error_is_not_match), Toast.LENGTH_LONG);
+        }
+        counter = 0;
     }
 
     void attemptRegister() {
