@@ -29,7 +29,7 @@ public interface IAbfaService {
     Call<LoginFeedBack> login(@Body LoginInfo logininfo);
 
     @POST("kontoriNew/V1/User/RegisterDevice")
-    Call<LoginFeedBack> signSerial(@Body LoginInfo logininfo);
+    Call<LoginFeedBack> register(@Body LoginInfo logininfo);
 
     @POST("kontoriNew/V1/Account/ChangePassword")
     Call<SimpleResponse> changePassword(@Body PasswordInfo passwordInfo);

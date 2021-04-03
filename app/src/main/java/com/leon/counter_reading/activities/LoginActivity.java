@@ -106,11 +106,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void initialize() {
-//        binding.textViewVersion.setText(getString(R.string.version).concat(" ")
-//                .concat(BuildConfig.VERSION_NAME));
         binding.textViewVersion.setText(getString(R.string.version).concat(" ").concat(getAndroidVersion())
                 .concat(" *** ").concat(BuildConfig.VERSION_NAME));
-
         sharedPreferenceManager = new SharedPreferenceManager(
                 activity, SharedReferenceNames.ACCOUNT.getValue());
         loadPreference();
@@ -180,55 +177,13 @@ public class LoginActivity extends AppCompatActivity {
 
     void setOnButtonLongCLickListener() {
         binding.buttonLogin.setOnLongClickListener(v -> {
-            View view;
-            boolean cancel = false;
-            if (binding.editTextUsername.getText().length() < 1) {
-                binding.editTextUsername.setError(getString(R.string.error_empty));
-                view = binding.editTextUsername;
-                view.requestFocus();
-                cancel = true;
-            }
-            if (!cancel && binding.editTextPassword.getText().length() < 1) {
-                binding.editTextPassword.setError(getString(R.string.error_empty));
-                view = binding.editTextPassword;
-                view.requestFocus();
-                cancel = true;
-            }
-            if (!cancel) {
-                username = binding.editTextUsername.getText().toString();
-                password = binding.editTextPassword.getText().toString();
-                attemptRegister();
-            }
+            attempt(false);
             return false;
         });
     }
 
     void setOnButtonLoginClickListener() {
-        binding.buttonLogin.setOnClickListener(v -> {
-            View view;
-            boolean cancel = false;
-            if (binding.editTextUsername.getText().length() < 1) {
-                binding.editTextUsername.setError(getString(R.string.error_empty));
-                view = binding.editTextUsername;
-                view.requestFocus();
-                cancel = true;
-            }
-            if (!cancel && binding.editTextPassword.getText().length() < 1) {
-                binding.editTextPassword.setError(getString(R.string.error_empty));
-                view = binding.editTextPassword;
-                view.requestFocus();
-                cancel = true;
-            }
-            if (!cancel) {
-                username = binding.editTextUsername.getText().toString();
-                password = binding.editTextPassword.getText().toString();
-                counter++;
-                if (counter < 4)
-                    attemptLogin();
-                else
-                    offlineLogin();
-            }
-        });
+        binding.buttonLogin.setOnClickListener(v -> attempt(true));
     }
 
     void offlineLogin() {
@@ -245,19 +200,48 @@ public class LoginActivity extends AppCompatActivity {
         counter = 0;
     }
 
+    void attempt(boolean isLogin) {
+        View view;
+        boolean cancel = false;
+        if (binding.editTextUsername.getText().length() < 1) {
+            binding.editTextUsername.setError(getString(R.string.error_empty));
+            view = binding.editTextUsername;
+            view.requestFocus();
+            cancel = true;
+        }
+        if (!cancel && binding.editTextPassword.getText().length() < 1) {
+            binding.editTextPassword.setError(getString(R.string.error_empty));
+            view = binding.editTextPassword;
+            view.requestFocus();
+            cancel = true;
+        }
+        if (!cancel) {
+            username = binding.editTextUsername.getText().toString();
+            password = binding.editTextPassword.getText().toString();
+            if (isLogin) {
+                counter++;
+                if (counter < 4)
+                    attemptLogin();
+                else
+                    offlineLogin();
+            } else {
+                attemptRegister();
+            }
+        }
+    }
+
     void attemptRegister() {
         Retrofit retrofit = NetworkHelper.getInstance();
-        final IAbfaService serial = retrofit.create(IAbfaService.class);
-        Call<LoginFeedBack> call = serial.signSerial(new LoginInfo(username, password, getSerial()));
+        final IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+        Call<LoginFeedBack> call = iAbfaService.register(new LoginInfo(username, password, getSerial()));
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), this,
                 new Register(), new GetErrorIncomplete(), new GetError());
     }
 
     void attemptLogin() {
         Retrofit retrofit = NetworkHelper.getInstance();
-        final IAbfaService loginInfo = retrofit.create(IAbfaService.class);
-
-        Call<LoginFeedBack> call = loginInfo.login(new LoginInfo(username, password, getSerial()));
+        final IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+        Call<LoginFeedBack> call = iAbfaService.login(new LoginInfo(username, password, getSerial()));
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), this,
                 new Login(), new GetErrorIncomplete(), new GetError());
     }
@@ -274,20 +258,14 @@ public class LoginActivity extends AppCompatActivity {
         return serial;
     }
 
-    @SuppressLint("NewApi")
-    public boolean hasCarrierPrivileges() {
+    boolean hasCarrierPrivileges() {
         TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         boolean isCarrier = tm.hasCarrierPrivileges();
-        if (isCarrier) {
-            Log.e("TAG", "Ready with carrier privs");
-        } else {
-            Log.e("Error", "No carrier privs");
+        if (!isCarrier) {
             int hasPermission = ActivityCompat.checkSelfPermission(getApplicationContext(),
                     "android.permission.READ_PRIVILEGED_PHONE_STATE");
             if (hasPermission != PackageManager.PERMISSION_GRANTED) {
                 if (!shouldShowRequestPermissionRationale("android.permission.READ_PRIVILEGED_PHONE_STATE")) {
-                    Log.e("error", "You need to allow access");
-
                     ActivityCompat.requestPermissions(LoginActivity.this, new String[]{
                             "android.permission.READ_PRIVILEGED_PHONE_STATE"}, CARRIER_PRIVILEGE_STATUS);
                 }
@@ -402,7 +380,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        initialize();
     }
 
     @Override
@@ -424,11 +401,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        activity = null;
-        binding.imageViewPerson.setImageDrawable(null);
-        binding.imageViewPassword.setImageDrawable(null);
-        binding.imageViewLogo.setImageDrawable(null);
-        binding.imageViewUsername.setImageDrawable(null);
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();
