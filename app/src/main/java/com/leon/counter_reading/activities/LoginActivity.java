@@ -108,8 +108,6 @@ public class LoginActivity extends AppCompatActivity {
     void initialize() {
         binding.textViewVersion.setText(getString(R.string.version).concat(" ").concat(getAndroidVersion())
                 .concat(" *** ").concat(BuildConfig.VERSION_NAME));
-        sharedPreferenceManager = new SharedPreferenceManager(
-                activity, SharedReferenceNames.ACCOUNT.getValue());
         loadPreference();
         binding.imageViewPassword.setImageResource(R.drawable.img_password);
         binding.imageViewLogo.setImageResource(R.drawable.img_login_logo);
@@ -298,6 +296,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void loadPreference() {
+        sharedPreferenceManager = new SharedPreferenceManager(
+                activity, SharedReferenceNames.ACCOUNT.getValue());
         if (sharedPreferenceManager.checkIsNotEmpty(SharedReferenceKeys.USERNAME.getValue()) &&
                 sharedPreferenceManager.checkIsNotEmpty(SharedReferenceKeys.PASSWORD.getValue())) {
             binding.editTextUsername.setText(sharedPreferenceManager.getStringData(
