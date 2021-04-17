@@ -3,7 +3,7 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
     signingConfigs {
         config {
             keyAlias 'ali_angel'
@@ -69,7 +69,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'androidx.multidex:multidex:2.0.1'
 
     testImplementation 'junit:junit:4.13.2'
@@ -96,7 +96,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
     implementation 'com.github.MKergall:osmbonuspack:6.3'
-    implementation 'org.osmdroid:osmdroid-android:6.1.7@aar'
+    implementation 'org.osmdroid:osmdroid-android:6.1.10@aar'
     implementation 'com.cocoahero.android:geojson:1.0.1@jar'
 
     implementation 'android.arch.persistence.room:runtime:1.1.1'
