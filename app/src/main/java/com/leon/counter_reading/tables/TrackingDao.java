@@ -22,7 +22,7 @@ public interface TrackingDao {
     @Query("SELECT * FROM TrackingDto INNER JOIN ReadingConfigDefaultDto ON " +
             "TrackingDto.zoneId=ReadingConfigDefaultDto.zoneId " +
             "WHERE ReadingConfigDefaultDto.id = :id")
-    List<TrackingDto> getUsersForRepository(int id);
+    List<TrackingDto> getUsersForRepository(String id);
 
     @Query("Select zoneId From TrackingDto WHERE isArchive = :isArchive AND isActive = :isActive")
     List<Integer> getZoneIdIsActiveNotArchive(boolean isActive, boolean isArchive);

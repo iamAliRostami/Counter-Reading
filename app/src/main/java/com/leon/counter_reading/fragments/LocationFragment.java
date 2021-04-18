@@ -170,6 +170,8 @@ public class LocationFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         getDBLocation = null;
+        polygonPoint = null;
+        savedLocations = null;
     }
 
     @Override
