@@ -96,7 +96,7 @@ public class LocationFragment extends Fragment {
         protected Integer doInBackground(Integer... integers) {
             int total = MyDatabaseClient.getInstance(context).getMyDatabase().savedLocationDao().
                     getSavedLocationsCount();
-            Log.e("total", String.valueOf(total));
+//            total=4;
             for (int i = 1; i <= total; i = i + 10) {
                 savedLocations.addAll(MyDatabaseClient.getInstance(context).getMyDatabase().
                         savedLocationDao().getSavedLocations(i, i + 9));
