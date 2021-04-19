@@ -33,10 +33,11 @@ import java.util.ArrayList;
 public class LocationFragment extends Fragment {
     FragmentLocationBinding binding;
     Context context;
-    int polygonIndex;
+    int polygonIndex, startIndex = 0;
     ArrayList<GeoPoint> polygonPoint = new ArrayList<>();
     ArrayList<SavedLocation> savedLocations = new ArrayList<>();
     GetDBLocation getDBLocation;
+    Polyline line;
 
     public LocationFragment() {
     }
@@ -96,7 +97,10 @@ public class LocationFragment extends Fragment {
         protected Integer doInBackground(Integer... integers) {
             int total = MyDatabaseClient.getInstance(context).getMyDatabase().savedLocationDao().
                     getSavedLocationsCount();
-//            total=4;
+//            total = 14;
+            Log.e("total", String.valueOf(total));
+            line = new Polyline(binding.mapView);
+            line.getOutlinePaint().setColor(Color.YELLOW);
             for (int i = 1; i <= total; i = i + 10) {
                 savedLocations.addAll(MyDatabaseClient.getInstance(context).getMyDatabase().
                         savedLocationDao().getSavedLocations(i, i + 9));
@@ -118,10 +122,14 @@ public class LocationFragment extends Fragment {
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-            for (int i = values[0] / 10 - 1; i < values[0]; i++) {
+            Log.e("size", String.valueOf(values[0]));
+//            for (int i = (values[0] / 10) - 1; i < values[0]; i++) {
+            for (int i = startIndex; i < values[0]; i++) {
+                Log.e("id", String.valueOf(savedLocations.get(i).id));
                 addPlace(new GeoPoint(savedLocations.get(i).latitude, savedLocations.get(i).longitude));
-                createPolygon(new GeoPoint(savedLocations.get(i).latitude, savedLocations.get(i).longitude));
+//                createPolygon(new GeoPoint(savedLocations.get(i).latitude, savedLocations.get(i).longitude));
             }
+            startIndex = values[0];
             super.onProgressUpdate(values);
         }
 
@@ -133,9 +141,16 @@ public class LocationFragment extends Fragment {
             binding.mapView.getOverlayManager().add(startMarker);
         }
 
+//        void createPolygon(GeoPoint geoPoint) {
+//            try {
+//                binding.mapView.getOverlays().add(line);
+//                polygonPoint.add(geoPoint);
+//                line.setPoints(polygonPoint);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
         void createPolygon(GeoPoint geoPoint) {
-            Polyline line = new Polyline(binding.mapView);
-            line.getOutlinePaint().setColor(Color.YELLOW);
             if (polygonIndex != 0) {
                 try {
                     binding.mapView.getOverlays().remove(polygonIndex);

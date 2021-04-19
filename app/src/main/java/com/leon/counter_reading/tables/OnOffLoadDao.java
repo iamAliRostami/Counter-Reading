@@ -13,22 +13,22 @@ public interface OnOffLoadDao {
     @Query("select * From OnOffLoadDto")
     List<OnOffLoadDto> getAllOnOffLoad();
 
-    @Query("select * From OnOffLoadDto WHERE id = :id")
+    @Query("select * From OnOffLoadDto WHERE id = :id ORDER BY eshterak")
     OnOffLoadDto getAllOnOffLoadById(String id);
 
-    @Query("select * From OnOffLoadDto Where trackingId = :trackingId")
+    @Query("select * From OnOffLoadDto Where trackingId = :trackingId ORDER BY eshterak")
     List<OnOffLoadDto> getAllOnOffLoadByTracking(String trackingId);
 
-    @Query("select * From OnOffLoadDto Where trackingId = :trackingId AND highLowStateId = :highLow")
+    @Query("select * From OnOffLoadDto Where trackingId = :trackingId AND highLowStateId = :highLow ORDER BY eshterak")
     List<OnOffLoadDto> getAllOnOffLoadByHighLowAndTracking(String trackingId, int highLow);
 
-    @Query("select * From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId AND trackingId = :trackingId")
+    @Query("select * From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId AND trackingId = :trackingId ORDER BY eshterak")
     List<OnOffLoadDto> getAllOnOffLoadRead(int offLoadStateId, String trackingId);
 
-    @Query("select * From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId")
+    @Query("select * From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId ORDER BY eshterak")
     List<OnOffLoadDto> getAllOnOffLoadRead(int offLoadStateId);
 
-    @Query("select * From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId AND trackingId = :trackingId")
+    @Query("select * From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId AND trackingId = :trackingId ORDER BY eshterak")
     List<OnOffLoadDto> getAllOnOffLoadNotRead(int offLoadStateId, String trackingId);//TODO
 
     @Query("select * From OnOffLoadDto WHERE trackingId = :trackingId AND offLoadStateId = :offLoadStateId")
@@ -42,7 +42,7 @@ public interface OnOffLoadDao {
     @Query("select * From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId")
     List<OnOffLoadDto> getOnOffLoadReadByOffLoad(int offLoadStateId);
 
-    @Query("select * From OnOffLoadDto WHERE counterStateId = :counterStateId AND trackingId = :trackingId")
+    @Query("select * From OnOffLoadDto WHERE counterStateId = :counterStateId AND trackingId = :trackingId ORDER BY eshterak")
     List<OnOffLoadDto> getOnOffLoadReadByIsMane(int counterStateId, String trackingId);
 
     @Query("select COUNT(*) From OnOffLoadDto WHERE trackingId = :trackingId AND highLowStateId =:highLowStateId")
