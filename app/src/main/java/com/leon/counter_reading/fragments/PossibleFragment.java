@@ -2,6 +2,7 @@ package com.leon.counter_reading.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,7 +118,9 @@ public class PossibleFragment extends DialogFragment {
                     cancel = true;
                 } else onOffLoadDto.possibleEshterak = binding.editTextAccount.getText().toString();
             }
-
+            if (binding.editTextDescription.getText().length() > 0) {
+                onOffLoadDto.description = binding.editTextDescription.getText().toString();
+            }
             if (binding.editTextAddress.getText().length() > 0)
                 onOffLoadDto.possibleAddress = binding.editTextAddress.getText().toString();
 
@@ -154,6 +157,9 @@ public class PossibleFragment extends DialogFragment {
                 getBoolData(SharedReferenceKeys.ACCOUNT.getValue()) ? View.VISIBLE : View.GONE);
         binding.editTextAhadEmpty.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.AHAD_EMPTY.getValue()) ? View.VISIBLE : View.GONE);
+
+        binding.editTextDescription.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.DESCRIPTION.getValue()) ? View.VISIBLE : View.GONE);
 
         binding.linearLayoutAhadAsli.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.AHAD_ASLI.getValue()) ? View.VISIBLE : View.GONE);

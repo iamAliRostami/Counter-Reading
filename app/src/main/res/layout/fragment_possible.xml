@@ -30,10 +30,10 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/linear_layout_mobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
-                    android:id="@+id/linear_layout_mobile"
                     android:background="@drawable/border_gray_7"
                     android:orientation="horizontal"
                     android:padding="@dimen/medium_dp">
@@ -149,10 +149,10 @@
                     tools:ignore="Autofill" />
 
                 <LinearLayout
+                    android:id="@+id/linear_layout_ahad_asli"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
-                    android:id="@+id/linear_layout_ahad_asli"
                     android:background="@drawable/border_gray_7"
                     android:orientation="horizontal"
                     android:padding="@dimen/medium_dp">
@@ -187,10 +187,10 @@
                     tools:ignore="Autofill" />
 
                 <LinearLayout
+                    android:id="@+id/linear_layout_ahad_fari"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
-                    android:id="@+id/linear_layout_ahad_fari"
                     android:background="@drawable/border_gray_7"
                     android:orientation="horizontal"
                     android:padding="@dimen/medium_dp">
@@ -225,10 +225,10 @@
                     tools:ignore="Autofill" />
 
                 <LinearLayout
+                    android:id="@+id/linear_layout_ahad_other"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
-                    android:id="@+id/linear_layout_ahad_other"
                     android:background="@drawable/border_gray_7"
                     android:orientation="horizontal"
                     android:padding="@dimen/medium_dp">
@@ -261,6 +261,19 @@
                     android:padding="@dimen/medium_dp"
                     android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill" />
+
+                <EditText
+                    android:id="@+id/edit_text_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/low_dp"
+                    android:background="@drawable/border_gray_2"
+                    android:gravity="center"
+                    android:hint="@string/description"
+                    android:maxLines="1"
+                    android:padding="@dimen/medium_dp"
+                    android:textSize="@dimen/text_size_large"
+                    tools:ignore="Autofill,TextFields" />
             </LinearLayout>
         </ScrollView>
 

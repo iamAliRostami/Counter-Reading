@@ -11,7 +11,7 @@ public enum SharedReferenceKeys {
     AHAD_FARI("ahad_fari"),
     AHAD_OTHER("ahad_other"),
     KARBARI("karbari"),
-
+    DESCRIPTION("description"),
     USERNAME_TEMP("username_temp"),
     PASSWORD_TEMP("password_temp"),
     USERNAME("username"),

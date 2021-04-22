@@ -139,8 +139,16 @@ public class ReadingFragment extends Fragment {
                 .concat(onOffLoadDto.sureName));
         binding.textViewPreDate.setText(onOffLoadDto.preDate);
         binding.textViewSerial.setText(onOffLoadDto.counterSerial);
-        binding.textViewRadif.setText(String.valueOf(onOffLoadDto.radif));
+
+        if (readingConfigDefaultDto.displayRadif)
+            binding.textViewRadif.setText(String.valueOf(onOffLoadDto.radif));
         binding.textViewAhadAsli.setText(String.valueOf(onOffLoadDto.ahadMaskooniOrAsli));
+
+        if (readingConfigDefaultDto.displayBillId)
+            binding.textViewRadif.setText(String.valueOf(onOffLoadDto.billId));
+
+        if (onOffLoadDto.counterNumber != 0)
+            binding.editTextNumber.setText(String.valueOf(onOffLoadDto.counterNumber));
         binding.textViewAhadForosh.setText(String.valueOf(onOffLoadDto.ahadTejariOrFari));
         binding.textViewAhadMasraf.setText(String.valueOf(onOffLoadDto.ahadSaierOrAbBaha));
 
