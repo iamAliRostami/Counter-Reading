@@ -12,6 +12,7 @@ public enum SharedReferenceKeys {
     AHAD_TOTAL("ahad_total"),
     KARBARI("karbari"),
     DESCRIPTION("description"),
+    SHOW_AHAD_TITLE("show_ahad_title"),
     USERNAME_TEMP("username_temp"),
     PASSWORD_TEMP("password_temp"),
     USERNAME("username"),

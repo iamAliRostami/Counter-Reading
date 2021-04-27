@@ -149,25 +149,75 @@
                     tools:ignore="Autofill" />
 
                 <LinearLayout
-                    android:id="@+id/linear_layout_ahad1"
+                    android:id="@+id/linear_layout_ahad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
                     android:background="@drawable/border_gray_7"
                     android:orientation="horizontal"
-                    android:padding="@dimen/medium_dp">
+                    android:gravity="center"
+                    android:padding="@dimen/medium_dp"
+                    android:weightSum="2">
 
                     <TextView
                         android:id="@+id/text_view_ahad_1_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/small_dp"
+                        android:layout_marginRight="@dimen/small_dp"
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
                         android:id="@+id/text_view_ahad_1"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:layout_marginLeft="@dimen/small_dp"
+                        android:layout_marginRight="@dimen/small_dp"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <LinearLayout
+                        android:layout_width="@dimen/small_dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/smoked" />
+
+                    <TextView
+                        android:id="@+id/text_view_ahad2_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/small_dp"
+                        android:layout_marginRight="@dimen/small_dp"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <TextView
+                        android:id="@+id/text_view_ahad_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/small_dp"
+                        android:layout_marginRight="@dimen/small_dp"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <LinearLayout
+                        android:layout_width="@dimen/small_dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/smoked" />
+
+                    <TextView
+                        android:id="@+id/text_view_ahad_total_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/small_dp"
+                        android:layout_marginRight="@dimen/small_dp"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <TextView
+                        android:id="@+id/text_view_ahad_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/small_dp"
+                        android:layout_marginRight="@dimen/small_dp"
                         android:textSize="@dimen/text_size_large" />
                 </LinearLayout>
 
@@ -185,29 +235,6 @@
                     android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill,LabelFor" />
 
-                <LinearLayout
-                    android:id="@+id/linear_layout_ahad2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/low_dp"
-                    android:background="@drawable/border_gray_7"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/medium_dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/text_view_ahad2_title"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <TextView
-                        android:id="@+id/text_view_ahad_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textSize="@dimen/text_size_large" />
-                </LinearLayout>
-
                 <EditText
                     android:id="@+id/edit_text_ahad_2"
                     android:layout_width="match_parent"
@@ -222,28 +249,6 @@
                     android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill,LabelFor" />
 
-                <LinearLayout
-                    android:id="@+id/linear_layout_ahad_total"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/low_dp"
-                    android:background="@drawable/border_gray_7"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/medium_dp">
-
-                    <TextView
-                        android:id="@+id/text_view_ahad_total_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <TextView
-                        android:id="@+id/text_view_ahad_total"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textSize="@dimen/text_size_large" />
-                </LinearLayout>
 
                 <EditText
                     android:id="@+id/edit_text_ahad_total"

@@ -131,7 +131,6 @@
                 android:padding="@dimen/low_dp"
                 android:textColor="@color/text_color_dark"
                 android:textSize="@dimen/text_size_medium"
-                android:text="@string/show_ahad"
                 android:textStyle="bold" />
 
             <CheckBox
