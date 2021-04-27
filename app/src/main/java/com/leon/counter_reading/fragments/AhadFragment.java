@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentAhadBinding;
 import com.leon.counter_reading.enums.BundleEnum;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import org.jetbrains.annotations.NotNull;
@@ -57,6 +58,8 @@ public class AhadFragment extends DialogFragment {
 
     void initialize() {
         setOnButtonClickListener();
+        binding.editTextAhad1.setHint(DifferentCompanyManager.getAhad1(DifferentCompanyManager.getActiveCompanyName()));
+        binding.editTextAhad2.setHint(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()));
     }
 
     void setOnButtonClickListener() {
@@ -64,22 +67,22 @@ public class AhadFragment extends DialogFragment {
         binding.buttonSubmit.setOnClickListener(v -> {
             int asli = 0, fari = 0;
             boolean cancel = false;
-            if (binding.editTextAhadAsli.getText().toString().isEmpty() &&
-                    binding.editTextAhadFari.getText().toString().isEmpty()) {
-                binding.editTextAhadFari.setError(getString(R.string.error_empty));
-                binding.editTextAhadFari.setError(getString(R.string.error_empty));
-                View view = binding.editTextAhadAsli;
+            if (binding.editTextAhad1.getText().toString().isEmpty() &&
+                    binding.editTextAhad2.getText().toString().isEmpty()) {
+                binding.editTextAhad2.setError(getString(R.string.error_empty));
+                binding.editTextAhad2.setError(getString(R.string.error_empty));
+                View view = binding.editTextAhad1;
                 view.requestFocus();
                 cancel = true;
-            } else if (!binding.editTextAhadAsli.getText().toString().isEmpty() &&
-                    !binding.editTextAhadFari.getText().toString().isEmpty()) {
-                asli = Integer.parseInt(binding.editTextAhadAsli.getText().toString());
-                fari = Integer.parseInt(binding.editTextAhadFari.getText().toString());
+            } else if (!binding.editTextAhad1.getText().toString().isEmpty() &&
+                    !binding.editTextAhad2.getText().toString().isEmpty()) {
+                asli = Integer.parseInt(binding.editTextAhad1.getText().toString());
+                fari = Integer.parseInt(binding.editTextAhad2.getText().toString());
             } else {
-                if (!binding.editTextAhadAsli.getText().toString().isEmpty()) {
-                    asli = Integer.parseInt(binding.editTextAhadAsli.getText().toString());
-                } else if (!binding.editTextAhadFari.getText().toString().isEmpty()) {
-                    fari = Integer.parseInt(binding.editTextAhadFari.getText().toString());
+                if (!binding.editTextAhad1.getText().toString().isEmpty()) {
+                    asli = Integer.parseInt(binding.editTextAhad1.getText().toString());
+                } else if (!binding.editTextAhad2.getText().toString().isEmpty()) {
+                    fari = Integer.parseInt(binding.editTextAhad2.getText().toString());
                 }
             }
             if (!cancel) {

@@ -57,7 +57,7 @@
     <string name="exit">خروج</string>
     <string name="how_to_exit">جهت خروج، از فهرست، گزینه «خروج» را بزنید.</string>
     <string name="team">شبکه تارنما سپاهان</string>
-    <string name="www_abfa_ir">abfa.ir</string>
+
     <string name="sepehr_shamsaei">سپهر شمسایی</string>
     <string name="email">ایمیل</string>
     <string name="email_tarnama">infotarnama@gmail.com</string>
@@ -91,14 +91,14 @@
     <string name="pre_date">تاریخ قبلی</string>
     <string name="branch_radius">قطر انشعاب</string>
     <string name="siphon_radius">قطر سیفون</string>
-    <string name="ahad_asli">آحاداصلی:</string>
-    <string name="ahad_fari">آحاد فرعی:</string>
-    <string name="ahad_masraf">آحاد مصرف:</string>
+<!--    <string name="ahad_asli">آحاداصلی:</string>-->
+<!--    <string name="ahad_fari">آحاد فرعی:</string>-->
+<!--    <string name="ahad_masraf">آحاد مصرف:</string>-->
 
 
-    <string name="ahad_asli_">آحاد مسکونی/اصلی</string>
-    <string name="ahad_fari_">آحاد تجاری/فرعی</string>
-    <string name="ahad_masraf_">آحاد مصرف/سایر</string>
+<!--    <string name="ahad_asli_">آحاد مسکونی/اصلی</string>-->
+<!--    <string name="ahad_fari_">آحاد تجاری/فرعی</string>-->
+<!--    <string name="ahad_masraf_">آحاد مصرف/سایر</string>-->
 
     <string name="insert_information">ورود اطلاعات</string>
     <string name="search">جستجو</string>
@@ -139,11 +139,11 @@
     <string name="counter_serial">شماره سریال کنتور</string>
     <string name="address">نشانی</string>
     <string name="empty_ahad">آحاد خالی از سکنه</string>
+    <string name="ahad_number">تعداد آحاد</string>
     <string name="reports">گزارشات</string>
     <string name="report_forbid">گزارش غیرمجاز</string>
     <string name="previous_account">اشتراک قبلی</string>
     <string name="next_account">اشتراک بعدی</string>
-    <string name="ahad_number">تعداد آحاد</string>
     <string name="attach_image">الصاق عکس</string>
     <string name="theme_changed">تغییر پوسته با موفقیت انجام گرفت</string>
     <string name="camera">دوربین</string>
@@ -189,8 +189,8 @@
     <string name="file_downloaded">فایل برنامه دانلود شد، به مدیریت فایل مراجعه کنید</string>
     <string name="pre_number">شماره پیشین</string>
     <string name="mega_byte">مگابایت</string>
-    <string name="ahad_asli_number">تعداد آحاد اصلی</string>
-    <string name="ahad_fari_number">تعداد آحاد فرعی</string>
+<!--    <string name="ahad_asli_number">تعداد آحاد اصلی</string>-->
+<!--    <string name="ahad_fari_number">تعداد آحاد فرعی</string>-->
     <string name="karbari">کاربری</string>
     <string name="submit_for_back">برای بازگشت، دکمه ثبت را فشار دهید.</string>
     <string name="postal_code">کد پستی</string>

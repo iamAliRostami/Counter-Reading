@@ -147,7 +147,6 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="@dimen/medium_dp"
-                android:text="@string/www_abfa_ir"
                 tools:ignore="RtlHardcoded" />
         </LinearLayout>
 

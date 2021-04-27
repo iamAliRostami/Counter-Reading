@@ -12,6 +12,7 @@ import com.leon.counter_reading.databinding.ActivityContactUsBinding;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 public class ContactUsActivity extends AppCompatActivity {
@@ -35,6 +36,7 @@ public class ContactUsActivity extends AppCompatActivity {
             binding.textViewDate.setText(sharedPreferenceManager.getStringData(SharedReferenceKeys.DATE.getValue()));
         binding.textViewVersion.setText(getString(R.string.version).concat(" ")
                 .concat(BuildConfig.VERSION_NAME));
+        binding.textViewSite.setText(DifferentCompanyManager.getSiteAddress(DifferentCompanyManager.getActiveCompanyName()));
     }
 
     @Override

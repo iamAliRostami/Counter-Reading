@@ -2,7 +2,6 @@ package com.leon.counter_reading.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
@@ -85,6 +85,13 @@ public class PossibleFragment extends DialogFragment {
         sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
         initializeTextViews();
         setOnButtonsClickListener();
+        binding.textViewAhad1Title.setText(DifferentCompanyManager.getAhad1(DifferentCompanyManager.getActiveCompanyName()).concat(":"));
+        binding.textViewAhad2Title.setText(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()).concat(":"));
+        binding.textViewAhadTotalTitle.setText(DifferentCompanyManager.getAhadTotal(DifferentCompanyManager.getActiveCompanyName()).concat(":"));
+
+        binding.editTextAhad1.setHint(DifferentCompanyManager.getAhad1(DifferentCompanyManager.getActiveCompanyName()));
+        binding.editTextAhad2.setHint(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()));
+        binding.editTextAhadTotal.setHint(DifferentCompanyManager.getAhadTotal(DifferentCompanyManager.getActiveCompanyName()));
     }
 
     void setOnButtonsClickListener() {
@@ -124,14 +131,14 @@ public class PossibleFragment extends DialogFragment {
             if (binding.editTextAddress.getText().length() > 0)
                 onOffLoadDto.possibleAddress = binding.editTextAddress.getText().toString();
 
-            if (binding.editTextAhadOther.getText().length() > 0)
-                onOffLoadDto.possibleAhadSaierOrAbBaha = Integer.parseInt(binding.editTextAhadOther.getText().toString());
+            if (binding.editTextAhadTotal.getText().length() > 0)
+                onOffLoadDto.possibleAhadSaierOrAbBaha = Integer.parseInt(binding.editTextAhadTotal.getText().toString());
 
-            if (binding.editTextAhadFari.getText().length() > 0)
-                onOffLoadDto.possibleAhadTejariOrFari = Integer.parseInt(binding.editTextAhadFari.getText().toString());
+            if (binding.editTextAhad2.getText().length() > 0)
+                onOffLoadDto.possibleAhadTejariOrFari = Integer.parseInt(binding.editTextAhad2.getText().toString());
 
-            if (binding.editTextAhadAsli.getText().length() > 0)
-                onOffLoadDto.possibleAhadMaskooniOrAsli = Integer.parseInt(binding.editTextAhadAsli.getText().toString());
+            if (binding.editTextAhad1.getText().length() > 0)
+                onOffLoadDto.possibleAhadMaskooniOrAsli = Integer.parseInt(binding.editTextAhad1.getText().toString());
 
             if (binding.editTextAhadEmpty.getText().length() > 0)
                 onOffLoadDto.possibleEmpty = Integer.parseInt(binding.editTextAhadEmpty.getText().toString());
@@ -161,31 +168,31 @@ public class PossibleFragment extends DialogFragment {
         binding.editTextDescription.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.DESCRIPTION.getValue()) ? View.VISIBLE : View.GONE);
 
-        binding.linearLayoutAhadAsli.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.AHAD_ASLI.getValue()) ? View.VISIBLE : View.GONE);
+        binding.linearLayoutAhad1.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_1.getValue()) ? View.VISIBLE : View.GONE);
 
-        binding.editTextAhadAsli.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.AHAD_ASLI.getValue()) ? View.VISIBLE : View.GONE);
-        binding.textViewAhadAsli.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.AHAD_ASLI.getValue()) ? View.VISIBLE : View.GONE);
-        binding.textViewAhadAsli.setText(String.valueOf(onOffLoadDto.ahadMaskooniOrAsli));
+        binding.editTextAhad1.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_1.getValue()) ? View.VISIBLE : View.GONE);
+        binding.textViewAhad1Title.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_1.getValue()) ? View.VISIBLE : View.GONE);
+        binding.textViewAhad1.setText(String.valueOf(onOffLoadDto.ahadMaskooniOrAsli));
 
-        binding.linearLayoutAhadFari.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.AHAD_FARI.getValue()) ? View.VISIBLE : View.GONE);
+        binding.linearLayoutAhad2.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_2.getValue()) ? View.VISIBLE : View.GONE);
 
-        binding.editTextAhadFari.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.AHAD_FARI.getValue()) ? View.VISIBLE : View.GONE);
-        binding.textViewAhadFari.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.AHAD_FARI.getValue()) ? View.VISIBLE : View.GONE);
-        binding.textViewAhadFari.setText(String.valueOf(onOffLoadDto.ahadTejariOrFari));
+        binding.editTextAhad2.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_2.getValue()) ? View.VISIBLE : View.GONE);
+        binding.textViewAhad2Title.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_2.getValue()) ? View.VISIBLE : View.GONE);
+        binding.textViewAhad2.setText(String.valueOf(onOffLoadDto.ahadTejariOrFari));
 
-        binding.linearLayoutAhadOther.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.AHAD_OTHER.getValue()) ? View.VISIBLE : View.GONE);
-        binding.editTextAhadOther.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.AHAD_OTHER.getValue()) ? View.VISIBLE : View.GONE);
-        binding.textViewAhadOther.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.AHAD_OTHER.getValue()) ? View.VISIBLE : View.GONE);
-        binding.textViewAhadOther.setText(String.valueOf(onOffLoadDto.ahadSaierOrAbBaha));
+        binding.linearLayoutAhadTotal.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_TOTAL.getValue()) ? View.VISIBLE : View.GONE);
+        binding.editTextAhadTotal.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_TOTAL.getValue()) ? View.VISIBLE : View.GONE);
+        binding.textViewAhadTotalTitle.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_TOTAL.getValue()) ? View.VISIBLE : View.GONE);
+        binding.textViewAhadTotal.setText(String.valueOf(onOffLoadDto.ahadSaierOrAbBaha));
 
         binding.linearLayoutMobile.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.MOBILE.getValue()) ? View.VISIBLE : View.GONE);

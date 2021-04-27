@@ -1,6 +1,8 @@
 package com.leon.counter_reading.utils;
 
 
+import android.util.Log;
+
 import com.leon.counter_reading.enums.CompanyNames;
 
 public class DifferentCompanyManager {
@@ -250,6 +252,40 @@ public class DifferentCompanyManager {
                 return "@ttw.ir";
             case ESF:
                 return "@esf.ir";
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
+    public static String getSiteAddress(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return "www.abfaEsfahan.ir";
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
+    public static String getAhad1(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return "آحاد مسکونی";
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+    public static String getAhad2(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return "آحاد تجاری";
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+    public static String getAhadTotal(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return "آحاد کل";
             default:
                 throw new UnsupportedOperationException();
         }

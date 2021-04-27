@@ -195,9 +195,9 @@ public class ReadingActivity extends BaseActivity {
     void attemptSend(int position, boolean isForm, boolean isImage) {
         //TODO
         if (isForm && (sharedPreferenceManager.getBoolData(SharedReferenceKeys.SERIAL.getValue())
-                || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_FARI.getValue())
-                || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_ASLI.getValue())
-                || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_OTHER.getValue())
+                || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_2.getValue())
+                || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_1.getValue())
+                || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_TOTAL.getValue())
                 || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_EMPTY.getValue())
                 || sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue())
                 || sharedPreferenceManager.getBoolData(SharedReferenceKeys.ADDRESS.getValue())

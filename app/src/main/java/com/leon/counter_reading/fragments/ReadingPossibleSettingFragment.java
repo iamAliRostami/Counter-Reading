@@ -12,6 +12,7 @@ import com.leon.counter_reading.databinding.FragmentReadingPossibleSettingBindin
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
@@ -48,9 +49,12 @@ public class ReadingPossibleSettingFragment extends Fragment {
     }
 
     void initializeCheckBoxes() {
-        binding.checkBoxMaskooni.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_ASLI.getValue()));
-        binding.checkBoxTejari.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_FARI.getValue()));
-        binding.checkBoxOther.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_OTHER.getValue()));
+        binding.checkBoxAhad1.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_1.getValue()));
+        binding.checkBoxAhad1.setText(DifferentCompanyManager.getAhad1(DifferentCompanyManager.getActiveCompanyName()));
+        binding.checkBoxAhad2.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_2.getValue()));
+        binding.checkBoxAhad2.setText(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()));
+        binding.checkBoxAhadTotal.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_TOTAL.getValue()));
+        binding.checkBoxAhadTotal.setText(DifferentCompanyManager.getAhadTotal(DifferentCompanyManager.getActiveCompanyName()));
         binding.checkBoxAccount.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.ACCOUNT.getValue()));
         binding.checkBoxAddress.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.ADDRESS.getValue()));
         binding.checkBoxAhad.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_EMPTY.getValue()));
@@ -71,12 +75,12 @@ public class ReadingPossibleSettingFragment extends Fragment {
                 SharedReferenceKeys.ADDRESS.getValue(), binding.checkBoxAddress.isChecked()));
         binding.checkBoxAccount.setOnClickListener(v -> sharedPreferenceManager.putData(
                 SharedReferenceKeys.ACCOUNT.getValue(), binding.checkBoxAccount.isChecked()));
-        binding.checkBoxTejari.setOnClickListener(v -> sharedPreferenceManager.putData(
-                SharedReferenceKeys.AHAD_FARI.getValue(), binding.checkBoxTejari.isChecked()));
-        binding.checkBoxMaskooni.setOnClickListener(v -> sharedPreferenceManager.putData(
-                SharedReferenceKeys.AHAD_ASLI.getValue(), binding.checkBoxMaskooni.isChecked()));
-        binding.checkBoxOther.setOnClickListener(v -> sharedPreferenceManager.putData(
-                SharedReferenceKeys.AHAD_OTHER.getValue(), binding.checkBoxOther.isChecked()));
+        binding.checkBoxAhad2.setOnClickListener(v -> sharedPreferenceManager.putData(
+                SharedReferenceKeys.AHAD_2.getValue(), binding.checkBoxAhad2.isChecked()));
+        binding.checkBoxAhad1.setOnClickListener(v -> sharedPreferenceManager.putData(
+                SharedReferenceKeys.AHAD_1.getValue(), binding.checkBoxAhad1.isChecked()));
+        binding.checkBoxAhadTotal.setOnClickListener(v -> sharedPreferenceManager.putData(
+                SharedReferenceKeys.AHAD_TOTAL.getValue(), binding.checkBoxAhadTotal.isChecked()));
         binding.checkBoxMobile.setOnClickListener(v -> sharedPreferenceManager.putData(
                 SharedReferenceKeys.MOBILE.getValue(), binding.checkBoxMobile.isChecked()));
         binding.checkBoxKarbari.setOnClickListener(v -> sharedPreferenceManager.putData(

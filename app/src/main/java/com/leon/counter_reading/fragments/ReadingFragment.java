@@ -30,6 +30,7 @@ import com.leon.counter_reading.tables.QotrDictionary;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.utils.Counting;
 import com.leon.counter_reading.utils.CustomToast;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
@@ -134,6 +135,9 @@ public class ReadingFragment extends Fragment {
     }
 
     void initializeViews() {
+        binding.textViewAhad1Title.setHint(DifferentCompanyManager.getAhad1(DifferentCompanyManager.getActiveCompanyName()).concat(" : "));
+        binding.textViewAhad2Title.setHint(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()).concat(" : "));
+        binding.textViewAhadTotalTitle.setHint(DifferentCompanyManager.getAhadTotal(DifferentCompanyManager.getActiveCompanyName()).concat(" : "));
         binding.textViewAddress.setText(onOffLoadDto.address);
         binding.textViewName.setText(onOffLoadDto.firstName.concat(" ")
                 .concat(onOffLoadDto.sureName));
@@ -142,15 +146,15 @@ public class ReadingFragment extends Fragment {
 
         if (readingConfigDefaultDto.displayRadif)
             binding.textViewRadif.setText(String.valueOf(onOffLoadDto.radif));
-        binding.textViewAhadAsli.setText(String.valueOf(onOffLoadDto.ahadMaskooniOrAsli));
+        binding.textViewAhad1.setText(String.valueOf(onOffLoadDto.ahadMaskooniOrAsli));
 
         if (readingConfigDefaultDto.displayBillId)
             binding.textViewRadif.setText(String.valueOf(onOffLoadDto.billId));
 
         if (onOffLoadDto.counterNumber != 0)
             binding.editTextNumber.setText(String.valueOf(onOffLoadDto.counterNumber));
-        binding.textViewAhadForosh.setText(String.valueOf(onOffLoadDto.ahadTejariOrFari));
-        binding.textViewAhadMasraf.setText(String.valueOf(onOffLoadDto.ahadSaierOrAbBaha));
+        binding.textViewAhad2.setText(String.valueOf(onOffLoadDto.ahadTejariOrFari));
+        binding.textViewAhadTotal.setText(String.valueOf(onOffLoadDto.ahadSaierOrAbBaha));
 
         if (readingConfigDefaultDto.isOnQeraatCode) {
             binding.textViewCode.setText(onOffLoadDto.qeraatCode);

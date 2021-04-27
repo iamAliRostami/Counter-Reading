@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ImageFragment">
+    tools:context=".fragments.AhadFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,13 +20,12 @@
             android:background="?attr/colorAccent" />
 
         <EditText
-            android:id="@+id/edit_text_ahad_asli"
+            android:id="@+id/edit_text_ahad_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/low_dp"
             android:background="@drawable/border_gray_2"
             android:gravity="center"
-            android:hint="@string/ahad_asli_number"
             android:inputType="number"
             android:lines="1"
             android:maxLength="9"
@@ -36,13 +35,12 @@
 
         <EditText
             android:maxLength="9"
-            android:id="@+id/edit_text_ahad_fari"
+            android:id="@+id/edit_text_ahad_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/low_dp"
             android:background="@drawable/border_gray_2"
             android:gravity="center"
-            android:hint="@string/ahad_fari_number"
             android:inputType="number"
             android:lines="1"
             android:padding="@dimen/medium_dp"

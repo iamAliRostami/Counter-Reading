@@ -149,7 +149,7 @@
                     tools:ignore="Autofill" />
 
                 <LinearLayout
-                    android:id="@+id/linear_layout_ahad_asli"
+                    android:id="@+id/linear_layout_ahad1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
@@ -158,13 +158,13 @@
                     android:padding="@dimen/medium_dp">
 
                     <TextView
+                        android:id="@+id/text_view_ahad_1_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ahad_asli_"
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
-                        android:id="@+id/text_view_ahad_asli"
+                        android:id="@+id/text_view_ahad_1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -172,22 +172,21 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/edit_text_ahad_asli"
+                    android:id="@+id/edit_text_ahad_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
                     android:background="@drawable/border_gray_2"
                     android:gravity="center"
-                    android:hint="@string/ahad_asli_"
                     android:inputType="number"
                     android:maxLength="9"
                     android:maxLines="1"
                     android:padding="@dimen/medium_dp"
                     android:textSize="@dimen/text_size_large"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill,LabelFor" />
 
                 <LinearLayout
-                    android:id="@+id/linear_layout_ahad_fari"
+                    android:id="@+id/linear_layout_ahad2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
@@ -198,11 +197,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ahad_fari_"
+                        android:id="@+id/text_view_ahad2_title"
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
-                        android:id="@+id/text_view_ahad_fari"
+                        android:id="@+id/text_view_ahad_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -210,22 +209,21 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/edit_text_ahad_fari"
+                    android:id="@+id/edit_text_ahad_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
                     android:background="@drawable/border_gray_2"
                     android:gravity="center"
-                    android:hint="@string/ahad_fari_"
                     android:inputType="number"
                     android:maxLength="9"
                     android:maxLines="1"
                     android:padding="@dimen/medium_dp"
                     android:textSize="@dimen/text_size_large"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill,LabelFor" />
 
                 <LinearLayout
-                    android:id="@+id/linear_layout_ahad_other"
+                    android:id="@+id/linear_layout_ahad_total"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
@@ -234,13 +232,13 @@
                     android:padding="@dimen/medium_dp">
 
                     <TextView
+                        android:id="@+id/text_view_ahad_total_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ahad_masraf_"
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
-                        android:id="@+id/text_view_ahad_other"
+                        android:id="@+id/text_view_ahad_total"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -248,19 +246,18 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/edit_text_ahad_other"
+                    android:id="@+id/edit_text_ahad_total"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
                     android:background="@drawable/border_gray_2"
                     android:gravity="center"
-                    android:hint="@string/ahad_masraf_"
                     android:inputType="number"
                     android:maxLength="9"
                     android:maxLines="1"
                     android:padding="@dimen/medium_dp"
                     android:textSize="@dimen/text_size_large"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill,LabelFor" />
 
                 <EditText
                     android:id="@+id/edit_text_description"
