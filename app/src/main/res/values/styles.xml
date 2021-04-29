@@ -84,12 +84,12 @@
         <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/text_color_light</item>
-        <item name="backgroundColor">?colorPrimary</item>
+        <item name="backgroundColor">?colorPrimaryDark</item>
         <item name="background">?colorPrimary</item>
     </style>
 
     <style name="MyActionBar.MenuTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/red</item>
+        <item name="android:textColor">@color/milky</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
     </style>

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -135,9 +136,9 @@ public class ReadingFragment extends Fragment {
     }
 
     void initializeViews() {
-        binding.textViewAhad1Title.setHint(DifferentCompanyManager.getAhad1(DifferentCompanyManager.getActiveCompanyName()).concat(" : "));
-        binding.textViewAhad2Title.setHint(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()).concat(" : "));
-        binding.textViewAhadTotalTitle.setHint(DifferentCompanyManager.getAhadTotal(DifferentCompanyManager.getActiveCompanyName()).concat(" : "));
+        binding.textViewAhad1Title.setText(DifferentCompanyManager.getAhad1(DifferentCompanyManager.getActiveCompanyName()).concat(" : "));
+        binding.textViewAhad2Title.setText(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()).concat(" : "));
+        binding.textViewAhadTotalTitle.setText(DifferentCompanyManager.getAhadTotal(DifferentCompanyManager.getActiveCompanyName()).concat(" : "));
         binding.textViewAddress.setText(onOffLoadDto.address);
         binding.textViewName.setText(onOffLoadDto.firstName.concat(" ")
                 .concat(onOffLoadDto.sureName));
