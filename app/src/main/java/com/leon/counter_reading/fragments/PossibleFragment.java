@@ -88,6 +88,9 @@ public class PossibleFragment extends DialogFragment {
         binding.textViewAhad2Title.setText(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()).replaceFirst("آحاد ", "").concat(":"));
         binding.textViewAhadTotalTitle.setText(DifferentCompanyManager.getAhadTotal(DifferentCompanyManager.getActiveCompanyName()).replaceFirst("آحاد ", "").concat(":"));
 
+        binding.editTextAhadEmpty.setHint(DifferentCompanyManager.getAhad(
+                DifferentCompanyManager.getActiveCompanyName()).concat(getString(R.string.empty)));
+
         binding.editTextAhad1.setHint(DifferentCompanyManager.getAhad1(DifferentCompanyManager.getActiveCompanyName()));
         binding.editTextAhad2.setHint(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()));
         binding.editTextAhadTotal.setHint(DifferentCompanyManager.getAhadTotal(DifferentCompanyManager.getActiveCompanyName()));

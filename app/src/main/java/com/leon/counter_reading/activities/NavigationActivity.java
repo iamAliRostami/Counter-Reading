@@ -18,6 +18,7 @@ import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
@@ -46,6 +47,8 @@ public class NavigationActivity extends AppCompatActivity {
             uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
             position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
         }
+        binding.textViewEmpty.setText(DifferentCompanyManager.getAhad(
+                DifferentCompanyManager.getActiveCompanyName()).concat(getString(R.string.empty)));
         initializeImageViews();
         setOnButtonNavigationClickListener();
         setOnEditTextChangeListener();

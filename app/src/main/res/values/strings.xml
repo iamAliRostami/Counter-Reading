@@ -91,14 +91,6 @@
     <string name="pre_date">تاریخ قبلی</string>
     <string name="branch_radius">قطر انشعاب</string>
     <string name="siphon_radius">قطر سیفون</string>
-<!--    <string name="ahad_asli">آحاداصلی:</string>-->
-<!--    <string name="ahad_fari">آحاد فرعی:</string>-->
-<!--    <string name="ahad_masraf">آحاد مصرف:</string>-->
-
-
-<!--    <string name="ahad_asli_">آحاد مسکونی/اصلی</string>-->
-<!--    <string name="ahad_fari_">آحاد تجاری/فرعی</string>-->
-<!--    <string name="ahad_masraf_">آحاد مصرف/سایر</string>-->
 
     <string name="insert_information">ورود اطلاعات</string>
     <string name="search">جستجو</string>
@@ -138,8 +130,9 @@
     <string name="mobile_number">تلفن همراه</string>
     <string name="counter_serial">شماره سریال کنتور</string>
     <string name="address">نشانی</string>
-    <string name="empty_ahad">آحاد خالی از سکنه</string>
-    <string name="ahad_number">تعداد آحاد</string>
+    <string name="empty">&#160;خالی از سکنه</string>
+    <string name="show">نمایش&#160;</string>
+    <string name="number">تعداد&#160;</string>
     <string name="reports">گزارشات</string>
     <string name="report_forbid">گزارش غیرمجاز</string>
     <string name="previous_account">اشتراک قبلی</string>
@@ -189,8 +182,7 @@
     <string name="file_downloaded">فایل برنامه دانلود شد، به مدیریت فایل مراجعه کنید</string>
     <string name="pre_number">شماره پیشین</string>
     <string name="mega_byte">مگابایت</string>
-<!--    <string name="ahad_asli_number">تعداد آحاد اصلی</string>-->
-<!--    <string name="ahad_fari_number">تعداد آحاد فرعی</string>-->
+
     <string name="karbari">کاربری</string>
     <string name="submit_for_back">برای بازگشت، دکمه ثبت را فشار دهید.</string>
     <string name="postal_code">کد پستی</string>
@@ -212,10 +204,9 @@
     <string name="not_respond">پاسخی دریافت نشد.</string>
     <string name="error_overload">به علت حجم بالای درخواست، امکان پاسخ دهی وجود ندارد. مجددا تلاش کنید.</string>
     <string name="error_turn_off_proxy">از خاموش بودن پروکسی بر روی دستگاه خود اطمینان حاصل کنید.</string>
-    <string name="number">تعداد</string>
+<!--    <string name="number">تعداد</string>-->
     <string name="check_connection">لطفا اتصالات اینترنت و اینترانت خود را بررسی کنید.</string>
-    <string name="passwprd_and_confirm_not_same">گذرواژه و تکرار آن مشابه نیستند.</string>
+    <string name="password_and_confirm_not_same">گذرواژه و تکرار آن مشابه نیستند.</string>
     <string name="incorrect_old_password">گذرواژه پیشین نادرست است.</string>
-    <string name="show_ahad">نمایش آحاد</string>
 
 </resources>

@@ -30,7 +30,7 @@ public class OnOffLoadDto {
     public String preDate;
     public String preDateMiladi;
     public double preAverage;
-    public int preCounterStateCode;
+    public int preCounterStateCode;//TODO join counter state is xarab
     public String counterSerial;
     public String counterInstallDate;
     public String tavizDate;
@@ -38,8 +38,8 @@ public class OnOffLoadDto {
     public String trackingId;
     public int zarfiat;
     public String mobile;
-    public int hazf;
-    public int noeVagozariId;
+    public int hazf;//TODO 0 <  hazf movaqat
+    public int noeVagozariId;//TODO 4: sax o saz
     public int counterNumber;
     public int counterStateId;
     public String possibleAddress;

@@ -41,6 +41,7 @@ import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.GPSTracker;
 import com.leon.counter_reading.utils.HttpClientWrapper;
 import com.leon.counter_reading.utils.MyDatabaseClient;
@@ -149,6 +150,7 @@ public class ReportForbidActivity extends AppCompatActivity {
     void initialize() {
         if (getIntent().getExtras() != null)
             zoneId = getIntent().getExtras().getInt(BundleEnum.ZONE_ID.getValue());
+        binding.textViewHome.setText(getString(R.string.number).concat(DifferentCompanyManager.getAhad(DifferentCompanyManager.getActiveCompanyName())));
         gpsTracker = new GPSTracker(activity);
         forbiddenDto.File = new ArrayList<>();
         forbiddenDto.bitmaps = new ArrayList<>();

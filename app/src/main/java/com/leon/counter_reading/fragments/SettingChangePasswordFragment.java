@@ -91,9 +91,9 @@ public class SettingChangePasswordFragment extends Fragment {
                 if (binding.editTextNewPassword.getText().toString().equals(binding.editTextNewPasswordConfirm.getText().toString()))
                     attemptChangePassword();
                 else {
-                    binding.editTextNewPassword.setError(getString(R.string.passwprd_and_confirm_not_same));
-                    binding.editTextNewPasswordConfirm.setError(getString(R.string.passwprd_and_confirm_not_same));
-                    new CustomToast().error(getString(R.string.passwprd_and_confirm_not_same));
+                    binding.editTextNewPassword.setError(getString(R.string.password_and_confirm_not_same));
+                    binding.editTextNewPasswordConfirm.setError(getString(R.string.password_and_confirm_not_same));
+                    new CustomToast().error(getString(R.string.password_and_confirm_not_same));
                 }
             } else
                 view.requestFocus();

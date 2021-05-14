@@ -142,13 +142,12 @@
                     android:layout_margin="@dimen/low_dp"
                     android:background="@drawable/border_gray_2"
                     android:gravity="center"
-                    android:hint="@string/empty_ahad"
                     android:inputType="number"
                     android:maxLength="9"
                     android:maxLines="1"
                     android:padding="@dimen/medium_dp"
                     android:textSize="@dimen/text_size_large"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill,LabelFor" />
 
                 <LinearLayout
                     android:id="@+id/linear_layout_ahad"

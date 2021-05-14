@@ -265,11 +265,18 @@ public class DifferentCompanyManager {
                 throw new UnsupportedOperationException();
         }
     }
-
+    public static String getAhad(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return "واحد";
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
     public static String getAhad1(CompanyNames companyNames) {
         switch (companyNames) {
             case ESF:
-                return "آحاد مسکونی";
+                return "واحد مسکونی";
             default:
                 throw new UnsupportedOperationException();
         }
@@ -277,7 +284,7 @@ public class DifferentCompanyManager {
     public static String getAhad2(CompanyNames companyNames) {
         switch (companyNames) {
             case ESF:
-                return "آحاد تجاری";
+                return "واحد تجاری";
             default:
                 throw new UnsupportedOperationException();
         }
@@ -285,7 +292,7 @@ public class DifferentCompanyManager {
     public static String getAhadTotal(CompanyNames companyNames) {
         switch (companyNames) {
             case ESF:
-                return "آحاد کل";
+                return "واحد کل";
             default:
                 throw new UnsupportedOperationException();
         }

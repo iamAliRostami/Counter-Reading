@@ -17,6 +17,7 @@ import com.leon.counter_reading.fragments.KarbariFragment;
 import com.leon.counter_reading.fragments.TaviziFragment;
 import com.leon.counter_reading.tables.CounterReportDto;
 import com.leon.counter_reading.tables.OffLoadReport;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
                     makeRing(context);
                     AhadFragment ahadFragment = AhadFragment.newInstance(uuid, position);
                     FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
-                    ahadFragment.show(fragmentManager, context.getString(R.string.ahad_number));
+                    ahadFragment.show(fragmentManager, context.getString(R.string.number).concat(DifferentCompanyManager.getAhad(DifferentCompanyManager.getActiveCompanyName())));
                 }
                 if (counterReportDtos.get(position).isTavizi) {
                     makeRing(context);
