@@ -70,6 +70,7 @@ public class ReadingPossibleSettingFragment extends Fragment {
         binding.checkBoxSerial.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.SERIAL.getValue()));
         binding.checkBoxImage.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.IMAGE.getValue()));
         binding.checkBoxDescription.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.DESCRIPTION.getValue()));
+        binding.checkBoxReadingReport.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.READING_REPORT.getValue()));
         setCheckBoxClickListener();
     }
 
@@ -98,6 +99,9 @@ public class ReadingPossibleSettingFragment extends Fragment {
                 SharedReferenceKeys.IMAGE.getValue(), binding.checkBoxImage.isChecked()));
         binding.checkBoxDescription.setOnClickListener(v -> sharedPreferenceManager.putData(
                 SharedReferenceKeys.DESCRIPTION.getValue(), binding.checkBoxDescription.isChecked()));
+
+        binding.checkBoxReadingReport.setOnClickListener(v -> sharedPreferenceManager.putData(
+                SharedReferenceKeys.READING_REPORT.getValue(), binding.checkBoxReadingReport.isChecked()));
     }
 
     @Override

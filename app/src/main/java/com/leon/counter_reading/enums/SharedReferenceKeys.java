@@ -1,6 +1,7 @@
 package com.leon.counter_reading.enums;
 
 public enum SharedReferenceKeys {
+    READING_REPORT("reading_report"),
     ACCOUNT("account"),
     IMAGE("image"),
     MOBILE("mobile"),

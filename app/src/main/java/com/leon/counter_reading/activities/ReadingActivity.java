@@ -202,6 +202,7 @@ public class ReadingActivity extends BaseActivity {
                 || sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue())
                 || sharedPreferenceManager.getBoolData(SharedReferenceKeys.ADDRESS.getValue())
                 || sharedPreferenceManager.getBoolData(SharedReferenceKeys.ACCOUNT.getValue())
+                || sharedPreferenceManager.getBoolData(SharedReferenceKeys.READING_REPORT.getValue())
                 || sharedPreferenceManager.getBoolData(SharedReferenceKeys.MOBILE.getValue()))) {
             showPossible(position);
         } else if (isImage && sharedPreferenceManager.getBoolData(SharedReferenceKeys.IMAGE.getValue())) {

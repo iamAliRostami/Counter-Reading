@@ -41,15 +41,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/mobile_number"
                         android:layout_gravity="center"
+                        android:text="@string/mobile_number"
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
-                        android:layout_gravity="center"
                         android:id="@+id/text_view_mobile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:textSize="@dimen/text_size_large" />
                 </LinearLayout>
@@ -155,25 +155,25 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/low_dp"
                     android:background="@drawable/border_gray_6"
-                    android:orientation="horizontal"
                     android:gravity="center"
+                    android:orientation="horizontal"
                     android:padding="@dimen/medium_dp"
                     android:weightSum="2">
 
                     <TextView
-                        android:layout_gravity="center"
                         android:id="@+id/text_view_ahad_1_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/small_dp"
                         android:layout_marginRight="@dimen/small_dp"
                         android:textSize="@dimen/text_size_medium" />
 
                     <TextView
-                        android:layout_gravity="center"
                         android:id="@+id/text_view_ahad_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/small_dp"
                         android:layout_marginRight="@dimen/small_dp"
                         android:textSize="@dimen/text_size_large" />
@@ -186,8 +186,8 @@
                     <TextView
                         android:id="@+id/text_view_ahad2_title"
                         android:layout_width="wrap_content"
-                        android:layout_gravity="center"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/small_dp"
                         android:layout_marginRight="@dimen/small_dp"
                         android:textSize="@dimen/text_size_medium" />
@@ -196,9 +196,9 @@
                         android:id="@+id/text_view_ahad_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/small_dp"
                         android:layout_marginRight="@dimen/small_dp"
-                        android:layout_gravity="center"
                         android:textSize="@dimen/text_size_large" />
 
                     <LinearLayout
@@ -210,8 +210,8 @@
                         android:id="@+id/text_view_ahad_total_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/small_dp"
                         android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/small_dp"
                         android:layout_marginRight="@dimen/small_dp"
                         android:textSize="@dimen/text_size_medium" />
 
@@ -280,6 +280,29 @@
                     android:padding="@dimen/medium_dp"
                     android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill,TextFields" />
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_reading_report"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/low_dp"
+                    android:background="@drawable/border_gray_6"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/medium_dp">
+
+                    <Spinner
+                        android:id="@+id/spinner_reading_report"
+                        style="@style/Widget.AppCompat.Spinner.DropDown"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_spinner"
+                        android:gravity="center"
+                        android:popupBackground="@drawable/border_gray_5"
+                        android:spinnerMode="dialog"
+                        tools:listitem="@layout/item_dropdown_menu" />
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
 

@@ -155,6 +155,18 @@
                 android:textColor="@color/text_color_dark"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/check_box_reading_report"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/low_dp"
+                android:background="@drawable/border_white_3"
+                android:padding="@dimen/low_dp"
+                android:text="@string/reading_report"
+                android:textColor="@color/text_color_dark"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

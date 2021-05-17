@@ -2,6 +2,7 @@ package com.leon.counter_reading.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,14 @@ import com.google.gson.Gson;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
+import com.leon.counter_reading.databinding.FragmentPossibleBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
+import com.leon.counter_reading.tables.CounterReportDto;
 import com.leon.counter_reading.tables.KarbariDto;
+import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.MyDatabaseClient;
@@ -29,14 +33,16 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class PossibleFragment extends DialogFragment {
-    com.leon.counter_reading.databinding.FragmentPossibleBinding binding;
+    FragmentPossibleBinding binding;
     OnOffLoadDto onOffLoadDto;
     int position;
     Activity activity;
     ISharedPreferenceManager sharedPreferenceManager;
     ArrayList<KarbariDto> karbariDtos = new ArrayList<>();
-    ArrayList<String> items = new ArrayList<>();
-    SpinnerCustomAdapter spinnerCustomAdapter;
+    ArrayList<CounterReportDto> counterReportDtos;
+    ArrayList<String> items1 = new ArrayList<>();
+    ArrayList<String> items2 = new ArrayList<>();
+    SpinnerCustomAdapter spinnerCustomAdapterKarbari, spinnerCustomAdapterReadingReport;
 
     public PossibleFragment() {
     }
@@ -74,7 +80,7 @@ public class PossibleFragment extends DialogFragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = com.leon.counter_reading.databinding.FragmentPossibleBinding.inflate(inflater, container, false);
+        binding = FragmentPossibleBinding.inflate(inflater, container, false);
         activity = getActivity();
         initialize();
         return binding.getRoot();
@@ -148,6 +154,14 @@ public class PossibleFragment extends DialogFragment {
             if (cancel)
                 view.requestFocus();
             else {
+                if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.READING_REPORT.getValue())
+                        && binding.spinnerReadingReport.getSelectedItemPosition() != 0) {
+                    OffLoadReport offLoadReport = new OffLoadReport();
+                    offLoadReport.reportId = counterReportDtos.get(binding.spinnerReadingReport.getSelectedItemPosition() - 1).id;
+                    offLoadReport.onOffLoadId = onOffLoadDto.id;
+                    MyDatabaseClient.getInstance(activity).getMyDatabase().offLoadReportDao().
+                            insertOffLoadReport(offLoadReport);
+                }
                 ((ReadingActivity) activity).updateOnOffLoadByNavigation(position, onOffLoadDto);
                 dismiss();
 
@@ -196,69 +210,31 @@ public class PossibleFragment extends DialogFragment {
         initializeSpinner();
     }
 
-    void initializeTextViewsOld() {
-        //TODO
-//        binding.editTextSerial.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.SERIAL.getValue()) ? View.VISIBLE : View.GONE);
-//        binding.editTextAddress.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.ADDRESS.getValue()) ? View.VISIBLE : View.GONE);
-//        binding.editTextAccount.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.ACCOUNT.getValue()) ? View.VISIBLE : View.GONE);
-//        binding.editTextAhadEmpty.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.AHAD_EMPTY.getValue()) ? View.VISIBLE : View.GONE);
-//
-//        binding.editTextDescription.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.DESCRIPTION.getValue()) ? View.VISIBLE : View.GONE);
-//
-//        binding.linearLayoutAhad1.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.AHAD_1.getValue()) ? View.VISIBLE : View.GONE);
-//
-//        binding.editTextAhad1.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.AHAD_1.getValue()) ? View.VISIBLE : View.GONE);
-//        binding.textViewAhad1Title.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.AHAD_1.getValue()) ? View.VISIBLE : View.GONE);
-//        binding.textViewAhad1.setText(String.valueOf(onOffLoadDto.ahadMaskooniOrAsli));
-//
-//        binding.linearLayoutAhad2.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.AHAD_2.getValue()) ? View.VISIBLE : View.GONE);
-//
-//        binding.editTextAhad2.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.AHAD_2.getValue()) ? View.VISIBLE : View.GONE);
-//        binding.textViewAhad2Title.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.AHAD_2.getValue()) ? View.VISIBLE : View.GONE);
-//        binding.textViewAhad2.setText(String.valueOf(onOffLoadDto.ahadTejariOrFari));
-//
-//        binding.linearLayoutAhadTotal.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.AHAD_TOTAL.getValue()) ? View.VISIBLE : View.GONE);
-//        binding.editTextAhadTotal.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.AHAD_TOTAL.getValue()) ? View.VISIBLE : View.GONE);
-//        binding.textViewAhadTotalTitle.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.AHAD_TOTAL.getValue()) ? View.VISIBLE : View.GONE);
-//        binding.textViewAhadTotal.setText(String.valueOf(onOffLoadDto.ahadSaierOrAbBaha));
-//
-//        binding.linearLayoutMobile.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.MOBILE.getValue()) ? View.VISIBLE : View.GONE);
-//        binding.editTextMobile.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.MOBILE.getValue()) ? View.VISIBLE : View.GONE);
-//        binding.textViewMobile.setVisibility(sharedPreferenceManager.
-//                getBoolData(SharedReferenceKeys.MOBILE.getValue()) ? View.VISIBLE : View.GONE);
-//        binding.textViewMobile.setText(String.valueOf(onOffLoadDto.mobile));
-//
-//        initializeSpinner();
-    }
-
     void initializeSpinner() {
         binding.linearLayoutKarbari.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.KARBARI.getValue()) ? View.VISIBLE : View.GONE);
         if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue())) {
-            karbariDtos.addAll(MyDatabaseClient.
+            karbariDtos = new ArrayList<>(MyDatabaseClient.
                     getInstance(activity).getMyDatabase().karbariDao().getAllKarbariDto());
             for (KarbariDto karbariDto : karbariDtos) {
-                items.add(karbariDto.title);
+                items1.add(karbariDto.title);
             }
-            spinnerCustomAdapter = new SpinnerCustomAdapter(activity, items);
-            binding.spinnerKarbari.setAdapter(spinnerCustomAdapter);
+            spinnerCustomAdapterKarbari = new SpinnerCustomAdapter(activity, items1);
+            binding.spinnerKarbari.setAdapter(spinnerCustomAdapterKarbari);
             binding.spinnerKarbari.setSelection(onOffLoadDto.counterStatePosition);
+        }
+
+        binding.linearLayoutReadingReport.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.READING_REPORT.getValue()) ? View.VISIBLE : View.GONE);
+        if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.READING_REPORT.getValue())) {
+            counterReportDtos = new ArrayList<>(MyDatabaseClient.getInstance(activity).
+                    getMyDatabase().counterReportDao().getAllCounterStateReport());
+            for (CounterReportDto counterReportDto : counterReportDtos) {
+                items2.add(counterReportDto.title);
+            }
+            items2.add(0, getString(R.string.reports));
+            spinnerCustomAdapterReadingReport = new SpinnerCustomAdapter(activity, items2);
+            binding.spinnerReadingReport.setAdapter(spinnerCustomAdapterReadingReport);
         }
     }
 
