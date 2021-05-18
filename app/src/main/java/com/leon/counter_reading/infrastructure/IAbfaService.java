@@ -92,7 +92,7 @@ public interface IAbfaService {
 
     @GET("KontoriNew/V1/Apk/LastInfo")
     Call<LastInfo> getLastInfo();
-    
+
     @Multipart
     @POST("KontoriNew/V1/Forbidden/Single")
     Call<ForbiddenDto.ForbiddenDtoResponses> singleForbidden(

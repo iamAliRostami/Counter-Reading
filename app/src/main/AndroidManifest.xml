@@ -31,6 +31,7 @@
     <uses-permission
         android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
         tools:ignore="ProtectedPermissions" />
+
     <uses-feature android:name="android.hardware.camera.flash" />
     <uses-feature
         android:name="android.hardware.camera"

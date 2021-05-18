@@ -141,7 +141,7 @@ public class LocationFragment extends Fragment {
             binding.mapView.getOverlayManager().add(startMarker);
         }
 
-//        void createPolygon(GeoPoint geoPoint) {
+        //        void createPolygon(GeoPoint geoPoint) {
 //            try {
 //                binding.mapView.getOverlays().add(line);
 //                polygonPoint.add(geoPoint);

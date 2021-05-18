@@ -347,7 +347,7 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     void imagePicker() {
 //        AlertDialog.Builder builder = new AlertDialog.Builder(TakePhotoActivity.this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(TakePhotoActivity.this,R.style.AlertDialogCustom));
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(TakePhotoActivity.this, R.style.AlertDialogCustom));
         builder.setTitle(R.string.choose_document);
         builder.setMessage(R.string.select_source);
         builder.setPositiveButton(R.string.gallery, (dialog, which) -> {

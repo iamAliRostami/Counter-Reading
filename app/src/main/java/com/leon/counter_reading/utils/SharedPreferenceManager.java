@@ -2,7 +2,6 @@ package com.leon.counter_reading.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 

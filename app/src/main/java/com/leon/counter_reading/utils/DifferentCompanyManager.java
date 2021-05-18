@@ -1,8 +1,6 @@
 package com.leon.counter_reading.utils;
 
 
-import android.util.Log;
-
 import com.leon.counter_reading.enums.CompanyNames;
 
 public class DifferentCompanyManager {
@@ -265,6 +263,7 @@ public class DifferentCompanyManager {
                 throw new UnsupportedOperationException();
         }
     }
+
     public static String getAhad(CompanyNames companyNames) {
         switch (companyNames) {
             case ESF:
@@ -273,6 +272,7 @@ public class DifferentCompanyManager {
                 throw new UnsupportedOperationException();
         }
     }
+
     public static String getAhad1(CompanyNames companyNames) {
         switch (companyNames) {
             case ESF:
@@ -281,6 +281,7 @@ public class DifferentCompanyManager {
                 throw new UnsupportedOperationException();
         }
     }
+
     public static String getAhad2(CompanyNames companyNames) {
         switch (companyNames) {
             case ESF:
@@ -289,6 +290,7 @@ public class DifferentCompanyManager {
                 throw new UnsupportedOperationException();
         }
     }
+
     public static String getAhadTotal(CompanyNames companyNames) {
         switch (companyNames) {
             case ESF:

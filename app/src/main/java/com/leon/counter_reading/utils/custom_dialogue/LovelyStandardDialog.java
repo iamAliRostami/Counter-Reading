@@ -107,9 +107,9 @@ public class LovelyStandardDialog extends AbsLovelyDialog<LovelyStandardDialog> 
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private LovelyStandardDialog setButtonsBackgroundRes(int res) {
-        positiveButton.setBackground(ContextCompat.getDrawable(context,res));
-        negativeButton.setBackground(ContextCompat.getDrawable(context,res));
-        neutralButton.setBackground(ContextCompat.getDrawable(context,res));
+        positiveButton.setBackground(ContextCompat.getDrawable(context, res));
+        negativeButton.setBackground(ContextCompat.getDrawable(context, res));
+        neutralButton.setBackground(ContextCompat.getDrawable(context, res));
         return this;
     }
 

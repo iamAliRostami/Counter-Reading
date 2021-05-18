@@ -11,11 +11,11 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/linear_layout_footer"
         android:visibility="visible" />
-<!--        <com.github.barteksc.pdfviewer.PDFView-->
-<!--            android:id="@+id/pdf_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_above="@+id/linear_layout_footer" />-->
+    <!--        <com.github.barteksc.pdfviewer.PDFView-->
+    <!--            android:id="@+id/pdf_view"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_above="@+id/linear_layout_footer" />-->
 
     <include layout="@layout/footer" />
 </RelativeLayout>

@@ -183,7 +183,7 @@ public class ReportActivity extends BaseActivity {
                 trackingDtos.forEach(trackingDto -> {
                     isManes.forEach(integer ->
                             isMane = isMane + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadIsManeCount(integer, trackingDto.id));
+                                    onOffLoadDao().getOnOffLoadIsManeCount(integer, trackingDto.id));
                     zero = zero + MyDatabaseClient.getInstance(activity).getMyDatabase().
                             onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
                             HighLowStateEnum.ZERO.getValue());
