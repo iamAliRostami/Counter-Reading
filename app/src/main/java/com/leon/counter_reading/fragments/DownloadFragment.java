@@ -3,6 +3,7 @@ package com.leon.counter_reading.fragments;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,8 +129,10 @@ public class DownloadFragment extends Fragment {
                 } else {
                     for (TrackingDto trackingDto : trackingDtos) {
                         for (TrackingDto trackingDto1 : readingDataTemp.trackingDtos) {
-                            if (trackingDto.id.equals(trackingDto1.id))
+                            if (trackingDto.id.equals(trackingDto1.id) || trackingDto.trackNumber == trackingDto1.trackNumber) {
+                                myDatabase.trackingDao().updateTrackingDtoByArchive(trackingDto.id, false, false);
                                 readingData.trackingDtos.remove(trackingDto1);
+                            }
                         }
                         if (trackingDto.isActive)
                             isActive[0] = true;
@@ -186,8 +189,9 @@ public class DownloadFragment extends Fragment {
                     for (int i = 0; i < readingDataTemp.onOffLoadDtos.size(); i++) {
                         if (onOffLoadDto.id.equals(readingDataTemp.onOffLoadDtos.get(i).id) &&
                                 onOffLoadDto.trackingId.equals(readingDataTemp.onOffLoadDtos.get(i).trackingId)
-                        )
+                        ) {
                             readingData.onOffLoadDtos.remove(readingDataTemp.onOffLoadDtos.get(i));
+                        }
                     }
                 myDatabase.onOffLoadDao().insertAllOnOffLoad(readingData.onOffLoadDtos);
                 ArrayList<CounterReportDto> counterReportDtos = new ArrayList<>(

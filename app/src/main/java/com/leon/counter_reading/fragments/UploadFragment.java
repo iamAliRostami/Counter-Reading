@@ -151,14 +151,14 @@ public class UploadFragment extends Fragment {
         MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
         if (binding.spinner.getSelectedItemPosition() != 0) {
             total = myDatabase.onOffLoadDao().getOnOffLoadCount(
-                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id);
+                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber);
             unread = myDatabase.onOffLoadDao().getOnOffLoadUnreadCount(0,
-                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id);
+                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber);
             ArrayList<Integer> isManes = new ArrayList<>(myDatabase.counterStateDao().
                     getCounterStateDtosIsMane(true));
             for (int i = 0; i < isManes.size(); i++) {
                 mane = mane + myDatabase.onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i),
-                        trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id);
+                        trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber);
             }
 
             alalPercent = myDatabase.trackingDao().getAlalHesabByZoneId(
@@ -240,7 +240,7 @@ public class UploadFragment extends Fragment {
             onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                     onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(
 //                    "12126666",
-                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id,
+                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber,
                     OffloadStateEnum.INSERTED.getValue()));
             offLoadReports.clear();
             offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
@@ -291,7 +291,7 @@ public class UploadFragment extends Fragment {
                 onOffLoadDtos.clear();
                 onOffLoadDtos.add(MyDatabaseClient.getInstance(activity).getMyDatabase().
                         onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(
-                        trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id));
+                        trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber));
             }
             if (onOffLoadDtos.size() == 0 || onOffLoadDtos.get(0) == null) {
                 MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().

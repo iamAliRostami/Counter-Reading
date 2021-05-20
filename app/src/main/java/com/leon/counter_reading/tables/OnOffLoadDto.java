@@ -36,10 +36,11 @@ public class OnOffLoadDto {
     public String tavizDate;
     public String tavizNumber;
     public String trackingId;
+    public int trackNumber;
     public int zarfiat;
     public String mobile;
     public int hazf;//TODO 0 <  hazf movaqat
-    public int noeVagozariId;//TODO 4: sax o saz
+    public int noeVagozariId;//TODO 4: sax o saz or karbari isSaxt
     public int counterNumber;
     public int counterStateId;
     public String possibleAddress;

@@ -775,20 +775,20 @@ public class ReadingActivity extends BaseActivity {
                 readingData.trackingDtos.forEach(trackingDto -> {
                     if (readStatus == ReadStatusEnum.ALL.getValue()) {
                         readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                                getAllOnOffLoadByTracking(trackingDto.id));
+                                getAllOnOffLoadByTracking(trackingDto.trackNumber));
                     } else if (readStatus == ReadStatusEnum.STATE.getValue()) {
                         readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                                getAllOnOffLoadByHighLowAndTracking(trackingDto.id, highLow));
+                                getAllOnOffLoadByHighLowAndTracking(trackingDto.trackNumber, highLow));
                     } else if (readStatus == ReadStatusEnum.UNREAD.getValue()) {
                         readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                                getAllOnOffLoadNotRead(0, trackingDto.id));
+                                getAllOnOffLoadNotRead(0, trackingDto.trackNumber));
                     } else if (readStatus == ReadStatusEnum.READ.getValue()) {
                         readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                                getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));
+                                getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.trackNumber));
                     } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
                         isMane.forEach(integer ->
                                 readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                                        getOnOffLoadReadByIsMane(integer, trackingDto.id)));
+                                        getOnOffLoadReadByIsMane(integer, trackingDto.trackNumber)));
 
                     }
                 });
@@ -796,20 +796,20 @@ public class ReadingActivity extends BaseActivity {
                 for (TrackingDto trackingDto : readingData.trackingDtos) {
                     if (readStatus == ReadStatusEnum.ALL.getValue()) {
                         readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                                getAllOnOffLoadByTracking(trackingDto.id));
+                                getAllOnOffLoadByTracking(trackingDto.trackNumber));
                     } else if (readStatus == ReadStatusEnum.STATE.getValue()) {
                         readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                                getAllOnOffLoadByHighLowAndTracking(trackingDto.id, highLow));
+                                getAllOnOffLoadByHighLowAndTracking(trackingDto.trackNumber, highLow));
                     } else if (readStatus == ReadStatusEnum.UNREAD.getValue()) {
                         readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                                getAllOnOffLoadNotRead(0, trackingDto.id));
+                                getAllOnOffLoadNotRead(0, trackingDto.trackNumber));
                     } else if (readStatus == ReadStatusEnum.READ.getValue()) {
                         readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                                getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.id));
+                                getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.trackNumber));
                     } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
                         for (int i : isMane) {
                             readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                                    getOnOffLoadReadByIsMane(i, trackingDto.id));
+                                    getOnOffLoadReadByIsMane(i, trackingDto.trackNumber));
                         }
                     }
                 }
