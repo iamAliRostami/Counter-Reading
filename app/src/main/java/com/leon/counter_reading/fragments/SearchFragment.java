@@ -50,7 +50,7 @@ public class SearchFragment extends DialogFragment {
     void setOnButtonSearchClickListener() {
         binding.buttonSearch.setOnClickListener(v -> {
             if (type == 5) {
-                ((ReadingActivity) Objects.requireNonNull(getActivity())).search(type, null);
+                ((ReadingActivity) Objects.requireNonNull(getActivity())).search(type, null, false);
                 dismiss();
             } else {
                 String key = binding.editTextSearch.getText().toString();
@@ -59,7 +59,7 @@ public class SearchFragment extends DialogFragment {
                     binding.editTextSearch.setError(getString(R.string.error_empty));
                     view.requestFocus();
                 } else {
-                    ((ReadingActivity) Objects.requireNonNull(getActivity())).search(type, key);
+                    ((ReadingActivity) Objects.requireNonNull(getActivity())).search(type, key, binding.checkBoxGoToPage.isChecked());
                     dismiss();
                 }
             }
@@ -75,6 +75,14 @@ public class SearchFragment extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 type = position;
+                if (position == 5)
+                    binding.editTextSearch.setVisibility(View.GONE);
+                else binding.editTextSearch.setVisibility(View.VISIBLE);
+
+                if (position == 3 || position == 4 || position == 5)
+                    binding.checkBoxGoToPage.setVisibility(View.GONE);
+                else binding.checkBoxGoToPage.setVisibility(View.VISIBLE);
+
                 if (position == 3)
                     binding.editTextSearch.setInputType(InputType.TYPE_CLASS_TEXT);
                 else

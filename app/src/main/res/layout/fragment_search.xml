@@ -59,6 +59,16 @@
             android:textSize="@dimen/text_size_large"
             tools:ignore="Autofill" />
 
+        <CheckBox
+            android:id="@+id/check_box_go_to_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/large_dp"
+            android:layout_marginRight="@dimen/large_dp"
+            android:padding="@dimen/medium_dp"
+            android:text="@string/go_to_page"
+            android:textSize="@dimen/text_size_medium" />
+
         <Button
             android:id="@+id/button_search"
             style="@style/text_bold"

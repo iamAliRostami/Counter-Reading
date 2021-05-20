@@ -330,74 +330,101 @@ public class ReadingActivity extends BaseActivity {
         });
     }
 
-    public void search(int type, String key) {
-        if (type == 4) {
-            binding.viewPager.setCurrentItem(Integer.parseInt(key) - 1);
-        } else if (type == 5) {
-            readingData.onOffLoadDtos.clear();
-            readingData.onOffLoadDtos.addAll(readingDataTemp.onOffLoadDtos);
-            runOnUiThread(this::setupViewPager);
-        } else {
-            switch (type) {
-                case 0:
-                    readingData.onOffLoadDtos.clear();
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
-                            if (onOffLoadDto.eshterak.toLowerCase().contains(key))
-                                readingData.onOffLoadDtos.add(onOffLoadDto);
-                        });
-                    } else
-                        for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
-                            if (onOffLoadDto.eshterak.toLowerCase().contains(key))
-                                readingData.onOffLoadDtos.add(onOffLoadDto);
-                        }
-                    break;
-                case 1:
-                    readingData.onOffLoadDtos.clear();
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
+    public void search(int type, String key, boolean goToPage) {
+        switch (type) {
+            case 4:
+                binding.viewPager.setCurrentItem(Integer.parseInt(key) - 1);
+                break;
+            case 5:
+                readingData.onOffLoadDtos.clear();
+                readingData.onOffLoadDtos.addAll(readingDataTemp.onOffLoadDtos);
+                runOnUiThread(this::setupViewPager);
+                break;
+            case 3:
+                readingData.onOffLoadDtos.clear();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
+                        if (onOffLoadDto.firstName.toLowerCase().contains(key) ||
+                                onOffLoadDto.sureName.toLowerCase().contains(key))
+                            readingData.onOffLoadDtos.add(onOffLoadDto);
+                    });
+                } else
+                    for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
+                        if (onOffLoadDto.firstName.toLowerCase().contains(key) ||
+                                onOffLoadDto.sureName.toLowerCase().contains(key))
+                            readingData.onOffLoadDtos.add(onOffLoadDto);
+                    }
+                runOnUiThread(this::setupViewPager);
+                break;
+            default:
+                if (goToPage) {
+                    switch (type) {
+                        case 0://105010600
+                            for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
+                                if (readingData.onOffLoadDtos.get(i).eshterak.contains(key))
+                                    binding.viewPager.setCurrentItem(i);
+                            }
+                            break;
+                        case 1://10055024
+                            for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
+                                if (readingData.onOffLoadDtos.get(i).radif == Integer.parseInt(key))
+                                    binding.viewPager.setCurrentItem(i);
+                            }
+                            break;
+                        case 2://834519
+                            for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
+                                if (readingData.onOffLoadDtos.get(i).counterSerial.contains(key))
+                                    binding.viewPager.setCurrentItem(i);
+                            }
+                            break;
+                    }
+                } else {
+                    switch (type) {
+                        case 0:
+                            readingData.onOffLoadDtos.clear();
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
+                                    if (onOffLoadDto.eshterak.toLowerCase().contains(key))
+                                        readingData.onOffLoadDtos.add(onOffLoadDto);
+                                });
+                            } else
+                                for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
+                                    if (onOffLoadDto.eshterak.toLowerCase().contains(key))
+                                        readingData.onOffLoadDtos.add(onOffLoadDto);
+                                }
+                            break;
+                        case 1:
+                            readingData.onOffLoadDtos.clear();
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
 
-                            if (onOffLoadDto.radif == Integer.parseInt(key))
-                                readingData.onOffLoadDtos.add(onOffLoadDto);
-                        });
-                    } else
-                        for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
-                            if (onOffLoadDto.radif == Integer.parseInt(key))
-                                readingData.onOffLoadDtos.add(onOffLoadDto);
-                        }
-                    break;
-                case 2:
-                    readingData.onOffLoadDtos.clear();
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
-                            if (onOffLoadDto.counterSerial.toLowerCase().contains(key))
-                                readingData.onOffLoadDtos.add(onOffLoadDto);
-                        });
-                    } else
-                        for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
-                            if (onOffLoadDto.counterSerial.toLowerCase().contains(key))
-                                readingData.onOffLoadDtos.add(onOffLoadDto);
-                        }
-                    break;
-                case 3:
-                    readingData.onOffLoadDtos.clear();
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
-                            if (onOffLoadDto.firstName.toLowerCase().contains(key) ||
-                                    onOffLoadDto.sureName.toLowerCase().contains(key))
-                                readingData.onOffLoadDtos.add(onOffLoadDto);
-                        });
-                    } else
-                        for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
-                            if (onOffLoadDto.firstName.toLowerCase().contains(key) ||
-                                    onOffLoadDto.sureName.toLowerCase().contains(key))
-                                readingData.onOffLoadDtos.add(onOffLoadDto);
-                        }
-                    break;
-            }
-            runOnUiThread(this::setupViewPager);
+                                    if (onOffLoadDto.radif == Integer.parseInt(key))
+                                        readingData.onOffLoadDtos.add(onOffLoadDto);
+                                });
+                            } else
+                                for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
+                                    if (onOffLoadDto.radif == Integer.parseInt(key))
+                                        readingData.onOffLoadDtos.add(onOffLoadDto);
+                                }
+                            break;
+                        case 2:
+                            readingData.onOffLoadDtos.clear();
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
+                                    if (onOffLoadDto.counterSerial.toLowerCase().contains(key))
+                                        readingData.onOffLoadDtos.add(onOffLoadDto);
+                                });
+                            } else
+                                for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
+                                    if (onOffLoadDto.counterSerial.toLowerCase().contains(key))
+                                        readingData.onOffLoadDtos.add(onOffLoadDto);
+                                }
+                            break;
+
+                    }
+                    runOnUiThread(this::setupViewPager);
+                }
         }
-
     }
 
     void showNoEshterakFound() {

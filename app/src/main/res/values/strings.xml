@@ -208,5 +208,6 @@
     <string name="check_connection">لطفا اتصالات اینترنت و اینترانت خود را بررسی کنید.</string>
     <string name="password_and_confirm_not_same">گذرواژه و تکرار آن مشابه نیستند.</string>
     <string name="incorrect_old_password">گذرواژه پیشین نادرست است.</string>
+    <string name="go_to_page">برو به صفحه</string>
 
 </resources>
