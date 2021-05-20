@@ -19,6 +19,9 @@ public interface TrackingDao {
     @Query("Select * From TrackingDto WHERE isArchive = :isArchive AND isActive = :isActive")
     List<TrackingDto> getTrackingDtosIsActiveNotArchive(boolean isActive, boolean isArchive);
 
+    @Query("Select alalHesabPercent From TrackingDto Where zoneId = :zoneId")
+    int getAlalHesabByZoneId(int zoneId);
+
     @Query("SELECT * FROM TrackingDto INNER JOIN ReadingConfigDefaultDto ON " +
             "TrackingDto.zoneId=ReadingConfigDefaultDto.zoneId " +
             "WHERE ReadingConfigDefaultDto.id = :id")

@@ -160,14 +160,15 @@ public class UploadFragment extends Fragment {
                 mane = mane + myDatabase.onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i),
                         trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id);
             }
-            alalPercent = myDatabase.readingConfigDefaultDao().getAlalHesabByZoneId(
+
+            alalPercent = myDatabase.trackingDao().getAlalHesabByZoneId(
                     trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).zoneId);
         } else return false;
         double alalMane = (double) mane / total * 100;
         if (unread > 0) {
             new CustomToast().info("همکار گرامی!\nتعداد " + unread + " اشتراک قرائت نشده است.", Toast.LENGTH_LONG);
             return false;
-        } else if (mane > 0 && alalMane * 100 > (double) alalPercent) {
+        } else if (mane > 0 && alalMane > (double) alalPercent) {
             new CustomToast().info("همکار گرامی!\nدرصد علی الحساب بالاتر از حد مجاز است.", Toast.LENGTH_LONG);
             return false;
         }
@@ -302,6 +303,7 @@ public class UploadFragment extends Fragment {
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
             OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
             offLoadData.isFinal = true;
+            offLoadData.finalTrackNumber = trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber;
             for (int i = 0; i < onOffLoadDtos.size(); i++)
                 offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDtos.get(i)));
             offLoadData.offLoadReports.addAll(offLoadReports);

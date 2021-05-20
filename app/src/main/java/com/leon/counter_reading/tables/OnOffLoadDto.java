@@ -110,6 +110,7 @@ public class OnOffLoadDto {
 
     public static class OffLoadData {
         public boolean isFinal;//TODO upload or reading
+        public int finalTrackNumber;
         public final ArrayList<OffLoad> offLoads;
         public final ArrayList<OffLoadReport> offLoadReports;
 
