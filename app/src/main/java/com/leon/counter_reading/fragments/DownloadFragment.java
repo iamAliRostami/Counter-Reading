@@ -3,7 +3,6 @@ package com.leon.counter_reading.fragments;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,7 +119,7 @@ public class DownloadFragment extends Fragment {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     trackingDtos.forEach(trackingDto -> {
                         for (int i = 0; i < readingDataTemp.trackingDtos.size(); i++) {
-                            if (trackingDto.id.equals(readingDataTemp.trackingDtos.get(i).id))
+                            if (trackingDto.id.equals(readingDataTemp.trackingDtos.get(i).id)|| trackingDto.trackNumber == readingDataTemp.trackingDtos.get(i).trackNumber)
                                 readingData.trackingDtos.remove(readingDataTemp.trackingDtos.get(i));
                             if (trackingDto.isActive)
                                 isActive[0] = true;

@@ -185,16 +185,16 @@ public class ReportActivity extends BaseActivity {
                             isMane = isMane + MyDatabaseClient.getInstance(activity).getMyDatabase().
                                     onOffLoadDao().getOnOffLoadIsManeCount(integer, trackingDto.trackNumber));
                     zero = zero + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
                             HighLowStateEnum.ZERO.getValue());
                     high = high + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
                             HighLowStateEnum.HIGH.getValue());
                     low = low + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
                             HighLowStateEnum.LOW.getValue());
                     normal = normal + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
                             HighLowStateEnum.NORMAL.getValue());
                     unread = unread + MyDatabaseClient.getInstance(activity).getMyDatabase().
                             onOffLoadDao().getOnOffLoadReadCount(0, trackingDto.trackNumber);
@@ -208,16 +208,16 @@ public class ReportActivity extends BaseActivity {
                                 onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i), trackingDto.trackNumber);
                     }
                     zero = zero + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
                             HighLowStateEnum.ZERO.getValue());
                     high = high + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
                             HighLowStateEnum.HIGH.getValue());
                     low = low + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
                             HighLowStateEnum.LOW.getValue());
                     normal = normal + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.id,
+                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
                             HighLowStateEnum.NORMAL.getValue());
                     unread = unread + MyDatabaseClient.getInstance(activity).getMyDatabase().
                             onOffLoadDao().getOnOffLoadReadCount(0, trackingDto.trackNumber);

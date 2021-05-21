@@ -15,8 +15,7 @@
             android:id="@+id/linear_layout_above"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/image_view_high_low_state"
@@ -40,6 +39,15 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:src="@drawable/img_visit_default"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/image_view_exception_state"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:src="@drawable/img_delete_temp"
+                android:visibility="gone"
                 tools:ignore="ContentDescription" />
 
             <TextView

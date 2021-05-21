@@ -46,7 +46,7 @@ public interface OnOffLoadDao {
     List<OnOffLoadDto> getOnOffLoadReadByIsMane(int counterStateId, int trackNumber);
 
     @Query("select COUNT(*) From OnOffLoadDto WHERE trackNumber = :trackNumber AND highLowStateId =:highLowStateId")
-    int getOnOffLoadReadCountByStatus(String trackNumber, int highLowStateId);
+    int getOnOffLoadReadCountByStatus(int trackNumber, int highLowStateId);
 
     @Query("select COUNT(*) From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId")
     int getAllOnOffLoadReadCount(int offLoadStateId);

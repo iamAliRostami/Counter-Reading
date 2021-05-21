@@ -69,18 +69,16 @@ import retrofit2.Retrofit;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public class ReadingActivity extends BaseActivity {
-    final int[] imageSrc = new int[12];
     ActivityReadingBinding binding;
     Activity activity;
     IFlashLightManager flashLightManager;
-    ReadingData readingData;
-    ReadingData readingDataTemp;
+    ReadingData readingData, readingDataTemp;
     ViewPagerAdapterReading viewPagerAdapterReading;
     ISharedPreferenceManager sharedPreferenceManager;
-    boolean isNight = false;
-    int readStatus = 0, highLow = 1;
     ArrayList<Integer> isMane = new ArrayList<>();
-    boolean isReading = false;
+    final int[] imageSrc = new int[15];
+    int readStatus = 0, highLow = 1;
+    boolean isNight = false, isReading = false;
 
     @Override
     protected void initialize() {
@@ -172,18 +170,7 @@ public class ReadingActivity extends BaseActivity {
                 updateOnOffLoad(readingData.onOffLoadDtos.get(position));
     }
 
-//    public void updateOnOffLoadImage(int position) {
-//        attemptSend(position, false, false);
-//    }
-
     void showImage(int position) {
-//        if (PermissionManager.checkStoragePermission(getApplicationContext())) {
-//            askStoragePermission();
-//        } else {
-//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//            ImageFragment imageFragment = ImageFragment.newInstance(readingData.onOffLoadDtos.get(position).billId, position);
-//            imageFragment.show(fragmentTransaction, getString(R.string.dynamic_navigation));
-//        }
         Intent intent = new Intent(activity, TakePhotoActivity.class);
         intent.putExtra(BundleEnum.BILL_ID.getValue(),
                 readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
@@ -256,7 +243,38 @@ public class ReadingActivity extends BaseActivity {
             setIsBazdidImage(position);
             setHighLowImage(position);
             setReadStatusImage(position);
+            setExceptionImage(position);
         });
+    }
+
+    void setExceptionImage(int position) {
+        binding.imageViewExceptionState.setVisibility(View.GONE);
+        for (int i = 0; i < readingData.counterStateDtos.size(); i++) {
+            if (readingData.counterStateDtos.get(i).moshtarakinId ==
+                    readingData.onOffLoadDtos.get(position).preCounterStateCode &&
+                    readingData.counterStateDtos.get(i).isXarab) {
+                binding.imageViewExceptionState.setVisibility(View.VISIBLE);
+                binding.imageViewExceptionState.setImageResource(imageSrc[14]);
+            }
+        }
+
+        for (int i = 0; i < readingData.karbariDtos.size(); i++) {
+            if (readingData.karbariDtos.get(i).moshtarakinId ==
+                    readingData.onOffLoadDtos.get(position).karbariCode &&
+                    readingData.karbariDtos.get(i).isSaxt) {
+                binding.imageViewExceptionState.setVisibility(View.VISIBLE);
+                binding.imageViewExceptionState.setImageResource(imageSrc[13]);
+            }
+        }
+        if (readingData.onOffLoadDtos.get(position).noeVagozariId == 4) {
+            binding.imageViewExceptionState.setVisibility(View.VISIBLE);
+            binding.imageViewExceptionState.setImageResource(imageSrc[13]);
+        }
+
+        if (readingData.onOffLoadDtos.get(position).hazf > 0) {
+            binding.imageViewExceptionState.setVisibility(View.VISIBLE);
+            binding.imageViewExceptionState.setImageResource(imageSrc[12]);
+        }
     }
 
     void setIsBazdidImage(int position) {
@@ -446,6 +464,10 @@ public class ReadingActivity extends BaseActivity {
         imageSrc[9] = R.drawable.img_successful;
         imageSrc[10] = R.drawable.img_mistake;
         imageSrc[11] = R.drawable.img_failure;
+
+        imageSrc[12] = R.drawable.img_delete_temp;
+        imageSrc[13] = R.drawable.img_construction;
+        imageSrc[14] = R.drawable.img_broken_pipe;
     }
 
     void setupViewPager() {
@@ -885,6 +907,7 @@ public class ReadingActivity extends BaseActivity {
         binding.imageViewHighLowState.setImageDrawable(null);
         binding.imageViewOffLoadState.setImageDrawable(null);
         binding.imageViewReadingType.setImageDrawable(null);
+        binding.imageViewExceptionState.setImageDrawable(null);
         readingData = null;
         readingDataTemp = null;
         viewPagerAdapterReading = null;
