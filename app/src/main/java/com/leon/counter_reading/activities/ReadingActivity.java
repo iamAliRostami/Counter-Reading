@@ -299,8 +299,10 @@ public class ReadingActivity extends BaseActivity {
     void setOnImageViewsClickListener() {
         flashLightManager = new FlashLightManager(activity);
         ImageView imageViewFlash = findViewById(R.id.image_view_flash);
-        imageViewFlash.setImageDrawable(activity.getDrawable(R.drawable.img_flash));
-        imageViewFlash.setOnClickListener(v -> flashLightManager.toggleFlash());
+        imageViewFlash.setImageDrawable(activity.getDrawable(R.drawable.img_flash_off));
+        imageViewFlash.setOnClickListener(v -> {
+            imageViewFlash.setImageDrawable(getDrawable(flashLightManager.toggleFlash() ? R.drawable.img_flash_on : R.drawable.img_flash_off));
+        });
         ImageView imageViewReverse = findViewById(R.id.image_view_reverse);
         imageViewReverse.setImageDrawable(activity.getDrawable(R.drawable.img_inverse));
         imageViewReverse.setOnClickListener(v -> {
@@ -464,7 +466,6 @@ public class ReadingActivity extends BaseActivity {
         imageSrc[9] = R.drawable.img_successful;
         imageSrc[10] = R.drawable.img_mistake;
         imageSrc[11] = R.drawable.img_failure;
-
         imageSrc[12] = R.drawable.img_delete_temp;
         imageSrc[13] = R.drawable.img_construction;
         imageSrc[14] = R.drawable.img_broken_pipe;

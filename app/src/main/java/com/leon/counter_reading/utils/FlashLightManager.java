@@ -52,11 +52,9 @@ public final class FlashLightManager implements IFlashLightManager {
 
     public boolean toggleFlash() {
         if (isFlashOn) {
-            turnOff();
-            return false;
+            return turnOff();
         } else {
-            turnOn();
-            return true;
+            return turnOn();
         }
     }
 }
