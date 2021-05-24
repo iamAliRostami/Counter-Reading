@@ -8,9 +8,8 @@ import java.util.concurrent.Executors;
 
 public abstract class AsyncTaskRunner<T> {
 
-    private ExecutorService executorService = null;
-    private Set<Callable<T>> tasks = new HashSet<>();
-
+    private ExecutorService executorService;
+    private final Set<Callable<T>> tasks = new HashSet<>();
     public AsyncTaskRunner() {
         this.executorService = Executors.newSingleThreadExecutor();
     }

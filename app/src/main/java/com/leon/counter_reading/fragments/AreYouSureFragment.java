@@ -13,10 +13,13 @@ import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.databinding.FragmentAreYouSureBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.HighLowStateEnum;
+import com.leon.counter_reading.enums.NotificationType;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class AreYouSureFragment extends DialogFragment {
     FragmentAreYouSureBinding binding;
@@ -61,6 +64,7 @@ public class AreYouSureFragment extends DialogFragment {
     }
 
     void initialize() {
+        makeRing(getContext(), NotificationType.NOT_SAVE);
         setTextViewMessage();
         setOnButtonsClickListener();
     }

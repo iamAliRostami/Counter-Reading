@@ -12,11 +12,14 @@ import androidx.fragment.app.DialogFragment;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentSerialBinding;
 import com.leon.counter_reading.enums.BundleEnum;
+import com.leon.counter_reading.enums.NotificationType;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class TaviziFragment extends DialogFragment {
     String uuid;
@@ -55,6 +58,7 @@ public class TaviziFragment extends DialogFragment {
     }
 
     void initialize() {
+        makeRing(context, NotificationType.NOT_SAVE);
         setOnButtonsClickListener();
     }
 

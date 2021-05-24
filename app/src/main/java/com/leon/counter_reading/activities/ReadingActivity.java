@@ -32,6 +32,7 @@ import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityReadingBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.DialogType;
+import com.leon.counter_reading.enums.NotificationType;
 import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.enums.ReadStatusEnum;
@@ -66,6 +67,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public class ReadingActivity extends BaseActivity {
@@ -301,7 +303,9 @@ public class ReadingActivity extends BaseActivity {
         ImageView imageViewFlash = findViewById(R.id.image_view_flash);
         imageViewFlash.setImageDrawable(activity.getDrawable(R.drawable.img_flash_off));
         imageViewFlash.setOnClickListener(v -> {
-            imageViewFlash.setImageDrawable(getDrawable(flashLightManager.toggleFlash() ? R.drawable.img_flash_on : R.drawable.img_flash_off));
+            boolean isOn = flashLightManager.toggleFlash();
+            makeRing(activity, isOn ? NotificationType.LIGHT_ON : NotificationType.LIGHT_OFF);
+            imageViewFlash.setImageDrawable(getDrawable(isOn ? R.drawable.img_flash_on : R.drawable.img_flash_off));
         });
         ImageView imageViewReverse = findViewById(R.id.image_view_reverse);
         imageViewReverse.setImageDrawable(activity.getDrawable(R.drawable.img_inverse));

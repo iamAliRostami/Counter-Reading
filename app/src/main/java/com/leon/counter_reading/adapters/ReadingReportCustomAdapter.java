@@ -22,8 +22,6 @@ import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.util.ArrayList;
 
-import static com.leon.counter_reading.utils.MakeNotification.makeRing;
-
 public class ReadingReportCustomAdapter extends BaseAdapter {
     final ArrayList<CounterReportDto> counterReportDtos;
     final ArrayList<OffLoadReport> offLoadReports;
@@ -78,19 +76,16 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
                         insertOffLoadReport(offLoadReport);
                 offLoadReports.add(offLoadReport);
                 if (counterReportDtos.get(position).isAhad) {
-                    makeRing(context);
                     AhadFragment ahadFragment = AhadFragment.newInstance(uuid, position);
                     FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
                     ahadFragment.show(fragmentManager, context.getString(R.string.number).concat(DifferentCompanyManager.getAhad(DifferentCompanyManager.getActiveCompanyName())));
                 }
                 if (counterReportDtos.get(position).isTavizi) {
-                    makeRing(context);
                     TaviziFragment taviziFragment = TaviziFragment.newInstance(uuid, position);
                     FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
                     taviziFragment.show(fragmentManager, context.getString(R.string.counter_serial));
                 }
                 if (counterReportDtos.get(position).isKarbari) {
-                    makeRing(context);
                     KarbariFragment karbariFragment = KarbariFragment.newInstance(uuid, position);
                     FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
                     karbariFragment.show(fragmentManager, context.getString(R.string.karbari));

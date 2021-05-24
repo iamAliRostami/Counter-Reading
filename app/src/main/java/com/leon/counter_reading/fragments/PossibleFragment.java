@@ -15,6 +15,7 @@ import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentPossibleBinding;
 import com.leon.counter_reading.enums.BundleEnum;
+import com.leon.counter_reading.enums.NotificationType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
@@ -30,6 +31,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class PossibleFragment extends DialogFragment {
     FragmentPossibleBinding binding;
@@ -86,6 +89,7 @@ public class PossibleFragment extends DialogFragment {
     }
 
     void initialize() {
+        makeRing(activity, NotificationType.NOT_SAVE);
         sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
         initializeTextViews();
         setOnButtonsClickListener();

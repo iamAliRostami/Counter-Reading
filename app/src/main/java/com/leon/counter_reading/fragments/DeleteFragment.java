@@ -14,6 +14,7 @@ import androidx.fragment.app.DialogFragment;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentDeleteBinding;
 import com.leon.counter_reading.enums.BundleEnum;
+import com.leon.counter_reading.enums.NotificationType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
@@ -25,6 +26,8 @@ import com.leon.counter_reading.utils.SharedPreferenceManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class DeleteFragment extends DialogFragment {
     String id;
@@ -60,6 +63,7 @@ public class DeleteFragment extends DialogFragment {
     }
 
     void initialize() {
+        makeRing(activity, NotificationType.SAVE);
         setOnImageViewPasswordClickListener();
         setOnButtonsClickListener();
     }

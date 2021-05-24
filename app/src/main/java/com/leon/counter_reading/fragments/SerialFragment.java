@@ -12,10 +12,13 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.databinding.FragmentSerialBinding;
 import com.leon.counter_reading.enums.BundleEnum;
+import com.leon.counter_reading.enums.NotificationType;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class SerialFragment extends DialogFragment {
     int position;
@@ -55,6 +58,7 @@ public class SerialFragment extends DialogFragment {
     }
 
     void initialize() {
+        makeRing(getContext(), NotificationType.NOT_SAVE);
         setOnButtonsClickListener();
     }
 

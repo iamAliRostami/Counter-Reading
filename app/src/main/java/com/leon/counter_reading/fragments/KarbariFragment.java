@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentKarbariBinding;
 import com.leon.counter_reading.enums.BundleEnum;
+import com.leon.counter_reading.enums.NotificationType;
 import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 
@@ -19,6 +20,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class KarbariFragment extends DialogFragment {
 
@@ -60,6 +63,7 @@ public class KarbariFragment extends DialogFragment {
     }
 
     void initialize() {
+        makeRing(activity, NotificationType.NOT_SAVE);
         initializeSpinner();
         setOnButtonClickListener();
     }

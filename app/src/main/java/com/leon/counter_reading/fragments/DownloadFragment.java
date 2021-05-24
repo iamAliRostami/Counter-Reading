@@ -119,7 +119,7 @@ public class DownloadFragment extends Fragment {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     trackingDtos.forEach(trackingDto -> {
                         for (int i = 0; i < readingDataTemp.trackingDtos.size(); i++) {
-                            if (trackingDto.id.equals(readingDataTemp.trackingDtos.get(i).id)|| trackingDto.trackNumber == readingDataTemp.trackingDtos.get(i).trackNumber)
+                            if (trackingDto.id.equals(readingDataTemp.trackingDtos.get(i).id) || trackingDto.trackNumber == readingDataTemp.trackingDtos.get(i).trackNumber)
                                 readingData.trackingDtos.remove(readingDataTemp.trackingDtos.get(i));
                             if (trackingDto.isActive)
                                 isActive[0] = true;

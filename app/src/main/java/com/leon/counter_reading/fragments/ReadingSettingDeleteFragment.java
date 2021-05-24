@@ -23,8 +23,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-import static com.leon.counter_reading.utils.MakeNotification.makeRing;
-
 public class ReadingSettingDeleteFragment extends Fragment {
     FragmentReadingSettingDeleteBinding binding;
     final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
@@ -98,7 +96,6 @@ public class ReadingSettingDeleteFragment extends Fragment {
 
     void setOnButtonDeleteClickListener() {
         binding.buttonDelete.setOnClickListener(v -> {
-            makeRing(activity);
             if (binding.spinner.getSelectedItemPosition() == 0) {
                 DeleteFragment deleteFragment = DeleteFragment.newInstance("");
                 if (getFragmentManager() != null) {

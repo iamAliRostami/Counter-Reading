@@ -12,12 +12,15 @@ import androidx.fragment.app.DialogFragment;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentAhadBinding;
 import com.leon.counter_reading.enums.BundleEnum;
+import com.leon.counter_reading.enums.NotificationType;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class AhadFragment extends DialogFragment {
 
@@ -57,6 +60,7 @@ public class AhadFragment extends DialogFragment {
     }
 
     void initialize() {
+        makeRing(context, NotificationType.NOT_SAVE);
         setOnButtonClickListener();
         binding.editTextAhad1.setHint(DifferentCompanyManager.getAhad1(DifferentCompanyManager.getActiveCompanyName()));
         binding.editTextAhad2.setHint(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()));

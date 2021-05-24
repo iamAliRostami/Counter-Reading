@@ -11,17 +11,35 @@ import android.os.Vibrator;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.leon.counter_reading.enums.NotificationType;
+
 public class MakeNotification {
     public static void makeVibrate(Context context) {
         final Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(500);
     }
 
-    public static void makeRing(Context context) {
+    public static void makeRing(Context context, NotificationType type) {
         makeVibrate(context);
         try {
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone r = RingtoneManager.getRingtone(context, notification);
+            Uri notificationPath;
+            switch (type) {
+                case NOT_SAVE:
+                    notificationPath = Uri.parse("android.resource://" + context.getPackageName() + "/raw/not_save");
+                    break;
+                case SAVE:
+                    notificationPath = Uri.parse("android.resource://" + context.getPackageName() + "/raw/save");
+                    break;
+                case LIGHT_ON:
+                    notificationPath = Uri.parse("android.resource://" + context.getPackageName() + "/raw/light_switch_on");
+                    break;
+                case LIGHT_OFF:
+                    notificationPath = Uri.parse("android.resource://" + context.getPackageName() + "/raw/light_switch_off");
+                    break;
+                default:
+                    notificationPath = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            }
+            Ringtone r = RingtoneManager.getRingtone(context, notificationPath);
             r.play();
         } catch (Exception e) {
             e.printStackTrace();
