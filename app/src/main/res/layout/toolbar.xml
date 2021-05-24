@@ -16,6 +16,6 @@
 
         <include
             layout="@layout/reading_header"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </androidx.appcompat.widget.Toolbar>
 </com.google.android.material.appbar.AppBarLayout>

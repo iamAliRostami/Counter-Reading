@@ -8,6 +8,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/low_dp"
+        android:layout_marginRight="@dimen/low_dp"
         android:layout_marginBottom="@dimen/low_dp"
         tools:ignore="UselessParent">
 
@@ -19,8 +21,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/low_dp"
-                android:layout_marginLeft="@dimen/low_dp"
                 android:layout_marginTop="@dimen/small_dp"
                 android:layout_marginBottom="@dimen/small_dp"
                 android:background="@drawable/border_gray_3"
@@ -58,8 +58,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:padding="@dimen/low_dp"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_small" />
             </LinearLayout>
 
             <LinearLayout
@@ -74,8 +73,6 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/low_dp"
-                    android:layout_marginRight="@dimen/low_dp"
                     android:layout_weight="1.4"
                     android:background="@drawable/border_gray_3"
                     android:orientation="vertical"
@@ -100,12 +97,14 @@
                         android:layout_height="0dp"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:textSize="@dimen/text_size_large" />
+                        android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/low_dp"
+                    android:layout_marginRight="@dimen/low_dp"
                     android:layout_weight="0.5"
                     android:background="@drawable/border_gray_3"
                     android:orientation="vertical"
@@ -131,14 +130,12 @@
                         android:layout_height="0dp"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:textSize="@dimen/text_size_large" />
+                        android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/low_dp"
-                    android:layout_marginRight="@dimen/low_dp"
                     android:layout_weight="0.5"
                     android:background="@drawable/border_gray_3"
                     android:orientation="vertical"
@@ -165,7 +162,7 @@
                         android:layout_weight="3"
                         android:gravity="center"
                         android:text="@string/_0"
-                        android:textSize="@dimen/text_size_large" />
+                        android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -173,98 +170,86 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_dp"
+                android:layout_marginBottom="@dimen/small_dp"
                 android:orientation="horizontal"
-                android:weightSum="3"
                 tools:ignore="DisableBaselineAlignment">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/low_dp"
-                    android:layout_marginLeft="@dimen/low_dp"
-                    android:layout_marginTop="@dimen/small_dp"
-                    android:layout_marginBottom="@dimen/small_dp"
                     android:layout_weight="1"
                     android:background="@drawable/border_gray_3"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/low_dp"
+                    android:paddingBottom="@dimen/low_dp">
 
                     <TextView
+                        android:id="@+id/text_view_ahad_1_title"
                         style="@style/text_bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/medium_dp"
-                        android:paddingBottom="@dimen/medium_dp"
-                        android:id="@+id/text_view_ahad_1_title" />
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:id="@+id/text_view_ahad_1"
                         style="@style/text_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/medium_dp"
-                        android:paddingBottom="@dimen/medium_dp"
-                        android:text="@string/_0" />
+                        android:text="@string/_0"
+                        android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/low_dp"
                     android:layout_marginLeft="@dimen/low_dp"
-                    android:layout_marginTop="@dimen/small_dp"
-                    android:layout_marginBottom="@dimen/small_dp"
+                    android:layout_marginRight="@dimen/low_dp"
                     android:layout_weight="1"
                     android:background="@drawable/border_gray_3"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/low_dp"
+                    android:paddingBottom="@dimen/low_dp">
 
                     <TextView
+                        android:id="@+id/text_view_ahad_2_title"
                         style="@style/text_bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/medium_dp"
-                        android:paddingBottom="@dimen/medium_dp"
-                        android:id="@+id/text_view_ahad_2_title" />
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:id="@+id/text_view_ahad_2"
                         style="@style/text_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/medium_dp"
-                        android:paddingBottom="@dimen/medium_dp"
-                        android:text="@string/_0" />
+                        android:text="@string/_0"
+                        android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/low_dp"
-                    android:layout_marginLeft="@dimen/low_dp"
-                    android:layout_marginTop="@dimen/small_dp"
-                    android:layout_marginBottom="@dimen/small_dp"
                     android:layout_weight="1"
                     android:background="@drawable/border_gray_3"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/low_dp"
+                    android:paddingBottom="@dimen/low_dp">
 
                     <TextView
                         android:id="@+id/text_view_ahad_total_title"
                         style="@style/text_bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/medium_dp"
-                        android:paddingBottom="@dimen/medium_dp" />
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:id="@+id/text_view_ahad_total"
                         style="@style/text_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/medium_dp"
-                        android:paddingBottom="@dimen/medium_dp"
-                        android:text="@string/_0" />
+                        android:text="@string/_0"
+                        android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -279,9 +264,8 @@
                     style="@style/text_bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/low_dp"
-                    android:layout_marginLeft="@dimen/low_dp"
                     android:layout_marginTop="@dimen/small_dp"
+                    android:layout_marginEnd="@dimen/low_dp"
                     android:layout_marginBottom="@dimen/small_dp"
                     android:layout_weight="1"
                     android:background="@drawable/border_yellow_3"
@@ -294,8 +278,7 @@
                     style="@style/text_bold"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/low_dp"
-                    android:layout_marginLeft="@dimen/low_dp"
+                    android:layout_marginStart="@dimen/low_dp"
                     android:layout_marginTop="@dimen/small_dp"
                     android:layout_marginBottom="@dimen/small_dp"
                     android:layout_weight="1"
@@ -312,49 +295,31 @@
                     tools:ignore="Autofill,UnusedAttribute" />
             </LinearLayout>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_view_code"
+                style="@style/text_bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/low_dp"
-                android:layout_marginLeft="@dimen/low_dp"
                 android:layout_marginTop="@dimen/small_dp"
                 android:layout_marginBottom="@dimen/small_dp"
                 android:background="@drawable/border_gray_3"
-                android:orientation="horizontal">
+                android:gravity="center"
+                android:textSize="@dimen/text_size_large" />
 
-                <TextView
-                    android:id="@+id/text_view_code"
-                    style="@style/text_bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_large" />
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_view_karbari"
+                style="@style/text_bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/low_dp"
-                android:layout_marginLeft="@dimen/low_dp"
                 android:layout_marginTop="@dimen/small_dp"
                 android:layout_marginBottom="@dimen/small_dp"
                 android:background="@drawable/border_gray_3"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_view_karbari"
-                    style="@style/text_bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_large" />
-            </LinearLayout>
+                android:gravity="center"
+                android:textSize="@dimen/text_size_large" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/low_dp"
-                android:layout_marginLeft="@dimen/low_dp"
                 android:layout_marginTop="@dimen/small_dp"
                 android:layout_marginBottom="@dimen/small_dp"
                 android:background="@drawable/border_gray_3"
@@ -379,50 +344,32 @@
                     tools:ignore="ContentDescription,RtlHardcoded" />
             </LinearLayout>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_view_radif"
+                style="@style/text_bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/low_dp"
-                android:layout_marginLeft="@dimen/low_dp"
                 android:layout_marginTop="@dimen/small_dp"
                 android:layout_marginBottom="@dimen/small_dp"
                 android:background="@drawable/border_gray_3"
-                android:orientation="horizontal">
+                android:gravity="center"
+                android:textSize="@dimen/text_size_large" />
 
-                <TextView
-                    android:id="@+id/text_view_radif"
-                    style="@style/text_bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_large" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/low_dp"
-                android:layout_marginLeft="@dimen/low_dp"
+            <TextView
                 android:layout_marginTop="@dimen/small_dp"
                 android:layout_marginBottom="@dimen/small_dp"
                 android:background="@drawable/border_gray_3"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_view_name"
-                    style="@style/text_bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:lines="1"
-                    android:textSize="@dimen/text_size_large" />
-            </LinearLayout>
+                android:id="@+id/text_view_name"
+                style="@style/text_bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:lines="1"
+                android:textSize="@dimen/text_size_large" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/low_dp"
-                android:layout_marginLeft="@dimen/low_dp"
                 android:layout_marginTop="@dimen/small_dp"
                 android:layout_marginBottom="@dimen/small_dp"
                 android:background="@drawable/border_gray_5"

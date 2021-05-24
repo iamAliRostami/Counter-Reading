@@ -29,8 +29,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -43,10 +41,17 @@ import okhttp3.ResponseBody;
 
 public class CustomFile {
 
+    public static boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        return Environment.MEDIA_MOUNTED.equals(state);
+    }
+
     public static Bitmap loadImage(Context context, String address) {
         try {
-            File f = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), context.getString(R.string.camera_folder));
+//            File f = new File(Environment.getExternalStoragePublicDirectory(
+//                    Environment.DIRECTORY_PICTURES), context.getString(R.string.camera_folder));
+
+            File f = new File(context.getExternalFilesDir(null), context.getString(R.string.camera_folder));
             f = new File(f, address);
             return BitmapFactory.decodeStream(new FileInputStream(f));
         } catch (FileNotFoundException e) {
@@ -54,12 +59,6 @@ public class CustomFile {
             Log.e("error", e.toString());
             return null;
         }
-    }
-
-    public static MultipartBody.Part prepareVoiceToSend(String fileName) {
-        File file = new File(fileName);
-        RequestBody requestFile = RequestBody.create(file, MediaType.parse(("multipart/form-data")));
-        return MultipartBody.Part.createFormData("FILE", file.getName(), requestFile);
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -102,11 +101,6 @@ public class CustomFile {
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
-    public static boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        return Environment.MEDIA_MOUNTED.equals(state);
-    }
-
     public static String saveTempBitmap(Bitmap bitmap, Context context) {
         if (isExternalStorageWritable()) {
             return saveImage(bitmap, context);
@@ -118,8 +112,9 @@ public class CustomFile {
 
     @SuppressLint("SimpleDateFormat")
     static String saveImage(Bitmap bitmapImage, Context context) {
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES) + context.getString(R.string.camera_folder));
+//        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+//                Environment.DIRECTORY_PICTURES) + context.getString(R.string.camera_folder));
+        File mediaStorageDir = new File(context.getExternalFilesDir(null) + context.getString(R.string.camera_folder));
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
                 return null;
@@ -147,7 +142,9 @@ public class CustomFile {
     public static File createImageFile(Context context) throws IOException {
         String timeStamp = (new SimpleDateFormat(context.getString(R.string.save_format_name))).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File storageDir = new File(String.valueOf(context.getExternalFilesDir(
+                Environment.DIRECTORY_PICTURES)));
         storageDir.mkdirs();
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         StringBuilder stringBuilder = (new StringBuilder()).append("file:");
@@ -157,21 +154,36 @@ public class CustomFile {
         return image;
     }
 
-    @SuppressLint({"SimpleDateFormat", "NewApi"})
+    @SuppressLint({"SimpleDateFormat"})
     public static String createAudioFile(Context context) {
-        try {
-            Files.createDirectories(
-                    Paths.get(Environment.getExternalStorageDirectory().getAbsolutePath() +
-                            context.getString(R.string.audio_folder)));
-        } catch (IOException e) {
-            new CustomToast().warning(context.getString(R.string.error_external_storage_is_not_writable));
-            e.printStackTrace();
-        }
+//        try {
+////            Files.createDirectories(
+////                    Paths.get(Environment.getExternalStorageDirectory().getAbsolutePath() +
+////                            context.getString(R.string.audio_folder)));
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                Files.createDirectories(
+//                        Paths.get(context.getExternalFilesDir(null).getAbsolutePath() +
+//                                context.getString(R.string.audio_folder)));
+//            } else {
+//                new CustomToast().warning(context.getString(R.string.error_external_storage_is_not_writable));
+//            }
+//        } catch (IOException e) {
+//            new CustomToast().warning(context.getString(R.string.error_external_storage_is_not_writable));
+//            e.printStackTrace();
+//        }
+        File storageDir = new File(context.getExternalFilesDir(null).getAbsolutePath() + context.getString(R.string.audio_folder));
+        storageDir.mkdirs();
         String timeStamp = (new SimpleDateFormat(
                 context.getString(R.string.save_format_name))).format(new Date());
         String audioFileName = "audio_" + timeStamp;
-        return Environment.getExternalStorageDirectory().getAbsolutePath() +
+        return context.getExternalFilesDir(null).getAbsolutePath() +
                 context.getString(R.string.audio_folder) + audioFileName + ".ogg";
+    }
+
+    public static MultipartBody.Part prepareVoiceToSend(String fileName) {
+        File file = new File(fileName);
+        RequestBody requestFile = RequestBody.create(file, MediaType.parse(("multipart/form-data")));
+        return MultipartBody.Part.createFormData("FILE", file.getName(), requestFile);
     }
 
     static File findFile(File dir, String name) {
