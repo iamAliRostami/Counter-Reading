@@ -1,5 +1,6 @@
 package com.leon.counter_reading.activities;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Debug;
 
@@ -31,12 +32,14 @@ public class ContactUsActivity extends AppCompatActivity {
         initialize();
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
         if (sharedPreferenceManager.checkIsNotEmpty(SharedReferenceKeys.USERNAME_TEMP.getValue()))
             binding.textViewDate.setText(sharedPreferenceManager.getStringData(SharedReferenceKeys.DATE.getValue()));
         binding.textViewVersion.setText(getString(R.string.version).concat(" ")
                 .concat(BuildConfig.VERSION_NAME));
         binding.textViewSite.setText(DifferentCompanyManager.getSiteAddress(DifferentCompanyManager.getActiveCompanyName()));
+        binding.imageViewLogo.setImageDrawable(getDrawable(R.drawable.img_logo));
     }
 
     @Override
@@ -53,6 +56,7 @@ public class ContactUsActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        binding.imageViewLogo.setImageDrawable(null);
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

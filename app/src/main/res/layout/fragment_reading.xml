@@ -384,10 +384,9 @@
                     android:layout_weight="1"
                     android:background="@drawable/background_spinner"
                     android:popupBackground="@drawable/border_gray_5"
-                    android:spinnerMode="dialog"
+                    android:spinnerMode="dropdown"
                     tools:listitem="@layout/item_dropdown_menu" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 </FrameLayout>
