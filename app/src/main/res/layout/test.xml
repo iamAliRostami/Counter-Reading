@@ -5,14 +5,19 @@
     android:layout_height="match_parent"
     tools:context="com.leon.counter_reading.activities.HomeActivity">
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/relative_layout_footer"
         android:layout_margin="@dimen/medium_dp"
-        android:gravity="center">
+        android:orientation="vertical">
 
-        <TableRow android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            tools:ignore="DisableBaselineAlignment,UselessParent">
 
             <LinearLayout
                 android:id="@+id/linear_layout_upload"
@@ -20,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                tools:ignore="UseCompoundDrawables">
+                tools:ignore="NestedWeights">
 
                 <ImageView
                     android:id="@+id/image_view_upload"
@@ -44,7 +49,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:weightSum="1">
+                tools:ignore="NestedWeights">
 
                 <ImageView
                     android:id="@+id/image_view_reading"
@@ -67,7 +72,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="NestedWeights">
 
                 <ImageView
                     android:id="@+id/image_view_download"
@@ -81,12 +87,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:gravity="center"
                     android:text="@string/download"
                     android:textSize="@dimen/text_size_medium" />
             </LinearLayout>
-        </TableRow>
+        </LinearLayout>
 
-        <TableRow android:layout_weight="1">
+        <LinearLayout
+            android:id="@+id/linear_layout_2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            tools:ignore="DisableBaselineAlignment,UselessParent">
 
             <LinearLayout
                 android:id="@+id/linear_layout_report"
@@ -94,7 +107,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                tools:ignore="UseCompoundDrawables">
+                tools:ignore="NestedWeights">
 
                 <ImageView
                     android:id="@+id/image_view_report"
@@ -113,11 +126,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:id="@+id/linear_layout_location"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                tools:ignore="NestedWeights">
 
                 <ImageView
                     android:id="@+id/image_view_location"
@@ -140,7 +154,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="NestedWeights">
 
                 <ImageView
                     android:id="@+id/image_view_reading_setting"
@@ -157,16 +172,22 @@
                     android:text="@string/reading_setting"
                     android:textSize="@dimen/text_size_medium" />
             </LinearLayout>
-        </TableRow>
+        </LinearLayout>
 
-        <TableRow android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            tools:ignore="DisableBaselineAlignment,UselessParent">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:id="@+id/linear_layout_help"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                tools:ignore="NestedWeights">
 
                 <ImageView
                     android:id="@+id/image_view_help"
@@ -185,12 +206,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:id="@+id/linear_layout_app_setting"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                tools:ignore="UseCompoundDrawables">
+                android:orientation="vertical"
+                tools:ignore="NestedWeights">
 
                 <ImageView
                     android:id="@+id/image_view_app_setting"
@@ -209,11 +230,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:id="@+id/linear_layout_exit"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                tools:ignore="NestedWeights">
 
                 <ImageView
                     android:id="@+id/image_view_exit"
@@ -230,8 +252,8 @@
                     android:text="@string/exit"
                     android:textSize="@dimen/text_size_medium" />
             </LinearLayout>
-        </TableRow>
-    </TableLayout>
+        </LinearLayout>
+    </LinearLayout>
 
     <include layout="@layout/footer" />
 </RelativeLayout>

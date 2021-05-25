@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linear_layout_footer"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative_layout_footer"
     style="@style/bottomView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:foregroundGravity="center"
     android:gravity="center_horizontal"
-    android:orientation="horizontal"
-    android:padding="2dp">
+    android:padding="@dimen/small_dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -21,15 +19,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@color/transparent"
-            android:foregroundGravity="center"
             android:src="@drawable/img_logo_footer" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:text="@string/copy_right"
             android:textColor="@color/text_color_light" />
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

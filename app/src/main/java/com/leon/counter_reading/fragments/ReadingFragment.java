@@ -166,7 +166,7 @@ public class ReadingFragment extends Fragment {
 
         if (readingConfigDefaultDto.defaultHasPreNumber)
             binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber));
-        binding.lineaLayoutPreNumber.setOnClickListener(v -> {
+        binding.textViewPreNumber.setOnClickListener(v -> {
             activity.runOnUiThread(() -> binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber)));
             if (!readingConfigDefaultDto.defaultHasPreNumber)
                 ((ReadingActivity) activity).updateOnOffLoadByIsShown(position);

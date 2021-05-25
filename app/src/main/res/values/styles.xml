@@ -140,4 +140,21 @@
         <item name="buttonBarNegativeButtonStyle">@style/DialogButton</item>
         <item name="buttonBarPositiveButtonStyle">@style/DialogButton</item>
     </style>
+
+    <style name="ReadingLineBold">
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="background">@drawable/border_gray_3</item>
+        <item name="android:background">@drawable/border_gray_3</item>
+        <item name="android:layout_marginBottom">@dimen/small_dp</item>
+        <item name="android:layout_marginTop">@dimen/small_dp</item>
+    </style>
+
+    <style name="ReadingLine">
+        <item name="android:gravity">center</item>
+        <item name="background">@drawable/border_gray_3</item>
+        <item name="android:background">@drawable/border_gray_3</item>
+        <item name="android:layout_marginBottom">@dimen/small_dp</item>
+        <item name="android:layout_marginTop">@dimen/small_dp</item>
+    </style>
 </resources>

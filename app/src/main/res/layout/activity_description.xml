@@ -5,18 +5,19 @@
     android:layout_height="match_parent"
     tools:context="com.leon.counter_reading.activities.DescriptionActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/linear_layout_footer"
+        android:layout_above="@+id/relative_layout_footer"
         android:layout_margin="@dimen/large_dp"
         android:orientation="vertical">
 
         <EditText
             android:id="@+id/edit_text_message"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/linear_layout_play"
+            android:layout_alignParentTop="true"
             android:background="@drawable/border_gray_3"
             android:gravity="top|start"
             android:hint="@string/description"
@@ -30,8 +31,10 @@
             tools:ignore="LabelFor" />
 
         <LinearLayout
+            android:id="@+id/linear_layout_play"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@id/linear_layout_seek"
             android:orientation="horizontal">
 
             <ImageView
@@ -51,11 +54,11 @@
                 tools:ignore="ContentDescription" />
         </LinearLayout>
 
-
         <LinearLayout
             android:id="@+id/linear_layout_seek"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@id/button_send"
             android:orientation="horizontal"
             android:visibility="gone">
 
@@ -73,20 +76,20 @@
             <TextView
                 android:id="@+id/text_view_total"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:ignore="RelativeOverlap" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <Button
             android:id="@+id/button_send"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:background="@drawable/border_yellow_1"
             android:text="@string/send"
             android:textColor="@color/text_color_light"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <include layout="@layout/footer" />
 </RelativeLayout>

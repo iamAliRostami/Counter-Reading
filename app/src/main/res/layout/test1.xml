@@ -55,6 +55,7 @@
             android:textColor="@color/red"
             android:textSize="@dimen/text_size_medium" />
 
+
     </LinearLayout>
 
     <TextView
