@@ -11,268 +11,248 @@
         android:layout_height="wrap_content"
         tools:ignore="UselessParent">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            tools:ignore="UselessParent">
+            android:layout_marginLeft="@dimen/large_dp"
+            android:layout_marginRight="@dimen/large_dp">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_view_account"
+                style="@style/NavigationTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
+                android:text="@string/account" />
 
-                <TextView
-                    android:id="@+id/text_view_account"
-                    android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/linear_layout_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_view_account"
+                android:background="@drawable/border_gray_3"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/image_view_account"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_subscribe"
+                    tools:ignore="ContentDescription" />
+
+                <EditText
+                    android:id="@+id/edit_text_account"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/account"
-                    android:textSize="@dimen/text_size_large" />
+                    android:layout_weight="1"
+                    android:background="@drawable/border"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:maxLength="15"
+                    android:padding="@dimen/low_dp"
+                    tools:ignore="Autofill,LabelFor" />
+            </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/linear_layout_account"
-                    android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/text_view_phone"
+                style="@style/NavigationTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linear_layout_account"
+                android:text="@string/phone_number" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_view_phone"
+                android:background="@drawable/border_gray_3"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/image_view_phone_number"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_phone"
+                    tools:ignore="ContentDescription" />
+
+                <EditText
+                    android:id="@+id/edit_text_phone"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/large_dp"
-                    android:layout_marginRight="@dimen/large_dp"
-                    android:background="@drawable/border_gray_3"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:background="@drawable/border"
+                    android:gravity="center"
+                    android:inputType="phone"
+                    android:lines="1"
+                    android:maxLength="8"
+                    android:padding="@dimen/low_dp"
+                    tools:ignore="Autofill,LabelFor" />
 
-                    <ImageView
-                        android:id="@+id/image_view_account"
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/img_subscribe"
-                        tools:ignore="ContentDescription" />
+            </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/edit_text_account"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/border"
-                        android:gravity="center"
-                        android:inputType="number"
-                        android:lines="1"
-                        android:maxLength="15"
-                        android:padding="@dimen/low_dp"
-                        tools:ignore="Autofill,LabelFor" />
-                </LinearLayout>
+            <TextView
+                android:id="@+id/text_view_mobile"
+                style="@style/NavigationTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linear_layout_phone"
+                android:text="@string/mobile_number" />
 
-                <TextView
-                    android:id="@+id/text_view_phone"
-                    android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/linear_layout_cell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_view_mobile"
+                android:background="@drawable/border_gray_3"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/image_view_mobile"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_mobile"
+                    tools:ignore="ContentDescription" />
+
+                <EditText
+                    android:id="@+id/edit_text_mobile"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/phone_number"
-                    android:textSize="@dimen/text_size_large" />
+                    android:layout_weight="1"
+                    android:background="@drawable/border"
+                    android:gravity="center"
+                    android:inputType="phone"
+                    android:lines="1"
+                    android:maxLength="11"
+                    android:padding="@dimen/low_dp"
+                    tools:ignore="Autofill,LabelFor" />
 
-                <LinearLayout
-                    android:id="@+id/linear_layout_phone"
-                    android:layout_width="match_parent"
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/text_view_counter"
+                style="@style/NavigationTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linear_layout_cell"
+                android:maxLines="15"
+
+                android:text="@string/counter_serial" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_counter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_view_counter"
+                android:background="@drawable/border_gray_3"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/image_view_counter_serial"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_counter"
+                    tools:ignore="ContentDescription" />
+
+                <EditText
+                    android:id="@+id/edit_text_serial_counter"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/large_dp"
-                    android:layout_marginRight="@dimen/large_dp"
-                    android:background="@drawable/border_gray_3"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:background="@drawable/border"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:maxLength="15"
+                    android:padding="@dimen/low_dp"
+                    tools:ignore="Autofill,LabelFor" />
 
-                    <ImageView
-                        android:id="@+id/image_view_phone_number"
-                        android:layout_width="50dp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/img_phone"
-                        tools:ignore="ContentDescription" />
+            </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/edit_text_phone"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/border"
-                        android:gravity="center"
-                        android:inputType="phone"
-                        android:lines="1"
-                        android:maxLength="8"
-                        android:padding="@dimen/low_dp"
-                        tools:ignore="Autofill,LabelFor" />
+            <TextView
+                android:id="@+id/text_view_address"
+                style="@style/NavigationTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linear_layout_counter"
+                android:maxLength="50"
+                android:text="@string/address" />
 
-                </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linear_layout_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_view_address"
+                android:background="@drawable/border_gray_3"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/text_view_mobile"
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/image_view_address"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_address"
+                    tools:ignore="ContentDescription" />
+
+                <EditText
+                    android:id="@+id/edit_text_address"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/mobile_number"
-                    android:textSize="@dimen/text_size_large" />
+                    android:layout_weight="1"
+                    android:background="@drawable/border"
+                    android:gravity="center"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:padding="@dimen/low_dp"
+                    tools:ignore="Autofill,LabelFor,TextFields" />
 
-                <LinearLayout
-                    android:id="@+id/linear_layout_cell"
-                    android:layout_width="match_parent"
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/text_view_empty"
+                style="@style/NavigationTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linear_layout_address" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_view_empty"
+                android:background="@drawable/border_gray_3"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/image_view_empty"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_home"
+                    tools:ignore="ContentDescription" />
+
+                <EditText
+                    android:id="@+id/edit_text_empty"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/large_dp"
-                    android:layout_marginRight="@dimen/large_dp"
-                    android:background="@drawable/border_gray_3"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/image_view_mobile"
-                        android:layout_width="50dp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/img_mobile"
-                        tools:ignore="ContentDescription" />
-
-                    <EditText
-                        android:id="@+id/edit_text_mobile"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/border"
-                        android:gravity="center"
-                        android:inputType="phone"
-                        android:lines="1"
-                        android:maxLength="11"
-                        android:padding="@dimen/low_dp"
-                        tools:ignore="Autofill,LabelFor" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/text_view_counter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:maxLines="15"
-                    android:text="@string/counter_serial"
-                    android:textSize="@dimen/text_size_large" />
-
-                <LinearLayout
-                    android:id="@+id/linear_layout_counter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/large_dp"
-                    android:layout_marginRight="@dimen/large_dp"
-                    android:background="@drawable/border_gray_3"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/image_view_counter_serial"
-                        android:layout_width="50dp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/img_counter"
-                        tools:ignore="ContentDescription" />
-
-                    <EditText
-                        android:id="@+id/edit_text_serial_counter"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/border"
-                        android:gravity="center"
-                        android:inputType="number"
-                        android:lines="1"
-                        android:maxLength="15"
-                        android:padding="@dimen/low_dp"
-                        tools:ignore="Autofill,LabelFor" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/text_view_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:maxLength="50"
-                    android:text="@string/address"
-                    android:textSize="@dimen/text_size_large" />
-
-                <LinearLayout
-                    android:id="@+id/linear_layout_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/large_dp"
-                    android:layout_marginRight="@dimen/large_dp"
-                    android:background="@drawable/border_gray_3"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/image_view_address"
-                        android:layout_width="50dp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/img_address"
-                        tools:ignore="ContentDescription" />
-
-                    <EditText
-                        android:id="@+id/edit_text_address"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/border"
-                        android:gravity="center"
-                        android:inputType="text"
-                        android:lines="1"
-                        android:maxLines="1"
-                        android:padding="@dimen/low_dp"
-                        tools:ignore="Autofill,LabelFor,TextFields" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/text_view_empty"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="@dimen/text_size_large" />
-
-                <LinearLayout
-                    android:id="@+id/linear_layout_empty"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/large_dp"
-                    android:layout_marginRight="@dimen/large_dp"
-                    android:background="@drawable/border_gray_3"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/image_view_empty"
-                        android:layout_width="50dp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/img_home"
-                        tools:ignore="ContentDescription" />
-
-                    <EditText
-                        android:id="@+id/edit_text_empty"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/border"
-                        android:gravity="center"
-                        android:inputType="number"
-                        android:lines="1"
-                        android:padding="@dimen/low_dp"
-                        tools:ignore="Autofill,LabelFor" />
-
-                </LinearLayout>
+                    android:layout_weight="1"
+                    android:background="@drawable/border"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:padding="@dimen/low_dp"
+                    tools:ignore="Autofill,LabelFor" />
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/buttonNavigation"
-                style="@style/text_bold"
+                style="@style/ButtonSubmit"
+                android:id="@+id/button_navigation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/large_dp"
+                android:layout_below="@id/linear_layout_empty"
                 android:layout_marginTop="@dimen/low_dp"
-                android:layout_marginRight="@dimen/large_dp"
                 android:layout_marginBottom="@dimen/low_dp"
-                android:background="@drawable/border_green_3"
-                android:text="@string/navigation"
-                android:textColor="@color/text_color_light"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
-        </LinearLayout>
+                android:text="@string/navigation" />
+        </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

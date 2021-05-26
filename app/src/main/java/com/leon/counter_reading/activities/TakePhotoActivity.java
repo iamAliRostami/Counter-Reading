@@ -7,9 +7,11 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.StrictMode;
@@ -452,6 +454,8 @@ public class TakePhotoActivity extends AppCompatActivity {
                 ).check();
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         MyApplication.bitmapSelectedImage = null;
@@ -472,8 +476,12 @@ public class TakePhotoActivity extends AppCompatActivity {
             } else if (requestCode == MyApplication.CAMERA_REQUEST) {
                 ContentResolver contentResolver = this.getContentResolver();
                 try {
-                    MyApplication.bitmapSelectedImage = MediaStore.Images.Media.getBitmap(
-                            contentResolver, Uri.parse(MyApplication.fileName));
+                    if (Build.VERSION.SDK_INT > 28) {
+                        ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), Uri.parse(MyApplication.fileName));
+                        MyApplication.bitmapSelectedImage = ImageDecoder.decodeBitmap(source);
+                    } else
+                        MyApplication.bitmapSelectedImage = MediaStore.Images.Media.getBitmap(
+                                contentResolver, Uri.parse(MyApplication.fileName));
                 } catch (IOException e) {
                     Log.e("Error", e.toString());
                     e.printStackTrace();
@@ -553,6 +561,7 @@ public class TakePhotoActivity extends AppCompatActivity {
         bitmaps = null;
         imageGrouped = null;
         images = null;
+        binding = null;
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

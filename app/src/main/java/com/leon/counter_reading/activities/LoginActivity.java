@@ -389,6 +389,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.imageViewPassword.setImageDrawable(null);
         binding.imageViewLogo.setImageDrawable(null);
         binding.imageViewUsername.setImageDrawable(null);
+        binding = null;
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

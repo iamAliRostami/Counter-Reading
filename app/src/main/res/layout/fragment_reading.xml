@@ -340,27 +340,24 @@
             android:lines="1"
             android:textSize="@dimen/text_size_large" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/linear_layout_6"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/text_view_name"
             android:layout_marginTop="@dimen/small_dp"
             android:layout_marginBottom="@dimen/small_dp"
-            android:background="@drawable/border_gray_5"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:background="@drawable/border_gray_5">
 
             <Spinner
                 android:id="@+id/spinner"
                 style="@style/Widget.AppCompat.Spinner.DropDown"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="@drawable/background_spinner"
                 android:popupBackground="@drawable/border_gray_5"
                 android:spinnerMode="dropdown"
                 tools:listitem="@layout/item_dropdown_menu" />
-        </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
 </ScrollView>

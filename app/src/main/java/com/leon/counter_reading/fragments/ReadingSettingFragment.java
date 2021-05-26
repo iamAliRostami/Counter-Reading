@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import com.leon.counter_reading.adapters.ReadingSettingCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentReadingSettingBinding;
 import com.leon.counter_reading.enums.BundleEnum;
-import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.TrackingDto;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,16 +22,14 @@ import java.util.ArrayList;
 
 public class ReadingSettingFragment extends Fragment {
     FragmentReadingSettingBinding binding;
-    final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
-    final ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
+    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    ArrayList<String> json = new ArrayList<>();
     Context context;
 
     public ReadingSettingFragment() {
     }
 
-    public static ReadingSettingFragment newInstance(ArrayList<TrackingDto> trackingDtos,
-                                                     ArrayList<ReadingConfigDefaultDto>
-                                                             readingConfigDefaultDtos) {
+    public static ReadingSettingFragment newInstance(ArrayList<TrackingDto> trackingDtos) {
         ReadingSettingFragment fragment = new ReadingSettingFragment();
         Bundle args = new Bundle();
         Gson gson = new Gson();
@@ -41,11 +38,6 @@ public class ReadingSettingFragment extends Fragment {
             json1.add(gson.toJson(trackingDto));
         }
         args.putStringArrayList(BundleEnum.TRACKING.getValue(), json1);
-        ArrayList<String> json2 = new ArrayList<>();
-        for (ReadingConfigDefaultDto readingConfigDefaultDto : readingConfigDefaultDtos) {
-            json2.add(gson.toJson(readingConfigDefaultDto));
-        }
-        args.putStringArrayList(BundleEnum.READING_CONFIG.getValue(), json2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,20 +47,9 @@ public class ReadingSettingFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            Gson gson = new Gson();
-            ArrayList<String> json = getArguments().getStringArrayList(
+            json = getArguments().getStringArrayList(
                     BundleEnum.TRACKING.getValue());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                json.forEach(s -> trackingDtos.add(gson.fromJson(s, TrackingDto.class)));
-            } else for (String s : json) {
-                trackingDtos.add(gson.fromJson(s, TrackingDto.class));
-            }
-            json = getArguments().getStringArrayList(BundleEnum.READING_CONFIG.getValue());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                json.forEach(s -> readingConfigDefaultDtos.add(gson.fromJson(s, ReadingConfigDefaultDto.class)));
-            else
-                for (String s : json)
-                    readingConfigDefaultDtos.add(gson.fromJson(s, ReadingConfigDefaultDto.class));
+
         }
     }
 
@@ -82,11 +63,18 @@ public class ReadingSettingFragment extends Fragment {
 
     void initialize() {
         context = getActivity();
+        Gson gson = new Gson();
+        trackingDtos.clear();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            json.forEach(s -> trackingDtos.add(gson.fromJson(s, TrackingDto.class)));
+        } else for (String s : json) {
+            trackingDtos.add(gson.fromJson(s, TrackingDto.class));
+        }
         setupListView();
     }
 
     void setupListView() {
-        if (trackingDtos.size() > 0 && readingConfigDefaultDtos.size() > 0) {
+        if (trackingDtos.size() > 0) {
             ReadingSettingCustomAdapter readingSettingCustomAdapter =
                     new ReadingSettingCustomAdapter(context, trackingDtos);
             binding.listViewRead.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -100,5 +88,13 @@ public class ReadingSettingFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        binding = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        json = null;
+        trackingDtos = null;
     }
 }

@@ -11,27 +11,24 @@
         android:layout_height="wrap_content"
         tools:ignore="UselessParent">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            tools:ignore="UselessParent">
+            android:layout_marginLeft="@dimen/large_dp"
+            android:layout_marginRight="@dimen/large_dp">
 
             <TextView
                 android:id="@+id/text_view_pre_account"
-                android:layout_width="wrap_content"
+                style="@style/NavigationTitle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/previous_account"
-                android:textSize="@dimen/text_size_large" />
+                android:text="@string/previous_account" />
 
             <LinearLayout
                 android:id="@+id/linear_layout_pre_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/large_dp"
-                android:layout_marginRight="@dimen/large_dp"
+                android:layout_below="@id/text_view_pre_account"
                 android:background="@drawable/border_gray_3"
                 android:orientation="horizontal">
 
@@ -58,18 +55,17 @@
 
             <TextView
                 android:id="@+id/text_view_next_account"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/next_account"
-                android:textSize="@dimen/text_size_large" />
-
-            <LinearLayout
-                android:id="@+id/linear_layout_account_next"
+                style="@style/NavigationTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/large_dp"
-                android:layout_marginRight="@dimen/large_dp"
+                android:layout_below="@id/linear_layout_pre_account"
+                android:text="@string/next_account" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_next_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_view_next_account"
                 android:background="@drawable/border_gray_3"
                 android:orientation="horizontal">
 
@@ -94,21 +90,19 @@
                     tools:ignore="Autofill,LabelFor" />
             </LinearLayout>
 
-
             <TextView
                 android:id="@+id/text_view_address"
-                android:layout_width="wrap_content"
+                style="@style/NavigationTitle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/postal_code"
-                android:textSize="@dimen/text_size_large" />
+                android:layout_below="@id/linear_layout_next_account"
+                android:text="@string/postal_code" />
 
             <LinearLayout
                 android:id="@+id/linear_layout_postal_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/large_dp"
-                android:layout_marginRight="@dimen/large_dp"
+                android:layout_below="@id/text_view_address"
                 android:background="@drawable/border_gray_3"
                 android:orientation="horizontal">
 
@@ -136,17 +130,16 @@
 
             <TextView
                 android:id="@+id/text_view_home"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="@dimen/text_size_large" />
-
-            <LinearLayout
-                android:id="@+id/linearLayoutHome"
+                style="@style/NavigationTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/large_dp"
-                android:layout_marginRight="@dimen/large_dp"
+                android:layout_below="@id/linear_layout_postal_code" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_view_home"
                 android:background="@drawable/border_gray_3"
                 android:orientation="horizontal">
 
@@ -174,18 +167,17 @@
 
             <TextView
                 android:id="@+id/text_view_description"
-                android:layout_width="wrap_content"
+                style="@style/NavigationTitle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/description"
-                android:textSize="@dimen/text_size_large" />
+                android:layout_below="@id/linear_layout_home"
+                android:text="@string/description" />
 
             <LinearLayout
                 android:id="@+id/linear_layout_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/large_dp"
-                android:layout_marginRight="@dimen/large_dp"
+                android:layout_below="@id/text_view_description"
                 android:background="@drawable/border_gray_3"
                 android:orientation="horizontal">
 
@@ -216,9 +208,8 @@
                 style="@style/text_bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/large_dp"
+                android:layout_below="@id/linear_layout_description"
                 android:layout_marginTop="@dimen/low_dp"
-                android:layout_marginRight="@dimen/large_dp"
                 android:layout_marginBottom="@dimen/low_dp"
                 android:background="@drawable/border_yellow_3"
                 android:text="@string/attach_image"
@@ -230,8 +221,8 @@
                 android:id="@+id/relative_layout_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/button_photo"
                 android:visibility="gone">
-
 
                 <ImageView
                     android:id="@+id/image_view_taken"
@@ -252,16 +243,13 @@
 
             <Button
                 android:id="@+id/button_submit"
+                style="@style/ButtonSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/large_dp"
+                android:layout_below="@id/relative_layout_image"
                 android:layout_marginTop="@dimen/low_dp"
-                android:layout_marginRight="@dimen/large_dp"
                 android:layout_marginBottom="@dimen/low_dp"
-                android:background="@drawable/border_green_3"
-                android:text="@string/submit"
-                android:textColor="@color/text_color_light"
-                android:textSize="@dimen/text_size_large" />
-        </LinearLayout>
+                android:text="@string/submit" />
+        </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

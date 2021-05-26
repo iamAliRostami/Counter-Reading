@@ -20,6 +20,7 @@ import com.leon.counter_reading.databinding.ActivityReadingSettingBinding;
 import com.leon.counter_reading.fragments.ReadingPossibleSettingFragment;
 import com.leon.counter_reading.fragments.ReadingSettingDeleteFragment;
 import com.leon.counter_reading.fragments.ReadingSettingFragment;
+import com.leon.counter_reading.fragments.UploadFragment;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomProgressBar;
@@ -32,7 +33,6 @@ public class ReadingSettingActivity extends BaseActivity {
     ActivityReadingSettingBinding binding;
     int previousState, currentState;
     ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
-    ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
     Activity activity;
 
     @Override
@@ -109,11 +109,15 @@ public class ReadingSettingActivity extends BaseActivity {
     private void setupViewPager() {
         ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager(),
                 FragmentStatePagerAdapter.POSITION_NONE);
-        adapter.addFragment(ReadingSettingFragment.newInstance(trackingDtos,
-                readingConfigDefaultDtos), "تنظیمات قرائت");
-        adapter.addFragment(ReadingSettingDeleteFragment.newInstance(trackingDtos,
-                readingConfigDefaultDtos), "حذف");
+//        adapter.addFragment(ReadingSettingFragment.newInstance(trackingDtos), "تنظیمات قرائت");
+//        adapter.addFragment(ReadingSettingFragment.newInstance(trackingDtos), "تنظیمات قرائت");
+        adapter.addFragment(ReadingSettingFragment.newInstance(trackingDtos), "تنظیمات قرائت");
+        adapter.addFragment(ReadingSettingDeleteFragment.newInstance(trackingDtos), "حذف");
         adapter.addFragment(new ReadingPossibleSettingFragment(), "پیمایش پویا");
+
+//        adapter.addFragment(UploadFragment.newInstance(1, trackingDtos), "بارگذاری");
+//        adapter.addFragment(UploadFragment.newInstance(2, trackingDtos), "بارگذاری مجدد");
+//        adapter.addFragment(UploadFragment.newInstance(3, new ArrayList<>()), "بارگذاری چند رسانه");
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -172,18 +176,6 @@ public class ReadingSettingActivity extends BaseActivity {
             //TODO
             trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                     trackingDao().getTrackingDtoNotArchive(false));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                trackingDtos.forEach(trackingDto -> {
-                    readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
-                            getMyDatabase().readingConfigDefaultDao().
-                            getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
-                });
-            } else
-                for (TrackingDto trackingDto : trackingDtos) {
-                    readingConfigDefaultDtos.addAll(MyDatabaseClient.getInstance(activity).
-                            getMyDatabase().readingConfigDefaultDao().
-                            getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
-                }
             runOnUiThread(ReadingSettingActivity.this::setupViewPager);
             return null;
         }
@@ -203,6 +195,7 @@ public class ReadingSettingActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        binding = null;
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

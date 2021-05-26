@@ -1,172 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ReadingPossibleSettingFragment">
+    android:padding="@dimen/medium_dp"
+    tools:context=".fragments.ReadingPossibleSettingFragment"
+    tools:ignore="ScrollViewCount">
 
-    <ScrollView
+    <RelativeLayout
+        android:id="@+id/radio_group_navigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="UselessParent">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/radio_group_navigation"
+        <CheckBox
+            android:id="@+id/check_box_mobile"
+            style="@style/CheckBoxPossible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/medium_dp">
+            android:text="@string/mobile_number" />
 
-            <CheckBox
-                android:id="@+id/check_box_mobile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/low_dp"
-                android:background="@drawable/border_white_3"
-                android:padding="@dimen/low_dp"
-                android:text="@string/mobile_number"
-                android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+        <CheckBox
+            android:id="@+id/check_box_address"
+            style="@style/CheckBoxPossible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/check_box_mobile"
+            android:text="@string/address" />
 
-            <CheckBox
-                android:id="@+id/check_box_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/low_dp"
-                android:background="@drawable/border_white_3"
-                android:padding="@dimen/low_dp"
-                android:text="@string/address"
-                android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+        <CheckBox
+            android:id="@+id/check_box_karbari"
+            style="@style/CheckBoxPossible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/check_box_address"
 
-            <CheckBox
-                android:id="@+id/check_box_karbari"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/low_dp"
-                android:background="@drawable/border_white_3"
-                android:padding="@dimen/low_dp"
-                android:text="@string/karbari"
-                android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+            android:text="@string/karbari" />
 
-            <CheckBox
-                android:id="@+id/check_box_account"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/low_dp"
-                android:background="@drawable/border_white_3"
-                android:padding="@dimen/low_dp"
-                android:text="@string/account"
-                android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+        <CheckBox
+            android:id="@+id/check_box_account"
+            style="@style/CheckBoxPossible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/check_box_karbari"
 
-            <CheckBox
-                android:id="@+id/check_box_serial"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/low_dp"
-                android:background="@drawable/border_white_3"
-                android:padding="@dimen/low_dp"
-                android:text="@string/counter_serial"
-                android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+            android:text="@string/account" />
 
-            <CheckBox
-                android:id="@+id/check_box_ahad_empty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/low_dp"
-                android:background="@drawable/border_white_3"
-                android:padding="@dimen/low_dp"
-                android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+        <CheckBox
+            android:id="@+id/check_box_serial"
+            style="@style/CheckBoxPossible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/check_box_account"
 
-            <CheckBox
-                android:id="@+id/check_box_ahad1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/low_dp"
-                android:background="@drawable/border_white_3"
-                android:padding="@dimen/low_dp"
-                android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+            android:text="@string/counter_serial" />
 
-            <CheckBox
-                android:id="@+id/check_box_ahad2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/low_dp"
-                android:background="@drawable/border_white_3"
-                android:padding="@dimen/low_dp"
-                android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+        <CheckBox
+            android:id="@+id/check_box_ahad_empty"
+            style="@style/CheckBoxPossible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/check_box_serial"
 
-            <CheckBox
-                android:id="@+id/check_box_ahad_total"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/low_dp"
-                android:background="@drawable/border_white_3"
-                android:padding="@dimen/low_dp"
-                android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+            android:layout_margin="@dimen/low_dp" />
 
-            <CheckBox
-                android:id="@+id/check_box_ahad_show_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/low_dp"
-                android:background="@drawable/border_white_3"
-                android:padding="@dimen/low_dp"
-                android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+        <CheckBox
+            android:id="@+id/check_box_ahad1"
+            style="@style/CheckBoxPossible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-            <CheckBox
-                android:id="@+id/check_box_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/low_dp"
-                android:background="@drawable/border_white_3"
-                android:padding="@dimen/low_dp"
-                android:text="@string/attach_image"
-                android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+            android:layout_below="@id/check_box_ahad_empty" />
 
-            <CheckBox
-                android:id="@+id/check_box_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/low_dp"
-                android:background="@drawable/border_white_3"
-                android:padding="@dimen/low_dp"
-                android:text="@string/description"
-                android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+        <CheckBox
+            android:id="@+id/check_box_ahad2"
+            style="@style/CheckBoxPossible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/check_box_ahad1"
 
-            <CheckBox
-                android:id="@+id/check_box_reading_report"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/low_dp"
-                android:background="@drawable/border_white_3"
-                android:padding="@dimen/low_dp"
-                android:text="@string/reading_report"
-                android:textColor="@color/text_color_dark"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </ScrollView>
-</FrameLayout>
+            android:layout_margin="@dimen/low_dp" />
+
+        <CheckBox
+            android:id="@+id/check_box_ahad_total"
+            style="@style/CheckBoxPossible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/check_box_ahad2" />
+
+        <CheckBox
+            android:id="@+id/check_box_ahad_show_title"
+            style="@style/CheckBoxPossible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/check_box_ahad_total" />
+
+        <CheckBox
+            android:id="@+id/check_box_image"
+            style="@style/CheckBoxPossible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/check_box_ahad_show_title"
+
+            android:text="@string/attach_image" />
+
+        <CheckBox
+            android:id="@+id/check_box_description"
+            style="@style/CheckBoxPossible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/check_box_image"
+            android:text="@string/description" />
+
+        <CheckBox
+            android:id="@+id/check_box_reading_report"
+            style="@style/CheckBoxPossible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/check_box_description"
+            android:text="@string/reading_report" />
+    </RelativeLayout>
+</ScrollView>

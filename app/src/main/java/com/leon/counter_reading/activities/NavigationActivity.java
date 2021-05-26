@@ -210,6 +210,7 @@ public class NavigationActivity extends AppCompatActivity {
         binding.imageViewPhoneNumber.setImageDrawable(null);
         binding.imageViewMobile.setImageDrawable(null);
         binding.imageViewEmpty.setImageDrawable(null);
+        binding = null;
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

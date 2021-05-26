@@ -6,23 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.leon.counter_reading.activities.TakePhotoActivity">
 
-
-    <LinearLayout
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/relative_layout_footer"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:weightSum="2">
+        android:layout_above="@id/edit_text_description"
+        android:gravity="center">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="bottom"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            tools:ignore="DisableBaselineAlignment">
+        <TableRow android:layout_weight="1">
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -95,16 +85,9 @@
                     app:srcCompat="@drawable/img_check_mark"
                     tools:ignore="ContentDescription,RtlHardcoded" />
             </RelativeLayout>
-        </LinearLayout>
+        </TableRow>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="top"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            tools:ignore="DisableBaselineAlignment">
+        <TableRow android:layout_weight="1">
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -177,32 +160,30 @@
                     app:srcCompat="@drawable/img_check_mark"
                     tools:ignore="ContentDescription,RtlHardcoded" />
             </RelativeLayout>
-        </LinearLayout>
+        </TableRow>
+    </TableLayout>
 
-        <EditText
-            android:id="@+id/edit_text_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_dp"
-            android:background="@drawable/border_gray_3"
-            android:gravity="top"
-            android:hint="@string/description"
-            android:lines="4"
-            android:padding="@dimen/low_dp"
-            android:textColor="?android:textColor"
-            android:textColorHint="?android:textColor"
-            tools:ignore="Autofill,TextFields" />
+    <EditText
+        android:id="@+id/edit_text_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/button_save_send"
+        android:layout_margin="@dimen/medium_dp"
+        android:background="@drawable/border_gray_3"
+        android:gravity="top"
+        android:hint="@string/description"
+        android:lines="4"
+        android:padding="@dimen/low_dp"
+        tools:ignore="Autofill,TextFields" />
 
-        <Button
-            android:id="@+id/button_save_send"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_dp"
-            android:background="@drawable/border_green_1"
-            android:text="@string/save_send"
-            android:textColor="@color/text_color_light"
-            android:textSize="@dimen/text_size_large" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/button_save_send"
+        style="@style/ButtonSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/relative_layout_footer"
+        android:layout_margin="@dimen/medium_dp"
+        android:text="@string/save_send" />
 
     <include layout="@layout/footer" />
 </RelativeLayout>

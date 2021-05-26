@@ -282,7 +282,7 @@ public class CustomFile {
 
     public static void runFile(Activity activity, String fileName) {
         StrictMode.VmPolicy.Builder newBuilder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(newBuilder.build());
+        StrictMode.setVmPolicy(newBuilder.build());//TODO Create directory
         String root = Environment.getExternalStorageDirectory().toString();
         File futureStudioIconFile =
                 new File(root + File.separator + "Download" + File.separator + fileName);

@@ -20,7 +20,7 @@ public class MakeNotification {
     }
 
     public static void makeRing(Context context, NotificationType type) {
-        makeVibrate(context);
+//        makeVibrate(context);
         try {
             Uri notificationPath;
             switch (type) {

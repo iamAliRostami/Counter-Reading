@@ -243,6 +243,9 @@ public class ReportActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        binding = null;
+        counterStateDtos = null;
+        trackingDtos = null;
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

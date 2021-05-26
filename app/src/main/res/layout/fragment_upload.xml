@@ -1,58 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/large_dp"
     tools:context="com.leon.counter_reading.fragments.UploadFragment">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/imageViewUpload"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/large_dp"
-        tools:ignore="UselessParent">
+        android:layout_above="@id/linear_layout_spinner"
+        android:src="@drawable/img_upload_on"
+        tools:ignore="ContentDescription" />
 
-        <ImageView
-            android:id="@+id/imageViewUpload"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:src="@drawable/img_upload_on"
-            tools:ignore="ContentDescription" />
+    <RelativeLayout
+        android:id="@+id/linear_layout_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/button_upload"
+        android:layout_marginLeft="@dimen/large_dp"
+        android:layout_marginRight="@dimen/large_dp"
+        android:background="@drawable/border_gray_1">
 
-        <LinearLayout
-            android:id="@+id/linear_layout_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/large_dp"
-            android:layout_marginRight="@dimen/large_dp"
-            android:background="@drawable/border_gray_1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Spinner
-                android:id="@+id/spinner"
-                style="@style/Widget.AppCompat.Spinner.DropDown"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_spinner"
-                android:popupBackground="@drawable/border_gray_5"
-                android:spinnerMode="dialog"
-                tools:listitem="@layout/item_dropdown_menu" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/buttonUpload"
+        <Spinner
+            android:id="@+id/spinner"
+            style="@style/Widget.AppCompat.Spinner.DropDown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/large_dp"
-            android:background="@drawable/border_yellow_1"
-            android:text="@string/upload"
-            android:textColor="@color/text_color_light"
-            android:textSize="@dimen/text_size_large" />
-    </LinearLayout>
+            android:background="@drawable/background_spinner"
+            android:popupBackground="@drawable/border_gray_5"
+            android:spinnerMode="dialog"
+            tools:listitem="@layout/item_dropdown_menu" />
+    </RelativeLayout>
 
-</FrameLayout>
+    <Button
+        android:id="@+id/button_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/large_dp"
+        android:background="@drawable/border_yellow_1"
+        android:text="@string/upload"
+        android:textColor="@color/text_color_light"
+        android:textSize="@dimen/text_size_large" />
+
+</RelativeLayout>

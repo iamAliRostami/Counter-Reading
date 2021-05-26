@@ -199,6 +199,7 @@ public class ReadingActivity extends BaseActivity {
         } else {
             setAboveIconsSrc(position);
             update(position);
+            makeRing(activity, NotificationType.SAVE);
             prepareToSend(position);
             changePage();
         }

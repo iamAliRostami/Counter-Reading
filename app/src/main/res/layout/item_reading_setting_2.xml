@@ -20,17 +20,17 @@
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
         tools:ignore="RedundantNamespace,RtlCompat" />
 
-    <LinearLayout
-        android:layout_width="2dp"
+    <View
+        android:layout_width="@dimen/small_dp"
         android:layout_height="match_parent"
         android:background="@color/blue" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@id/linear_layout_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -38,209 +38,163 @@
             tools:ignore="UselessParent">
 
             <TextView
+                style="@style/ReadingSettingItemWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/small_dp"
-                android:gravity="center"
-                android:text="@string/eshterak"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_small" />
+                android:text="@string/eshterak" />
 
             <TextView
+                style="@style/ReadingSettingItemWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/small_dp"
-                android:gravity="center"
-                android:text="@string/from"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_small" />
+                android:text="@string/from" />
 
             <TextView
                 android:id="@+id/text_view_start_eshterak"
+                style="@style/ReadingSettingItemWhiteBold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/low_dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+                android:layout_weight="1" />
 
             <TextView
+                style="@style/ReadingSettingItemWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/small_dp"
-                android:gravity="center"
-                android:text="@string/end"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_small" />
+                android:text="@string/end" />
 
             <TextView
                 android:id="@+id/text_view_end_eshterak"
+                style="@style/ReadingSettingItemWhiteBold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/low_dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+                android:layout_weight="1" />
         </LinearLayout>
 
-        <LinearLayout
+        <View
+            android:id="@+id/view_1"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="@dimen/small_dp"
+            android:layout_below="@id/linear_layout_1"
             android:background="@color/blue" />
 
         <LinearLayout
+            android:id="@+id/linear_layout_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/view_1"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_margin="@dimen/low_dp"
+                style="@style/ReadingSettingItemWhite"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_small"
-                android:gravity="left"
                 android:text="@string/number"
                 tools:ignore="RtlHardcoded" />
 
             <TextView
-                android:layout_margin="@dimen/low_dp"
                 android:id="@+id/text_view_number"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold"
+                style="@style/ReadingSettingItemWhiteBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:layout_margin="@dimen/low_dp"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_small"
+                style="@style/ReadingSettingItemWhite"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/account" />
+                android:layout_weight="1" />
         </LinearLayout>
 
-        <LinearLayout
+        <View
+            android:id="@+id/view_2"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="@dimen/small_dp"
+            android:layout_below="@id/linear_layout_2"
             android:background="@color/blue" />
 
         <LinearLayout
+            android:id="@id/linear_layout_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/view_2"
             android:orientation="horizontal"
             android:weightSum="2"
             tools:ignore="UselessParent">
 
             <TextView
                 android:id="@+id/text_view_track_number"
+                style="@style/ReadingSettingItemWhiteBold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/low_dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+                android:layout_weight="1" />
 
-            <LinearLayout
-                android:layout_width="2dp"
+            <View
+                android:layout_width="@dimen/small_dp"
                 android:layout_height="match_parent"
                 android:background="@color/blue" />
 
             <TextView
                 android:id="@+id/text_view_zone_title"
+                style="@style/ReadingSettingItemWhiteBold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/low_dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+                android:layout_weight="1" />
         </LinearLayout>
 
-        <LinearLayout
+        <View
+            android:id="@+id/view_3"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="@dimen/small_dp"
+            android:layout_below="@id/linear_layout_3"
             android:background="@color/blue" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/view_3"
             android:orientation="horizontal"
             android:weightSum="2"
             tools:ignore="UselessParent">
 
 
             <TextView
+                style="@style/ReadingSettingItemWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/small_dp"
-                android:gravity="center"
-                android:text="@string/date"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_small" />
+                android:text="@string/date" />
 
             <TextView
+                style="@style/ReadingSettingItemWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/small_dp"
-                android:gravity="center"
-                android:text="@string/from"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_small" />
+                android:text="@string/from" />
 
             <TextView
                 android:id="@+id/text_view_start_date"
+                style="@style/ReadingSettingItemWhiteBold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/low_dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+                android:layout_weight="1" />
 
             <TextView
+                style="@style/ReadingSettingItemWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/small_dp"
-                android:gravity="center"
-                android:text="@string/end"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_small" />
+                android:text="@string/end" />
 
             <TextView
                 android:id="@+id/text_view_end_date"
+                style="@style/ReadingSettingItemWhiteBold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/low_dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+                android:layout_weight="1" />
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

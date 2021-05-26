@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.StrictMode;
@@ -398,6 +400,7 @@ public class ReportForbidActivity extends AppCompatActivity {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == PackageManager.PERMISSION_GRANTED) {
@@ -433,8 +436,12 @@ public class ReportForbidActivity extends AppCompatActivity {
             } else if (requestCode == MyApplication.CAMERA_REQUEST) {
                 ContentResolver contentResolver = this.getContentResolver();
                 try {
-                    MyApplication.bitmapSelectedImage = MediaStore.Images.Media.getBitmap(
-                            contentResolver, Uri.parse(MyApplication.fileName));
+                    if (Build.VERSION.SDK_INT > 28) {
+                        ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), Uri.parse(MyApplication.fileName));
+                        MyApplication.bitmapSelectedImage = ImageDecoder.decodeBitmap(source);
+                    } else
+                        MyApplication.bitmapSelectedImage = MediaStore.Images.Media.getBitmap(
+                                contentResolver, Uri.parse(MyApplication.fileName));
                 } catch (IOException e) {
                     Log.e("Error", e.toString());
                     e.printStackTrace();
@@ -461,6 +468,8 @@ public class ReportForbidActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        binding = null;
+        forbiddenDto = null;
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

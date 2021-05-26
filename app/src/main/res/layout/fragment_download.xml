@@ -1,36 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/large_dp"
     tools:context="com.leon.counter_reading.fragments.DownloadFragment">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/image_view_download"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/large_dp"
-        tools:ignore="UselessParent">
+        android:layout_above="@id/button_download"
+        android:src="@drawable/img_download"
+        tools:ignore="ContentDescription" />
 
-        <ImageView
-            android:id="@+id/image_view_download"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:src="@drawable/img_download"
-            tools:ignore="ContentDescription" />
-
-        <Button
-            android:id="@+id/button_download"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/large_dp"
-            android:layout_marginRight="@dimen/large_dp"
-            android:background="@drawable/border_yellow_1"
-            android:text="@string/download"
-            android:textColor="@color/text_color_light"
-            android:textSize="@dimen/text_size_large" />
-    </LinearLayout>
-</FrameLayout>
+    <Button
+        android:id="@+id/button_download"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/large_dp"
+        android:layout_marginRight="@dimen/large_dp"
+        android:background="@drawable/border_yellow_1"
+        android:text="@string/download"
+        android:textColor="@color/text_color_light"
+        android:textSize="@dimen/text_size_large" />
+</RelativeLayout>

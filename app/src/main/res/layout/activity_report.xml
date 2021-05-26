@@ -7,65 +7,58 @@
     tools:context="com.leon.counter_reading.activities.ReportActivity">
 
     <LinearLayout
+        android:id="@+id/linear_layout_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:ignore="UselessParent">
+        android:background="?attr/colorPrimaryDark"
+        android:orientation="horizontal"
+        android:padding="@dimen/small_dp"
+        android:weightSum="3">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/text_view_total"
+            style="@style/text_bold"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimaryDark"
-            android:orientation="horizontal"
-            android:padding="@dimen/small_dp"
-            android:weightSum="3">
-
-            <TextView
-                android:id="@+id/text_view_total"
-                style="@style/text_bold"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/border_white_2"
-                android:gravity="center"
-                android:paddingTop="@dimen/medium_dp"
-                android:paddingBottom="@dimen/medium_dp"
-                android:text="@string/total_statistic"
-                android:textColor="@color/text_color_light" />
-
-            <TextView
-                android:id="@+id/text_view_not_read"
-                style="@style/text_bold"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingTop="@dimen/medium_dp"
-                android:paddingBottom="@dimen/medium_dp"
-                android:text="@string/not_read"
-                android:textColor="@color/text_color_light" />
-
-            <TextView
-                android:id="@+id/text_view_temporary"
-                style="@style/text_bold"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingTop="@dimen/medium_dp"
-                android:paddingBottom="@dimen/medium_dp"
-                android:text="@string/temporary"
-                android:textColor="@color/text_color_light" />
-
-        </LinearLayout>
-
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
             android:layout_weight="1"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:background="@drawable/border_white_2"
+            android:gravity="center"
+            android:paddingTop="@dimen/medium_dp"
+            android:paddingBottom="@dimen/medium_dp"
+            android:text="@string/total_statistic"
+            android:textColor="@color/text_color_light" />
+
+        <TextView
+            android:id="@+id/text_view_not_read"
+            style="@style/text_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="@dimen/medium_dp"
+            android:paddingBottom="@dimen/medium_dp"
+            android:text="@string/not_read"
+            android:textColor="@color/text_color_light" />
+
+        <TextView
+            android:id="@+id/text_view_temporary"
+            style="@style/text_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="@dimen/medium_dp"
+            android:paddingBottom="@dimen/medium_dp"
+            android:text="@string/temporary"
+            android:textColor="@color/text_color_light" />
 
     </LinearLayout>
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/linear_layout_header"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </RelativeLayout>

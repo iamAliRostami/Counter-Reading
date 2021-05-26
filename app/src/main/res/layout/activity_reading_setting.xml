@@ -7,76 +7,73 @@
     tools:context="com.leon.counter_reading.activities.ReadingSettingActivity">
 
     <LinearLayout
+        android:id="@+id/linear_layout_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:ignore="UselessParent">
+        android:background="?attr/colorPrimaryDark"
+        android:orientation="horizontal"
+        android:padding="@dimen/small_dp"
+        android:weightSum="3">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/text_view_read"
+            style="@style/text_bold"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimaryDark"
-            android:orientation="horizontal"
-            android:padding="@dimen/small_dp"
-            android:weightSum="3">
-
-            <TextView
-                android:id="@+id/text_view_read"
-                style="@style/text_bold"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/border_white_2"
-                android:gravity="center"
-                android:paddingTop="@dimen/medium_dp"
-                android:paddingBottom="@dimen/medium_dp"
-                android:text="@string/reading_setting"
-                android:textColor="@color/text_color_light" />
-
-            <TextView
-                android:id="@+id/text_view_sending_setting"
-                style="@style/text_bold"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingTop="@dimen/medium_dp"
-                android:paddingBottom="@dimen/medium_dp"
-                android:text="@string/sending_setting"
-                android:textColor="@color/text_color_light"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/text_view_delete"
-                style="@style/text_bold"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingTop="@dimen/medium_dp"
-                android:paddingBottom="@dimen/medium_dp"
-                android:text="@string/delete_data"
-                android:textColor="@color/text_color_light" />
-
-            <TextView
-                android:id="@+id/text_view_navigation"
-                style="@style/text_bold"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingTop="@dimen/medium_dp"
-                android:paddingBottom="@dimen/medium_dp"
-                android:text="@string/dynamic_navigation"
-                android:textColor="@color/text_color_light" />
-
-        </LinearLayout>
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
             android:layout_weight="1"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:background="@drawable/border_white_2"
+            android:gravity="center"
+            android:paddingTop="@dimen/medium_dp"
+            android:paddingBottom="@dimen/medium_dp"
+            android:text="@string/reading_setting"
+            android:textColor="@color/text_color_light" />
+
+        <TextView
+            android:id="@+id/text_view_sending_setting"
+            style="@style/text_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="@dimen/medium_dp"
+            android:paddingBottom="@dimen/medium_dp"
+            android:text="@string/sending_setting"
+            android:textColor="@color/text_color_light"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/text_view_delete"
+            style="@style/text_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="@dimen/medium_dp"
+            android:paddingBottom="@dimen/medium_dp"
+            android:text="@string/delete_data"
+            android:textColor="@color/text_color_light" />
+
+        <TextView
+            android:id="@+id/text_view_navigation"
+            style="@style/text_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="@dimen/medium_dp"
+            android:paddingBottom="@dimen/medium_dp"
+            android:text="@string/dynamic_navigation"
+            android:textColor="@color/text_color_light" />
+
     </LinearLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/relative_layout_footer"
+        android:layout_below="@id/linear_layout_header"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <include layout="@layout/footer" />
 </RelativeLayout>

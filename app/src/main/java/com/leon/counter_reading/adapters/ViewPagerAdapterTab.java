@@ -18,9 +18,6 @@ public class ViewPagerAdapterTab extends FragmentPagerAdapter {
     public ViewPagerAdapterTab(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
     }
-//    public ViewPagerAdapterTab(FragmentManager manager) {
-//        super(manager);
-//    }
 
     @NotNull
     @Override
