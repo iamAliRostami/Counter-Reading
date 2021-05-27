@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="right"
     android:layout_margin="@dimen/low_dp"
     android:background="@color/milky"
-    android:layoutDirection="rtl"
-    android:orientation="vertical"
-    android:padding="@dimen/low_dp"
-    tools:ignore="RtlHardcoded,UnusedAttribute">
+    android:padding="@dimen/low_dp">
 
     <CheckedTextView
         android:id="@+id/checked_text_view"
@@ -25,6 +21,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/checked_text_view"
         android:src="@drawable/img_bar"
         tools:ignore="ContentDescription" />
-</LinearLayout>
+</RelativeLayout>

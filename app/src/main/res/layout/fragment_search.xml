@@ -1,89 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/large_dp"
+    android:layout_marginTop="@dimen/low_dp"
+    android:layout_marginRight="@dimen/large_dp"
+    android:layout_marginBottom="@dimen/low_dp"
+    android:background="@drawable/border_white_3"
     tools:context="com.leon.counter_reading.fragments.SearchFragment">
 
-    <LinearLayout
+    <View
+        android:id="@+id/view_1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/small_dp"
+        android:background="?attr/colorAccent" />
+
+    <RelativeLayout
+        android:id="@+id/relative_layout_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/low_dp"
-        android:background="@drawable/border_white_3"
+        android:layout_below="@id/view_1"
+        android:layout_marginTop="@dimen/low_dp"
+        android:layout_marginBottom="@dimen/low_dp"
+        android:background="@drawable/border_gray_6"
         android:gravity="center"
-        android:orientation="vertical"
-        tools:ignore="UselessParent">
+        android:padding="@dimen/medium_dp">
 
-        <LinearLayout
+        <Spinner
+            android:id="@+id/spinner_search"
+            style="@style/Widget.AppCompat.Spinner.DropDown"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/small_dp"
-            android:background="?attr/colorAccent" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/large_dp"
-            android:layout_marginTop="@dimen/low_dp"
-            android:layout_marginRight="@dimen/large_dp"
-            android:layout_marginBottom="@dimen/low_dp"
-            android:background="@drawable/border_gray_6"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_spinner"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="@dimen/medium_dp">
+            android:popupBackground="@drawable/border_gray_5"
+            android:spinnerMode="dialog"
+            tools:listitem="@layout/item_dropdown_menu" />
+    </RelativeLayout>
 
-            <Spinner
-                android:id="@+id/spinner_search"
-                style="@style/Widget.AppCompat.Spinner.DropDown"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/background_spinner"
-                android:gravity="center"
-                android:popupBackground="@drawable/border_gray_5"
-                android:spinnerMode="dialog"
-                tools:listitem="@layout/item_dropdown_menu" />
-        </LinearLayout>
+    <EditText
+        android:id="@+id/edit_text_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relative_layout_spinner"
+        android:background="@drawable/border_gray_2"
+        android:gravity="center"
+        android:hint="@string/insert_information"
+        android:inputType="number"
+        android:maxLines="1"
+        android:padding="@dimen/medium_dp"
+        android:textSize="@dimen/text_size_large"
+        tools:ignore="Autofill" />
 
-        <EditText
-            android:id="@+id/edit_text_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/large_dp"
-            android:layout_marginRight="@dimen/large_dp"
-            android:background="@drawable/border_gray_2"
-            android:gravity="center"
-            android:hint="@string/insert_information"
-            android:inputType="number"
-            android:maxLines="1"
-            android:padding="@dimen/medium_dp"
-            android:textSize="@dimen/text_size_large"
-            tools:ignore="Autofill" />
+    <CheckBox
+        android:id="@+id/check_box_go_to_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_text_search"
+        android:padding="@dimen/medium_dp"
+        android:text="@string/go_to_page"
+        android:textSize="@dimen/text_size_medium" />
 
-        <CheckBox
-            android:id="@+id/check_box_go_to_page"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/large_dp"
-            android:layout_marginRight="@dimen/large_dp"
-            android:padding="@dimen/medium_dp"
-            android:text="@string/go_to_page"
-            android:textSize="@dimen/text_size_medium" />
-
-        <Button
-            android:id="@+id/button_search"
-            style="@style/text_bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/large_dp"
-            android:layout_marginTop="@dimen/low_dp"
-            android:layout_marginRight="@dimen/large_dp"
-            android:layout_marginBottom="@dimen/low_dp"
-            android:background="@drawable/border_blue_1"
-            android:padding="@dimen/medium_dp"
-            android:text="@string/search"
-            android:textColor="@color/text_color_light"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-</FrameLayout>
+    <Button
+        android:id="@+id/button_search"
+        style="@style/ButtonSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/check_box_go_to_page"
+        android:layout_marginTop="@dimen/low_dp"
+        android:layout_marginBottom="@dimen/low_dp"
+        android:background="@drawable/border_blue_1"
+        android:padding="@dimen/medium_dp"
+        android:text="@string/search" />
+</RelativeLayout>

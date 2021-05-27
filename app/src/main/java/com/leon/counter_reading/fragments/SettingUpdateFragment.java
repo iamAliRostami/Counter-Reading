@@ -104,7 +104,8 @@ public class SettingUpdateFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        HttpClientWrapper.call.cancel();
+        if (HttpClientWrapper.call != null)
+            HttpClientWrapper.call.cancel();
     }
 
     class UpdateInfo implements ICallback<LastInfo> {

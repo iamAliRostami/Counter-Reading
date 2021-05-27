@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/relative_layout_footer"
+        android:layout_above="@+id/linear_layout_footer"
         android:layout_margin="@dimen/large_dp"
         android:orientation="vertical">
 

@@ -307,7 +307,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    class Register implements ICallback<LoginFeedBack> {
+    static class Register implements ICallback<LoginFeedBack> {
         @Override
         public void execute(Response<LoginFeedBack> response) {
             String message;

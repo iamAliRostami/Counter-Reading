@@ -58,7 +58,7 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/relative_layout_footer"
+        android:layout_above="@+id/linear_layout_footer"
         android:layout_below="@id/linear_layout_header"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

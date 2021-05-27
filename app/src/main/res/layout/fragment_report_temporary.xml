@@ -1,104 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/border_gray_3"
     tools:context="com.leon.counter_reading.fragments.ReportTemporaryFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <ImageView
+        android:id="@+id/image_view_temporary"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/medium_dp"
-        android:background="@drawable/border_gray_3"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/low_dp"
-        tools:ignore="UselessParent">
+        android:layout_above="@id/relative_layout_info"
+        android:layout_margin="@dimen/low_dp"
+        android:src="@drawable/img_temporary_report"
+        tools:ignore="ContentDescription" />
 
-        <ImageView
-            android:id="@+id/image_view_temporary"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:src="@drawable/img_temporary_report"
-            tools:ignore="ContentDescription" />
+    <RelativeLayout
+        android:id="@+id/relative_layout_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/relative_layout_spinner"
+        android:layout_margin="@dimen/low_dp"
+        android:background="@drawable/border_gray_4">
 
         <LinearLayout
+            android:id="@+id/linear_layout_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/border_gray_4"
-            android:orientation="vertical">
+            android:layout_margin="@dimen/medium_dp"
+            android:orientation="horizontal"
+            android:padding="@dimen/low_dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/medium_dp"
-                android:orientation="horizontal"
-                android:padding="@dimen/low_dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/total_number"
-                    android:textColor="@color/text_color_dark"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <TextView
-                    android:id="@+id/text_view_total"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/_0"
-                    android:textColor="@color/text_color_dark" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/medium_dp"
-                android:orientation="horizontal"
-                android:padding="@dimen/low_dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/temporary_number"
-                    android:textColor="@color/text_color_dark"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <TextView
-                    android:id="@+id/text_view_temporary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/_0"
-                    android:textColor="@color/text_color_dark" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/low_dp"
-            android:layout_marginBottom="@dimen/low_dp"
-            android:background="@drawable/border_gray_5"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Spinner
-                android:id="@+id/spinner"
-                style="@style/Widget.AppCompat.Spinner.DropDown"
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/background_spinner"
-                android:gravity="center"
-                android:popupBackground="@drawable/border_gray_5"
-                android:spinnerMode="dialog"
-                tools:listitem="@layout/item_dropdown_menu" />
+                android:text="@string/total_number"
+                android:textColor="@color/text_color_dark"
+                android:textSize="@dimen/text_size_medium" />
 
+            <TextView
+                android:id="@+id/text_view_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_0"
+                android:textColor="@color/text_color_dark" />
         </LinearLayout>
-    </LinearLayout>
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear_layout_1"
+            android:layout_margin="@dimen/medium_dp"
+            android:orientation="horizontal"
+            android:padding="@dimen/low_dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/temporary_number"
+                android:textColor="@color/text_color_dark"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:id="@+id/text_view_temporary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_0"
+                android:textColor="@color/text_color_dark" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_layout_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/low_dp"
+        android:background="@drawable/border_gray_5">
+
+        <Spinner
+            android:id="@+id/spinner"
+            style="@style/Widget.AppCompat.Spinner.DropDown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_spinner"
+            android:gravity="center"
+            android:popupBackground="@drawable/border_gray_5"
+            android:spinnerMode="dialog"
+            tools:listitem="@layout/item_dropdown_menu" />
+
+    </RelativeLayout>
+</RelativeLayout>

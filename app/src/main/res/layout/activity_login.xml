@@ -141,7 +141,7 @@
         android:id="@+id/text_view_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/relative_layout_footer"
+        android:layout_above="@+id/linear_layout_footer"
         android:layout_centerHorizontal="true"
         android:textColor="@color/text_color_dark" />
 

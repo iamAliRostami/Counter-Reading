@@ -189,7 +189,7 @@
         android:id="@+id/image_view_logo"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_165sdp"
-        android:layout_above="@+id/relative_layout_footer"
+        android:layout_above="@+id/linear_layout_footer"
         android:layout_gravity="bottom"
         android:src="@drawable/img_logo"
         android:orientation="horizontal"

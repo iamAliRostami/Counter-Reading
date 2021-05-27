@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Debug;
 import android.view.View;
 
@@ -20,8 +19,6 @@ import com.leon.counter_reading.databinding.ActivityReadingSettingBinding;
 import com.leon.counter_reading.fragments.ReadingPossibleSettingFragment;
 import com.leon.counter_reading.fragments.ReadingSettingDeleteFragment;
 import com.leon.counter_reading.fragments.ReadingSettingFragment;
-import com.leon.counter_reading.fragments.UploadFragment;
-import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.DepthPageTransformer;

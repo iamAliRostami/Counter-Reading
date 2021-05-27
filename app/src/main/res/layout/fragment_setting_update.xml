@@ -8,7 +8,6 @@
     android:padding="@dimen/large_dp"
     tools:context="com.leon.counter_reading.fragments.SettingUpdateFragment">
 
-
     <ImageView
         android:id="@+id/image_view_update"
         android:layout_width="match_parent"

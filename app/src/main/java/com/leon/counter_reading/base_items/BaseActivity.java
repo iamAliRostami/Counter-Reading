@@ -10,7 +10,7 @@ import android.os.Debug;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -58,7 +58,7 @@ import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailabl
 public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Toolbar toolbar;
-    RelativeLayout relativeLayout;
+    LinearLayout linearLayout;
     NavigationDrawerAdapter adapter;
     List<NavigationDrawerAdapter.DrawerItem> dataList;
     BaseActivityBinding binding;
@@ -69,7 +69,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     protected abstract void initialize();
 
-    @SuppressLint({"NewApi", "RtlHardcoded", "WrongConstant"})
+    @SuppressLint({"RtlHardcoded", "WrongConstant"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -241,9 +241,9 @@ public abstract class BaseActivity extends AppCompatActivity
                 SharedReferenceKeys.USER_CODE.getValue())).concat(")"));
         binding.textViewVersion.setText(getString(R.string.version).concat(" ")
                 .concat(BuildConfig.VERSION_NAME));
-        relativeLayout = findViewById(R.id.relative_layout_reading_header);
+        linearLayout = findViewById(R.id.linear_layout_reading_header);
         if (MyApplication.POSITION == 1) {
-            relativeLayout.setVisibility(View.VISIBLE);
+            linearLayout.setVisibility(View.VISIBLE);
         }
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
