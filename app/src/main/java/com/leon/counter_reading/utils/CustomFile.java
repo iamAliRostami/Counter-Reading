@@ -228,15 +228,22 @@ public class CustomFile {
     public static boolean writeResponseApkToDisk(ResponseBody body, Activity activity) {
         if (isExternalStorageWritable()) {
             try {
-                String root = Environment.getExternalStorageDirectory().toString();
+                File storageDir = new File(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)));
+                if (!storageDir.exists()) {
+                    if (!storageDir.mkdirs()) {
+                        return false;
+                    }
+                }
+//                String root = Environment.getExternalStorageDirectory().toString();
                 String timeStamp = (new SimpleDateFormat(
                         activity.getString(R.string.save_format_name))).format(new Date());
                 String fileName = activity.getPackageName().substring(
                         activity.getPackageName().lastIndexOf(".") + 1) + "_" +
                         DifferentCompanyManager.getActiveCompanyName().toString() +
                         "_" + timeStamp + ".apk";
-                File futureStudioIconFile = new File(root +
-                        File.separator + "Download" + File.separator + fileName);
+                File futureStudioIconFile = new File(storageDir, fileName);
+//                File futureStudioIconFile = new File(root +
+//                        File.separator + "Download" + File.separator + fileName);
                 InputStream inputStream = null;
                 OutputStream outputStream = null;
                 try {
@@ -284,8 +291,11 @@ public class CustomFile {
         StrictMode.VmPolicy.Builder newBuilder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(newBuilder.build());//TODO Create directory
         String root = Environment.getExternalStorageDirectory().toString();
-        File futureStudioIconFile =
-                new File(root + File.separator + "Download" + File.separator + fileName);
+
+        File storageDir = new File(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)));
+//        File futureStudioIconFile =
+//                new File(root + File.separator + "Download" + File.separator + fileName);
+        File futureStudioIconFile = new File(storageDir, fileName);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(
                 Uri.fromFile(futureStudioIconFile), "application/vnd.android.package-archive");

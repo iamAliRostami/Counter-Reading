@@ -182,6 +182,7 @@
     <string name="file_downloaded">فایل برنامه دانلود شد، به مدیریت فایل مراجعه کنید</string>
     <string name="pre_number">شماره پیشین</string>
     <string name="mega_byte">مگابایت</string>
+    <string name="download_folder">Download</string>
 
     <string name="karbari">کاربری</string>
     <string name="submit_for_back">برای بازگشت، دکمه ثبت را فشار دهید.</string>
