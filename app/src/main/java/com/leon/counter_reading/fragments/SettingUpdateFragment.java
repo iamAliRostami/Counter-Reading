@@ -79,17 +79,21 @@ public class SettingUpdateFragment extends Fragment {
                 new UpdateInfo(), new UpdateInfoIncomplete(), new UpdateError());
     }
 
+    void getUpdateFile() {
+        activity.runOnUiThread(() -> binding.progressBar.setVisibility(View.VISIBLE));
+        Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
+        IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+        Call<ResponseBody> call = iAbfaService.getLastApk();
+        HttpClientWrapper.callHttpAsyncProgressDismiss(call, ProgressType.NOT_SHOW.getValue(),
+                activity, new Update(), new UpdateIncomplete(), new UpdateError());
+    }
+
     void setOnButtonReceiveClickListener() {
         binding.buttonReceive.setOnClickListener(v -> {
             if (firstTime) {
                 updateInfo();
             } else {
-                activity.runOnUiThread(() -> binding.progressBar.setVisibility(View.VISIBLE));
-                Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
-                IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-                Call<ResponseBody> call = iAbfaService.getLastApk();
-                HttpClientWrapper.callHttpAsyncProgressDismiss(call, ProgressType.NOT_SHOW.getValue(),
-                        activity, new Update(), new UpdateIncomplete(), new UpdateError());
+                getUpdateFile();
             }
         });
     }

@@ -63,26 +63,26 @@ public class ReadingSettingActivity extends BaseActivity {
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    void textViewDelete() {
-        binding.textViewDelete.setOnClickListener(view -> {
-            setColor();
-            binding.textViewDelete.setBackground(
-                    ContextCompat.getDrawable(activity, R.drawable.border_white_2));
-            setPadding();
-            binding.viewPager.setCurrentItem(1);
-        });
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
     void textViewNavigation() {
         binding.textViewNavigation.setOnClickListener(view -> {
             setColor();
             binding.textViewNavigation.setBackground(
                     ContextCompat.getDrawable(activity, R.drawable.border_white_2));
             setPadding();
+            binding.viewPager.setCurrentItem(1);
+        });
+    }
+    @SuppressLint("UseCompatLoadingForDrawables")
+    void textViewDelete() {
+        binding.textViewDelete.setOnClickListener(view -> {
+            setColor();
+            binding.textViewDelete.setBackground(
+                    ContextCompat.getDrawable(activity, R.drawable.border_white_2));
+            setPadding();
             binding.viewPager.setCurrentItem(2);
         });
     }
+
 
     private void setColor() {
         binding.textViewRead.setBackgroundColor(Color.TRANSPARENT);
@@ -110,9 +110,9 @@ public class ReadingSettingActivity extends BaseActivity {
                 FragmentStatePagerAdapter.POSITION_NONE);
 //        adapter.addFragment(UploadFragment.newInstance(1, trackingDtos), "بارگذاری");
         adapter.addFragment(ReadingSettingFragment.newInstance(trackingDtos), "تنظیمات قرائت");
+        adapter.addFragment(new ReadingPossibleSettingFragment(), "پیمایش پویا");
         adapter.addFragment(ReadingSettingDeleteFragment.newInstance(trackingDtos), "حذف");
 //        adapter.addFragment(DownloadFragment.newInstance(2), "بارگذاری");
-        adapter.addFragment(new ReadingPossibleSettingFragment(), "پیمایش پویا");
 
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -125,9 +125,9 @@ public class ReadingSettingActivity extends BaseActivity {
                 if (position == 0) {
                     binding.textViewRead.callOnClick();
                 } else if (position == 1) {
-                    binding.textViewDelete.callOnClick();
-                } else if (position == 2) {
                     binding.textViewNavigation.callOnClick();
+                } else if (position == 2) {
+                    binding.textViewDelete.callOnClick();
                 }
             }
 

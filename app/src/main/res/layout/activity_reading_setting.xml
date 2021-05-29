@@ -42,18 +42,6 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/text_view_delete"
-            style="@style/text_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingTop="@dimen/medium_dp"
-            android:paddingBottom="@dimen/medium_dp"
-            android:text="@string/delete_data"
-            android:textColor="@color/text_color_light" />
-
-        <TextView
             android:id="@+id/text_view_navigation"
             style="@style/text_bold"
             android:layout_width="0dp"
@@ -63,6 +51,18 @@
             android:paddingTop="@dimen/medium_dp"
             android:paddingBottom="@dimen/medium_dp"
             android:text="@string/dynamic_navigation"
+            android:textColor="@color/text_color_light" />
+
+        <TextView
+            android:text="@string/delete_data"
+            android:id="@+id/text_view_delete"
+            style="@style/text_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="@dimen/medium_dp"
+            android:paddingBottom="@dimen/medium_dp"
             android:textColor="@color/text_color_light" />
 
     </LinearLayout>
