@@ -8,7 +8,7 @@
     tools:ignore="ScrollViewCount">
 
     <RelativeLayout
-        android:id="@+id/radio_group_navigation"
+        android:id="@+id/relative_layout_check_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

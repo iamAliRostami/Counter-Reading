@@ -16,9 +16,11 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.ViewPagerAdapterTab;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityReadingSettingBinding;
+import com.leon.counter_reading.fragments.DownloadFragment;
 import com.leon.counter_reading.fragments.ReadingPossibleSettingFragment;
 import com.leon.counter_reading.fragments.ReadingSettingDeleteFragment;
 import com.leon.counter_reading.fragments.ReadingSettingFragment;
+import com.leon.counter_reading.fragments.UploadFragment;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.DepthPageTransformer;
@@ -106,8 +108,10 @@ public class ReadingSettingActivity extends BaseActivity {
     private void setupViewPager() {
         ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager(),
                 FragmentStatePagerAdapter.POSITION_NONE);
+//        adapter.addFragment(UploadFragment.newInstance(1, trackingDtos), "بارگذاری");
         adapter.addFragment(ReadingSettingFragment.newInstance(trackingDtos), "تنظیمات قرائت");
         adapter.addFragment(ReadingSettingDeleteFragment.newInstance(trackingDtos), "حذف");
+//        adapter.addFragment(DownloadFragment.newInstance(2), "بارگذاری");
         adapter.addFragment(new ReadingPossibleSettingFragment(), "پیمایش پویا");
 
         binding.viewPager.setAdapter(adapter);

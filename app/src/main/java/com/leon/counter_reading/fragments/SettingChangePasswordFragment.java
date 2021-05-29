@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.LoginActivity;
+import com.leon.counter_reading.databinding.FragmentSettingChangePasswordBinding;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
@@ -41,7 +42,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class SettingChangePasswordFragment extends Fragment {
-    com.leon.counter_reading.databinding.FragmentSettingChangePasswordBinding binding;
+    FragmentSettingChangePasswordBinding binding;
     Activity activity;
 
     public SettingChangePasswordFragment() {

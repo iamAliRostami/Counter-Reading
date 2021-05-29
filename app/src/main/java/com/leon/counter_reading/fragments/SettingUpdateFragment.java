@@ -125,6 +125,7 @@ public class SettingUpdateFragment extends Fragment {
                     binding.textViewSize.setText(new DecimalFormat("###.##").format(size).
                             concat(getString(R.string.mega_byte)));
 
+//                    binding.linearLayoutUpdate.setVisibility(View.VISIBLE);
                     binding.linearLayout1.setVisibility(View.VISIBLE);
                     binding.linearLayout2.setVisibility(View.VISIBLE);
                     binding.linearLayout3.setVisibility(View.VISIBLE);

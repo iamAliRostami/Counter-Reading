@@ -3,239 +3,127 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/medium_dp"
-    android:background="@drawable/border_gray_3"
-    android:padding="@dimen/low_dp"
-    tools:context="com.leon.counter_reading.fragments.ReportTotalFragment">
+    android:layout_marginLeft="@dimen/large_dp"
+    android:layout_marginRight="@dimen/large_dp"
+    android:padding="@dimen/large_dp"
+    tools:context="com.leon.counter_reading.fragments.SettingUpdateFragment">
+
+    <ImageView
+        android:id="@+id/image_view_update"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/linear_layout_1"
+        android:src="@drawable/img_update"
+        tools:ignore="ContentDescription" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
     <LinearLayout
-        android:id="@+id/linear_layout_total"
+        android:id="@+id/linear_layout_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/linear_layout_2"
         android:layout_margin="@dimen/low_dp"
-        android:background="@drawable/border_gray_1"
-        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            style="@style/UpdateTitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="@dimen/low_dp"
-            android:text="@string/total_number"
-            android:textColor="@color/text_color_dark"
-            android:textSize="@dimen/text_size_medium" />
+            android:layout_weight="1"
+            android:text="@string/version" />
 
         <TextView
-            android:id="@+id/text_view_total"
-            android:layout_width="wrap_content"
+            android:id="@+id/text_view_version"
+            style="@style/UpdateTitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="@dimen/low_dp"
-            android:text="@string/_0"
-            android:textColor="@color/text_color_dark"
-            android:textSize="@dimen/text_size_medium" />
+            android:layout_weight="1" />
     </LinearLayout>
 
-    <org.eazegraph.lib.charts.PieChart xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/pie_chart"
+    <LinearLayout
+        android:id="@+id/linear_layout_2"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_10sdp"
-        android:layout_above="@id/linear_layout_bottom"
-        android:layout_below="@id/linear_layout_total"
-        android:layout_margin="@dimen/large_dp"
-        app:egEmptyDataText="@string/data_not_found"
-        app:egLegendTextSize="@dimen/text_size_medium"
-        app:egUsePieRotation="true"
-        app:egValueTextSize="@dimen/text_size_medium" />
+        android:layout_height="wrap_content"
+        android:layout_above="@id/linear_layout_3"
+        android:layout_margin="@dimen/low_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/UpdateTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/update_date" />
+
+        <TextView
+            android:id="@+id/text_view_date"
+            style="@style/UpdateTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linear_layout_bottom"
+        android:id="@+id/linear_layout_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/linear_layout_4"
+        android:layout_margin="@dimen/low_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/UpdateTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/apk_size" />
+
+        <TextView
+            android:id="@+id/text_view_size"
+            style="@style/UpdateTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/button_receive"
+        android:layout_margin="@dimen/low_dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/UpdateTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/new_possibilities" />
+
+        <TextView
+            android:id="@+id/text_view_possibility"
+            style="@style/UpdateTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_receive"
+        style="@style/ButtonWarning"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/border_gray_4"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        tools:ignore="DisableBaselineAlignment">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:weightSum="2">
-
-            <LinearLayout
-                android:id="@+id/linear_layout_normal"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="start"
-                android:layout_weight="1"
-                android:gravity="start"
-                android:orientation="horizontal"
-                tools:ignore="NestedWeights">
-
-                <View
-                    android:layout_width="@dimen/large_dp"
-                    android:layout_height="@dimen/large_dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/border_green_1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/medium_dp"
-                    android:layout_marginRight="@dimen/medium_dp"
-                    android:layout_weight="1"
-                    android:padding="@dimen/low_dp"
-                    android:text="@string/normal"
-                    android:textColor="@color/text_color_dark"
-                    android:textSize="@dimen/text_size_medium"
-                    tools:ignore="NestedWeights" />
-
-                <TextView
-                    android:id="@+id/text_view_normal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/medium_dp"
-                    android:layout_marginRight="@dimen/medium_dp"
-                    android:layout_weight="1"
-                    android:padding="@dimen/low_dp"
-                    android:text="@string/_0"
-                    android:textColor="@color/text_color_dark"
-                    android:textSize="@dimen/text_size_medium" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_layout_zero"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="start"
-                android:layout_weight="1"
-                android:gravity="start"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="@dimen/large_dp"
-                    android:layout_height="@dimen/large_dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/border_blue_1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/medium_dp"
-                    android:layout_marginRight="@dimen/medium_dp"
-                    android:layout_weight="1"
-                    android:padding="@dimen/low_dp"
-                    android:text="@string/zero"
-                    android:textColor="@color/text_color_dark"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <TextView
-                    android:id="@+id/text_view_zero"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/medium_dp"
-                    android:layout_marginRight="@dimen/medium_dp"
-                    android:layout_weight="1"
-                    android:padding="@dimen/low_dp"
-                    android:text="@string/_0"
-                    android:textColor="@color/text_color_dark"
-                    android:textSize="@dimen/text_size_medium" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:weightSum="2">
-
-            <LinearLayout
-                android:id="@+id/linear_layout_high"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="start"
-                android:layout_weight="1"
-                android:gravity="start"
-                android:orientation="horizontal"
-                tools:ignore="NestedWeights">
-
-                <View
-                    android:layout_width="@dimen/large_dp"
-                    android:layout_height="@dimen/large_dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/border_red_1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/medium_dp"
-                    android:layout_marginRight="@dimen/medium_dp"
-                    android:layout_weight="1"
-                    android:padding="@dimen/low_dp"
-                    android:text="@string/up"
-                    android:textColor="@color/text_color_dark"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <TextView
-                    android:id="@+id/text_view_high"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/medium_dp"
-                    android:layout_marginRight="@dimen/medium_dp"
-                    android:layout_weight="1"
-                    android:padding="@dimen/low_dp"
-                    android:text="@string/_0"
-                    android:textColor="@color/text_color_dark"
-                    android:textSize="@dimen/text_size_medium" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_layout_low"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="start"
-                android:layout_weight="1"
-                android:gravity="start"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="@dimen/large_dp"
-                    android:layout_height="@dimen/large_dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/border_yellow_1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/medium_dp"
-                    android:layout_marginRight="@dimen/medium_dp"
-                    android:layout_weight="1"
-                    android:padding="@dimen/low_dp"
-                    android:text="@string/down"
-                    android:textColor="@color/text_color_dark"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <TextView
-                    android:id="@+id/text_view_low"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/medium_dp"
-                    android:layout_marginRight="@dimen/medium_dp"
-                    android:layout_weight="1"
-                    android:padding="@dimen/low_dp"
-                    android:text="@string/_0"
-                    android:textColor="@color/text_color_dark"
-                    android:textSize="@dimen/text_size_medium" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-    </LinearLayout>
-
+        android:layout_marginTop="@dimen/medium_dp"
+        android:text="@string/receive_information" />
 </RelativeLayout>

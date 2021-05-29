@@ -66,7 +66,7 @@ public class ReadingSettingFragment extends Fragment {
     void initialize() {
         context = getActivity();
         Gson gson = new Gson();
-//        trackingDtos.clear();
+        trackingDtos.clear();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             json.forEach(s -> trackingDtos.add(gson.fromJson(s, TrackingDto.class)));
         } else for (String s : json) {
