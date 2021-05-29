@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/border_gray_2"
     tools:context="com.leon.counter_reading.fragments.LocationFragment">
 
     <org.osmdroid.views.MapView
         android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/medium_dp"
-        android:background="@drawable/border_gray_2"
         android:padding="@dimen/low_dp" />
 
 </FrameLayout>

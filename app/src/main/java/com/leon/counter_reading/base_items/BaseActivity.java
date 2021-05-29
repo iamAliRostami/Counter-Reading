@@ -39,7 +39,7 @@ import com.leon.counter_reading.activities.ReportActivity;
 import com.leon.counter_reading.activities.SettingActivity;
 import com.leon.counter_reading.activities.UploadActivity;
 import com.leon.counter_reading.adapters.NavigationDrawerAdapter;
-import com.leon.counter_reading.databinding.BaseActivityBinding;
+import com.leon.counter_reading.databinding.ActivityBaseBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
@@ -61,7 +61,7 @@ public abstract class BaseActivity extends AppCompatActivity
     LinearLayout linearLayout;
     NavigationDrawerAdapter adapter;
     List<NavigationDrawerAdapter.DrawerItem> dataList;
-    BaseActivityBinding binding;
+    ActivityBaseBinding binding;
     Activity activity;
     ISharedPreferenceManager sharedPreferenceManager;
     GPSTracker gpsTracker;
@@ -86,7 +86,7 @@ public abstract class BaseActivity extends AppCompatActivity
         MyApplication.onActivitySetTheme(this, theme, false);
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 //        overridePendingTransition(R.anim.slide_up_info, R.anim.no_change);
-        binding = BaseActivityBinding.inflate(getLayoutInflater());
+        binding = ActivityBaseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         MyDatabaseClient.migration(this);
