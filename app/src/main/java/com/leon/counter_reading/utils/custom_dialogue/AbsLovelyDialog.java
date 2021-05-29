@@ -209,7 +209,7 @@ public abstract class AbsLovelyDialog<T extends AbsLovelyDialog> {
     }
 
     <ViewClass extends View> ViewClass findView(int id) {
-        return (ViewClass) dialogView.findViewById(id);
+        return dialogView.findViewById(id);
     }
 
     protected class ClickListenerDecorator implements View.OnClickListener {

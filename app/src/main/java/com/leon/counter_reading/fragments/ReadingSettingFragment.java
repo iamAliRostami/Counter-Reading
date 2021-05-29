@@ -33,11 +33,13 @@ public class ReadingSettingFragment extends Fragment {
         ReadingSettingFragment fragment = new ReadingSettingFragment();
         Bundle args = new Bundle();
         Gson gson = new Gson();
-        ArrayList<String> json1 = new ArrayList<>();
-        for (TrackingDto trackingDto : trackingDtos) {
-            json1.add(gson.toJson(trackingDto));
-        }
-        args.putStringArrayList(BundleEnum.TRACKING.getValue(), json1);
+        ArrayList<String> json = new ArrayList<>();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            trackingDtos.forEach(trackingDto -> json.add(gson.toJson(trackingDto)));
+        else
+            for (TrackingDto trackingDto : trackingDtos)
+                json.add(gson.toJson(trackingDto));
+        args.putStringArrayList(BundleEnum.TRACKING.getValue(), json);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,7 +66,7 @@ public class ReadingSettingFragment extends Fragment {
     void initialize() {
         context = getActivity();
         Gson gson = new Gson();
-        trackingDtos.clear();
+//        trackingDtos.clear();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             json.forEach(s -> trackingDtos.add(gson.fromJson(s, TrackingDto.class)));
         } else for (String s : json) {

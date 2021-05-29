@@ -106,15 +106,10 @@ public class ReadingSettingActivity extends BaseActivity {
     private void setupViewPager() {
         ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager(),
                 FragmentStatePagerAdapter.POSITION_NONE);
-//        adapter.addFragment(ReadingSettingFragment.newInstance(trackingDtos), "تنظیمات قرائت");
-//        adapter.addFragment(ReadingSettingFragment.newInstance(trackingDtos), "تنظیمات قرائت");
         adapter.addFragment(ReadingSettingFragment.newInstance(trackingDtos), "تنظیمات قرائت");
         adapter.addFragment(ReadingSettingDeleteFragment.newInstance(trackingDtos), "حذف");
         adapter.addFragment(new ReadingPossibleSettingFragment(), "پیمایش پویا");
 
-//        adapter.addFragment(UploadFragment.newInstance(1, trackingDtos), "بارگذاری");
-//        adapter.addFragment(UploadFragment.newInstance(2, trackingDtos), "بارگذاری مجدد");
-//        adapter.addFragment(UploadFragment.newInstance(3, new ArrayList<>()), "بارگذاری چند رسانه");
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -192,6 +187,7 @@ public class ReadingSettingActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        trackingDtos = null;
         binding = null;
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();

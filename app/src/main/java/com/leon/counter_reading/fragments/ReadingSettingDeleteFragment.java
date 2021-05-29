@@ -24,11 +24,11 @@ import java.util.ArrayList;
 
 public class ReadingSettingDeleteFragment extends Fragment {
     FragmentReadingSettingDeleteBinding binding;
-    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
     ArrayList<String> items = new ArrayList<>();
+    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    ArrayList<String> json;
     SpinnerCustomAdapter adapter;
     Activity activity;
-    ArrayList<String> json;
 
     public ReadingSettingDeleteFragment() {
     }
@@ -69,8 +69,6 @@ public class ReadingSettingDeleteFragment extends Fragment {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
-        binding.imageViewDelete.setImageDrawable(
-                ContextCompat.getDrawable(activity, R.drawable.img_delete));
         Gson gson = new Gson();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             json.forEach(s -> trackingDtos.add(gson.fromJson(s, TrackingDto.class)));
@@ -78,6 +76,8 @@ public class ReadingSettingDeleteFragment extends Fragment {
             for (String s : json) trackingDtos.add(gson.fromJson(s, TrackingDto.class));
         initializeSpinner();
         setOnButtonDeleteClickListener();
+        binding.imageViewDelete.setImageDrawable(
+                ContextCompat.getDrawable(activity, R.drawable.img_delete));
     }
 
     void setOnButtonDeleteClickListener() {

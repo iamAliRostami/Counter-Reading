@@ -107,5 +107,12 @@ public class ReadingPossibleSettingFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        binding = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        sharedPreferenceManager = null;
     }
 }
