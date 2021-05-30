@@ -15,7 +15,7 @@
             android:id="@+id/image_view_high_low_state"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_weight="1"
+            android:layout_weight="12"
             android:src="@drawable/img_default_level"
             tools:ignore="ContentDescription" />
 
