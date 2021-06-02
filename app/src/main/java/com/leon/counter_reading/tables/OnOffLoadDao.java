@@ -103,6 +103,12 @@ public interface OnOffLoadDao {
     void updateOnOffLoad(String id, String possibleEshterak, String possibleMobile, int possibleEmpty,
                          String phoneNumber, String serialNumber, String address);
 
+    @Query("UPDATE OnOffLoadDto set attemptNumber = :attemptNumber WHERE id = :id")
+    void updateOnOffLoadByAttemptNumber(String id, int attemptNumber);
+
+    @Query("UPDATE OnOffLoadDto set isLocked = :isLocked WHERE trackNumber = :trackNumber")
+    void updateOnOffLoadByLock(int trackNumber, boolean isLocked);
+
     @Query("DELETE FROM OnOffLoadDto WHERE id = :id")
     void deleteOnOffLoad(String id);
 

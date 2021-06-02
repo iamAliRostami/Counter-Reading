@@ -62,6 +62,9 @@ public class OnOffLoadDto {
     public double y;
     public boolean counterNumberShown;
 
+    public int attemptNumber;
+    public boolean isLocked;
+
     public int highLowStateId;
     public boolean isBazdid;
     public Integer counterStatePosition;

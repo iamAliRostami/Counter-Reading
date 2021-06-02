@@ -106,6 +106,29 @@ public class ReadingActivity extends BaseActivity {
         }
     }
 
+    public void updateTrackingDto(int trackNumber) {
+        for (int i = 0; i < readingData.trackingDtos.size(); i++) {
+            if (readingData.trackingDtos.get(i).trackNumber == trackNumber) {
+                readingData.trackingDtos.get(i).isLocked = true;
+            }
+        }
+        for (int i = 0; i < readingDataTemp.trackingDtos.size(); i++) {
+            if (readingDataTemp.trackingDtos.get(i).trackNumber == trackNumber) {
+                readingDataTemp.trackingDtos.get(i).isLocked = true;
+            }
+        }
+        for (int i = 0; i < readingDataTemp.onOffLoadDtos.size(); i++) {
+            if (readingDataTemp.onOffLoadDtos.get(i).trackNumber == trackNumber)
+                readingDataTemp.onOffLoadDtos.get(i).isLocked = true;
+        }
+        for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
+            if (readingData.onOffLoadDtos.get(i).trackNumber == trackNumber)
+                readingData.onOffLoadDtos.get(i).isLocked = true;
+        }
+        MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().updateTrackingDtoByLock(trackNumber, true);
+        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoadByLock(trackNumber, true);
+    }
+
     public void updateOnOffLoadByIsShown(int position) {
         readingData.onOffLoadDtos.get(position).isBazdid = true;
         readingData.onOffLoadDtos.get(position).counterNumberShown = true;

@@ -32,6 +32,7 @@ public class MyApplication extends Application {
     public static String fileName;
     public static boolean focusOnEditText = false;
     static Context appContext;
+    public static final int lockNumber = 3;
 
     public static Context getContext() {
         return appContext;
@@ -62,7 +63,7 @@ public class MyApplication extends Application {
     }
 
     public static String getDBName() {
-        return "MyDatabase";
+        return "MyDatabase_2";
     }
 
     @Override

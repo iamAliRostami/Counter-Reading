@@ -30,4 +30,5 @@ public class TrackingDto {
 
     public boolean isActive;
     public boolean isArchive;
+    public boolean isLocked;
 }

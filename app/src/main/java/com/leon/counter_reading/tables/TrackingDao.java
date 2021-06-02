@@ -39,6 +39,9 @@ public interface TrackingDao {
     @Query("Update TrackingDto Set isActive = :isActive Where id = :id AND isArchive = 0")
     void updateTrackingDtoByStatus(String id, boolean isActive);
 
+    @Query("Update TrackingDto Set isLocked = :isLocked Where trackNumber = :trackNumber")
+    void updateTrackingDtoByLock(int trackNumber, boolean isLocked);
+
     @Query("Update TrackingDto Set isArchive = :isArchive, isActive = :isActive Where id = :id")
     void updateTrackingDtoByArchive(String id, boolean isArchive, boolean isActive);
 

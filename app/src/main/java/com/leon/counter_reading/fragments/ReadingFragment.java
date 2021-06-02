@@ -2,6 +2,7 @@ package com.leon.counter_reading.fragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.utils.Counting;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
+import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
@@ -40,6 +42,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static com.leon.counter_reading.MyApplication.lockNumber;
 import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class ReadingFragment extends Fragment {
@@ -130,6 +133,11 @@ public class ReadingFragment extends Fragment {
             binding.editTextNumber.setText("");
             return false;
         });
+        if (onOffLoadDto.isLocked) {
+            new CustomToast().error(getString(R.string.by_mistakes).concat(String.valueOf(onOffLoadDto.trackNumber)).concat(getString(R.string.is_locked)));
+            binding.editTextNumber.setFocusable(false);
+            binding.editTextNumber.setEnabled(false);
+        }
         initializeViews();
         initializeSpinner();
         onButtonSubmitClickListener();
@@ -205,9 +213,7 @@ public class ReadingFragment extends Fragment {
                             counterStateDto.id != onOffLoadDto.preCounterStateCode) {
                         SerialFragment serialFragment = SerialFragment.newInstance(position,
                                 counterStateDto.id, counterStatePosition);
-                        if (getFragmentManager() != null) {
-                            serialFragment.show(getFragmentManager(), getString(R.string.counter_serial));
-                        }
+                        serialFragment.show(getChildFragmentManager(), getString(R.string.counter_serial));
                     }
                 }
             }
@@ -252,7 +258,21 @@ public class ReadingFragment extends Fragment {
             } else if (PermissionManager.checkStoragePermission(getContext())) {
                 askStoragePermission();
             } else {
-                attemptSend();
+                //TODO
+                onOffLoadDto.attemptNumber++;
+                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoadByAttemptNumber(onOffLoadDto.id, onOffLoadDto.attemptNumber);
+                if (onOffLoadDto.isLocked || onOffLoadDto.attemptNumber > lockNumber)
+                    new CustomToast().error(getString(R.string.by_mistakes).concat(String.valueOf(onOffLoadDto.trackNumber)).concat(getString(R.string.is_locked)));
+                if (onOffLoadDto.attemptNumber > lockNumber) {
+                    ((ReadingActivity) activity).updateTrackingDto(onOffLoadDto.trackNumber);
+//                    binding.editTextNumber.setEnabled(false);
+//                    binding.editTextNumber.setFocusable(false);
+                    Intent intent = activity.getIntent();
+                    activity.finish();
+                    startActivity(intent);
+                } else if (!onOffLoadDto.isLocked) {
+                    attemptSend();
+                }
             }
     }
 
@@ -344,7 +364,7 @@ public class ReadingFragment extends Fragment {
     }
 
     void notEmptyIsMakoos(int currentNumber) {
-        FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity()).
+        FragmentTransaction fragmentTransaction = requireActivity().
                 getSupportFragmentManager().beginTransaction();
         AreYouSureFragment areYouSureFragment;
         if (currentNumber == onOffLoadDto.preNumber) {
@@ -378,7 +398,7 @@ public class ReadingFragment extends Fragment {
     }
 
     void notEmpty(int currentNumber) {
-        FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity()).
+        FragmentTransaction fragmentTransaction = requireActivity().
                 getSupportFragmentManager().beginTransaction();
         AreYouSureFragment areYouSureFragment;
         if (currentNumber == onOffLoadDto.preNumber) {
