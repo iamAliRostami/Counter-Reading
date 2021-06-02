@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentSettingUpdateBinding;
 import com.leon.counter_reading.enums.DialogType;
@@ -40,10 +41,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class SettingUpdateFragment extends Fragment {
-
     FragmentSettingUpdateBinding binding;
     Activity activity;
     boolean firstTime = true;
+    int versionCode;
     ISharedPreferenceManager sharedPreferenceManager;
 
     public SettingUpdateFragment() {
@@ -92,6 +93,8 @@ public class SettingUpdateFragment extends Fragment {
         binding.buttonReceive.setOnClickListener(v -> {
             if (firstTime) {
                 updateInfo();
+            } else if (BuildConfig.VERSION_CODE >= versionCode) {
+                new CustomToast().success(getString(R.string.you_are_updated));
             } else {
                 getUpdateFile();
             }
@@ -136,8 +139,9 @@ public class SettingUpdateFragment extends Fragment {
                     binding.linearLayout4.setVisibility(View.VISIBLE);
                     binding.progressBar.setVisibility(View.GONE);
                     binding.buttonReceive.setText(getString(R.string.receive_file));
-                    firstTime = false;
                 });
+                versionCode = response.body().versionCode;
+                firstTime = false;
             }
         }
     }
