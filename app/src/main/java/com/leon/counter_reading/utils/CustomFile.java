@@ -8,13 +8,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.content.FileProvider;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.tables.ReadingData;
@@ -234,7 +238,6 @@ public class CustomFile {
                         return false;
                     }
                 }
-//                String root = Environment.getExternalStorageDirectory().toString();
                 String timeStamp = (new SimpleDateFormat(
                         activity.getString(R.string.save_format_name))).format(new Date());
                 String fileName = activity.getPackageName().substring(
@@ -242,6 +245,7 @@ public class CustomFile {
                         DifferentCompanyManager.getActiveCompanyName().toString() +
                         "_" + timeStamp + ".apk";
                 File futureStudioIconFile = new File(storageDir, fileName);
+//                String root = Environment.getExternalStorageDirectory().toString();
 //                File futureStudioIconFile = new File(root +
 //                        File.separator + "Download" + File.separator + fileName);
                 InputStream inputStream = null;
@@ -290,16 +294,34 @@ public class CustomFile {
     public static void runFile(Activity activity, String fileName) {
         StrictMode.VmPolicy.Builder newBuilder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(newBuilder.build());//TODO Create directory
-        String root = Environment.getExternalStorageDirectory().toString();
 
-        File storageDir = new File(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)));
-//        File futureStudioIconFile =
+        File storageDir = new File(String.valueOf(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS)));
+
+//        String root = Environment.getExternalStorageDirectory().toString();
+//        File storageDir =
 //                new File(root + File.separator + "Download" + File.separator + fileName);
-        File futureStudioIconFile = new File(storageDir, fileName);
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(
-                Uri.fromFile(futureStudioIconFile), "application/vnd.android.package-archive");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        File toInstall = new File(storageDir, fileName);
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.setDataAndType(
+//                Uri.fromFile(toInstall), "application/vnd.android.package-archive");
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        activity.startActivity(intent);
+
+
+        Intent intent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Uri apkUri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID +
+                    ".provider", toInstall);
+            intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
+            intent.setData(apkUri);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            Uri apkUri = Uri.fromFile(toInstall);
+            intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
         activity.startActivity(intent);
     }
 }

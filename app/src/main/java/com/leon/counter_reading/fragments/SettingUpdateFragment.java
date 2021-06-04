@@ -101,19 +101,7 @@ public class SettingUpdateFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding.imageViewUpdate.setImageDrawable(null);
-        binding = null;
-    }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (HttpClientWrapper.call != null)
-            HttpClientWrapper.call.cancel();
-    }
 
     class UpdateInfo implements ICallback<LastInfo> {
         @SuppressLint("SetTextI18n")
@@ -192,5 +180,17 @@ public class SettingUpdateFragment extends Fragment {
                     activity.getString(R.string.accepted));
             binding.progressBar.setVisibility(View.GONE);
         }
+    }  @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding.imageViewUpdate.setImageDrawable(null);
+        binding = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (HttpClientWrapper.call != null)
+            HttpClientWrapper.call.cancel();
     }
 }
