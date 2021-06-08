@@ -1,63 +1,33 @@
 {
   "project_info": {
-    "project_number": "394191348136",
-    "firebase_url": "https://esfahan-reading-counter.firebaseio.com",
-    "project_id": "esfahan-reading-counter",
-    "storage_bucket": "esfahan-reading-counter.appspot.com"
+    "project_number": "2682641724",
+    "project_id": "counter-reading-94a2a",
+    "storage_bucket": "counter-reading-94a2a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:394191348136:android:191aa01e3bd372621efd9d",
+        "mobilesdk_app_id": "1:2682641724:android:bc02ed29d91a092343d239",
         "android_client_info": {
           "package_name": "com.leon.counter_reading"
         }
       },
       "oauth_client": [
         {
-          "client_id": "394191348136-ftq7hut92ua3lrcq3i1kia172mkuj9u7.apps.googleusercontent.com",
+          "client_id": "2682641724-aovb7enrq0pcpc5diktb6lp54lksqcc1.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC3Di2iv-5FcQA5rKWUaWltb7Ggi7krPdM"
+          "current_key": "AIzaSyCZenN0FgugApWMgM7lqqajBaSYrm0cy-k"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "394191348136-ftq7hut92ua3lrcq3i1kia172mkuj9u7.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:394191348136:android:a28226443156c24a1efd9d",
-        "android_client_info": {
-          "package_name": "com.leon.reading_counter"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "394191348136-ftq7hut92ua3lrcq3i1kia172mkuj9u7.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC3Di2iv-5FcQA5rKWUaWltb7Ggi7krPdM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "394191348136-ftq7hut92ua3lrcq3i1kia172mkuj9u7.apps.googleusercontent.com",
+              "client_id": "2682641724-aovb7enrq0pcpc5diktb6lp54lksqcc1.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

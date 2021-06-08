@@ -19,7 +19,6 @@ public class SplashActivity extends AppCompatActivity {
     private boolean splashLoaded = false;
 
     @Override
-    @SuppressWarnings("deprecation")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);

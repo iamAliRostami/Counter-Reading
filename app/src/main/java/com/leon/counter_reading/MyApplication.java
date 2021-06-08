@@ -5,8 +5,11 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.os.Bundle;
 
 import androidx.multidex.MultiDex;
+
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import es.dmoral.toasty.Toasty;
 
@@ -33,6 +36,7 @@ public class MyApplication extends Application {
     public static boolean focusOnEditText = false;
     static Context appContext;
     public static final int lockNumber = 3;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public static Context getContext() {
         return appContext;
@@ -74,6 +78,12 @@ public class MyApplication extends Application {
 
     @Override
     public void onCreate() {
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "id");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "name");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         appContext = getApplicationContext();
         Toasty.Config.getInstance()
                 .tintIcon(true)
@@ -81,5 +91,6 @@ public class MyApplication extends Application {
                 .setTextSize(TOAST_TEXT_SIZE)
                 .allowQueue(true).apply();
         super.onCreate();
+//        throw new RuntimeException("Test Crash");
     }
 }
