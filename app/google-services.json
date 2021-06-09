@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "2682641724",
-    "project_id": "counter-reading-94a2a",
-    "storage_bucket": "counter-reading-94a2a.appspot.com"
+    "project_number": "899903509032",
+    "project_id": "counter-reading-start",
+    "storage_bucket": "counter-reading-start.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:2682641724:android:bc02ed29d91a092343d239",
+        "mobilesdk_app_id": "1:899903509032:android:2a074bc2eaa047afb09b1d",
         "android_client_info": {
           "package_name": "com.leon.counter_reading"
         }
       },
       "oauth_client": [
         {
-          "client_id": "2682641724-aovb7enrq0pcpc5diktb6lp54lksqcc1.apps.googleusercontent.com",
+          "client_id": "899903509032-a9jjeuc3k6pjg391bs82chu6pd0kjqj2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCZenN0FgugApWMgM7lqqajBaSYrm0cy-k"
+          "current_key": "AIzaSyBO7khaDH25mviY6bQgyPYoIhEkgg11WSM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "2682641724-aovb7enrq0pcpc5diktb6lp54lksqcc1.apps.googleusercontent.com",
+              "client_id": "899903509032-a9jjeuc3k6pjg391bs82chu6pd0kjqj2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
