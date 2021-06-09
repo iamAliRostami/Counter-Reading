@@ -36,7 +36,6 @@ public class MyApplication extends Application {
     public static boolean focusOnEditText = false;
     static Context appContext;
     public static final int lockNumber = 3;
-    private FirebaseAnalytics mFirebaseAnalytics;
 
     public static Context getContext() {
         return appContext;
@@ -77,14 +76,7 @@ public class MyApplication extends Application {
     }
 
     @Override
-    public void onCreate() {
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "id");
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "name");
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-        appContext = getApplicationContext();
+    public void onCreate() {appContext = getApplicationContext();
         Toasty.Config.getInstance()
                 .tintIcon(true)
                 .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), MyApplication.FONT_NAME))

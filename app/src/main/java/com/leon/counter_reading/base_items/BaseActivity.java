@@ -24,6 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.BuildConfig;
@@ -75,6 +76,14 @@ public abstract class BaseActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
                 SharedReferenceNames.ACCOUNT.getValue());
+
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "id");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "name");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
         int theme;
         if (getIntent().getExtras() != null) {
             theme = getIntent().getExtras().getInt(BundleEnum.THEME.getValue());
@@ -203,6 +212,7 @@ public abstract class BaseActivity extends AppCompatActivity
                             Intent intent = new Intent();
                             if (position == 0) {
                                 intent = new Intent(getApplicationContext(), DownloadActivity.class);
+//                                throw new RuntimeException("Test Crash");
                             } else if (position == 1) {
                                 intent = new Intent(getApplicationContext(), ReadingActivity.class);
                             } else if (position == 2) {
