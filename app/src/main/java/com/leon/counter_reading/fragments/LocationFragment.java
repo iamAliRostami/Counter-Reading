@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentLocationBinding;
 import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.GPSTracker;
@@ -131,7 +133,8 @@ public class LocationFragment extends Fragment {
             GeoPoint startPoint = new GeoPoint(p.getLatitude(), p.getLongitude());
             Marker startMarker = new Marker(binding.mapView);
             startMarker.setPosition(startPoint);
-            startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
+//            startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
+            startMarker.setIcon(ContextCompat.getDrawable(context, R.drawable.img_marker));
             binding.mapView.getOverlayManager().add(startMarker);
         }
 
