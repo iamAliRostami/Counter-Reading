@@ -25,7 +25,6 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage"
         tools:remove="android:maxSdkVersion" />
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE" />
     <uses-permission
@@ -53,6 +52,7 @@
         android:name="android.permission.LOCATION_HARDWARE"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -69,6 +69,9 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
+        <activity
+            android:name=".activities.CounterPlaceActivity"
+            android:label="@string/location" />
         <activity
             android:name=".activities.HelpActivity"
             android:label="@string/help" />
@@ -117,9 +120,7 @@
             android:label="@string/location" />
         <activity
             android:name=".activities.HomeActivity"
-            android:label="@string/home">
-
-        </activity>
+            android:label="@string/home" />
         <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

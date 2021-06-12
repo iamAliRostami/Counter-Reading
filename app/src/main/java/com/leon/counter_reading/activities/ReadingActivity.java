@@ -659,6 +659,17 @@ public class ReadingActivity extends BaseActivity {
                 intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
                 startActivityForResult(intent, MyApplication.DESCRIPTION);
             }
+        }
+        if (id == R.id.menu_location) {
+            if (readingDataTemp.onOffLoadDtos.isEmpty()) {
+                showNoEshterakFound();
+            } else {
+                intent = new Intent(activity, CounterPlaceActivity.class);
+                intent.putExtra(BundleEnum.BILL_ID.getValue(),
+                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
+                intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
+                startActivityForResult(intent, MyApplication.COUNTER_LOCATION);
+            }
         } else if (id == R.id.menu_keyboard) {
             if (readingData.onOffLoadDtos.isEmpty()) {
                 showNoEshterakFound();
@@ -698,7 +709,8 @@ public class ReadingActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if ((requestCode == MyApplication.REPORT || requestCode == MyApplication.NAVIGATION ||
-                requestCode == MyApplication.DESCRIPTION) && resultCode == RESULT_OK) {
+                requestCode == MyApplication.DESCRIPTION ||
+                requestCode == MyApplication.COUNTER_LOCATION) && resultCode == RESULT_OK) {
             int position = data.getExtras().getInt(BundleEnum.POSITION.getValue());
             String uuid = data.getExtras().getString(BundleEnum.BILL_ID.getValue());
             MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().

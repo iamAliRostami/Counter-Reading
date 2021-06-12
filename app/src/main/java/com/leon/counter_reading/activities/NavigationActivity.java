@@ -24,8 +24,8 @@ import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 public class NavigationActivity extends AppCompatActivity {
     ActivityNavigationBinding binding;
-    ISharedPreferenceManager sharedPreferenceManager;
     Activity activity;
+    ISharedPreferenceManager sharedPreferenceManager;
     String uuid;
     int position;
 

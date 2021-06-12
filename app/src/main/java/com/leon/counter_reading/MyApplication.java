@@ -26,6 +26,7 @@ public class MyApplication extends Application {
     public static final int CAMERA = 1446;
     public static final int REPORT = 1445;
     public static final int NAVIGATION = 1903;
+    public static final int COUNTER_LOCATION = 1914;
     public static final int DESCRIPTION = 1909;
     public static final int TOAST_TEXT_SIZE = 20;
     public static final int CARRIER_PRIVILEGE_STATUS = 901;
@@ -66,7 +67,7 @@ public class MyApplication extends Application {
     }
 
     public static String getDBName() {
-        return "MyDatabase_2";
+        return "MyDatabase_3";
     }
 
     @Override

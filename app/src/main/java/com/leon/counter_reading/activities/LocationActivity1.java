@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Debug;
 import android.view.View;
 import android.widget.Toast;
@@ -23,39 +22,26 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.ViewPagerAdapterTab;
 import com.leon.counter_reading.base_items.BaseActivity;
+import com.leon.counter_reading.databinding.ActivityLocation1Binding;
 import com.leon.counter_reading.databinding.ActivityLocationBinding;
 import com.leon.counter_reading.fragments.LocationFragment;
 import com.leon.counter_reading.fragments.PlaceFragment;
-import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DepthPageTransformer;
-import com.leon.counter_reading.utils.GPSTracker;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.PermissionManager;
-
-import org.osmdroid.api.IMapController;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.CustomZoomButtonsController;
-import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.Polyline;
-import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
-public class LocationActivity extends BaseActivity {
-    ActivityLocationBinding binding;
-    int polygonIndex, startIndex = 0;
-    ArrayList<GeoPoint> polygonPoint = new ArrayList<>();
-    ArrayList<SavedLocation> savedLocations = new ArrayList<>();
-    Polyline line;
+public class LocationActivity1 extends BaseActivity {
+    ActivityLocation1Binding binding;
+    int previousState, currentState;
     Activity activity;
 
     @Override
     protected void initialize() {
-        binding = ActivityLocationBinding.inflate(getLayoutInflater());
+        binding = ActivityLocation1Binding.inflate(getLayoutInflater());
         View childLayout = binding.getRoot();
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
@@ -72,7 +58,9 @@ public class LocationActivity extends BaseActivity {
             } else if (PermissionManager.checkStoragePermission(getApplicationContext())) {
                 askStoragePermission();
             } else {
-                initializeMapView();
+                new CustomToast().info(getString(R.string.this_feature_is_not_active), Toast.LENGTH_LONG);
+                setupViewPager();
+                initializeTextViews();
             }
     }
 
@@ -129,108 +117,88 @@ public class LocationActivity extends BaseActivity {
                 ).check();
     }
 
-    void initializeMapView() {
-        binding.mapView.getZoomController().
-                setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
-        binding.mapView.setMultiTouchControls(true);
-        IMapController mapController = binding.mapView.getController();
-        mapController.setZoom(19.0);
-        GPSTracker gpsTracker = new GPSTracker(activity);
-
-        double latitude = gpsTracker.getLatitude();
-        double longitude = gpsTracker.getLongitude();
-        if (latitude == 0 || longitude == 0) {
-            latitude = 32.65;
-            longitude = 51.66;
-        }
-        GeoPoint startPoint = new GeoPoint(latitude, longitude);
-        mapController.setCenter(startPoint);
-        MyLocationNewOverlay locationOverlay =
-                new MyLocationNewOverlay(new GpsMyLocationProvider(activity), binding.mapView);
-        locationOverlay.enableMyLocation();
-        binding.mapView.getOverlays().add(locationOverlay);
-        new GetDBLocation().execute();
+    void initializeTextViews() {
+        textViewLocation();
+        textViewPlace();
     }
 
-    @SuppressLint("StaticFieldLeak")
-    class GetDBLocation extends AsyncTask<Integer, Integer, Integer> {
-        public GetDBLocation() {
-            super();
-        }
+    @SuppressLint("UseCompatLoadingForDrawables")
+    void textViewPlace() {
+        binding.textViewPlace.setOnClickListener(view -> {
+            setColor();
+            binding.textViewPlace.setBackground(
+                    ContextCompat.getDrawable(getApplicationContext(), R.drawable.border_white_2));
+            setPadding();
+            binding.viewPager.setCurrentItem(3);
+        });
+    }
 
-        @Override
-        protected Integer doInBackground(Integer... integers) {
-            int total = MyDatabaseClient.getInstance(activity).getMyDatabase().savedLocationDao().
-                    getSavedLocationsCount();
-            line = new Polyline(binding.mapView);
-            line.getOutlinePaint().setColor(Color.YELLOW);
-            for (int i = 1; i <= total; i = i + 10) {
-                savedLocations.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        savedLocationDao().getSavedLocations(i, i + 9));
-                onProgressUpdate(savedLocations.size());
+    @SuppressLint("UseCompatLoadingForDrawables")
+    void textViewLocation() {
+        binding.textViewLocation.setOnClickListener(view -> {
+            setColor();
+            binding.textViewLocation.setBackground(
+                    ContextCompat.getDrawable(getApplicationContext(), R.drawable.border_white_2));
+            setPadding();
+            binding.viewPager.setCurrentItem(0);
+        });
+    }
+
+    private void setColor() {
+        binding.textViewLocation.setBackgroundColor(Color.TRANSPARENT);
+        binding.textViewLocation.setTextColor(
+                ContextCompat.getColor(getApplicationContext(), R.color.text_color_light));
+        binding.textViewPlace.setBackgroundColor(Color.TRANSPARENT);
+        binding.textViewPlace.setTextColor(
+                ContextCompat.getColor(getApplicationContext(), R.color.text_color_light));
+    }
+
+    private void setPadding() {
+        binding.textViewLocation.setPadding(0,
+                (int) getResources().getDimension(R.dimen.medium_dp), 0,
+                (int) getResources().getDimension(R.dimen.medium_dp));
+        binding.textViewPlace.setPadding(0,
+                (int) getResources().getDimension(R.dimen.medium_dp), 0,
+                (int) getResources().getDimension(R.dimen.medium_dp));
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void setupViewPager() {
+        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager(),
+                FragmentStatePagerAdapter.POSITION_NONE);
+        adapter.addFragment(new LocationFragment(), "لایه ها ");
+        adapter.addFragment(new PlaceFragment(), "مکان کنتور");
+        binding.viewPager.setAdapter(adapter);
+//        binding.viewPager.setOnTouchListener((v, event) -> true);
+        binding.viewPager.beginFakeDrag();
+        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
-            return null;
-        }
 
-        @Override
-        protected void onPreExecute() {
-            savedLocations.clear();
-            polygonPoint.clear();
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            for (int i = startIndex; i < values[0]; i++) {
-                addPlace(new GeoPoint(savedLocations.get(i).latitude, savedLocations.get(i).longitude));
-//                createPolygon(new GeoPoint(savedLocations.get(i).latitude, savedLocations.get(i).longitude));
-            }
-            startIndex = values[0];
-            super.onProgressUpdate(values);
-        }
-
-        void addPlace(GeoPoint p) {
-            GeoPoint startPoint = new GeoPoint(p.getLatitude(), p.getLongitude());
-            Marker startMarker = new Marker(binding.mapView);
-            startMarker.setPosition(startPoint);
-//            startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-            startMarker.setIcon(ContextCompat.getDrawable(activity, R.drawable.img_marker));
-            binding.mapView.getOverlayManager().add(startMarker);
-        }
-
-        void createPolygon(GeoPoint geoPoint) {
-            if (polygonIndex != 0) {
-                try {
-                    binding.mapView.getOverlays().remove(polygonIndex);
-                } catch (Exception e) {
-                    e.printStackTrace();
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    binding.textViewLocation.callOnClick();
+                } else if (position == 1) {
+                    binding.textViewPlace.callOnClick();
                 }
             }
-            try {
-                binding.mapView.getOverlays().add(line);
-            } catch (Exception e) {
-                e.printStackTrace();
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                int currentPage = binding.viewPager.getCurrentItem();
+                if (currentPage == 1 || currentPage == 0) {
+                    previousState = currentState;
+                    currentState = state;
+                    if (previousState == 1 && currentState == 0) {
+                        binding.viewPager.setCurrentItem(currentPage == 0 ? 1 : 0);
+
+                    }
+                }
             }
-            polygonPoint.add(geoPoint);
-            polygonPoint.add(polygonPoint.get(0));
-            line.setPoints(polygonPoint);
-            polygonPoint.remove(polygonPoint.size() - 1);
-            polygonIndex = binding.mapView.getOverlays().size() - 1;
-        }
-
-        @Override
-        protected void onCancelled(Integer integer) {
-            super.onCancelled(integer);
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-        }
+        });
+        binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
     }
 
     @Override
@@ -266,9 +234,6 @@ public class LocationActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        polygonPoint = null;
-        savedLocations = null;
-        line = null;
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

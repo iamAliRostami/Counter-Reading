@@ -55,6 +55,8 @@ public class OnOffLoadDto {
     public int possibleKarbariCode;
     public String description;
     //TODO
+    public String d1;
+    public String d2;
     public int offLoadStateId;
     public int zoneId;
     public double gisAccuracy;
@@ -89,6 +91,8 @@ public class OnOffLoadDto {
         public final double gisAccuracy;
         public final double x;
         public final double y;
+        public final String d1;
+        public final String d2;
 
         public OffLoad(OnOffLoadDto onOffLoadDto) {
             id = onOffLoadDto.id;
@@ -108,6 +112,8 @@ public class OnOffLoadDto {
             counterNumberShown = onOffLoadDto.counterNumberShown;
             x = onOffLoadDto.x;
             y = onOffLoadDto.y;
+            d1 = onOffLoadDto.d1;
+            d2 = onOffLoadDto.d2;
             gisAccuracy = onOffLoadDto.gisAccuracy;
         }
     }

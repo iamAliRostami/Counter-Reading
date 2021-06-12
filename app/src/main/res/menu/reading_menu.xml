@@ -10,6 +10,10 @@
         android:title="@string/description"
         app:showAsAction="never" />
     <item
+        android:id="@+id/menu_location"
+        android:title="@string/location_counter"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/menu_report_forbid"
         android:title="@string/report_forbid"
         app:showAsAction="never" />

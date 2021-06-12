@@ -15,6 +15,7 @@ public class Voice {
     @PrimaryKey(autoGenerate = true)
     public int id;
     public String OnOffLoadId;
+    public String trackingId;
     public String Description;
     public String address;
     public boolean isSent;

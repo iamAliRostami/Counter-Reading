@@ -97,6 +97,10 @@ public interface OnOffLoadDao {
     @Query("UPDATE OnOffLoadDto set description = :description WHERE id = :id")
     void updateOnOffLoadDescription(String id, String description);
 
+    @Query("UPDATE OnOffLoadDto set d1 = :d1, d2 = :d2 WHERE id = :id")
+    void updateOnOffLoadLocation(String id, String d1,String d2);
+
+
     @Query("UPDATE OnOffLoadDto set possibleAddress = :address, possibleCounterSerial = :serialNumber," +
             " possibleMobile = :possibleMobile, possibleEshterak = :possibleEshterak," +
             " possiblePhoneNumber = :phoneNumber, possibleEmpty = :possibleEmpty WHERE id = :id")
