@@ -15,7 +15,7 @@ public class Image {
     @PrimaryKey(autoGenerate = true)
     public int id;
     public String OnOffLoadId;
-    public String trackingId;
+    public int trackNumber;
     public String Description;
     public String address;
     public boolean isSent;

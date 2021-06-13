@@ -76,7 +76,7 @@ public class TakePhotoActivity extends AppCompatActivity {
     ArrayList<Image> images;
     int imageNumber = 1, imageNumberTemp = 0;
     boolean replace = false, result;
-    int position;
+    int position,trackNumber;
     String uuid;
     @SuppressLint("NonConstantResourceId")
     View.OnLongClickListener onLongClickListener = v -> {
@@ -223,6 +223,7 @@ public class TakePhotoActivity extends AppCompatActivity {
         if (getIntent().getExtras() != null) {
             uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
             position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
+            trackNumber = getIntent().getExtras().getInt(BundleEnum.TRACKING.getValue());
             result = getIntent().getExtras().getBoolean(BundleEnum.IMAGE.getValue());
         }
         imageSetup();
@@ -455,7 +456,6 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         MyApplication.bitmapSelectedImage = null;
@@ -489,6 +489,7 @@ public class TakePhotoActivity extends AppCompatActivity {
             }
             Image image = new Image();
             image.OnOffLoadId = uuid;
+            image.trackNumber = trackNumber;
             image.File = CustomFile.bitmapToFile(MyApplication.bitmapSelectedImage, activity);
             if (replace) {
                 //TODO

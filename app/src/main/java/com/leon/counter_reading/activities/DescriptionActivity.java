@@ -62,7 +62,7 @@ public class DescriptionActivity extends AppCompatActivity {
     MediaRecorder mediaRecorder;
     String uuid;
     boolean play = false;
-    int position, startTime = 0, finalTime = 0;
+    int position, startTime = 0, finalTime = 0, trackNumber;
     Voice.VoiceGrouped voiceGrouped;
 
     @Override
@@ -86,6 +86,7 @@ public class DescriptionActivity extends AppCompatActivity {
         if (getIntent().getExtras() != null) {
             uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
             position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
+            trackNumber = getIntent().getExtras().getInt(BundleEnum.TRACKING.getValue());
         }
         voiceGrouped = new Voice.VoiceGrouped();
         binding.imageViewRecord.setImageDrawable(getDrawable(R.drawable.img_record));
@@ -271,6 +272,7 @@ public class DescriptionActivity extends AppCompatActivity {
     void setOnButtonSendClickListener() {
         binding.buttonSend.setOnClickListener(v -> {
             voice.OnOffLoadId = uuid;
+            voice.trackNumber = trackNumber;
             String message = binding.editTextMessage.getText().toString();
             if (voice.address != null && voice.address.length() > 0)
                 new prepareMultiMedia().execute();

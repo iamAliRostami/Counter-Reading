@@ -199,6 +199,8 @@ public class ReadingActivity extends BaseActivity {
         Intent intent = new Intent(activity, TakePhotoActivity.class);
         intent.putExtra(BundleEnum.BILL_ID.getValue(),
                 readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
+        intent.putExtra(BundleEnum.TRACKING.getValue(),
+                readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).trackNumber);
         intent.putExtra(BundleEnum.POSITION.getValue(), position);
         intent.putExtra(BundleEnum.IMAGE.getValue(), true);
         startActivityForResult(intent, MyApplication.CAMERA);
@@ -347,6 +349,8 @@ public class ReadingActivity extends BaseActivity {
                 Intent intent = new Intent(activity, TakePhotoActivity.class);
                 intent.putExtra(BundleEnum.BILL_ID.getValue(),
                         readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
+                intent.putExtra(BundleEnum.TRACKING.getValue(),
+                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).trackNumber);
                 startActivity(intent);
             }
         });
@@ -656,6 +660,8 @@ public class ReadingActivity extends BaseActivity {
                 intent = new Intent(activity, DescriptionActivity.class);
                 intent.putExtra(BundleEnum.BILL_ID.getValue(),
                         readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
+                intent.putExtra(BundleEnum.TRACKING.getValue(),
+                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).trackNumber);
                 intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
                 startActivityForResult(intent, MyApplication.DESCRIPTION);
             }
