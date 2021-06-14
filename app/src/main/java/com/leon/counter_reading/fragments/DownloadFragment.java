@@ -1,5 +1,6 @@
 package com.leon.counter_reading.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -105,6 +106,7 @@ public class DownloadFragment extends Fragment {
         binding.imageViewDownload.setImageDrawable(null);
     }
 
+    @SuppressLint("DefaultLocale")
     class DownloadCompleted implements ICallback<ReadingData> {
         @Override
         public void execute(Response<ReadingData> response) {
@@ -204,10 +206,8 @@ public class DownloadFragment extends Fragment {
                 }
                 myDatabase.counterReportDao().insertAllCounterStateReport(
                         readingData.counterReportDtos);
-
-                new CustomDialog(DialogType.Green, context,
-                        "تعداد ".concat(String.valueOf(readingData.trackingDtos.size())).concat(" مسیر و ").
-                                concat(String.valueOf(readingData.onOffLoadDtos.size())).concat(" اشتراک بارگیری شد."),
+                String message = String.format("تعداد %d مسیر و %d اشتراک بارگیری شد.", readingData.trackingDtos.size(), readingData.onOffLoadDtos.size());
+                new CustomDialog(DialogType.Green, context, message,
                         context.getString(R.string.dear_user),
                         context.getString(R.string.download),
                         context.getString(R.string.accepted));

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,30 +147,38 @@ public class UploadFragment extends Fragment {
         binding.spinner.setAdapter(spinnerCustomAdapter);
     }
 
+    @SuppressLint("DefaultLocale")
     boolean checkOnOffLoad() {
-        int total, mane = 0, unread, alalPercent;
+        int total, mane = 0, unread, alalPercent, imagesCount, voicesCount, trackNumber;
+        double alalMane;
         MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
         if (binding.spinner.getSelectedItemPosition() != 0) {
-            total = myDatabase.onOffLoadDao().getOnOffLoadCount(
-                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber);
-            unread = myDatabase.onOffLoadDao().getOnOffLoadUnreadCount(0,
-                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber);
+            trackNumber = trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber;
+            total = myDatabase.onOffLoadDao().getOnOffLoadCount(trackNumber);
+            unread = myDatabase.onOffLoadDao().getOnOffLoadUnreadCount(0, trackNumber);
             ArrayList<Integer> isManes = new ArrayList<>(myDatabase.counterStateDao().
                     getCounterStateDtosIsMane(true));
             for (int i = 0; i < isManes.size(); i++) {
-                mane = mane + myDatabase.onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i),
-                        trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber);
+                mane = mane + myDatabase.onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i), trackNumber);
             }
-
             alalPercent = myDatabase.trackingDao().getAlalHesabByZoneId(
                     trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).zoneId);
+            alalMane = (double) mane / total * 100;
+            imagesCount = myDatabase.imageDao().getUnsentImageCount(trackNumber, false);
+            voicesCount = myDatabase.voiceDao().getUnsentVoiceCount(trackNumber, false);
+
         } else return false;
-        double alalMane = (double) mane / total * 100;
         if (unread > 0) {
-            new CustomToast().info("همکار گرامی!\nتعداد " + unread + " اشتراک قرائت نشده است.", Toast.LENGTH_LONG);
+            String message = String.format("همکار گرامی!\nتعداد %d اشتراک قرائت نشده است.", unread);
+            new CustomToast().info(message, Toast.LENGTH_LONG);
             return false;
         } else if (mane > 0 && alalMane > (double) alalPercent) {
             new CustomToast().info("همکار گرامی!\nدرصد علی الحساب بالاتر از حد مجاز است.", Toast.LENGTH_LONG);
+            return false;
+        } else if (imagesCount > 0 || voicesCount > 0) {
+            String message = String.format("همکار گرامی تعداد %d عکس و %d صدای تخلیه نشده باقی مانده است.\n" +
+                    "پیش از تخلیه نسبت به بارگذاری چندرسانه اقدام کنید.", imagesCount, voicesCount);
+            new CustomToast().info(message, Toast.LENGTH_LONG);
             return false;
         }
         return true;
