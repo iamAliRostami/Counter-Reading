@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -195,17 +196,12 @@ public class DownloadFragment extends Fragment {
                         }
                     }
                 myDatabase.onOffLoadDao().insertAllOnOffLoad(readingData.onOffLoadDtos);
-                ArrayList<CounterReportDto> counterReportDtos = new ArrayList<>(
-                        myDatabase.counterReportDao().getAllCounterStateReport());
-                for (CounterReportDto counterReportDto : counterReportDtos) {
-                    for (int i = 0; i < readingDataTemp.counterReportDtos.size(); i++) {
-                        if (counterReportDto.id == readingDataTemp.counterReportDtos.get(i).id)
-                            readingData.counterReportDtos.remove(
-                                    readingDataTemp.counterReportDtos.get(i));
-                    }
+
+                if (readingData.counterReportDtos.size() > 0) {
+                    myDatabase.counterReportDao().deleteAllCounterReport();
+                    myDatabase.counterReportDao().insertAllCounterStateReport(
+                            readingData.counterReportDtos);
                 }
-                myDatabase.counterReportDao().insertAllCounterStateReport(
-                        readingData.counterReportDtos);
                 String message = String.format("تعداد %d مسیر و %d اشتراک بارگیری شد.", readingData.trackingDtos.size(), readingData.onOffLoadDtos.size());
                 new CustomDialog(DialogType.Green, context, message,
                         context.getString(R.string.dear_user),

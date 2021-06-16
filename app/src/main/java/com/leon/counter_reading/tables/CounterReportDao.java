@@ -7,6 +7,8 @@ import androidx.room.Query;
 
 import java.util.List;
 
+import retrofit2.http.DELETE;
+
 @Dao
 public interface CounterReportDao {
     @Query("SELECT * FROM CounterReportDto")
@@ -20,4 +22,7 @@ public interface CounterReportDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCounterStateReport(CounterReportDto counterReportDtos);
+
+    @Query("DELETE FROM CounterReportDto")
+    void deleteAllCounterReport();
 }
