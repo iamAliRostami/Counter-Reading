@@ -197,6 +197,15 @@ public class DownloadFragment extends Fragment {
                     }
                 myDatabase.onOffLoadDao().insertAllOnOffLoad(readingData.onOffLoadDtos);
 
+//                for (int i = 0; i < readingData.counterReportDtos.size(); i++) {
+//                    for (int j = 0; j < readingDataTemp.counterReportDtos.size(); j++) {
+//                        if (readingData.counterReportDtos.get(i).moshtarakinId ==
+//                                readingDataTemp.counterReportDtos.get(i).moshtarakinId) {
+//                            readingData.counterReportDtos.remove(i);
+//                            i--;
+//                        }
+//                    }
+//                }
                 if (readingData.counterReportDtos.size() > 0) {
                     myDatabase.counterReportDao().deleteAllCounterReport();
                     myDatabase.counterReportDao().insertAllCounterStateReport(
@@ -231,5 +240,4 @@ public class DownloadFragment extends Fragment {
             new CustomToast().error(error);
         }
     }
-
 }
