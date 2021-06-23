@@ -516,7 +516,7 @@ public class ReadingActivity extends BaseActivity {
         setOnPageChangeListener();
 
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        if (MyApplication.focusOnEditText)
+        if (MyApplication.FOCUS_ON_EDIT_TEXT)
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         isReading = true;
     }
@@ -681,15 +681,15 @@ public class ReadingActivity extends BaseActivity {
                 showNoEshterakFound();
             } else {
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                if (MyApplication.focusOnEditText) {
+                if (MyApplication.FOCUS_ON_EDIT_TEXT) {
                     try {
                         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                     } catch (Exception ignored) {
                     }
-                    MyApplication.focusOnEditText = !MyApplication.focusOnEditText;
+                    MyApplication.FOCUS_ON_EDIT_TEXT = !MyApplication.FOCUS_ON_EDIT_TEXT;
                 } else {
                     inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                    MyApplication.focusOnEditText = !MyApplication.focusOnEditText;
+                    MyApplication.FOCUS_ON_EDIT_TEXT = !MyApplication.FOCUS_ON_EDIT_TEXT;
                     viewPagerAdapterReading.notifyDataSetChanged();
                 }
             }
@@ -901,7 +901,7 @@ public class ReadingActivity extends BaseActivity {
         super.onResume();
         if (isReading && !readingData.onOffLoadDtos.isEmpty()) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            if (MyApplication.focusOnEditText)
+            if (MyApplication.FOCUS_ON_EDIT_TEXT)
                 inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         }
     }

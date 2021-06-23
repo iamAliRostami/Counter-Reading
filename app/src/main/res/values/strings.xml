@@ -211,6 +211,8 @@
     <string name="incorrect_old_password">گذرواژه پیشین نادرست است.</string>
     <string name="go_to_page">برو به صفحه</string>
     <string name="cancel">لغو</string>
+<!--    <string name="mistakes_error">شما به مرز تعداد ثبت نادرست مکرر رسیده اید.</string>-->
+    <string name="mistakes_error">برای ثبت، تنها یک فرصت دیگر دارید.</string>
     <string name="by_mistakes">به علت اشتباه مکرر، مسیر با شماره پیگیری&#160;</string>
     <string name="is_locked">&#160;قفل شده است.</string>
     <string name="you_are_updated">نسخه نرم افزاری شما به روز است.</string>

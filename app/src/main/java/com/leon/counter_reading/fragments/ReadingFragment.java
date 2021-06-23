@@ -40,9 +40,8 @@ import com.leon.counter_reading.utils.SharedPreferenceManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-import static com.leon.counter_reading.MyApplication.lockNumber;
+import static com.leon.counter_reading.MyApplication.LOCK_NUMBER;
 import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class ReadingFragment extends Fragment {
@@ -260,13 +259,13 @@ public class ReadingFragment extends Fragment {
             } else {
                 //TODO
                 onOffLoadDto.attemptNumber++;
-                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoadByAttemptNumber(onOffLoadDto.id, onOffLoadDto.attemptNumber);
-                if (onOffLoadDto.isLocked || onOffLoadDto.attemptNumber > lockNumber)
+                if (onOffLoadDto.attemptNumber == LOCK_NUMBER)
+                    new CustomToast().warning(getString(R.string.by_mistakes).concat(String.valueOf(onOffLoadDto.trackNumber)).concat(getString(R.string.is_locked)));
+                if (onOffLoadDto.isLocked || onOffLoadDto.attemptNumber > LOCK_NUMBER)
                     new CustomToast().error(getString(R.string.by_mistakes).concat(String.valueOf(onOffLoadDto.trackNumber)).concat(getString(R.string.is_locked)));
-                if (onOffLoadDto.attemptNumber > lockNumber) {
+                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoadByAttemptNumber(onOffLoadDto.id, onOffLoadDto.attemptNumber);
+                if (onOffLoadDto.attemptNumber > LOCK_NUMBER) {
                     ((ReadingActivity) activity).updateTrackingDto(onOffLoadDto.trackNumber);
-//                    binding.editTextNumber.setEnabled(false);
-//                    binding.editTextNumber.setFocusable(false);
                     Intent intent = activity.getIntent();
                     activity.finish();
                     startActivity(intent);
@@ -463,7 +462,7 @@ public class ReadingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (MyApplication.focusOnEditText) {
+        if (MyApplication.FOCUS_ON_EDIT_TEXT) {
             View viewFocus = binding.editTextNumber;
             viewFocus.requestFocus();
         }
