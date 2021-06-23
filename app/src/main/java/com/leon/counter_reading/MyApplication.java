@@ -5,11 +5,8 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.os.Bundle;
 
 import androidx.multidex.MultiDex;
-
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import es.dmoral.toasty.Toasty;
 
@@ -30,7 +27,7 @@ public class MyApplication extends Application {
     public static final int DESCRIPTION = 1909;
     public static final int TOAST_TEXT_SIZE = 20;
     public static final int CARRIER_PRIVILEGE_STATUS = 901;
-    public static final int LOCK_NUMBER = 3;
+    public static final int LOCK_NUMBER = 6;
     public static int POSITION = -1;
     public static Bitmap bitmapSelectedImage;
     public static String fileName;
@@ -66,7 +63,7 @@ public class MyApplication extends Application {
     }
 
     public static String getDBName() {
-        return "MyDatabase_4";
+        return "MyDatabase_5";
     }
 
     @Override
@@ -76,7 +73,8 @@ public class MyApplication extends Application {
     }
 
     @Override
-    public void onCreate() {appContext = getApplicationContext();
+    public void onCreate() {
+        appContext = getApplicationContext();
         Toasty.Config.getInstance()
                 .tintIcon(true)
                 .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), MyApplication.FONT_NAME))

@@ -27,6 +27,7 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.adapters.ViewPagerAdapterReading;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityReadingBinding;
@@ -71,6 +72,7 @@ import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public class ReadingActivity extends BaseActivity {
+    final int[] imageSrc = new int[15];
     ActivityReadingBinding binding;
     Activity activity;
     IFlashLightManager flashLightManager;
@@ -78,7 +80,7 @@ public class ReadingActivity extends BaseActivity {
     ViewPagerAdapterReading viewPagerAdapterReading;
     ISharedPreferenceManager sharedPreferenceManager;
     ArrayList<Integer> isMane = new ArrayList<>();
-    final int[] imageSrc = new int[15];
+    SpinnerCustomAdapter adapter;
     int readStatus = 0, highLow = 1;
     boolean isNight = false, isReading = false;
 
@@ -104,6 +106,11 @@ public class ReadingActivity extends BaseActivity {
             new CustomToast().success(getString(R.string.all_masir_bazdid));
             binding.viewPager.setCurrentItem(0);
         }
+    }
+    public void updateOnOffLoadAttemptNumber(int position, int attemptNumber) {
+        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                updateOnOffLoadByAttemptNumber(readingData.onOffLoadDtos.get(position).id, attemptNumber);
+        readingData.onOffLoadDtos.get(position).attemptNumber = attemptNumber;
     }
 
     public void updateTrackingDto(int trackNumber) {
@@ -504,6 +511,12 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void setupViewPager() {
+        ArrayList<String> items = new ArrayList<>();
+        for (int i = 0; i < readingData.counterStateDtos.size(); i++) {
+            items.add(readingData.counterStateDtos.get(i).title);
+        }
+        adapter = new SpinnerCustomAdapter(activity, items);
+
         binding.textViewNotFound.setVisibility(!(readingData.onOffLoadDtos.size() > 0) ? View.VISIBLE : View.GONE);
         binding.linearLayoutAbove.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
         binding.viewPager.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
@@ -895,7 +908,13 @@ public class ReadingActivity extends BaseActivity {
             return null;
         }
     }
+    public ReadingData getReadingData() {
+        return readingData;
+    }
 
+    public SpinnerCustomAdapter getAdapter() {
+        return adapter;
+    }
     @Override
     protected void onResume() {
         super.onResume();
