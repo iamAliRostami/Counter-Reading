@@ -50,7 +50,7 @@ public class SearchFragment extends DialogFragment {
     void setOnButtonSearchClickListener() {
         binding.buttonSearch.setOnClickListener(v -> {
             if (type == 5) {
-                ((ReadingActivity) Objects.requireNonNull(getActivity())).search(type, null, false);
+                ((ReadingActivity) requireActivity()).search(type, null, false);
                 dismiss();
             } else {
                 String key = binding.editTextSearch.getText().toString();
@@ -59,7 +59,7 @@ public class SearchFragment extends DialogFragment {
                     binding.editTextSearch.setError(getString(R.string.error_empty));
                     view.requestFocus();
                 } else {
-                    ((ReadingActivity) Objects.requireNonNull(getActivity())).search(type, key, binding.checkBoxGoToPage.isChecked());
+                    ((ReadingActivity) requireActivity()).search(type, key, binding.checkBoxGoToPage.isChecked());
                     dismiss();
                 }
             }

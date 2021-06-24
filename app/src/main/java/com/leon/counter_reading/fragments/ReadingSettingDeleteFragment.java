@@ -70,6 +70,7 @@ public class ReadingSettingDeleteFragment extends Fragment {
     @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
         Gson gson = new Gson();
+        trackingDtos.clear();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             json.forEach(s -> trackingDtos.add(gson.fromJson(s, TrackingDto.class)));
         } else
@@ -94,6 +95,7 @@ public class ReadingSettingDeleteFragment extends Fragment {
     }
 
     void initializeSpinner() {
+        items.clear();
         if (trackingDtos.size() > 0) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 trackingDtos.forEach(trackingDto -> items.add(String.valueOf(trackingDto.trackNumber)));

@@ -103,6 +103,18 @@ public class PossibleFragment extends DialogFragment {
         binding.editTextAhad1.setHint(DifferentCompanyManager.getAhad1(DifferentCompanyManager.getActiveCompanyName()));
         binding.editTextAhad2.setHint(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()));
         binding.editTextAhadTotal.setHint(DifferentCompanyManager.getAhadTotal(DifferentCompanyManager.getActiveCompanyName()));
+
+        binding.editTextMobile.setText(onOffLoadDto.possibleMobile);
+        binding.editTextAddress.setText(onOffLoadDto.possibleAddress);
+        binding.editTextAccount.setText(onOffLoadDto.possibleEshterak);
+        binding.editTextSerial.setText(onOffLoadDto.possibleCounterSerial);
+
+        binding.editTextAhadEmpty.setText(String.valueOf(onOffLoadDto.possibleEmpty));
+        binding.editTextAhad1.setText(String.valueOf(onOffLoadDto.possibleAhadMaskooniOrAsli));
+        binding.editTextAhad2.setText(String.valueOf(onOffLoadDto.possibleAhadTejariOrFari));
+        binding.editTextAhadTotal.setText(String.valueOf(onOffLoadDto.possibleAhadSaierOrAbBaha));
+
+        binding.editTextDescription.setText(onOffLoadDto.description);
     }
 
     void setOnButtonsClickListener() {
