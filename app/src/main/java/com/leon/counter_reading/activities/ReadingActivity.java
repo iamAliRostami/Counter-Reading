@@ -51,6 +51,7 @@ import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.ReadingData;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomDialog;
+import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DepthPageTransformer;
@@ -68,6 +69,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import static com.leon.counter_reading.MyApplication.SHOW_ERROR;
 import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
@@ -81,7 +83,7 @@ public class ReadingActivity extends BaseActivity {
     ISharedPreferenceManager sharedPreferenceManager;
     ArrayList<Integer> isMane = new ArrayList<>();
     SpinnerCustomAdapter adapter;
-    int readStatus = 0, highLow = 1;
+    int readStatus = 0, highLow = 1, errorCounter = 0;
     boolean isNight = false, isReading = false;
 
     @Override
@@ -107,6 +109,7 @@ public class ReadingActivity extends BaseActivity {
             binding.viewPager.setCurrentItem(0);
         }
     }
+
     public void updateOnOffLoadAttemptNumber(int position, int attemptNumber) {
         MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
                 updateOnOffLoadByAttemptNumber(readingData.onOffLoadDtos.get(position).id, attemptNumber);
@@ -790,13 +793,24 @@ public class ReadingActivity extends BaseActivity {
                                 updateOnOffLoad(state, s);
                     }
                 }
+            } else if (response.body() != null && errorCounter < SHOW_ERROR) {
+                errorCounter++;
+                CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
+                String error = customErrorHandlingNew.getErrorMessage(response.body().status);
+                new CustomToast().error(error);
             }
         }
     }
 
-    static class offLoadDataIncomplete implements ICallbackIncomplete<OnOffLoadDto.OffLoadResponses> {
+    class offLoadDataIncomplete implements ICallbackIncomplete<OnOffLoadDto.OffLoadResponses> {
         @Override
         public void executeIncomplete(Response<OnOffLoadDto.OffLoadResponses> response) {
+            if (errorCounter < SHOW_ERROR) {
+                CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
+                String error = customErrorHandlingNew.getErrorMessageDefault(response);
+                new CustomToast().error(error);
+            }
+            errorCounter++;
             if (response != null) {
                 Log.e("offLoadDataIncomplete", String.valueOf(response.body()));
                 Log.e("offLoadDataIncomplete", response.toString());
@@ -804,11 +818,16 @@ public class ReadingActivity extends BaseActivity {
         }
     }
 
-    static class offLoadError implements ICallbackError {
+    class offLoadError implements ICallbackError {
         @Override
         public void executeError(Throwable t) {
-            if (t != null)
-                Log.e("error", t.toString());
+            if (errorCounter < SHOW_ERROR) {
+                CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
+                String error = customErrorHandlingNew.getErrorMessageTotal(t);
+                new CustomToast().error(error);
+            }
+            errorCounter++;
+            Log.e("error", t.toString());
         }
     }
 
@@ -908,6 +927,7 @@ public class ReadingActivity extends BaseActivity {
             return null;
         }
     }
+
     public ReadingData getReadingData() {
         return readingData;
     }
@@ -915,6 +935,7 @@ public class ReadingActivity extends BaseActivity {
     public SpinnerCustomAdapter getAdapter() {
         return adapter;
     }
+
     @Override
     protected void onResume() {
         super.onResume();

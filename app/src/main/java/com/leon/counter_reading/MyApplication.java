@@ -28,6 +28,7 @@ public class MyApplication extends Application {
     public static final int TOAST_TEXT_SIZE = 20;
     public static final int CARRIER_PRIVILEGE_STATUS = 901;
     public static final int LOCK_NUMBER = 6;
+    public static final int SHOW_ERROR = 3;
     public static int POSITION = -1;
     public static Bitmap bitmapSelectedImage;
     public static String fileName;
