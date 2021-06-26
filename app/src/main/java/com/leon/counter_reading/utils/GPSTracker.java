@@ -23,6 +23,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.enums.SharedReferenceKeys;
+import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.tables.SavedLocation;
 
 import org.jetbrains.annotations.NotNull;
@@ -145,7 +147,9 @@ public class GPSTracker extends Service {
             e.printStackTrace();
             Log.e("error on location", e.toString());
         }
-        new Handler().postDelayed(this::getLocation, MyApplication.MIN_TIME_BW_UPDATES);
+        SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
+        if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.POINT.getValue()))
+            new Handler().postDelayed(this::getLocation, MyApplication.MIN_TIME_BW_UPDATES);
     }
 
     boolean checkGooglePlayServices() {

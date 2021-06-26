@@ -69,7 +69,6 @@ public class ReportForbidActivity extends AppCompatActivity {
     ISharedPreferenceManager sharedPreferenceManager;
     Activity activity;
     int zoneId;
-    GPSTracker gpsTracker;
     ForbiddenDto forbiddenDto = new ForbiddenDto();
 
     @Override
@@ -153,7 +152,7 @@ public class ReportForbidActivity extends AppCompatActivity {
         if (getIntent().getExtras() != null)
             zoneId = getIntent().getExtras().getInt(BundleEnum.ZONE_ID.getValue());
         binding.textViewHome.setText(getString(R.string.number).concat(DifferentCompanyManager.getAhad(DifferentCompanyManager.getActiveCompanyName())));
-        gpsTracker = new GPSTracker(activity);
+
         forbiddenDto.File = new ArrayList<>();
         forbiddenDto.bitmaps = new ArrayList<>();
         setOnButtonPhotoClickListener();
@@ -264,6 +263,7 @@ public class ReportForbidActivity extends AppCompatActivity {
     }
 
     void sendForbid() {
+        GPSTracker gpsTracker = new GPSTracker(activity);
         forbiddenDto.prepareToSend(
                 gpsTracker.getAccuracy(), gpsTracker.getLongitude(), gpsTracker.getLatitude(),
                 binding.editTextPostalCode.getText().toString(),

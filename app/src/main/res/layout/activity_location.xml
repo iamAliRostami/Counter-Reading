@@ -5,16 +5,16 @@
     android:layout_height="match_parent"
     tools:context="com.leon.counter_reading.activities.LocationActivity">
 
-    <CheckBox
-        android:id="@+id/check_box_point"
-        android:layout_width="wrap_content"
-        android:text="@string/set_point"
-        style="@style/CheckBoxPossible"
-        android:layout_height="wrap_content" />
 
     <org.osmdroid.views.MapView
         android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/low_dp" />
+    <CheckBox
+        android:id="@+id/check_box_point"
+        android:layout_width="wrap_content"
+        android:text="@string/set_point"
+        style="@style/CheckBoxPossible"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
