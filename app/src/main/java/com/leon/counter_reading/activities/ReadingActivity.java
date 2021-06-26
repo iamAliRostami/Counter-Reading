@@ -249,10 +249,18 @@ public class ReadingActivity extends BaseActivity {
 
         offLoadData.offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                 offLoadReportDao().getAllOffLoadReportById(readingData.onOffLoadDtos.get(position).id));
+        //TODO
+//        ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>(
+//                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+//                        getAllOnOffLoadRead(OffloadStateEnum.INSERTED.getValue()));
 
-        ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>(
-                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                        getAllOnOffLoadRead(OffloadStateEnum.INSERTED.getValue()));
+        ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
+
+        for (TrackingDto trackingDto : readingData.trackingDtos) {
+            onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                    getAllOnOffLoadRead(OffloadStateEnum.INSERTED.getValue(), trackingDto.trackNumber));
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             onOffLoadDtos.forEach(onOffLoadDto -> {
                 offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDto));
@@ -793,7 +801,7 @@ public class ReadingActivity extends BaseActivity {
                                 updateOnOffLoad(state, s);
                     }
                 }
-            } else if (response.body() != null && errorCounter < SHOW_ERROR) {
+            } else if (response.body() != null/* && errorCounter < SHOW_ERROR*/) {
                 errorCounter++;
                 CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
                 String error = customErrorHandlingNew.getErrorMessage(response.body().status);
@@ -805,15 +813,15 @@ public class ReadingActivity extends BaseActivity {
     class offLoadDataIncomplete implements ICallbackIncomplete<OnOffLoadDto.OffLoadResponses> {
         @Override
         public void executeIncomplete(Response<OnOffLoadDto.OffLoadResponses> response) {
-            if (errorCounter < SHOW_ERROR) {
-                CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-                String error = customErrorHandlingNew.getErrorMessageDefault(response);
-                new CustomToast().error(error);
-            }
-            errorCounter++;
+//            if (errorCounter < SHOW_ERROR) {
+//            }
+//            errorCounter++;
             if (response != null) {
                 Log.e("offLoadDataIncomplete", String.valueOf(response.body()));
                 Log.e("offLoadDataIncomplete", response.toString());
+                CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
+                String error = customErrorHandlingNew.getErrorMessageDefault(response);
+                new CustomToast().error(error);
             }
         }
     }

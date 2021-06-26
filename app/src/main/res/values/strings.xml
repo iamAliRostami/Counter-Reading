@@ -216,5 +216,6 @@
     <string name="by_mistakes">به علت اشتباه مکرر، مسیر با شماره پیگیری&#160;</string>
     <string name="is_locked">&#160;قفل شده است.</string>
     <string name="you_are_updated">نسخه نرم افزاری شما به روز است.</string>
+    <string name="set_point">نقطه زنی لحظه ای</string>
 
 </resources>

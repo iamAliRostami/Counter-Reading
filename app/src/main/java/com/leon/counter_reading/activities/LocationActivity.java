@@ -9,29 +9,25 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Debug;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
-import com.leon.counter_reading.adapters.ViewPagerAdapterTab;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityLocationBinding;
-import com.leon.counter_reading.fragments.LocationFragment;
-import com.leon.counter_reading.fragments.PlaceFragment;
+import com.leon.counter_reading.enums.SharedReferenceKeys;
+import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.DepthPageTransformer;
 import com.leon.counter_reading.utils.GPSTracker;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.PermissionManager;
+import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.util.GeoPoint;
@@ -51,6 +47,7 @@ public class LocationActivity extends BaseActivity {
     ArrayList<GeoPoint> polygonPoint = new ArrayList<>();
     ArrayList<SavedLocation> savedLocations = new ArrayList<>();
     Polyline line;
+    SharedPreferenceManager sharedPreferenceManager;
     Activity activity;
 
     @Override
@@ -65,6 +62,13 @@ public class LocationActivity extends BaseActivity {
         else PermissionManager.enableNetwork(this);
     }
 
+    void initializeCheckBoxPoint() {
+        binding.checkBoxPoint.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.POINT.getValue()));
+        binding.checkBoxPoint.setOnClickListener(v -> {
+            sharedPreferenceManager.putData(SharedReferenceKeys.POINT.getValue(), binding.checkBoxPoint.isChecked());
+        });
+    }
+
     void checkPermissions() {
         if (PermissionManager.gpsEnabled(this))
             if (PermissionManager.checkLocationPermission(getApplicationContext())) {
@@ -72,7 +76,9 @@ public class LocationActivity extends BaseActivity {
             } else if (PermissionManager.checkStoragePermission(getApplicationContext())) {
                 askStoragePermission();
             } else {
+                sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
                 initializeMapView();
+                initializeCheckBoxPoint();
             }
     }
 

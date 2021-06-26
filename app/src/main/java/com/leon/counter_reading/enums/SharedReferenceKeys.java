@@ -27,6 +27,7 @@ public enum SharedReferenceKeys {
     DISPLAY_NAME("display_name"),
     THEME_STABLE("theme_stable"),
     DATE("date"),
+    POINT("point"),
     THEME_TEMPORARY("theme_temporary");
 
     private final String value;
