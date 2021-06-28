@@ -93,7 +93,7 @@ public class SettingChangeThemeFragment extends Fragment {
     void changeTheme() {
         Intent intent = new Intent(getActivity(), SettingActivity.class);
         intent.putExtra(BundleEnum.THEME.getValue(), theme);
-        Objects.requireNonNull(Objects.requireNonNull(getActivity())).finish();
+        requireActivity().finish();
         startActivity(intent);
     }
 

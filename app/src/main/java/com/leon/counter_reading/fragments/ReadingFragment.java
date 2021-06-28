@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -191,7 +192,7 @@ public class ReadingFragment extends Fragment {
 //            if (!readingConfigDefaultDto.defaultHasPreNumber)
                 if (trackingDto.hasPreNumber)
                     ((ReadingActivity) activity).updateOnOffLoadByIsShown(position);
-            }else {
+            } else {
                 new CustomToast().warning("رقم قبلی قابل نمایش نمیباشد.");
             }
         });
@@ -449,10 +450,12 @@ public class ReadingFragment extends Fragment {
     }
 
     void getBundle() {
+//        if ((ReadingActivity) activity == null)
+//            Log.e("activity", "null");
+        onOffLoadDto = ((ReadingActivity) activity).getReadingData().onOffLoadDtos.get(position);
+        counterStateDtos = ((ReadingActivity) activity).getReadingData().counterStateDtos;
         if (getArguments() != null) {
             position = getArguments().getInt(BundleEnum.POSITION.getValue());
-            onOffLoadDto = ((ReadingActivity) activity).getReadingData().onOffLoadDtos.get(position);
-            counterStateDtos = ((ReadingActivity) activity).getReadingData().counterStateDtos;
 //            items = ((ReadingActivity) activity).getItems();
 //            adapter = ((ReadingActivity) activity).getAdapter();
 
@@ -468,7 +471,6 @@ public class ReadingFragment extends Fragment {
             trackingDto = gson.fromJson(getArguments().getString(
                     BundleEnum.TRACKING.getValue()),
                     TrackingDto.class);
-
             qotr = getArguments().getString(BundleEnum.QOTR_DICTIONARY.getValue());
 //            ArrayList<String> json2 = getArguments().getStringArrayList(
 //                    BundleEnum.Item.getValue());
@@ -502,10 +504,9 @@ public class ReadingFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        karbariDto = null;
-        trackingDto = null;
-        readingConfigDefaultDto = null;
-//        adapter = null;
-        counterStateDtos = null;
+//        karbariDto = null;
+//        trackingDto = null;
+//        readingConfigDefaultDto = null;
+//        counterStateDtos = null;
     }
 }

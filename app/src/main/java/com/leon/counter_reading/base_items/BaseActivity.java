@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Debug;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -75,7 +76,6 @@ public abstract class BaseActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
                 SharedReferenceNames.ACCOUNT.getValue());
-
         int theme;
         if (getIntent().getExtras() != null) {
             theme = getIntent().getExtras().getInt(BundleEnum.THEME.getValue());
@@ -85,7 +85,7 @@ public abstract class BaseActivity extends AppCompatActivity
             theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         }
         MyApplication.onActivitySetTheme(this, theme, false);
-        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 //        overridePendingTransition(R.anim.slide_up_info, R.anim.no_change);
         binding = ActivityBaseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -281,8 +281,7 @@ public abstract class BaseActivity extends AppCompatActivity
         if (gpsTracker != null)
             return gpsTracker;
         else {
-            GPSTracker gpsTrackerTemp = new GPSTracker(activity);
-            return gpsTrackerTemp;
+            return new GPSTracker(activity);
         }
     }
 

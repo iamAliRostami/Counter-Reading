@@ -937,6 +937,8 @@ public class ReadingActivity extends BaseActivity {
     }
 
     public ReadingData getReadingData() {
+//        if (readingData == null)
+//            ReadingActivity.this.recreate();
         return readingData;
     }
 
@@ -945,8 +947,15 @@ public class ReadingActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e("here", "onStart");
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        Log.e("here", "onResume");
         if (isReading && !readingData.onOffLoadDtos.isEmpty()) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
             if (MyApplication.FOCUS_ON_EDIT_TEXT)
@@ -984,6 +993,7 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.e("here", "onDestroy");
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         try {
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);

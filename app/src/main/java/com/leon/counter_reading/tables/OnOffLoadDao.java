@@ -42,7 +42,8 @@ public interface OnOffLoadDao {
     @Query("select * From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId")
     List<OnOffLoadDto> getOnOffLoadReadByOffLoad(int offLoadStateId);
 
-    @Query("select * From OnOffLoadDto WHERE counterStateId = :counterStateId AND trackNumber = :trackNumber ORDER BY eshterak")
+    @Query("select * From OnOffLoadDto WHERE counterStateId = :counterStateId AND " +
+            "trackNumber = :trackNumber AND hazf = 0 ORDER BY eshterak")
     List<OnOffLoadDto> getOnOffLoadReadByIsMane(int counterStateId, int trackNumber);
 
     @Query("select COUNT(*) From OnOffLoadDto WHERE trackNumber = :trackNumber AND highLowStateId =:highLowStateId")
@@ -63,7 +64,8 @@ public interface OnOffLoadDao {
     @Query("select COUNT(*) From OnOffLoadDto WHERE trackNumber = :trackNumber")
     int getOnOffLoadCount(int trackNumber);
 
-    @Query("select COUNT(*) From OnOffLoadDto WHERE counterStateId = :counterStateId AND trackNumber = :trackNumber")
+    @Query("select COUNT(*) From OnOffLoadDto WHERE counterStateId = :counterStateId AND " +
+            "trackNumber = :trackNumber AND hazf = 0")
     int getOnOffLoadIsManeCount(int counterStateId, int trackNumber);
 
     @Query("select COUNT(*) From OnOffLoadDto WHERE counterStateId = :counterStateId")
@@ -98,7 +100,7 @@ public interface OnOffLoadDao {
     void updateOnOffLoadDescription(String id, String description);
 
     @Query("UPDATE OnOffLoadDto set d1 = :d1, d2 = :d2 WHERE id = :id")
-    void updateOnOffLoadLocation(String id, String d1,String d2);
+    void updateOnOffLoadLocation(String id, String d1, String d2);
 
 
     @Query("UPDATE OnOffLoadDto set possibleAddress = :address, possibleCounterSerial = :serialNumber," +
