@@ -29,18 +29,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/text_view_account"
+            style="@style/ReadingSettingItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/eshterak" />
+
         <LinearLayout
             android:id="@+id/linear_layout_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/text_view_account"
             android:orientation="horizontal"
             tools:ignore="UselessParent">
-
-            <TextView
-                style="@style/ReadingSettingItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/eshterak" />
 
             <TextView
                 style="@style/ReadingSettingItem"
@@ -55,22 +58,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_layout_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/linear_layout_1"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
-
-            <TextView
-                style="@style/ReadingSettingItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/eshterak" />
 
             <TextView
                 style="@style/ReadingSettingItem"
@@ -92,11 +79,11 @@
             android:id="@+id/view_1"
             android:layout_width="match_parent"
             android:layout_height="@dimen/small_dp"
-            android:layout_below="@id/linear_layout_2"
+            android:layout_below="@id/linear_layout_1"
             android:background="@color/white" />
 
         <LinearLayout
-            android:id="@+id/linear_layout_3"
+            android:id="@+id/linear_layout_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/view_1"
@@ -131,11 +118,11 @@
             android:id="@+id/view_2"
             android:layout_width="match_parent"
             android:layout_height="@dimen/small_dp"
-            android:layout_below="@id/linear_layout_3"
+            android:layout_below="@id/linear_layout_2"
             android:background="@color/white" />
 
         <LinearLayout
-            android:id="@+id/linear_layout_4"
+            android:id="@+id/linear_layout_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/view_2"
@@ -167,12 +154,10 @@
             android:id="@+id/view_3"
             android:layout_width="match_parent"
             android:layout_height="@dimen/small_dp"
-            android:visibility="gone"
-            android:layout_below="@id/linear_layout_4"
+            android:layout_below="@id/linear_layout_3"
             android:background="@color/white" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/text_view_date"
             style="@style/ReadingSettingItem"
             android:layout_width="wrap_content"
@@ -182,7 +167,6 @@
             android:text="@string/date" />
 
         <LinearLayout
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_view_date"
