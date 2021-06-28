@@ -29,20 +29,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/text_view_account"
+            style="@style/ReadingSettingItemWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/eshterak" />
+
         <LinearLayout
             android:id="@id/linear_layout_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/text_view_account"
             android:orientation="horizontal"
             android:weightSum="2"
             tools:ignore="UselessParent">
 
-            <TextView
-                style="@style/ReadingSettingItemWhite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/eshterak" />
 
             <TextView
                 style="@style/ReadingSettingItemWhite"
@@ -92,6 +95,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="left"
                 android:text="@string/number"
                 tools:ignore="RtlHardcoded" />
 
@@ -104,8 +108,12 @@
             <TextView
                 style="@style/ReadingSettingItemWhite"
                 android:layout_width="0dp"
+                android:gravity="right"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:text="@string/account"
+                android:layout_weight="1"
+                tools:ignore="RtlHardcoded" />
+
         </LinearLayout>
 
         <View
@@ -151,21 +159,22 @@
             android:layout_below="@id/linear_layout_3"
             android:background="@color/blue" />
 
+        <TextView
+            android:id="@+id/text_view_date"
+            style="@style/ReadingSettingItemWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_3"
+            android:layout_centerHorizontal="true"
+            android:text="@string/date" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/view_3"
+            android:layout_below="@id/text_view_date"
             android:orientation="horizontal"
             android:weightSum="2"
             tools:ignore="UselessParent">
-
-
-            <TextView
-                style="@style/ReadingSettingItemWhite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/date" />
 
             <TextView
                 style="@style/ReadingSettingItemWhite"

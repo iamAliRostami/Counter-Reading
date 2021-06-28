@@ -214,13 +214,12 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:textColor">@color/text_color_light</item>
-        <item name="android:layout_margin">@dimen/low_dp</item>
+        <item name="android:layout_margin">@dimen/small_dp</item>
     </style>
 
     <style name="ReadingSettingItemBlueBold" parent="ReadingSettingItem">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
-        <item name="android:layout_margin">@dimen/low_dp</item>
     </style>
 
     <style name="ReadingSettingItemWhiteBold" parent="ReadingSettingItemBlueBold" tools:ignore="ResourceCycle">
