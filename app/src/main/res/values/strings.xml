@@ -213,9 +213,10 @@
     <string name="cancel">لغو</string>
 <!--    <string name="mistakes_error">شما به مرز تعداد ثبت نادرست مکرر رسیده اید.</string>-->
     <string name="mistakes_error">برای ثبت، تنها یک فرصت دیگر دارید.</string>
-    <string name="by_mistakes">به علت اشتباه مکرر، مسیر با شماره پیگیری&#160;</string>
+    <string name="by_mistakes">به علت اشتباه مکرر، اشتراک شماره&#160;</string>
     <string name="is_locked">&#160;قفل شده است.</string>
     <string name="you_are_updated">نسخه نرم افزاری شما به روز است.</string>
     <string name="set_point">نقطه زنی لحظه ای</string>
+    <string name="can_not_show_pre">رقم قبلی قابل نمایش نمیباشد.</string>
 
 </resources>

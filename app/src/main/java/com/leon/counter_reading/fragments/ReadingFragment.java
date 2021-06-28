@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -142,7 +141,7 @@ public class ReadingFragment extends Fragment {
             return false;
         });
         if (onOffLoadDto.isLocked) {
-            new CustomToast().error(getString(R.string.by_mistakes).concat(String.valueOf(onOffLoadDto.trackNumber)).concat(getString(R.string.is_locked)), Toast.LENGTH_LONG);
+            new CustomToast().error(getString(R.string.by_mistakes).concat(onOffLoadDto.eshterak).concat(getString(R.string.is_locked)), Toast.LENGTH_LONG);
             binding.editTextNumber.setFocusable(false);
             binding.editTextNumber.setEnabled(false);
         }
@@ -193,7 +192,7 @@ public class ReadingFragment extends Fragment {
                 if (trackingDto.hasPreNumber)
                     ((ReadingActivity) activity).updateOnOffLoadByIsShown(position);
             } else {
-                new CustomToast().warning("رقم قبلی قابل نمایش نمیباشد.");
+                new CustomToast().warning(getString(R.string.can_not_show_pre));
             }
         });
     }
@@ -280,11 +279,11 @@ public class ReadingFragment extends Fragment {
                 if (!onOffLoadDto.isLocked && onOffLoadDto.attemptNumber + 1 == LOCK_NUMBER)
                     new CustomToast().warning(getString(R.string.mistakes_error), Toast.LENGTH_LONG);
                 if (!onOffLoadDto.isLocked && onOffLoadDto.attemptNumber == LOCK_NUMBER)
-                    new CustomToast().error(getString(R.string.by_mistakes).concat(String.valueOf(onOffLoadDto.trackNumber)).concat(getString(R.string.is_locked)), Toast.LENGTH_LONG);
+                    new CustomToast().error(getString(R.string.by_mistakes).concat(onOffLoadDto.eshterak).concat(getString(R.string.is_locked)), Toast.LENGTH_LONG);
 //                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoadByAttemptNumber(onOffLoadDto.id, onOffLoadDto.attemptNumber);
                 ((ReadingActivity) activity).updateOnOffLoadAttemptNumber(position, onOffLoadDto.attemptNumber);
                 if (!onOffLoadDto.isLocked && onOffLoadDto.attemptNumber == LOCK_NUMBER) {
-                    ((ReadingActivity) activity).updateTrackingDto(onOffLoadDto.trackNumber);
+                    ((ReadingActivity) activity).updateTrackingDto(onOffLoadDto.id, onOffLoadDto.trackNumber, position);
                     Intent intent = activity.getIntent();
                     activity.finish();
                     startActivity(intent);
@@ -452,8 +451,6 @@ public class ReadingFragment extends Fragment {
     void getBundle() {
 //        if ((ReadingActivity) activity == null)
 //            Log.e("activity", "null");
-        onOffLoadDto = ((ReadingActivity) activity).getReadingData().onOffLoadDtos.get(position);
-        counterStateDtos = ((ReadingActivity) activity).getReadingData().counterStateDtos;
         if (getArguments() != null) {
             position = getArguments().getInt(BundleEnum.POSITION.getValue());
 //            items = ((ReadingActivity) activity).getItems();
@@ -483,6 +480,8 @@ public class ReadingFragment extends Fragment {
 //            for (String s : json1) {
 //                counterStateDtos.add(gson.fromJson(s, CounterStateDto.class));
 //            }
+            onOffLoadDto = ((ReadingActivity) activity).getReadingData().onOffLoadDtos.get(position);
+            counterStateDtos = ((ReadingActivity) activity).getReadingData().counterStateDtos;
         }
     }
 

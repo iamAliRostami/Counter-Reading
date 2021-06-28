@@ -116,27 +116,25 @@ public class ReadingActivity extends BaseActivity {
         readingData.onOffLoadDtos.get(position).attemptNumber = attemptNumber;
     }
 
-    public void updateTrackingDto(int trackNumber) {
-        for (int i = 0; i < readingData.trackingDtos.size(); i++) {
-            if (readingData.trackingDtos.get(i).trackNumber == trackNumber) {
-                readingData.trackingDtos.get(i).isLocked = true;
-            }
-        }
-        for (int i = 0; i < readingDataTemp.trackingDtos.size(); i++) {
-            if (readingDataTemp.trackingDtos.get(i).trackNumber == trackNumber) {
-                readingDataTemp.trackingDtos.get(i).isLocked = true;
-            }
-        }
+    public void updateTrackingDto(String id, int trackNumber, int position) {
+//        for (int i = 0; i < readingData.trackingDtos.size(); i++) {
+//            if (readingData.trackingDtos.get(i).trackNumber == trackNumber) {
+//                readingData.trackingDtos.get(i).isLocked = true;
+//            }
+//        }
+//        for (int i = 0; i < readingDataTemp.trackingDtos.size(); i++) {
+//            if (readingDataTemp.trackingDtos.get(i).trackNumber == trackNumber) {
+//                readingDataTemp.trackingDtos.get(i).isLocked = true;
+//            }
+//        }
         for (int i = 0; i < readingDataTemp.onOffLoadDtos.size(); i++) {
-            if (readingDataTemp.onOffLoadDtos.get(i).trackNumber == trackNumber)
+            if (readingDataTemp.onOffLoadDtos.get(i).id.equals(id))
                 readingDataTemp.onOffLoadDtos.get(i).isLocked = true;
         }
-        for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
-            if (readingData.onOffLoadDtos.get(i).trackNumber == trackNumber)
-                readingData.onOffLoadDtos.get(i).isLocked = true;
-        }
-        MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().updateTrackingDtoByLock(trackNumber, true);
-        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoadByLock(trackNumber, true);
+
+        readingData.onOffLoadDtos.get(position).isLocked = true;
+//        MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().updateTrackingDtoByLock(trackNumber, true);
+        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoadByLock(id, trackNumber, true);
     }
 
     public void updateOnOffLoadByIsShown(int position) {
