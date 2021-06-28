@@ -19,7 +19,6 @@ import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
-import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentReadingBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.HighLowStateEnum;
@@ -29,13 +28,11 @@ import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
-import com.leon.counter_reading.tables.QotrDictionary;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.Counting;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
@@ -186,13 +183,17 @@ public class ReadingFragment extends Fragment {
         binding.textViewBranch.setText(qotr);
 
 //        if (readingConfigDefaultDto.defaultHasPreNumber)
-        if (trackingDto.hasPreNumber)
-            binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber));
+//        if (trackingDto.hasPreNumber)
+//            binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber));
         binding.textViewPreNumber.setOnClickListener(v -> {
-            activity.runOnUiThread(() -> binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber)));
+            if (trackingDto.hasPreNumber) {
+                activity.runOnUiThread(() -> binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber)));
 //            if (!readingConfigDefaultDto.defaultHasPreNumber)
-            if (trackingDto.hasPreNumber)
-                ((ReadingActivity) activity).updateOnOffLoadByIsShown(position);
+                if (trackingDto.hasPreNumber)
+                    ((ReadingActivity) activity).updateOnOffLoadByIsShown(position);
+            }else {
+                new CustomToast().warning("رقم قبلی قابل نمایش نمیباشد.");
+            }
         });
     }
 
