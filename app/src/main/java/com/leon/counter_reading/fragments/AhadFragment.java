@@ -60,7 +60,7 @@ public class AhadFragment extends DialogFragment {
     }
 
     void initialize() {
-        makeRing(context, NotificationType.NOT_SAVE);
+        makeRing(context, NotificationType.OTHER);
         setOnButtonClickListener();
         binding.editTextAhad1.setHint(DifferentCompanyManager.getAhad1(DifferentCompanyManager.getActiveCompanyName()));
         binding.editTextAhad2.setHint(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()));

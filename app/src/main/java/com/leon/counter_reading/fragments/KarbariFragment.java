@@ -63,7 +63,7 @@ public class KarbariFragment extends DialogFragment {
     }
 
     void initialize() {
-        makeRing(activity, NotificationType.NOT_SAVE);
+        makeRing(activity, NotificationType.OTHER);
         initializeSpinner();
         setOnButtonClickListener();
     }

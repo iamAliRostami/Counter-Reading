@@ -5,4 +5,5 @@ public enum NotificationType {
     NOT_SAVE,
     LIGHT_ON,
     LIGHT_OFF,
+    OTHER,
 }

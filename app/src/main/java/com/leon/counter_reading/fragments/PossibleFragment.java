@@ -89,7 +89,7 @@ public class PossibleFragment extends DialogFragment {
     }
 
     void initialize() {
-        makeRing(activity, NotificationType.NOT_SAVE);
+        makeRing(activity, NotificationType.OTHER);
         sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
         initializeTextViews();
         setOnButtonsClickListener();

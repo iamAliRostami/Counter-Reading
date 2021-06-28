@@ -58,7 +58,7 @@ public class TaviziFragment extends DialogFragment {
     }
 
     void initialize() {
-        makeRing(context, NotificationType.NOT_SAVE);
+        makeRing(context, NotificationType.OTHER);
         setOnButtonsClickListener();
     }
 

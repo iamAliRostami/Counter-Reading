@@ -58,7 +58,7 @@ public class SerialFragment extends DialogFragment {
     }
 
     void initialize() {
-        makeRing(getContext(), NotificationType.NOT_SAVE);
+        makeRing(getContext(), NotificationType.OTHER);
         setOnButtonsClickListener();
     }
 

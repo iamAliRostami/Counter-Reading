@@ -64,7 +64,7 @@ public class AreYouSureFragment extends DialogFragment {
     }
 
     void initialize() {
-        makeRing(getContext(), NotificationType.NOT_SAVE);
+        makeRing(getContext(), NotificationType.OTHER);
         setTextViewMessage();
         setOnButtonsClickListener();
     }
