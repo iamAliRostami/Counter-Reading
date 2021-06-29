@@ -84,7 +84,7 @@ public class ReadingActivity extends BaseActivity {
     ArrayList<Integer> isMane = new ArrayList<>();
     SpinnerCustomAdapter adapter;
     int readStatus = 0, highLow = 1, errorCounter = 0;
-    boolean isNight = false, isReading = false;
+    boolean /*isNight = false,*/ isReading = false;
 
     @Override
     protected void initialize() {
@@ -355,9 +355,13 @@ public class ReadingActivity extends BaseActivity {
         ImageView imageViewReverse = findViewById(R.id.image_view_reverse);
         imageViewReverse.setImageDrawable(activity.getDrawable(R.drawable.img_inverse));
         imageViewReverse.setOnClickListener(v -> {
+//            isNight = !isNight;
+//            Log.e("isNight?", String.valueOf(AppCompatDelegate.MODE_NIGHT_AUTO));
+//            AppCompatDelegate.setDefaultNightMode(
+//                    isNight ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
             AppCompatDelegate.setDefaultNightMode(
-                    isNight ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES);
-            isNight = !isNight;
+                    AppCompatDelegate.getDefaultNightMode() < 2 ? AppCompatDelegate.MODE_NIGHT_YES :
+                            AppCompatDelegate.MODE_NIGHT_NO);
         });
         ImageView imageViewCamera = findViewById(R.id.image_view_camera);
         imageViewCamera.setImageDrawable(activity.getDrawable(R.drawable.img_camera));
@@ -544,7 +548,8 @@ public class ReadingActivity extends BaseActivity {
         if (MyApplication.FOCUS_ON_EDIT_TEXT)
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         isReading = true;
-        binding.viewPager.setCurrentItem(currentItem);
+        if (currentItem > 0)
+            binding.viewPager.setCurrentItem(currentItem);
     }
 
     void setOnPageChangeListener() {
@@ -951,13 +956,11 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.e("here", "onStart");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("here", "onResume");
         if (isReading && !readingData.onOffLoadDtos.isEmpty()) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
             if (MyApplication.FOCUS_ON_EDIT_TEXT)
@@ -995,7 +998,6 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("here", "onDestroy");
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         try {
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
