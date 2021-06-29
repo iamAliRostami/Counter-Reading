@@ -135,6 +135,9 @@ public class ReadingActivity extends BaseActivity {
         readingData.onOffLoadDtos.get(position).isLocked = true;
 //        MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().updateTrackingDtoByLock(trackNumber, true);
         MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoadByLock(id, trackNumber, true);
+//        binding.viewPager.setCurrentItem(position);
+//        search(0, readingData.onOffLoadDtos.get(position).eshterak, true);
+        runOnUiThread(() -> setupViewPager(position));
     }
 
     public void updateOnOffLoadByIsShown(int position) {
@@ -406,7 +409,7 @@ public class ReadingActivity extends BaseActivity {
             case 5:
                 readingData.onOffLoadDtos.clear();
                 readingData.onOffLoadDtos.addAll(readingDataTemp.onOffLoadDtos);
-                runOnUiThread(this::setupViewPager);
+                runOnUiThread(() -> setupViewPager(0));
                 break;
             case 3:
                 readingData.onOffLoadDtos.clear();
@@ -422,7 +425,7 @@ public class ReadingActivity extends BaseActivity {
                                 onOffLoadDto.sureName.toLowerCase().contains(key))
                             readingData.onOffLoadDtos.add(onOffLoadDto);
                     }
-                runOnUiThread(this::setupViewPager);
+                runOnUiThread(() -> setupViewPager(0));
                 break;
             default:
                 if (goToPage) {
@@ -490,7 +493,7 @@ public class ReadingActivity extends BaseActivity {
                             break;
 
                     }
-                    runOnUiThread(this::setupViewPager);
+                    runOnUiThread(() -> setupViewPager(0));
                 }
         }
     }
@@ -519,7 +522,7 @@ public class ReadingActivity extends BaseActivity {
         imageSrc[14] = R.drawable.img_broken_pipe;
     }
 
-    void setupViewPager() {
+    void setupViewPager(int currentItem) {
         ArrayList<String> items = new ArrayList<>();
         for (int i = 0; i < readingData.counterStateDtos.size(); i++) {
             items.add(readingData.counterStateDtos.get(i).title);
@@ -541,6 +544,7 @@ public class ReadingActivity extends BaseActivity {
         if (MyApplication.FOCUS_ON_EDIT_TEXT)
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         isReading = true;
+        binding.viewPager.setCurrentItem(currentItem);
     }
 
     void setOnPageChangeListener() {
@@ -929,7 +933,7 @@ public class ReadingActivity extends BaseActivity {
                 readingDataTemp.readingConfigDefaultDtos.addAll(readingData.readingConfigDefaultDtos);
                 setAboveIconsSrc(0);
             }
-            runOnUiThread(ReadingActivity.this::setupViewPager);
+            runOnUiThread(() -> setupViewPager(0));
             return null;
         }
     }

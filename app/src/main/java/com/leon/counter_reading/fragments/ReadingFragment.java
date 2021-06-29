@@ -284,9 +284,9 @@ public class ReadingFragment extends Fragment {
                 ((ReadingActivity) activity).updateOnOffLoadAttemptNumber(position, onOffLoadDto.attemptNumber);
                 if (!onOffLoadDto.isLocked && onOffLoadDto.attemptNumber == LOCK_NUMBER) {
                     ((ReadingActivity) activity).updateTrackingDto(onOffLoadDto.id, onOffLoadDto.trackNumber, position);
-                    Intent intent = activity.getIntent();
-                    activity.finish();
-                    startActivity(intent);
+//                    Intent intent = activity.getIntent();
+//                    activity.finish();
+//                    startActivity(intent);
                 } else /*if (!onOffLoadDto.isLocked)*/ {
                     attemptSend();
                 }
