@@ -539,7 +539,8 @@ public class ReadingActivity extends BaseActivity {
         viewPagerAdapterReading =
                 new ViewPagerAdapterReading(getSupportFragmentManager(),
                         FragmentStatePagerAdapter.POSITION_NONE,
-                        readingData);
+                        readingData,
+                        activity);
         binding.viewPager.setAdapter(viewPagerAdapterReading);
         binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
         setOnPageChangeListener();

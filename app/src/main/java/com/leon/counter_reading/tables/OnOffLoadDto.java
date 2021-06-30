@@ -1,6 +1,7 @@
 package com.leon.counter_reading.tables;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -24,7 +25,19 @@ public class OnOffLoadDto {
     public int ahadTejariOrFari;
     public int ahadSaierOrAbBaha;
     public int qotrCode;
+    @Ignore
+    public String qotr;
     public int sifoonQotrCode;
+    @Ignore
+    public String sifoonQotr;
+
+    @Ignore
+    public boolean hasPreNumber;
+    @Ignore
+    public boolean displayBillId;
+    @Ignore
+    public boolean displayRadif;
+
     public String postalCode;
     public int preNumber;
     public String preDate;

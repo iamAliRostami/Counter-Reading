@@ -47,21 +47,21 @@ import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class ReadingFragment extends Fragment {
     FragmentReadingBinding binding;
-    ISharedPreferenceManager sharedPreferenceManager;
+//    ISharedPreferenceManager sharedPreferenceManager;
 
     ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     OnOffLoadDto onOffLoadDto;
     ReadingConfigDefaultDto readingConfigDefaultDto;
     KarbariDto karbariDto;
-    TrackingDto trackingDto;
+//    TrackingDto trackingDto;
 
-    ArrayList<String> items = new ArrayList<>();
+//    ArrayList<String> items = new ArrayList<>();
 
-    String qotr;
+    //    String qotr;
     int position, counterStateCode, counterStatePosition;
     boolean canBeEmpty, canLessThanPre, isMakoos, isMane;
 
-    SpinnerCustomAdapter adapter;
+    static SpinnerCustomAdapter adapter;
 
     Activity activity;
 
@@ -72,27 +72,29 @@ public class ReadingFragment extends Fragment {
             OnOffLoadDto onOffLoadDto,
             ReadingConfigDefaultDto readingConfigDefaultDto,
             KarbariDto karbariDto,
-            TrackingDto trackingDto,
+            /*TrackingDto trackingDto,
             String qotr,
-            ArrayList<String> items,
+            ArrayList<String> items,*/
             ArrayList<CounterStateDto> counterStateDtos,
+            SpinnerCustomAdapter adapter,
             int position) {
         ReadingFragment fragment = new ReadingFragment();
 //        Bundle bundle = new Bundle();
 //        bundle.putInt(BundleEnum.POSITION.getValue(), position);
 //        fragment.setArguments(bundle);
         fragment.setArguments(putBundle(onOffLoadDto, readingConfigDefaultDto, karbariDto,
-                trackingDto, qotr, items, counterStateDtos, position));
+                /*trackingDto, qotr, items,*/ counterStateDtos, adapter, position));
         return fragment;
     }
 
     static Bundle putBundle(OnOffLoadDto onOffLoadDto,
                             ReadingConfigDefaultDto readingConfigDefaultDto,
                             KarbariDto karbariDto,
-                            TrackingDto trackingDto,
+                            /*TrackingDto trackingDto,
                             String qotr,
-                            ArrayList<String> items,
+            ArrayList<String> items,*/
                             ArrayList<CounterStateDto> counterStateDtos,
+                            SpinnerCustomAdapter adapterTemp,
                             int position) {
         Bundle args = new Bundle();
         Gson gson = new Gson();
@@ -103,17 +105,17 @@ public class ReadingFragment extends Fragment {
         String json3 = gson.toJson(karbariDto);
         args.putString(BundleEnum.KARBARI_DICTONARY.getValue(), json3);
 
-        String json4 = gson.toJson(trackingDto);
-        args.putString(BundleEnum.TRACKING.getValue(), json4);
+//        String json4 = gson.toJson(trackingDto);
+//        args.putString(BundleEnum.TRACKING.getValue(), json4);
 
-        args.putString(BundleEnum.QOTR_DICTIONARY.getValue(), qotr);
+//        args.putString(BundleEnum.QOTR_DICTIONARY.getValue(), qotr);
 
-        ArrayList<String> json6 = new ArrayList<>();
-        for (String s : items) {
-            String json = gson.toJson(s);
-            json6.add(json);
-        }
-        args.putStringArrayList(BundleEnum.Item.getValue(), json6);
+//        ArrayList<String> json6 = new ArrayList<>();
+//        for (String s : items) {
+//            String json = gson.toJson(s);
+//            json6.add(json);
+//        }
+//        args.putStringArrayList(BundleEnum.Item.getValue(), json6);
 
         ArrayList<String> json7 = new ArrayList<>();
         for (CounterStateDto s : counterStateDtos) {
@@ -121,6 +123,9 @@ public class ReadingFragment extends Fragment {
             json7.add(json);
         }
         args.putStringArrayList(BundleEnum.COUNTER_STATE.getValue(), json7);
+
+        adapter = adapterTemp;
+
         args.putInt(BundleEnum.POSITION.getValue(), position);
         return args;
     }
@@ -141,7 +146,7 @@ public class ReadingFragment extends Fragment {
     }
 
     void initialize() {
-        sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
+//        sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
         binding.editTextNumber.setOnLongClickListener(view -> {
             binding.editTextNumber.setText("");
             return false;
@@ -167,11 +172,11 @@ public class ReadingFragment extends Fragment {
         binding.textViewSerial.setText(onOffLoadDto.counterSerial);
 
 //        if (readingConfigDefaultDto.displayRadif)
-        if (trackingDto.displayRadif)
+        if (onOffLoadDto.displayRadif)
             binding.textViewRadif.setText(String.valueOf(onOffLoadDto.radif));
 
 //        if (readingConfigDefaultDto.displayBillId)
-        if (trackingDto.displayBillId)
+        if (onOffLoadDto.displayBillId)
             binding.textViewRadif.setText(String.valueOf(onOffLoadDto.billId));
 
         binding.textViewAhad1.setText(String.valueOf(onOffLoadDto.ahadMaskooniOrAsli));
@@ -186,16 +191,17 @@ public class ReadingFragment extends Fragment {
         } else binding.textViewCode.setText(onOffLoadDto.eshterak);
 
         binding.textViewKarbari.setText(karbariDto.title);
-        binding.textViewBranch.setText(qotr);
+        binding.textViewBranch.setText(onOffLoadDto.qotr);
+        binding.textViewSiphon.setText(onOffLoadDto.sifoonQotr);
 
 //        if (readingConfigDefaultDto.defaultHasPreNumber)
 //        if (trackingDto.hasPreNumber)
 //            binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber));
         binding.textViewPreNumber.setOnClickListener(v -> {
-            if (trackingDto.hasPreNumber) {
+            if (onOffLoadDto.hasPreNumber) {
                 activity.runOnUiThread(() -> binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber)));
 //            if (!readingConfigDefaultDto.defaultHasPreNumber)
-                if (trackingDto.hasPreNumber)
+                if (onOffLoadDto.hasPreNumber)
                     ((ReadingActivity) activity).updateOnOffLoadByIsShown(position);
             } else {
                 new CustomToast().warning(getString(R.string.can_not_show_pre));
@@ -212,7 +218,7 @@ public class ReadingFragment extends Fragment {
     }
 
     void initializeSpinner() {
-        adapter = new SpinnerCustomAdapter(activity, items);
+//        adapter = new SpinnerCustomAdapter(activity, items);
 //        binding.spinner.setAdapter(((ReadingActivity) activity).getAdapter());
         binding.spinner.setAdapter(adapter);
         if (onOffLoadDto.counterStatePosition != null)
@@ -478,15 +484,15 @@ public class ReadingFragment extends Fragment {
             karbariDto = gson.fromJson(getArguments().getString(
                     BundleEnum.KARBARI_DICTONARY.getValue()),
                     KarbariDto.class);
-            trackingDto = gson.fromJson(getArguments().getString(
-                    BundleEnum.TRACKING.getValue()),
-                    TrackingDto.class);
-            qotr = getArguments().getString(BundleEnum.QOTR_DICTIONARY.getValue());
-            ArrayList<String> json2 = getArguments().getStringArrayList(
-                    BundleEnum.Item.getValue());
-            for (String s : json2) {
-                items.add(gson.fromJson(s, String.class));
-            }
+//            trackingDto = gson.fromJson(getArguments().getString(
+//                    BundleEnum.TRACKING.getValue()),
+//                    TrackingDto.class);
+//            qotr = getArguments().getString(BundleEnum.QOTR_DICTIONARY.getValue());
+//            ArrayList<String> json2 = getArguments().getStringArrayList(
+//                    BundleEnum.Item.getValue());
+//            for (String s : json2) {
+//                items.add(gson.fromJson(s, String.class));
+//            }
             ArrayList<String> json1 = getArguments().getStringArrayList(
                     BundleEnum.COUNTER_STATE.getValue());
             counterStateDtos.clear();
@@ -516,8 +522,9 @@ public class ReadingFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+//        adapter = null;
         karbariDto = null;
-        trackingDto = null;
+//        trackingDto = null;
         readingConfigDefaultDto = null;
         counterStateDtos = null;
     }

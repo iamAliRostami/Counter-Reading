@@ -12,11 +12,14 @@ public class OnOffLoadReading {
     public String sureName;
     public String address;
     public int karbariCode;
+    public String karbari;
     public int ahadMaskooniOrAsli;
     public int ahadTejariOrFari;
     public int ahadSaierOrAbBaha;
     public int qotrCode;
+    public String qotr;
     public int sifoonQotrCode;
+    public String sifoonQotr;
     public String postalCode;
     public int preNumber;
     public String preDate;
@@ -54,6 +57,10 @@ public class OnOffLoadReading {
     public double x;
     public double y;
     public boolean counterNumberShown;
+
+    public boolean hasPreNumber;
+    public boolean displayBillId;
+    public boolean displayRadif;
 
     public int attemptNumber;
     public boolean isLocked;
