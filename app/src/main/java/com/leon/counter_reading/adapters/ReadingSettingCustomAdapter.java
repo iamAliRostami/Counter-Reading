@@ -17,8 +17,6 @@ import com.leon.counter_reading.utils.MyDatabaseClient;
 import java.util.ArrayList;
 
 public class ReadingSettingCustomAdapter extends BaseAdapter {
-    //    ArrayList<Boolean> selected;
-//    ArrayList<Integer> zoneIds;
     final ArrayList<TrackingDto> trackingDtos;
     final LayoutInflater inflater;
     final Context context;
@@ -57,7 +55,6 @@ public class ReadingSettingCustomAdapter extends BaseAdapter {
     @SuppressLint("InflateParams")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        View view = convertView;
         if (convertView == null) {
             if (position % 2 == 1)
                 convertView = inflater.inflate(R.layout.item_reading_setting_1, null);

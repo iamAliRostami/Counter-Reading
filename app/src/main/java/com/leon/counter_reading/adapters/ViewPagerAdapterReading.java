@@ -25,14 +25,14 @@ import java.util.ArrayList;
 
 public class ViewPagerAdapterReading extends FragmentStatePagerAdapter {
 //    final ReadingData readingData;
+//    final ArrayList<QotrDictionary> qotrDictionaries = new ArrayList<>();
+//    final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+//    ArrayList<OnOffLoadReading> onOffLoadReadings = new ArrayList<>();
     final ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
     final ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
     final ArrayList<KarbariDto> karbariDtos = new ArrayList<>();
-    //    final ArrayList<QotrDictionary> qotrDictionaries = new ArrayList<>();
-//    final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
     final ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     SpinnerCustomAdapter adapter;
-//    ArrayList<OnOffLoadReading> onOffLoadReadings = new ArrayList<>();
 
     public ViewPagerAdapterReading(@NonNull FragmentManager fm, int behavior,
                                    ReadingData readingData, Activity activity) {

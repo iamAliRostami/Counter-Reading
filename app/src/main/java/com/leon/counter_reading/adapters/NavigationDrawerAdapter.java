@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +28,7 @@ import java.util.List;
 public class NavigationDrawerAdapter extends
         RecyclerView.Adapter<NavigationDrawerAdapter.DrawerItemHolder> {
     private final List<DrawerItem> drawerItemList;
-    public final Context context;
+    private final Context context;
 
     public NavigationDrawerAdapter(Context context, List<DrawerItem> listItems) {
         this.context = context;
@@ -55,7 +54,7 @@ public class NavigationDrawerAdapter extends
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = context.getTheme();
             theme.resolveAttribute(android.R.attr.textColorSecondary, typedValue, true);
-            @ColorInt int color = typedValue.data;
+            int color = typedValue.data;
             holder.textViewTitle.setTextColor(color);
             holder.linearLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.border_red_3));
         }
