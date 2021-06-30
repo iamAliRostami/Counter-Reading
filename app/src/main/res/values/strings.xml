@@ -218,5 +218,9 @@
     <string name="you_are_updated">نسخه نرم افزاری شما به روز است.</string>
     <string name="set_point">نقطه زنی لحظه ای</string>
     <string name="can_not_show_pre">رقم قبلی قابل نمایش نمیباشد.</string>
+    <string name="download_message">تعداد %d مسیر و %d اشتراک بارگیری شد.</string>
+    <string name="unread_number">همکار گرامی!\nتعداد %d اشتراک قرائت نشده است.</string>
+    <string name="darsad_alal">همکار گرامی!\nدرصد علی الحساب بالاتر از حد مجاز است.</string>
+    <string name="unuploaded_multimedia">همکار گرامی تعداد %d عکس و %d صدای تخلیه نشده باقی مانده است.\nپیش از تخلیه نسبت به بارگذاری چندرسانه اقدام کنید.</string>
 
 </resources>

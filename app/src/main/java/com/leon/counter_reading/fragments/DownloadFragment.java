@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
-import com.leon.counter_reading.tables.CounterReportDto;
 import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
@@ -211,7 +209,7 @@ public class DownloadFragment extends Fragment {
                     myDatabase.counterReportDao().insertAllCounterStateReport(
                             readingData.counterReportDtos);
                 }
-                String message = String.format("تعداد %d مسیر و %d اشتراک بارگیری شد.", readingData.trackingDtos.size(), readingData.onOffLoadDtos.size());
+                String message = String.format(getString(R.string.download_message), readingData.trackingDtos.size(), readingData.onOffLoadDtos.size());
                 new CustomDialog(DialogType.Green, context, message,
                         context.getString(R.string.dear_user),
                         context.getString(R.string.download),

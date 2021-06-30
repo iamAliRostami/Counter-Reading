@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -169,15 +168,14 @@ public class UploadFragment extends Fragment {
 
         } else return false;
         if (unread > 0) {
-            String message = String.format("همکار گرامی!\nتعداد %d اشتراک قرائت نشده است.", unread);
+            String message = String.format(getString(R.string.unread_number), unread);
             new CustomToast().info(message, Toast.LENGTH_LONG);
             return false;
         } else if (mane > 0 && alalMane > (double) alalPercent) {
-            new CustomToast().info("همکار گرامی!\nدرصد علی الحساب بالاتر از حد مجاز است.", Toast.LENGTH_LONG);
+            new CustomToast().info(getString(R.string.darsad_alal), Toast.LENGTH_LONG);
             return false;
         } else if (imagesCount > 0 || voicesCount > 0) {
-            String message = String.format("همکار گرامی تعداد %d عکس و %d صدای تخلیه نشده باقی مانده است.\n" +
-                    "پیش از تخلیه نسبت به بارگذاری چندرسانه اقدام کنید.", imagesCount, voicesCount);
+            String message = String.format(getString(R.string.unuploaded_multimedia), imagesCount, voicesCount);
             new CustomToast().info(message, Toast.LENGTH_LONG);
             return false;
         }

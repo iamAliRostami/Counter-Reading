@@ -21,6 +21,7 @@ import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentReadingBinding;
 import com.leon.counter_reading.enums.BundleEnum;
+import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.HighLowStateEnum;
 import com.leon.counter_reading.enums.NotificationType;
 import com.leon.counter_reading.enums.SharedReferenceNames;
@@ -31,6 +32,7 @@ import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.Counting;
+import com.leon.counter_reading.utils.CustomDialog;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.PermissionManager;
@@ -198,6 +200,14 @@ public class ReadingFragment extends Fragment {
             } else {
                 new CustomToast().warning(getString(R.string.can_not_show_pre));
             }
+        });
+        binding.textViewAddress.setOnLongClickListener(v -> {
+            new CustomDialog(DialogType.Green, activity,
+                    onOffLoadDto.mobile,
+                    getString(R.string.mobile_number),
+                    onOffLoadDto.eshterak,
+                    getString(R.string.continue_reading));
+            return false;
         });
     }
 
