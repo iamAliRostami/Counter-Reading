@@ -18,6 +18,7 @@ import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
+import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentReadingBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.HighLowStateEnum;
@@ -52,9 +53,13 @@ public class ReadingFragment1 extends Fragment {
     KarbariDto karbariDto;
     TrackingDto trackingDto;
 
+    ArrayList<String> items = new ArrayList<>();
+
     String qotr;
     int position, counterStateCode, counterStatePosition;
     boolean canBeEmpty, canLessThanPre, isMakoos, isMane;
+
+    SpinnerCustomAdapter adapter;
 
     Activity activity;
 
@@ -62,31 +67,31 @@ public class ReadingFragment1 extends Fragment {
     }
 
     public static ReadingFragment1 newInstance(
-            /*OnOffLoadDto onOffLoadDto,*/
+            OnOffLoadDto onOffLoadDto,
             ReadingConfigDefaultDto readingConfigDefaultDto,
             KarbariDto karbariDto,
             TrackingDto trackingDto,
             String qotr,
-            /*ArrayList<String> items,
-            ArrayList<CounterStateDto> counterStateDtos,*/
+            ArrayList<String> items,
+            ArrayList<CounterStateDto> counterStateDtos,
             int position) {
         ReadingFragment1 fragment = new ReadingFragment1();
 //        Bundle bundle = new Bundle();
 //        bundle.putInt(BundleEnum.POSITION.getValue(), position);
 //        fragment.setArguments(bundle);
-        fragment.setArguments(putBundle(/*onOffLoadDto,*/ readingConfigDefaultDto, karbariDto,
-                trackingDto, qotr/*, items, counterStateDtos*/, position));
+        fragment.setArguments(putBundle(onOffLoadDto, readingConfigDefaultDto, karbariDto,
+                trackingDto, qotr, items, counterStateDtos, position));
         return fragment;
     }
 
-    static Bundle putBundle(/*OnOffLoadDto onOffLoadDto,*/
-            ReadingConfigDefaultDto readingConfigDefaultDto,
-            KarbariDto karbariDto,
-            TrackingDto trackingDto,
-            String qotr,
-                            /*ArrayList<String> items,
-                            ArrayList<CounterStateDto> counterStateDtos,*/
-            int position) {
+    static Bundle putBundle(OnOffLoadDto onOffLoadDto,
+                            ReadingConfigDefaultDto readingConfigDefaultDto,
+                            KarbariDto karbariDto,
+                            TrackingDto trackingDto,
+                            String qotr,
+                            ArrayList<String> items,
+                            ArrayList<CounterStateDto> counterStateDtos,
+                            int position) {
         Bundle args = new Bundle();
         Gson gson = new Gson();
 //        String json1 = gson.toJson(onOffLoadDto);
@@ -447,17 +452,16 @@ public class ReadingFragment1 extends Fragment {
         }
     }
 
+
     void getBundle() {
-//        if ((ReadingActivity) activity == null)
-//            Log.e("activity", "null");
         if (getArguments() != null) {
             position = getArguments().getInt(BundleEnum.POSITION.getValue());
 //            items = ((ReadingActivity) activity).getItems();
 //            adapter = ((ReadingActivity) activity).getAdapter();
 
             Gson gson = new Gson();
-//            onOffLoadDto = gson.fromJson(getArguments().getString(
-//                    BundleEnum.ON_OFF_LOAD.getValue()), OnOffLoadDto.class);
+            onOffLoadDto = gson.fromJson(getArguments().getString(
+                    BundleEnum.ON_OFF_LOAD.getValue()), OnOffLoadDto.class);
             readingConfigDefaultDto = gson.fromJson(getArguments().getString(
                     BundleEnum.READING_CONFIG.getValue()),
                     ReadingConfigDefaultDto.class);
@@ -468,19 +472,19 @@ public class ReadingFragment1 extends Fragment {
                     BundleEnum.TRACKING.getValue()),
                     TrackingDto.class);
             qotr = getArguments().getString(BundleEnum.QOTR_DICTIONARY.getValue());
-//            ArrayList<String> json2 = getArguments().getStringArrayList(
-//                    BundleEnum.Item.getValue());
-//            for (String s : json2) {
-//                items.add(gson.fromJson(s, String.class));
-//            }
-//            ArrayList<String> json1 = getArguments().getStringArrayList(
-//                    BundleEnum.COUNTER_STATE.getValue());
-//            counterStateDtos.clear();
-//            for (String s : json1) {
-//                counterStateDtos.add(gson.fromJson(s, CounterStateDto.class));
-//            }
-            onOffLoadDto = ((ReadingActivity) activity).getReadingData().onOffLoadDtos.get(position);
-            counterStateDtos = ((ReadingActivity) activity).getReadingData().counterStateDtos;
+            ArrayList<String> json2 = getArguments().getStringArrayList(
+                    BundleEnum.Item.getValue());
+            for (String s : json2) {
+                items.add(gson.fromJson(s, String.class));
+            }
+            ArrayList<String> json1 = getArguments().getStringArrayList(
+                    BundleEnum.COUNTER_STATE.getValue());
+            counterStateDtos.clear();
+            for (String s : json1) {
+                counterStateDtos.add(gson.fromJson(s, CounterStateDto.class));
+            }
+//            onOffLoadDto = ((ReadingActivity) activity).getReadingData().onOffLoadDtos.get(position);
+//            counterStateDtos = ((ReadingActivity) activity).getReadingData().counterStateDtos;
         }
     }
 

@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.leon.counter_reading.fragments.ReadingFragment;
 import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.KarbariDto;
+import com.leon.counter_reading.tables.OnOffLoadReading;
 import com.leon.counter_reading.tables.QotrDictionary;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.ReadingData;
@@ -28,6 +29,7 @@ public class ViewPagerAdapterReading extends FragmentStatePagerAdapter {
     final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
     final ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     final ArrayList<String> items = new ArrayList<>();
+    ArrayList<OnOffLoadReading> onOffLoadReadings = new ArrayList<>();
 
     public ViewPagerAdapterReading(@NonNull FragmentManager fm, int behavior,
                                    ReadingData readingData) {

@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.leon.counter_reading.fragments.ReadingFragment;
 import com.leon.counter_reading.fragments.ReadingFragment1;
+import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.QotrDictionary;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
@@ -26,14 +27,16 @@ public class ViewPagerAdapterReading1 extends FragmentStatePagerAdapter {
     final ArrayList<KarbariDto> karbariDtos = new ArrayList<>();
     final ArrayList<QotrDictionary> qotrDictionaries = new ArrayList<>();
     final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    final ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
+    final ArrayList<String> items = new ArrayList<>();
 
     public ViewPagerAdapterReading1(@NonNull FragmentManager fm, int behavior,
                                     ReadingData readingData) {
         super(fm, behavior);
         this.readingData = readingData;
-//        for (int i = 0; i < readingData.counterStateDtos.size(); i++) {
-//            items.add(readingData.counterStateDtos.get(i).title);
-//        }
+        for (int i = 0; i < readingData.counterStateDtos.size(); i++) {
+            items.add(readingData.counterStateDtos.get(i).title);
+        }
         for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
             for (ReadingConfigDefaultDto readingConfigDefaultDto : readingData.readingConfigDefaultDtos) {
                 if (readingData.onOffLoadDtos.get(i).zoneId == readingConfigDefaultDto.zoneId)
@@ -52,16 +55,16 @@ public class ViewPagerAdapterReading1 extends FragmentStatePagerAdapter {
                     trackingDtos.add(trackingDto);
             }
         }
-//        counterStateDtos.addAll(readingData.counterStateDtos);
+        counterStateDtos.addAll(readingData.counterStateDtos);
     }
 
     @NotNull
     @Override
     public Fragment getItem(int position) {
-        return ReadingFragment1.newInstance(/*readingData.onOffLoadDtos.get(position),*/
+        return ReadingFragment1.newInstance(readingData.onOffLoadDtos.get(position),
                 readingConfigDefaultDtos.get(position), karbariDtos.get(position),
                 trackingDtos.get(position), qotrDictionaries.get(position).title,
-                /* items, counterStateDtos, */position);
+                 items, counterStateDtos, position);
     }
 
     @Override
