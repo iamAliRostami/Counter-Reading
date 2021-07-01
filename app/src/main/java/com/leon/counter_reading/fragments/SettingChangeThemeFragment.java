@@ -23,8 +23,6 @@ import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class SettingChangeThemeFragment extends Fragment {
     static int theme;
     FragmentSettingChangeThemeBinding binding;

@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
@@ -532,13 +531,12 @@ public class ReadingActivity extends BaseActivity {
             items.add(readingData.counterStateDtos.get(i).title);
         }
         adapter = new SpinnerCustomAdapter(activity, items);
-
         binding.textViewNotFound.setVisibility(!(readingData.onOffLoadDtos.size() > 0) ? View.VISIBLE : View.GONE);
         binding.linearLayoutAbove.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
         binding.viewPager.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
         viewPagerAdapterReading =
                 new ViewPagerAdapterReading(getSupportFragmentManager(),
-                        FragmentStatePagerAdapter.POSITION_NONE,
+//                        FragmentStatePagerAdapter.POSITION_NONE,
                         readingData,
                         activity);
         binding.viewPager.setAdapter(viewPagerAdapterReading);

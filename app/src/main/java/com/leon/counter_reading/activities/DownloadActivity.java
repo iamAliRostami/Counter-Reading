@@ -7,7 +7,6 @@ import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.leon.counter_reading.R;
@@ -113,8 +112,8 @@ public class DownloadActivity extends BaseActivity {
     }
 
     private void setupViewPager() {
-        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager(),
-                FragmentStatePagerAdapter.POSITION_NONE);
+        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager()
+        );
         adapter.addFragment(DownloadFragment.newInstance(1), "بارگیری");
         adapter.addFragment(DownloadFragment.newInstance(2), "بارگیری مجدد");
         adapter.addFragment(DownloadFragment.newInstance(3), "بارگیری offline");

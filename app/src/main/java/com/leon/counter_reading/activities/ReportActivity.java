@@ -10,7 +10,6 @@ import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.leon.counter_reading.R;
@@ -112,8 +111,8 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void setupViewPager() {
-        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager(),
-                FragmentStatePagerAdapter.POSITION_NONE);
+        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager()
+        );
         adapter.addFragment(ReportTotalFragment.newInstance(zero, normal, high, low), "آمار کلی");
         adapter.addFragment(ReportNotReadingFragment.newInstance(total, unread), "قرائت نشده");
         adapter.addFragment(ReportTemporaryFragment.newInstance(counterStateDtos, total, isMane), "علی الحساب");

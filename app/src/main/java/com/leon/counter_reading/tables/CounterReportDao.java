@@ -7,8 +7,6 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import retrofit2.http.DELETE;
-
 @Dao
 public interface CounterReportDao {
     @Query("SELECT * FROM CounterReportDto")

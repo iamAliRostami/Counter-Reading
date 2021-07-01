@@ -8,7 +8,6 @@ import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.leon.counter_reading.R;
@@ -106,8 +105,8 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void setupViewPager() {
-        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager(),
-                FragmentStatePagerAdapter.POSITION_NONE);
+        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager()
+        );
         adapter.addFragment(new SettingChangeThemeFragment(), "تغییر پوسته");
         adapter.addFragment(new SettingChangePasswordFragment(), "تغییر گذرواژه");
         adapter.addFragment(new SettingUpdateFragment(), "به روز رسانی");

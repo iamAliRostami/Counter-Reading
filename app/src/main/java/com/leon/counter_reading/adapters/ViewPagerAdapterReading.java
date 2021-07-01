@@ -13,7 +13,6 @@ import com.leon.counter_reading.fragments.ReadingFragment;
 import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
-import com.leon.counter_reading.tables.OnOffLoadReading;
 import com.leon.counter_reading.tables.QotrDictionary;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.ReadingData;
@@ -24,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class ViewPagerAdapterReading extends FragmentStatePagerAdapter {
-//    final ReadingData readingData;
+    //    final ReadingData readingData;
 //    final ArrayList<QotrDictionary> qotrDictionaries = new ArrayList<>();
 //    final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
 //    ArrayList<OnOffLoadReading> onOffLoadReadings = new ArrayList<>();
@@ -34,9 +33,9 @@ public class ViewPagerAdapterReading extends FragmentStatePagerAdapter {
     final ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     SpinnerCustomAdapter adapter;
 
-    public ViewPagerAdapterReading(@NonNull FragmentManager fm, int behavior,
+    public ViewPagerAdapterReading(@NonNull FragmentManager fm,
                                    ReadingData readingData, Activity activity) {
-        super(fm, behavior);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 //        this.readingData = readingData;
         onOffLoadDtos.addAll(readingData.onOffLoadDtos);
         final ArrayList<String> items = new ArrayList<>();
@@ -62,7 +61,6 @@ public class ViewPagerAdapterReading extends FragmentStatePagerAdapter {
             }
             for (TrackingDto trackingDto : readingData.trackingDtos) {
                 if (readingData.onOffLoadDtos.get(i).trackNumber == trackingDto.trackNumber) {
-//                    trackingDtos.add(trackingDto);
                     readingData.onOffLoadDtos.get(i).hasPreNumber = trackingDto.hasPreNumber;
                     readingData.onOffLoadDtos.get(i).displayBillId = trackingDto.displayBillId;
                     readingData.onOffLoadDtos.get(i).displayRadif = trackingDto.displayRadif;
@@ -87,19 +85,15 @@ public class ViewPagerAdapterReading extends FragmentStatePagerAdapter {
 
     @Override
     public int getItemPosition(@NotNull Object object) {
-//        notifyDataSetChanged();
         return POSITION_NONE;
     }
 
     @Override
     public void destroyItem(@NotNull ViewGroup container, int position, @NotNull Object object) {
-        FragmentManager manager = ((Fragment) object).getFragmentManager();
-        FragmentTransaction trans;
-        if (manager != null) {
-            trans = manager.beginTransaction();
-            trans.remove((Fragment) object);
-            trans.commit();
-        }
+        FragmentManager manager = ((Fragment) object).getParentFragmentManager();
+        FragmentTransaction trans = manager.beginTransaction();
+        trans.remove((Fragment) object);
+        trans.commit();
         super.destroyItem(container, position, object);
     }
 }

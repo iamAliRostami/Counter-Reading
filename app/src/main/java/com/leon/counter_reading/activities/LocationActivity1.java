@@ -13,7 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.gun0912.tedpermission.PermissionListener;
@@ -23,7 +22,6 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.ViewPagerAdapterTab;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityLocation1Binding;
-import com.leon.counter_reading.databinding.ActivityLocationBinding;
 import com.leon.counter_reading.fragments.LocationFragment;
 import com.leon.counter_reading.fragments.PlaceFragment;
 import com.leon.counter_reading.utils.CustomToast;
@@ -164,8 +162,8 @@ public class LocationActivity1 extends BaseActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void setupViewPager() {
-        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager(),
-                FragmentStatePagerAdapter.POSITION_NONE);
+        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager()
+        );
         adapter.addFragment(new LocationFragment(), "لایه ها ");
         adapter.addFragment(new PlaceFragment(), "مکان کنتور");
         binding.viewPager.setAdapter(adapter);

@@ -9,7 +9,6 @@ import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.leon.counter_reading.R;
@@ -104,8 +103,8 @@ public class UploadActivity extends BaseActivity {
     }
 
     private void setupViewPager() {
-        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager(),
-                FragmentStatePagerAdapter.POSITION_NONE);
+        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager()
+        );
         adapter.addFragment(UploadFragment.newInstance(1, trackingDtos), "بارگذاری");
         adapter.addFragment(UploadFragment.newInstance(2, trackingDtos), "بارگذاری مجدد");
         adapter.addFragment(UploadFragment.newInstance(3, new ArrayList<>()), "بارگذاری چند رسانه");

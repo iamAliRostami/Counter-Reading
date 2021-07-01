@@ -9,18 +9,15 @@ import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.ViewPagerAdapterTab;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityReadingSettingBinding;
-import com.leon.counter_reading.fragments.DownloadFragment;
 import com.leon.counter_reading.fragments.ReadingPossibleSettingFragment;
 import com.leon.counter_reading.fragments.ReadingSettingDeleteFragment;
 import com.leon.counter_reading.fragments.ReadingSettingFragment;
-import com.leon.counter_reading.fragments.UploadFragment;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.DepthPageTransformer;
@@ -72,6 +69,7 @@ public class ReadingSettingActivity extends BaseActivity {
             binding.viewPager.setCurrentItem(1);
         });
     }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     void textViewDelete() {
         binding.textViewDelete.setOnClickListener(view -> {
@@ -106,8 +104,7 @@ public class ReadingSettingActivity extends BaseActivity {
     }
 
     private void setupViewPager() {
-        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager(),
-                FragmentStatePagerAdapter.POSITION_NONE);
+        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
 //        adapter.addFragment(UploadFragment.newInstance(1, trackingDtos), "بارگذاری");
         adapter.addFragment(ReadingSettingFragment.newInstance(trackingDtos), "تنظیمات قرائت");
         adapter.addFragment(new ReadingPossibleSettingFragment(), "پیمایش پویا");
