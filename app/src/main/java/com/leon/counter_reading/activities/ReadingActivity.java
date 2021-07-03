@@ -46,6 +46,7 @@ import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.IFlashLightManager;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
+import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.ReadingData;
 import com.leon.counter_reading.tables.TrackingDto;
@@ -535,10 +536,10 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void setupViewPager(int currentItem) {
-        ArrayList<String> items = new ArrayList<>();
-        for (int i = 0; i < readingData.counterStateDtos.size(); i++) {
-            items.add(readingData.counterStateDtos.get(i).title);
-        }
+        ArrayList<String> items = new ArrayList<>(CounterStateDto.getCounterStateItems(readingData.counterStateDtos));
+//        for (int i = 0; i < readingData.counterStateDtos.size(); i++) {
+//            items.add(readingData.counterStateDtos.get(i).title);
+//        }
         adapter = new SpinnerCustomAdapter(activity, items);
         binding.textViewNotFound.setVisibility(!(readingData.onOffLoadDtos.size() > 0) ? View.VISIBLE : View.GONE);
         binding.linearLayoutAbove.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
