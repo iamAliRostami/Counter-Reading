@@ -110,8 +110,10 @@ public class ReadingActivity extends BaseActivity {
     }
 
     public void updateOnOffLoadAttemptNumber(int position, int attemptNumber) {
-        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                updateOnOffLoadByAttemptNumber(readingData.onOffLoadDtos.get(position).id, attemptNumber);
+        MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+        myDatabase.onOffLoadDao().updateOnOffLoadByAttemptNumber(
+                readingData.onOffLoadDtos.get(position).id, attemptNumber);
+        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
         readingData.onOffLoadDtos.get(position).attemptNumber = attemptNumber;
     }
 
@@ -131,9 +133,11 @@ public class ReadingActivity extends BaseActivity {
                 readingDataTemp.onOffLoadDtos.get(i).isLocked = true;
         }
 
+        MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
         readingData.onOffLoadDtos.get(position).isLocked = true;
 //        MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().updateTrackingDtoByLock(trackNumber, true);
-        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoadByLock(id, trackNumber, true);
+        myDatabase.onOffLoadDao().updateOnOffLoadByLock(id, trackNumber, true);
+        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
 //        binding.viewPager.setCurrentItem(position);
 //        search(0, readingData.onOffLoadDtos.get(position).eshterak, true);
         runOnUiThread(() -> setupViewPager(position));
@@ -142,8 +146,9 @@ public class ReadingActivity extends BaseActivity {
     public void updateOnOffLoadByIsShown(int position) {
         readingData.onOffLoadDtos.get(position).isBazdid = true;
         readingData.onOffLoadDtos.get(position).counterNumberShown = true;
-        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                updateOnOffLoad(readingData.onOffLoadDtos.get(position));
+        MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+        myDatabase.onOffLoadDao().updateOnOffLoad(readingData.onOffLoadDtos.get(position));
+        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
     }
 
     public void updateOnOffLoad(int position, int counterStateCode, int counterStatePosition) {
@@ -195,14 +200,16 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void update(int position) {
+        MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
         readingData.onOffLoadDtos.get(position).x =
                 ((BaseActivity) activity).getGpsTracker().getLongitude();
         readingData.onOffLoadDtos.get(position).y =
                 ((BaseActivity) activity).getGpsTracker().getLatitude();
         readingData.onOffLoadDtos.get(position).gisAccuracy =
                 ((BaseActivity) activity).getGpsTracker().getAccuracy();
-        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                updateOnOffLoad(readingData.onOffLoadDtos.get(position));
+
+        myDatabase.onOffLoadDao().updateOnOffLoad(readingData.onOffLoadDtos.get(position));
+        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
     }
 
     void showImage(int position) {
@@ -247,8 +254,9 @@ public class ReadingActivity extends BaseActivity {
 
         offLoadData.isFinal = false;
 
-        offLoadData.offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                offLoadReportDao().getAllOffLoadReportById(readingData.onOffLoadDtos.get(position).id));
+        MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+        offLoadData.offLoadReports.addAll(myDatabase.offLoadReportDao().
+                getAllOffLoadReportById(readingData.onOffLoadDtos.get(position).id));
         //TODO
 //        ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>(
 //                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
@@ -257,22 +265,23 @@ public class ReadingActivity extends BaseActivity {
         ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
 
         for (TrackingDto trackingDto : readingData.trackingDtos) {
-            onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+            onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
                     getAllOnOffLoadRead(OffloadStateEnum.INSERTED.getValue(), trackingDto.trackNumber));
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             onOffLoadDtos.forEach(onOffLoadDto -> {
                 offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDto));
-                offLoadData.offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        offLoadReportDao().getAllOffLoadReportById(onOffLoadDto.id));
+                offLoadData.offLoadReports.addAll(myDatabase.offLoadReportDao().
+                        getAllOffLoadReportById(onOffLoadDto.id));
             });
         } else
             for (OnOffLoadDto onOffLoadDto : onOffLoadDtos) {
                 offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDto));
-                offLoadData.offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        offLoadReportDao().getAllOffLoadReportById(onOffLoadDto.id));
+                offLoadData.offLoadReports.addAll(myDatabase.offLoadReportDao().
+                        getAllOffLoadReportById(onOffLoadDto.id));
             }
+        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
         Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
         HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activity,
                 new offLoadData(), new offLoadDataIncomplete(), new offLoadError());
@@ -749,10 +758,10 @@ public class ReadingActivity extends BaseActivity {
                 requestCode == MyApplication.COUNTER_LOCATION) && resultCode == RESULT_OK) {
             int position = data.getExtras().getInt(BundleEnum.POSITION.getValue());
             String uuid = data.getExtras().getString(BundleEnum.BILL_ID.getValue());
-            MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                    updateOnOffLoad(true, uuid);
-            readingData.onOffLoadDtos.set(position, MyDatabaseClient.getInstance(activity).
-                    getMyDatabase().onOffLoadDao().getAllOnOffLoadById(uuid));
+            MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+            myDatabase.onOffLoadDao().updateOnOffLoad(true, uuid);
+            readingData.onOffLoadDtos.set(position, myDatabase.onOffLoadDao().getAllOnOffLoadById(uuid));
+            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
             int i = 0;
             for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
                 if (onOffLoadDto.id.equals(uuid))
@@ -782,8 +791,8 @@ public class ReadingActivity extends BaseActivity {
         @Override
         public void execute(Response<OnOffLoadDto.OffLoadResponses> response) {
             if (response.body() != null && response.body().status == 200) {
-                MyDatabaseClient.getInstance(activity).getMyDatabase().offLoadReportDao().
-                        deleteAllOffLoadReport();
+                MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+                myDatabase.offLoadReportDao().deleteAllOffLoadReport();
                 int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
                         OffloadStateEnum.SENT_WITH_ERROR.getValue();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -793,8 +802,7 @@ public class ReadingActivity extends BaseActivity {
                                 readingData.onOffLoadDtos.get(j).offLoadStateId = state;
                             }
                         }
-                        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                                updateOnOffLoad(state, s);
+                        myDatabase.onOffLoadDao().updateOnOffLoad(state, s);
                     });
                 } else {
                     for (String s : response.body().targetObject) {
@@ -803,10 +811,10 @@ public class ReadingActivity extends BaseActivity {
                                 readingData.onOffLoadDtos.get(j).offLoadStateId = state;
                             }
                         }
-                        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                                updateOnOffLoad(state, s);
+                        myDatabase.onOffLoadDao().updateOnOffLoad(state, s);
                     }
                 }
+                MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
             } else if (response.body() != null/* && errorCounter < SHOW_ERROR*/) {
                 errorCounter++;
                 CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
@@ -928,6 +936,7 @@ public class ReadingActivity extends BaseActivity {
                         }
                     }
                 }
+            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
             if (readingData != null && readingData.onOffLoadDtos != null && readingData.onOffLoadDtos.size() > 0) {
                 readingDataTemp.onOffLoadDtos.addAll(readingData.onOffLoadDtos);
                 readingDataTemp.counterStateDtos.addAll(readingData.counterStateDtos);

@@ -24,6 +24,7 @@ import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.DepthPageTransformer;
+import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.util.ArrayList;
@@ -31,10 +32,10 @@ import java.util.ArrayList;
 public class ReportActivity extends BaseActivity {
     ActivityReportBinding binding;
     Activity activity;
-    int previousState, currentState;
-    int zero, normal, high, low, unread, total, isMane;
+    int previousState, currentState, zero, normal, high, low, unread, total, isMane;
     ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    MyDatabase myDatabase;
 
     @Override
     protected void initialize() {
@@ -111,11 +112,10 @@ public class ReportActivity extends BaseActivity {
     }
 
     private void setupViewPager() {
-        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager()
-        );
+        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
         adapter.addFragment(ReportTotalFragment.newInstance(zero, normal, high, low), "آمار کلی");
         adapter.addFragment(ReportNotReadingFragment.newInstance(total, unread), "قرائت نشده");
-        adapter.addFragment(ReportTemporaryFragment.newInstance(counterStateDtos, total, isMane), "علی الحساب");
+        adapter.addFragment(ReportTemporaryFragment.newInstance(total, isMane), "علی الحساب");
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -172,60 +172,58 @@ public class ReportActivity extends BaseActivity {
 
         @Override
         protected Integer doInBackground(Integer... integers) {
-            trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    trackingDao().getTrackingDtosIsActiveNotArchive(true, false));
-            counterStateDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    counterStateDao().getCounterStateDtos());
-            ArrayList<Integer> isManes = new ArrayList<>(MyDatabaseClient.getInstance(activity).
-                    getMyDatabase().counterStateDao().getCounterStateDtosIsMane(true));
+            myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+            trackingDtos.addAll(myDatabase.trackingDao().getTrackingDtosIsActiveNotArchive(true, false));
+            counterStateDtos.addAll(myDatabase.counterStateDao().getCounterStateDtos());
+            ArrayList<Integer> isManes = new ArrayList<>(myDatabase.counterStateDao().getCounterStateDtosIsMane(true));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 trackingDtos.forEach(trackingDto -> {
                     isManes.forEach(integer ->
-                            isMane = isMane + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                                    onOffLoadDao().getOnOffLoadIsManeCount(integer, trackingDto.trackNumber));
-                    zero = zero + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
-                            HighLowStateEnum.ZERO.getValue());
-                    high = high + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
-                            HighLowStateEnum.HIGH.getValue());
-                    low = low + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
-                            HighLowStateEnum.LOW.getValue());
-                    normal = normal + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
-                            HighLowStateEnum.NORMAL.getValue());
-                    unread = unread + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCount(0, trackingDto.trackNumber);
-                    total = total + MyDatabaseClient.getInstance(activity).getMyDatabase().
+                            isMane += myDatabase.onOffLoadDao().getOnOffLoadIsManeCount(integer,
+                                    trackingDto.trackNumber));
+                    zero += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
+                            trackingDto.trackNumber, HighLowStateEnum.ZERO.getValue());
+                    high += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
+                            trackingDto.trackNumber, HighLowStateEnum.HIGH.getValue());
+                    low += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
+                            trackingDto.trackNumber, HighLowStateEnum.LOW.getValue());
+                    normal += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
+                            trackingDto.trackNumber, HighLowStateEnum.NORMAL.getValue());
+                    unread += myDatabase.onOffLoadDao().getOnOffLoadReadCount(0,
+                            trackingDto.trackNumber);
+                    total += myDatabase.
                             onOffLoadDao().getOnOffLoadCount(trackingDto.trackNumber);
                 });
             } else
                 for (TrackingDto trackingDto : trackingDtos) {
                     for (int i = 0; i < isManes.size(); i++) {
-                        isMane = isMane + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                                onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i), trackingDto.trackNumber);
+                        isMane += myDatabase.onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i),
+                                trackingDto.trackNumber);
                     }
-                    zero = zero + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
-                            HighLowStateEnum.ZERO.getValue());
-                    high = high + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
-                            HighLowStateEnum.HIGH.getValue());
-                    low = low + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
-                            HighLowStateEnum.LOW.getValue());
-                    normal = normal + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCountByStatus(trackingDto.trackNumber,
-                            HighLowStateEnum.NORMAL.getValue());
-                    unread = unread + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadReadCount(0, trackingDto.trackNumber);
-                    total = total + MyDatabaseClient.getInstance(activity).getMyDatabase().
-                            onOffLoadDao().getOnOffLoadCount(trackingDto.trackNumber);
+                    zero += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
+                            trackingDto.trackNumber, HighLowStateEnum.ZERO.getValue());
+                    high += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
+                            trackingDto.trackNumber, HighLowStateEnum.HIGH.getValue());
+                    low += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
+                            trackingDto.trackNumber, HighLowStateEnum.LOW.getValue());
+                    normal += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
+                            trackingDto.trackNumber, HighLowStateEnum.NORMAL.getValue());
+                    unread += myDatabase.onOffLoadDao().getOnOffLoadReadCount(0, trackingDto.trackNumber);
+                    total += myDatabase.onOffLoadDao().getOnOffLoadCount(trackingDto.trackNumber);
                 }
+
+            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
             runOnUiThread(ReportActivity.this::setupViewPager);
             return null;
         }
+    }
+
+    public ArrayList<CounterStateDto> getCounterStateDtos() {
+        return counterStateDtos;
+    }
+
+    public ArrayList<TrackingDto> getTrackingDtos() {
+        return trackingDtos;
     }
 
     @Override
@@ -245,6 +243,7 @@ public class ReportActivity extends BaseActivity {
         binding = null;
         counterStateDtos = null;
         trackingDtos = null;
+        myDatabase = null;
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

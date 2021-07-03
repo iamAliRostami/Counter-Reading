@@ -43,17 +43,12 @@ import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class ReadingFragment extends Fragment {
     FragmentReadingBinding binding;
-//    ISharedPreferenceManager sharedPreferenceManager;
 
     ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     OnOffLoadDto onOffLoadDto;
     ReadingConfigDefaultDto readingConfigDefaultDto;
     KarbariDto karbariDto;
-//    TrackingDto trackingDto;
 
-//    ArrayList<String> items = new ArrayList<>();
-
-    //    String qotr;
     int position, counterStateCode, counterStatePosition;
     boolean canBeEmpty, canLessThanPre, isMakoos, isMane;
 

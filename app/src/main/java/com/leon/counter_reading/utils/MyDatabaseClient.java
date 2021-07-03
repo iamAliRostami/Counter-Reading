@@ -2,6 +2,7 @@ package com.leon.counter_reading.utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import androidx.room.Room;
 
@@ -10,7 +11,7 @@ import com.leon.counter_reading.MyApplication;
 public class MyDatabaseClient {
 
     private static MyDatabaseClient mInstance;
-    private final MyDatabase myDatabase;
+    private MyDatabase myDatabase;
 
     private MyDatabaseClient(Context context) {
         myDatabase = Room.databaseBuilder(context, MyDatabase.class, MyApplication.getDBName())
@@ -44,5 +45,21 @@ public class MyDatabaseClient {
 
     public MyDatabase getMyDatabase() {
         return myDatabase;
+    }
+
+    public void destroyDatabase() {
+        if (myDatabase.isOpen()) {
+            Log.e("here", "open");
+            myDatabase.close();
+        }
+        Log.e("here", "null");
+        myDatabase = null;
+    }
+
+    public void destroyDatabase(MyDatabase myDatabase) {
+        if (myDatabase.isOpen()) {
+//            myDatabase.close();
+        }
+        myDatabase = null;
     }
 }

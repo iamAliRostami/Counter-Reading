@@ -25,6 +25,7 @@ import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.GPSTracker;
+import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
@@ -170,9 +171,9 @@ public class LocationActivity extends BaseActivity {
                     getSavedLocationsCount();
             line = new Polyline(binding.mapView);
             line.getOutlinePaint().setColor(Color.YELLOW);
+            MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
             for (int i = 1; i <= total; i = i + 10) {
-                savedLocations.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        savedLocationDao().getSavedLocations(i, i + 9));
+                savedLocations.addAll(myDatabase.savedLocationDao().getSavedLocations(i, i + 9));
                 onProgressUpdate(savedLocations.size());
             }
             return null;
