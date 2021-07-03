@@ -27,6 +27,11 @@ public class UploadActivity extends BaseActivity {
     ActivityUploadBinding binding;
     Activity activity;
     int previousState, currentState;
+
+    public ArrayList<TrackingDto> getTrackingDtos() {
+        return trackingDtos;
+    }
+
     ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
 
     @Override
@@ -103,8 +108,7 @@ public class UploadActivity extends BaseActivity {
     }
 
     private void setupViewPager() {
-        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager()
-        );
+        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
         adapter.addFragment(UploadFragment.newInstance(1, trackingDtos), "بارگذاری");
         adapter.addFragment(UploadFragment.newInstance(2, trackingDtos), "بارگذاری مجدد");
         adapter.addFragment(UploadFragment.newInstance(3, new ArrayList<>()), "بارگذاری چند رسانه");

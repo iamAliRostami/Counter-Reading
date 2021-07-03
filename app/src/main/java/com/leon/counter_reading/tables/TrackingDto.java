@@ -4,6 +4,8 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
+
 @Entity(tableName = "TrackingDto", indices = @Index(value = {"customId"/*,"id","trackNumber"*/}, unique = true))
 public class TrackingDto {
     @PrimaryKey(autoGenerate = true)
@@ -31,4 +33,12 @@ public class TrackingDto {
     public boolean isActive;
     public boolean isArchive;
     public boolean isLocked;
+
+    public static ArrayList<String> getTrackingDtoItems(ArrayList<TrackingDto> trackingDtos) {
+        ArrayList<String> items = new ArrayList<>();
+        for (TrackingDto trackingDto : trackingDtos) {
+            items.add(String.valueOf(trackingDto.trackNumber));
+        }
+        return items;
+    }
 }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +12,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.google.gson.Gson;
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.activities.UploadActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentUploadBinding;
 import com.leon.counter_reading.enums.BundleEnum;
@@ -78,19 +77,19 @@ public class UploadFragment extends Fragment {
     public UploadFragment() {
     }
 
-    public static UploadFragment newInstance(int type, ArrayList<TrackingDto> trackingDtos) {
+    public static UploadFragment newInstance(int type, ArrayList<TrackingDto> trackingDtosTemp) {
         UploadFragment fragment = new UploadFragment();
         Bundle args = new Bundle();
         args.putInt(BundleEnum.TYPE.getValue(), type);
 
-        Gson gson = new Gson();
-        ArrayList<String> json = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            trackingDtos.forEach(trackingDto -> json.add(gson.toJson(trackingDto)));
-        else
-            for (TrackingDto trackingDto : trackingDtos)
-                json.add(gson.toJson(trackingDto));
-        args.putStringArrayList(BundleEnum.TRACKING.getValue(), json);
+//        Gson gson = new Gson();
+//        ArrayList<String> json = new ArrayList<>();
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+//            trackingDtosTemp.forEach(trackingDto -> json.add(gson.toJson(trackingDto)));
+//        else
+//            for (TrackingDto trackingDto : trackingDtosTemp)
+//                json.add(gson.toJson(trackingDto));
+//        args.putStringArrayList(BundleEnum.TRACKING.getValue(), json);
         fragment.setArguments(args);
         return fragment;
     }
@@ -98,10 +97,16 @@ public class UploadFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activity = getActivity();
+        getBundle();
+    }
+
+    void getBundle() {
+        trackingDtos = new ArrayList<>(((UploadActivity) activity).getTrackingDtos());
         if (getArguments() != null) {
             type = getArguments().getInt(BundleEnum.TYPE.getValue());
-            json = getArguments().getStringArrayList(
-                    BundleEnum.TRACKING.getValue());
+//            json = getArguments().getStringArrayList(
+//                    BundleEnum.TRACKING.getValue());
 
         }
     }
@@ -115,25 +120,24 @@ public class UploadFragment extends Fragment {
     }
 
     void initialize() {
-        activity = getActivity();
         sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
         if (type == 3) {
             binding.linearLayoutSpinner.setVisibility(View.GONE);
         } else {
-            trackingDtos.clear();
             items.clear();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                json.forEach(s -> {
-                    Gson gson = new Gson();
-                    trackingDtos.add(gson.fromJson(s, TrackingDto.class));
-                    items.add(String.valueOf(trackingDtos.get(trackingDtos.size() - 1).trackNumber));
-                });
-            } else
-                for (String s : json) {
-                    Gson gson = new Gson();
-                    trackingDtos.add(gson.fromJson(s, TrackingDto.class));
-                    items.add(String.valueOf(trackingDtos.get(trackingDtos.size() - 1).trackNumber));
-                }
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                json.forEach(s -> {
+//                    Gson gson = new Gson();
+//                    trackingDtos.add(gson.fromJson(s, TrackingDto.class));
+//                    items.add(String.valueOf(trackingDtos.get(trackingDtos.size() - 1).trackNumber));
+//                });
+//            } else
+//                for (String s : json) {
+//                    Gson gson = new Gson();
+//                    trackingDtos.add(gson.fromJson(s, TrackingDto.class));
+//                    items.add(String.valueOf(trackingDtos.get(trackingDtos.size() - 1).trackNumber));
+//                }
+            items.addAll(TrackingDto.getTrackingDtoItems(trackingDtos));
             items.add(0, getString(R.string.select_one));
             setupSpinner();
         }
@@ -246,7 +250,6 @@ public class UploadFragment extends Fragment {
             onOffLoadDtos.clear();
             onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                     onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(
-//                    "12126666",
                     trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber,
                     OffloadStateEnum.INSERTED.getValue()));
             offLoadReports.clear();
