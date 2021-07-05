@@ -1,7 +1,6 @@
 package com.leon.counter_reading.adapters;
 
 import android.app.Activity;
-import android.nfc.NfcAdapter;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;

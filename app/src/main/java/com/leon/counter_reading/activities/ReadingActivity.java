@@ -84,7 +84,7 @@ public class ReadingActivity extends BaseActivity {
     ArrayList<Integer> isMane = new ArrayList<>();
     SpinnerCustomAdapter adapter;
     int readStatus = 0, highLow = 1, errorCounter = 0;
-    boolean /*isNight = false,*/ isReading = false;
+    boolean isReading = false;
 
     @Override
     protected void initialize() {
@@ -136,11 +136,8 @@ public class ReadingActivity extends BaseActivity {
 
         MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
         readingData.onOffLoadDtos.get(position).isLocked = true;
-//        MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().updateTrackingDtoByLock(trackNumber, true);
         myDatabase.onOffLoadDao().updateOnOffLoadByLock(id, trackNumber, true);
         MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
-//        binding.viewPager.setCurrentItem(position);
-//        search(0, readingData.onOffLoadDtos.get(position).eshterak, true);
         runOnUiThread(() -> setupViewPager(position));
     }
 
@@ -208,7 +205,6 @@ public class ReadingActivity extends BaseActivity {
                 ((BaseActivity) activity).getGpsTracker().getLatitude();
         readingData.onOffLoadDtos.get(position).gisAccuracy =
                 ((BaseActivity) activity).getGpsTracker().getAccuracy();
-
         myDatabase.onOffLoadDao().updateOnOffLoad(readingData.onOffLoadDtos.get(position));
         MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
     }
@@ -249,7 +245,8 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void prepareToSend(int position) {
-        Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
+        Retrofit retrofit = NetworkHelper.getInstance(2,
+                sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
 
@@ -259,17 +256,11 @@ public class ReadingActivity extends BaseActivity {
         offLoadData.offLoadReports.addAll(myDatabase.offLoadReportDao().
                 getAllOffLoadReportById(readingData.onOffLoadDtos.get(position).id));
         //TODO
-//        ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>(
-//                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-//                        getAllOnOffLoadRead(OffloadStateEnum.INSERTED.getValue()));
-
         ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
-
         for (TrackingDto trackingDto : readingData.trackingDtos) {
             onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
                     getAllOnOffLoadRead(OffloadStateEnum.INSERTED.getValue(), trackingDto.trackNumber));
         }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             onOffLoadDtos.forEach(onOffLoadDto -> {
                 offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDto));
@@ -296,10 +287,10 @@ public class ReadingActivity extends BaseActivity {
 
     void setAboveIconsSrc(int position) {
         runOnUiThread(() -> {
-            setIsBazdidImage(position);
             setHighLowImage(position);
             setReadStatusImage(position);
             setExceptionImage(position);
+            setIsBazdidImage(position);
         });
     }
 
@@ -945,6 +936,7 @@ public class ReadingActivity extends BaseActivity {
                 readingDataTemp.trackingDtos.addAll(readingData.trackingDtos);
                 readingDataTemp.karbariDtos.addAll(readingData.karbariDtos);
                 readingDataTemp.readingConfigDefaultDtos.addAll(readingData.readingConfigDefaultDtos);
+
                 setAboveIconsSrc(0);
             }
             runOnUiThread(() -> setupViewPager(0));
@@ -953,8 +945,6 @@ public class ReadingActivity extends BaseActivity {
     }
 
     public ReadingData getReadingData() {
-//        if (readingData == null)
-//            ReadingActivity.this.recreate();
         return readingData;
     }
 

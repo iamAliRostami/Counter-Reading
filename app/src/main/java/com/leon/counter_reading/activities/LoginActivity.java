@@ -411,5 +411,4 @@ public class LoginActivity extends AppCompatActivity {
         System.gc();
         super.onStop();
     }
-
 }
