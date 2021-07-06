@@ -11,7 +11,7 @@ import com.leon.counter_reading.MyApplication;
 public class MyDatabaseClient {
 
     private static MyDatabaseClient mInstance;
-    private MyDatabase myDatabase;
+    private final MyDatabase myDatabase;
 
     private MyDatabaseClient(Context context) {
         myDatabase = Room.databaseBuilder(context, MyDatabase.class, MyApplication.getDBName())
@@ -47,19 +47,17 @@ public class MyDatabaseClient {
         return myDatabase;
     }
 
-    public void destroyDatabase() {
+
+    public void destroyDatabase(/*MyDatabase myDatabase*/) {
         if (myDatabase.isOpen()) {
-            Log.e("here", "open");
             myDatabase.close();
         }
-        Log.e("here", "null");
-        myDatabase = null;
+        mInstance = null;
     }
-
     public void destroyDatabase(MyDatabase myDatabase) {
         if (myDatabase.isOpen()) {
-//            myDatabase.close();
+            myDatabase.close();
         }
-        myDatabase = null;
+        mInstance = null;
     }
 }

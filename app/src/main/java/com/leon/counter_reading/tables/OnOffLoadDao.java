@@ -25,6 +25,34 @@ public interface OnOffLoadDao {
     @Query("select * From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId AND trackNumber = :trackNumber ORDER BY eshterak")
     List<OnOffLoadDto> getAllOnOffLoadRead(int offLoadStateId, int trackNumber);
 
+    @Query("select id, counterNumber, counterStateId, possibleAddress, possibleCounterSerial, " +
+            "possibleEshterak, possibleMobile, possiblePhoneNumber, possibleAhadMaskooniOrAsli, " +
+            "possibleAhadTejariOrFari, possibleAhadSaierOrAbBaha, possibleEmpty, possibleKarbariCode, " +
+            "description, counterNumberShown, gisAccuracy, x , y, d1, d2 From OnOffLoadDto " +
+            "WHERE offLoadStateId = :offLoadStateId AND trackNumber = :trackNumber")
+    List<OnOffLoadDto.OffLoad> getAllOnOffLoadInsert(int offLoadStateId, int trackNumber);
+
+    @Query("select id, counterNumber, counterStateId, possibleAddress, possibleCounterSerial, " +
+            "possibleEshterak, possibleMobile, possiblePhoneNumber, possibleAhadMaskooniOrAsli, " +
+            "possibleAhadTejariOrFari, possibleAhadSaierOrAbBaha, possibleEmpty, possibleKarbariCode, " +
+            "description, counterNumberShown, gisAccuracy, x , y, d1, d2 From OnOffLoadDto " +
+            "WHERE offLoadStateId = :offLoadStateId AND trackNumber IN (:trackNumber)")
+    List<OnOffLoadDto.OffLoad> getAllOnOffLoadInsert(int offLoadStateId, List<Integer> trackNumber);
+
+    //TODO
+    @Query("select OnOffLoadDto.id, OnOffLoadDto.counterNumber, OnOffLoadDto.counterStateId, " +
+            "OnOffLoadDto.possibleAddress, OnOffLoadDto.possibleCounterSerial, " +
+            "OnOffLoadDto.possibleEshterak, OnOffLoadDto.possibleMobile, " +
+            "OnOffLoadDto.possiblePhoneNumber, OnOffLoadDto.possibleAhadMaskooniOrAsli, " +
+            "OnOffLoadDto.possibleAhadTejariOrFari, OnOffLoadDto.possibleAhadSaierOrAbBaha, " +
+            "OnOffLoadDto.possibleEmpty, OnOffLoadDto.possibleKarbariCode, " +
+            "OnOffLoadDto.description, OnOffLoadDto.counterNumberShown, OnOffLoadDto.gisAccuracy, " +
+            "OnOffLoadDto.x , OnOffLoadDto.y, OnOffLoadDto.d1, OnOffLoadDto.d2 From OnOffLoadDto " +
+            "Inner JOIN TrackingDto on OnOffLoadDto.trackNumber = TrackingDto.trackNumber " +
+            "WHERE OnOffLoadDto.offLoadStateId = :offLoadStateId AND TrackingDto.isActive = :isActive")
+    List<OnOffLoadDto.OffLoad> getAllOnOffLoadInsert(int offLoadStateId, boolean isActive);
+
+
     @Query("select * From OnOffLoadDto WHERE offLoadStateId = :offLoadStateId ORDER BY eshterak")
     List<OnOffLoadDto> getAllOnOffLoadRead(int offLoadStateId);
 
@@ -82,6 +110,12 @@ public interface OnOffLoadDao {
 
     @Query("UPDATE OnOffLoadDto set offLoadStateId = :offLoadStateId WHERE id = :id")
     void updateOnOffLoad(int offLoadStateId, String id);
+
+    @Query("UPDATE OnOffLoadDto set offLoadStateId = :offLoadStateId WHERE id IN (:id)")
+    void updateOnOffLoad(int offLoadStateId, String[] id);
+
+    @Query("Update OnOffLoadDto set offLoadStateId = :offLoadStateId WHERE trackNumber = :trackNumber")
+    void updateOnOffLoad(int offLoadStateId, int trackNumber);
 
     @Query("UPDATE OnOffLoadDto set isBazdid = :isBazdid WHERE id = :id")
     void updateOnOffLoad(boolean isBazdid, String id);

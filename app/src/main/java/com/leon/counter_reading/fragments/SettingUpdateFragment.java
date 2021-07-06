@@ -103,8 +103,8 @@ public class SettingUpdateFragment extends Fragment {
 
 
 
+    @SuppressLint("SetTextI18n")
     class UpdateInfo implements ICallback<LastInfo> {
-        @SuppressLint("SetTextI18n")
         @Override
         public void execute(Response<LastInfo> response) {
             if (response.body() != null) {

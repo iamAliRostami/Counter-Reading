@@ -86,26 +86,29 @@ public class OnOffLoadDto {
 
 
     public static class OffLoad {
-        public final String id;
-        public final int counterNumber;
-        public final int counterStateId;
-        public final String possibleAddress;
-        public final String possibleCounterSerial;
-        public final String possibleEshterak;
-        public final String possibleMobile;
-        public final String possiblePhoneNumber;
-        public final int possibleAhadMaskooniOrAsli;
-        public final int possibleAhadTejariOrFari;
-        public final int possibleAhadSaierOrAbBaha;
-        public final int possibleEmpty;
-        public final int possibleKarbariCode;
-        public final String description;
-        public final boolean counterNumberShown;
-        public final double gisAccuracy;
-        public final double x;
-        public final double y;
-        public final String d1;
-        public final String d2;
+        public  String id;
+        public  int counterNumber;
+        public  int counterStateId;
+        public  String possibleAddress;
+        public  String possibleCounterSerial;
+        public  String possibleEshterak;
+        public  String possibleMobile;
+        public  String possiblePhoneNumber;
+        public  int possibleAhadMaskooniOrAsli;
+        public  int possibleAhadTejariOrFari;
+        public  int possibleAhadSaierOrAbBaha;
+        public  int possibleEmpty;
+        public  int possibleKarbariCode;
+        public  String description;
+        public  boolean counterNumberShown;
+        public  double gisAccuracy;
+        public  double x;
+        public  double y;
+        public  String d1;
+        public  String d2;
+
+        public OffLoad() {
+        }
 
         public OffLoad(OnOffLoadDto onOffLoadDto) {
             id = onOffLoadDto.id;
@@ -134,7 +137,7 @@ public class OnOffLoadDto {
     public static class OffLoadData {
         public boolean isFinal;//TODO upload or reading
         public int finalTrackNumber;
-        public final ArrayList<OffLoad> offLoads;
+        public ArrayList<OffLoad> offLoads;
         public final ArrayList<OffLoadReport> offLoadReports;
 
         public OffLoadData() {
@@ -148,6 +151,6 @@ public class OnOffLoadDto {
         public String message;
         public String generationDateTime;
         public boolean isValid;
-        public ArrayList<String> targetObject;
+        public String[] targetObject;
     }
 }

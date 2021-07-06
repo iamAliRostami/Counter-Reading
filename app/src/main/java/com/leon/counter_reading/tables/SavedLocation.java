@@ -16,4 +16,16 @@ public class SavedLocation {
         this.longitude = longitude;
         this.latitude = latitude;
     }
+    public static class LocationOnMap{
+        public double longitude;
+        public double latitude;
+
+//        public LocationOnMap() {
+//        }
+
+        public LocationOnMap(double longitude, double latitude) {
+            this.longitude = longitude;
+            this.latitude = latitude;
+        }
+    }
 }

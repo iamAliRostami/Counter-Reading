@@ -119,16 +119,6 @@ public class ReadingActivity extends BaseActivity {
     }
 
     public void updateTrackingDto(String id, int trackNumber, int position) {
-//        for (int i = 0; i < readingData.trackingDtos.size(); i++) {
-//            if (readingData.trackingDtos.get(i).trackNumber == trackNumber) {
-//                readingData.trackingDtos.get(i).isLocked = true;
-//            }
-//        }
-//        for (int i = 0; i < readingDataTemp.trackingDtos.size(); i++) {
-//            if (readingDataTemp.trackingDtos.get(i).trackNumber == trackNumber) {
-//                readingDataTemp.trackingDtos.get(i).isLocked = true;
-//            }
-//        }
         for (int i = 0; i < readingDataTemp.onOffLoadDtos.size(); i++) {
             if (readingDataTemp.onOffLoadDtos.get(i).id.equals(id))
                 readingDataTemp.onOffLoadDtos.get(i).isLocked = true;
@@ -239,44 +229,51 @@ public class ReadingActivity extends BaseActivity {
             setAboveIconsSrc(position);
             update(position);
             makeRing(activity, NotificationType.SAVE);
-            prepareToSend(position);
+            prepareToSend();
             changePage();
         }
     }
 
-    void prepareToSend(int position) {
-        Retrofit retrofit = NetworkHelper.getInstance(2,
-                sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
-        IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
+    @SuppressLint("StaticFieldLeak")
+    class PrepareToSend extends AsyncTask<Integer, Integer, Integer> {
+        OnOffLoadDto.OffLoadData offLoadData;
 
-        offLoadData.isFinal = false;
-
-        MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
-        offLoadData.offLoadReports.addAll(myDatabase.offLoadReportDao().
-                getAllOffLoadReportById(readingData.onOffLoadDtos.get(position).id));
-        //TODO
-        ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
-        for (TrackingDto trackingDto : readingData.trackingDtos) {
-            onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                    getAllOnOffLoadRead(OffloadStateEnum.INSERTED.getValue(), trackingDto.trackNumber));
+        public PrepareToSend() {
+            offLoadData = new OnOffLoadDto.OffLoadData();
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            onOffLoadDtos.forEach(onOffLoadDto -> {
-                offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDto));
-                offLoadData.offLoadReports.addAll(myDatabase.offLoadReportDao().
-                        getAllOffLoadReportById(onOffLoadDto.id));
-            });
-        } else
-            for (OnOffLoadDto onOffLoadDto : onOffLoadDtos) {
-                offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDto));
-                offLoadData.offLoadReports.addAll(myDatabase.offLoadReportDao().
-                        getAllOffLoadReportById(onOffLoadDto.id));
-            }
-        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
-        Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
-        HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activity,
-                new offLoadData(), new offLoadDataIncomplete(), new offLoadError());
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... integers) {
+            offLoadData.isFinal = false;
+
+            MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+            //TODO
+//        offLoadData.offLoadReports.addAll(myDatabase.offLoadReportDao().
+//                getAllOffLoadReportById(readingData.onOffLoadDtos.get(position).id));
+            offLoadData.offLoads = new ArrayList<>(myDatabase.onOffLoadDao().getAllOnOffLoadInsert(
+                    OffloadStateEnum.INSERTED.getValue(), true));
+
+            offLoadData.offLoadReports.addAll(myDatabase.offLoadReportDao().
+                    getAllOffLoadReportByActive(true));
+            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+            Retrofit retrofit = NetworkHelper.getInstance(2,
+                    sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
+            IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+            Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
+            HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activity,
+                    new offLoadData(), new offLoadDataIncomplete(), new offLoadError());
+            return null;
+        }
+    }
+
+    void prepareToSend(/*int position*/) {
+        new PrepareToSend().execute();
     }
 
     void showPossible(int position) {
@@ -783,36 +780,42 @@ public class ReadingActivity extends BaseActivity {
         @Override
         public void execute(Response<OnOffLoadDto.OffLoadResponses> response) {
             if (response.body() != null && response.body().status == 200) {
-                MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
-                myDatabase.offLoadReportDao().deleteAllOffLoadReport();
-                int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
-                        OffloadStateEnum.SENT_WITH_ERROR.getValue();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    response.body().targetObject.forEach(s -> {
-                        for (int j = 0; j < readingData.onOffLoadDtos.size(); j++) {
-                            if (s.equals(readingData.onOffLoadDtos.get(j).id)) {
-                                readingData.onOffLoadDtos.get(j).offLoadStateId = state;
-                            }
-                        }
-                        myDatabase.onOffLoadDao().updateOnOffLoad(state, s);
-                    });
-                } else {
-                    for (String s : response.body().targetObject) {
-                        for (int j = 0; j < readingData.onOffLoadDtos.size(); j++) {
-                            if (s.equals(readingData.onOffLoadDtos.get(j).id)) {
-                                readingData.onOffLoadDtos.get(j).offLoadStateId = state;
-                            }
-                        }
-                        myDatabase.onOffLoadDao().updateOnOffLoad(state, s);
-                    }
-                }
-                MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+                new Sent().execute(response.body());
+
             } else if (response.body() != null/* && errorCounter < SHOW_ERROR*/) {
                 errorCounter++;
                 CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
                 String error = customErrorHandlingNew.getErrorMessage(response.body().status);
                 new CustomToast().error(error);
             }
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    class Sent extends AsyncTask<OnOffLoadDto.OffLoadResponses, Integer, Integer> {
+
+        @Override
+        protected Integer doInBackground(OnOffLoadDto.OffLoadResponses... offLoadResponses) {
+            //TODO
+            MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+            myDatabase.offLoadReportDao().deleteAllOffLoadReport();
+            int state = offLoadResponses[0].isValid ? OffloadStateEnum.SENT.getValue() :
+                    OffloadStateEnum.SENT_WITH_ERROR.getValue();
+            myDatabase.onOffLoadDao().updateOnOffLoad(state, offLoadResponses[0].targetObject);
+            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+            try {
+                for (String s : offLoadResponses[0].targetObject) {
+                    for (int j = 0; j < readingData.onOffLoadDtos.size(); j++) {
+                        if (s.equals(readingData.onOffLoadDtos.get(j).id)) {
+                            readingData.onOffLoadDtos.get(j).offLoadStateId = state;
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
         }
     }
 

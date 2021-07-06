@@ -109,9 +109,9 @@ public class UploadActivity extends BaseActivity {
 
     private void setupViewPager() {
         ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
-        adapter.addFragment(UploadFragment.newInstance(1, trackingDtos), "بارگذاری");
-        adapter.addFragment(UploadFragment.newInstance(2, trackingDtos), "بارگذاری مجدد");
-        adapter.addFragment(UploadFragment.newInstance(3, new ArrayList<>()), "بارگذاری چند رسانه");
+        adapter.addFragment(UploadFragment.newInstance(1), "بارگذاری");
+        adapter.addFragment(UploadFragment.newInstance(2), "بارگذاری مجدد");
+        adapter.addFragment(UploadFragment.newInstance(3), "بارگذاری چند رسانه");
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

@@ -14,6 +14,12 @@ public interface SavedLocationsDao {
     @Query("Select * From SavedLocation WHERE id BETWEEN :first AND :last")
     List<SavedLocation> getSavedLocations(int first, int last);
 
+    @Query("Select latitude, longitude From SavedLocation WHERE id BETWEEN :first AND :last")
+    List<SavedLocation.LocationOnMap> getSavedLocationsXY(int first, int last);
+
+    @Query("Select latitude, longitude From SavedLocation")
+    List<SavedLocation.LocationOnMap> getSavedLocationsXY();
+
     @Query("Select COUNT(*) From SavedLocation")
     int getSavedLocationsCount();
 

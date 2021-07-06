@@ -60,7 +60,6 @@ public class UploadFragment extends Fragment {
             R.drawable.img_upload_off,
             R.drawable.img_multimedia};
     int type;
-    ArrayList<String> json;
     FragmentUploadBinding binding;
     ArrayList<Image> images = new ArrayList<>();
     ArrayList<Voice> voice = new ArrayList<>();
@@ -77,19 +76,10 @@ public class UploadFragment extends Fragment {
     public UploadFragment() {
     }
 
-    public static UploadFragment newInstance(int type, ArrayList<TrackingDto> trackingDtosTemp) {
+    public static UploadFragment newInstance(int type) {
         UploadFragment fragment = new UploadFragment();
         Bundle args = new Bundle();
         args.putInt(BundleEnum.TYPE.getValue(), type);
-
-//        Gson gson = new Gson();
-//        ArrayList<String> json = new ArrayList<>();
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-//            trackingDtosTemp.forEach(trackingDto -> json.add(gson.toJson(trackingDto)));
-//        else
-//            for (TrackingDto trackingDto : trackingDtosTemp)
-//                json.add(gson.toJson(trackingDto));
-//        args.putStringArrayList(BundleEnum.TRACKING.getValue(), json);
         fragment.setArguments(args);
         return fragment;
     }
@@ -104,11 +94,7 @@ public class UploadFragment extends Fragment {
     void getBundle() {
         trackingDtos = new ArrayList<>(((UploadActivity) activity).getTrackingDtos());
         if (getArguments() != null) {
-            type = getArguments().getInt(BundleEnum.TYPE.getValue());
-//            json = getArguments().getStringArrayList(
-//                    BundleEnum.TRACKING.getValue());
-
-        }
+            type = getArguments().getInt(BundleEnum.TYPE.getValue());        }
     }
 
     @Override
@@ -125,18 +111,6 @@ public class UploadFragment extends Fragment {
             binding.linearLayoutSpinner.setVisibility(View.GONE);
         } else {
             items.clear();
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                json.forEach(s -> {
-//                    Gson gson = new Gson();
-//                    trackingDtos.add(gson.fromJson(s, TrackingDto.class));
-//                    items.add(String.valueOf(trackingDtos.get(trackingDtos.size() - 1).trackNumber));
-//                });
-//            } else
-//                for (String s : json) {
-//                    Gson gson = new Gson();
-//                    trackingDtos.add(gson.fromJson(s, TrackingDto.class));
-//                    items.add(String.valueOf(trackingDtos.get(trackingDtos.size() - 1).trackNumber));
-//                }
             items.addAll(TrackingDto.getTrackingDtoItems(trackingDtos));
             items.add(0, getString(R.string.select_one));
             setupSpinner();
@@ -489,10 +463,12 @@ public class UploadFragment extends Fragment {
             if (response.body() != null && response.body().status == 200) {
                 int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
                         OffloadStateEnum.SENT_WITH_ERROR.getValue();
-                for (int i = 0; i < response.body().targetObject.size(); i++) {
-                    MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                            updateOnOffLoad(state, response.body().targetObject.get(i));
-                }
+//                for (int i = 0; i < response.body().targetObject.size(); i++) {
+//                    MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+//                            updateOnOffLoad(state, response.body().targetObject.get(i));
+//                }
+                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                        updateOnOffLoad(state, response.body().targetObject);
                 MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
                         updateTrackingDtoByArchive(trackingDtos.get(
                                 binding.spinner.getSelectedItemPosition() - 1).id, true, false);

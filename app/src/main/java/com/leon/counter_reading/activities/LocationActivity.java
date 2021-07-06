@@ -5,9 +5,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Debug;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -34,7 +34,6 @@ import org.osmdroid.api.IMapController;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
@@ -44,10 +43,6 @@ import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailabl
 
 public class LocationActivity extends BaseActivity {
     ActivityLocationBinding binding;
-    int polygonIndex, startIndex = 0;
-    ArrayList<GeoPoint> polygonPoint = new ArrayList<>();
-    ArrayList<SavedLocation> savedLocations = new ArrayList<>();
-    Polyline line;
     SharedPreferenceManager sharedPreferenceManager;
     Activity activity;
 
@@ -65,9 +60,7 @@ public class LocationActivity extends BaseActivity {
 
     void initializeCheckBoxPoint() {
         binding.checkBoxPoint.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.POINT.getValue()));
-        binding.checkBoxPoint.setOnClickListener(v -> {
-            sharedPreferenceManager.putData(SharedReferenceKeys.POINT.getValue(), binding.checkBoxPoint.isChecked());
-        });
+        binding.checkBoxPoint.setOnClickListener(v -> sharedPreferenceManager.putData(SharedReferenceKeys.POINT.getValue(), binding.checkBoxPoint.isChecked()));
     }
 
     void checkPermissions() {
@@ -161,20 +154,22 @@ public class LocationActivity extends BaseActivity {
 
     @SuppressLint("StaticFieldLeak")
     class GetDBLocation extends AsyncTask<Integer, Integer, Integer> {
+        MyDatabase myDatabase;
+        ArrayList<SavedLocation.LocationOnMap> savedLocations = new ArrayList<>();
+
         public GetDBLocation() {
             super();
         }
 
         @Override
         protected Integer doInBackground(Integer... integers) {
-            int total = MyDatabaseClient.getInstance(activity).getMyDatabase().savedLocationDao().
-                    getSavedLocationsCount();
-            line = new Polyline(binding.mapView);
-            line.getOutlinePaint().setColor(Color.YELLOW);
-            MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+            int total = myDatabase.savedLocationDao().getSavedLocationsCount();
+//            savedLocations.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase()
+//                    .savedLocationDao().getSavedLocationsXY());
+            Log.e("size", String.valueOf(total));
             for (int i = 1; i <= total; i = i + 10) {
-                savedLocations.addAll(myDatabase.savedLocationDao().getSavedLocations(i, i + 9));
-                onProgressUpdate(savedLocations.size());
+                savedLocations = new ArrayList<>(myDatabase.savedLocationDao().getSavedLocationsXY(i, i + 9));
+                onProgressUpdate();
             }
             return null;
         }
@@ -182,52 +177,52 @@ public class LocationActivity extends BaseActivity {
         @Override
         protected void onPreExecute() {
             savedLocations.clear();
-            polygonPoint.clear();
+            myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
         }
 
         @Override
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
+//            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-            for (int i = startIndex; i < values[0]; i++) {
+            for (int i = 0; i < savedLocations.size(); i++) {
                 addPlace(new GeoPoint(savedLocations.get(i).latitude, savedLocations.get(i).longitude));
-//                createPolygon(new GeoPoint(savedLocations.get(i).latitude, savedLocations.get(i).longitude));
             }
-            startIndex = values[0];
             super.onProgressUpdate(values);
         }
 
         void addPlace(GeoPoint p) {
-            GeoPoint startPoint = new GeoPoint(p.getLatitude(), p.getLongitude());
-            Marker startMarker = new Marker(binding.mapView);
-            startMarker.setPosition(startPoint);
-//            startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-            startMarker.setIcon(ContextCompat.getDrawable(activity, R.drawable.img_marker));
-            binding.mapView.getOverlayManager().add(startMarker);
+            runOnUiThread(() -> {
+                GeoPoint startPoint = new GeoPoint(p.getLatitude(), p.getLongitude());
+                Marker startMarker = new Marker(binding.mapView);
+                startMarker.setPosition(startPoint);
+                startMarker.setIcon(ContextCompat.getDrawable(activity, R.drawable.img_marker));
+                binding.mapView.getOverlayManager().add(startMarker);
+            });
         }
 
-        void createPolygon(GeoPoint geoPoint) {
-            if (polygonIndex != 0) {
-                try {
-                    binding.mapView.getOverlays().remove(polygonIndex);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            try {
-                binding.mapView.getOverlays().add(line);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            polygonPoint.add(geoPoint);
-            polygonPoint.add(polygonPoint.get(0));
-            line.setPoints(polygonPoint);
-            polygonPoint.remove(polygonPoint.size() - 1);
-            polygonIndex = binding.mapView.getOverlays().size() - 1;
-        }
+//        void createPolygon(GeoPoint geoPoint) {
+//            if (polygonIndex != 0) {
+//                try {
+//                    binding.mapView.getOverlays().remove(polygonIndex);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            try {
+//                binding.mapView.getOverlays().add(line);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            polygonPoint.add(geoPoint);
+//            polygonPoint.add(polygonPoint.get(0));
+//            line.setPoints(polygonPoint);
+//            polygonPoint.remove(polygonPoint.size() - 1);
+//            polygonIndex = binding.mapView.getOverlays().size() - 1;
+//        }
 
         @Override
         protected void onCancelled(Integer integer) {
@@ -273,9 +268,7 @@ public class LocationActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        polygonPoint = null;
-        savedLocations = null;
-        line = null;
+        MyDatabaseClient.getInstance(activity).destroyDatabase();
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();
