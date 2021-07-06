@@ -167,7 +167,7 @@ public class LocationActivity extends BaseActivity {
 //            savedLocations.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase()
 //                    .savedLocationDao().getSavedLocationsXY());
             Log.e("size", String.valueOf(total));
-            for (int i = 1; i <= total; i = i + 10) {
+            for (int i = 1; i <= total && myDatabase.isOpen(); i = i + 10) {
                 savedLocations = new ArrayList<>(myDatabase.savedLocationDao().getSavedLocationsXY(i, i + 9));
                 onProgressUpdate();
             }
@@ -196,11 +196,15 @@ public class LocationActivity extends BaseActivity {
 
         void addPlace(GeoPoint p) {
             runOnUiThread(() -> {
-                GeoPoint startPoint = new GeoPoint(p.getLatitude(), p.getLongitude());
-                Marker startMarker = new Marker(binding.mapView);
-                startMarker.setPosition(startPoint);
-                startMarker.setIcon(ContextCompat.getDrawable(activity, R.drawable.img_marker));
-                binding.mapView.getOverlayManager().add(startMarker);
+                try {
+                    GeoPoint startPoint = new GeoPoint(p.getLatitude(), p.getLongitude());
+                    Marker startMarker = new Marker(binding.mapView);
+                    startMarker.setPosition(startPoint);
+                    startMarker.setIcon(ContextCompat.getDrawable(activity, R.drawable.img_marker));
+                    binding.mapView.getOverlayManager().add(startMarker);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             });
         }
 
