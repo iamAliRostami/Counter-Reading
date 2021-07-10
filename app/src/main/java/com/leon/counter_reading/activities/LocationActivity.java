@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Debug;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -43,8 +42,11 @@ import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailabl
 
 public class LocationActivity extends BaseActivity {
     ActivityLocationBinding binding;
-    SharedPreferenceManager sharedPreferenceManager;
     Activity activity;
+    SharedPreferenceManager sharedPreferenceManager;
+    ShowOnMap showOnMap;
+    ArrayList<Marker> markers = new ArrayList<>();
+    static ArrayList<SavedLocation.LocationOnMap> savedLocations;
 
     @Override
     protected void initialize() {
@@ -61,6 +63,21 @@ public class LocationActivity extends BaseActivity {
     void initializeCheckBoxPoint() {
         binding.checkBoxPoint.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.POINT.getValue()));
         binding.checkBoxPoint.setOnClickListener(v -> sharedPreferenceManager.putData(SharedReferenceKeys.POINT.getValue(), binding.checkBoxPoint.isChecked()));
+        showOnMap = new ShowOnMap();
+        binding.checkBoxShowPoint.setOnClickListener(v -> {
+            if (binding.checkBoxShowPoint.isChecked()) {
+                showOnMap = new ShowOnMap();
+                showOnMap.execute();
+            } else {
+                clearMap();
+            }
+        });
+    }
+
+    void clearMap() {
+        showOnMap.cancel(true);
+        binding.mapView.getOverlayManager().removeAll(markers);
+        markers.clear();
     }
 
     void checkPermissions() {
@@ -152,61 +169,34 @@ public class LocationActivity extends BaseActivity {
         new GetDBLocation().execute();
     }
 
-    @SuppressLint("StaticFieldLeak")
-    class GetDBLocation extends AsyncTask<Integer, Integer, Integer> {
+    static class GetDBLocation extends AsyncTask<Void, Void, Void> {
         MyDatabase myDatabase;
-        ArrayList<SavedLocation.LocationOnMap> savedLocations = new ArrayList<>();
 
         public GetDBLocation() {
             super();
         }
 
         @Override
-        protected Integer doInBackground(Integer... integers) {
-            int total = myDatabase.savedLocationDao().getSavedLocationsCount();
-//            savedLocations.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase()
-//                    .savedLocationDao().getSavedLocationsXY());
-            Log.e("size", String.valueOf(total));
-            for (int i = 1; i <= total && myDatabase.isOpen(); i = i + 10) {
-                savedLocations = new ArrayList<>(myDatabase.savedLocationDao().getSavedLocationsXY(i, i + 9));
-                onProgressUpdate();
-            }
+        protected Void doInBackground(Void... voids) {
+            savedLocations = new ArrayList<>(myDatabase.savedLocationDao().getSavedLocationsXY());
+//            while (i < savedLocations.size() && !isCancelled()) {
+//                addPlace(new GeoPoint(savedLocations.get(i).latitude, savedLocations.get(i).longitude));
+//                i++;
+//            }
             return null;
         }
 
         @Override
         protected void onPreExecute() {
-            savedLocations.clear();
-            myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+            myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
         }
 
         @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
-//            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase(myDatabase);
         }
 
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            for (int i = 0; i < savedLocations.size(); i++) {
-                addPlace(new GeoPoint(savedLocations.get(i).latitude, savedLocations.get(i).longitude));
-            }
-            super.onProgressUpdate(values);
-        }
-
-        void addPlace(GeoPoint p) {
-            runOnUiThread(() -> {
-                try {
-                    GeoPoint startPoint = new GeoPoint(p.getLatitude(), p.getLongitude());
-                    Marker startMarker = new Marker(binding.mapView);
-                    startMarker.setPosition(startPoint);
-                    startMarker.setIcon(ContextCompat.getDrawable(activity, R.drawable.img_marker));
-                    binding.mapView.getOverlayManager().add(startMarker);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-        }
 
 //        void createPolygon(GeoPoint geoPoint) {
 //            if (polygonIndex != 0) {
@@ -228,9 +218,36 @@ public class LocationActivity extends BaseActivity {
 //            polygonIndex = binding.mapView.getOverlays().size() - 1;
 //        }
 
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    class ShowOnMap extends AsyncTask<Void, Void, Void> {
+        public ShowOnMap() {
+            super();
+        }
+
         @Override
-        protected void onCancelled(Integer integer) {
-            super.onCancelled(integer);
+        protected Void doInBackground(Void... voids) {
+            markers = new ArrayList<>();
+            int i = 0;
+            while (i < savedLocations.size() && !isCancelled()) {
+                addPlace(new GeoPoint(savedLocations.get(i).latitude, savedLocations.get(i).longitude));
+                i++;
+            }
+            return null;
+        }
+
+        void addPlace(GeoPoint p) {
+            try {
+                GeoPoint startPoint = new GeoPoint(p.getLatitude(), p.getLongitude());
+                Marker marker = new Marker(binding.mapView);
+                marker.setPosition(startPoint);
+                marker.setIcon(ContextCompat.getDrawable(activity, R.drawable.img_marker));
+                markers.add(marker);
+                binding.mapView.getOverlayManager().add(marker);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -260,6 +277,7 @@ public class LocationActivity extends BaseActivity {
 
     @Override
     protected void onStop() {
+        showOnMap.cancel(true);
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();
@@ -272,7 +290,10 @@ public class LocationActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        MyDatabaseClient.getInstance(activity).destroyDatabase();
+        clearMap();
+        savedLocations = null;
+        binding = null;
+        markers = null;
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

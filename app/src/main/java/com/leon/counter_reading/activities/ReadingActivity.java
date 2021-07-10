@@ -111,10 +111,11 @@ public class ReadingActivity extends BaseActivity {
     }
 
     public void updateOnOffLoadAttemptNumber(int position, int attemptNumber) {
+
         MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
         myDatabase.onOffLoadDao().updateOnOffLoadByAttemptNumber(
                 readingData.onOffLoadDtos.get(position).id, attemptNumber);
-        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+//        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
         readingData.onOffLoadDtos.get(position).attemptNumber = attemptNumber;
     }
 
@@ -127,7 +128,7 @@ public class ReadingActivity extends BaseActivity {
         MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
         readingData.onOffLoadDtos.get(position).isLocked = true;
         myDatabase.onOffLoadDao().updateOnOffLoadByLock(id, trackNumber, true);
-        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+//        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
         runOnUiThread(() -> setupViewPager(position));
     }
 
@@ -136,7 +137,7 @@ public class ReadingActivity extends BaseActivity {
         readingData.onOffLoadDtos.get(position).counterNumberShown = true;
         MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
         myDatabase.onOffLoadDao().updateOnOffLoad(readingData.onOffLoadDtos.get(position));
-        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+//        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
     }
 
     public void updateOnOffLoad(int position, int counterStateCode, int counterStatePosition) {
@@ -196,7 +197,7 @@ public class ReadingActivity extends BaseActivity {
         readingData.onOffLoadDtos.get(position).gisAccuracy =
                 ((BaseActivity) activity).getGpsTracker().getAccuracy();
         myDatabase.onOffLoadDao().updateOnOffLoad(readingData.onOffLoadDtos.get(position));
-        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+//        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
     }
 
     void showImage(int position) {
@@ -234,11 +235,17 @@ public class ReadingActivity extends BaseActivity {
         }
     }
 
+    void prepareToSend(/*int position*/) {
+//        for (int i = 0; i < 100; i++)
+            new PrepareToSend().execute();
+    }
+
     @SuppressLint("StaticFieldLeak")
     class PrepareToSend extends AsyncTask<Integer, Integer, Integer> {
         OnOffLoadDto.OffLoadData offLoadData;
 
         public PrepareToSend() {
+            super();
             offLoadData = new OnOffLoadDto.OffLoadData();
         }
 
@@ -261,7 +268,7 @@ public class ReadingActivity extends BaseActivity {
 
             offLoadData.offLoadReports.addAll(myDatabase.offLoadReportDao().
                     getAllOffLoadReportByActive(true));
-            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+//            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
             Retrofit retrofit = NetworkHelper.getInstance(2,
                     sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
@@ -272,9 +279,6 @@ public class ReadingActivity extends BaseActivity {
         }
     }
 
-    void prepareToSend(/*int position*/) {
-        new PrepareToSend().execute();
-    }
 
     void showPossible(int position) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -750,7 +754,7 @@ public class ReadingActivity extends BaseActivity {
             MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
             myDatabase.onOffLoadDao().updateOnOffLoad(true, uuid);
             readingData.onOffLoadDtos.set(position, myDatabase.onOffLoadDao().getAllOnOffLoadById(uuid));
-            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+//            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
             int i = 0;
             for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
                 if (onOffLoadDto.id.equals(uuid))
@@ -802,7 +806,7 @@ public class ReadingActivity extends BaseActivity {
             int state = offLoadResponses[0].isValid ? OffloadStateEnum.SENT.getValue() :
                     OffloadStateEnum.SENT_WITH_ERROR.getValue();
             myDatabase.onOffLoadDao().updateOnOffLoad(state, offLoadResponses[0].targetObject);
-            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+//            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
             try {
                 for (String s : offLoadResponses[0].targetObject) {
                     for (int j = 0; j < readingData.onOffLoadDtos.size(); j++) {
@@ -826,6 +830,7 @@ public class ReadingActivity extends BaseActivity {
 //            }
 //            errorCounter++;
             if (response != null) {
+                //400 سیچ
                 Log.e("offLoadDataIncomplete", String.valueOf(response.body()));
                 Log.e("offLoadDataIncomplete", response.toString());
                 CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
@@ -931,7 +936,7 @@ public class ReadingActivity extends BaseActivity {
                         }
                     }
                 }
-            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+//            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
             if (readingData != null && readingData.onOffLoadDtos != null && readingData.onOffLoadDtos.size() > 0) {
                 readingDataTemp.onOffLoadDtos.addAll(readingData.onOffLoadDtos);
                 readingDataTemp.counterStateDtos.addAll(readingData.counterStateDtos);

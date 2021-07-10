@@ -112,7 +112,7 @@ public final class NetworkHelper {
 //                    .client(s[1] != null ?
 //                            NetworkHelper.getHttpClient(denominator, s[0], s[1]) :
 //                            NetworkHelper.getHttpClient(denominator, s[0]))
-                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .addConverterFactory(GsonConverterFactory.create(getGson()))
                     .build();
         }
         return retrofit;

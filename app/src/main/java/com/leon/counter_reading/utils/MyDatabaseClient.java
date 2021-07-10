@@ -49,15 +49,15 @@ public class MyDatabaseClient {
 
 
     public void destroyDatabase(/*MyDatabase myDatabase*/) {
-        if (myDatabase.isOpen()) {
-            myDatabase.close();
-        }
-        mInstance = null;
+//        if (myDatabase.isOpen()) {
+//            myDatabase.close();
+//        }
+//        mInstance = null;
     }
     public void destroyDatabase(MyDatabase myDatabase) {
-        if (myDatabase.isOpen()) {
-            myDatabase.close();
-        }
-        mInstance = null;
+//        if (myDatabase.isOpen()) {
+//            myDatabase.close();
+//        }
+//        mInstance = null;
     }
 }
