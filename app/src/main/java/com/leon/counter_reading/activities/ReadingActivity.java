@@ -237,7 +237,7 @@ public class ReadingActivity extends BaseActivity {
 
     void prepareToSend(/*int position*/) {
 //        for (int i = 0; i < 100; i++)
-            new PrepareToSend().execute();
+        new PrepareToSend().execute();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -749,6 +749,7 @@ public class ReadingActivity extends BaseActivity {
         if ((requestCode == MyApplication.REPORT || requestCode == MyApplication.NAVIGATION ||
                 requestCode == MyApplication.DESCRIPTION ||
                 requestCode == MyApplication.COUNTER_LOCATION) && resultCode == RESULT_OK) {
+
             int position = data.getExtras().getInt(BundleEnum.POSITION.getValue());
             String uuid = data.getExtras().getString(BundleEnum.BILL_ID.getValue());
             MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
@@ -797,6 +798,9 @@ public class ReadingActivity extends BaseActivity {
 
     @SuppressLint("StaticFieldLeak")
     class Sent extends AsyncTask<OnOffLoadDto.OffLoadResponses, Integer, Integer> {
+        public Sent() {
+            super();
+        }
 
         @Override
         protected Integer doInBackground(OnOffLoadDto.OffLoadResponses... offLoadResponses) {
@@ -950,10 +954,6 @@ public class ReadingActivity extends BaseActivity {
             runOnUiThread(() -> setupViewPager(0));
             return null;
         }
-    }
-
-    public ReadingData getReadingData() {
-        return readingData;
     }
 
     public SpinnerCustomAdapter getAdapter() {
