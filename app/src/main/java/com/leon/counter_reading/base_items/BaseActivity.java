@@ -89,6 +89,7 @@ public abstract class BaseActivity extends AppCompatActivity
         binding = ActivityBaseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+//        MyDatabaseClient.deleteAndReset(this);
         MyDatabaseClient.migration(this);
         initializeBase();
         if (isNetworkAvailable(getApplicationContext()))

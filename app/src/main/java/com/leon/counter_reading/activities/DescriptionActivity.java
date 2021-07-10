@@ -253,7 +253,7 @@ public class DescriptionActivity extends AppCompatActivity {
 
     void checkMultimediaAndToggle() {
         voice = MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().getVoicesByOnOffLoadId(uuid);
-        MyDatabaseClient.getInstance(activity).destroyDatabase();
+//        MyDatabaseClient.getInstance(activity).destroyDatabase();
         if (voice == null) {
             voice = new Voice();
             binding.buttonSend.setEnabled(true);
@@ -293,13 +293,13 @@ public class DescriptionActivity extends AppCompatActivity {
         } else {
             MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().insertVoice(voice);
         }
-        MyDatabaseClient.getInstance(activity).destroyDatabase();
+//        MyDatabaseClient.getInstance(activity).destroyDatabase();
     }
 
     void finishDescription(String message) {
         MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
                 updateOnOffLoadDescription(uuid, message);
-        MyDatabaseClient.getInstance(activity).destroyDatabase();
+//        MyDatabaseClient.getInstance(activity).destroyDatabase();
         Intent intent = new Intent();
         intent.putExtra(BundleEnum.POSITION.getValue(), position);
         intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);

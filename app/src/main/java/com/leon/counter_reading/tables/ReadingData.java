@@ -10,7 +10,8 @@ public class ReadingData {
     public final ArrayList<QotrDictionary> qotrDictionary;
     public final ArrayList<CounterStateDto> counterStateDtos;
     public final ArrayList<CounterReportDto> counterReportDtos;
-
+    public int status;
+    public String message;
     public ReadingData() {
         trackingDtos = new ArrayList<>();
         onOffLoadDtos = new ArrayList<>();

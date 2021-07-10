@@ -79,7 +79,7 @@ public class CounterPlaceActivity extends AppCompatActivity {
                 String d1 = binding.editText1.getText().toString().concat(".").concat(binding.editText2.getText().toString());
                 String d2 = binding.editText3.getText().toString().concat(".").concat(binding.editText4.getText().toString());
                 MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoadLocation(uuid,d1,d2);
-                MyDatabaseClient.getInstance(activity).destroyDatabase();
+//                MyDatabaseClient.getInstance(activity).destroyDatabase();
                 Intent intent = new Intent();
                 intent.putExtra(BundleEnum.POSITION.getValue(), position);
                 intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);

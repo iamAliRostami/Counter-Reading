@@ -2,25 +2,24 @@ package com.leon.counter_reading.utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import androidx.room.Room;
 
 import com.leon.counter_reading.MyApplication;
 
-public class MyDatabaseClient {
+public class MyDatabaseClient1 {
 
-    private static MyDatabaseClient mInstance;
+    private MyDatabaseClient1 mInstance;
     private final MyDatabase myDatabase;
 
-    private MyDatabaseClient(Context context) {
+    private MyDatabaseClient1(Context context) {
         myDatabase = Room.databaseBuilder(context, MyDatabase.class, MyApplication.getDBName())
                 .allowMainThreadQueries().build();
     }
 
-    public static synchronized MyDatabaseClient getInstance(Context context) {
+    public MyDatabaseClient1 getInstance(Context context) {
         if (mInstance == null) {
-            mInstance = new MyDatabaseClient(context);
+            mInstance = new MyDatabaseClient1(context);
         }
         return mInstance;
     }
@@ -36,10 +35,10 @@ public class MyDatabaseClient {
 
     public static void deleteAndReset(Context context) {
         SQLiteDatabase database;
-        database = SQLiteDatabase.openOrCreateDatabase(context.getDatabasePath("MyDatabase_4"), null);
-        String deleteTable = "DELETE FROM " + "MyDatabase_4";
-//        database.execSQL(deleteTable);
-        String deleteSqLiteSequence = "DELETE FROM sqlite_sequence WHERE name = '" + "MyDatabase_4" + "'";
+        database = SQLiteDatabase.openOrCreateDatabase(context.getDatabasePath(MyApplication.getDBName()), null);
+        String deleteTable = "DELETE FROM " + MyApplication.getDBName();
+        database.execSQL(deleteTable);
+        String deleteSqLiteSequence = "DELETE FROM sqlite_sequence WHERE name = '" + MyApplication.getDBName() + "'";
         database.execSQL(deleteSqLiteSequence);
     }
 
@@ -48,7 +47,7 @@ public class MyDatabaseClient {
     }
 
 
-    public void destroyDatabase(/*MyDatabase myDatabase*/) {
+    public void destroyDatabase() {
         mInstance = null;
         if (myDatabase.isOpen()) {
             myDatabase.close();

@@ -22,6 +22,8 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface IAbfaService {
 
@@ -35,7 +37,8 @@ public interface IAbfaService {
     Call<SimpleResponse> changePassword(@Body PasswordInfo passwordInfo);
 
     @POST("KontoriNew/V1/Load/Data")
-    Call<ReadingData> loadData();
+    Call<ReadingData> loadData(
+            @Query("appVersionCode") int appVersionCode);
 
     @Multipart
     @POST("KontoriNew/V1/Upload/Single")

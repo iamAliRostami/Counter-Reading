@@ -49,6 +49,7 @@ import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.ReadingData;
+import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomDialog;
 import com.leon.counter_reading.utils.CustomErrorHandling;
@@ -56,6 +57,7 @@ import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DepthPageTransformer;
 import com.leon.counter_reading.utils.FlashLightManager;
+import com.leon.counter_reading.utils.GPSTracker;
 import com.leon.counter_reading.utils.HttpClientWrapper;
 import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
@@ -74,14 +76,14 @@ import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public class ReadingActivity extends BaseActivity {
+    static ArrayList<Integer> isMane = new ArrayList<>();
+    static ReadingData readingData, readingDataTemp;
     final int[] imageSrc = new int[15];
     ActivityReadingBinding binding;
     Activity activity;
     IFlashLightManager flashLightManager;
-    ReadingData readingData, readingDataTemp;
     ViewPagerAdapterReading viewPagerAdapterReading;
     ISharedPreferenceManager sharedPreferenceManager;
-    ArrayList<Integer> isMane = new ArrayList<>();
     SpinnerCustomAdapter adapter;
     int readStatus = 0, highLow = 1, errorCounter = 0;
     boolean isReading = false;
@@ -111,33 +113,80 @@ public class ReadingActivity extends BaseActivity {
     }
 
     public void updateOnOffLoadAttemptNumber(int position, int attemptNumber) {
+        new UpdateOnOffLoadByAttemptNumber(position, attemptNumber).execute();
+    }
 
-        MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
-        myDatabase.onOffLoadDao().updateOnOffLoadByAttemptNumber(
-                readingData.onOffLoadDtos.get(position).id, attemptNumber);
+    static class UpdateOnOffLoadByAttemptNumber extends AsyncTask<Void, Void, Void> {
+        int position, attemptNumber;
+
+        public UpdateOnOffLoadByAttemptNumber(int position, int attemptNumber) {
+            super();
+            this.position = position;
+            this.attemptNumber = attemptNumber;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            MyDatabase myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
+            myDatabase.onOffLoadDao().updateOnOffLoadByAttemptNumber(
+                    readingData.onOffLoadDtos.get(position).id, attemptNumber);
 //        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
-        readingData.onOffLoadDtos.get(position).attemptNumber = attemptNumber;
+            readingData.onOffLoadDtos.get(position).attemptNumber = attemptNumber;
+            return null;
+        }
     }
 
     public void updateTrackingDto(String id, int trackNumber, int position) {
-        for (int i = 0; i < readingDataTemp.onOffLoadDtos.size(); i++) {
-            if (readingDataTemp.onOffLoadDtos.get(i).id.equals(id))
-                readingDataTemp.onOffLoadDtos.get(i).isLocked = true;
+        new UpdateTrackingDto(position, trackNumber, id);
+        runOnUiThread(() -> setupViewPager(position));
+    }
+
+    static class UpdateTrackingDto extends AsyncTask<Void, Void, Void> {
+        int position, trackNumber;
+        String id;
+
+        public UpdateTrackingDto(int position, int trackNumber, String id) {
+            super();
+            this.position = position;
+            this.trackNumber = trackNumber;
+            this.id = id;
         }
 
-        MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
-        readingData.onOffLoadDtos.get(position).isLocked = true;
-        myDatabase.onOffLoadDao().updateOnOffLoadByLock(id, trackNumber, true);
-//        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
-        runOnUiThread(() -> setupViewPager(position));
+        @Override
+        protected Void doInBackground(Void... voids) {
+            for (int i = 0; i < readingDataTemp.onOffLoadDtos.size(); i++) {
+                if (readingDataTemp.onOffLoadDtos.get(i).id.equals(id))
+                    readingDataTemp.onOffLoadDtos.get(i).isLocked = true;
+            }
+
+            MyDatabase myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
+            readingData.onOffLoadDtos.get(position).isLocked = true;
+            myDatabase.onOffLoadDao().updateOnOffLoadByLock(id, trackNumber, true);
+            return null;
+        }
     }
 
     public void updateOnOffLoadByIsShown(int position) {
         readingData.onOffLoadDtos.get(position).isBazdid = true;
         readingData.onOffLoadDtos.get(position).counterNumberShown = true;
-        MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
-        myDatabase.onOffLoadDao().updateOnOffLoad(readingData.onOffLoadDtos.get(position));
+        new UpdateOnOffLoadByIsShown(position).execute();
 //        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+    }
+
+    static class UpdateOnOffLoadByIsShown extends AsyncTask<Void, Void, Void> {
+        int position;
+
+        public UpdateOnOffLoadByIsShown(int position) {
+            super();
+            this.position = position;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            MyDatabase myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
+            myDatabase.onOffLoadDao().updateOnOffLoad(readingData.onOffLoadDtos.get(position));
+            return null;
+        }
     }
 
     public void updateOnOffLoad(int position, int counterStateCode, int counterStatePosition) {
@@ -188,17 +237,6 @@ public class ReadingActivity extends BaseActivity {
         attemptSend(position, false, true);
     }
 
-    void update(int position) {
-        MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
-        readingData.onOffLoadDtos.get(position).x =
-                ((BaseActivity) activity).getGpsTracker().getLongitude();
-        readingData.onOffLoadDtos.get(position).y =
-                ((BaseActivity) activity).getGpsTracker().getLatitude();
-        readingData.onOffLoadDtos.get(position).gisAccuracy =
-                ((BaseActivity) activity).getGpsTracker().getAccuracy();
-        myDatabase.onOffLoadDao().updateOnOffLoad(readingData.onOffLoadDtos.get(position));
-//        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
-    }
 
     void showImage(int position) {
         Intent intent = new Intent(activity, TakePhotoActivity.class);
@@ -235,6 +273,43 @@ public class ReadingActivity extends BaseActivity {
         }
     }
 
+    void update(int position) {
+        GPSTracker gpsTracker = new GPSTracker(activity);
+        SavedLocation savedLocation = new SavedLocation(gpsTracker.getAccuracy(), gpsTracker.getLongitude(), gpsTracker.getLatitude());
+//        MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+//        myDatabase.savedLocationDao().insertSavedLocation(savedLocation);
+//        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+
+        readingData.onOffLoadDtos.get(position).x = savedLocation.longitude;
+        readingData.onOffLoadDtos.get(position).y = savedLocation.latitude;
+        readingData.onOffLoadDtos.get(position).gisAccuracy = savedLocation.accuracy;
+        gpsTracker.stopListener();
+        gpsTracker.onDestroy();
+//        readingData.onOffLoadDtos.get(position).x =
+//                ((BaseActivity) activity).getGpsTracker().getLongitude();
+//        readingData.onOffLoadDtos.get(position).y =
+//                ((BaseActivity) activity).getGpsTracker().getLatitude();
+//        readingData.onOffLoadDtos.get(position).gisAccuracy =
+//                ((BaseActivity) activity).getGpsTracker().getAccuracy();
+        new Update(position).execute();
+    }
+
+    static class Update extends AsyncTask<Void, Void, Void> {
+        int position;
+
+        public Update(int position) {
+            super();
+            this.position = position;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            MyDatabase myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
+            myDatabase.onOffLoadDao().updateOnOffLoad(readingData.onOffLoadDtos.get(position));
+            return null;
+        }
+    }
+
     void prepareToSend(/*int position*/) {
 //        for (int i = 0; i < 100; i++)
         new PrepareToSend().execute();
@@ -252,7 +327,6 @@ public class ReadingActivity extends BaseActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
         }
 
         @Override
@@ -273,12 +347,12 @@ public class ReadingActivity extends BaseActivity {
                     sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
             Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
+            HttpClientWrapper.call.cancel();
             HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activity,
                     new offLoadData(), new offLoadDataIncomplete(), new offLoadError());
             return null;
         }
     }
-
 
     void showPossible(int position) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -287,12 +361,14 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void setAboveIconsSrc(int position) {
-        runOnUiThread(() -> {
-            setHighLowImage(position);
-            setReadStatusImage(position);
-            setExceptionImage(position);
-            setIsBazdidImage(position);
-        });
+        if (readingData.onOffLoadDtos != null) {
+            runOnUiThread(() -> {
+                setHighLowImage(position);
+                setReadStatusImage(position);
+                setExceptionImage(position);
+                setIsBazdidImage(position);
+            });
+        } else Log.e("status", "onoffload is null");
     }
 
     void setExceptionImage(int position) {
@@ -339,8 +415,12 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void setHighLowImage(int position) {
-        binding.imageViewHighLowState.setImageResource(
-                imageSrc[readingData.onOffLoadDtos.get(position).highLowStateId]);
+        try {
+            binding.imageViewHighLowState.setImageResource(
+                    imageSrc[readingData.onOffLoadDtos.get(position).highLowStateId]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -407,99 +487,119 @@ public class ReadingActivity extends BaseActivity {
     }
 
     public void search(int type, String key, boolean goToPage) {
-        switch (type) {
-            case 4:
-                binding.viewPager.setCurrentItem(Integer.parseInt(key) - 1);
-                break;
-            case 5:
-                readingData.onOffLoadDtos.clear();
-                readingData.onOffLoadDtos.addAll(readingDataTemp.onOffLoadDtos);
-                runOnUiThread(() -> setupViewPager(0));
-                break;
-            case 3:
-                readingData.onOffLoadDtos.clear();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
-                        if (onOffLoadDto.firstName.toLowerCase().contains(key) ||
-                                onOffLoadDto.sureName.toLowerCase().contains(key))
-                            readingData.onOffLoadDtos.add(onOffLoadDto);
-                    });
-                } else
-                    for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
-                        if (onOffLoadDto.firstName.toLowerCase().contains(key) ||
-                                onOffLoadDto.sureName.toLowerCase().contains(key))
-                            readingData.onOffLoadDtos.add(onOffLoadDto);
-                    }
-                runOnUiThread(() -> setupViewPager(0));
-                break;
-            default:
-                if (goToPage) {
-                    switch (type) {
-                        case 0://105010600
-                            for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
-                                if (readingData.onOffLoadDtos.get(i).eshterak.contains(key))
-                                    binding.viewPager.setCurrentItem(i);
-                            }
-                            break;
-                        case 1://10055024
-                            for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
-                                if (readingData.onOffLoadDtos.get(i).radif == Integer.parseInt(key))
-                                    binding.viewPager.setCurrentItem(i);
-                            }
-                            break;
-                        case 2://834519
-                            for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
-                                if (readingData.onOffLoadDtos.get(i).counterSerial.contains(key))
-                                    binding.viewPager.setCurrentItem(i);
-                            }
-                            break;
-                    }
-                } else {
-                    switch (type) {
-                        case 0:
-                            readingData.onOffLoadDtos.clear();
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
-                                    if (onOffLoadDto.eshterak.toLowerCase().contains(key))
-                                        readingData.onOffLoadDtos.add(onOffLoadDto);
-                                });
-                            } else
-                                for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
-                                    if (onOffLoadDto.eshterak.toLowerCase().contains(key))
-                                        readingData.onOffLoadDtos.add(onOffLoadDto);
-                                }
-                            break;
-                        case 1:
-                            readingData.onOffLoadDtos.clear();
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
+        new Search(type, key, goToPage).execute();
+    }
 
-                                    if (onOffLoadDto.radif == Integer.parseInt(key))
-                                        readingData.onOffLoadDtos.add(onOffLoadDto);
-                                });
-                            } else
-                                for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
-                                    if (onOffLoadDto.radif == Integer.parseInt(key))
-                                        readingData.onOffLoadDtos.add(onOffLoadDto);
-                                }
-                            break;
-                        case 2:
-                            readingData.onOffLoadDtos.clear();
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
-                                    if (onOffLoadDto.counterSerial.toLowerCase().contains(key))
-                                        readingData.onOffLoadDtos.add(onOffLoadDto);
-                                });
-                            } else
-                                for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
-                                    if (onOffLoadDto.counterSerial.toLowerCase().contains(key))
-                                        readingData.onOffLoadDtos.add(onOffLoadDto);
-                                }
-                            break;
+    @SuppressLint("StaticFieldLeak")
+    class Search extends AsyncTask<Void, Void, Void> {
+        int type;
+        String key;
+        boolean goToPage;
 
-                    }
+        public Search(int type, String key, boolean goToPage) {
+            super();
+            this.type = type;
+            this.key = key;
+            this.goToPage = goToPage;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            switch (type) {
+                case 4:
+                    binding.viewPager.setCurrentItem(Integer.parseInt(key) - 1);
+                    break;
+                case 5:
+                    readingData.onOffLoadDtos.clear();
+                    readingData.onOffLoadDtos.addAll(readingDataTemp.onOffLoadDtos);
                     runOnUiThread(() -> setupViewPager(0));
-                }
+                    break;
+                case 3:
+                    readingData.onOffLoadDtos.clear();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
+                            if (onOffLoadDto.firstName.toLowerCase().contains(key) ||
+                                    onOffLoadDto.sureName.toLowerCase().contains(key))
+                                readingData.onOffLoadDtos.add(onOffLoadDto);
+                        });
+                    } else
+                        for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
+                            if (onOffLoadDto.firstName.toLowerCase().contains(key) ||
+                                    onOffLoadDto.sureName.toLowerCase().contains(key))
+                                readingData.onOffLoadDtos.add(onOffLoadDto);
+                        }
+                    runOnUiThread(() -> setupViewPager(0));
+                    break;
+                default:
+                    if (goToPage) {
+                        switch (type) {
+                            case 0://105010600
+                                for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
+                                    if (readingData.onOffLoadDtos.get(i).eshterak.contains(key))
+                                        binding.viewPager.setCurrentItem(i);
+                                }
+                                break;
+                            case 1://10055024
+                                for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
+                                    if (readingData.onOffLoadDtos.get(i).radif == Integer.parseInt(key))
+                                        binding.viewPager.setCurrentItem(i);
+                                }
+                                break;
+                            case 2://834519
+                                for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
+                                    if (readingData.onOffLoadDtos.get(i).counterSerial.contains(key))
+                                        binding.viewPager.setCurrentItem(i);
+                                }
+                                break;
+                        }
+                    } else {
+                        switch (type) {
+                            case 0:
+                                readingData.onOffLoadDtos.clear();
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
+                                        if (onOffLoadDto.eshterak.toLowerCase().contains(key))
+                                            readingData.onOffLoadDtos.add(onOffLoadDto);
+                                    });
+                                } else
+                                    for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
+                                        if (onOffLoadDto.eshterak.toLowerCase().contains(key))
+                                            readingData.onOffLoadDtos.add(onOffLoadDto);
+                                    }
+                                break;
+                            case 1:
+                                readingData.onOffLoadDtos.clear();
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
+
+                                        if (onOffLoadDto.radif == Integer.parseInt(key))
+                                            readingData.onOffLoadDtos.add(onOffLoadDto);
+                                    });
+                                } else
+                                    for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
+                                        if (onOffLoadDto.radif == Integer.parseInt(key))
+                                            readingData.onOffLoadDtos.add(onOffLoadDto);
+                                    }
+                                break;
+                            case 2:
+                                readingData.onOffLoadDtos.clear();
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
+                                        if (onOffLoadDto.counterSerial.toLowerCase().contains(key))
+                                            readingData.onOffLoadDtos.add(onOffLoadDto);
+                                    });
+                                } else
+                                    for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
+                                        if (onOffLoadDto.counterSerial.toLowerCase().contains(key))
+                                            readingData.onOffLoadDtos.add(onOffLoadDto);
+                                    }
+                                break;
+
+                        }
+                        runOnUiThread(() -> setupViewPager(0));
+                    }
+            }
+            return null;
         }
     }
 
@@ -528,29 +628,30 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void setupViewPager(int currentItem) {
-        ArrayList<String> items = new ArrayList<>(CounterStateDto.getCounterStateItems(readingData.counterStateDtos));
-//        for (int i = 0; i < readingData.counterStateDtos.size(); i++) {
-//            items.add(readingData.counterStateDtos.get(i).title);
-//        }
-        adapter = new SpinnerCustomAdapter(activity, items);
-        binding.textViewNotFound.setVisibility(!(readingData.onOffLoadDtos.size() > 0) ? View.VISIBLE : View.GONE);
-        binding.linearLayoutAbove.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
-        binding.viewPager.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
-        viewPagerAdapterReading =
-                new ViewPagerAdapterReading(getSupportFragmentManager(),
+        try {
+            ArrayList<String> items = new ArrayList<>(CounterStateDto.getCounterStateItems(readingData.counterStateDtos));
+            adapter = new SpinnerCustomAdapter(activity, items);
+            binding.textViewNotFound.setVisibility(!(readingData.onOffLoadDtos.size() > 0) ? View.VISIBLE : View.GONE);
+            binding.linearLayoutAbove.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
+            binding.viewPager.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
+            viewPagerAdapterReading =
+                    new ViewPagerAdapterReading(getSupportFragmentManager(),
 //                        FragmentStatePagerAdapter.POSITION_NONE,
-                        readingData,
-                        activity);
-        binding.viewPager.setAdapter(viewPagerAdapterReading);
-        binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
-        setOnPageChangeListener();
+                            readingData,
+                            activity);
+            binding.viewPager.setAdapter(viewPagerAdapterReading);
+            binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
+            setOnPageChangeListener();
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            if (MyApplication.FOCUS_ON_EDIT_TEXT)
+                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            isReading = true;
+            if (currentItem > 0)
+                binding.viewPager.setCurrentItem(currentItem);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        if (MyApplication.FOCUS_ON_EDIT_TEXT)
-            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-        isReading = true;
-        if (currentItem > 0)
-            binding.viewPager.setCurrentItem(currentItem);
     }
 
     void setOnPageChangeListener() {
@@ -591,17 +692,32 @@ public class ReadingActivity extends BaseActivity {
         if (getIntent().getExtras() != null) {
             readStatus = getIntent().getIntExtra(BundleEnum.READ_STATUS.getValue(), 0);
             highLow = getIntent().getIntExtra(BundleEnum.TYPE.getValue(), 1);
-            Gson gson = new Gson();
-            ArrayList<String> json1 = getIntent().getExtras().getStringArrayList(
+            ArrayList<String> json = getIntent().getExtras().getStringArrayList(
                     BundleEnum.IS_MANE.getValue());
-            if (json1 != null) {
+            new GetBundle(json).execute();
+        }
+    }
+
+    static class GetBundle extends AsyncTask<Void, Void, Void> {
+        ArrayList<String> json;
+
+        public GetBundle(ArrayList<String> json) {
+            super();
+            this.json = json;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if (json != null) {
+                Gson gson = new Gson();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    json1.forEach(s -> isMane.add(gson.fromJson(s, Integer.class)));
+                    json.forEach(s -> isMane.add(gson.fromJson(s, Integer.class)));
                 } else
-                    for (String s : json1) {
+                    for (String s : json) {
                         isMane.add(gson.fromJson(s, Integer.class));
                     }
             }
+            return null;
         }
     }
 
@@ -749,19 +865,8 @@ public class ReadingActivity extends BaseActivity {
         if ((requestCode == MyApplication.REPORT || requestCode == MyApplication.NAVIGATION ||
                 requestCode == MyApplication.DESCRIPTION ||
                 requestCode == MyApplication.COUNTER_LOCATION) && resultCode == RESULT_OK) {
+            new Result(data).execute();
 
-            int position = data.getExtras().getInt(BundleEnum.POSITION.getValue());
-            String uuid = data.getExtras().getString(BundleEnum.BILL_ID.getValue());
-            MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
-            myDatabase.onOffLoadDao().updateOnOffLoad(true, uuid);
-            readingData.onOffLoadDtos.set(position, myDatabase.onOffLoadDao().getAllOnOffLoadById(uuid));
-//            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
-            int i = 0;
-            for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
-                if (onOffLoadDto.id.equals(uuid))
-                    readingDataTemp.onOffLoadDtos.set(i, readingData.onOffLoadDtos.get(position));
-                i++;
-            }
         } else if (resultCode == PackageManager.PERMISSION_GRANTED) {
             if (requestCode == MyApplication.GPS_CODE)
                 checkPermissions();
@@ -781,23 +886,32 @@ public class ReadingActivity extends BaseActivity {
         }
     }
 
-    class offLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
-        @Override
-        public void execute(Response<OnOffLoadDto.OffLoadResponses> response) {
-            if (response.body() != null && response.body().status == 200) {
-                new Sent().execute(response.body());
+    static class Result extends AsyncTask<Void, Void, Void> {
+        Intent data;
 
-            } else if (response.body() != null/* && errorCounter < SHOW_ERROR*/) {
-                errorCounter++;
-                CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-                String error = customErrorHandlingNew.getErrorMessage(response.body().status);
-                new CustomToast().error(error);
+        public Result(Intent data) {
+            super();
+            this.data = data;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            int position = data.getExtras().getInt(BundleEnum.POSITION.getValue()), i = 0;
+            String uuid = data.getExtras().getString(BundleEnum.BILL_ID.getValue());
+            MyDatabase myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
+            myDatabase.onOffLoadDao().updateOnOffLoad(true, uuid);
+            readingData.onOffLoadDtos.set(position, myDatabase.onOffLoadDao().getAllOnOffLoadById(uuid));
+            for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
+                if (onOffLoadDto.id.equals(uuid))
+                    readingDataTemp.onOffLoadDtos.set(i, readingData.onOffLoadDtos.get(position));
+                i++;
             }
+            return null;
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
-    class Sent extends AsyncTask<OnOffLoadDto.OffLoadResponses, Integer, Integer> {
+    //    @SuppressLint("StaticFieldLeak")
+    static class Sent extends AsyncTask<OnOffLoadDto.OffLoadResponses, Integer, Integer> {
         public Sent() {
             super();
         }
@@ -805,13 +919,12 @@ public class ReadingActivity extends BaseActivity {
         @Override
         protected Integer doInBackground(OnOffLoadDto.OffLoadResponses... offLoadResponses) {
             //TODO
-            MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
-            myDatabase.offLoadReportDao().deleteAllOffLoadReport();
-            int state = offLoadResponses[0].isValid ? OffloadStateEnum.SENT.getValue() :
-                    OffloadStateEnum.SENT_WITH_ERROR.getValue();
-            myDatabase.onOffLoadDao().updateOnOffLoad(state, offLoadResponses[0].targetObject);
-//            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
             try {
+                MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().offLoadReportDao().deleteAllOffLoadReport();
+                int state = offLoadResponses[0].isValid ? OffloadStateEnum.SENT.getValue() :
+                        OffloadStateEnum.SENT_WITH_ERROR.getValue();
+                MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().onOffLoadDao().updateOnOffLoad(state, offLoadResponses[0].targetObject);
+
                 for (String s : offLoadResponses[0].targetObject) {
                     for (int j = 0; j < readingData.onOffLoadDtos.size(); j++) {
                         if (s.equals(readingData.onOffLoadDtos.get(j).id)) {
@@ -824,6 +937,21 @@ public class ReadingActivity extends BaseActivity {
             }
 
             return null;
+        }
+    }
+
+    class offLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
+        @Override
+        public void execute(Response<OnOffLoadDto.OffLoadResponses> response) {
+            if (response.body() != null && response.body().status == 200) {
+                new Sent().execute(response.body());
+
+            } else if (response.body() != null/* && errorCounter < SHOW_ERROR*/) {
+                errorCounter++;
+                CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
+                String error = customErrorHandlingNew.getErrorMessage(response.body().status);
+                new CustomToast().error(error);
+            }
         }
     }
 
@@ -948,7 +1076,6 @@ public class ReadingActivity extends BaseActivity {
                 readingDataTemp.trackingDtos.addAll(readingData.trackingDtos);
                 readingDataTemp.karbariDtos.addAll(readingData.karbariDtos);
                 readingDataTemp.readingConfigDefaultDtos.addAll(readingData.readingConfigDefaultDtos);
-
                 setAboveIconsSrc(0);
             }
             runOnUiThread(() -> setupViewPager(0));
@@ -988,6 +1115,11 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        try {
+            flashLightManager.turnOff();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         try {
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
@@ -1005,6 +1137,10 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.e("status", "destroy");
+//        readingData = null;
+//        readingDataTemp = null;
+//        viewPagerAdapterReading = null;
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         try {
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
@@ -1024,9 +1160,8 @@ public class ReadingActivity extends BaseActivity {
         binding.imageViewOffLoadState.setImageDrawable(null);
         binding.imageViewReadingType.setImageDrawable(null);
         binding.imageViewExceptionState.setImageDrawable(null);
-        readingData = null;
-        readingDataTemp = null;
-        viewPagerAdapterReading = null;
+
+        MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase();
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

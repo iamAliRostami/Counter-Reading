@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.ViewPagerAdapterTab;
 import com.leon.counter_reading.base_items.BaseActivity;
@@ -35,7 +36,6 @@ public class ReportActivity extends BaseActivity {
     int previousState, currentState, zero, normal, high, low, unread, total, isMane;
     ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
-    MyDatabase myDatabase;
 
     @Override
     protected void initialize() {
@@ -152,9 +152,10 @@ public class ReportActivity extends BaseActivity {
     @SuppressLint("StaticFieldLeak")
     class GetDBData extends AsyncTask<Integer, Integer, Integer> {
         CustomProgressBar customProgressBar;
-
+        MyDatabase myDatabase;
         public GetDBData() {
             super();
+            myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
         }
 
         @Override
@@ -172,7 +173,6 @@ public class ReportActivity extends BaseActivity {
 
         @Override
         protected Integer doInBackground(Integer... integers) {
-            myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
             trackingDtos.addAll(myDatabase.trackingDao().getTrackingDtosIsActiveNotArchive(true, false));
             counterStateDtos.addAll(myDatabase.counterStateDao().getCounterStateDtos());
             ArrayList<Integer> isManes = new ArrayList<>(myDatabase.counterStateDao().getCounterStateDtosIsMane(true));
@@ -211,8 +211,6 @@ public class ReportActivity extends BaseActivity {
                     unread += myDatabase.onOffLoadDao().getOnOffLoadReadCount(0, trackingDto.trackNumber);
                     total += myDatabase.onOffLoadDao().getOnOffLoadCount(trackingDto.trackNumber);
                 }
-
-            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
             runOnUiThread(ReportActivity.this::setupViewPager);
             return null;
         }
@@ -243,7 +241,7 @@ public class ReportActivity extends BaseActivity {
         binding = null;
         counterStateDtos = null;
         trackingDtos = null;
-        myDatabase = null;
+        MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase();
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

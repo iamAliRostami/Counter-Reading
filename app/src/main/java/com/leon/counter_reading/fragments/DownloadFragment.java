@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentDownloadBinding;
 import com.leon.counter_reading.enums.BundleEnum;
@@ -94,7 +95,7 @@ public class DownloadFragment extends Fragment {
         ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(context, SharedReferenceNames.ACCOUNT.getValue());
         Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        Call<ReadingData> call = iAbfaService.loadData();
+        Call<ReadingData> call = iAbfaService.loadData(BuildConfig.VERSION_CODE);
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), context,
                 new DownloadCompleted(), new DownloadIncomplete(), new DownloadError());
     }
@@ -195,15 +196,6 @@ public class DownloadFragment extends Fragment {
                     }
                 myDatabase.onOffLoadDao().insertAllOnOffLoad(readingData.onOffLoadDtos);
 
-//                for (int i = 0; i < readingData.counterReportDtos.size(); i++) {
-//                    for (int j = 0; j < readingDataTemp.counterReportDtos.size(); j++) {
-//                        if (readingData.counterReportDtos.get(i).moshtarakinId ==
-//                                readingDataTemp.counterReportDtos.get(i).moshtarakinId) {
-//                            readingData.counterReportDtos.remove(i);
-//                            i--;
-//                        }
-//                    }
-//                }
                 if (readingData.counterReportDtos.size() > 0) {
                     myDatabase.counterReportDao().deleteAllCounterReport();
                     myDatabase.counterReportDao().insertAllCounterStateReport(
@@ -221,8 +213,13 @@ public class DownloadFragment extends Fragment {
     class DownloadIncomplete implements ICallbackIncomplete<ReadingData> {
         @Override
         public void executeIncomplete(Response<ReadingData> response) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(context);
-            String error = customErrorHandlingNew.getErrorMessageDefault(response);
+            CustomErrorHandling customErrorHandling = new CustomErrorHandling(context);
+            String error = customErrorHandling.getErrorMessageDefault(response);
+
+            if (response.code() == 400) {
+                CustomErrorHandling.APIError apiError = customErrorHandling.parseError(response);
+                error = apiError.message();
+            }
             new CustomDialog(DialogType.Yellow, context, error,
                     context.getString(R.string.dear_user),
                     context.getString(R.string.download),

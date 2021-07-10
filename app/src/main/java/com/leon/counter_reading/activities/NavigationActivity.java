@@ -3,6 +3,7 @@ package com.leon.counter_reading.activities;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Debug;
 import android.text.Editable;
@@ -83,21 +84,35 @@ public class NavigationActivity extends AppCompatActivity {
             if (cancel) {
                 view.requestFocus();
             } else {
-                int possibleEmpty = binding.editTextEmpty.getText().length() > 0 ? Integer.parseInt(binding.editTextEmpty.getText().toString()) : 0;
-                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                        updateOnOffLoad(uuid, binding.editTextAccount.getText().toString(),
-                                binding.editTextMobile.getText().toString(),
-                                possibleEmpty,
-                                binding.editTextPhone.getText().toString(),
-                                binding.editTextSerialCounter.getText().toString(),
-                                binding.editTextAddress.getText().toString());
-                Intent intent = new Intent();
-                intent.putExtra(BundleEnum.POSITION.getValue(), position);
-                intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);
-                setResult(RESULT_OK, intent);
-                finish();
+                new Navigation().execute();
             }
         });
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    class Navigation extends AsyncTask<Void, Void, Void> {
+        public Navigation() {
+            super();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            int possibleEmpty = binding.editTextEmpty.getText().length() > 0 ?
+                    Integer.parseInt(binding.editTextEmpty.getText().toString()) : 0;
+            MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+                    updateOnOffLoad(uuid, binding.editTextAccount.getText().toString(),
+                            binding.editTextMobile.getText().toString(),
+                            possibleEmpty,
+                            binding.editTextPhone.getText().toString(),
+                            binding.editTextSerialCounter.getText().toString(),
+                            binding.editTextAddress.getText().toString());
+            Intent intent = new Intent();
+            intent.putExtra(BundleEnum.POSITION.getValue(), position);
+            intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);
+            setResult(RESULT_OK, intent);
+            finish();
+            return null;
+        }
     }
 
     void setOnEditTextChangeListener() {
