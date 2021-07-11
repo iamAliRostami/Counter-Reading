@@ -507,7 +507,7 @@ public class ReadingActivity extends BaseActivity {
         protected Void doInBackground(Void... voids) {
             switch (type) {
                 case 4:
-                    binding.viewPager.setCurrentItem(Integer.parseInt(key) - 1);
+                    runOnUiThread(() -> binding.viewPager.setCurrentItem(Integer.parseInt(key) - 1));
                     break;
                 case 5:
                     readingData.onOffLoadDtos.clear();
@@ -535,20 +535,26 @@ public class ReadingActivity extends BaseActivity {
                         switch (type) {
                             case 0://105010600
                                 for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
-                                    if (readingData.onOffLoadDtos.get(i).eshterak.contains(key))
-                                        binding.viewPager.setCurrentItem(i);
+                                    if (readingData.onOffLoadDtos.get(i).eshterak.contains(key)) {
+                                        int finalI = i;
+                                        runOnUiThread(() -> binding.viewPager.setCurrentItem(finalI));
+                                    }
                                 }
                                 break;
                             case 1://10055024
                                 for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
-                                    if (readingData.onOffLoadDtos.get(i).radif == Integer.parseInt(key))
-                                        binding.viewPager.setCurrentItem(i);
+                                    if (readingData.onOffLoadDtos.get(i).radif == Integer.parseInt(key)) {
+                                        int finalI = i;
+                                        runOnUiThread(() -> binding.viewPager.setCurrentItem(finalI));
+                                    }
                                 }
                                 break;
                             case 2://834519
                                 for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
-                                    if (readingData.onOffLoadDtos.get(i).counterSerial.contains(key))
-                                        binding.viewPager.setCurrentItem(i);
+                                    if (readingData.onOffLoadDtos.get(i).counterSerial.contains(key)) {
+                                        int finalI = i;
+                                        runOnUiThread(() -> binding.viewPager.setCurrentItem(finalI));
+                                    }
                                 }
                                 break;
                         }
