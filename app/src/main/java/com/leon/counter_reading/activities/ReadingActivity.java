@@ -271,23 +271,11 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void update(int position) {
-//        GPSTrackerOld gpsTrackerOld = new GPSTrackerOld(activity);
-//        SavedLocation savedLocation = new SavedLocation(gpsTrackerOld.getAccuracy(), gpsTrackerOld.getLongitude(), gpsTrackerOld.getLatitude());
-//        MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
-//        myDatabase.savedLocationDao().insertSavedLocation(savedLocation);
-//        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
-
         LocationTracker locationTracker = new LocationTracker(activity);
         readingData.onOffLoadDtos.get(position).x = locationTracker.getLongitude();
         readingData.onOffLoadDtos.get(position).y = locationTracker.getLatitude();
         readingData.onOffLoadDtos.get(position).gisAccuracy = locationTracker.getAccuracy();
-//        gpsTrackerOld.onDestroy();
-//        readingData.onOffLoadDtos.get(position).x =
-//                ((BaseActivity) activity).getGpsTracker().getLongitude();
-//        readingData.onOffLoadDtos.get(position).y =
-//                ((BaseActivity) activity).getGpsTracker().getLatitude();
-//        readingData.onOffLoadDtos.get(position).gisAccuracy =
-//                ((BaseActivity) activity).getGpsTracker().getAccuracy();
+        locationTracker.stopListener();
         new Update(position).execute();
     }
 

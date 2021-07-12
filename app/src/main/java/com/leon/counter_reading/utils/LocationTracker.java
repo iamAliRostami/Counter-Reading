@@ -172,7 +172,6 @@ public class LocationTracker extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(@NotNull Location location) {
-        Log.e("here", "onLocationChanged");
         latitude = location.getLatitude();
         longitude = location.getLongitude();
         accuracy = location.getAccuracy();

@@ -159,6 +159,7 @@ public class LocationActivity extends BaseActivity {
             latitude = 32.65;
             longitude = 51.66;
         }
+        locationTracker.stopListener();
         GeoPoint startPoint = new GeoPoint(latitude, longitude);
         mapController.setCenter(startPoint);
         MyLocationNewOverlay locationOverlay =

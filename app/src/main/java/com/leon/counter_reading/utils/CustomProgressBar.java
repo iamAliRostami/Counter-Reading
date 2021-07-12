@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -88,8 +89,8 @@ public final class CustomProgressBar {
     }
 
     void setCancelable(boolean cancelable, View view, DialogInterface.OnCancelListener cancelListener) {
+        dialog.setCancelable(cancelable);
         if (cancelable) {
-            dialog.setCancelable(true);
             dialog.setOnCancelListener(cancelListener);
             RelativeLayout relativeLayout = view.findViewById(R.id.relativeLayout);
             relativeLayout.setOnClickListener(v -> {
