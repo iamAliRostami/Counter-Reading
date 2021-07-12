@@ -23,8 +23,7 @@ import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.GPSTracker;
-import com.leon.counter_reading.utils.MyDatabase;
+import com.leon.counter_reading.utils.LocationTracker;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
@@ -152,10 +151,10 @@ public class LocationActivity extends BaseActivity {
         binding.mapView.setMultiTouchControls(true);
         IMapController mapController = binding.mapView.getController();
         mapController.setZoom(19.0);
-        GPSTracker gpsTracker = new GPSTracker(activity);
+        LocationTracker locationTracker = new LocationTracker(activity);
 
-        double latitude = gpsTracker.getLatitude();
-        double longitude = gpsTracker.getLongitude();
+        double latitude = locationTracker.getLatitude();
+        double longitude = locationTracker.getLongitude();
         if (latitude == 0 || longitude == 0) {
             latitude = 32.65;
             longitude = 51.66;
@@ -170,7 +169,6 @@ public class LocationActivity extends BaseActivity {
     }
 
     static class GetDBLocation extends AsyncTask<Void, Void, Void> {
-        MyDatabase myDatabase;
 
         public GetDBLocation() {
             super();
@@ -178,23 +176,22 @@ public class LocationActivity extends BaseActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            savedLocations = new ArrayList<>(myDatabase.savedLocationDao().getSavedLocationsXY());
-//            while (i < savedLocations.size() && !isCancelled()) {
-//                addPlace(new GeoPoint(savedLocations.get(i).latitude, savedLocations.get(i).longitude));
-//                i++;
-//            }
+            try {
+                savedLocations = new ArrayList<>(MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().savedLocationDao().getSavedLocationsXY());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
         @Override
         protected void onPreExecute() {
-            myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
         }
 
         @Override
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
-            MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase(myDatabase);
+            MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase();
         }
 
 
@@ -228,6 +225,11 @@ public class LocationActivity extends BaseActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            if (savedLocations == null || savedLocations.isEmpty()) {
+                savedLocations = new ArrayList<>(
+                        MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().
+                                savedLocationDao().getSavedLocationsXY());
+            }
             markers = new ArrayList<>();
             int i = 0;
             while (i < savedLocations.size() && !isCancelled()) {

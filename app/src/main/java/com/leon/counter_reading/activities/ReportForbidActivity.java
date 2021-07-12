@@ -318,6 +318,7 @@ public class ReportForbidActivity extends AppCompatActivity {
                     forbiddenDto.forbiddenDtoRequest.y,
                     forbiddenDto.forbiddenDtoRequest.gisAccuracy);
         }
+        locationTracker.stopListener();
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                 new Forbidden(), new ForbiddenIncomplete(), new Error());
     }
