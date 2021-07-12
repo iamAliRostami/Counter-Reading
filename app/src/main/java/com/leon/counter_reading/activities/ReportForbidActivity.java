@@ -44,8 +44,8 @@ import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.GPSTracker;
 import com.leon.counter_reading.utils.HttpClientWrapper;
+import com.leon.counter_reading.utils.LocationTracker;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.PermissionManager;
@@ -263,9 +263,9 @@ public class ReportForbidActivity extends AppCompatActivity {
     }
 
     void sendForbid() {
-        GPSTracker gpsTracker = new GPSTracker(activity);
+        LocationTracker locationTracker = new LocationTracker(activity);
         forbiddenDto.prepareToSend(
-                gpsTracker.getAccuracy(), gpsTracker.getLongitude(), gpsTracker.getLatitude(),
+                locationTracker.getAccuracy(), locationTracker.getLongitude(), locationTracker.getLatitude(),
                 binding.editTextPostalCode.getText().toString(),
                 binding.editTextDescription.getText().toString(),
                 binding.editTextPreAccount.getText().toString(),

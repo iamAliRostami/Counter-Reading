@@ -49,7 +49,6 @@ import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.ReadingData;
-import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomDialog;
 import com.leon.counter_reading.utils.CustomErrorHandling;
@@ -57,8 +56,8 @@ import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DepthPageTransformer;
 import com.leon.counter_reading.utils.FlashLightManager;
-import com.leon.counter_reading.utils.GPSTracker;
 import com.leon.counter_reading.utils.HttpClientWrapper;
+import com.leon.counter_reading.utils.LocationTracker;
 import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
@@ -87,7 +86,6 @@ public class ReadingActivity extends BaseActivity {
     SpinnerCustomAdapter adapter;
     int readStatus = 0, highLow = 1, errorCounter = 0;
     boolean isReading = false;
-
     @Override
     protected void initialize() {
         binding = ActivityReadingBinding.inflate(getLayoutInflater());
@@ -130,7 +128,6 @@ public class ReadingActivity extends BaseActivity {
             MyDatabase myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
             myDatabase.onOffLoadDao().updateOnOffLoadByAttemptNumber(
                     readingData.onOffLoadDtos.get(position).id, attemptNumber);
-//        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
             readingData.onOffLoadDtos.get(position).attemptNumber = attemptNumber;
             return null;
         }
@@ -274,17 +271,17 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void update(int position) {
-        GPSTracker gpsTracker = new GPSTracker(activity);
-        SavedLocation savedLocation = new SavedLocation(gpsTracker.getAccuracy(), gpsTracker.getLongitude(), gpsTracker.getLatitude());
+//        GPSTrackerOld gpsTrackerOld = new GPSTrackerOld(activity);
+//        SavedLocation savedLocation = new SavedLocation(gpsTrackerOld.getAccuracy(), gpsTrackerOld.getLongitude(), gpsTrackerOld.getLatitude());
 //        MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
 //        myDatabase.savedLocationDao().insertSavedLocation(savedLocation);
 //        MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
 
-        readingData.onOffLoadDtos.get(position).x = savedLocation.longitude;
-        readingData.onOffLoadDtos.get(position).y = savedLocation.latitude;
-        readingData.onOffLoadDtos.get(position).gisAccuracy = savedLocation.accuracy;
-        gpsTracker.stopListener();
-        gpsTracker.onDestroy();
+        LocationTracker locationTracker = new LocationTracker(activity);
+        readingData.onOffLoadDtos.get(position).x = locationTracker.getLongitude();
+        readingData.onOffLoadDtos.get(position).y = locationTracker.getLatitude();
+        readingData.onOffLoadDtos.get(position).gisAccuracy = locationTracker.getAccuracy();
+//        gpsTrackerOld.onDestroy();
 //        readingData.onOffLoadDtos.get(position).x =
 //                ((BaseActivity) activity).getGpsTracker().getLongitude();
 //        readingData.onOffLoadDtos.get(position).y =
@@ -415,12 +412,8 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void setHighLowImage(int position) {
-        try {
-            binding.imageViewHighLowState.setImageResource(
-                    imageSrc[readingData.onOffLoadDtos.get(position).highLowStateId]);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        binding.imageViewHighLowState.setImageResource(
+                imageSrc[readingData.onOffLoadDtos.get(position).highLowStateId]);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -634,29 +627,25 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void setupViewPager(int currentItem) {
-        try {
-            ArrayList<String> items = new ArrayList<>(CounterStateDto.getCounterStateItems(readingData.counterStateDtos));
-            adapter = new SpinnerCustomAdapter(activity, items);
-            binding.textViewNotFound.setVisibility(!(readingData.onOffLoadDtos.size() > 0) ? View.VISIBLE : View.GONE);
-            binding.linearLayoutAbove.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
-            binding.viewPager.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
-            viewPagerAdapterReading =
-                    new ViewPagerAdapterReading(getSupportFragmentManager(),
+        ArrayList<String> items = new ArrayList<>(CounterStateDto.getCounterStateItems(readingData.counterStateDtos));
+        adapter = new SpinnerCustomAdapter(activity, items);
+        binding.textViewNotFound.setVisibility(!(readingData.onOffLoadDtos.size() > 0) ? View.VISIBLE : View.GONE);
+        binding.linearLayoutAbove.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
+        binding.viewPager.setVisibility(readingData.onOffLoadDtos.size() > 0 ? View.VISIBLE : View.GONE);
+        viewPagerAdapterReading =
+                new ViewPagerAdapterReading(getSupportFragmentManager(),
 //                        FragmentStatePagerAdapter.POSITION_NONE,
-                            readingData,
-                            activity);
-            binding.viewPager.setAdapter(viewPagerAdapterReading);
-            binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
-            setOnPageChangeListener();
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            if (MyApplication.FOCUS_ON_EDIT_TEXT)
-                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-            isReading = true;
-            if (currentItem > 0)
-                binding.viewPager.setCurrentItem(currentItem);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                        readingData,
+                        activity);
+        binding.viewPager.setAdapter(viewPagerAdapterReading);
+        binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
+        setOnPageChangeListener();
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (MyApplication.FOCUS_ON_EDIT_TEXT)
+            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        isReading = true;
+        if (currentItem > 0)
+            binding.viewPager.setCurrentItem(currentItem);
 
     }
 
@@ -968,7 +957,6 @@ public class ReadingActivity extends BaseActivity {
 //            }
 //            errorCounter++;
             if (response != null) {
-                //400 سیچ
                 Log.e("offLoadDataIncomplete", String.valueOf(response.body()));
                 Log.e("offLoadDataIncomplete", response.toString());
                 CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
@@ -1143,10 +1131,6 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("status", "destroy");
-//        readingData = null;
-//        readingDataTemp = null;
-//        viewPagerAdapterReading = null;
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         try {
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);

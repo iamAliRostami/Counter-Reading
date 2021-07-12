@@ -38,8 +38,8 @@ import static com.leon.counter_reading.MyApplication.MIN_DISTANCE_CHANGE_FOR_UPD
 public class GPSTracker extends Service {
     final Activity activity;
     boolean canGetLocation = false;
-    static double latitude;
-    static double longitude;
+    double latitude;
+    double longitude;
     double accuracy;
     boolean checkGPS = false;
     boolean checkNetwork = false;
@@ -93,7 +93,7 @@ public class GPSTracker extends Service {
             SavedLocation savedLocation = new SavedLocation(accuracy, longitude, latitude);
             MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
             myDatabase.savedLocationDao().insertSavedLocation(savedLocation);
-            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+//            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
             savedLocations.add(savedLocation);
         }
     }
@@ -222,6 +222,8 @@ public class GPSTracker extends Service {
     public void onDestroy() {
         stopFusedLocation();
         stopListener();
+        latitude = 0;
+        longitude = 0;
         super.onDestroy();
     }
 }
