@@ -54,6 +54,7 @@ public class LocationActivity extends BaseActivity {
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
         activity = this;
+        showOnMap = new ShowOnMap();
         if (isNetworkAvailable(getApplicationContext()))
             checkPermissions();
         else PermissionManager.enableNetwork(this);
@@ -62,7 +63,6 @@ public class LocationActivity extends BaseActivity {
     void initializeCheckBoxPoint() {
         binding.checkBoxPoint.setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.POINT.getValue()));
         binding.checkBoxPoint.setOnClickListener(v -> sharedPreferenceManager.putData(SharedReferenceKeys.POINT.getValue(), binding.checkBoxPoint.isChecked()));
-        showOnMap = new ShowOnMap();
         binding.checkBoxShowPoint.setOnClickListener(v -> {
             if (binding.checkBoxShowPoint.isChecked()) {
                 showOnMap = new ShowOnMap();
@@ -280,7 +280,8 @@ public class LocationActivity extends BaseActivity {
 
     @Override
     protected void onStop() {
-        showOnMap.cancel(true);
+        if (showOnMap != null)
+            showOnMap.cancel(true);
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();
