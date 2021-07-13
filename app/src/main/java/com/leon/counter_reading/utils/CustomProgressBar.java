@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -45,7 +44,8 @@ public final class CustomProgressBar {
             Toast.makeText(MyApplication.getContext(),
                     MyApplication.getContext().getString(R.string.canceled),
                     Toast.LENGTH_LONG).show();
-            HttpClientWrapper.call.cancel();
+            if (HttpClientWrapper.call != null)
+                HttpClientWrapper.call.cancel();
         });
     }
 

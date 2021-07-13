@@ -81,11 +81,11 @@ public class SettingUpdateFragment extends Fragment {
     }
 
     void getUpdateFile() {
-        activity.runOnUiThread(() -> binding.progressBar.setVisibility(View.VISIBLE));
+//        activity.runOnUiThread(() -> binding.progressBar.setVisibility(View.VISIBLE));
         Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         Call<ResponseBody> call = iAbfaService.getLastApk();
-        HttpClientWrapper.callHttpAsyncProgressDismiss(call, ProgressType.NOT_SHOW.getValue(),
+        HttpClientWrapper.callHttpAsyncProgressDismiss(call, ProgressType.SHOW_CANCELABLE.getValue(),
                 activity, new Update(), new UpdateIncomplete(), new UpdateError());
     }
 
@@ -100,8 +100,6 @@ public class SettingUpdateFragment extends Fragment {
             }
         });
     }
-
-
 
     @SuppressLint("SetTextI18n")
     class UpdateInfo implements ICallback<LastInfo> {
@@ -125,7 +123,7 @@ public class SettingUpdateFragment extends Fragment {
                     binding.linearLayout2.setVisibility(View.VISIBLE);
                     binding.linearLayout3.setVisibility(View.VISIBLE);
                     binding.linearLayout4.setVisibility(View.VISIBLE);
-                    binding.progressBar.setVisibility(View.GONE);
+//                    binding.progressBar.setVisibility(View.GONE);
                     binding.buttonReceive.setText(getString(R.string.receive_file));
                 });
                 versionCode = response.body().versionCode;
@@ -152,7 +150,7 @@ public class SettingUpdateFragment extends Fragment {
             if (!CustomFile.writeResponseApkToDisk(response.body(), activity))
                 activity.runOnUiThread(() ->
                         new CustomToast().warning(activity.getString(R.string.error_update)));
-            binding.progressBar.setVisibility(View.GONE);
+//            binding.progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -165,7 +163,7 @@ public class SettingUpdateFragment extends Fragment {
                     activity.getString(R.string.dear_user),
                     activity.getString(R.string.update),
                     activity.getString(R.string.accepted));
-            binding.progressBar.setVisibility(View.GONE);
+//            binding.progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -178,9 +176,11 @@ public class SettingUpdateFragment extends Fragment {
                     activity.getString(R.string.dear_user),
                     activity.getString(R.string.update),
                     activity.getString(R.string.accepted));
-            binding.progressBar.setVisibility(View.GONE);
+//            binding.progressBar.setVisibility(View.GONE);
         }
-    }  @Override
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding.imageViewUpdate.setImageDrawable(null);

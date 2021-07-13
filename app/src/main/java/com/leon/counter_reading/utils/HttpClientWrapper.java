@@ -73,7 +73,7 @@ public class HttpClientWrapper {
         if (progressType == ProgressType.SHOW.getValue()) {
             progressBarCancelable.show(context, context.getString(R.string.waiting));
         } else if (progressType == ProgressType.SHOW_CANCELABLE.getValue()) {
-            progressBarCancelable.show(context, context.getString(R.string.waiting), true);
+            progressBarCancelable.show(context, true, context.getString(R.string.waiting));
         } else if (progressType == ProgressType.SHOW_CANCELABLE_REDIRECT.getValue()) {
             progressBarCancelable.show(context, context.getString(R.string.waiting), true);
         }

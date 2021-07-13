@@ -86,6 +86,7 @@ public class ReadingActivity extends BaseActivity {
     SpinnerCustomAdapter adapter;
     int readStatus = 0, highLow = 1, errorCounter = 0;
     boolean isReading = false;
+
     @Override
     protected void initialize() {
         binding = ActivityReadingBinding.inflate(getLayoutInflater());
@@ -341,7 +342,8 @@ public class ReadingActivity extends BaseActivity {
 
     void showPossible(int position) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        PossibleFragment possibleFragment = PossibleFragment.newInstance(readingData.onOffLoadDtos.get(position), position);
+        PossibleFragment possibleFragment = PossibleFragment.newInstance(readingData.onOffLoadDtos.get(position),
+                position, false);
         possibleFragment.show(fragmentTransaction, getString(R.string.dynamic_navigation));
     }
 
@@ -1094,10 +1096,13 @@ public class ReadingActivity extends BaseActivity {
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onStop() {
         super.onStop();
         try {
+            ImageView imageViewFlash = findViewById(R.id.image_view_flash);
+            imageViewFlash.setImageDrawable(getDrawable(R.drawable.img_flash_off));
             flashLightManager.turnOff();
         } catch (Exception e) {
             e.printStackTrace();

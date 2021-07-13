@@ -199,11 +199,18 @@ public class ReadingFragment extends Fragment {
             }
         });
         binding.textViewAddress.setOnLongClickListener(v -> {
-            new CustomDialog(DialogType.Green, activity,
-                    onOffLoadDto.mobile,
-                    getString(R.string.mobile_number),
-                    onOffLoadDto.eshterak,
-                    getString(R.string.continue_reading));
+            PossibleFragment possibleFragment = PossibleFragment.newInstance(onOffLoadDto,
+                    position, true);
+            possibleFragment.show(getChildFragmentManager(), getString(R.string.dynamic_navigation));
+
+//            new CustomDialog(DialogType.Green, activity,
+//                    onOffLoadDto.mobile,
+//                    getString(R.string.mobile_number),
+//                    onOffLoadDto.eshterak,
+//                    getString(R.string.continue_reading));
+
+            //TODO
+
             return false;
         });
     }

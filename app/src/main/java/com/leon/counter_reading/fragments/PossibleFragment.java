@@ -45,11 +45,13 @@ public class PossibleFragment extends DialogFragment {
     ArrayList<String> items1 = new ArrayList<>();
     ArrayList<String> items2 = new ArrayList<>();
     SpinnerCustomAdapter spinnerCustomAdapterKarbari, spinnerCustomAdapterReadingReport;
+    static boolean justMobile = false;
 
     public PossibleFragment() {
     }
 
-    public static PossibleFragment newInstance(OnOffLoadDto onOffLoadDto, int position) {
+    public static PossibleFragment newInstance(OnOffLoadDto onOffLoadDto, int position,boolean justMobile) {
+        PossibleFragment.justMobile = justMobile;
         PossibleFragment fragment = new PossibleFragment();
         fragment.setArguments(putBundle(onOffLoadDto, position));
         return fragment;
@@ -67,7 +69,7 @@ public class PossibleFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getBundle();
+            getBundle();
     }
 
     void getBundle() {
@@ -91,8 +93,40 @@ public class PossibleFragment extends DialogFragment {
     void initialize() {
         makeRing(activity, NotificationType.OTHER);
         sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
-        initializeTextViews();
+        if (justMobile) {
+            binding.linearLayoutMobile.setVisibility(View.VISIBLE);
+            binding.editTextMobile.setVisibility(View.VISIBLE);
+            binding.textViewMobile.setVisibility(View.VISIBLE);
+
+            binding.textViewMobile.setText(String.valueOf(onOffLoadDto.mobile));
+            binding.editTextMobile.setText(onOffLoadDto.possibleMobile);
+
+
+            binding.editTextSerial.setVisibility(View.GONE);
+            binding.editTextAddress.setVisibility(View.GONE);
+            binding.editTextAccount.setVisibility(View.GONE);
+            binding.editTextAhadEmpty.setVisibility(View.GONE);
+            binding.editTextDescription.setVisibility(View.GONE);
+            binding.linearLayoutAhad.setVisibility(View.GONE);
+
+            binding.editTextAhad1.setVisibility(View.GONE);
+            binding.editTextAhad2.setVisibility(View.GONE);
+            binding.editTextAhadTotal.setVisibility(View.GONE);
+//            binding.spinnerKarbari.setVisibility(View.GONE);
+//            binding.spinnerReadingReport.setVisibility(View.GONE);
+
+            binding.linearLayoutReadingReport.setVisibility(View.GONE);
+            binding.linearLayoutKarbari.setVisibility(View.GONE);
+
+        } else
+            initializeTextViews();
         setOnButtonsClickListener();
+    }
+
+
+    void initializeTextViews() {
+        //TODO
+
         binding.textViewAhad1Title.setText(DifferentCompanyManager.getAhad1(DifferentCompanyManager.getActiveCompanyName()).concat(":"));
         binding.textViewAhad2Title.setText(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()).replaceFirst("آحاد ", "").concat(":"));
         binding.textViewAhadTotalTitle.setText(DifferentCompanyManager.getAhadTotal(DifferentCompanyManager.getActiveCompanyName()).replaceFirst("آحاد ", "").concat(":"));
@@ -115,6 +149,69 @@ public class PossibleFragment extends DialogFragment {
         binding.editTextAhadTotal.setText(String.valueOf(onOffLoadDto.possibleAhadSaierOrAbBaha));
 
         binding.editTextDescription.setText(onOffLoadDto.description);
+
+
+        binding.editTextSerial.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.SERIAL.getValue()) ? View.VISIBLE : View.GONE);
+        binding.editTextAddress.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.ADDRESS.getValue()) ? View.VISIBLE : View.GONE);
+        binding.editTextAccount.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.ACCOUNT.getValue()) ? View.VISIBLE : View.GONE);
+        binding.editTextAhadEmpty.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_EMPTY.getValue()) ? View.VISIBLE : View.GONE);
+        binding.editTextDescription.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.DESCRIPTION.getValue()) ? View.VISIBLE : View.GONE);
+        binding.linearLayoutAhad.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.SHOW_AHAD_TITLE.getValue()) ? View.VISIBLE : View.GONE);
+
+        binding.textViewAhad1.setText(String.valueOf(onOffLoadDto.ahadMaskooniOrAsli));
+        binding.textViewAhad2.setText(String.valueOf(onOffLoadDto.ahadTejariOrFari));
+        binding.textViewAhadTotal.setText(String.valueOf(onOffLoadDto.ahadSaierOrAbBaha));
+        binding.editTextAhad1.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_1.getValue()) ? View.VISIBLE : View.GONE);
+        binding.editTextAhad2.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_2.getValue()) ? View.VISIBLE : View.GONE);
+        binding.editTextAhadTotal.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.AHAD_TOTAL.getValue()) ? View.VISIBLE : View.GONE);
+
+        binding.linearLayoutMobile.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.MOBILE.getValue()) ? View.VISIBLE : View.GONE);
+        binding.editTextMobile.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.MOBILE.getValue()) ? View.VISIBLE : View.GONE);
+        binding.textViewMobile.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.MOBILE.getValue()) ? View.VISIBLE : View.GONE);
+
+        binding.textViewMobile.setText(String.valueOf(onOffLoadDto.mobile));
+
+        initializeSpinner();
+    }
+
+    void initializeSpinner() {
+        binding.linearLayoutKarbari.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.KARBARI.getValue()) ? View.VISIBLE : View.GONE);
+        if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue())) {
+            karbariDtos = new ArrayList<>(MyDatabaseClient.
+                    getInstance(activity).getMyDatabase().karbariDao().getAllKarbariDto());
+            for (KarbariDto karbariDto : karbariDtos) {
+                items1.add(karbariDto.title);
+            }
+            spinnerCustomAdapterKarbari = new SpinnerCustomAdapter(activity, items1);
+            binding.spinnerKarbari.setAdapter(spinnerCustomAdapterKarbari);
+            binding.spinnerKarbari.setSelection(onOffLoadDto.counterStatePosition);
+        }
+
+        binding.linearLayoutReadingReport.setVisibility(sharedPreferenceManager.
+                getBoolData(SharedReferenceKeys.READING_REPORT.getValue()) ? View.VISIBLE : View.GONE);
+        if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.READING_REPORT.getValue())) {
+            counterReportDtos = new ArrayList<>(MyDatabaseClient.getInstance(activity).
+                    getMyDatabase().counterReportDao().getAllCounterStateReport());
+            for (CounterReportDto counterReportDto : counterReportDtos) {
+                items2.add(counterReportDto.title);
+            }
+            items2.add(0, getString(R.string.reports));
+            spinnerCustomAdapterReadingReport = new SpinnerCustomAdapter(activity, items2);
+            binding.spinnerReadingReport.setAdapter(spinnerCustomAdapterReadingReport);
+        }
     }
 
     void setOnButtonsClickListener() {
@@ -183,74 +280,6 @@ public class PossibleFragment extends DialogFragment {
             }
         });
         binding.buttonClose.setOnClickListener(v -> dismiss());
-    }
-
-    void initializeTextViews() {
-        //TODO
-        binding.editTextSerial.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.SERIAL.getValue()) ? View.VISIBLE : View.GONE);
-        binding.editTextAddress.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.ADDRESS.getValue()) ? View.VISIBLE : View.GONE);
-        binding.editTextAccount.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.ACCOUNT.getValue()) ? View.VISIBLE : View.GONE);
-        binding.editTextAhadEmpty.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.AHAD_EMPTY.getValue()) ? View.VISIBLE : View.GONE);
-
-        binding.editTextDescription.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.DESCRIPTION.getValue()) ? View.VISIBLE : View.GONE);
-
-        binding.linearLayoutAhad.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.SHOW_AHAD_TITLE.getValue()) ? View.VISIBLE : View.GONE);
-        binding.textViewAhad1.setText(String.valueOf(onOffLoadDto.ahadMaskooniOrAsli));
-        binding.textViewAhad2.setText(String.valueOf(onOffLoadDto.ahadTejariOrFari));
-        binding.textViewAhadTotal.setText(String.valueOf(onOffLoadDto.ahadSaierOrAbBaha));
-
-        binding.editTextAhad1.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.AHAD_1.getValue()) ? View.VISIBLE : View.GONE);
-
-        binding.editTextAhad2.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.AHAD_2.getValue()) ? View.VISIBLE : View.GONE);
-
-        binding.editTextAhadTotal.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.AHAD_TOTAL.getValue()) ? View.VISIBLE : View.GONE);
-
-        binding.linearLayoutMobile.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.MOBILE.getValue()) ? View.VISIBLE : View.GONE);
-        binding.editTextMobile.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.MOBILE.getValue()) ? View.VISIBLE : View.GONE);
-        binding.textViewMobile.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.MOBILE.getValue()) ? View.VISIBLE : View.GONE);
-        binding.textViewMobile.setText(String.valueOf(onOffLoadDto.mobile));
-
-        initializeSpinner();
-    }
-
-    void initializeSpinner() {
-        binding.linearLayoutKarbari.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.KARBARI.getValue()) ? View.VISIBLE : View.GONE);
-        if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue())) {
-            karbariDtos = new ArrayList<>(MyDatabaseClient.
-                    getInstance(activity).getMyDatabase().karbariDao().getAllKarbariDto());
-            for (KarbariDto karbariDto : karbariDtos) {
-                items1.add(karbariDto.title);
-            }
-            spinnerCustomAdapterKarbari = new SpinnerCustomAdapter(activity, items1);
-            binding.spinnerKarbari.setAdapter(spinnerCustomAdapterKarbari);
-            binding.spinnerKarbari.setSelection(onOffLoadDto.counterStatePosition);
-        }
-
-        binding.linearLayoutReadingReport.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.READING_REPORT.getValue()) ? View.VISIBLE : View.GONE);
-        if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.READING_REPORT.getValue())) {
-            counterReportDtos = new ArrayList<>(MyDatabaseClient.getInstance(activity).
-                    getMyDatabase().counterReportDao().getAllCounterStateReport());
-            for (CounterReportDto counterReportDto : counterReportDtos) {
-                items2.add(counterReportDto.title);
-            }
-            items2.add(0, getString(R.string.reports));
-            spinnerCustomAdapterReadingReport = new SpinnerCustomAdapter(activity, items2);
-            binding.spinnerReadingReport.setAdapter(spinnerCustomAdapterReadingReport);
-        }
     }
 
     @Override
