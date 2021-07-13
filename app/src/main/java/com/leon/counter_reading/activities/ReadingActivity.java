@@ -1107,11 +1107,6 @@ public class ReadingActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        try {
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        } catch (Exception ignored) {
-        }
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

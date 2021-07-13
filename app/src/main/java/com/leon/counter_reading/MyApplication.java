@@ -34,7 +34,7 @@ public class MyApplication extends Application {
     public static int POSITION = -1;
     public static Bitmap bitmapSelectedImage;
     public static String fileName;
-    public static boolean FOCUS_ON_EDIT_TEXT = false;
+    public static boolean FOCUS_ON_EDIT_TEXT;
     static Context appContext;
 
     public static Context getContext() {
