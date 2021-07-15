@@ -668,6 +668,7 @@ public class ReadingActivity extends BaseActivity {
         protected Void doInBackground(Void... voids) {
             if (json != null) {
                 Gson gson = new Gson();
+                isMane.clear();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     json.forEach(s -> isMane.add(gson.fromJson(s, Integer.class)));
                 } else
@@ -748,7 +749,6 @@ public class ReadingActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //TODO
-        Log.e("here", "onCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.reading_menu, menu);
         menu.getItem(5).setChecked(MyApplication.FOCUS_ON_EDIT_TEXT);
         menu.getItem(6).setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.SORT_TYPE.getValue()));

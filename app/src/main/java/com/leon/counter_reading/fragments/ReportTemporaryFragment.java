@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +73,6 @@ public class ReportTemporaryFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentReportTemporaryBinding.inflate(inflater, container, false);
-
         initialize();
         return binding.getRoot();
     }
@@ -99,12 +99,25 @@ public class ReportTemporaryFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ReadingActivity.class);
                 Gson gson = new Gson();
                 ArrayList<String> json1 = new ArrayList<>();
+                Log.e("position", String.valueOf(position));
                 if (position == 0) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         counterStateDtos.forEach(counterStateDto -> json1.add(gson.toJson(counterStateDto.id)));
                     } else
                         for (CounterStateDto counterStateDto : counterStateDtos) {
                             json1.add(gson.toJson(counterStateDto.id));
+                        }
+                } else if (position >= counterStateDtos.size()) {
+                    Log.e("here", "همه مانع ها");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        counterStateDtos.forEach(counterStateDto -> {
+                            if (counterStateDto.isMane)
+                                json1.add(gson.toJson(counterStateDto.id));
+                        });
+                    } else
+                        for (CounterStateDto counterStateDto : counterStateDtos) {
+                            if (counterStateDto.isMane)
+                                json1.add(gson.toJson(counterStateDto.id));
                         }
                 } else {
                     json1.add(gson.toJson(counterStateDtos.get(position - 1).id));
@@ -146,6 +159,8 @@ public class ReportTemporaryFragment extends Fragment {
 //                }
 //            }
         }
+
+        items.add(getString(R.string.all_mane));
     }
 
     @Override
