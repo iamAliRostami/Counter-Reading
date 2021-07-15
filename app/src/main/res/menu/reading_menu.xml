@@ -23,6 +23,13 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_keyboard"
+        android:checkable="true"
         android:title="@string/visible_hide_keyboard"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_sort"
+        android:checkable="true"
+        android:title="@string/sort_reading_type"
         app:showAsAction="never" />
 </menu>

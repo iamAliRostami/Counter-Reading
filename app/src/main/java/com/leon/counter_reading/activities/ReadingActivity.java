@@ -1,10 +1,8 @@
 package com.leon.counter_reading.activities;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Debug;
@@ -22,8 +20,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.gson.Gson;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
@@ -61,10 +57,10 @@ import com.leon.counter_reading.utils.LocationTracker;
 import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
-import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -72,7 +68,6 @@ import retrofit2.Retrofit;
 
 import static com.leon.counter_reading.MyApplication.SHOW_ERROR;
 import static com.leon.counter_reading.utils.MakeNotification.makeRing;
-import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public class ReadingActivity extends BaseActivity {
     static ArrayList<Integer> isMane = new ArrayList<>();
@@ -225,7 +220,6 @@ public class ReadingActivity extends BaseActivity {
     }
 
     public void updateOnOffLoadByNavigation(int position, OnOffLoadDto onOffLoadDto) {
-        //TODO
         readingData.onOffLoadDtos.get(position).possibleCounterSerial = onOffLoadDto.possibleCounterSerial;
         readingData.onOffLoadDtos.get(position).possibleKarbariCode = onOffLoadDto.possibleKarbariCode;
         readingData.onOffLoadDtos.get(position).possibleAhadTejariOrFari = onOffLoadDto.possibleAhadTejariOrFari;
@@ -240,7 +234,6 @@ public class ReadingActivity extends BaseActivity {
         attemptSend(position, false, true);
     }
 
-
     void showImage(int position) {
         Intent intent = new Intent(activity, TakePhotoActivity.class);
         intent.putExtra(BundleEnum.BILL_ID.getValue(),
@@ -253,7 +246,6 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void attemptSend(int position, boolean isForm, boolean isImage) {
-        //TODO
         if (isForm && (sharedPreferenceManager.getBoolData(SharedReferenceKeys.SERIAL.getValue())
                 || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_2.getValue())
                 || sharedPreferenceManager.getBoolData(SharedReferenceKeys.AHAD_1.getValue())
@@ -301,8 +293,7 @@ public class ReadingActivity extends BaseActivity {
         }
     }
 
-    void prepareToSend(/*int position*/) {
-//        for (int i = 0; i < 100; i++)
+    void prepareToSend() {
         new PrepareToSend().execute();
     }
 
@@ -323,17 +314,11 @@ public class ReadingActivity extends BaseActivity {
         @Override
         protected Integer doInBackground(Integer... integers) {
             offLoadData.isFinal = false;
-
             MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
-            //TODO
-//        offLoadData.offLoadReports.addAll(myDatabase.offLoadReportDao().
-//                getAllOffLoadReportById(readingData.onOffLoadDtos.get(position).id));
             offLoadData.offLoads = new ArrayList<>(myDatabase.onOffLoadDao().getAllOnOffLoadInsert(
                     OffloadStateEnum.INSERTED.getValue(), true));
-
             offLoadData.offLoadReports.addAll(myDatabase.offLoadReportDao().
                     getAllOffLoadReportByActive(true));
-//            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
             Retrofit retrofit = NetworkHelper.getInstance(2,
                     sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
@@ -420,19 +405,14 @@ public class ReadingActivity extends BaseActivity {
         imageViewFlash.setOnClickListener(v -> {
             boolean isOn = flashLightManager.toggleFlash();
             makeRing(activity, isOn ? NotificationType.LIGHT_ON : NotificationType.LIGHT_OFF);
-            imageViewFlash.setImageDrawable(getDrawable(isOn ? R.drawable.img_flash_on : R.drawable.img_flash_off));
+            imageViewFlash.setImageDrawable(getDrawable(isOn ?
+                    R.drawable.img_flash_on : R.drawable.img_flash_off));
         });
         ImageView imageViewReverse = findViewById(R.id.image_view_reverse);
         imageViewReverse.setImageDrawable(activity.getDrawable(R.drawable.img_inverse));
-        imageViewReverse.setOnClickListener(v -> {
-//            isNight = !isNight;
-//            Log.e("isNight?", String.valueOf(AppCompatDelegate.MODE_NIGHT_AUTO));
-//            AppCompatDelegate.setDefaultNightMode(
-//                    isNight ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-            AppCompatDelegate.setDefaultNightMode(
-                    AppCompatDelegate.getDefaultNightMode() < 2 ? AppCompatDelegate.MODE_NIGHT_YES :
-                            AppCompatDelegate.MODE_NIGHT_NO);
-        });
+        imageViewReverse.setOnClickListener(v ->
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.getDefaultNightMode() < 2 ?
+                        AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO));
         ImageView imageViewCamera = findViewById(R.id.image_view_camera);
         imageViewCamera.setImageDrawable(activity.getDrawable(R.drawable.img_camera));
         imageViewCamera.setOnClickListener(v -> {
@@ -623,6 +603,7 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void setupViewPager(int currentItem) {
+        //TODO
         ArrayList<String> items = new ArrayList<>(CounterStateDto.getCounterStateItems(readingData.counterStateDtos));
         adapter = new SpinnerCustomAdapter(activity, items);
         binding.textViewNotFound.setVisibility(!(readingData.onOffLoadDtos.size() > 0) ? View.VISIBLE : View.GONE);
@@ -766,8 +747,52 @@ public class ReadingActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //TODO
+        Log.e("here", "onCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.reading_menu, menu);
+        menu.getItem(5).setChecked(MyApplication.FOCUS_ON_EDIT_TEXT);
+        menu.getItem(6).setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.SORT_TYPE.getValue()));
         return super.onCreateOptionsMenu(menu);
+    }
+
+    class ChangeSortType extends AsyncTask<Void, Void, Void> {
+        boolean sortType;
+        CustomProgressBar customProgressBar;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            customProgressBar = new CustomProgressBar();
+            customProgressBar.show(activity, false);
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            customProgressBar.getDialog().dismiss();
+        }
+
+        public ChangeSortType(boolean sortType) {
+            super();
+            this.sortType = sortType;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if (sortType) {
+                Collections.sort(readingData.onOffLoadDtos, (o1, o2) -> o2.eshterak.compareTo(
+                        o1.eshterak));
+                Collections.sort(readingDataTemp.onOffLoadDtos, (o1, o2) -> o2.eshterak.compareTo(
+                        o1.eshterak));
+            }else {
+                Collections.sort(readingData.onOffLoadDtos, (o1, o2) -> o1.eshterak.compareTo(
+                        o2.eshterak));
+                Collections.sort(readingDataTemp.onOffLoadDtos, (o1, o2) -> o1.eshterak.compareTo(
+                        o2.eshterak));
+            }
+            runOnUiThread(() -> setupViewPager(0));
+            return null;
+        }
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -775,7 +800,11 @@ public class ReadingActivity extends BaseActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         Intent intent;
-        if (id == R.id.menu_navigation) {
+        if (id == R.id.menu_sort) {
+            item.setChecked(!item.isChecked());
+            sharedPreferenceManager.putData(SharedReferenceKeys.SORT_TYPE.getValue(), item.isChecked());
+            new ChangeSortType(item.isChecked()).execute();
+        } else if (id == R.id.menu_navigation) {
             if (readingDataTemp.onOffLoadDtos.isEmpty()) {
                 showNoEshterakFound();
             } else {
@@ -818,18 +847,20 @@ public class ReadingActivity extends BaseActivity {
             if (readingData.onOffLoadDtos.isEmpty()) {
                 showNoEshterakFound();
             } else {
+                item.setChecked(!item.isChecked());
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                 if (MyApplication.FOCUS_ON_EDIT_TEXT) {
                     try {
                         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                     } catch (Exception ignored) {
                     }
-                    MyApplication.FOCUS_ON_EDIT_TEXT = !MyApplication.FOCUS_ON_EDIT_TEXT;
                 } else {
                     inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                    MyApplication.FOCUS_ON_EDIT_TEXT = !MyApplication.FOCUS_ON_EDIT_TEXT;
                     viewPagerAdapterReading.notifyDataSetChanged();
                 }
+                MyApplication.FOCUS_ON_EDIT_TEXT = !MyApplication.FOCUS_ON_EDIT_TEXT;
+//                MyApplication.FOCUS_ON_EDIT_TEXT = !MyApplication.FOCUS_ON_EDIT_TEXT;
+//                item.setChecked(!item.isChecked());
             }
         } else if (id == R.id.menu_last) {
             if (readingData.onOffLoadDtos.isEmpty()) {
@@ -900,7 +931,6 @@ public class ReadingActivity extends BaseActivity {
         }
     }
 
-    //    @SuppressLint("StaticFieldLeak")
     static class Sent extends AsyncTask<OnOffLoadDto.OffLoadResponses, Integer, Integer> {
         public Sent() {
             super();
@@ -908,7 +938,6 @@ public class ReadingActivity extends BaseActivity {
 
         @Override
         protected Integer doInBackground(OnOffLoadDto.OffLoadResponses... offLoadResponses) {
-            //TODO
             try {
                 MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().offLoadReportDao().deleteAllOffLoadReport();
                 int state = offLoadResponses[0].isValid ? OffloadStateEnum.SENT.getValue() :
@@ -1015,6 +1044,7 @@ public class ReadingActivity extends BaseActivity {
                             getReadingConfigDefaultDtosByZoneId(dto.zoneId));
                 }
             }
+            //TODO
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                 readingData.trackingDtos.forEach(trackingDto -> {
                     if (readStatus == ReadStatusEnum.ALL.getValue()) {
@@ -1057,7 +1087,7 @@ public class ReadingActivity extends BaseActivity {
                         }
                     }
                 }
-//            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
+
             if (readingData != null && readingData.onOffLoadDtos != null && readingData.onOffLoadDtos.size() > 0) {
                 readingDataTemp.onOffLoadDtos.addAll(readingData.onOffLoadDtos);
                 readingDataTemp.counterStateDtos.addAll(readingData.counterStateDtos);
@@ -1065,6 +1095,12 @@ public class ReadingActivity extends BaseActivity {
                 readingDataTemp.trackingDtos.addAll(readingData.trackingDtos);
                 readingDataTemp.karbariDtos.addAll(readingData.karbariDtos);
                 readingDataTemp.readingConfigDefaultDtos.addAll(readingData.readingConfigDefaultDtos);
+                if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.SORT_TYPE.getValue())) {
+                    Collections.sort(readingData.onOffLoadDtos, (o1, o2) -> o2.eshterak.compareTo(
+                            o1.eshterak));
+                    Collections.sort(readingDataTemp.onOffLoadDtos, (o1, o2) -> o2.eshterak.compareTo(
+                            o1.eshterak));
+                }
 //                setAboveIconsSrc(0);
             }
             runOnUiThread(() -> setupViewPager(0));

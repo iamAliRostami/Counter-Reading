@@ -189,7 +189,8 @@
     <string name="postal_code">کد پستی</string>
     <string name="select_one">یکی از موارد را انتخاب کنید</string>
     <string name="insert_message">یک پیام نوشته یا ضبط شود.</string>
-    <string name="visible_hide_keyboard">نمایش / عدم نمایش صفحه کلید</string>
+<!--    <string name="visible_hide_keyboard">نمایش / عدم نمایش صفحه کلید</string>-->
+    <string name="visible_hide_keyboard">نمایش صفحه کلید</string>
     <string name="last_unread">آخرین بازدید نشده</string>
     <string name="thank_you">همکار گرامی!\n خداقوت!</string>
     <string name="all_masir_bazdid">همه مسیرها بازدید شد.</string>
@@ -223,5 +224,6 @@
     <string name="darsad_alal">همکار گرامی!\nدرصد علی الحساب بالاتر از حد مجاز است.</string>
     <string name="unuploaded_multimedia">همکار گرامی تعداد %d عکس و %d صدای تخلیه نشده باقی مانده است.\nپیش از تخلیه نسبت به بارگذاری چندرسانه اقدام کنید.</string>
     <string name="show_points">نمایش نقاط</string>
+    <string name="sort_reading_type">مرتب سازی نزولی</string>
 
 </resources>

@@ -28,6 +28,7 @@ public enum SharedReferenceKeys {
     THEME_STABLE("theme_stable"),
     DATE("date"),
     POINT("point"),
+    SORT_TYPE("sort_type"),
     THEME_TEMPORARY("theme_temporary");
 
     private final String value;
