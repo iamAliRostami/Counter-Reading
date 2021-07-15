@@ -108,7 +108,6 @@ public class ReportTemporaryFragment extends Fragment {
                             json1.add(gson.toJson(counterStateDto.id));
                         }
                 } else if (position >= counterStateDtos.size()) {
-                    Log.e("here", "همه مانع ها");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         counterStateDtos.forEach(counterStateDto -> {
                             if (counterStateDto.isMane)
