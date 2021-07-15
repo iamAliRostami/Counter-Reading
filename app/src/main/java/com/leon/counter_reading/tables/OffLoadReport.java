@@ -10,4 +10,6 @@ public class OffLoadReport {
     public int customId;
     public String onOffLoadId;
     public int reportId;
+    public boolean isSent;
+    public int trackNumber;
 }

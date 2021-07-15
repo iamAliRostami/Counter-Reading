@@ -36,7 +36,7 @@ public class ReadingReportActivity extends AppCompatActivity {
     ReadingReportCustomAdapter readingReportCustomAdapter;
     Activity activity;
     String uuid;
-    int position;
+    int position, trackNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,7 @@ public class ReadingReportActivity extends AppCompatActivity {
     void initialize() {
         if (getIntent().getExtras() != null) {
             uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
+            trackNumber = getIntent().getExtras().getInt(BundleEnum.TRACKING.getValue());
             position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
         }
         new GetDBData().execute();
@@ -61,6 +62,7 @@ public class ReadingReportActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.putExtra(BundleEnum.POSITION.getValue(), position);
             intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);
+//            intent.putExtra(BundleEnum.TRACKING.getValue(), trackNumber);
             setResult(RESULT_OK, intent);
             finish();
         });
@@ -92,7 +94,7 @@ public class ReadingReportActivity extends AppCompatActivity {
             counterReportDtos = new ArrayList<>(MyDatabaseClient.getInstance(activity).
                     getMyDatabase().counterReportDao().getAllCounterStateReport());
             offLoadReports = new ArrayList<>(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    offLoadReportDao().getAllOffLoadReportById(uuid));
+                    offLoadReportDao().getAllOffLoadReportById(uuid, trackNumber));
             for (int i = 0; i < offLoadReports.size(); i++) {
                 for (int j = 0; j < counterReportDtos.size(); j++) {
                     if (offLoadReports.get(i).reportId == counterReportDtos.get(j).id) {
@@ -106,7 +108,7 @@ public class ReadingReportActivity extends AppCompatActivity {
 
         void setupRecyclerView() {
             readingReportCustomAdapter = new ReadingReportCustomAdapter(activity, uuid, position,
-                    counterReportDtos, offLoadReports);
+                    trackNumber, counterReportDtos, offLoadReports);
             binding.listViewReports.setAdapter(readingReportCustomAdapter);
         }
     }

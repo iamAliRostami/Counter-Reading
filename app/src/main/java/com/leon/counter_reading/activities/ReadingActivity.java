@@ -318,7 +318,7 @@ public class ReadingActivity extends BaseActivity {
             offLoadData.offLoads = new ArrayList<>(myDatabase.onOffLoadDao().getAllOnOffLoadInsert(
                     OffloadStateEnum.INSERTED.getValue(), true));
             offLoadData.offLoadReports.addAll(myDatabase.offLoadReportDao().
-                    getAllOffLoadReportByActive(true));
+                    getAllOffLoadReportByActive(true, false));
             Retrofit retrofit = NetworkHelper.getInstance(2,
                     sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
@@ -436,6 +436,8 @@ public class ReadingActivity extends BaseActivity {
                 Intent intent = new Intent(activity, ReadingReportActivity.class);
                 intent.putExtra(BundleEnum.BILL_ID.getValue(),
                         readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
+                intent.putExtra(BundleEnum.TRACKING.getValue(),
+                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).trackNumber);
                 intent.putExtra(BundleEnum.POSITION.getValue(),
                         binding.viewPager.getCurrentItem());
                 startActivityForResult(intent, MyApplication.REPORT);
@@ -603,7 +605,6 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void setupViewPager(int currentItem) {
-        //TODO
         ArrayList<String> items = new ArrayList<>(CounterStateDto.getCounterStateItems(readingData.counterStateDtos));
         adapter = new SpinnerCustomAdapter(activity, items);
         binding.textViewNotFound.setVisibility(!(readingData.onOffLoadDtos.size() > 0) ? View.VISIBLE : View.GONE);
@@ -748,13 +749,13 @@ public class ReadingActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //TODO
         getMenuInflater().inflate(R.menu.reading_menu, menu);
         menu.getItem(5).setChecked(MyApplication.FOCUS_ON_EDIT_TEXT);
         menu.getItem(6).setChecked(sharedPreferenceManager.getBoolData(SharedReferenceKeys.SORT_TYPE.getValue()));
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("StaticFieldLeak")
     class ChangeSortType extends AsyncTask<Void, Void, Void> {
         boolean sortType;
         CustomProgressBar customProgressBar;
@@ -784,7 +785,7 @@ public class ReadingActivity extends BaseActivity {
                         o1.eshterak));
                 Collections.sort(readingDataTemp.onOffLoadDtos, (o1, o2) -> o2.eshterak.compareTo(
                         o1.eshterak));
-            }else {
+            } else {
                 Collections.sort(readingData.onOffLoadDtos, (o1, o2) -> o1.eshterak.compareTo(
                         o2.eshterak));
                 Collections.sort(readingDataTemp.onOffLoadDtos, (o1, o2) -> o1.eshterak.compareTo(
@@ -921,7 +922,7 @@ public class ReadingActivity extends BaseActivity {
             String uuid = data.getExtras().getString(BundleEnum.BILL_ID.getValue());
             MyDatabase myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
             myDatabase.onOffLoadDao().updateOnOffLoad(true, uuid);
-            readingData.onOffLoadDtos.set(position, myDatabase.onOffLoadDao().getAllOnOffLoadById(uuid));
+            readingData.onOffLoadDtos.set(position, myDatabase.onOffLoadDao().getAllOnOffLoadById(uuid, readingData.onOffLoadDtos.get(position).trackNumber));
             for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
                 if (onOffLoadDto.id.equals(uuid))
                     readingDataTemp.onOffLoadDtos.set(i, readingData.onOffLoadDtos.get(position));
@@ -939,7 +940,9 @@ public class ReadingActivity extends BaseActivity {
         @Override
         protected Integer doInBackground(OnOffLoadDto.OffLoadResponses... offLoadResponses) {
             try {
-                MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().offLoadReportDao().deleteAllOffLoadReport();
+                //TODO
+//                MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().offLoadReportDao().deleteAllOffLoadReport();
+                MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().offLoadReportDao().updateOffLoadReportByIsSent(true);
                 int state = offLoadResponses[0].isValid ? OffloadStateEnum.SENT.getValue() :
                         OffloadStateEnum.SENT_WITH_ERROR.getValue();
                 MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().onOffLoadDao().updateOnOffLoad(state, offLoadResponses[0].targetObject);
@@ -1044,7 +1047,6 @@ public class ReadingActivity extends BaseActivity {
                             getReadingConfigDefaultDtosByZoneId(dto.zoneId));
                 }
             }
-            //TODO
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                 readingData.trackingDtos.forEach(trackingDto -> {
                     if (readStatus == ReadStatusEnum.ALL.getValue()) {

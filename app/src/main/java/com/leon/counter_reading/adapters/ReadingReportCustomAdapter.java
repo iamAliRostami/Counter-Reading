@@ -27,16 +27,18 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
     final ArrayList<OffLoadReport> offLoadReports;
     final String uuid;
     final int position;
+    final int tracking;
     final LayoutInflater inflater;
     final Context context;
 
-    public ReadingReportCustomAdapter(Context context, String uuid, int position,
+    public ReadingReportCustomAdapter(Context context, String uuid, int position,int tracking,
                                       ArrayList<CounterReportDto> counterReportDtos,
                                       ArrayList<OffLoadReport> offLoadReports) {
         this.counterReportDtos = counterReportDtos;
         this.offLoadReports = offLoadReports;
         this.uuid = uuid;
         this.position = position;
+        this.tracking = tracking;
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -72,6 +74,7 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
                 OffLoadReport offLoadReport = new OffLoadReport();
                 offLoadReport.reportId = counterReportDtos.get(position).id;
                 offLoadReport.onOffLoadId = uuid;
+                offLoadReport.trackNumber = tracking;
                 MyDatabaseClient.getInstance(context).getMyDatabase().offLoadReportDao().
                         insertOffLoadReport(offLoadReport);
                 offLoadReports.add(offLoadReport);
@@ -94,7 +97,7 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
                 for (int i = 0; i < offLoadReports.size(); i++) {
                     if (offLoadReports.get(i).reportId == counterReportDtos.get(position).id) {
                         MyDatabaseClient.getInstance(context).getMyDatabase().offLoadReportDao().
-                                deleteOffLoadReport(offLoadReports.get(i).reportId, uuid);
+                                deleteOffLoadReport(offLoadReports.get(i).reportId,tracking, uuid);
                         offLoadReports.remove(offLoadReports.get(i));
                     }
                 }

@@ -11,11 +11,11 @@ import java.util.List;
 
 @Dao
 public interface OffLoadReportDao {
-    @Query("SELECT * FROM OffLoadReport")
-    List<OffLoadReport> getAllOffLoadReport();
+    @Query("SELECT * FROM OffLoadReport WHERE isSent = :isSent")
+    List<OffLoadReport> getAllOffLoadReport(boolean isSent);
 
-    @Query("SELECT * FROM OffLoadReport WHERE onOffLoadId = :id")
-    List<OffLoadReport> getAllOffLoadReportById(String id);
+    @Query("SELECT * FROM OffLoadReport WHERE onOffLoadId = :id AND trackNumber = :trackNumber")
+    List<OffLoadReport> getAllOffLoadReportById(String id, int trackNumber);
 
     @Query("SELECT * FROM OffLoadReport WHERE onOffLoadId IN (:id)")
     List<OffLoadReport> getAllOffLoadReportById(List<String> id);
@@ -24,8 +24,8 @@ public interface OffLoadReportDao {
     @Query("SELECT * FROM OffLoadReport " +
             "Inner Join OnOffLoadDto On OnOffLoadDto.id = OffLoadreport.onOffLoadId " +
             "Inner Join TrackingDto On OnOffLoadDto.trackNumber = TrackingDto.trackNumber " +
-            "WHERE TrackingDto.isActive = :isActive")
-    List<OffLoadReport> getAllOffLoadReportByActive(boolean isActive);
+            "WHERE TrackingDto.isActive = :isActive AND isSent = :isSent")
+    List<OffLoadReport> getAllOffLoadReportByActive(boolean isActive,boolean isSent);
 
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
@@ -43,6 +43,9 @@ public interface OffLoadReportDao {
     @Query("DELETE FROM OffLoadReport")
     void deleteAllOffLoadReport();
 
-    @Query("DELETE FROM OffLoadReport WHERE reportId = :reportId AND onOffLoadId = :onOffLoadId")
-    void deleteOffLoadReport(int reportId, String onOffLoadId);
+    @Query("DELETE FROM OffLoadReport WHERE reportId = :reportId AND onOffLoadId = :onOffLoadId AND trackNumber = :trackNumber")
+    void deleteOffLoadReport(int reportId, int trackNumber, String onOffLoadId);
+
+    @Query("UPDATE OffLoadReport SET isSent = :isSent")
+    void updateOffLoadReportByIsSent(boolean isSent);
 }

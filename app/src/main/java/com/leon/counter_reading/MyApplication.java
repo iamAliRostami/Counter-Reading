@@ -66,7 +66,7 @@ public class MyApplication extends Application {
     }
 
     public static String getDBName() {
-        return "MyDatabase_5";
+        return "MyDatabase_6";
     }
 
     @Override

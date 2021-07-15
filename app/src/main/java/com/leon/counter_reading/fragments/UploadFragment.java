@@ -228,7 +228,7 @@ public class UploadFragment extends Fragment {
                     OffloadStateEnum.INSERTED.getValue()));
             offLoadReports.clear();
             offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    offLoadReportDao().getAllOffLoadReport());
+                    offLoadReportDao().getAllOffLoadReport(false));
             return null;
         }
 
@@ -473,7 +473,7 @@ public class UploadFragment extends Fragment {
                         updateTrackingDtoByArchive(trackingDtos.get(
                                 binding.spinner.getSelectedItemPosition() - 1).id, true, false);
                 MyDatabaseClient.getInstance(activity).getMyDatabase().offLoadReportDao().
-                        deleteAllOffLoadReport();
+                        updateOffLoadReportByIsSent(true);
                 new CustomDialog(DialogType.Green, getContext(), response.body().message,
                         activity.getString(R.string.dear_user),
                         activity.getString(R.string.upload_information),

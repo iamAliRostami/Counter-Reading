@@ -271,6 +271,7 @@ public class PossibleFragment extends DialogFragment {
                     OffLoadReport offLoadReport = new OffLoadReport();
                     offLoadReport.reportId = counterReportDtos.get(binding.spinnerReadingReport.getSelectedItemPosition() - 1).id;
                     offLoadReport.onOffLoadId = onOffLoadDto.id;
+                    offLoadReport.trackNumber = onOffLoadDto.trackNumber;
                     MyDatabaseClient.getInstance(activity).getMyDatabase().offLoadReportDao().
                             insertOffLoadReport(offLoadReport);
                 }

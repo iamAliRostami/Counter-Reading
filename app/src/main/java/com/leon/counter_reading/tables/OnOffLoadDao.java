@@ -13,8 +13,8 @@ public interface OnOffLoadDao {
     @Query("select * From OnOffLoadDto")
     List<OnOffLoadDto> getAllOnOffLoad();
 
-    @Query("select * From OnOffLoadDto WHERE id = :id ORDER BY eshterak")
-    OnOffLoadDto getAllOnOffLoadById(String id);
+    @Query("select * From OnOffLoadDto WHERE id = :id AND trackNumber = :trackNumber ORDER BY eshterak")
+    OnOffLoadDto getAllOnOffLoadById(String id,int trackNumber);
 
     @Query("select * From OnOffLoadDto Where trackNumber = :trackNumber ORDER BY eshterak")
     List<OnOffLoadDto> getAllOnOffLoadByTracking(int trackNumber);
