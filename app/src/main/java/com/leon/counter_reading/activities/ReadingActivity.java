@@ -856,8 +856,9 @@ public class ReadingActivity extends BaseActivity {
                     } catch (Exception ignored) {
                     }
                 } else {
+//                    inputMethodManager.showSoftInputFromInputMethod(getCurrentFocus().getWindowToken(), 0);
                     inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                    viewPagerAdapterReading.notifyDataSetChanged();
+//                    viewPagerAdapterReading.notifyDataSetChanged();
                 }
                 MyApplication.FOCUS_ON_EDIT_TEXT = !MyApplication.FOCUS_ON_EDIT_TEXT;
 //                MyApplication.FOCUS_ON_EDIT_TEXT = !MyApplication.FOCUS_ON_EDIT_TEXT;
