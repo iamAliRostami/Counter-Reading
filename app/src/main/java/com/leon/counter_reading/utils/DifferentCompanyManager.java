@@ -258,7 +258,7 @@ public class DifferentCompanyManager {
     public static String getSiteAddress(CompanyNames companyNames) {
         switch (companyNames) {
             case ESF:
-                return "www.abfaEsfahan.ir";
+                return "abfaEsfahan.ir";
             default:
                 throw new UnsupportedOperationException();
         }

@@ -36,8 +36,7 @@ public class ContactUsActivity extends AppCompatActivity {
     void initialize() {
         if (sharedPreferenceManager.checkIsNotEmpty(SharedReferenceKeys.USERNAME_TEMP.getValue()))
             binding.textViewDate.setText(sharedPreferenceManager.getStringData(SharedReferenceKeys.DATE.getValue()));
-        binding.textViewVersion.setText(getString(R.string.version).concat(" ")
-                .concat(BuildConfig.VERSION_NAME));
+        binding.textViewVersion.setText(BuildConfig.VERSION_NAME);
         binding.textViewSite.setText(DifferentCompanyManager.getSiteAddress(DifferentCompanyManager.getActiveCompanyName()));
         binding.imageViewLogo.setImageDrawable(getDrawable(R.drawable.img_logo));
     }
