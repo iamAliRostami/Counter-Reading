@@ -104,12 +104,14 @@ public class ReadingActivity extends BaseActivity {
             imageViewFlash.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(),
                     isOn ? R.drawable.img_flash_on : R.drawable.img_flash_off));
         });
+
         ImageView imageViewReverse = findViewById(R.id.image_view_reverse);
         imageViewReverse.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(),
                 R.drawable.img_inverse));
         imageViewReverse.setOnClickListener(v ->
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.getDefaultNightMode() < 2 ?
                         AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO));
+
         ImageView imageViewCamera = findViewById(R.id.image_view_camera);
         imageViewCamera.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(),
                 R.drawable.img_camera));
@@ -125,6 +127,7 @@ public class ReadingActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
         ImageView imageViewCheck = findViewById(R.id.image_view_reading_report);
         imageViewCheck.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(),
                 R.drawable.img_checked));
@@ -142,6 +145,7 @@ public class ReadingActivity extends BaseActivity {
                 startActivityForResult(intent, MyApplication.REPORT);
             }
         });
+
         ImageView imageViewSearch = findViewById(R.id.image_view_search);
         imageViewSearch.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(),
                 R.drawable.img_search));
@@ -153,17 +157,6 @@ public class ReadingActivity extends BaseActivity {
                         getSupportFragmentManager().beginTransaction();
                 SearchFragment searchFragment = new SearchFragment();
                 searchFragment.show(fragmentTransaction, "");
-            }
-        });
-    }
-
-    public void changePage(int pageNumber) {
-        runOnUiThread(() -> {
-            if (pageNumber < readingData.onOffLoadDtos.size())
-                binding.viewPager.setCurrentItem(pageNumber);
-            else {
-                new CustomToast().success(getString(R.string.all_masir_bazdid));
-                binding.viewPager.setCurrentItem(0);
             }
         });
     }
@@ -213,6 +206,86 @@ public class ReadingActivity extends BaseActivity {
         readingData.onOffLoadDtos.get(position).possibleAddress = onOffLoadDto.possibleAddress;
         readingData.onOffLoadDtos.get(position).possibleEshterak = onOffLoadDto.possibleEshterak;
         attemptSend(position, false, true);
+    }
+
+    public void changePage(int pageNumber) {
+        runOnUiThread(() -> {
+            if (pageNumber < readingData.onOffLoadDtos.size())
+                binding.viewPager.setCurrentItem(pageNumber);
+            else {
+                new CustomToast().success(getString(R.string.all_masir_bazdid));
+                binding.viewPager.setCurrentItem(0);
+            }
+        });
+    }
+
+    public void search(int type, String key, boolean goToPage) {
+        switch (type) {
+            case 4:
+                runOnUiThread(() -> binding.viewPager.setCurrentItem(Integer.parseInt(key) - 1));
+                break;
+            case 5:
+                readingData.onOffLoadDtos.clear();
+                readingData.onOffLoadDtos.addAll(readingDataTemp.onOffLoadDtos);
+                runOnUiThread(this::setupViewPager);
+                break;
+            default:
+                new Search(type, key, goToPage).execute(activity);
+        }
+    }
+
+    public void setupViewPager() {
+        if (adapter == null) {
+            ArrayList<String> items =
+                    new ArrayList<>(CounterStateDto.getCounterStateItems(readingData.counterStateDtos));
+            adapter = new SpinnerCustomAdapter(activity, items);
+        }
+        runOnUiThread(() -> {
+            binding.textViewNotFound.setVisibility(readingData.onOffLoadDtos.size() > 0 ?
+                    View.GONE : View.VISIBLE);
+            binding.linearLayoutAbove.setVisibility(readingData.onOffLoadDtos.size() > 0 ?
+                    View.VISIBLE : View.GONE);
+            binding.viewPager.setVisibility(readingData.onOffLoadDtos.size() > 0 ?
+                    View.VISIBLE : View.GONE);
+            binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
+            setOnPageChangeListener();
+        });
+
+        setupViewPagerAdapter(0);
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (MyApplication.FOCUS_ON_EDIT_TEXT)
+            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        isReading = true;
+    }
+
+    public void setupViewPagerAdapter(int currentItem) {
+        viewPagerAdapterReading = new ViewPagerAdapterReading(getSupportFragmentManager(),
+                readingData, activity);
+        runOnUiThread(() -> {
+            binding.viewPager.setAdapter(viewPagerAdapterReading);
+            if (currentItem > 0)
+                binding.viewPager.setCurrentItem(currentItem);
+        });
+    }
+
+    void setOnPageChangeListener() {
+        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset,
+                                       int positionOffsetPixels) {
+                final String number = (position + 1) + "/" + readingData.onOffLoadDtos.size();
+                runOnUiThread(() -> binding.textViewPageNumber.setText(number));
+                setAboveIconsSrc(position);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     void showImage(int position) {
@@ -297,79 +370,10 @@ public class ReadingActivity extends BaseActivity {
                 imageSrc[readingData.onOffLoadDtos.get(position).highLowStateId]);
     }
 
-    public void search(int type, String key, boolean goToPage) {
-        switch (type) {
-            case 4:
-                runOnUiThread(() -> binding.viewPager.setCurrentItem(Integer.parseInt(key) - 1));
-                break;
-            case 5:
-                readingData.onOffLoadDtos.clear();
-                readingData.onOffLoadDtos.addAll(readingDataTemp.onOffLoadDtos);
-                runOnUiThread(this::setupViewPager);
-                break;
-            default:
-                new Search(type, key, goToPage).execute(activity);
-        }
-    }
-
     void showNoEshterakFound() {
         new CustomDialog(DialogType.Yellow, activity, getString(R.string.no_eshterak_found),
                 getString(R.string.dear_user), getString(R.string.eshterak),
                 getString(R.string.accepted));
-    }
-
-    public void setupViewPager() {
-        if (adapter == null) {
-            ArrayList<String> items =
-                    new ArrayList<>(CounterStateDto.getCounterStateItems(readingData.counterStateDtos));
-            adapter = new SpinnerCustomAdapter(activity, items);
-        }
-        runOnUiThread(() -> {
-            binding.textViewNotFound.setVisibility(readingData.onOffLoadDtos.size() > 0 ?
-                    View.GONE : View.VISIBLE);
-            binding.linearLayoutAbove.setVisibility(readingData.onOffLoadDtos.size() > 0 ?
-                    View.VISIBLE : View.GONE);
-            binding.viewPager.setVisibility(readingData.onOffLoadDtos.size() > 0 ?
-                    View.VISIBLE : View.GONE);
-            binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
-            setOnPageChangeListener();
-        });
-
-        setupViewPagerAdapter(0);
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        if (MyApplication.FOCUS_ON_EDIT_TEXT)
-            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-        isReading = true;
-    }
-
-    public void setupViewPagerAdapter(int currentItem) {
-        viewPagerAdapterReading = new ViewPagerAdapterReading(getSupportFragmentManager(),
-                readingData, activity);
-        runOnUiThread(() -> {
-            binding.viewPager.setAdapter(viewPagerAdapterReading);
-            if (currentItem > 0)
-                binding.viewPager.setCurrentItem(currentItem);
-        });
-    }
-
-    void setOnPageChangeListener() {
-        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
-                final String number = (position + 1) + "/" + readingData.onOffLoadDtos.size();
-                runOnUiThread(() -> binding.textViewPageNumber.setText(number));
-                setAboveIconsSrc(position);
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
     }
 
     @Override
@@ -437,16 +441,13 @@ public class ReadingActivity extends BaseActivity {
                 if (MyApplication.FOCUS_ON_EDIT_TEXT) {
                     try {
                         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                    } catch (Exception ignored) {
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } else {
-//                    inputMethodManager.showSoftInputFromInputMethod(getCurrentFocus().getWindowToken(), 0);
+                } else if (!inputMethodManager.isAcceptingText()) {
                     inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-//                    viewPagerAdapterReading.notifyDataSetChanged();
                 }
                 MyApplication.FOCUS_ON_EDIT_TEXT = !MyApplication.FOCUS_ON_EDIT_TEXT;
-//                MyApplication.FOCUS_ON_EDIT_TEXT = !MyApplication.FOCUS_ON_EDIT_TEXT;
-//                item.setChecked(!item.isChecked());
             }
         } else if (id == R.id.menu_last) {
             if (readingData.onOffLoadDtos.isEmpty()) {
