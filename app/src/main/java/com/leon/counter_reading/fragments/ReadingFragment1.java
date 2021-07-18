@@ -30,11 +30,12 @@ import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.TrackingDto;
-import com.leon.counter_reading.utils.Counting;
+import com.leon.counter_reading.utils.reading.Counting;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
+import com.leon.counter_reading.utils.reading.UpdateOnOffLoadByAttemptNumber;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -193,8 +194,8 @@ public class ReadingFragment1 extends Fragment {
             if (trackingDto.hasPreNumber) {
                 activity.runOnUiThread(() -> binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber)));
 //            if (!readingConfigDefaultDto.defaultHasPreNumber)
-                if (trackingDto.hasPreNumber)
-                    ((ReadingActivity) activity).updateOnOffLoadByIsShown(position);
+                if (trackingDto.hasPreNumber);
+//                    ((ReadingActivity) activity).updateOnOffLoadByIsShown(position);
             } else {
                 new CustomToast().warning(getString(R.string.can_not_show_pre));
             }
@@ -285,9 +286,10 @@ public class ReadingFragment1 extends Fragment {
                 if (!onOffLoadDto.isLocked && onOffLoadDto.attemptNumber == LOCK_NUMBER)
                     new CustomToast().error(getString(R.string.by_mistakes).concat(onOffLoadDto.eshterak).concat(getString(R.string.is_locked)), Toast.LENGTH_LONG);
 //                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().updateOnOffLoadByAttemptNumber(onOffLoadDto.id, onOffLoadDto.attemptNumber);
-                ((ReadingActivity) activity).updateOnOffLoadAttemptNumber(position, onOffLoadDto.attemptNumber);
+//                ((ReadingActivity) activity).updateOnOffLoadAttemptNumber(position, onOffLoadDto.attemptNumber);
+                new UpdateOnOffLoadByAttemptNumber(position, onOffLoadDto.attemptNumber).execute();
                 if (!onOffLoadDto.isLocked && onOffLoadDto.attemptNumber == LOCK_NUMBER) {
-                    ((ReadingActivity) activity).updateTrackingDto(onOffLoadDto.id, onOffLoadDto.trackNumber, position);
+//                    ((ReadingActivity) activity).updateTrackingDto(onOffLoadDto.id, onOffLoadDto.trackNumber, position);
 //                    Intent intent = activity.getIntent();
 //                    activity.finish();
 //                    startActivity(intent);

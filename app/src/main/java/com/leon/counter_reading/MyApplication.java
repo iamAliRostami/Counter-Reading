@@ -8,6 +8,10 @@ import android.graphics.Typeface;
 
 import androidx.multidex.MultiDex;
 
+import com.leon.counter_reading.tables.ReadingData;
+
+import java.util.ArrayList;
+
 import es.dmoral.toasty.Toasty;
 
 public class MyApplication extends Application {
@@ -15,8 +19,8 @@ public class MyApplication extends Application {
 
     public static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
     public static final long MIN_TIME_BW_UPDATES = 10000;
-
     public static final long FASTEST_INTERVAL = 5;
+
     public static final int GPS_CODE = 1231;
     public static final int REQUEST_NETWORK_CODE = 1232;
     public static final int REQUEST_WIFI_CODE = 1233;
@@ -37,8 +41,22 @@ public class MyApplication extends Application {
     public static boolean FOCUS_ON_EDIT_TEXT;
     static Context appContext;
 
+
+    static int errorCounter = 0;
+
+    public static ArrayList<Integer> isMane = new ArrayList<>();
+    public static ReadingData readingData, readingDataTemp;
+
     public static Context getContext() {
         return appContext;
+    }
+
+    public static int getErrorCounter() {
+        return errorCounter;
+    }
+
+    public static void setErrorCounter(int errorCounter) {
+        MyApplication.errorCounter = errorCounter;
     }
 
     public static void onActivitySetTheme(Activity activity, int theme, boolean actionBar) {

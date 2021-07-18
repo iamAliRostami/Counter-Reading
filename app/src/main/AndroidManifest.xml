@@ -120,7 +120,7 @@
             android:label="@string/location" />
         <activity
             android:name=".activities.HomeActivity"
-            android:label="@string/home" >
+            android:label="@string/home">
 
         </activity>
         <activity android:name=".activities.SplashActivity">
