@@ -2,7 +2,6 @@ package com.leon.counter_reading.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,10 +31,8 @@ import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.TrackingDto;
-import com.leon.counter_reading.tables.Voice;
 import com.leon.counter_reading.utils.CustomDialog;
 import com.leon.counter_reading.utils.CustomErrorHandling;
-import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.HttpClientWrapper;
@@ -43,13 +40,12 @@ import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
+import com.leon.counter_reading.utils.uploading.PrepareMultimediaToUpload;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -62,9 +58,9 @@ public class UploadFragment extends Fragment {
     int type;
     FragmentUploadBinding binding;
     ArrayList<Image> images = new ArrayList<>();
-    ArrayList<Voice> voice = new ArrayList<>();
+//    ArrayList<Voice> voice = new ArrayList<>();
+//    Voice.VoiceMultiple voiceMultiples = new Voice.VoiceMultiple();
     Image.ImageMultiple imageMultiples = new Image.ImageMultiple();
-    Voice.VoiceMultiple voiceMultiples = new Voice.VoiceMultiple();
     Activity activity;
     ArrayList<String> items = new ArrayList<>();
     ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
@@ -94,7 +90,8 @@ public class UploadFragment extends Fragment {
     void getBundle() {
         trackingDtos = new ArrayList<>(((UploadActivity) activity).getTrackingDtos());
         if (getArguments() != null) {
-            type = getArguments().getInt(BundleEnum.TYPE.getValue());        }
+            type = getArguments().getInt(BundleEnum.TYPE.getValue());
+        }
     }
 
     @Override
@@ -164,9 +161,9 @@ public class UploadFragment extends Fragment {
         binding.buttonUpload.setOnClickListener(v -> {
             if (type == 1 || type == 2) {
                 if (checkOnOffLoad())
-                    new prepareOffLoadToUpload().execute();
+                    new PrepareOffLoadToUpload().execute();
             } else if (type == 3) {
-                new prepareMultimediaToUpload().execute();
+                new PrepareMultimediaToUpload(activity).execute(activity);
             }
         });
     }
@@ -175,21 +172,21 @@ public class UploadFragment extends Fragment {
         activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.thank_you), Toast.LENGTH_LONG));
     }
 
-    void updateImages() {
-        for (int i = 0; i < images.size(); i++) {
-            images.get(i).isSent = true;
-            MyDatabaseClient.getInstance(getContext()).getMyDatabase().imageDao()
-                    .updateImage(images.get(i));
-        }
-    }
-
-    void updateVoice() {
-        for (int i = 0; i < voice.size(); i++) {
-            voice.get(i).isSent = true;
-            MyDatabaseClient.getInstance(getContext()).getMyDatabase().voiceDao()
-                    .updateVoice(voice.get(i));
-        }
-    }
+//    void updateImages() {
+//        for (int i = 0; i < images.size(); i++) {
+//            images.get(i).isSent = true;
+//            MyDatabaseClient.getInstance(getContext()).getMyDatabase().imageDao()
+//                    .updateImage(images.get(i));
+//        }
+//    }
+//
+//    void updateVoice() {
+//        for (int i = 0; i < voice.size(); i++) {
+//            voice.get(i).isSent = true;
+//            MyDatabaseClient.getInstance(getContext()).getMyDatabase().voiceDao()
+//                    .updateVoice(voice.get(i));
+//        }
+//    }
 
     @Override
     public void onDestroyView() {
@@ -209,10 +206,10 @@ public class UploadFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    class prepareOffLoadToUpload extends AsyncTask<Integer, Integer, Integer> {
+    class PrepareOffLoadToUpload extends AsyncTask<Integer, Integer, Integer> {
         CustomProgressBar customProgressBar;
 
-        public prepareOffLoadToUpload() {
+        public PrepareOffLoadToUpload() {
             super();
         }
 
@@ -298,138 +295,138 @@ public class UploadFragment extends Fragment {
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
-    class prepareMultimediaToUpload extends AsyncTask<Integer, Integer, Integer> {
-        CustomProgressBar customProgressBar;
-
-        public prepareMultimediaToUpload() {
-            super();
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... integers) {
-            images.clear();
-            images.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                    .getImagesByBySent(false));
-            voice.clear();
-            voice.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().
-                    getVoicesByBySent(false));
-            for (int i = 0; i < images.size(); i++) {
-                Bitmap bitmap = CustomFile.loadImage(activity, images.get(i).address);
-                if (bitmap != null) {
-                    images.get(i).File = CustomFile.bitmapToFile(
-                            CustomFile.loadImage(activity, images.get(i).address), activity);
-                    imageMultiples.OnOffLoadId.add(RequestBody.create(images.get(i).OnOffLoadId,
-                            MediaType.parse("text/plain")));
-                    imageMultiples.Description.add(RequestBody.create(images.get(i).Description,
-                            MediaType.parse("text/plain")));
-                    imageMultiples.File.add(images.get(i).File);
-                } else {
-                    MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().
-                            deleteImage(images.get(i).id);
-                }
-            }
-            for (int i = 0; i < voice.size(); i++) {
-                voice.get(i).File = CustomFile.prepareVoiceToSend(voice.get(i).address);
-                if (voice.get(i).File != null) {
-                    voiceMultiples.OnOffLoadId.add(RequestBody.create(voice.get(i).OnOffLoadId,
-                            MediaType.parse("text/plain")));
-                    voiceMultiples.Description.add(RequestBody.create(voice.get(i).Description,
-                            MediaType.parse("text/plain")));
-                    voiceMultiples.File.add(voice.get(i).File);
-                } else {
-                    MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().
-                            deleteVoice(voice.get(i).id);
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            customProgressBar = new CustomProgressBar();
-            customProgressBar.show(activity, false);
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            customProgressBar.getDialog().dismiss();
-            uploadMultimedia();
-            uploadVoice();
-            super.onPostExecute(integer);
-        }
-
-        void uploadVoice() {
-            if (voice.size() > 0) {
-                Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
-                IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-                Call<Voice.VoiceUploadResponse> call = iAbfaService.voiceUploadMultiple(
-                        voiceMultiples.File, voiceMultiples.OnOffLoadId, voiceMultiples.Description);
-                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                        new uploadVoice(), new uploadVoiceIncomplete(), new uploadError());
-            } else {
-                activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.there_is_no_message), Toast.LENGTH_LONG));
-            }
-        }
-
-        void uploadMultimedia() {
-            if (images.size() > 0) {
-                Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
-                IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-                Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadMultiple(
-                        imageMultiples.File, imageMultiples.OnOffLoadId, imageMultiples.Description);
-                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                        new uploadMultimedia(), new uploadMultimediaIncomplete(), new uploadError());
-            } else {
-                activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.there_is_no_images), Toast.LENGTH_LONG));
-            }
-        }
-    }
-
-    class uploadMultimedia implements ICallback<Image.ImageUploadResponse> {
-        @Override
-        public void execute(Response<Image.ImageUploadResponse> response) {
-            if (response.body() != null && response.body().status == 200) {
-                new CustomToast().success(response.body().message);
-                updateImages();
-            }
-        }
-    }
-
-    class uploadMultimediaIncomplete implements ICallbackIncomplete<Image.ImageUploadResponse> {
-        @Override
-        public void executeIncomplete(Response<Image.ImageUploadResponse> response) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-            String error = customErrorHandlingNew.getErrorMessageDefault(response);
-            new CustomDialog(DialogType.Yellow, getContext(), error,
-                    activity.getString(R.string.dear_user),
-                    activity.getString(R.string.upload_multimedia),
-                    activity.getString(R.string.accepted));
-        }
-    }
-
-    class uploadVoice implements ICallback<Voice.VoiceUploadResponse> {
-        @Override
-        public void execute(Response<Voice.VoiceUploadResponse> response) {
-            if (response.body() != null && response.body().status == 200) {
-                new CustomToast().success(response.body().message);
-                updateVoice();
-            }
-        }
-    }
-
-    class uploadVoiceIncomplete implements ICallbackIncomplete<Voice.VoiceUploadResponse> {
-        @Override
-        public void executeIncomplete(Response<Voice.VoiceUploadResponse> response) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-            String error = customErrorHandlingNew.getErrorMessageDefault(response);
-            new CustomDialog(DialogType.Yellow, getContext(), error,
-                    activity.getString(R.string.dear_user),
-                    activity.getString(R.string.upload_message),
-                    activity.getString(R.string.accepted));
-        }
-    }
+//    @SuppressLint("StaticFieldLeak")
+//    class prepareMultimediaToUpload extends AsyncTask<Integer, Integer, Integer> {
+//        CustomProgressBar customProgressBar;
+//
+//        public prepareMultimediaToUpload() {
+//            super();
+//        }
+//
+//        @Override
+//        protected Integer doInBackground(Integer... integers) {
+//            images.clear();
+//            images.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
+//                    .getImagesByBySent(false));
+//            voice.clear();
+//            voice.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().
+//                    getVoicesByBySent(false));
+//            for (int i = 0; i < images.size(); i++) {
+//                Bitmap bitmap = CustomFile.loadImage(activity, images.get(i).address);
+//                if (bitmap != null) {
+//                    images.get(i).File = CustomFile.bitmapToFile(
+//                            CustomFile.loadImage(activity, images.get(i).address), activity);
+//                    imageMultiples.OnOffLoadId.add(RequestBody.create(images.get(i).OnOffLoadId,
+//                            MediaType.parse("text/plain")));
+//                    imageMultiples.Description.add(RequestBody.create(images.get(i).Description,
+//                            MediaType.parse("text/plain")));
+//                    imageMultiples.File.add(images.get(i).File);
+//                } else {
+//                    MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().
+//                            deleteImage(images.get(i).id);
+//                }
+//            }
+//            for (int i = 0; i < voice.size(); i++) {
+//                voice.get(i).File = CustomFile.prepareVoiceToSend(voice.get(i).address);
+//                if (voice.get(i).File != null) {
+//                    voiceMultiples.OnOffLoadId.add(RequestBody.create(voice.get(i).OnOffLoadId,
+//                            MediaType.parse("text/plain")));
+//                    voiceMultiples.Description.add(RequestBody.create(voice.get(i).Description,
+//                            MediaType.parse("text/plain")));
+//                    voiceMultiples.File.add(voice.get(i).File);
+//                } else {
+//                    MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().
+//                            deleteVoice(voice.get(i).id);
+//                }
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            customProgressBar = new CustomProgressBar();
+//            customProgressBar.show(activity, false);
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Integer integer) {
+//            customProgressBar.getDialog().dismiss();
+//            uploadMultimedia();
+//            uploadVoice();
+//            super.onPostExecute(integer);
+//        }
+//
+//        void uploadVoice() {
+//            if (voice.size() > 0) {
+//                Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
+//                IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+//                Call<Voice.VoiceUploadResponse> call = iAbfaService.voiceUploadMultiple(
+//                        voiceMultiples.File, voiceMultiples.OnOffLoadId, voiceMultiples.Description);
+//                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
+//                        new uploadVoice(), new uploadVoiceIncomplete(), new uploadError());
+//            } else {
+//                activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.there_is_no_message), Toast.LENGTH_LONG));
+//            }
+//        }
+//
+//        void uploadMultimedia() {
+//            if (images.size() > 0) {
+//                Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
+//                IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+//                Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadMultiple(
+//                        imageMultiples.File, imageMultiples.OnOffLoadId, imageMultiples.Description);
+//                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
+//                        new uploadMultimedia(), new uploadMultimediaIncomplete(), new uploadError());
+//            } else {
+//                activity.runOnUiThread(() -> new CustomToast().info(getString(R.string.there_is_no_images), Toast.LENGTH_LONG));
+//            }
+//        }
+//    }
+//
+//    class uploadMultimedia implements ICallback<Image.ImageUploadResponse> {
+//        @Override
+//        public void execute(Response<Image.ImageUploadResponse> response) {
+//            if (response.body() != null && response.body().status == 200) {
+//                new CustomToast().success(response.body().message);
+//                updateImages();
+//            }
+//        }
+//    }
+//
+//    class uploadMultimediaIncomplete implements ICallbackIncomplete<Image.ImageUploadResponse> {
+//        @Override
+//        public void executeIncomplete(Response<Image.ImageUploadResponse> response) {
+//            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
+//            String error = customErrorHandlingNew.getErrorMessageDefault(response);
+//            new CustomDialog(DialogType.Yellow, getContext(), error,
+//                    activity.getString(R.string.dear_user),
+//                    activity.getString(R.string.upload_multimedia),
+//                    activity.getString(R.string.accepted));
+//        }
+//    }
+//
+//    class uploadVoice implements ICallback<Voice.VoiceUploadResponse> {
+//        @Override
+//        public void execute(Response<Voice.VoiceUploadResponse> response) {
+//            if (response.body() != null && response.body().status == 200) {
+//                new CustomToast().success(response.body().message);
+//                updateVoice();
+//            }
+//        }
+//    }
+//
+//    class uploadVoiceIncomplete implements ICallbackIncomplete<Voice.VoiceUploadResponse> {
+//        @Override
+//        public void executeIncomplete(Response<Voice.VoiceUploadResponse> response) {
+//            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
+//            String error = customErrorHandlingNew.getErrorMessageDefault(response);
+//            new CustomDialog(DialogType.Yellow, getContext(), error,
+//                    activity.getString(R.string.dear_user),
+//                    activity.getString(R.string.upload_message),
+//                    activity.getString(R.string.accepted));
+//        }
+//    }
 
     class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
         @Override
