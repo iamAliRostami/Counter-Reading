@@ -1,6 +1,5 @@
 package com.leon.counter_reading.activities;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Debug;
 import android.view.View;
@@ -37,7 +36,6 @@ public class DownloadActivity extends BaseActivity {
         textViewDownloadRetry();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void textViewDownloadOff() {
         binding.textViewDownloadOff.setOnClickListener(view -> {
             setColor();
@@ -48,7 +46,6 @@ public class DownloadActivity extends BaseActivity {
         });
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void textViewDownloadRetry() {
         binding.textViewDownloadRetry.setOnClickListener(view -> {
             setColor();
@@ -59,7 +56,6 @@ public class DownloadActivity extends BaseActivity {
         });
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void textViewDownloadSpecial() {
         binding.textViewDownloadSpecial.setOnClickListener(view -> {
             setColor();
@@ -70,7 +66,6 @@ public class DownloadActivity extends BaseActivity {
         });
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void textViewDownloadNormal() {
         binding.textViewDownloadNormal.setOnClickListener(view -> {
             setColor();
