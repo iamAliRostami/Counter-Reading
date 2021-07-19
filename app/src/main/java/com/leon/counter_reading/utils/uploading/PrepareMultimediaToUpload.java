@@ -110,7 +110,7 @@ public class PrepareMultimediaToUpload extends AsyncTask<Activity, Activity, Act
             Call<Voice.VoiceUploadResponse> call = iAbfaService.voiceUploadMultiple(
                     voiceMultiples.File, voiceMultiples.OnOffLoadId, voiceMultiples.Description);
             HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                    new UploadVoices(), new uploadVoicesIncomplete(), new uploadError());
+                    new UploadVoices(), new UploadVoicesIncomplete(), new UploadMultimediaError());
         } else {
             activity.runOnUiThread(() ->
                     new CustomToast().info(activity.getString(R.string.there_is_no_message),
@@ -125,7 +125,7 @@ public class PrepareMultimediaToUpload extends AsyncTask<Activity, Activity, Act
             Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadMultiple(
                     imageMultiples.File, imageMultiples.OnOffLoadId, imageMultiples.Description);
             HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                    new UploadImages(), new UploadImagesIncomplete(), new uploadError());
+                    new UploadImages(), new UploadImagesIncomplete(), new UploadMultimediaError());
         } else {
             activity.runOnUiThread(() ->
                     new CustomToast().info(activity.getString(R.string.there_is_no_images),
@@ -184,7 +184,7 @@ class UploadImagesIncomplete implements ICallbackIncomplete<Image.ImageUploadRes
     }
 }
 
-class uploadVoicesIncomplete implements ICallbackIncomplete<Voice.VoiceUploadResponse> {
+class UploadVoicesIncomplete implements ICallbackIncomplete<Voice.VoiceUploadResponse> {
     @Override
     public void executeIncomplete(Response<Voice.VoiceUploadResponse> response) {
         CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(MyApplication.getContext());
@@ -197,7 +197,7 @@ class uploadVoicesIncomplete implements ICallbackIncomplete<Voice.VoiceUploadRes
     }
 }
 
-class uploadError implements ICallbackError {
+class UploadMultimediaError implements ICallbackError {
     @Override
     public void executeError(Throwable t) {
         CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(MyApplication.getContext());

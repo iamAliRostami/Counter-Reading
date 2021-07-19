@@ -2,7 +2,6 @@ package com.leon.counter_reading.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,39 +15,23 @@ import com.leon.counter_reading.activities.UploadActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentUploadBinding;
 import com.leon.counter_reading.enums.BundleEnum;
-import com.leon.counter_reading.enums.DialogType;
-import com.leon.counter_reading.enums.OffloadStateEnum;
-import com.leon.counter_reading.enums.ProgressType;
-import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
-import com.leon.counter_reading.infrastructure.IAbfaService;
-import com.leon.counter_reading.infrastructure.ICallback;
-import com.leon.counter_reading.infrastructure.ICallbackError;
-import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.TrackingDto;
-import com.leon.counter_reading.utils.CustomDialog;
-import com.leon.counter_reading.utils.CustomErrorHandling;
-import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.HttpClientWrapper;
 import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
-import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.uploading.PrepareMultimediaToUpload;
+import com.leon.counter_reading.utils.uploading.PrepareOffLoadToUpload;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class UploadFragment extends Fragment {
     int[] imageSrc = {
@@ -58,9 +41,9 @@ public class UploadFragment extends Fragment {
     int type;
     FragmentUploadBinding binding;
     ArrayList<Image> images = new ArrayList<>();
-//    ArrayList<Voice> voice = new ArrayList<>();
+    //    ArrayList<Voice> voice = new ArrayList<>();
 //    Voice.VoiceMultiple voiceMultiples = new Voice.VoiceMultiple();
-    Image.ImageMultiple imageMultiples = new Image.ImageMultiple();
+//    Image.ImageMultiple imageMultiples = new Image.ImageMultiple();
     Activity activity;
     ArrayList<String> items = new ArrayList<>();
     ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
@@ -161,7 +144,10 @@ public class UploadFragment extends Fragment {
         binding.buttonUpload.setOnClickListener(v -> {
             if (type == 1 || type == 2) {
                 if (checkOnOffLoad())
-                    new PrepareOffLoadToUpload().execute();
+                    new PrepareOffLoadToUpload(activity,
+                            trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber,
+                            trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id).
+                            execute(activity);
             } else if (type == 3) {
                 new PrepareMultimediaToUpload(activity).execute(activity);
             }
@@ -188,112 +174,96 @@ public class UploadFragment extends Fragment {
 //        }
 //    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding.imageViewUpload.setImageDrawable(null);
-    }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        images = null;
-        imageMultiples = null;
-        imageSrc = null;
-        trackingDtos = null;
-        onOffLoadDtos = null;
-        items = null;
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    class PrepareOffLoadToUpload extends AsyncTask<Integer, Integer, Integer> {
-        CustomProgressBar customProgressBar;
-
-        public PrepareOffLoadToUpload() {
-            super();
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... integers) {
-            forbiddenDtos.clear();
-            forbiddenDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    forbiddenDao().getAllForbiddenDto(false));
-            onOffLoadDtos.clear();
-            onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(
-                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber,
-                    OffloadStateEnum.INSERTED.getValue()));
-            offLoadReports.clear();
-            offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    offLoadReportDao().getAllOffLoadReport(false));
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            customProgressBar = new CustomProgressBar();
-            customProgressBar.show(activity, false);
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            customProgressBar.getDialog().dismiss();
-            uploadOffLoad();
-            if (forbiddenDtos.size() > 0) {
-                uploadForbid();
-            }
-            super.onPostExecute(integer);
-        }
-
-        void uploadForbid() {
-            ForbiddenDto.ForbiddenDtoRequestMultiple forbiddenDtoRequestMultiple =
-                    new ForbiddenDto.ForbiddenDtoRequestMultiple();
-            Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
-            IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-            for (ForbiddenDto forbiddenDto : forbiddenDtos) {
-                ForbiddenDto.ForbiddenDtoMultiple forbiddenDtoMultiple =
-                        new ForbiddenDto.ForbiddenDtoMultiple(forbiddenDto.zoneId,
-                                forbiddenDto.description, forbiddenDto.preEshterak,
-                                forbiddenDto.nextEshterak, forbiddenDto.postalCode,
-                                forbiddenDto.tedadVahed, forbiddenDto.x, forbiddenDto.y,
-                                forbiddenDto.gisAccuracy);
-                forbiddenDtoRequestMultiple.forbiddenDtos.add(forbiddenDtoMultiple);
-            }
-            Call<ForbiddenDto.ForbiddenDtoResponses> call =
-                    iAbfaService.multipleForbidden(forbiddenDtoRequestMultiple);
-            HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                    new Forbidden(), new ForbiddenIncomplete(), new Error());
-        }
-
-        void uploadOffLoad() {
-            if (onOffLoadDtos.size() <= 0) {
-                thankYou();
-                onOffLoadDtos.clear();
-                onOffLoadDtos.add(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                        onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(
-                        trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber));
-            }
-            if (onOffLoadDtos.size() == 0 || onOffLoadDtos.get(0) == null) {
-                MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
-                        updateTrackingDtoByArchive(trackingDtos.get(
-                                binding.spinner.getSelectedItemPosition() - 1).id, true, false);
-                return;
-            }
-            Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
-            IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-            OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
-            offLoadData.isFinal = true;
-            offLoadData.finalTrackNumber = trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber;
-            for (int i = 0; i < onOffLoadDtos.size(); i++)
-                offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDtos.get(i)));
-            offLoadData.offLoadReports.addAll(offLoadReports);
-            Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
-            HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                    new offLoadData(), new offLoadDataIncomplete(), new uploadError());
-
-        }
-    }
+//    @SuppressLint("StaticFieldLeak")
+//    class PrepareOffLoadToUpload extends AsyncTask<Integer, Integer, Integer> {
+//        CustomProgressBar customProgressBar;
+//
+//        public PrepareOffLoadToUpload() {
+//            super();
+//        }
+//
+//        @Override
+//        protected Integer doInBackground(Integer... integers) {
+//            forbiddenDtos.clear();
+//            forbiddenDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+//                    forbiddenDao().getAllForbiddenDto(false));
+//            onOffLoadDtos.clear();
+//            onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+//                    onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(
+//                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber,
+//                    OffloadStateEnum.INSERTED.getValue()));
+//            offLoadReports.clear();
+//            offLoadReports.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+//                    offLoadReportDao().getAllOffLoadReport(false));
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            customProgressBar = new CustomProgressBar();
+//            customProgressBar.show(activity, false);
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Integer integer) {
+//            customProgressBar.getDialog().dismiss();
+//            uploadOffLoad();
+//            if (forbiddenDtos.size() > 0) {
+//                uploadForbid();
+//            }
+//            super.onPostExecute(integer);
+//        }
+//
+//        void uploadForbid() {
+//            ForbiddenDto.ForbiddenDtoRequestMultiple forbiddenDtoRequestMultiple =
+//                    new ForbiddenDto.ForbiddenDtoRequestMultiple();
+//            Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
+//            IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+//            for (ForbiddenDto forbiddenDto : forbiddenDtos) {
+//                ForbiddenDto.ForbiddenDtoMultiple forbiddenDtoMultiple =
+//                        new ForbiddenDto.ForbiddenDtoMultiple(forbiddenDto.zoneId,
+//                                forbiddenDto.description, forbiddenDto.preEshterak,
+//                                forbiddenDto.nextEshterak, forbiddenDto.postalCode,
+//                                forbiddenDto.tedadVahed, forbiddenDto.x, forbiddenDto.y,
+//                                forbiddenDto.gisAccuracy);
+//                forbiddenDtoRequestMultiple.forbiddenDtos.add(forbiddenDtoMultiple);
+//            }
+//            Call<ForbiddenDto.ForbiddenDtoResponses> call =
+//                    iAbfaService.multipleForbidden(forbiddenDtoRequestMultiple);
+//            HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
+//                    new Forbidden(), new ForbiddenIncomplete(), new Error());
+//        }
+//
+//        void uploadOffLoad() {
+//            if (onOffLoadDtos.size() <= 0) {
+//                thankYou();
+//                onOffLoadDtos.clear();
+//                onOffLoadDtos.add(MyDatabaseClient.getInstance(activity).getMyDatabase().
+//                        onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(
+//                        trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber));
+//            }
+//            if (onOffLoadDtos.size() == 0 || onOffLoadDtos.get(0) == null) {
+//                MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
+//                        updateTrackingDtoByArchive(trackingDtos.get(
+//                                binding.spinner.getSelectedItemPosition() - 1).id, true, false);
+//                return;
+//            }
+//            Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
+//            IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
+//            OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
+//            offLoadData.isFinal = true;
+//            offLoadData.finalTrackNumber = trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber;
+//            for (int i = 0; i < onOffLoadDtos.size(); i++)
+//                offLoadData.offLoads.add(new OnOffLoadDto.OffLoad(onOffLoadDtos.get(i)));
+//            offLoadData.offLoadReports.addAll(offLoadReports);
+//            Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
+//            HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
+//                    new OffLoadData(), new OffLoadDataIncomplete(), new UploadError());
+//
+//        }
+//    }
 
 //    @SuppressLint("StaticFieldLeak")
 //    class prepareMultimediaToUpload extends AsyncTask<Integer, Integer, Integer> {
@@ -428,78 +398,95 @@ public class UploadFragment extends Fragment {
 //        }
 //    }
 
-    class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
-        @Override
-        public void execute(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
-            if (response.isSuccessful()) {
-                MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
-                        updateAllForbiddenDtoBySent(true);
-                if (response.body() != null) {
-                    new CustomToast().success(getString(R.string.report_forbid) + "\n" +
-                            response.body().message, Toast.LENGTH_LONG);
-                }
-            }
-        }
-    }
-
-    static class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDto.ForbiddenDtoResponses> {
-        @Override
-        public void executeIncomplete(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
-        }
-    }
-
-    static class Error implements ICallbackError {
-        @Override
-        public void executeError(Throwable t) {
-        }
-    }
-
-    class offLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
-        @Override
-        public void execute(Response<OnOffLoadDto.OffLoadResponses> response) {
-            if (response.body() != null && response.body().status == 200) {
-                int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
-                        OffloadStateEnum.SENT_WITH_ERROR.getValue();
-//                for (int i = 0; i < response.body().targetObject.size(); i++) {
-//                    MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-//                            updateOnOffLoad(state, response.body().targetObject.get(i));
+//    class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
+//        @Override
+//        public void execute(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
+//            if (response.isSuccessful()) {
+//                MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
+//                        updateAllForbiddenDtoBySent(true);
+//                if (response.body() != null) {
+//                    new CustomToast().success(getString(R.string.report_forbid) + "\n" +
+//                            response.body().message, Toast.LENGTH_LONG);
 //                }
-                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                        updateOnOffLoad(state, response.body().targetObject);
-                MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
-                        updateTrackingDtoByArchive(trackingDtos.get(
-                                binding.spinner.getSelectedItemPosition() - 1).id, true, false);
-                MyDatabaseClient.getInstance(activity).getMyDatabase().offLoadReportDao().
-                        updateOffLoadReportByIsSent(true);
-                new CustomDialog(DialogType.Green, getContext(), response.body().message,
-                        activity.getString(R.string.dear_user),
-                        activity.getString(R.string.upload_information),
-                        activity.getString(R.string.accepted));
-            }
-        }
+//            }
+//        }
+//    }
+//
+//    static class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDto.ForbiddenDtoResponses> {
+//        @Override
+//        public void executeIncomplete(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
+//        }
+//    }
+//
+//    static class Error implements ICallbackError {
+//        @Override
+//        public void executeError(Throwable t) {
+//        }
+//    }
+//
+//    class OffLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
+//        @Override
+//        public void execute(Response<OnOffLoadDto.OffLoadResponses> response) {
+//            if (response.body() != null && response.body().status == 200) {
+//                int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
+//                        OffloadStateEnum.SENT_WITH_ERROR.getValue();
+////                for (int i = 0; i < response.body().targetObject.size(); i++) {
+////                    MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+////                            updateOnOffLoad(state, response.body().targetObject.get(i));
+////                }
+//                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+//                        updateOnOffLoad(state, response.body().targetObject);
+//                MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
+//                        updateTrackingDtoByArchive(trackingDtos.get(
+//                                binding.spinner.getSelectedItemPosition() - 1).id, true, false);
+//                MyDatabaseClient.getInstance(activity).getMyDatabase().offLoadReportDao().
+//                        updateOffLoadReportByIsSent(true);
+//                new CustomDialog(DialogType.Green, getContext(), response.body().message,
+//                        activity.getString(R.string.dear_user),
+//                        activity.getString(R.string.upload_information),
+//                        activity.getString(R.string.accepted));
+//            }
+//        }
+//    }
+//
+//    class OffLoadDataIncomplete implements ICallbackIncomplete<OnOffLoadDto.OffLoadResponses> {
+//        @Override
+//        public void executeIncomplete(Response<OnOffLoadDto.OffLoadResponses> response) {
+//            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
+//            String error = customErrorHandlingNew.getErrorMessageDefault(response);
+//            new CustomDialog(DialogType.Yellow, getContext(), error,
+//                    activity.getString(R.string.dear_user),
+//                    activity.getString(R.string.upload_information),
+//                    activity.getString(R.string.accepted));
+//        }
+//    }
+//
+//    class UploadError implements ICallbackError {
+//        @Override
+//        public void executeError(Throwable t) {
+//            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
+//            String error = customErrorHandlingNew.getErrorMessageTotal(t);
+//            new CustomDialog(DialogType.Red, getContext(), error,
+//                    activity.getString(R.string.dear_user),
+//                    activity.getString(R.string.upload),
+//                    activity.getString(R.string.accepted));
+//        }
+//    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding.imageViewUpload.setImageDrawable(null);
     }
 
-    class offLoadDataIncomplete implements ICallbackIncomplete<OnOffLoadDto.OffLoadResponses> {
-        @Override
-        public void executeIncomplete(Response<OnOffLoadDto.OffLoadResponses> response) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-            String error = customErrorHandlingNew.getErrorMessageDefault(response);
-            new CustomDialog(DialogType.Yellow, getContext(), error,
-                    activity.getString(R.string.dear_user),
-                    activity.getString(R.string.upload_information),
-                    activity.getString(R.string.accepted));
-        }
-    }
-
-    class uploadError implements ICallbackError {
-        @Override
-        public void executeError(Throwable t) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-            String error = customErrorHandlingNew.getErrorMessageTotal(t);
-            new CustomDialog(DialogType.Red, getContext(), error,
-                    activity.getString(R.string.dear_user),
-                    activity.getString(R.string.upload),
-                    activity.getString(R.string.accepted));
-        }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        images = null;
+//        imageMultiples = null;
+        imageSrc = null;
+        trackingDtos = null;
+        onOffLoadDtos = null;
+        items = null;
     }
 }
