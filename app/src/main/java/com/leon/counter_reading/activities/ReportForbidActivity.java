@@ -16,7 +16,6 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -352,7 +351,7 @@ public class ReportForbidActivity extends AppCompatActivity {
                     try {
                         photoFile = createImageFile(activity);
                     } catch (IOException e) {
-                        Log.e("Main", e.toString());
+                        e.printStackTrace();
                     }
                     if (photoFile != null) {
                         StrictMode.VmPolicy.Builder builderTemp = new StrictMode.VmPolicy.Builder();
@@ -443,7 +442,6 @@ public class ReportForbidActivity extends AppCompatActivity {
                         MyApplication.bitmapSelectedImage = MediaStore.Images.Media.getBitmap(
                                 contentResolver, Uri.parse(MyApplication.fileName));
                 } catch (IOException e) {
-                    Log.e("Error", e.toString());
                     e.printStackTrace();
                 }
             }

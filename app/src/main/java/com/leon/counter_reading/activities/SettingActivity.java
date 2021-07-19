@@ -58,23 +58,21 @@ public class SettingActivity extends BaseActivity {
         });
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void textViewChangePassword() {
         binding.textViewChangePassword.setOnClickListener(view -> {
             setColor();
-            binding.textViewChangePassword.setBackground(
-                    ContextCompat.getDrawable(activity, R.drawable.border_white_2));
+            binding.textViewChangePassword.
+                    setBackground(ContextCompat.getDrawable(activity, R.drawable.border_white_2));
             setPadding();
             binding.viewPager.setCurrentItem(1);
         });
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void textViewUpdate() {
         binding.textViewUpdate.setOnClickListener(view -> {
             setColor();
-            binding.textViewUpdate.setBackground(
-                    ContextCompat.getDrawable(activity, R.drawable.border_white_2));
+            binding.textViewUpdate.
+                    setBackground(ContextCompat.getDrawable(activity, R.drawable.border_white_2));
             setPadding();
             binding.viewPager.setCurrentItem(2);
         });
