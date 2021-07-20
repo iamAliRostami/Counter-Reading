@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.os.Debug;
 import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -76,28 +75,24 @@ public class TakePhotoActivity extends AppCompatActivity {
     ArrayList<Image> images;
     int imageNumber = 1, imageNumberTemp = 0;
     boolean replace = false, result;
-    int position,trackNumber;
+    int position, trackNumber;
     String uuid;
-    @SuppressLint("NonConstantResourceId")
+
     View.OnLongClickListener onLongClickListener = v -> {
         Bitmap bitmap = null;
-        switch (v.getId()) {
-            case R.id.image_View_1:
-                if (bitmaps.size() > 0)
-                    bitmap = bitmaps.get(0);
-                break;
-            case R.id.image_View_2:
-                if (bitmaps.size() > 1)
-                    bitmap = bitmaps.get(1);
-                break;
-            case R.id.image_View_3:
-                if (bitmaps.size() > 2)
-                    bitmap = bitmaps.get(2);
-                break;
-            case R.id.image_View_4:
-                if (bitmaps.size() > 3)
-                    bitmap = bitmaps.get(3);
-                break;
+        int id = v.getId();
+        if (id == R.id.image_View_1) {
+            if (bitmaps.size() > 0)
+                bitmap = bitmaps.get(0);
+        } else if (id == R.id.image_View_2) {
+            if (bitmaps.size() > 1)
+                bitmap = bitmaps.get(1);
+        } else if (id == R.id.image_View_3) {
+            if (bitmaps.size() > 2)
+                bitmap = bitmaps.get(2);
+        } else if (id == R.id.image_View_4) {
+            if (bitmaps.size() > 3)
+                bitmap = bitmaps.get(3);
         }
         if (bitmap != null) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -107,78 +102,70 @@ public class TakePhotoActivity extends AppCompatActivity {
         }
         return false;
     };
-    @SuppressLint("NonConstantResourceId")
+
     View.OnClickListener onPickerClickListener = v -> {
-        switch (v.getId()) {
-            case R.id.image_View_1:
-                replace = imageNumber > 1;
-                if (replace) {
-                    imageNumberTemp = 1;
-                }
-                break;
-            case R.id.image_View_2:
-                replace = imageNumber > 2;
-                if (replace) {
-                    imageNumberTemp = 2;
-                }
-                break;
-            case R.id.image_View_3:
-                replace = imageNumber > 3;
-                if (replace) {
-                    imageNumberTemp = 3;
-                }
-                break;
-            case R.id.image_View_4:
-                replace = imageNumber > 4;
-                if (replace) {
-                    imageNumberTemp = 4;
-                }
-                break;
+        int id = v.getId();
+        if (id == R.id.image_View_1) {
+            replace = imageNumber > 1;
+            if (replace) {
+                imageNumberTemp = 1;
+            }
+        } else if (id == R.id.image_View_2) {
+            replace = imageNumber > 2;
+            if (replace) {
+                imageNumberTemp = 2;
+            }
+        } else if (id == R.id.image_View_3) {
+            replace = imageNumber > 3;
+            if (replace) {
+                imageNumberTemp = 3;
+            }
+        } else if (id == R.id.image_View_4) {
+            replace = imageNumber > 4;
+            if (replace) {
+                imageNumberTemp = 4;
+            }
         }
         imagePicker();
     };
-    @SuppressLint("NonConstantResourceId")
+
     View.OnClickListener onDeleteClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             boolean b = false;
-            switch (v.getId()) {
-                case R.id.image_View_delete_1:
-                    if (imageNumber > 1) {
-                        removeImage(0);
-                        b = true;
-                        binding.imageView1.setImageBitmap(((BitmapDrawable)
-                                binding.imageView2.getDrawable()).getBitmap());
-                        binding.imageView2.setImageBitmap(((BitmapDrawable)
-                                binding.imageView3.getDrawable()).getBitmap());
-                        binding.imageView3.setImageBitmap(((BitmapDrawable)
-                                binding.imageView4.getDrawable()).getBitmap());
-                    }
-                    break;
-                case R.id.image_View_delete_2:
-                    if (imageNumber > 2) {
-                        removeImage(1);
-                        b = true;
-                        binding.imageView2.setImageBitmap(((BitmapDrawable)
-                                binding.imageView3.getDrawable()).getBitmap());
-                        binding.imageView3.setImageBitmap(((BitmapDrawable)
-                                binding.imageView4.getDrawable()).getBitmap());
-                    }
-                    break;
-                case R.id.image_View_delete_3:
-                    if (imageNumber > 3) {
-                        removeImage(2);
-                        b = true;
-                        binding.imageView3.setImageBitmap(((BitmapDrawable)
-                                binding.imageView4.getDrawable()).getBitmap());
-                    }
-                    break;
-                case R.id.image_View_delete_4:
-                    if (imageNumber > 4) {
-                        removeImage(3);
-                        b = true;
-                    }
-                    break;
+            int id = v.getId();
+            if (id == R.id.image_View_delete_1) {
+                if (imageNumber > 1) {
+                    removeImage(0);
+                    b = true;
+                    binding.imageView1.setImageBitmap(((BitmapDrawable)
+                            binding.imageView2.getDrawable()).getBitmap());
+                    binding.imageView2.setImageBitmap(((BitmapDrawable)
+                            binding.imageView3.getDrawable()).getBitmap());
+                    binding.imageView3.setImageBitmap(((BitmapDrawable)
+                            binding.imageView4.getDrawable()).getBitmap());
+                }
+            } else if (id == R.id.image_View_delete_2) {
+                if (imageNumber > 2) {
+                    removeImage(1);
+                    b = true;
+                    binding.imageView2.setImageBitmap(((BitmapDrawable)
+                            binding.imageView3.getDrawable()).getBitmap());
+                    binding.imageView3.setImageBitmap(((BitmapDrawable)
+                            binding.imageView4.getDrawable()).getBitmap());
+                }
+            } else if (id == R.id.image_View_delete_3) {
+                if (imageNumber > 3) {
+                    removeImage(2);
+                    b = true;
+                    binding.imageView3.setImageBitmap(((BitmapDrawable)
+                            binding.imageView4.getDrawable()).getBitmap());
+                }
+            } else if (id == R.id.image_View_delete_4) {
+                if (imageNumber > 4) {
+                    removeImage(3);
+                    b = true;
+                }
             }
             if (b) {
                 if (imageNumber == 1) {
@@ -217,7 +204,6 @@ public class TakePhotoActivity extends AppCompatActivity {
         else askCameraPermission();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
         sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
         if (getIntent().getExtras() != null) {
@@ -237,7 +223,6 @@ public class TakePhotoActivity extends AppCompatActivity {
         imageSetup();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void imageSetup() {
         images = new ArrayList<>();
         if (!result)
@@ -335,7 +320,6 @@ public class TakePhotoActivity extends AppCompatActivity {
         setOnImageViewDeleteClickListener();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void setOnImageViewPickerClickListener() {
         binding.imageView1.setOnClickListener(onPickerClickListener);
         binding.imageView2.setOnClickListener(onPickerClickListener);
@@ -349,7 +333,6 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     void imagePicker() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(TakePhotoActivity.this);
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(TakePhotoActivity.this, R.style.AlertDialogCustom));
         builder.setTitle(R.string.choose_document);
         builder.setMessage(R.string.select_source);
@@ -367,7 +350,7 @@ public class TakePhotoActivity extends AppCompatActivity {
                 try {
                     photoFile = createImageFile(activity);
                 } catch (IOException e) {
-                    Log.e("Main", e.toString());
+                    e.printStackTrace();
                 }
                 if (photoFile != null) {
                     StrictMode.VmPolicy.Builder builderTemp = new StrictMode.VmPolicy.Builder();
@@ -381,7 +364,6 @@ public class TakePhotoActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void setOnImageViewDeleteClickListener() {
         binding.imageViewDelete1.setOnClickListener(onDeleteClickListener);
         binding.imageViewDelete2.setOnClickListener(onDeleteClickListener);
@@ -398,7 +380,7 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     void setOnButtonSendClickListener() {
-        binding.buttonSaveSend.setOnClickListener(v -> new prepareMultiMedia().execute());
+        binding.buttonSaveSend.setOnClickListener(v -> new PrepareMultimedia().execute());
     }
 
     void saveImages(boolean isSent) {
@@ -483,7 +465,6 @@ public class TakePhotoActivity extends AppCompatActivity {
                         MyApplication.bitmapSelectedImage = MediaStore.Images.Media.getBitmap(
                                 contentResolver, Uri.parse(MyApplication.fileName));
                 } catch (IOException e) {
-                    Log.e("Error", e.toString());
                     e.printStackTrace();
                 }
             }
@@ -492,7 +473,6 @@ public class TakePhotoActivity extends AppCompatActivity {
             image.trackNumber = trackNumber;
             image.File = CustomFile.bitmapToFile(MyApplication.bitmapSelectedImage, activity);
             if (replace) {
-                //TODO
                 bitmaps.set(imageNumberTemp - 1, MyApplication.bitmapSelectedImage);
                 MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().deleteImage(
                         images.get(imageNumberTemp - 1).id);
@@ -511,7 +491,6 @@ public class TakePhotoActivity extends AppCompatActivity {
                     binding.imageView4.setImageBitmap(MyApplication.bitmapSelectedImage);
                 }
             } else {
-                //TODO
                 bitmaps.add(MyApplication.bitmapSelectedImage);
                 images.add(image);
                 if (imageNumber == 1) {
@@ -574,10 +553,10 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     @SuppressLint("StaticFieldLeak")
-    class prepareMultiMedia extends AsyncTask<Integer, Integer, Integer> {
+    class PrepareMultimedia extends AsyncTask<Integer, Integer, Integer> {
         CustomProgressBar customProgressBar;
 
-        public prepareMultiMedia() {
+        public PrepareMultimedia() {
             super();
         }
 
