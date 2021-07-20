@@ -51,13 +51,15 @@ public class Download extends AsyncTask<Activity, Void, Void> {
 
     @Override
     protected Void doInBackground(Activity... activities) {
-        ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(activities[0], SharedReferenceNames.ACCOUNT.getValue());
-        Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
+        ISharedPreferenceManager sharedPreferenceManager =
+                new SharedPreferenceManager(activities[0], SharedReferenceNames.ACCOUNT.getValue());
+        Retrofit retrofit = NetworkHelper.getInstance(
+                sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         Call<ReadingData> call = iAbfaService.loadData(BuildConfig.VERSION_CODE);
         activities[0].runOnUiThread(() ->
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activities[0],
-                        new DownloadCompleted(), new DownloadIncomplete(), new DownloadError()));
+                        new DownloadCompleted(activities[0]), new DownloadIncomplete(), new DownloadError()));
         return null;
     }
 
@@ -74,9 +76,14 @@ public class Download extends AsyncTask<Activity, Void, Void> {
 }
 
 class DownloadCompleted implements ICallback<ReadingData> {
+    Activity activity;
+
+    public DownloadCompleted(Activity activity) {
+        this.activity = activity;
+    }
+
     @Override
     public void execute(Response<ReadingData> response) {
-        //TODO
         if (response != null && response.body() != null) {
             ReadingData readingData = response.body();
             ReadingData readingDataTemp = response.body();
@@ -178,11 +185,11 @@ class DownloadCompleted implements ICallback<ReadingData> {
             }
             String message = String.format(MyApplication.getContext().getString(R.string.download_message),
                     readingData.trackingDtos.size(), readingData.onOffLoadDtos.size());
-            new CustomToast().success(message, Toast.LENGTH_LONG);
-//            new CustomDialog(DialogType.Green, MyApplication.getContext(), message,
-//                    MyApplication.getContext().getString(R.string.dear_user),
-//                    MyApplication.getContext().getString(R.string.download),
-//                    MyApplication.getContext().getString(R.string.accepted));
+            activity.runOnUiThread(() -> new CustomDialog(DialogType.Green,
+                    activity, message,
+                    MyApplication.getContext().getString(R.string.dear_user),
+                    MyApplication.getContext().getString(R.string.download),
+                    MyApplication.getContext().getString(R.string.accepted)));
         }
     }
 }
@@ -197,10 +204,11 @@ class DownloadIncomplete implements ICallbackIncomplete<ReadingData> {
             CustomErrorHandling.APIError apiError = customErrorHandling.parseError(response);
             error = apiError.message();
         }
-        new CustomDialog(DialogType.Yellow, MyApplication.getContext(), error,
-                MyApplication.getContext().getString(R.string.dear_user),
-                MyApplication.getContext().getString(R.string.download),
-                MyApplication.getContext().getString(R.string.accepted));
+        new CustomToast().warning(error, Toast.LENGTH_LONG);
+//        new CustomDialog(DialogType.Yellow, MyApplication.getContext(), error,
+//                MyApplication.getContext().getString(R.string.dear_user),
+//                MyApplication.getContext().getString(R.string.download),
+//                MyApplication.getContext().getString(R.string.accepted));
     }
 }
 
@@ -209,6 +217,6 @@ class DownloadError implements ICallbackError {
     public void executeError(Throwable t) {
         CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(MyApplication.getContext());
         String error = customErrorHandlingNew.getErrorMessageTotal(t);
-        new CustomToast().error(error);
+        new CustomToast().error(error, Toast.LENGTH_LONG);
     }
 }

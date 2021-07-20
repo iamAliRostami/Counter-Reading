@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.widget.Toast;
 
 import com.leon.counter_reading.R;
-import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.LoginFeedBack;
-import com.leon.counter_reading.utils.CustomDialog;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomToast;
 
@@ -40,11 +38,11 @@ class Incomplete implements ICallbackIncomplete<LoginFeedBack> {
                     e.printStackTrace();
                 }
             }
-            new CustomToast().warning(error, Toast.LENGTH_LONG);
-        } else
+        } /*else
             new CustomDialog(DialogType.Yellow, activity, error,
                     activity.getString(R.string.dear_user),
                     activity.getString(R.string.login),
-                    activity.getString(R.string.accepted));
+                    activity.getString(R.string.accepted));*/
+        new CustomToast().warning(error, Toast.LENGTH_LONG);
     }
 }

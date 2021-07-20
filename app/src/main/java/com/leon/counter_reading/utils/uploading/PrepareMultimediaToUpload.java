@@ -137,7 +137,7 @@ public class PrepareMultimediaToUpload extends AsyncTask<Activity, Activity, Act
         @Override
         public void execute(Response<Image.ImageUploadResponse> response) {
             if (response.body() != null && response.body().status == 200) {
-                new CustomToast().success(response.body().message);
+                new CustomToast().success(response.body().message, Toast.LENGTH_LONG);
                 updateImages();
             }
         }
