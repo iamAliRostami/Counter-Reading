@@ -11,7 +11,6 @@ import android.os.Debug;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.auth0.android.jwt.JWT;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.BuildConfig;
@@ -41,16 +39,17 @@ import com.leon.counter_reading.utils.CustomDialog;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.HttpClientWrapper;
+import com.leon.counter_reading.utils.login.AttemptLogin;
 import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
+import com.leon.counter_reading.utils.login.AttemptRegister;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -58,6 +57,7 @@ import retrofit2.Retrofit;
 
 import static android.os.Build.UNKNOWN;
 import static com.leon.counter_reading.MyApplication.CARRIER_PRIVILEGE_STATUS;
+import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public class LoginActivity extends AppCompatActivity {
     ISharedPreferenceManager sharedPreferenceManager;
@@ -201,14 +201,15 @@ public class LoginActivity extends AppCompatActivity {
         if (!cancel) {
             username = binding.editTextUsername.getText().toString();
             password = binding.editTextPassword.getText().toString();
-            if (isLogin) {
+            if (isLogin && isNetworkAvailable(activity)) {
                 counter++;
                 if (counter < 4)
-                    attemptLogin();
+                    new AttemptLogin(username, password, getSerial(),
+                            binding.checkBoxSave.isChecked()).execute(activity);
                 else
                     offlineLogin();
             } else {
-                attemptRegister();
+                new AttemptRegister(username, password, getSerial()).execute(activity);
             }
         }
     }
@@ -225,22 +226,6 @@ public class LoginActivity extends AppCompatActivity {
             new CustomToast().warning(getString(R.string.error_is_not_match), Toast.LENGTH_LONG);
         }
         counter = 0;
-    }
-
-    void attemptRegister() {
-        Retrofit retrofit = NetworkHelper.getInstance();
-        final IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        Call<LoginFeedBack> call = iAbfaService.register(new LoginInfo(username, password, getSerial()));
-        HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), this,
-                new Register(), new GetErrorIncomplete(), new GetError());
-    }
-
-    void attemptLogin() {
-        Retrofit retrofit = NetworkHelper.getInstance();
-        final IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        Call<LoginFeedBack> call = iAbfaService.login(new LoginInfo(username, password, getSerial()));
-        HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), this,
-                new Login(), new GetErrorIncomplete(), new GetError());
     }
 
     @SuppressLint("HardwareIds")
@@ -271,29 +256,6 @@ public class LoginActivity extends AppCompatActivity {
         return isCarrier;
     }
 
-    void savePreference(LoginFeedBack loginFeedBack) {
-        sharedPreferenceManager.putData(
-                SharedReferenceKeys.DISPLAY_NAME.getValue(), loginFeedBack.displayName);
-        sharedPreferenceManager.putData(
-                SharedReferenceKeys.USER_CODE.getValue(), loginFeedBack.userCode);
-        sharedPreferenceManager.putData(
-                SharedReferenceKeys.TOKEN.getValue(), loginFeedBack.access_token);
-        sharedPreferenceManager.putData(
-                SharedReferenceKeys.REFRESH_TOKEN.getValue(), loginFeedBack.refresh_token);
-        sharedPreferenceManager.putData(
-                SharedReferenceKeys.XSRF.getValue(), loginFeedBack.XSRFToken);
-        sharedPreferenceManager.putData(
-                SharedReferenceKeys.USERNAME_TEMP.getValue(), username);
-        sharedPreferenceManager.putData(
-                SharedReferenceKeys.PASSWORD_TEMP.getValue(), Crypto.encrypt(password));
-        if (binding.checkBoxSave.isChecked()) {
-            sharedPreferenceManager.putData(
-                    SharedReferenceKeys.USERNAME.getValue(), username);
-            sharedPreferenceManager.putData(
-                    SharedReferenceKeys.PASSWORD.getValue(), Crypto.encrypt(password));
-        }
-    }
-
     void loadPreference() {
         sharedPreferenceManager = new SharedPreferenceManager(
                 activity, SharedReferenceNames.ACCOUNT.getValue());
@@ -306,76 +268,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    static class Register implements ICallback<LoginFeedBack> {
-        @Override
-        public void execute(Response<LoginFeedBack> response) {
-            String message;
-            if (response.body() != null) {
-                message = response.body().message;
-                new CustomToast().success(message);
-            }
-        }
-    }
-
-    class Login implements ICallback<LoginFeedBack> {
-        @Override
-        public void execute(Response<LoginFeedBack> response) {
-            LoginFeedBack loginFeedBack = response.body();
-            if (loginFeedBack == null || loginFeedBack.access_token == null ||
-                    loginFeedBack.refresh_token == null ||
-                    loginFeedBack.access_token.length() < 1 ||
-                    loginFeedBack.refresh_token.length() < 1) {
-                new CustomToast().warning(getString(R.string.error_is_not_match), Toast.LENGTH_LONG);
-            } else {
-                List<String> cookieList = response.headers().values("Set-Cookie");
-                loginFeedBack.XSRFToken = (cookieList.get(1).split(";"))[0];
-                JWT jwt = new JWT(loginFeedBack.access_token);
-                loginFeedBack.displayName = jwt.getClaim("DisplayName").asString();
-                loginFeedBack.userCode = jwt.getClaim("UserCode").asString();
-                savePreference(loginFeedBack);
-                Intent intent = new Intent(activity, HomeActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }
-    }
-
-    class GetErrorIncomplete implements ICallbackIncomplete<LoginFeedBack> {
-        @Override
-        public void executeIncomplete(Response<LoginFeedBack> response) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-            String error = customErrorHandlingNew.getErrorMessageDefault(response);
-            if (response.code() == 401) {
-                error = LoginActivity.this.getString(R.string.error_is_not_match);
-                if (response.errorBody() != null) {
-                    try {
-                        JSONObject jObjError = new JSONObject(response.errorBody().string());
-                        error = jObjError.getString("message");
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                new CustomToast().warning(error, Toast.LENGTH_LONG);
-            } else
-                new CustomDialog(DialogType.Yellow, LoginActivity.this, error,
-                        LoginActivity.this.getString(R.string.dear_user),
-                        LoginActivity.this.getString(R.string.login),
-                        LoginActivity.this.getString(R.string.accepted));
-        }
-    }
-
-    class GetError implements ICallbackError {
-        @Override
-        public void executeError(Throwable t) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-            String error = customErrorHandlingNew.getErrorMessageTotal(t);
-            new CustomDialog(DialogType.YellowRedirect, LoginActivity.this, error,
-                    LoginActivity.this.getString(R.string.dear_user),
-                    LoginActivity.this.getString(R.string.login),
-                    LoginActivity.this.getString(R.string.accepted));
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -383,12 +275,12 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        activity = null;
         binding.imageViewPerson.setImageDrawable(null);
         binding.imageViewPassword.setImageDrawable(null);
         binding.imageViewLogo.setImageDrawable(null);
         binding.imageViewUsername.setImageDrawable(null);
         binding = null;
+        activity = null;
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();
