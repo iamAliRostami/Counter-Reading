@@ -21,7 +21,7 @@ import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.DepthPageTransformer;
 import com.leon.counter_reading.utils.MyDatabaseClient;
-import com.leon.counter_reading.utils.reporting.GetDBData;
+import com.leon.counter_reading.utils.reporting.GetReportDBData;
 
 import java.util.ArrayList;
 
@@ -39,7 +39,7 @@ public class ReportActivity extends BaseActivity {
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
         activity = this;
-        new GetDBData(activity).execute(activity);
+        new GetReportDBData(activity).execute(activity);
         initializeTextViews();
     }
 

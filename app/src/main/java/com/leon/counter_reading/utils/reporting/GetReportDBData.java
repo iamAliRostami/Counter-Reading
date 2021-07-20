@@ -14,14 +14,14 @@ import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.util.ArrayList;
 
-public class GetDBData extends AsyncTask<Activity, Integer, Integer> {
+public class GetReportDBData extends AsyncTask<Activity, Integer, Integer> {
     CustomProgressBar customProgressBar;
     MyDatabase myDatabase;
     int zero, normal, high, low, unread, total, isMane;
     ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
 
-    public GetDBData(Activity activity) {
+    public GetReportDBData(Activity activity) {
         super();
         myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
         customProgressBar = new CustomProgressBar();
