@@ -9,7 +9,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.ViewPagerAdapterTab;
 import com.leon.counter_reading.base_items.BaseActivity;
@@ -20,7 +19,6 @@ import com.leon.counter_reading.fragments.ReportTotalFragment;
 import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.DepthPageTransformer;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.reporting.GetReportDBData;
 
 import java.util.ArrayList;
@@ -153,76 +151,6 @@ public class ReportActivity extends BaseActivity {
         binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
     }
 
-//    class GetDBData extends AsyncTask<Integer, Integer, Integer> {
-//        CustomProgressBar customProgressBar;
-//        MyDatabase myDatabase;
-//
-//        public GetDBData() {
-//            super();
-//            myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            customProgressBar = new CustomProgressBar();
-//            customProgressBar.show(activity, false);
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Integer integer) {
-//            super.onPostExecute(integer);
-//            customProgressBar.getDialog().dismiss();
-//        }
-//
-//        @Override
-//        protected Integer doInBackground(Integer... integers) {
-//            trackingDtos.addAll(myDatabase.trackingDao().getTrackingDtosIsActiveNotArchive(true, false));
-//            counterStateDtos.addAll(myDatabase.counterStateDao().getCounterStateDtos());
-//            ArrayList<Integer> isManes = new ArrayList<>(myDatabase.counterStateDao().getCounterStateDtosIsMane(true));
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                trackingDtos.forEach(trackingDto -> {
-//                    isManes.forEach(integer ->
-//                            isMane += myDatabase.onOffLoadDao().getOnOffLoadIsManeCount(integer,
-//                                    trackingDto.trackNumber));
-//                    zero += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-//                            trackingDto.trackNumber, HighLowStateEnum.ZERO.getValue());
-//                    high += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-//                            trackingDto.trackNumber, HighLowStateEnum.HIGH.getValue());
-//                    low += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-//                            trackingDto.trackNumber, HighLowStateEnum.LOW.getValue());
-//                    normal += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-//                            trackingDto.trackNumber, HighLowStateEnum.NORMAL.getValue());
-//                    unread += myDatabase.onOffLoadDao().getOnOffLoadReadCount(0,
-//                            trackingDto.trackNumber);
-//                    total += myDatabase.
-//                            onOffLoadDao().getOnOffLoadCount(trackingDto.trackNumber);
-//                });
-//            } else
-//                for (TrackingDto trackingDto : trackingDtos) {
-//                    for (int i = 0; i < isManes.size(); i++) {
-//                        isMane += myDatabase.onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i),
-//                                trackingDto.trackNumber);
-//                    }
-//                    zero += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-//                            trackingDto.trackNumber, HighLowStateEnum.ZERO.getValue());
-//                    high += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-//                            trackingDto.trackNumber, HighLowStateEnum.HIGH.getValue());
-//                    low += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-//                            trackingDto.trackNumber, HighLowStateEnum.LOW.getValue());
-//                    normal += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-//                            trackingDto.trackNumber, HighLowStateEnum.NORMAL.getValue());
-//                    unread += myDatabase.onOffLoadDao().getOnOffLoadReadCount(0, trackingDto.trackNumber);
-//                    total += myDatabase.onOffLoadDao().getOnOffLoadCount(trackingDto.trackNumber);
-//                }
-//                setupViewPager();
-//            return null;
-//        }
-//        void setupViewPager(){
-//            runOnUiThread(ReportActivity.this::setupViewPager);
-//        }
-//    }
-
     public ArrayList<CounterStateDto> getCounterStateDtos() {
         return counterStateDtos;
     }
@@ -248,7 +176,6 @@ public class ReportActivity extends BaseActivity {
         binding = null;
         counterStateDtos = null;
         trackingDtos = null;
-        MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase();
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

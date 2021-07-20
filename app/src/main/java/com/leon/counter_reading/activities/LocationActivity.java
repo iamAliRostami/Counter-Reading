@@ -192,10 +192,7 @@ public class LocationActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
-            MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase();
         }
-
-
 //        void createPolygon(GeoPoint geoPoint) {
 //            if (polygonIndex != 0) {
 //                try {

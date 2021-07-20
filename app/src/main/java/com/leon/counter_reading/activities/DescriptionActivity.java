@@ -16,6 +16,7 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -55,15 +56,15 @@ import retrofit2.Retrofit;
 
 public class DescriptionActivity extends AppCompatActivity {
     ActivityDescriptionBinding binding;
-    ISharedPreferenceManager sharedPreferenceManager;
     Activity activity;
+    ISharedPreferenceManager sharedPreferenceManager;
+    Voice.VoiceGrouped voiceGrouped;
     Voice voice;
     MediaPlayer mediaPlayer;
     MediaRecorder mediaRecorder;
     String uuid;
     boolean play = false;
     int position, startTime = 0, finalTime = 0, trackNumber;
-    Voice.VoiceGrouped voiceGrouped;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +82,6 @@ public class DescriptionActivity extends AppCompatActivity {
         else askRecorderPermission();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
         if (getIntent().getExtras() != null) {
             uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
@@ -89,7 +89,8 @@ public class DescriptionActivity extends AppCompatActivity {
             trackNumber = getIntent().getExtras().getInt(BundleEnum.TRACKING.getValue());
         }
         voiceGrouped = new Voice.VoiceGrouped();
-        binding.imageViewRecord.setImageDrawable(getDrawable(R.drawable.img_record));
+        binding.imageViewRecord.setImageDrawable(AppCompatResources.
+                getDrawable(activity, R.drawable.img_record));
         checkMultimediaAndToggle();
         setImageViewRecordClickListener();
         setImageViewPausePlayClickListener();
@@ -97,7 +98,7 @@ public class DescriptionActivity extends AppCompatActivity {
         setSeekBarChangeListener();
     }
 
-    @SuppressLint({"ClickableViewAccessibility,SimpleDateFormat", "NewApi"})
+    @SuppressLint({"ClickableViewAccessibility"})
     void setImageViewRecordClickListener() {
         binding.imageViewRecord.setLongClickable(true);
         binding.imageViewRecord.setOnTouchListener((v, event) -> {
@@ -252,8 +253,8 @@ public class DescriptionActivity extends AppCompatActivity {
     }
 
     void checkMultimediaAndToggle() {
-        voice = MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().getVoicesByOnOffLoadId(uuid);
-//        MyDatabaseClient.getInstance(activity).destroyDatabase();
+        voice = MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().
+                getVoicesByOnOffLoadId(uuid);
         if (voice == null) {
             voice = new Voice();
             binding.buttonSend.setEnabled(true);
@@ -373,7 +374,8 @@ public class DescriptionActivity extends AppCompatActivity {
                     voice.OnOffLoadId, MediaType.parse("text/plain"));
             voiceGrouped.Description = RequestBody.create(
                     voice.Description, MediaType.parse("text/plain"));
-            Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
+            Retrofit retrofit = NetworkHelper.getInstance(
+                    sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
             Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(
                     voiceGrouped.File, voiceGrouped.OnOffLoadId, voiceGrouped.Description);

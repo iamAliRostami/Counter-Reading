@@ -45,8 +45,10 @@ import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,25 +128,22 @@ public class LoginActivity extends AppCompatActivity {
         return "Android SDK: " + sdkVersion + " (" + release + ")";
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void setEditTextUsernameOnFocusChangeListener() {
         binding.editTextUsername.setOnFocusChangeListener((view, b) -> {
             binding.editTextUsername.setHint("");
             if (b) {
-                binding.linearLayoutUsername.setBackground(ContextCompat.getDrawable(
-                        getApplicationContext(), R.drawable.border_black_2));
+                binding.linearLayoutUsername.setBackground(
+                        ContextCompat.getDrawable(getApplicationContext(), R.drawable.border_black_2));
                 binding.editTextPassword.setTextColor(
                         ContextCompat.getColor(activity, R.color.black));
             } else {
-                binding.linearLayoutUsername.setBackground(ContextCompat.getDrawable(
-                        getApplicationContext(), R.drawable.border_gray_2));
-                binding.editTextPassword.setTextColor(
-                        ContextCompat.getColor(activity, R.color.gray));
+                binding.linearLayoutUsername.setBackground(
+                        ContextCompat.getDrawable(getApplicationContext(), R.drawable.border_gray_2));
+                binding.editTextPassword.setTextColor(ContextCompat.getColor(activity, R.color.gray));
             }
         });
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void setEditTextPasswordOnFocusChangeListener() {
         binding.editTextPassword.setOnFocusChangeListener((view, b) -> {
             binding.editTextPassword.setHint("");
@@ -352,8 +351,8 @@ public class LoginActivity extends AppCompatActivity {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         error = jObjError.getString("message");
-                    } catch (Exception e) {
-                        Log.e("error", e.toString());
+                    } catch (JSONException | IOException e) {
+                        e.printStackTrace();
                     }
                 }
                 new CustomToast().warning(error, Toast.LENGTH_LONG);

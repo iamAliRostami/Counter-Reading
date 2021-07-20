@@ -1,9 +1,6 @@
 package com.leon.counter_reading.activities;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Debug;
 import android.text.Editable;
@@ -11,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
@@ -20,8 +18,8 @@ import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
+import com.leon.counter_reading.utils.navigation.Navigating;
 
 public class NavigationActivity extends AppCompatActivity {
     ActivityNavigationBinding binding;
@@ -84,35 +82,16 @@ public class NavigationActivity extends AppCompatActivity {
             if (cancel) {
                 view.requestFocus();
             } else {
-                new Navigation().execute();
+                int possibleEmpty = binding.editTextEmpty.getText().length() > 0 ?
+                        Integer.parseInt(binding.editTextEmpty.getText().toString()) : 0;
+                new Navigating(position, uuid, possibleEmpty,
+                        binding.editTextAccount.getText().toString(),
+                        binding.editTextMobile.getText().toString(),
+                        binding.editTextPhone.getText().toString(),
+                        binding.editTextSerialCounter.getText().toString(),
+                        binding.editTextAddress.getText().toString()).execute(activity);
             }
         });
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    class Navigation extends AsyncTask<Void, Void, Void> {
-        public Navigation() {
-            super();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            int possibleEmpty = binding.editTextEmpty.getText().length() > 0 ?
-                    Integer.parseInt(binding.editTextEmpty.getText().toString()) : 0;
-            MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                    updateOnOffLoad(uuid, binding.editTextAccount.getText().toString(),
-                            binding.editTextMobile.getText().toString(),
-                            possibleEmpty,
-                            binding.editTextPhone.getText().toString(),
-                            binding.editTextSerialCounter.getText().toString(),
-                            binding.editTextAddress.getText().toString());
-            Intent intent = new Intent();
-            intent.putExtra(BundleEnum.POSITION.getValue(), position);
-            intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);
-            setResult(RESULT_OK, intent);
-            finish();
-            return null;
-        }
     }
 
     void setOnEditTextChangeListener() {
@@ -195,14 +174,19 @@ public class NavigationActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void initializeImageViews() {
-        binding.imageViewAccount.setImageDrawable(getDrawable(R.drawable.img_subscribe));
-        binding.imageViewAddress.setImageDrawable(getDrawable(R.drawable.img_address));
-        binding.imageViewCounterSerial.setImageDrawable(getDrawable(R.drawable.img_counter));
-        binding.imageViewPhoneNumber.setImageDrawable(getDrawable(R.drawable.img_phone));
-        binding.imageViewMobile.setImageDrawable(getDrawable(R.drawable.img_mobile));
-        binding.imageViewEmpty.setImageDrawable(getDrawable(R.drawable.img_home));
+        binding.imageViewAccount.
+                setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.img_subscribe));
+        binding.imageViewAddress.
+                setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.img_address));
+        binding.imageViewCounterSerial.
+                setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.img_counter));
+        binding.imageViewPhoneNumber.
+                setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.img_phone));
+        binding.imageViewMobile.
+                setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.img_mobile));
+        binding.imageViewEmpty.
+                setImageDrawable(AppCompatResources.getDrawable(activity, R.drawable.img_home));
     }
 
     @Override

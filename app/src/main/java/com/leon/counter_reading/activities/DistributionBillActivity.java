@@ -1,12 +1,12 @@
 package com.leon.counter_reading.activities;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Debug;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
@@ -32,9 +32,9 @@ public class DistributionBillActivity extends AppCompatActivity {
         initialize();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
-        binding.imageViewBill.setImageDrawable(getDrawable(R.drawable.img_temporary));
+        binding.imageViewBill.setImageDrawable(
+                AppCompatResources.getDrawable(getApplicationContext(), R.drawable.img_temporary));
         startAnimationOnTextViewCounter();
     }
 
