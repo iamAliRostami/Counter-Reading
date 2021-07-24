@@ -1,7 +1,6 @@
 package com.leon.counter_reading.activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -10,14 +9,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -32,37 +29,23 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivityTakePhotoBinding;
 import com.leon.counter_reading.enums.BundleEnum;
-import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.fragments.HighQualityFragment;
-import com.leon.counter_reading.infrastructure.IAbfaService;
-import com.leon.counter_reading.infrastructure.ICallback;
-import com.leon.counter_reading.infrastructure.ICallbackError;
-import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.Image;
-import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
-import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.HttpClientWrapper;
 import com.leon.counter_reading.utils.MyDatabaseClient;
-import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
+import com.leon.counter_reading.utils.photo.PrepareMultimedia;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
-
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 
@@ -98,7 +81,7 @@ public class TakePhotoActivity extends AppCompatActivity {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             HighQualityFragment highQualityFragment =
                     HighQualityFragment.newInstance(bitmap);
-            highQualityFragment.show(fragmentTransaction, "Image # 2");
+            highQualityFragment.show(fragmentTransaction, "Image # 1");
         }
         return false;
     };
@@ -380,34 +363,12 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     void setOnButtonSendClickListener() {
-        binding.buttonSaveSend.setOnClickListener(v -> new PrepareMultimedia().execute());
-    }
-
-    void saveImages(boolean isSent) {
-        for (int i = 0; i < images.size(); i++) {
-            images.get(i).isSent = isSent;
-            if (MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                    .getImagesById(images.get(i).id).size() > 0) {
-                MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                        .updateImage(images.get(i));
-            } else {
-                String address = CustomFile.saveTempBitmap(bitmaps.get(i), getApplicationContext());
-                if (!address.equals(getString(R.string.error_external_storage_is_not_writable))) {
-                    images.get(i).address = address;
-                    MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                            .insertImage(images.get(i));
-                }
-            }
-        }
-        if (isSent) {
-            binding.imageViewSent1.setVisibility(View.VISIBLE);
-            if (images.size() > 1)
-                binding.imageViewSent2.setVisibility(View.VISIBLE);
-            if (images.size() > 2)
-                binding.imageViewSent3.setVisibility(View.VISIBLE);
-            if (images.size() > 3)
-                binding.imageViewSent4.setVisibility(View.VISIBLE);
-        }
+        binding.buttonSaveSend.setOnClickListener(v ->
+                new PrepareMultimedia(activity, position, result, bitmaps, images,
+                        binding.editTextDescription.getText().toString().isEmpty() ?
+                                getString(R.string.description) :
+                                binding.editTextDescription.getText().toString()).
+                        execute(activity));
     }
 
     void askCameraPermission() {
@@ -550,112 +511,5 @@ public class TakePhotoActivity extends AppCompatActivity {
         Runtime.getRuntime().gc();
         System.gc();
         super.onDestroy();
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    class PrepareMultimedia extends AsyncTask<Integer, Integer, Integer> {
-        CustomProgressBar customProgressBar;
-
-        public PrepareMultimedia() {
-            super();
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... integers) {
-            imageGrouped.File.clear();
-            for (int i = 0; i < images.size(); i++) {
-                if (images.get(i).File == null)
-                    images.get(i).File = CustomFile.bitmapToFile(bitmaps.get(i), activity);
-                if (binding.editTextDescription.getText().toString().isEmpty())
-                    images.get(i).Description = getString(R.string.description);
-                else images.get(i).Description = binding.editTextDescription.getText().toString();
-                if (!images.get(i).isSent) {
-                    imageGrouped.File.add(images.get(i).File);
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            customProgressBar = new CustomProgressBar();
-            customProgressBar.show(activity, false);
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
-            customProgressBar.getDialog().dismiss();
-            uploadImage();
-        }
-
-        void uploadImage() {
-            if (imageGrouped.File.size() > 0) {
-                imageGrouped.OnOffLoadId = RequestBody.create(
-                        images.get(0).OnOffLoadId, MediaType.parse("text/plain"));
-                imageGrouped.Description = RequestBody.create(
-                        images.get(0).Description, MediaType.parse("text/plain"));
-                Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
-                IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-                Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(
-                        imageGrouped.File, imageGrouped.OnOffLoadId, imageGrouped.Description);
-                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                        new upload(), new uploadIncomplete(), new uploadError());
-            } else if (result) {
-                setResult();
-                finish();
-            } else {
-                activity.runOnUiThread(() -> new CustomToast().warning(getString(R.string.there_is_no_images)));
-            }
-        }
-    }
-
-    class upload implements ICallback<Image.ImageUploadResponse> {
-        @Override
-        public void execute(Response<Image.ImageUploadResponse> response) {
-            if (response.body() != null && response.body().status == 200) {
-                new CustomToast().success(response.body().message, Toast.LENGTH_LONG);
-            } else {
-                new CustomToast().warning(activity.getString(R.string.error_upload), Toast.LENGTH_LONG);
-            }
-            saveImages(response.body() != null && response.body().status == 200);
-            if (result)
-                setResult();
-            finish();
-        }
-    }
-
-    class uploadIncomplete implements ICallbackIncomplete<Image.ImageUploadResponse> {
-
-        @Override
-        public void executeIncomplete(Response<Image.ImageUploadResponse> response) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-            String error = customErrorHandlingNew.getErrorMessageDefault(response);
-            new CustomToast().warning(error, Toast.LENGTH_LONG);
-            saveImages(false);
-            if (result)
-                setResult();
-            finish();
-        }
-    }
-
-    class uploadError implements ICallbackError {
-        @Override
-        public void executeError(Throwable t) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-            String error = customErrorHandlingNew.getErrorMessageTotal(t);
-            new CustomToast().error(error, Toast.LENGTH_LONG);
-            saveImages(false);
-            if (result)
-                setResult();
-            finish();
-        }
-    }
-
-    void setResult() {
-        Intent intent = new Intent();
-        intent.putExtra(BundleEnum.POSITION.getValue(), position);
-        setResult(RESULT_OK, intent);
     }
 }
