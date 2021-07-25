@@ -49,7 +49,7 @@ import java.util.Objects;
 
 import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 
-public class TakePhotoActivity extends AppCompatActivity {
+public class  TakePhotoActivity extends AppCompatActivity {
     Activity activity;
     ISharedPreferenceManager sharedPreferenceManager;
     ActivityTakePhotoBinding binding;
