@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,13 +19,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.adapters.ImageViewAdapter;
 import com.leon.counter_reading.databinding.ActivityTakePhotoBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
@@ -49,7 +48,7 @@ import java.util.Objects;
 
 import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 
-public class  TakePhotoActivity extends AppCompatActivity {
+public class TakePhotoActivity extends AppCompatActivity {
     Activity activity;
     ISharedPreferenceManager sharedPreferenceManager;
     ActivityTakePhotoBinding binding;
@@ -60,7 +59,7 @@ public class  TakePhotoActivity extends AppCompatActivity {
     boolean replace = false, result;
     int position, trackNumber;
     String uuid;
-
+    ImageViewAdapter imageViewAdapter;
     View.OnLongClickListener onLongClickListener = v -> {
         Bitmap bitmap = null;
         int id = v.getId();
@@ -112,63 +111,63 @@ public class  TakePhotoActivity extends AppCompatActivity {
         imagePicker();
     };
 
-    View.OnClickListener onDeleteClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            boolean b = false;
-            int id = v.getId();
-            if (id == R.id.image_View_delete_1) {
-                if (imageNumber > 1) {
-                    removeImage(0);
-                    b = true;
-                    binding.imageView1.setImageBitmap(((BitmapDrawable)
-                            binding.imageView2.getDrawable()).getBitmap());
-                    binding.imageView2.setImageBitmap(((BitmapDrawable)
-                            binding.imageView3.getDrawable()).getBitmap());
-                    binding.imageView3.setImageBitmap(((BitmapDrawable)
-                            binding.imageView4.getDrawable()).getBitmap());
-                }
-            } else if (id == R.id.image_View_delete_2) {
-                if (imageNumber > 2) {
-                    removeImage(1);
-                    b = true;
-                    binding.imageView2.setImageBitmap(((BitmapDrawable)
-                            binding.imageView3.getDrawable()).getBitmap());
-                    binding.imageView3.setImageBitmap(((BitmapDrawable)
-                            binding.imageView4.getDrawable()).getBitmap());
-                }
-            } else if (id == R.id.image_View_delete_3) {
-                if (imageNumber > 3) {
-                    removeImage(2);
-                    b = true;
-                    binding.imageView3.setImageBitmap(((BitmapDrawable)
-                            binding.imageView4.getDrawable()).getBitmap());
-                }
-            } else if (id == R.id.image_View_delete_4) {
-                if (imageNumber > 4) {
-                    removeImage(3);
-                    b = true;
-                }
-            }
-            if (b) {
-                if (imageNumber == 1) {
-                    binding.imageViewDelete1.setVisibility(View.GONE);
-                    binding.imageViewSent1.setVisibility(View.GONE);
-                } else if (imageNumber == 2) {
-                    binding.imageViewDelete2.setVisibility(View.GONE);
-                    binding.imageViewSent2.setVisibility(View.GONE);
-                } else if (imageNumber == 3) {
-                    binding.imageViewDelete3.setVisibility(View.GONE);
-                    binding.imageViewSent3.setVisibility(View.GONE);
-                } else if (imageNumber == 4) {
-                    binding.imageViewDelete4.setVisibility(View.GONE);
-                    binding.imageViewSent4.setVisibility(View.GONE);
-                }
-                binding.imageView4.setImageDrawable(ContextCompat.getDrawable(activity,
-                        R.drawable.img_take_photo));
-            }
-        }
-    };
+//    View.OnClickListener onDeleteClickListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            boolean b = false;
+//            int id = v.getId();
+//            if (id == R.id.image_View_delete_1) {
+//                if (imageNumber > 1) {
+//                    removeImage(0);
+//                    b = true;
+//                    binding.imageView1.setImageBitmap(((BitmapDrawable)
+//                            binding.imageView2.getDrawable()).getBitmap());
+//                    binding.imageView2.setImageBitmap(((BitmapDrawable)
+//                            binding.imageView3.getDrawable()).getBitmap());
+//                    binding.imageView3.setImageBitmap(((BitmapDrawable)
+//                            binding.imageView4.getDrawable()).getBitmap());
+//                }
+//            } else if (id == R.id.image_View_delete_2) {
+//                if (imageNumber > 2) {
+//                    removeImage(1);
+//                    b = true;
+//                    binding.imageView2.setImageBitmap(((BitmapDrawable)
+//                            binding.imageView3.getDrawable()).getBitmap());
+//                    binding.imageView3.setImageBitmap(((BitmapDrawable)
+//                            binding.imageView4.getDrawable()).getBitmap());
+//                }
+//            } else if (id == R.id.image_View_delete_3) {
+//                if (imageNumber > 3) {
+//                    removeImage(2);
+//                    b = true;
+//                    binding.imageView3.setImageBitmap(((BitmapDrawable)
+//                            binding.imageView4.getDrawable()).getBitmap());
+//                }
+//            } else if (id == R.id.image_View_delete_4) {
+//                if (imageNumber > 4) {
+//                    removeImage(3);
+//                    b = true;
+//                }
+//            }
+//            if (b) {
+//                if (imageNumber == 1) {
+//                    binding.imageViewDelete1.setVisibility(View.GONE);
+//                    binding.imageViewSent1.setVisibility(View.GONE);
+//                } else if (imageNumber == 2) {
+//                    binding.imageViewDelete2.setVisibility(View.GONE);
+//                    binding.imageViewSent2.setVisibility(View.GONE);
+//                } else if (imageNumber == 3) {
+//                    binding.imageViewDelete3.setVisibility(View.GONE);
+//                    binding.imageViewSent3.setVisibility(View.GONE);
+//                } else if (imageNumber == 4) {
+//                    binding.imageViewDelete4.setVisibility(View.GONE);
+//                    binding.imageViewSent4.setVisibility(View.GONE);
+//                }
+//                binding.imageView4.setImageDrawable(ContextCompat.getDrawable(activity,
+//                        R.drawable.img_take_photo));
+//            }
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,107 +211,109 @@ public class  TakePhotoActivity extends AppCompatActivity {
             images.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
                     .getImagesByOnOffLoadId(uuid));
         bitmaps = new ArrayList<>();
-        if (images.size() > 0) {
-            binding.editTextDescription.setText(images.get(0).Description);
-            Bitmap bitmap = CustomFile.loadImage(activity, images.get(0).address);
-            if (bitmap != null) {
-                imageNumber = images.size() + 1;
-                bitmaps.add(bitmap);
-                binding.imageView1.setImageBitmap(bitmap);
-                binding.imageViewDelete1.setVisibility(View.VISIBLE);
-                if (images.get(0).isSent)
-                    binding.imageViewSent1.setVisibility(View.VISIBLE);
-            } else {
-                imageReset(0);
-            }
-            if (images.size() > 1) {
-                bitmap = CustomFile.loadImage(activity, images.get(1).address);
-                if (bitmap != null) {
-                    imageNumber = images.size() + 1;
-                    bitmaps.add(bitmap);
-                    binding.imageView2.setImageBitmap(bitmap);
-                    binding.imageViewDelete2.setVisibility(View.VISIBLE);
-                    if (images.get(1).isSent)
-                        binding.imageViewSent2.setVisibility(View.VISIBLE);
-                } else {
-                    imageReset(1);
-                }
-            } else {
-                binding.imageViewDelete2.setVisibility(View.GONE);
-                binding.imageViewDelete3.setVisibility(View.GONE);
-                binding.imageViewDelete4.setVisibility(View.GONE);
-            }
-            if (images.size() > 2) {
-                bitmap = CustomFile.loadImage(activity, images.get(2).address);
-                if (bitmap != null) {
-                    imageNumber = images.size() + 1;
-                    bitmaps.add(bitmap);
-                    binding.imageView3.setImageBitmap(
-                            CustomFile.loadImage(activity, images.get(2).address));
-                    binding.imageViewDelete3.setVisibility(View.VISIBLE);
-                    if (images.get(2).isSent)
-                        binding.imageViewSent3.setVisibility(View.VISIBLE);
-                } else {
-                    imageReset(2);
-                }
-            } else {
-                binding.imageViewDelete3.setVisibility(View.GONE);
-                binding.imageViewDelete4.setVisibility(View.GONE);
-            }
-            if (images.size() > 3) {
-                bitmap = CustomFile.loadImage(activity, images.get(3).address);
-                if (bitmap != null) {
-                    imageNumber = images.size() + 1;
-                    bitmaps.add(bitmap);
-                    binding.imageView4.setImageBitmap(bitmap);
-                    binding.imageViewDelete4.setVisibility(View.VISIBLE);
-                    if (images.get(3).isSent)
-                        binding.imageViewSent4.setVisibility(View.VISIBLE);
-                } else {
-                    imageReset(3);
-                }
-            } else
-                binding.imageViewDelete4.setVisibility(View.GONE);
-        } else {
-            binding.imageView1.setImageDrawable(
-                    ContextCompat.getDrawable(activity, R.drawable.img_take_photo));
-            binding.imageView2.setImageDrawable(
-                    ContextCompat.getDrawable(activity, R.drawable.img_take_photo));
-            binding.imageView3.setImageDrawable(
-                    ContextCompat.getDrawable(activity, R.drawable.img_take_photo));
-            binding.imageView4.setImageDrawable(
-                    ContextCompat.getDrawable(activity, R.drawable.img_take_photo));
-            binding.imageViewDelete1.setImageDrawable(
-                    ContextCompat.getDrawable(activity, android.R.drawable.ic_delete));
-            binding.imageViewDelete2.setImageDrawable(
-                    ContextCompat.getDrawable(activity, android.R.drawable.ic_delete));
-            binding.imageViewDelete3.setImageDrawable(
-                    ContextCompat.getDrawable(activity, android.R.drawable.ic_delete));
-            binding.imageViewDelete4.setImageDrawable(
-                    ContextCompat.getDrawable(activity, android.R.drawable.ic_delete));
-            binding.imageViewDelete1.setVisibility(View.GONE);
-            binding.imageViewDelete2.setVisibility(View.GONE);
-            binding.imageViewDelete3.setVisibility(View.GONE);
-            binding.imageViewDelete4.setVisibility(View.GONE);
-            binding.imageViewSent1.setVisibility(View.GONE);
-            binding.imageViewSent2.setVisibility(View.GONE);
-            binding.imageViewSent3.setVisibility(View.GONE);
-            binding.imageViewSent4.setVisibility(View.GONE);
-        }
+        imageViewAdapter = new ImageViewAdapter(activity, images);
+        binding.gridViewImage.setAdapter(imageViewAdapter);
+//        if (images.size() > 0) {
+//            binding.editTextDescription.setText(images.get(0).Description);
+//            Bitmap bitmap = CustomFile.loadImage(activity, images.get(0).address);
+//            if (bitmap != null) {
+//                imageNumber = images.size() + 1;
+//                bitmaps.add(bitmap);
+//                binding.imageView1.setImageBitmap(bitmap);
+//                binding.imageViewDelete1.setVisibility(View.VISIBLE);
+//                if (images.get(0).isSent)
+//                    binding.imageViewSent1.setVisibility(View.VISIBLE);
+//            } else {
+//                imageReset(0);
+//            }
+//            if (images.size() > 1) {
+//                bitmap = CustomFile.loadImage(activity, images.get(1).address);
+//                if (bitmap != null) {
+//                    imageNumber = images.size() + 1;
+//                    bitmaps.add(bitmap);
+//                    binding.imageView2.setImageBitmap(bitmap);
+//                    binding.imageViewDelete2.setVisibility(View.VISIBLE);
+//                    if (images.get(1).isSent)
+//                        binding.imageViewSent2.setVisibility(View.VISIBLE);
+//                } else {
+//                    imageReset(1);
+//                }
+//            } else {
+//                binding.imageViewDelete2.setVisibility(View.GONE);
+//                binding.imageViewDelete3.setVisibility(View.GONE);
+//                binding.imageViewDelete4.setVisibility(View.GONE);
+//            }
+//            if (images.size() > 2) {
+//                bitmap = CustomFile.loadImage(activity, images.get(2).address);
+//                if (bitmap != null) {
+//                    imageNumber = images.size() + 1;
+//                    bitmaps.add(bitmap);
+//                    binding.imageView3.setImageBitmap(
+//                            CustomFile.loadImage(activity, images.get(2).address));
+//                    binding.imageViewDelete3.setVisibility(View.VISIBLE);
+//                    if (images.get(2).isSent)
+//                        binding.imageViewSent3.setVisibility(View.VISIBLE);
+//                } else {
+//                    imageReset(2);
+//                }
+//            } else {
+//                binding.imageViewDelete3.setVisibility(View.GONE);
+//                binding.imageViewDelete4.setVisibility(View.GONE);
+//            }
+//            if (images.size() > 3) {
+//                bitmap = CustomFile.loadImage(activity, images.get(3).address);
+//                if (bitmap != null) {
+//                    imageNumber = images.size() + 1;
+//                    bitmaps.add(bitmap);
+//                    binding.imageView4.setImageBitmap(bitmap);
+//                    binding.imageViewDelete4.setVisibility(View.VISIBLE);
+//                    if (images.get(3).isSent)
+//                        binding.imageViewSent4.setVisibility(View.VISIBLE);
+//                } else {
+//                    imageReset(3);
+//                }
+//            } else
+//                binding.imageViewDelete4.setVisibility(View.GONE);
+//        } else {
+//            binding.imageView1.setImageDrawable(
+//                    ContextCompat.getDrawable(activity, R.drawable.img_take_photo));
+//            binding.imageView2.setImageDrawable(
+//                    ContextCompat.getDrawable(activity, R.drawable.img_take_photo));
+//            binding.imageView3.setImageDrawable(
+//                    ContextCompat.getDrawable(activity, R.drawable.img_take_photo));
+//            binding.imageView4.setImageDrawable(
+//                    ContextCompat.getDrawable(activity, R.drawable.img_take_photo));
+//            binding.imageViewDelete1.setImageDrawable(
+//                    ContextCompat.getDrawable(activity, android.R.drawable.ic_delete));
+//            binding.imageViewDelete2.setImageDrawable(
+//                    ContextCompat.getDrawable(activity, android.R.drawable.ic_delete));
+//            binding.imageViewDelete3.setImageDrawable(
+//                    ContextCompat.getDrawable(activity, android.R.drawable.ic_delete));
+//            binding.imageViewDelete4.setImageDrawable(
+//                    ContextCompat.getDrawable(activity, android.R.drawable.ic_delete));
+//            binding.imageViewDelete1.setVisibility(View.GONE);
+//            binding.imageViewDelete2.setVisibility(View.GONE);
+//            binding.imageViewDelete3.setVisibility(View.GONE);
+//            binding.imageViewDelete4.setVisibility(View.GONE);
+//            binding.imageViewSent1.setVisibility(View.GONE);
+//            binding.imageViewSent2.setVisibility(View.GONE);
+//            binding.imageViewSent3.setVisibility(View.GONE);
+//            binding.imageViewSent4.setVisibility(View.GONE);
+//        }
         setOnImageViewPickerClickListener();
         setOnImageViewDeleteClickListener();
     }
 
     void setOnImageViewPickerClickListener() {
-        binding.imageView1.setOnClickListener(onPickerClickListener);
-        binding.imageView2.setOnClickListener(onPickerClickListener);
-        binding.imageView3.setOnClickListener(onPickerClickListener);
-        binding.imageView4.setOnClickListener(onPickerClickListener);
-
-        binding.imageView1.setOnLongClickListener(onLongClickListener);
-        binding.imageView2.setOnLongClickListener(onLongClickListener);
-        binding.imageView3.setOnLongClickListener(onLongClickListener);
-        binding.imageView4.setOnLongClickListener(onLongClickListener);
+//        binding.imageView1.setOnClickListener(onPickerClickListener);
+//        binding.imageView2.setOnClickListener(onPickerClickListener);
+//        binding.imageView3.setOnClickListener(onPickerClickListener);
+//        binding.imageView4.setOnClickListener(onPickerClickListener);
+//
+//        binding.imageView1.setOnLongClickListener(onLongClickListener);
+//        binding.imageView2.setOnLongClickListener(onLongClickListener);
+//        binding.imageView3.setOnLongClickListener(onLongClickListener);
+//        binding.imageView4.setOnLongClickListener(onLongClickListener);
     }
 
     void imagePicker() {
@@ -348,10 +349,10 @@ public class  TakePhotoActivity extends AppCompatActivity {
     }
 
     void setOnImageViewDeleteClickListener() {
-        binding.imageViewDelete1.setOnClickListener(onDeleteClickListener);
-        binding.imageViewDelete2.setOnClickListener(onDeleteClickListener);
-        binding.imageViewDelete3.setOnClickListener(onDeleteClickListener);
-        binding.imageViewDelete4.setOnClickListener(onDeleteClickListener);
+//        binding.imageViewDelete1.setOnClickListener(onDeleteClickListener);
+//        binding.imageViewDelete2.setOnClickListener(onDeleteClickListener);
+//        binding.imageViewDelete3.setOnClickListener(onDeleteClickListener);
+//        binding.imageViewDelete4.setOnClickListener(onDeleteClickListener);
     }
 
     void removeImage(int index) {
@@ -438,35 +439,35 @@ public class  TakePhotoActivity extends AppCompatActivity {
                 MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().deleteImage(
                         images.get(imageNumberTemp - 1).id);
                 images.set(imageNumberTemp - 1, image);
-                if (imageNumberTemp == 1) {
-                    binding.imageViewSent1.setVisibility(View.GONE);
-                    binding.imageView1.setImageBitmap(MyApplication.bitmapSelectedImage);
-                } else if (imageNumberTemp == 2) {
-                    binding.imageViewSent2.setVisibility(View.GONE);
-                    binding.imageView2.setImageBitmap(MyApplication.bitmapSelectedImage);
-                } else if (imageNumberTemp == 3) {
-                    binding.imageViewSent3.setVisibility(View.GONE);
-                    binding.imageView3.setImageBitmap(MyApplication.bitmapSelectedImage);
-                } else if (imageNumberTemp == 4) {
-                    binding.imageViewSent4.setVisibility(View.GONE);
-                    binding.imageView4.setImageBitmap(MyApplication.bitmapSelectedImage);
-                }
+//                if (imageNumberTemp == 1) {
+//                    binding.imageViewSent1.setVisibility(View.GONE);
+//                    binding.imageView1.setImageBitmap(MyApplication.bitmapSelectedImage);
+//                } else if (imageNumberTemp == 2) {
+//                    binding.imageViewSent2.setVisibility(View.GONE);
+//                    binding.imageView2.setImageBitmap(MyApplication.bitmapSelectedImage);
+//                } else if (imageNumberTemp == 3) {
+//                    binding.imageViewSent3.setVisibility(View.GONE);
+//                    binding.imageView3.setImageBitmap(MyApplication.bitmapSelectedImage);
+//                } else if (imageNumberTemp == 4) {
+//                    binding.imageViewSent4.setVisibility(View.GONE);
+//                    binding.imageView4.setImageBitmap(MyApplication.bitmapSelectedImage);
+//                }
             } else {
                 bitmaps.add(MyApplication.bitmapSelectedImage);
                 images.add(image);
-                if (imageNumber == 1) {
-                    binding.imageViewDelete1.setVisibility(View.VISIBLE);
-                    binding.imageView1.setImageBitmap(MyApplication.bitmapSelectedImage);
-                } else if (imageNumber == 2) {
-                    binding.imageViewDelete2.setVisibility(View.VISIBLE);
-                    binding.imageView2.setImageBitmap(MyApplication.bitmapSelectedImage);
-                } else if (imageNumber == 3) {
-                    binding.imageViewDelete3.setVisibility(View.VISIBLE);
-                    binding.imageView3.setImageBitmap(MyApplication.bitmapSelectedImage);
-                } else if (imageNumber == 4) {
-                    binding.imageViewDelete4.setVisibility(View.VISIBLE);
-                    binding.imageView4.setImageBitmap(MyApplication.bitmapSelectedImage);
-                }
+//                if (imageNumber == 1) {
+//                    binding.imageViewDelete1.setVisibility(View.VISIBLE);
+//                    binding.imageView1.setImageBitmap(MyApplication.bitmapSelectedImage);
+//                } else if (imageNumber == 2) {
+//                    binding.imageViewDelete2.setVisibility(View.VISIBLE);
+//                    binding.imageView2.setImageBitmap(MyApplication.bitmapSelectedImage);
+//                } else if (imageNumber == 3) {
+//                    binding.imageViewDelete3.setVisibility(View.VISIBLE);
+//                    binding.imageView3.setImageBitmap(MyApplication.bitmapSelectedImage);
+//                } else if (imageNumber == 4) {
+//                    binding.imageViewDelete4.setVisibility(View.VISIBLE);
+//                    binding.imageView4.setImageBitmap(MyApplication.bitmapSelectedImage);
+//                }
                 imageNumber = imageNumber + 1;
             }
         }
@@ -486,18 +487,18 @@ public class  TakePhotoActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        binding.imageView1.setImageDrawable(null);
-        binding.imageView2.setImageDrawable(null);
-        binding.imageView3.setImageDrawable(null);
-        binding.imageView4.setImageDrawable(null);
-        binding.imageViewDelete1.setImageDrawable(null);
-        binding.imageViewDelete2.setImageDrawable(null);
-        binding.imageViewDelete3.setImageDrawable(null);
-        binding.imageViewDelete4.setImageDrawable(null);
-        binding.imageViewSent1.setImageDrawable(null);
-        binding.imageViewSent2.setImageDrawable(null);
-        binding.imageViewSent3.setImageDrawable(null);
-        binding.imageViewSent4.setImageDrawable(null);
+//        binding.imageView1.setImageDrawable(null);
+//        binding.imageView2.setImageDrawable(null);
+//        binding.imageView3.setImageDrawable(null);
+//        binding.imageView4.setImageDrawable(null);
+//        binding.imageViewDelete1.setImageDrawable(null);
+//        binding.imageViewDelete2.setImageDrawable(null);
+//        binding.imageViewDelete3.setImageDrawable(null);
+//        binding.imageViewDelete4.setImageDrawable(null);
+//        binding.imageViewSent1.setImageDrawable(null);
+//        binding.imageViewSent2.setImageDrawable(null);
+//        binding.imageViewSent3.setImageDrawable(null);
+//        binding.imageViewSent4.setImageDrawable(null);
         MyApplication.bitmapSelectedImage = null;
         bitmaps = null;
         imageGrouped = null;

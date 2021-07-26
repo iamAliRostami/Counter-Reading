@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/border_gray_4">
+    android:padding="@dimen/low_dp">
 
     <ImageView
-        android:id="@+id/image_View"
+        android:id="@+id/image_view"
+        android:background="@drawable/border_gray_5"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/img_take_photo"
