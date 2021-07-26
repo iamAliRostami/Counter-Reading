@@ -64,11 +64,11 @@ public class SettingUpdateFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+//    @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
         sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
-        binding.imageViewUpdate.setImageDrawable(
-                ContextCompat.getDrawable(activity, R.drawable.img_update));
+        binding.imageViewUpdate.
+                setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.img_update));
         setOnButtonReceiveClickListener();
     }
 
@@ -101,7 +101,7 @@ public class SettingUpdateFragment extends Fragment {
         });
     }
 
-    @SuppressLint("SetTextI18n")
+//    @SuppressLint("SetTextI18n")
     class UpdateInfo implements ICallback<LastInfo> {
         @Override
         public void execute(Response<LastInfo> response) {

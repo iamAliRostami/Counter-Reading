@@ -223,7 +223,7 @@
     <string name="download_message">تعداد %d مسیر و %d اشتراک بارگیری شد.</string>
     <string name="unread_number">همکار گرامی!\nتعداد %d اشتراک قرائت نشده است.</string>
     <string name="darsad_alal">همکار گرامی!\nدرصد علی الحساب بالاتر از حد مجاز است.</string>
-    <string name="unuploaded_multimedia">همکار گرامی تعداد %d عکس و %d صدای تخلیه نشده باقی مانده است.\nپیش از تخلیه نسبت به بارگذاری چندرسانه اقدام کنید.</string>
+    <string name="unuploaded_multimedia">تعداد %d عکس و %d صدای تخلیه نشده باقی مانده است.\nتوصیه می شود پیش از تخلیه نسبت به بارگذاری چندرسانه اقدام نمایید.\nآیا همچنان مایل به تخلیه هستید؟</string>
     <string name="show_points">نمایش نقاط</string>
     <string name="sort_reading_type">مرتب سازی نزولی</string>
 

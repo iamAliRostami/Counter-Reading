@@ -14,7 +14,9 @@ import com.leon.counter_reading.activities.UploadActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentUploadBinding;
 import com.leon.counter_reading.enums.BundleEnum;
+import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.tables.TrackingDto;
+import com.leon.counter_reading.utils.CustomDialog;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
@@ -116,10 +118,24 @@ public class UploadFragment extends Fragment {
             return false;
         } else if (imagesCount > 0 || voicesCount > 0) {
             String message = String.format(getString(R.string.unuploaded_multimedia), imagesCount, voicesCount);
-            new CustomToast().info(message, Toast.LENGTH_LONG);
+//            new CustomToast().info(message, Toast.LENGTH_LONG);
+            //TODO
+            new CustomDialog(DialogType.YellowRedirect, activity, message,
+                    getString(R.string.dear_user),
+                    getString(R.string.upload), getString(R.string.confirm), new Inline());
             return false;
         }
         return true;
+    }
+
+    class Inline implements CustomDialog.Inline {
+        @Override
+        public void inline() {
+            new PrepareOffLoadToUpload(activity,
+                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber,
+                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id).
+                    execute(activity);
+        }
     }
 
     void setOnButtonUploadClickListener() {
@@ -135,6 +151,7 @@ public class UploadFragment extends Fragment {
             }
         });
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -148,4 +165,6 @@ public class UploadFragment extends Fragment {
         trackingDtos = null;
         items = null;
     }
+
+
 }
