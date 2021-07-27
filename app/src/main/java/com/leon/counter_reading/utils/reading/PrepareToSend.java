@@ -13,6 +13,7 @@ import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomToast;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.HttpClientWrapper;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
@@ -22,8 +23,6 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-
-import static com.leon.counter_reading.MyApplication.SHOW_ERROR;
 
 public class PrepareToSend extends AsyncTask<Activity, Integer, Integer> {
     OnOffLoadDto.OffLoadData offLoadData;
@@ -78,7 +77,8 @@ class offLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
 class offLoadError implements ICallbackError {
     @Override
     public void executeError(Throwable t) {
-        if (MyApplication.getErrorCounter() < SHOW_ERROR) {
+        if (MyApplication.getErrorCounter() <
+                DifferentCompanyManager.getShowError(DifferentCompanyManager.getActiveCompanyName())) {
             CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(MyApplication.getContext());
             String error = customErrorHandlingNew.getErrorMessageTotal(t);
             new CustomToast().error(error);

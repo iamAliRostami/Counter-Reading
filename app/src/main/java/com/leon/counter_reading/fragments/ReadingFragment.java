@@ -39,7 +39,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-import static com.leon.counter_reading.MyApplication.LOCK_NUMBER;
 import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class ReadingFragment extends Fragment {
@@ -261,13 +260,13 @@ public class ReadingFragment extends Fragment {
             } else {
                 //TODO
                 onOffLoadDto.attemptNumber++;
-                if (!onOffLoadDto.isLocked && onOffLoadDto.attemptNumber + 1 == LOCK_NUMBER)
+                if (!onOffLoadDto.isLocked && onOffLoadDto.attemptNumber + 1 == DifferentCompanyManager.getLockNumber(DifferentCompanyManager.getActiveCompanyName()))
                     new CustomToast().warning(getString(R.string.mistakes_error), Toast.LENGTH_LONG);
-                if (!onOffLoadDto.isLocked && onOffLoadDto.attemptNumber == LOCK_NUMBER)
+                if (!onOffLoadDto.isLocked && onOffLoadDto.attemptNumber == DifferentCompanyManager.getLockNumber(DifferentCompanyManager.getActiveCompanyName()))
                     new CustomToast().error(getString(R.string.by_mistakes).
                             concat(onOffLoadDto.eshterak).concat(getString(R.string.is_locked)), Toast.LENGTH_LONG);
                 new UpdateOnOffLoadByAttemptNumber(position, onOffLoadDto.attemptNumber).execute();
-                if (!onOffLoadDto.isLocked && onOffLoadDto.attemptNumber >= LOCK_NUMBER) {
+                if (!onOffLoadDto.isLocked && onOffLoadDto.attemptNumber >= DifferentCompanyManager.getLockNumber(DifferentCompanyManager.getActiveCompanyName())) {
                     new UpdateOnOffLoadDtoByLock(position, onOffLoadDto.trackNumber, onOffLoadDto.id).execute(activity);
                 } else {
                     attemptSend();

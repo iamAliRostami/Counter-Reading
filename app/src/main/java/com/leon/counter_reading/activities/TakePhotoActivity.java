@@ -37,14 +37,12 @@ import com.leon.counter_reading.utils.photo.PrepareMultimedia;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class TakePhotoActivity extends AppCompatActivity {
     Activity activity;
     ISharedPreferenceManager sharedPreferenceManager;
     ActivityTakePhotoBinding binding;
     Image.ImageGrouped imageGrouped = new Image.ImageGrouped();
-//    ArrayList<Bitmap> bitmaps;
     ArrayList<Image> images;
     ImageViewAdapter imageViewAdapter;
 
@@ -84,13 +82,11 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     void imageSetup() {
         images = new ArrayList<>();
-//        bitmaps = new ArrayList<>();
         if (!result) {
             images.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
                     .getImagesByOnOffLoadId(uuid));
             for (int i = 0; i < images.size(); i++) {
                 images.get(i).bitmap = CustomFile.loadImage(activity, images.get(i).address);
-//                bitmaps.add(images.get(i).bitmap);
             }
         }
         imageViewAdapter = new ImageViewAdapter(activity, images);
@@ -143,10 +139,8 @@ public class TakePhotoActivity extends AppCompatActivity {
                 Uri selectedImage = data.getData();
                 Bitmap bitmap;
                 try {
-                    Uri uri = data.getData();
-                    Objects.requireNonNull(uri);
-                    InputStream inputStream = this.getContentResolver().openInputStream(
-                            Objects.requireNonNull(selectedImage));
+                    InputStream inputStream =
+                            this.getContentResolver().openInputStream(selectedImage);
                     bitmap = BitmapFactory.decodeStream(inputStream);
                     MyApplication.bitmapSelectedImage = bitmap;
                 } catch (Exception e) {
@@ -156,7 +150,8 @@ public class TakePhotoActivity extends AppCompatActivity {
                 ContentResolver contentResolver = this.getContentResolver();
                 try {
                     if (Build.VERSION.SDK_INT > 28) {
-                        ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), Uri.parse(MyApplication.fileName));
+                        ImageDecoder.Source source =
+                                ImageDecoder.createSource(this.getContentResolver(), Uri.parse(MyApplication.fileName));
                         MyApplication.bitmapSelectedImage = ImageDecoder.decodeBitmap(source);
                     } else
                         MyApplication.bitmapSelectedImage = MediaStore.Images.Media.getBitmap(
@@ -196,7 +191,6 @@ public class TakePhotoActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         MyApplication.bitmapSelectedImage = null;
-//        bitmaps = null;
         imageGrouped = null;
         images = null;
         binding = null;

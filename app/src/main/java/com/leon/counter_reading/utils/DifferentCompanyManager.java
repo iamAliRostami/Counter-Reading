@@ -299,4 +299,28 @@ public class DifferentCompanyManager {
                 throw new UnsupportedOperationException();
         }
     }
+    public static int getImageNumber(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return 4;
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+    public static int getShowError(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return 3;
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+    public static int getLockNumber(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return 6;
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
 }

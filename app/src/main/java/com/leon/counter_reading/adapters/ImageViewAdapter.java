@@ -23,13 +23,13 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.TakePhotoActivity;
 import com.leon.counter_reading.fragments.HighQualityFragment;
 import com.leon.counter_reading.tables.Image;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.leon.counter_reading.MyApplication.IMAGE_NUMBER;
 import static com.leon.counter_reading.activities.TakePhotoActivity.replace;
 import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 
@@ -46,7 +46,7 @@ public class ImageViewAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return IMAGE_NUMBER;
+        return DifferentCompanyManager.getImageNumber(DifferentCompanyManager.getActiveCompanyName());
     }
 
     @Override
