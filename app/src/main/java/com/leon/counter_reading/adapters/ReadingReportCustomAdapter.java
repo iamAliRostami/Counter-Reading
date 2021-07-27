@@ -23,21 +23,19 @@ import com.leon.counter_reading.utils.MyDatabaseClient;
 import java.util.ArrayList;
 
 public class ReadingReportCustomAdapter extends BaseAdapter {
-    final ArrayList<CounterReportDto> counterReportDtos;
-    final ArrayList<OffLoadReport> offLoadReports;
-    final String uuid;
-    final int position;
-    final int tracking;
-    final LayoutInflater inflater;
-    final Context context;
+    private final ArrayList<CounterReportDto> counterReportDtos;
+    private final ArrayList<OffLoadReport> offLoadReports;
+    private final String uuid;
+    private final int tracking;
+    private final LayoutInflater inflater;
+    private final Context context;
 
-    public ReadingReportCustomAdapter(Context context, String uuid, int position,int tracking,
+    public ReadingReportCustomAdapter(Context context, String uuid, int tracking,
                                       ArrayList<CounterReportDto> counterReportDtos,
                                       ArrayList<OffLoadReport> offLoadReports) {
         this.counterReportDtos = counterReportDtos;
         this.offLoadReports = offLoadReports;
         this.uuid = uuid;
-        this.position = position;
         this.tracking = tracking;
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -97,7 +95,7 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
                 for (int i = 0; i < offLoadReports.size(); i++) {
                     if (offLoadReports.get(i).reportId == counterReportDtos.get(position).id) {
                         MyDatabaseClient.getInstance(context).getMyDatabase().offLoadReportDao().
-                                deleteOffLoadReport(offLoadReports.get(i).reportId,tracking, uuid);
+                                deleteOffLoadReport(offLoadReports.get(i).reportId, tracking, uuid);
                         offLoadReports.remove(offLoadReports.get(i));
                     }
                 }

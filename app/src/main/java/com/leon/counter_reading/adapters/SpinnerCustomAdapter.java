@@ -13,8 +13,8 @@ import com.leon.counter_reading.R;
 import java.util.ArrayList;
 
 public class SpinnerCustomAdapter extends BaseAdapter {
-    final ArrayList<String> items;
-    final LayoutInflater inflater;
+    private final ArrayList<String> items;
+    private final LayoutInflater inflater;
 
     public SpinnerCustomAdapter(Activity activity, ArrayList<String> items) {
         super();

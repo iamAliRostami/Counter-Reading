@@ -28,20 +28,17 @@ import com.leon.counter_reading.utils.SharedPreferenceManager;
 import java.util.ArrayList;
 
 public class ReadingReportActivity extends AppCompatActivity {
-
-    ActivityReadingReportBinding binding;
-    ISharedPreferenceManager sharedPreferenceManager;
-    ArrayList<CounterReportDto> counterReportDtos;
-    ArrayList<OffLoadReport> offLoadReports;
-    ReadingReportCustomAdapter readingReportCustomAdapter;
-    Activity activity;
-    String uuid;
-    int position, trackNumber;
+    private ActivityReadingReportBinding binding;
+    private ArrayList<CounterReportDto> counterReportDtos;
+    private ArrayList<OffLoadReport> offLoadReports;
+    private Activity activity;
+    private String uuid;
+    private int position, trackNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
+        ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
                 SharedReferenceNames.ACCOUNT.getValue());
         int theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         MyApplication.onActivitySetTheme(this, theme, true);
@@ -62,7 +59,6 @@ public class ReadingReportActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.putExtra(BundleEnum.POSITION.getValue(), position);
             intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);
-//            intent.putExtra(BundleEnum.TRACKING.getValue(), trackNumber);
             setResult(RESULT_OK, intent);
             finish();
         });
@@ -107,7 +103,7 @@ public class ReadingReportActivity extends AppCompatActivity {
         }
 
         void setupRecyclerView() {
-            readingReportCustomAdapter = new ReadingReportCustomAdapter(activity, uuid, position,
+            ReadingReportCustomAdapter readingReportCustomAdapter = new ReadingReportCustomAdapter(activity, uuid,
                     trackNumber, counterReportDtos, offLoadReports);
             binding.listViewReports.setAdapter(readingReportCustomAdapter);
         }

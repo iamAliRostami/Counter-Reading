@@ -15,7 +15,7 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivitySplashBinding;
 
 public class SplashActivity extends AppCompatActivity {
-    ActivitySplashBinding binding;
+    private ActivitySplashBinding binding;
     private boolean splashLoaded = false;
 
     @Override

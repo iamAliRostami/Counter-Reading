@@ -17,9 +17,9 @@ import com.leon.counter_reading.utils.MyDatabaseClient;
 import java.util.ArrayList;
 
 public class ReadingSettingCustomAdapter extends BaseAdapter {
-    final ArrayList<TrackingDto> trackingDtos;
-    final LayoutInflater inflater;
-    final Context context;
+    private final ArrayList<TrackingDto> trackingDtos;
+    private final LayoutInflater inflater;
+    private final Context context;
 
     public ReadingSettingCustomAdapter(Context context, ArrayList<TrackingDto> trackingDtos) {
         this.trackingDtos = trackingDtos;

@@ -23,20 +23,15 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class ViewPagerAdapterReading extends FragmentStatePagerAdapter {
-    //    final ReadingData readingData;
-//    final ArrayList<QotrDictionary> qotrDictionaries = new ArrayList<>();
-//    final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
-//    ArrayList<OnOffLoadReading> onOffLoadReadings = new ArrayList<>();
-    final ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
-    final ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
-    final ArrayList<KarbariDto> karbariDtos = new ArrayList<>();
-    final ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
-    SpinnerCustomAdapter adapter;
+    private final ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
+    private final ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
+    private final ArrayList<KarbariDto> karbariDtos = new ArrayList<>();
+    private final ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
+    private final SpinnerCustomAdapter adapter;
 
     public ViewPagerAdapterReading(@NonNull FragmentManager fm,
                                    ReadingData readingData, Activity activity) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-//        this.readingData = readingData;
         onOffLoadDtos.addAll(readingData.onOffLoadDtos);
         final ArrayList<String> items = new ArrayList<>();
         for (int i = 0; i < readingData.counterStateDtos.size(); i++) {
@@ -74,8 +69,7 @@ public class ViewPagerAdapterReading extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         return ReadingFragment.newInstance(onOffLoadDtos.get(position),
                 readingConfigDefaultDtos.get(position), karbariDtos.get(position),
-                /*trackingDtos.get(position), qotrDictionaries.get(position).title,*
-                /*items,*/ counterStateDtos, adapter, position);
+                counterStateDtos, adapter, position);
     }
 
     @Override

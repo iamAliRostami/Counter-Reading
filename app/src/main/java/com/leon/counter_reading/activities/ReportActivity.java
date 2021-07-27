@@ -24,11 +24,12 @@ import com.leon.counter_reading.utils.reporting.GetReportDBData;
 import java.util.ArrayList;
 
 public class ReportActivity extends BaseActivity {
-    ActivityReportBinding binding;
-    Activity activity;
-    int previousState, currentState, zero, normal, high, low, unread, total, isMane;
-    ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
-    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    private ActivityReportBinding binding;
+    private Activity activity;
+    private int previousState;
+    private int currentState;
+    private ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
+    private ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
 
     @Override
     protected void initialize() {
@@ -104,21 +105,13 @@ public class ReportActivity extends BaseActivity {
     public void setupViewPager(ArrayList<CounterStateDto> counterStateDtos,
                                ArrayList<TrackingDto> trackingDtos, int zero,
                                int normal, int high, int low, int total, int isMane, int unread) {
-        this.zero = zero;
-        this.normal = normal;
-        this.high = high;
-        this.low = low;
-        this.unread = unread;
-        this.total = total;
-        this.isMane = isMane;
         this.counterStateDtos = new ArrayList<>(counterStateDtos);
         this.trackingDtos = new ArrayList<>(trackingDtos);
 
-
         ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
-        adapter.addFragment(ReportTotalFragment.newInstance(zero, normal, high, low), "آمار کلی");
-        adapter.addFragment(ReportNotReadingFragment.newInstance(total, unread), "قرائت نشده");
-        adapter.addFragment(ReportTemporaryFragment.newInstance(total, isMane), "علی الحساب");
+        adapter.addFragment(ReportTotalFragment.newInstance(zero, normal, high, low));
+        adapter.addFragment(ReportNotReadingFragment.newInstance(total, unread));
+        adapter.addFragment(ReportTemporaryFragment.newInstance(total, isMane));
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

@@ -57,19 +57,16 @@ import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailabl
 
 public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    Toolbar toolbar;
-    LinearLayout linearLayout;
-    NavigationDrawerAdapter adapter;
-    List<NavigationDrawerAdapter.DrawerItem> dataList;
-    ActivityBaseBinding binding;
-    Activity activity;
-    ISharedPreferenceManager sharedPreferenceManager;
-    GPSTracker gpsTracker;
-    boolean exit = false;
+    private Toolbar toolbar;
+    private List<NavigationDrawerAdapter.DrawerItem> dataList;
+    private ActivityBaseBinding binding;
+    private Activity activity;
+    private ISharedPreferenceManager sharedPreferenceManager;
+    private GPSTracker gpsTracker;
+    private boolean exit = false;
 
     protected abstract void initialize();
 
-    @SuppressLint({"RtlHardcoded", "WrongConstant"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,8 +81,6 @@ public abstract class BaseActivity extends AppCompatActivity
             theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         }
         MyApplication.onActivitySetTheme(this, theme, false);
-//        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-//        overridePendingTransition(R.anim.slide_up_info, R.anim.no_change);
         binding = ActivityBaseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -178,7 +173,6 @@ public abstract class BaseActivity extends AppCompatActivity
         return true;
     }
 
-    @SuppressLint("RtlHardcoded")
     void setOnDrawerItemClick() {
         binding.imageViewHeader.setOnClickListener(v -> {
             if (MyApplication.POSITION != -1) {
@@ -205,7 +199,6 @@ public abstract class BaseActivity extends AppCompatActivity
                             Intent intent = new Intent();
                             if (position == 0) {
                                 intent = new Intent(getApplicationContext(), DownloadActivity.class);
-//                                throw new RuntimeException("Test Crash");
                             } else if (position == 1) {
                                 intent = new Intent(getApplicationContext(), ReadingActivity.class);
                             } else if (position == 2) {
@@ -244,7 +237,7 @@ public abstract class BaseActivity extends AppCompatActivity
                 SharedReferenceKeys.USER_CODE.getValue())).concat(")"));
         binding.textViewVersion.setText(getString(R.string.version).concat(" ")
                 .concat(BuildConfig.VERSION_NAME));
-        linearLayout = findViewById(R.id.linear_layout_reading_header);
+        LinearLayout linearLayout = findViewById(R.id.linear_layout_reading_header);
         if (MyApplication.POSITION == 1) {
             linearLayout.setVisibility(View.VISIBLE);
         }
@@ -271,18 +264,10 @@ public abstract class BaseActivity extends AppCompatActivity
         dataList = NavigationDrawerAdapter.DrawerItem.createItemList(
                 getResources().getStringArray(R.array.menu),
                 getResources().obtainTypedArray(R.array.icons));
-        adapter = new NavigationDrawerAdapter(this, dataList);
+        NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(this, dataList);
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(MyApplication.getContext()));
         binding.recyclerView.setNestedScrollingEnabled(true);
-    }
-
-    public GPSTracker getGpsTracker() {
-        if (gpsTracker != null)
-            return gpsTracker;
-        else {
-            return new GPSTracker(activity);
-        }
     }
 
     @Override

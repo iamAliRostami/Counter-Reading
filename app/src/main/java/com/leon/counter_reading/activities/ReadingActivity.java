@@ -57,15 +57,15 @@ import static com.leon.counter_reading.MyApplication.readingDataTemp;
 import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class ReadingActivity extends BaseActivity {
-    int[] imageSrc = new int[15];
-    ActivityReadingBinding binding;
-    Activity activity;
-    IFlashLightManager flashLightManager;
-    ViewPagerAdapterReading viewPagerAdapterReading;
-    ISharedPreferenceManager sharedPreferenceManager;
-    SpinnerCustomAdapter adapter;
-    int readStatus = 0, highLow = 1;
-    boolean isReading = false;
+    private int[] imageSrc = new int[15];
+    private ActivityReadingBinding binding;
+    private Activity activity;
+    private IFlashLightManager flashLightManager;
+    private ViewPagerAdapterReading viewPagerAdapterReading;
+    private ISharedPreferenceManager sharedPreferenceManager;
+    private SpinnerCustomAdapter adapter;
+    private int readStatus = 0, highLow = 1;
+    private boolean isReading = false;
 
     @Override
     protected void initialize() {

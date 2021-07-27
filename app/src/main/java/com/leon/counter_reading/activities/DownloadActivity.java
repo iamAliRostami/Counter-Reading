@@ -16,8 +16,8 @@ import com.leon.counter_reading.fragments.DownloadFragment;
 import com.leon.counter_reading.utils.DepthPageTransformer;
 
 public class DownloadActivity extends BaseActivity {
-    ActivityDownloadBinding binding;
-    int previousState, currentState;
+    private ActivityDownloadBinding binding;
+    private int previousState, currentState;
 
     @Override
     protected void initialize() {
@@ -109,10 +109,10 @@ public class DownloadActivity extends BaseActivity {
     private void setupViewPager() {
         ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager()
         );
-        adapter.addFragment(DownloadFragment.newInstance(1), "بارگیری");
-        adapter.addFragment(DownloadFragment.newInstance(2), "بارگیری مجدد");
-        adapter.addFragment(DownloadFragment.newInstance(3), "بارگیری offline");
-        adapter.addFragment(DownloadFragment.newInstance(4), "بارگیری ویژه");
+        adapter.addFragment(DownloadFragment.newInstance(1));
+        adapter.addFragment(DownloadFragment.newInstance(2));
+        adapter.addFragment(DownloadFragment.newInstance(3));
+        adapter.addFragment(DownloadFragment.newInstance(4));
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

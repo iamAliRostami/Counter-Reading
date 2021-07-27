@@ -39,12 +39,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class TakePhotoActivity extends AppCompatActivity {
-    Activity activity;
-    ISharedPreferenceManager sharedPreferenceManager;
-    ActivityTakePhotoBinding binding;
-    Image.ImageGrouped imageGrouped = new Image.ImageGrouped();
-    ArrayList<Image> images;
-    ImageViewAdapter imageViewAdapter;
+    private Activity activity;
+    private ActivityTakePhotoBinding binding;
+    private ArrayList<Image> images;
+    private ImageViewAdapter imageViewAdapter;
 
     boolean result;
     String uuid;
@@ -69,7 +67,6 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     void initialize() {
-        sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
         if (getIntent().getExtras() != null) {
             uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
             position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
@@ -191,7 +188,6 @@ public class TakePhotoActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         MyApplication.bitmapSelectedImage = null;
-        imageGrouped = null;
         images = null;
         binding = null;
         Debug.getNativeHeapAllocatedSize();

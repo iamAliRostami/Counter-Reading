@@ -1,6 +1,5 @@
 package com.leon.counter_reading.activities;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Debug;
@@ -14,24 +13,18 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.ViewPagerAdapterTab;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivitySettingBinding;
-import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.fragments.SettingChangePasswordFragment;
 import com.leon.counter_reading.fragments.SettingChangeThemeFragment;
 import com.leon.counter_reading.fragments.SettingUpdateFragment;
-import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.DepthPageTransformer;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 public class SettingActivity extends BaseActivity {
-    ActivitySettingBinding binding;
-    ISharedPreferenceManager sharedPreferenceManager;
-    Activity activity;
+    private ActivitySettingBinding binding;
+    private Activity activity;
     private int previousState, currentState;
 
     @Override
     protected void initialize() {
-        sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
-                SharedReferenceNames.ACCOUNT.getValue());
         binding = ActivitySettingBinding.inflate(getLayoutInflater());
         View childLayout = binding.getRoot();
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
@@ -47,7 +40,6 @@ public class SettingActivity extends BaseActivity {
         textViewUpdate();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void textViewChangeTheme() {
         binding.textViewChangeTheme.setOnClickListener(view -> {
             setColor();
@@ -103,11 +95,10 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void setupViewPager() {
-        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager()
-        );
-        adapter.addFragment(new SettingChangeThemeFragment(), "تغییر پوسته");
-        adapter.addFragment(new SettingChangePasswordFragment(), "تغییر گذرواژه");
-        adapter.addFragment(new SettingUpdateFragment(), "به روز رسانی");
+        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
+        adapter.addFragment(new SettingChangeThemeFragment());
+        adapter.addFragment(new SettingChangePasswordFragment());
+        adapter.addFragment(new SettingUpdateFragment());
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

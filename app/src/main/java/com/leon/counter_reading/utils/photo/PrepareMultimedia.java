@@ -34,12 +34,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
-    CustomProgressBar customProgressBar;
+    private final CustomProgressBar customProgressBar;
     private final Image.ImageGrouped imageGrouped = new Image.ImageGrouped();
-    ArrayList<Image> images;
-    String description;
-    boolean result;
-    int position;
+    private final ArrayList<Image> images;
+    private final String description;
+    private final boolean result;
+    private final int position;
 
     public PrepareMultimedia(Activity activity, int position, boolean result, String description,
                              ArrayList<Image> images) {

@@ -17,8 +17,8 @@ import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 public class ContactUsActivity extends AppCompatActivity {
-    ActivityContactUsBinding binding;
-    ISharedPreferenceManager sharedPreferenceManager;
+    private ActivityContactUsBinding binding;
+    private ISharedPreferenceManager sharedPreferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

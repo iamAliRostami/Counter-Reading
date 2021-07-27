@@ -34,10 +34,9 @@ import static com.leon.counter_reading.activities.TakePhotoActivity.replace;
 import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 
 public class ImageViewAdapter extends BaseAdapter {
-    public ArrayList<Image> images;
-    LayoutInflater inflater;
-    Context context;
-    ImageViewHolder holder;
+    private final ArrayList<Image> images;
+    private final LayoutInflater inflater;
+    private final Context context;
 
     public ImageViewAdapter(Context c, ArrayList<Image> images) {
         this.images = images;
@@ -65,7 +64,7 @@ public class ImageViewAdapter extends BaseAdapter {
         if (view == null) {
             view = inflater.inflate(R.layout.item_image, null);
         }
-        holder = new ImageViewHolder(view);
+        ImageViewHolder holder = new ImageViewHolder(view);
         holder.imageViewDelete.setVisibility(position < images.size() ? View.VISIBLE : View.GONE);
         holder.imageViewSent.setVisibility(position < images.size() && images.get(position).isSent ?
                 View.VISIBLE : View.GONE);

@@ -1,15 +1,11 @@
 package com.leon.counter_reading.activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
-import android.provider.Settings;
-import android.telephony.TelephonyManager;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Toast;
@@ -21,50 +17,30 @@ import androidx.core.content.ContextCompat;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.BuildConfig;
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivityLoginBinding;
-import com.leon.counter_reading.enums.DialogType;
-import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
-import com.leon.counter_reading.infrastructure.IAbfaService;
-import com.leon.counter_reading.infrastructure.ICallback;
-import com.leon.counter_reading.infrastructure.ICallbackError;
-import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
-import com.leon.counter_reading.tables.LoginFeedBack;
-import com.leon.counter_reading.tables.LoginInfo;
 import com.leon.counter_reading.utils.Crypto;
-import com.leon.counter_reading.utils.CustomDialog;
-import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.HttpClientWrapper;
-import com.leon.counter_reading.utils.login.AttemptLogin;
-import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
+import com.leon.counter_reading.utils.login.AttemptLogin;
 import com.leon.counter_reading.utils.login.AttemptRegister;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
-import static android.os.Build.UNKNOWN;
-import static com.leon.counter_reading.MyApplication.CARRIER_PRIVILEGE_STATUS;
+import static com.leon.counter_reading.MyApplication.getAndroidVersion;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public class LoginActivity extends AppCompatActivity {
-    ISharedPreferenceManager sharedPreferenceManager;
-    ActivityLoginBinding binding;
-    Activity activity;
-    String username, password;
-    int counter = 0;
+    private ISharedPreferenceManager sharedPreferenceManager;
+    private ActivityLoginBinding binding;
+    private Activity activity;
+    private String username, password;
+    private int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,12 +96,6 @@ public class LoginActivity extends AppCompatActivity {
         setOnImageViewPasswordClickListener();
         setEditTextUsernameOnFocusChangeListener();
         setEditTextPasswordOnFocusChangeListener();
-    }
-
-    String getAndroidVersion() {
-        String release = Build.VERSION.RELEASE;
-        int sdkVersion = Build.VERSION.SDK_INT;
-        return "Android SDK: " + sdkVersion + " (" + release + ")";
     }
 
     void setEditTextUsernameOnFocusChangeListener() {
@@ -204,12 +174,12 @@ public class LoginActivity extends AppCompatActivity {
             if (isLogin && isNetworkAvailable(activity)) {
                 counter++;
                 if (counter < 4)
-                    new AttemptLogin(username, password, getSerial(),
+                    new AttemptLogin(username, password, MyApplication.getSerial(activity),
                             binding.checkBoxSave.isChecked()).execute(activity);
                 else
                     offlineLogin();
             } else {
-                new AttemptRegister(username, password, getSerial()).execute(activity);
+                new AttemptRegister(username, password, MyApplication.getSerial(activity)).execute(activity);
             }
         }
     }
@@ -228,34 +198,6 @@ public class LoginActivity extends AppCompatActivity {
         counter = 0;
     }
 
-    @SuppressLint("HardwareIds")
-    String getSerial() {
-        String serial = Build.SERIAL;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (hasCarrierPrivileges())
-                serial = Build.getSerial();
-        }
-        if (serial.equals(UNKNOWN))
-            serial = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        return serial;
-    }
-
-    boolean hasCarrierPrivileges() {
-        TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        boolean isCarrier = tm.hasCarrierPrivileges();
-        if (!isCarrier) {
-            int hasPermission = ActivityCompat.checkSelfPermission(getApplicationContext(),
-                    "android.permission.READ_PRIVILEGED_PHONE_STATE");
-            if (hasPermission != PackageManager.PERMISSION_GRANTED) {
-                if (!shouldShowRequestPermissionRationale("android.permission.READ_PRIVILEGED_PHONE_STATE")) {
-                    ActivityCompat.requestPermissions(LoginActivity.this, new String[]{
-                            "android.permission.READ_PRIVILEGED_PHONE_STATE"}, CARRIER_PRIVILEGE_STATUS);
-                }
-            }
-        }
-        return isCarrier;
-    }
-
     void loadPreference() {
         sharedPreferenceManager = new SharedPreferenceManager(
                 activity, SharedReferenceNames.ACCOUNT.getValue());
@@ -266,11 +208,6 @@ public class LoginActivity extends AppCompatActivity {
             binding.editTextPassword.setText(Crypto.decrypt(sharedPreferenceManager.getStringData(
                     SharedReferenceKeys.PASSWORD.getValue())));
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override

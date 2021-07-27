@@ -1,11 +1,18 @@
 package com.leon.counter_reading;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.os.Build;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 
+import androidx.core.app.ActivityCompat;
 import androidx.multidex.MultiDex;
 
 import com.leon.counter_reading.tables.ReadingData;
@@ -13,6 +20,8 @@ import com.leon.counter_reading.tables.ReadingData;
 import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
+
+import static android.os.Build.UNKNOWN;
 
 public class MyApplication extends Application {
     public static final String FONT_NAME = "font/font_1.ttf";
@@ -101,5 +110,41 @@ public class MyApplication extends Application {
                 .allowQueue(true).apply();
         super.onCreate();
 //        throw new RuntimeException("Test Crash");
+    }
+
+    static public String getAndroidVersion() {
+        String release = Build.VERSION.RELEASE;
+        int sdkVersion = Build.VERSION.SDK_INT;
+        return "Android SDK: " + sdkVersion + " (" + release + ")";
+    }
+
+    @SuppressLint("HardwareIds")
+    public static String getSerial(Activity activity) {
+        String serial = Build.SERIAL;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (hasCarrierPrivileges(activity))
+                serial = Build.getSerial();
+        }
+        if (serial.equals(UNKNOWN))
+            serial = Settings.Secure.getString(new ContextWrapper(activity).getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+        return serial;
+    }
+
+    static boolean hasCarrierPrivileges(Activity activity) {
+        TelephonyManager tm = (TelephonyManager)
+                new ContextWrapper(activity).getSystemService(TELEPHONY_SERVICE);
+        boolean isCarrier = tm.hasCarrierPrivileges();
+        if (!isCarrier) {
+            int hasPermission = ActivityCompat.checkSelfPermission(activity,
+                    "android.permission.READ_PRIVILEGED_PHONE_STATE");
+            if (hasPermission != PackageManager.PERMISSION_GRANTED) {
+                if (!activity.shouldShowRequestPermissionRationale("android.permission.READ_PRIVILEGED_PHONE_STATE")) {
+                    ActivityCompat.requestPermissions(activity, new String[]{
+                            "android.permission.READ_PRIVILEGED_PHONE_STATE"}, CARRIER_PRIVILEGE_STATUS);
+                }
+            }
+        }
+        return isCarrier;
     }
 }

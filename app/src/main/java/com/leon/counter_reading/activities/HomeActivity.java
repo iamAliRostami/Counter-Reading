@@ -1,6 +1,5 @@
 package com.leon.counter_reading.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Debug;
 import android.view.View;
@@ -14,9 +13,8 @@ import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends BaseActivity {
-    ActivityHomeBinding binding;
-    Activity activity;
-    boolean exit = false;
+    private ActivityHomeBinding binding;
+    private boolean exit = false;
 
     View.OnClickListener onClickListener = v -> {
         int id = v.getId();
@@ -61,7 +59,6 @@ public class HomeActivity extends BaseActivity {
         View childLayout = binding.getRoot();
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
-        activity = this;
         initializeImageViews();
         setOnImageViewClickListener();
     }

@@ -55,16 +55,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class DescriptionActivity extends AppCompatActivity {
-    ActivityDescriptionBinding binding;
-    Activity activity;
-    ISharedPreferenceManager sharedPreferenceManager;
-    Voice.VoiceGrouped voiceGrouped;
-    Voice voice;
-    MediaPlayer mediaPlayer;
-    MediaRecorder mediaRecorder;
-    String uuid;
-    boolean play = false;
-    int position, startTime = 0, finalTime = 0, trackNumber;
+    private ActivityDescriptionBinding binding;
+    private Activity activity;
+    private ISharedPreferenceManager sharedPreferenceManager;
+    private Voice.VoiceGrouped voiceGrouped;
+    private Voice voice;
+    private MediaPlayer mediaPlayer;
+    private MediaRecorder mediaRecorder;
+    private String uuid;
+    private boolean play = false;
+    private int position, startTime = 0, finalTime = 0, trackNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

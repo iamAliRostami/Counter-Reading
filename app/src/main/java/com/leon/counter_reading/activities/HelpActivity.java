@@ -18,8 +18,8 @@ import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityHelpBinding;
 
 public class HelpActivity extends BaseActivity {
-    ActivityHelpBinding binding;
-    Activity activity;
+    private ActivityHelpBinding binding;
+    private Activity activity;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -69,6 +69,7 @@ public class HelpActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        binding = null;
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

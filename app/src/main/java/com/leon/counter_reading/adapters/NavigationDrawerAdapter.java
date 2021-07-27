@@ -1,6 +1,5 @@
 package com.leon.counter_reading.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -44,7 +43,6 @@ public class NavigationDrawerAdapter extends
         return new DrawerItemHolder(drawerView);
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onBindViewHolder(@NonNull DrawerItemHolder holder, int position) {
         DrawerItem drawerItem = drawerItemList.get(position);

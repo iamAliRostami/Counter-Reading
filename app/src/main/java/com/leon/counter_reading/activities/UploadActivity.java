@@ -25,15 +25,14 @@ import com.leon.counter_reading.utils.MyDatabaseClient;
 import java.util.ArrayList;
 
 public class UploadActivity extends BaseActivity {
-    ActivityUploadBinding binding;
-    Activity activity;
-    int previousState, currentState;
+    private ActivityUploadBinding binding;
+    private Activity activity;
+    private int previousState, currentState;
+    private final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
 
     public ArrayList<TrackingDto> getTrackingDtos() {
         return trackingDtos;
     }
-
-    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
 
     @Override
     protected void initialize() {
@@ -51,7 +50,6 @@ public class UploadActivity extends BaseActivity {
         textViewUploadOff();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void textViewUploadOff() {
         binding.textViewUploadOff.setOnClickListener(view -> {
             setColor();
@@ -62,7 +60,6 @@ public class UploadActivity extends BaseActivity {
         });
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void textViewUploadMultimedia() {
         binding.textViewUploadMultimedia.setOnClickListener(view -> {
             setColor();
@@ -73,7 +70,6 @@ public class UploadActivity extends BaseActivity {
         });
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void textViewUploadNormal() {
         binding.textViewUpload.setOnClickListener(view -> {
             setColor();
@@ -110,10 +106,11 @@ public class UploadActivity extends BaseActivity {
 
     private void setupViewPager() {
         ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
-        adapter.addFragment(UploadFragment.newInstance(1), "بارگذاری");
-        adapter.addFragment(UploadFragment.newInstance(2), "بارگذاری مجدد");
-        adapter.addFragment(UploadFragment.newInstance(3), "بارگذاری چند رسانه");
+        adapter.addFragment(UploadFragment.newInstance(1));
+        adapter.addFragment(UploadFragment.newInstance(2));
+        adapter.addFragment(UploadFragment.newInstance(3));
         binding.viewPager.setAdapter(adapter);
+
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -143,31 +140,6 @@ public class UploadActivity extends BaseActivity {
             }
         });
         binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
-    }
-
-    @Override
-    protected void onStop() {
-        Debug.getNativeHeapAllocatedSize();
-        System.runFinalization();
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Runtime.getRuntime().gc();
-        System.gc();
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase();
-        Debug.getNativeHeapAllocatedSize();
-        System.runFinalization();
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Runtime.getRuntime().gc();
-        System.gc();
-        super.onDestroy();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -202,4 +174,30 @@ public class UploadActivity extends BaseActivity {
             return null;
         }
     }
+
+    @Override
+    protected void onStop() {
+        Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Runtime.getRuntime().gc();
+        System.gc();
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase();
+        Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Runtime.getRuntime().gc();
+        System.gc();
+        super.onDestroy();
+    }
+
 }

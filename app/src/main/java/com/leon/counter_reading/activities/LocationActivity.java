@@ -40,12 +40,12 @@ import java.util.ArrayList;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public class LocationActivity extends BaseActivity {
-    ActivityLocationBinding binding;
-    Activity activity;
-    SharedPreferenceManager sharedPreferenceManager;
-    ShowOnMap showOnMap;
-    ArrayList<Marker> markers = new ArrayList<>();
-    static ArrayList<SavedLocation.LocationOnMap> savedLocations;
+    private ActivityLocationBinding binding;
+    private Activity activity;
+    private SharedPreferenceManager sharedPreferenceManager;
+    private ShowOnMap showOnMap;
+    private ArrayList<Marker> markers = new ArrayList<>();
+    private static ArrayList<SavedLocation.LocationOnMap> savedLocations;
 
     @Override
     protected void initialize() {
@@ -193,26 +193,6 @@ public class LocationActivity extends BaseActivity {
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
         }
-//        void createPolygon(GeoPoint geoPoint) {
-//            if (polygonIndex != 0) {
-//                try {
-//                    binding.mapView.getOverlays().remove(polygonIndex);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            try {
-//                binding.mapView.getOverlays().add(line);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            polygonPoint.add(geoPoint);
-//            polygonPoint.add(polygonPoint.get(0));
-//            line.setPoints(polygonPoint);
-//            polygonPoint.remove(polygonPoint.size() - 1);
-//            polygonIndex = binding.mapView.getOverlays().size() - 1;
-//        }
-
     }
 
     @SuppressLint("StaticFieldLeak")

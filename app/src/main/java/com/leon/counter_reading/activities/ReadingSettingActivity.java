@@ -27,10 +27,10 @@ import com.leon.counter_reading.utils.MyDatabaseClient;
 import java.util.ArrayList;
 
 public class ReadingSettingActivity extends BaseActivity {
-    ActivityReadingSettingBinding binding;
-    int previousState, currentState;
-    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
-    Activity activity;
+    private ActivityReadingSettingBinding binding;
+    private int previousState, currentState;
+    private ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    private Activity activity;
 
     @Override
     protected void initialize() {
@@ -49,7 +49,6 @@ public class ReadingSettingActivity extends BaseActivity {
         textViewNavigation();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void textViewRead() {
         binding.textViewRead.setOnClickListener(view -> {
             setColor();
@@ -60,7 +59,6 @@ public class ReadingSettingActivity extends BaseActivity {
         });
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void textViewNavigation() {
         binding.textViewNavigation.setOnClickListener(view -> {
             setColor();
@@ -71,7 +69,6 @@ public class ReadingSettingActivity extends BaseActivity {
         });
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void textViewDelete() {
         binding.textViewDelete.setOnClickListener(view -> {
             setColor();
@@ -106,11 +103,9 @@ public class ReadingSettingActivity extends BaseActivity {
 
     private void setupViewPager() {
         ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
-//        adapter.addFragment(UploadFragment.newInstance(1, trackingDtos), "بارگذاری");
-        adapter.addFragment(ReadingSettingFragment.newInstance(trackingDtos), "تنظیمات قرائت");
-        adapter.addFragment(new ReadingPossibleSettingFragment(), "پیمایش پویا");
-        adapter.addFragment(ReadingSettingDeleteFragment.newInstance(trackingDtos), "حذف");
-//        adapter.addFragment(DownloadFragment.newInstance(2), "بارگذاری");
+        adapter.addFragment(ReadingSettingFragment.newInstance(trackingDtos));
+        adapter.addFragment(new ReadingPossibleSettingFragment());
+        adapter.addFragment(ReadingSettingDeleteFragment.newInstance(trackingDtos));
 
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

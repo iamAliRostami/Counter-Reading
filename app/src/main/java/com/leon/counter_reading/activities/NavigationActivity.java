@@ -22,16 +22,15 @@ import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.navigation.Navigating;
 
 public class NavigationActivity extends AppCompatActivity {
-    ActivityNavigationBinding binding;
-    Activity activity;
-    ISharedPreferenceManager sharedPreferenceManager;
-    String uuid;
-    int position;
+    private ActivityNavigationBinding binding;
+    private Activity activity;
+    private String uuid;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
+        ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
                 SharedReferenceNames.ACCOUNT.getValue());
         int theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         MyApplication.onActivitySetTheme(this, theme, true);
