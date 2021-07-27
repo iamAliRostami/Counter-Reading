@@ -52,15 +52,11 @@ public class CustomFile {
 
     public static Bitmap loadImage(Context context, String address) {
         try {
-//            File f = new File(Environment.getExternalStoragePublicDirectory(
-//                    Environment.DIRECTORY_PICTURES), context.getString(R.string.camera_folder));
-
             File f = new File(context.getExternalFilesDir(null), context.getString(R.string.camera_folder));
             f = new File(f, address);
             return BitmapFactory.decodeStream(new FileInputStream(f));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            Log.e("error", e.toString());
             return null;
         }
     }
@@ -116,8 +112,6 @@ public class CustomFile {
 
     @SuppressLint("SimpleDateFormat")
     static String saveImage(Bitmap bitmapImage, Context context) {
-//        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-//                Environment.DIRECTORY_PICTURES) + context.getString(R.string.camera_folder));
         File mediaStorageDir = new File(context.getExternalFilesDir(null) + context.getString(R.string.camera_folder));
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {

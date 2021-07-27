@@ -22,9 +22,9 @@ public class UpdateOnOffLoadByIsShown extends AsyncTask<Activity, Void, Void> {
     protected Void doInBackground(Activity... activities) {
         readingData.onOffLoadDtos.get(position).isBazdid = true;
         readingData.onOffLoadDtos.get(position).counterNumberShown = true;
-        ((ReadingActivity)(activities[0])).setupViewPagerAdapter(position);
         MyDatabase myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
         myDatabase.onOffLoadDao().updateOnOffLoad(readingData.onOffLoadDtos.get(position));
+//        ((ReadingActivity)(activities[0])).setupViewPagerAdapter(position);
         return null;
     }
 }

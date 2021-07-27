@@ -66,7 +66,7 @@ public class Search extends AsyncTask<Activity, Void, Void> {
                         break;
                 }
                 if (found)
-                    ((ReadingActivity) (activities[0])).changePage(i);
+                    ((ReadingActivity) (activities[0])).changePage(i - 1);
                 else
                     activities[0].runOnUiThread(() ->
                             new CustomToast().warning(activities[0].getString(R.string.data_not_found)));

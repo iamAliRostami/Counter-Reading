@@ -2,7 +2,6 @@ package com.leon.counter_reading.utils.photo;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -37,19 +36,17 @@ import retrofit2.Retrofit;
 public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
     CustomProgressBar customProgressBar;
     private final Image.ImageGrouped imageGrouped = new Image.ImageGrouped();
-    private final ArrayList<Bitmap> bitmaps;
     ArrayList<Image> images;
     String description;
     boolean result;
     int position;
 
-    public PrepareMultimedia(Activity activity, int position, boolean result,
-                             ArrayList<Bitmap> bitmaps, ArrayList<Image> images, String description) {
+    public PrepareMultimedia(Activity activity, int position, boolean result, String description,
+                             ArrayList<Image> images) {
         super();
         customProgressBar = new CustomProgressBar();
         customProgressBar.show(activity, false);
         this.description = description;
-        this.bitmaps = new ArrayList<>(bitmaps);
         this.position = position;
         this.result = result;
         this.images = images;
@@ -60,7 +57,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
         imageGrouped.File.clear();
         for (int i = 0; i < images.size(); i++) {
             if (images.get(i).File == null)
-                images.get(i).File = CustomFile.bitmapToFile(bitmaps.get(i), activities[0]);
+                images.get(i).File = CustomFile.bitmapToFile(images.get(i).bitmap, activities[0]);
             images.get(i).Description = description;
             if (!images.get(i).isSent) {
                 imageGrouped.File.add(images.get(i).File);
@@ -168,17 +165,19 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
 
     void saveImages(boolean isSent, Activity activity) {
         for (int i = 0; i < images.size(); i++) {
-            images.get(i).isSent = isSent;
-            if (MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                    .getImagesById(images.get(i).id).size() > 0) {
-                MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                        .updateImage(images.get(i));
-            } else {
-                String address = CustomFile.saveTempBitmap(bitmaps.get(i), activity);
-                if (!address.equals(activity.getString(R.string.error_external_storage_is_not_writable))) {
-                    images.get(i).address = address;
+            if (!images.get(i).isSent) {
+                images.get(i).isSent = isSent;
+                if (MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
+                        .getImagesById(images.get(i).id).size() > 0) {
                     MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                            .insertImage(images.get(i));
+                            .updateImage(images.get(i));
+                } else {
+                    String address = CustomFile.saveTempBitmap(images.get(i).bitmap, activity);
+                    if (!address.equals(activity.getString(R.string.error_external_storage_is_not_writable))) {
+                        images.get(i).address = address;
+                        MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
+                                .insertImage(images.get(i));
+                    }
                 }
             }
         }

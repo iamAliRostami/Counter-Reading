@@ -10,12 +10,12 @@
         android:id="@+id/image_view"
         android:background="@drawable/border_gray_5"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/_150sdp"
         android:src="@drawable/img_take_photo"
         tools:ignore="ContentDescription,NestedWeights" />
 
     <ImageView
-        android:id="@+id/image_View_delete1"
+        android:id="@+id/image_View_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
