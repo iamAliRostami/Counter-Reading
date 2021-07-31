@@ -1,10 +1,8 @@
 package com.leon.counter_reading.activities;
 
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Debug;
 
@@ -20,17 +18,14 @@ import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.CounterReportDto;
 import com.leon.counter_reading.tables.OffLoadReport;
-import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
+import com.leon.counter_reading.utils.reporting.GetReadingReportDBData;
 
 import java.util.ArrayList;
 
 public class ReadingReportActivity extends AppCompatActivity {
     private ActivityReadingReportBinding binding;
-    private ArrayList<CounterReportDto> counterReportDtos;
-    private ArrayList<OffLoadReport> offLoadReports;
     private Activity activity;
     private String uuid;
     private int position, trackNumber;
@@ -54,7 +49,7 @@ public class ReadingReportActivity extends AppCompatActivity {
             trackNumber = getIntent().getExtras().getInt(BundleEnum.TRACKING.getValue());
             position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
         }
-        new GetDBData().execute();
+        new GetReadingReportDBData(activity, trackNumber, uuid).execute(activity);
         binding.buttonSubmit.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.putExtra(BundleEnum.POSITION.getValue(), position);
@@ -64,49 +59,12 @@ public class ReadingReportActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressLint("StaticFieldLeak")
-    class GetDBData extends AsyncTask<Integer, Integer, Integer> {
-        CustomProgressBar customProgressBar;
-
-        public GetDBData() {
-            super();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            customProgressBar = new CustomProgressBar();
-            customProgressBar.show(activity, false);
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
-            customProgressBar.getDialog().dismiss();
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... integers) {
-            counterReportDtos = new ArrayList<>(MyDatabaseClient.getInstance(activity).
-                    getMyDatabase().counterReportDao().getAllCounterStateReport());
-            offLoadReports = new ArrayList<>(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    offLoadReportDao().getAllOffLoadReportById(uuid, trackNumber));
-            for (int i = 0; i < offLoadReports.size(); i++) {
-                for (int j = 0; j < counterReportDtos.size(); j++) {
-                    if (offLoadReports.get(i).reportId == counterReportDtos.get(j).id) {
-                        counterReportDtos.get(j).isSelected = true;
-                    }
-                }
-            }
-            activity.runOnUiThread(this::setupRecyclerView);
-            return null;
-        }
-
-        void setupRecyclerView() {
-            ReadingReportCustomAdapter readingReportCustomAdapter = new ReadingReportCustomAdapter(activity, uuid,
-                    trackNumber, counterReportDtos, offLoadReports);
-            binding.listViewReports.setAdapter(readingReportCustomAdapter);
-        }
+    public void setupRecyclerView(ArrayList<CounterReportDto> counterReportDtos,
+                                  ArrayList<OffLoadReport> offLoadReports) {
+        ReadingReportCustomAdapter readingReportCustomAdapter =
+                new ReadingReportCustomAdapter(activity, uuid, trackNumber,
+                        counterReportDtos, offLoadReports);
+        activity.runOnUiThread(() -> binding.listViewReports.setAdapter(readingReportCustomAdapter));
     }
 
     @Override
@@ -128,8 +86,6 @@ public class ReadingReportActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        counterReportDtos = null;
-        offLoadReports = null;
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

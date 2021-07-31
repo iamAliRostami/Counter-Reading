@@ -193,16 +193,18 @@ public class ReadingActivity extends BaseActivity {
         updateOnOffLoadByCounterNumber(position, number, counterStateCode, counterStatePosition);
     }
 
-    public void updateOnOffLoadByNavigation(int position, OnOffLoadDto onOffLoadDto) {
+    public void updateOnOffLoadByNavigation(int position, OnOffLoadDto onOffLoadDto, boolean justMobile) {
+        readingData.onOffLoadDtos.get(position).possibleMobile = onOffLoadDto.possibleMobile;
+        if (justMobile)
+            return;
         readingData.onOffLoadDtos.get(position).possibleCounterSerial = onOffLoadDto.possibleCounterSerial;
+        readingData.onOffLoadDtos.get(position).description = onOffLoadDto.description;
+
         readingData.onOffLoadDtos.get(position).possibleKarbariCode = onOffLoadDto.possibleKarbariCode;
         readingData.onOffLoadDtos.get(position).possibleAhadTejariOrFari = onOffLoadDto.possibleAhadTejariOrFari;
         readingData.onOffLoadDtos.get(position).possibleAhadMaskooniOrAsli = onOffLoadDto.possibleAhadMaskooniOrAsli;
         readingData.onOffLoadDtos.get(position).possibleAhadSaierOrAbBaha = onOffLoadDto.possibleAhadSaierOrAbBaha;
-        readingData.onOffLoadDtos.get(position).description = onOffLoadDto.description;
-
         readingData.onOffLoadDtos.get(position).possibleEmpty = onOffLoadDto.possibleEmpty;
-        readingData.onOffLoadDtos.get(position).possibleMobile = onOffLoadDto.possibleMobile;
         readingData.onOffLoadDtos.get(position).possibleAddress = onOffLoadDto.possibleAddress;
         readingData.onOffLoadDtos.get(position).possibleEshterak = onOffLoadDto.possibleEshterak;
         attemptSend(position, false, true);

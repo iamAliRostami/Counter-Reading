@@ -167,6 +167,7 @@ public class PossibleFragment extends DialogFragment {
         binding.textViewAhad1.setText(String.valueOf(onOffLoadDto.ahadMaskooniOrAsli));
         binding.textViewAhad2.setText(String.valueOf(onOffLoadDto.ahadTejariOrFari));
         binding.textViewAhadTotal.setText(String.valueOf(onOffLoadDto.ahadSaierOrAbBaha));
+
         binding.editTextAhad1.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.AHAD_1.getValue()) ? View.VISIBLE : View.GONE);
         binding.editTextAhad2.setVisibility(sharedPreferenceManager.
@@ -275,7 +276,7 @@ public class PossibleFragment extends DialogFragment {
                     MyDatabaseClient.getInstance(activity).getMyDatabase().offLoadReportDao().
                             insertOffLoadReport(offLoadReport);
                 }
-                ((ReadingActivity) activity).updateOnOffLoadByNavigation(position, onOffLoadDto);
+                ((ReadingActivity) activity).updateOnOffLoadByNavigation(position, onOffLoadDto,justMobile);
                 dismiss();
 
             }
