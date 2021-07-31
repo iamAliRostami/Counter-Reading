@@ -1,9 +1,7 @@
 package com.leon.counter_reading.activities;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Debug;
 import android.view.View;
 
@@ -20,7 +18,6 @@ import com.leon.counter_reading.fragments.ReadingPossibleSettingFragment;
 import com.leon.counter_reading.fragments.ReadingSettingDeleteFragment;
 import com.leon.counter_reading.fragments.ReadingSettingFragment;
 import com.leon.counter_reading.tables.TrackingDto;
-import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.DepthPageTransformer;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 
@@ -39,7 +36,9 @@ public class ReadingSettingActivity extends BaseActivity {
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
         activity = this;
-        new getDBData().execute();
+        trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+                trackingDao().getTrackingDtoNotArchive(false));
+        setupViewPager();
         initializeTextViews();
     }
 
@@ -78,7 +77,6 @@ public class ReadingSettingActivity extends BaseActivity {
             binding.viewPager.setCurrentItem(2);
         });
     }
-
 
     private void setColor() {
         binding.textViewRead.setBackgroundColor(Color.TRANSPARENT);
@@ -137,36 +135,6 @@ public class ReadingSettingActivity extends BaseActivity {
             }
         });
         binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    class getDBData extends AsyncTask<Integer, Integer, Integer> {
-        CustomProgressBar customProgressBar;
-
-        public getDBData() {
-            super();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            customProgressBar = new CustomProgressBar();
-            customProgressBar.show(activity, false);
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            customProgressBar.getDialog().dismiss();
-            super.onPostExecute(integer);
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... integers) {
-            trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    trackingDao().getTrackingDtoNotArchive(false));
-            runOnUiThread(ReadingSettingActivity.this::setupViewPager);
-            return null;
-        }
     }
 
     @Override

@@ -1,9 +1,6 @@
 package com.leon.counter_reading.activities;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Debug;
 import android.view.View;
 
@@ -18,17 +15,16 @@ import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityUploadBinding;
 import com.leon.counter_reading.fragments.UploadFragment;
 import com.leon.counter_reading.tables.TrackingDto;
-import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.DepthPageTransformer;
 import com.leon.counter_reading.utils.MyDatabaseClient;
+import com.leon.counter_reading.utils.uploading.GetUploadDBData;
 
 import java.util.ArrayList;
 
 public class UploadActivity extends BaseActivity {
     private ActivityUploadBinding binding;
-    private Activity activity;
     private int previousState, currentState;
-    private final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    private ArrayList<TrackingDto> trackingDtos;
 
     public ArrayList<TrackingDto> getTrackingDtos() {
         return trackingDtos;
@@ -40,8 +36,53 @@ public class UploadActivity extends BaseActivity {
         View childLayout = binding.getRoot();
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
-        activity = this;
-        new GetDBData().execute();
+        new GetUploadDBData(this).execute(this);
+    }
+
+    private void setupViewPager() {
+        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
+        adapter.addFragment(UploadFragment.newInstance(1));
+        adapter.addFragment(UploadFragment.newInstance(2));
+        adapter.addFragment(UploadFragment.newInstance(3));
+        binding.viewPager.setAdapter(adapter);
+
+        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    binding.textViewUpload.callOnClick();
+                } else if (position == 1) {
+                    binding.textViewUploadOff.callOnClick();
+                } else if (position == 2) {
+                    binding.textViewUploadMultimedia.callOnClick();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                int currentPage = binding.viewPager.getCurrentItem();
+                if (currentPage == 2 || currentPage == 0) {
+                    previousState = currentState;
+                    currentState = state;
+                    if (previousState == 1 && currentState == 0) {
+                        binding.viewPager.setCurrentItem(currentPage == 0 ? 2 : 0);
+                    }
+                }
+            }
+        });
+        binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
+    }
+
+    public void setupUI(ArrayList<TrackingDto> trackingDtos) {
+        this.trackingDtos = new ArrayList<>(trackingDtos);
+        runOnUiThread(() -> {
+            setupViewPager();
+            initializeTextViews();
+        });
     }
 
     void initializeTextViews() {
@@ -104,76 +145,6 @@ public class UploadActivity extends BaseActivity {
                 (int) getResources().getDimension(R.dimen.medium_dp));
     }
 
-    private void setupViewPager() {
-        ViewPagerAdapterTab adapter = new ViewPagerAdapterTab(getSupportFragmentManager());
-        adapter.addFragment(UploadFragment.newInstance(1));
-        adapter.addFragment(UploadFragment.newInstance(2));
-        adapter.addFragment(UploadFragment.newInstance(3));
-        binding.viewPager.setAdapter(adapter);
-
-        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 0) {
-                    binding.textViewUpload.callOnClick();
-                } else if (position == 1) {
-                    binding.textViewUploadOff.callOnClick();
-                } else if (position == 2) {
-                    binding.textViewUploadMultimedia.callOnClick();
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                int currentPage = binding.viewPager.getCurrentItem();
-                if (currentPage == 2 || currentPage == 0) {
-                    previousState = currentState;
-                    currentState = state;
-                    if (previousState == 1 && currentState == 0) {
-                        binding.viewPager.setCurrentItem(currentPage == 0 ? 2 : 0);
-                    }
-                }
-            }
-        });
-        binding.viewPager.setPageTransformer(true, new DepthPageTransformer());
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    class GetDBData extends AsyncTask<Integer, Integer, Integer> {
-        CustomProgressBar customProgressBar;
-
-        public GetDBData() {
-            super();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            customProgressBar = new CustomProgressBar();
-            customProgressBar.show(activity, false);
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            customProgressBar.getDialog().dismiss();
-            super.onPostExecute(integer);
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... integers) {
-            trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
-                    trackingDao().getTrackingDtoNotArchive(false));
-            runOnUiThread(() -> {
-                setupViewPager();
-                initializeTextViews();
-            });
-            return null;
-        }
-    }
 
     @Override
     protected void onStop() {

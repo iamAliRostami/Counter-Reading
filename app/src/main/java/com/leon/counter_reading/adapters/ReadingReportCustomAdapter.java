@@ -26,9 +26,9 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
     private final ArrayList<CounterReportDto> counterReportDtos;
     private final ArrayList<OffLoadReport> offLoadReports;
     private final String uuid;
-    private final int tracking;
     private final LayoutInflater inflater;
     private final Context context;
+    private final int tracking;
 
     public ReadingReportCustomAdapter(Context context, String uuid, int tracking,
                                       ArrayList<CounterReportDto> counterReportDtos,
@@ -76,19 +76,17 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
                 MyDatabaseClient.getInstance(context).getMyDatabase().offLoadReportDao().
                         insertOffLoadReport(offLoadReport);
                 offLoadReports.add(offLoadReport);
+                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
                 if (counterReportDtos.get(position).isAhad) {
                     AhadFragment ahadFragment = AhadFragment.newInstance(uuid, position);
-                    FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
                     ahadFragment.show(fragmentManager, context.getString(R.string.number).concat(DifferentCompanyManager.getAhad(DifferentCompanyManager.getActiveCompanyName())));
                 }
                 if (counterReportDtos.get(position).isTavizi) {
                     TaviziFragment taviziFragment = TaviziFragment.newInstance(uuid, position);
-                    FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
                     taviziFragment.show(fragmentManager, context.getString(R.string.counter_serial));
                 }
                 if (counterReportDtos.get(position).isKarbari) {
                     KarbariFragment karbariFragment = KarbariFragment.newInstance(uuid, position);
-                    FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
                     karbariFragment.show(fragmentManager, context.getString(R.string.karbari));
                 }
             } else {
