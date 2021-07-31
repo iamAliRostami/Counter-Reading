@@ -162,7 +162,6 @@ public class ReadingSettingActivity extends BaseActivity {
 
         @Override
         protected Integer doInBackground(Integer... integers) {
-            //TODO
             trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                     trackingDao().getTrackingDtoNotArchive(false));
             runOnUiThread(ReadingSettingActivity.this::setupViewPager);

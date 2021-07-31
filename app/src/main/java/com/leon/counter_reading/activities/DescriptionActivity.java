@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.Handler;
@@ -24,23 +23,13 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivityDescriptionBinding;
 import com.leon.counter_reading.enums.BundleEnum;
-import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
-import com.leon.counter_reading.infrastructure.IAbfaService;
-import com.leon.counter_reading.infrastructure.ICallback;
-import com.leon.counter_reading.infrastructure.ICallbackError;
-import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
-import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.tables.Voice;
-import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
-import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.HttpClientWrapper;
 import com.leon.counter_reading.utils.MyDatabaseClient;
-import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
@@ -48,17 +37,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
 public class DescriptionActivity extends AppCompatActivity {
     private ActivityDescriptionBinding binding;
     private Activity activity;
-    private ISharedPreferenceManager sharedPreferenceManager;
-    private Voice.VoiceGrouped voiceGrouped;
     private Voice voice;
     private MediaPlayer mediaPlayer;
     private MediaRecorder mediaRecorder;
@@ -69,7 +50,7 @@ public class DescriptionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
+        ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
                 SharedReferenceNames.ACCOUNT.getValue());
         MyApplication.onActivitySetTheme(this,
                 sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue()),
@@ -88,7 +69,6 @@ public class DescriptionActivity extends AppCompatActivity {
             position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
             trackNumber = getIntent().getExtras().getInt(BundleEnum.TRACKING.getValue());
         }
-        voiceGrouped = new Voice.VoiceGrouped();
         binding.imageViewRecord.setImageDrawable(AppCompatResources.
                 getDrawable(activity, R.drawable.img_record));
         checkMultimediaAndToggle();
@@ -277,7 +257,11 @@ public class DescriptionActivity extends AppCompatActivity {
             voice.trackNumber = trackNumber;
             String message = binding.editTextMessage.getText().toString();
             if (voice.address != null && voice.address.length() > 0)
-                new prepareMultiMedia().execute();
+                new com.leon.counter_reading.utils.voice.PrepareMultimedia(activity, voice,
+                        binding.editTextMessage.getText().toString().isEmpty() ?
+                                getString(R.string.description) :
+                                binding.editTextMessage.getText().toString()
+                        , uuid, position).execute(activity);
             else if (message.length() > 0) {
                 finishDescription(message);
             } else {
@@ -286,21 +270,9 @@ public class DescriptionActivity extends AppCompatActivity {
         });
     }
 
-    void saveVoice(boolean isSent) {
-        voice.isSent = isSent;
-        if (MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                .getImagesById(voice.id).size() > 0) {
-            MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().updateVoice(voice);
-        } else {
-            MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().insertVoice(voice);
-        }
-//        MyDatabaseClient.getInstance(activity).destroyDatabase();
-    }
-
     void finishDescription(String message) {
         MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
                 updateOnOffLoadDescription(uuid, message);
-//        MyDatabaseClient.getInstance(activity).destroyDatabase();
         Intent intent = new Intent();
         intent.putExtra(BundleEnum.POSITION.getValue(), position);
         intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);
@@ -335,90 +307,6 @@ public class DescriptionActivity extends AppCompatActivity {
                 ).check();
     }
 
-    @SuppressLint("StaticFieldLeak")
-    class prepareMultiMedia extends AsyncTask<Integer, Integer, Integer> {
-        CustomProgressBar customProgressBar;
-
-        public prepareMultiMedia() {
-            super();
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... integers) {
-            voiceGrouped.File.clear();
-            voice.File = CustomFile.prepareVoiceToSend(voice.address);
-            voiceGrouped.File.add(voice.File);
-            if (binding.editTextMessage.getText().toString().isEmpty())
-                voice.Description = getString(R.string.description);
-            else voice.Description = binding.editTextMessage.getText().toString();
-
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            customProgressBar = new CustomProgressBar();
-            customProgressBar.show(activity, false);
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
-            customProgressBar.getDialog().dismiss();
-            uploadVoice();
-        }
-
-        void uploadVoice() {
-            voiceGrouped.OnOffLoadId = RequestBody.create(
-                    voice.OnOffLoadId, MediaType.parse("text/plain"));
-            voiceGrouped.Description = RequestBody.create(
-                    voice.Description, MediaType.parse("text/plain"));
-            Retrofit retrofit = NetworkHelper.getInstance(
-                    sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
-            IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-            Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(
-                    voiceGrouped.File, voiceGrouped.OnOffLoadId, voiceGrouped.Description);
-            HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                    new upload(), new uploadIncomplete(), new uploadError());
-        }
-    }
-
-    class upload implements ICallback<Image.ImageUploadResponse> {
-        @Override
-        public void execute(Response<Image.ImageUploadResponse> response) {
-            if (response.body() != null && response.body().status == 200) {
-                new CustomToast().success(response.body().message, Toast.LENGTH_LONG);
-            } else {
-                new CustomToast().warning(activity.getString(R.string.error_upload), Toast.LENGTH_LONG);
-            }
-            saveVoice(response.body() != null && response.body().status == 200);
-            finishDescription(voice.Description);
-        }
-    }
-
-    class uploadIncomplete implements ICallbackIncomplete<Image.ImageUploadResponse> {
-
-        @Override
-        public void executeIncomplete(Response<Image.ImageUploadResponse> response) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-            String error = customErrorHandlingNew.getErrorMessageDefault(response);
-            new CustomToast().warning(error, Toast.LENGTH_LONG);
-            saveVoice(false);
-            finishDescription(voice.Description);
-        }
-    }
-
-    class uploadError implements ICallbackError {
-        @Override
-        public void executeError(Throwable t) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-            String error = customErrorHandlingNew.getErrorMessageTotal(t);
-            new CustomToast().error(error, Toast.LENGTH_LONG);
-            saveVoice(false);
-            finishDescription(voice.Description);
-        }
-    }
 
     @Override
     public void onBackPressed() {

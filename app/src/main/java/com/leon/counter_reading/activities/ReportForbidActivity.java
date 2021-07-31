@@ -64,11 +64,11 @@ import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public class ReportForbidActivity extends AppCompatActivity {
-    ActivityReportForbidBinding binding;
-    ISharedPreferenceManager sharedPreferenceManager;
-    Activity activity;
-    int zoneId;
-    ForbiddenDto forbiddenDto = new ForbiddenDto();
+    private ActivityReportForbidBinding binding;
+    private ISharedPreferenceManager sharedPreferenceManager;
+    private Activity activity;
+    private ForbiddenDto forbiddenDto = new ForbiddenDto();
+    private int zoneId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -319,7 +319,7 @@ public class ReportForbidActivity extends AppCompatActivity {
         }
         locationTracker.stopListener();
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                new Forbidden(), new ForbiddenIncomplete(), new Error());
+                new Forbidden(), new ForbiddenIncomplete(), new ForbiddenError());
     }
 
     void setOnImageViewTakenClickListener() {
@@ -333,7 +333,6 @@ public class ReportForbidActivity extends AppCompatActivity {
 
     void setOnButtonPhotoClickListener() {
         binding.buttonPhoto.setOnClickListener(v -> {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(ReportForbidActivity.this);
             AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(ReportForbidActivity.this, R.style.AlertDialogCustom));
             builder.setTitle(R.string.choose_document);
             builder.setMessage(R.string.select_source);
@@ -390,7 +389,7 @@ public class ReportForbidActivity extends AppCompatActivity {
         }
     }
 
-    class Error implements ICallbackError {
+    class ForbiddenError implements ICallbackError {
         @Override
         public void executeError(Throwable t) {
             MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
