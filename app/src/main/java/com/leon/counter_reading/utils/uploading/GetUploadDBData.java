@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 public class GetUploadDBData extends AsyncTask<Activity, Integer, Integer> {
     CustomProgressBar customProgressBar;
-    private ArrayList<TrackingDto> trackingDtos;
 
     public GetUploadDBData(Activity activity) {
         super();
@@ -34,7 +33,7 @@ public class GetUploadDBData extends AsyncTask<Activity, Integer, Integer> {
 
     @Override
     protected Integer doInBackground(Activity... activities) {
-        trackingDtos = new ArrayList<>(MyDatabaseClient.getInstance(activities[0]).getMyDatabase().
+        ArrayList<TrackingDto> trackingDtos = new ArrayList<>(MyDatabaseClient.getInstance(activities[0]).getMyDatabase().
                 trackingDao().getTrackingDtoNotArchive(false));
         ((UploadActivity) (activities[0])).setupUI(trackingDtos);
         return null;

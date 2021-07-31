@@ -30,25 +30,18 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivityReportForbidBinding;
 import com.leon.counter_reading.enums.BundleEnum;
-import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.fragments.HighQualityFragment;
-import com.leon.counter_reading.infrastructure.IAbfaService;
-import com.leon.counter_reading.infrastructure.ICallback;
-import com.leon.counter_reading.infrastructure.ICallbackError;
-import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.HttpClientWrapper;
 import com.leon.counter_reading.utils.LocationTracker;
-import com.leon.counter_reading.utils.MyDatabaseClient;
-import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
+import com.leon.counter_reading.utils.forbid.PrepareForbid;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,16 +49,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
 import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public class ReportForbidActivity extends AppCompatActivity {
     private ActivityReportForbidBinding binding;
-    private ISharedPreferenceManager sharedPreferenceManager;
     private Activity activity;
     private ForbiddenDto forbiddenDto = new ForbiddenDto();
     private int zoneId;
@@ -73,7 +61,7 @@ public class ReportForbidActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
+        ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
                 SharedReferenceNames.ACCOUNT.getValue());
         int theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         MyApplication.onActivitySetTheme(this, theme, true);
@@ -270,56 +258,7 @@ public class ReportForbidActivity extends AppCompatActivity {
                 binding.editTextPreAccount.getText().toString(),
                 binding.editTextNextAccount.getText().toString(),
                 binding.editTextAhadNumber.getText().toString(), zoneId);
-
-        Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
-        IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        Call<ForbiddenDto.ForbiddenDtoResponses> call;
-        if (zoneId != 0 && forbiddenDto.File.size() > 0) {
-            call = iAbfaService.singleForbidden(forbiddenDto.File,
-                    forbiddenDto.forbiddenDtoRequest.zoneId,
-                    forbiddenDto.forbiddenDtoRequest.description,
-                    forbiddenDto.forbiddenDtoRequest.preEshterak,
-                    forbiddenDto.forbiddenDtoRequest.nextEshterak,
-                    forbiddenDto.forbiddenDtoRequest.postalCode,
-                    forbiddenDto.forbiddenDtoRequest.tedadVahed,
-                    forbiddenDto.forbiddenDtoRequest.x,
-                    forbiddenDto.forbiddenDtoRequest.y,
-                    forbiddenDto.forbiddenDtoRequest.gisAccuracy);
-        } else if (zoneId == 0 && forbiddenDto.File.size() > 0) {
-            call = iAbfaService.singleForbidden(forbiddenDto.File,
-                    forbiddenDto.forbiddenDtoRequest.description,
-                    forbiddenDto.forbiddenDtoRequest.preEshterak,
-                    forbiddenDto.forbiddenDtoRequest.nextEshterak,
-                    forbiddenDto.forbiddenDtoRequest.postalCode,
-                    forbiddenDto.forbiddenDtoRequest.tedadVahed,
-                    forbiddenDto.forbiddenDtoRequest.x,
-                    forbiddenDto.forbiddenDtoRequest.y,
-                    forbiddenDto.forbiddenDtoRequest.gisAccuracy);
-        } else if (zoneId != 0) {
-            call = iAbfaService.singleForbidden(
-                    forbiddenDto.forbiddenDtoRequest.zoneId,
-                    forbiddenDto.forbiddenDtoRequest.description,
-                    forbiddenDto.forbiddenDtoRequest.preEshterak,
-                    forbiddenDto.forbiddenDtoRequest.nextEshterak,
-                    forbiddenDto.forbiddenDtoRequest.postalCode,
-                    forbiddenDto.forbiddenDtoRequest.tedadVahed,
-                    forbiddenDto.forbiddenDtoRequest.x,
-                    forbiddenDto.forbiddenDtoRequest.y,
-                    forbiddenDto.forbiddenDtoRequest.gisAccuracy);
-        } else {
-            call = iAbfaService.singleForbidden(
-                    forbiddenDto.forbiddenDtoRequest.description,
-                    forbiddenDto.forbiddenDtoRequest.preEshterak,
-                    forbiddenDto.forbiddenDtoRequest.nextEshterak,
-                    forbiddenDto.forbiddenDtoRequest.postalCode,
-                    forbiddenDto.forbiddenDtoRequest.tedadVahed,
-                    forbiddenDto.forbiddenDtoRequest.x,
-                    forbiddenDto.forbiddenDtoRequest.y,
-                    forbiddenDto.forbiddenDtoRequest.gisAccuracy);
-        }
-        locationTracker.stopListener();
-        HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                new Forbidden(), new ForbiddenIncomplete(), new ForbiddenError());
+        new PrepareForbid(activity, forbiddenDto, zoneId).execute(activity);
     }
 
     void setOnImageViewTakenClickListener() {
@@ -363,39 +302,6 @@ public class ReportForbidActivity extends AppCompatActivity {
             builder.setNeutralButton("", (dialog, which) -> dialog.dismiss());
             builder.create().show();
         });
-    }
-
-    class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
-        @Override
-        public void execute(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
-            if (!response.isSuccessful())
-                MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
-                        insertForbiddenDto(forbiddenDto);
-            else {
-                if (response.body() != null) {
-                    new CustomToast().success(response.body().message);
-                }
-            }
-            finish();
-        }
-    }
-
-    class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDto.ForbiddenDtoResponses> {
-        @Override
-        public void executeIncomplete(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
-            MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
-                    insertForbiddenDto(forbiddenDto);
-            finish();
-        }
-    }
-
-    class ForbiddenError implements ICallbackError {
-        @Override
-        public void executeError(Throwable t) {
-            MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
-                    insertForbiddenDto(forbiddenDto);
-            finish();
-        }
     }
 
     @Override
