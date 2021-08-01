@@ -118,7 +118,6 @@ public class UploadFragment extends Fragment {
             return false;
         } else if (imagesCount > 0 || voicesCount > 0) {
             String message = String.format(getString(R.string.unuploaded_multimedia), imagesCount, voicesCount);
-//            new CustomToast().info(message, Toast.LENGTH_LONG);
             //TODO
             new CustomDialog(DialogType.YellowRedirect, activity, message,
                     getString(R.string.dear_user),
@@ -165,6 +164,4 @@ public class UploadFragment extends Fragment {
         trackingDtos = null;
         items = null;
     }
-
-
 }
