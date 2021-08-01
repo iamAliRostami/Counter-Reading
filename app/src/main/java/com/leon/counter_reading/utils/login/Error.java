@@ -19,7 +19,7 @@ class Error implements ICallbackError {
     public void executeError(Throwable t) {
         CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
         String error = customErrorHandlingNew.getErrorMessageTotal(t);
-        new CustomDialog(DialogType.YellowRedirect, activity, error,
+        new CustomDialog(DialogType.Yellow, activity, error,
                 activity.getString(R.string.dear_user),
                 activity.getString(R.string.login),
                 activity.getString(R.string.accepted));
