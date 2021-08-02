@@ -60,16 +60,11 @@ android {
         dexInProcess = true
     }
 }
-
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'androidx.annotation:annotation:1.2.0'
-//    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
-//    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-//    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     //TODO 1.2.0
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
@@ -81,7 +76,6 @@ dependencies {
 
     implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
     implementation 'com.github.GrenderG:Toasty:1.5.0'
-//    implementation 'com.github.ali-sardari:PersianRangeDatePicker:1.2.1'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.github.blackfizz:eazegraph:1.2.3@aar'
     implementation 'com.nineoldandroids:library:2.4.0'
@@ -94,38 +88,19 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
     implementation "com.squareup.retrofit2:converter-scalars:2.6.2"
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-//    implementation 'io.reactivex.rxjava2:rxjava:2.2.1'
-//    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'com.google.code.gson:gson:2.8.6'
 
     implementation 'org.osmdroid:osmdroid-android:6.1.10@aar'
-//    implementation 'com.github.MKergall:osmbonuspack:6.3'
-//    implementation 'com.cocoahero.android:geojson:1.0.1@jar'
 
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
     androidTestImplementation 'android.arch.persistence.room:testing:1.1.1'
 
-//    api 'io.jsonwebtoken:jjwt-api:0.11.2'
-//    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
-//    runtimeOnly('io.jsonwebtoken:jjwt-orgjson:0.11.2') {
-//        exclude group: 'org.json', module: 'json'
-//    }
     implementation 'com.auth0.android:jwtdecode:2.0.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
-
-//    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
-//    //noinspection GradleDependency
-//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
-//    //noinspection GradleDependency
-//    releaseImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
 
     implementation platform('com.google.firebase:firebase-bom:28.1.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-perf'
-//    implementation 'com.google.firebase:firebase-analytics:19.0.0'
-//    implementation 'com.google.firebase:firebase-crashlytics:18.0.1'
-//    implementation 'com.google.firebase:firebase-perf:20.0.1'
-
 }

@@ -56,7 +56,7 @@ public class Download extends AsyncTask<Activity, Void, Void> {
         Retrofit retrofit = NetworkHelper.getInstance(
                 sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        Call<ReadingData> call = iAbfaService.loadData(BuildConfig.VERSION_CODE);
+        Call<ReadingData> call = iAbfaService.loadData(BuildConfig.VERSION_CODE-1);
         activities[0].runOnUiThread(() ->
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activities[0],
                         new DownloadCompleted(activities[0]), new DownloadIncomplete(), new DownloadError()));
