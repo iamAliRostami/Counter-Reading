@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Debug;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.View;
 
@@ -47,6 +48,10 @@ public class NavigationActivity extends AppCompatActivity {
         }
         binding.textViewEmpty.setText(DifferentCompanyManager.getAhad(
                 DifferentCompanyManager.getActiveCompanyName()).concat(getString(R.string.empty)));
+        binding.editTextAccount.setFilters(
+                new InputFilter[]{
+                        new InputFilter.LengthFilter(DifferentCompanyManager.
+                                getEshterakMaxLength(DifferentCompanyManager.getActiveCompanyName()))});
         initializeImageViews();
         setOnButtonNavigationClickListener();
         setOnEditTextChangeListener();
@@ -57,7 +62,8 @@ public class NavigationActivity extends AppCompatActivity {
             View view = null;
             boolean cancel = false;
             if (binding.editTextAccount.getText().toString().length() > 0 &&
-                    binding.editTextAccount.getText().toString().length() < 7) {
+                    binding.editTextAccount.getText().toString().length() < DifferentCompanyManager.
+                            getEshterakMinLength(DifferentCompanyManager.getActiveCompanyName())) {
                 binding.editTextAccount.setError(getString(R.string.error_format));
                 view = binding.editTextAccount;
                 cancel = true;
@@ -107,7 +113,8 @@ public class NavigationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().length() == 15) {
+                if (s.toString().length() == DifferentCompanyManager.
+                        getEshterakMaxLength(DifferentCompanyManager.getActiveCompanyName())) {
                     View view = binding.editTextPhone;
                     view.requestFocus();
                 }

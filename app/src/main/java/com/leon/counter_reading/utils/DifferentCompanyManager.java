@@ -7,6 +7,162 @@ public class DifferentCompanyManager {
     private DifferentCompanyManager() {
     }
 
+    public static CompanyNames getActiveCompanyName() {
+        return CompanyNames.ESF;
+    }
+
+    public static String getBaseUrl(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return "https://37.191.92.157/";
+            case ZONE1:
+                return "http://217.146.220.33:50011/";
+            case ZONE2:
+                return "http://212.16.75.194:8080/";
+            case ZONE3:
+                return "http://212.16.69.36:90/";
+            case ZONE4:
+                return "http://91.98.248.36:8081/";
+            case ZONE5:
+                return "http://80.69.252.151/";
+            case ZONE6:
+                return "http://85.133.190.220:4121/";
+            case TSW:
+                return "http://81.90.148.25/";
+            case TE:
+                return "http://185.120.137.254";
+            case TSE:
+                return "http://5.160.85.228:9098/";
+            case TOWNS_WEST:
+                return "http://217.66.195.75/";
+            case DEBUG:
+                return "http://192.168.43.185:45458/";
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
+    public static String getLocalBaseUrl(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return "http://172.18.12.14:100";
+            case ESF_MAP:
+                return "http://172.18.12.242/osm_tiles/";
+            case ZONE1:
+                return "http://172.21.0.16/";
+            case ZONE2:
+                return "http://172.22.4.71/";
+            case ZONE3:
+                return "http://172.23.0.113/";
+            case ZONE4:
+                return "http://172.24.13.23/";
+            case ZONE5:
+                return "http://172.25.0.72/";
+            case ZONE6:
+                return "http://172.26.0.32/";
+            case TSW:
+                return "http://172.30.1.22/";
+            case TE:
+                return "http://172.31.0.25/";
+            case TSE:
+                return "http://172.28.5.40/";
+            case TOWNS_WEST:
+                return "http://172.28.5.41/";
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
+    public static String getSiteAddress(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return "abfaEsfahan.ir";
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
+    public static String getAhad(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return "واحد";
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
+    public static String getAhad1(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return "واحد مسکونی";
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
+    public static String getAhad2(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return "واحد تجاری";
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
+    public static String getAhadTotal(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return "واحد کل";
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
+    public static int getImageNumber(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return 4;
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
+    public static int getShowError(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return 3;
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
+    public static int getLockNumber(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return 6;
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
+    public static int getEshterakMinLength(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return 5;
+            default:
+                return 10;
+        }
+    }
+
+    public static int getEshterakMaxLength(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return 15;
+            default:
+                return 10;
+        }
+    }
+
     public static CompanyNames getCompanyNameEnum(int companyCode) {
         switch (companyCode) {
             case 1:
@@ -66,10 +222,6 @@ public class DifferentCompanyManager {
         }
     }
 
-    public static int getAccountMinLength() {
-        return getActiveCompanyName() == CompanyNames.ESF ? 8 : 10;
-    }
-
     public static String getMapUrl(CompanyNames companyNames) {
         switch (companyNames) {
             case ZONE1:
@@ -96,69 +248,6 @@ public class DifferentCompanyManager {
                 return "http://37.191.92.130/";
             case DEBUG:
                 return "http://192.168.43.185:45458/";
-            default:
-                throw new UnsupportedOperationException();
-        }
-    }
-
-    public static String getBaseUrl(CompanyNames companyNames) {
-        switch (companyNames) {
-            case ZONE1:
-                return "http://217.146.220.33:50011/";
-            case ZONE2:
-                return "http://212.16.75.194:8080/";
-            case ZONE3:
-                return "http://212.16.69.36:90/";
-            case ZONE4:
-                return "http://91.98.248.36:8081/";
-            case ZONE5:
-                return "http://80.69.252.151/";
-            case ZONE6:
-                return "http://85.133.190.220:4121/";
-            case TSW:
-                return "http://81.90.148.25/";
-            case TE:
-                return "http://185.120.137.254";
-            case TSE:
-                return "http://5.160.85.228:9098/";
-            case TOWNS_WEST:
-                return "http://217.66.195.75/";
-            case ESF:
-//                return "http://37.191.92.130/";
-                return "https://37.191.92.157/";
-            case DEBUG:
-                return "http://192.168.43.185:45458/";
-            default:
-                throw new UnsupportedOperationException();
-        }
-    }
-
-    public static String getLocalBaseUrl(CompanyNames companyNames) {
-        switch (companyNames) {
-            case ZONE1:
-                return "http://172.21.0.16/";
-            case ZONE2:
-                return "http://172.22.4.71/";
-            case ZONE3:
-                return "http://172.23.0.113/";
-            case ZONE4:
-                return "http://172.24.13.23/";
-            case ZONE5:
-                return "http://172.25.0.72/";
-            case ZONE6:
-                return "http://172.26.0.32/";
-            case TSW:
-                return "http://172.30.1.22/";
-            case TE:
-                return "http://172.31.0.25/";
-            case TSE:
-                return "http://172.28.5.40/";
-            case TOWNS_WEST:
-                return "http://172.28.5.41/";
-            case ESF:
-                return "http://172.18.12.14:100";
-            case ESF_MAP:
-                return "http://172.18.12.242/osm_tiles/";
             default:
                 throw new UnsupportedOperationException();
         }
@@ -222,10 +311,6 @@ public class DifferentCompanyManager {
         }
     }
 
-    public static CompanyNames getActiveCompanyName() {
-        return CompanyNames.ESF;
-    }
-
     public static String getPrefixName(CompanyNames companyNames) {
         switch (companyNames) {
             case ZONE1:
@@ -250,75 +335,6 @@ public class DifferentCompanyManager {
                 return "@ttw.ir";
             case ESF:
                 return "@esf.ir";
-            default:
-                throw new UnsupportedOperationException();
-        }
-    }
-
-    public static String getSiteAddress(CompanyNames companyNames) {
-        switch (companyNames) {
-            case ESF:
-                return "abfaEsfahan.ir";
-            default:
-                throw new UnsupportedOperationException();
-        }
-    }
-
-    public static String getAhad(CompanyNames companyNames) {
-        switch (companyNames) {
-            case ESF:
-                return "واحد";
-            default:
-                throw new UnsupportedOperationException();
-        }
-    }
-
-    public static String getAhad1(CompanyNames companyNames) {
-        switch (companyNames) {
-            case ESF:
-                return "واحد مسکونی";
-            default:
-                throw new UnsupportedOperationException();
-        }
-    }
-
-    public static String getAhad2(CompanyNames companyNames) {
-        switch (companyNames) {
-            case ESF:
-                return "واحد تجاری";
-            default:
-                throw new UnsupportedOperationException();
-        }
-    }
-
-    public static String getAhadTotal(CompanyNames companyNames) {
-        switch (companyNames) {
-            case ESF:
-                return "واحد کل";
-            default:
-                throw new UnsupportedOperationException();
-        }
-    }
-    public static int getImageNumber(CompanyNames companyNames) {
-        switch (companyNames) {
-            case ESF:
-                return 4;
-            default:
-                throw new UnsupportedOperationException();
-        }
-    }
-    public static int getShowError(CompanyNames companyNames) {
-        switch (companyNames) {
-            case ESF:
-                return 3;
-            default:
-                throw new UnsupportedOperationException();
-        }
-    }
-    public static int getLockNumber(CompanyNames companyNames) {
-        switch (companyNames) {
-            case ESF:
-                return 6;
             default:
                 throw new UnsupportedOperationException();
         }

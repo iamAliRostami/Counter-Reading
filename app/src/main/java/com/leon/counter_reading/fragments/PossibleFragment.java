@@ -2,6 +2,7 @@ package com.leon.counter_reading.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,6 +128,11 @@ public class PossibleFragment extends DialogFragment {
     void initializeTextViews() {
         //TODO
 
+        binding.editTextAccount.setFilters(
+                new InputFilter[]{
+                        new InputFilter.LengthFilter(DifferentCompanyManager.
+                                getEshterakMaxLength(DifferentCompanyManager.getActiveCompanyName()))});
+
         binding.textViewAhad1Title.setText(DifferentCompanyManager.getAhad1(DifferentCompanyManager.getActiveCompanyName()).concat(":"));
         binding.textViewAhad2Title.setText(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()).replaceFirst("آحاد ", "").concat(":"));
         binding.textViewAhadTotalTitle.setText(DifferentCompanyManager.getAhadTotal(DifferentCompanyManager.getActiveCompanyName()).replaceFirst("آحاد ", "").concat(":"));
@@ -240,7 +246,8 @@ public class PossibleFragment extends DialogFragment {
                     onOffLoadDto.possibleCounterSerial = binding.editTextSerial.getText().toString();
             }
             if (binding.editTextAccount.getText().length() > 0) {
-                if (binding.editTextAccount.getText().toString().length() < 7) {
+                if (binding.editTextAccount.getText().toString().length() < DifferentCompanyManager.
+                        getEshterakMinLength(DifferentCompanyManager.getActiveCompanyName())) {
                     binding.editTextAccount.setError(getString(R.string.error_format));
                     view = binding.editTextAccount;
                     cancel = true;

@@ -43,7 +43,6 @@
                 android:gravity="center"
                 android:inputType="number"
                 android:lines="1"
-                android:maxLength="15"
                 android:padding="@dimen/low_dp"
                 tools:ignore="Autofill,LabelFor" />
         </LinearLayout>
@@ -80,7 +79,6 @@
                 android:gravity="center"
                 android:inputType="number"
                 android:lines="1"
-                android:maxLength="15"
                 android:padding="@dimen/low_dp"
                 tools:ignore="Autofill,LabelFor" />
         </LinearLayout>

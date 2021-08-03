@@ -114,7 +114,6 @@
                     android:gravity="center"
                     android:hint="@string/account"
                     android:inputType="number"
-                    android:maxLength="15"
                     android:maxLines="1"
                     android:padding="@dimen/medium_dp"
                     android:textSize="@dimen/text_size_large"

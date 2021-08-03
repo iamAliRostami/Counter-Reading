@@ -1,5 +1,8 @@
 package com.leon.counter_reading.activities;
 
+import static com.leon.counter_reading.utils.CustomFile.createImageFile;
+import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -15,6 +18,7 @@ import android.os.Debug;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.View;
 
@@ -48,9 +52,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
-
-import static com.leon.counter_reading.utils.CustomFile.createImageFile;
-import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public class ReportForbidActivity extends AppCompatActivity {
     private ActivityReportForbidBinding binding;
@@ -140,6 +141,15 @@ public class ReportForbidActivity extends AppCompatActivity {
             zoneId = getIntent().getExtras().getInt(BundleEnum.ZONE_ID.getValue());
         binding.textViewHome.setText(getString(R.string.number).concat(DifferentCompanyManager.getAhad(DifferentCompanyManager.getActiveCompanyName())));
 
+        binding.editTextNextAccount.setFilters(
+                new InputFilter[]{
+                        new InputFilter.LengthFilter(DifferentCompanyManager.
+                                getEshterakMaxLength(DifferentCompanyManager.getActiveCompanyName()))});
+        binding.editTextPreAccount.setFilters(
+                new InputFilter[]{
+                        new InputFilter.LengthFilter(DifferentCompanyManager.
+                        getEshterakMaxLength(DifferentCompanyManager.getActiveCompanyName()))});
+
         forbiddenDto.File = new ArrayList<>();
         forbiddenDto.bitmaps = new ArrayList<>();
         setOnButtonPhotoClickListener();
@@ -163,7 +173,8 @@ public class ReportForbidActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().length() == 15) {
+                if (s.toString().length() == DifferentCompanyManager.
+                        getEshterakMaxLength(DifferentCompanyManager.getActiveCompanyName())) {
                     View view = binding.editTextNextAccount;
                     view.requestFocus();
                 }
@@ -180,7 +191,8 @@ public class ReportForbidActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().length() == 15) {
+                if (s.toString().length() == DifferentCompanyManager.
+                        getEshterakMaxLength(DifferentCompanyManager.getActiveCompanyName())) {
                     View view = binding.editTextPostalCode;
                     view.requestFocus();
                 }
@@ -222,11 +234,13 @@ public class ReportForbidActivity extends AppCompatActivity {
         binding.buttonSubmit.setOnClickListener(v -> {
             View view = null;
             boolean cancel = false;
-            if (binding.editTextPreAccount.getText().length() < 5) {
+            if (binding.editTextPreAccount.getText().length() < DifferentCompanyManager.
+                    getEshterakMinLength(DifferentCompanyManager.getActiveCompanyName())) {
                 binding.editTextPreAccount.setError(getString(R.string.error_format));
                 view = binding.editTextPreAccount;
                 cancel = true;
-            } else if (binding.editTextNextAccount.getText().length() < 5) {
+            } else if (binding.editTextNextAccount.getText().length() < DifferentCompanyManager.
+                    getEshterakMinLength(DifferentCompanyManager.getActiveCompanyName())) {
                 binding.editTextNextAccount.setError(getString(R.string.error_format));
                 view = binding.editTextNextAccount;
                 cancel = true;
