@@ -27,7 +27,7 @@ public class SerialFragment extends DialogFragment {
     FragmentSerialBinding binding;
 
     public SerialFragment() {
-    }
+    }/
 
     public static SerialFragment newInstance(int position, int counterStateCode, int counterStatePosition) {
         SerialFragment fragment = new SerialFragment();
