@@ -1,8 +1,6 @@
 package com.leon.counter_reading.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,43 +8,12 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentDownloadBinding;
 import com.leon.counter_reading.enums.BundleEnum;
-import com.leon.counter_reading.enums.DialogType;
-import com.leon.counter_reading.enums.ProgressType;
-import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
-import com.leon.counter_reading.infrastructure.IAbfaService;
-import com.leon.counter_reading.infrastructure.ICallback;
-import com.leon.counter_reading.infrastructure.ICallbackError;
-import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
-import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
-import com.leon.counter_reading.tables.CounterStateDto;
-import com.leon.counter_reading.tables.KarbariDto;
-import com.leon.counter_reading.tables.OnOffLoadDto;
-import com.leon.counter_reading.tables.QotrDictionary;
-import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
-import com.leon.counter_reading.tables.ReadingData;
-import com.leon.counter_reading.tables.TrackingDto;
-import com.leon.counter_reading.utils.CustomDialog;
-import com.leon.counter_reading.utils.CustomErrorHandling;
-import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.HttpClientWrapper;
-import com.leon.counter_reading.utils.MyDatabase;
-import com.leon.counter_reading.utils.MyDatabaseClient;
-import com.leon.counter_reading.utils.NetworkHelper;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.downloading.Download;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class DownloadFragment extends Fragment {
     final int[] imageSrc = {R.drawable.img_download, R.drawable.img_download_retry,

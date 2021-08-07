@@ -1,6 +1,7 @@
 package com.leon.counter_reading.utils;
 
 
+import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.enums.CompanyNames;
 
 public class DifferentCompanyManager {
@@ -8,7 +9,8 @@ public class DifferentCompanyManager {
     }
 
     public static CompanyNames getActiveCompanyName() {
-        return CompanyNames.ESF;
+//        return CompanyNames.ZONE4;
+        return BuildConfig.COMPANY_NAME;
     }
 
     public static String getBaseUrl(CompanyNames companyNames) {
@@ -22,7 +24,7 @@ public class DifferentCompanyManager {
             case ZONE3:
                 return "http://212.16.69.36:90/";
             case ZONE4:
-                return "http://91.98.248.36:8081/";
+                return "http://81.12.106.167:8081/";
             case ZONE5:
                 return "http://80.69.252.151/";
             case ZONE6:
@@ -77,6 +79,8 @@ public class DifferentCompanyManager {
         switch (companyNames) {
             case ESF:
                 return "abfaEsfahan.ir";
+            case ZONE4:
+                return "t4ww.tpww.ir";
             default:
                 throw new UnsupportedOperationException();
         }
@@ -86,6 +90,8 @@ public class DifferentCompanyManager {
         switch (companyNames) {
             case ESF:
                 return "واحد";
+            case ZONE4:
+                return "آحاد";
             default:
                 throw new UnsupportedOperationException();
         }
@@ -95,6 +101,8 @@ public class DifferentCompanyManager {
         switch (companyNames) {
             case ESF:
                 return "واحد مسکونی";
+            case ZONE4:
+                return "آحاد مسکونی";
             default:
                 throw new UnsupportedOperationException();
         }
@@ -104,6 +112,8 @@ public class DifferentCompanyManager {
         switch (companyNames) {
             case ESF:
                 return "واحد تجاری";
+            case ZONE4:
+                return "آحاد تجاری";
             default:
                 throw new UnsupportedOperationException();
         }
@@ -113,6 +123,8 @@ public class DifferentCompanyManager {
         switch (companyNames) {
             case ESF:
                 return "واحد کل";
+            case ZONE4:
+                return "آحاد کل";
             default:
                 throw new UnsupportedOperationException();
         }
@@ -122,8 +134,10 @@ public class DifferentCompanyManager {
         switch (companyNames) {
             case ESF:
                 return 4;
+            case ZONE4:
+                return 4;
             default:
-                throw new UnsupportedOperationException();
+                return 4;
         }
     }
 
@@ -131,14 +145,18 @@ public class DifferentCompanyManager {
         switch (companyNames) {
             case ESF:
                 return 3;
+            case ZONE4:
+                return 3;
             default:
-                throw new UnsupportedOperationException();
+                return 3;
         }
     }
 
     public static int getLockNumber(CompanyNames companyNames) {
         switch (companyNames) {
             case ESF:
+                return 6;
+            case ZONE4:
                 return 6;
             default:
                 throw new UnsupportedOperationException();
@@ -149,6 +167,8 @@ public class DifferentCompanyManager {
         switch (companyNames) {
             case ESF:
                 return 5;
+            case ZONE4:
+                return 10;
             default:
                 return 10;
         }
@@ -158,6 +178,8 @@ public class DifferentCompanyManager {
         switch (companyNames) {
             case ESF:
                 return 15;
+            case ZONE4:
+                return 20;
             default:
                 return 10;
         }

@@ -1,11 +1,11 @@
 package com.leon.counter_reading.utils;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class SharedPreferenceManager implements ISharedPreferenceManager {
     final Context context;

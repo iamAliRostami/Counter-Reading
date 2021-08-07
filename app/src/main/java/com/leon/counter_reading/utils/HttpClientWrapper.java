@@ -1,5 +1,7 @@
 package com.leon.counter_reading.utils;
 
+import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
+
 import android.app.Activity;
 import android.content.Context;
 
@@ -14,8 +16,6 @@ import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public class HttpClientWrapper {
     public static Call call;

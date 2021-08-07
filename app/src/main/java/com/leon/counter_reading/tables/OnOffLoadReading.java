@@ -117,10 +117,10 @@ public class OnOffLoadReading {
     }
 
     public static class OffLoadData {
-        public boolean isFinal;//TODO upload or reading
-        public int finalTrackNumber;
         public final ArrayList<OffLoad> offLoads;
         public final ArrayList<OffLoadReport> offLoadReports;
+        public boolean isFinal;//TODO upload or reading
+        public int finalTrackNumber;
 
         public OffLoadData() {
             offLoadReports = new ArrayList<>();

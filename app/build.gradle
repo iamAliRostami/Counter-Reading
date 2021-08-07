@@ -18,8 +18,8 @@ android {
         applicationId 'com.leon.counter_reading'
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 24
-        versionName "1.00.05.09"
+        versionCode 28
+        versionName "1.00.05.18"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         signingConfig signingConfigs.config
@@ -32,16 +32,34 @@ android {
         sourceSets {
             androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
         }
+        clean
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
     }
 
     buildTypes {
         release {
-            clean
+            debuggable true
+            signingConfig signingConfigs.config
+        }
+        esf {
             debuggable true
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            multiDexEnabled true
             signingConfig signingConfigs.config
+            applicationIdSuffix ".esf"
+//            buildConfigField 'String', 'COMPANY_NAME', "\"ESF\""
+            buildConfigField 'com.leon.counter_reading.enums.CompanyNames', 'COMPANY_NAME',
+                    "com.leon.counter_reading.enums.CompanyNames.ESF"
+        }
+
+        zone_4 {
+            debuggable true
+            minifyEnabled false
+            signingConfig signingConfigs.config
+            applicationIdSuffix ".zone_4"
+//            buildConfigField 'String', 'COMPANY_NAME', "\"ZONE4\""
+            buildConfigField 'com.leon.counter_reading.enums.CompanyNames', 'COMPANY_NAME',
+                    "com.leon.counter_reading.enums.CompanyNames.ZONE4"
         }
     }
 

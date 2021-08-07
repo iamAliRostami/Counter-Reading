@@ -30,9 +30,9 @@ public class Image {
 
 
     public static class ImageGrouped {
+        public final ArrayList<MultipartBody.Part> File;
         public RequestBody OnOffLoadId;
         public RequestBody Description;
-        public final ArrayList<MultipartBody.Part> File;
 
         public ImageGrouped() {
             File = new ArrayList<>();

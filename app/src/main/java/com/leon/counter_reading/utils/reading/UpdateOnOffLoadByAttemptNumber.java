@@ -1,12 +1,12 @@
 package com.leon.counter_reading.utils.reading;
 
+import static com.leon.counter_reading.MyApplication.readingData;
+
 import android.os.AsyncTask;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
-
-import static com.leon.counter_reading.MyApplication.readingData;
 
 public class UpdateOnOffLoadByAttemptNumber extends AsyncTask<Void, Void, Void> {
     int position, attemptNumber;

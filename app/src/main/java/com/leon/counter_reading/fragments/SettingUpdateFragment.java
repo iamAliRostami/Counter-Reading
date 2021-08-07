@@ -1,6 +1,5 @@
 package com.leon.counter_reading.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -64,7 +63,7 @@ public class SettingUpdateFragment extends Fragment {
         return binding.getRoot();
     }
 
-//    @SuppressLint("UseCompatLoadingForDrawables")
+    //    @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
         sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
         binding.imageViewUpdate.
@@ -101,7 +100,21 @@ public class SettingUpdateFragment extends Fragment {
         });
     }
 
-//    @SuppressLint("SetTextI18n")
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding.imageViewUpdate.setImageDrawable(null);
+        binding = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (HttpClientWrapper.call != null)
+            HttpClientWrapper.call.cancel();
+    }
+
+    //    @SuppressLint("SetTextI18n")
     class UpdateInfo implements ICallback<LastInfo> {
         @Override
         public void execute(Response<LastInfo> response) {
@@ -178,19 +191,5 @@ public class SettingUpdateFragment extends Fragment {
                     activity.getString(R.string.accepted));
 //            binding.progressBar.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding.imageViewUpdate.setImageDrawable(null);
-        binding = null;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (HttpClientWrapper.call != null)
-            HttpClientWrapper.call.cancel();
     }
 }

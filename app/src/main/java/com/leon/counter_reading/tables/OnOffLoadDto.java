@@ -86,26 +86,26 @@ public class OnOffLoadDto {
 
 
     public static class OffLoad {
-        public  String id;
-        public  int counterNumber;
-        public  int counterStateId;
-        public  String possibleAddress;
-        public  String possibleCounterSerial;
-        public  String possibleEshterak;
-        public  String possibleMobile;
-        public  String possiblePhoneNumber;
-        public  int possibleAhadMaskooniOrAsli;
-        public  int possibleAhadTejariOrFari;
-        public  int possibleAhadSaierOrAbBaha;
-        public  int possibleEmpty;
-        public  int possibleKarbariCode;
-        public  String description;
-        public  boolean counterNumberShown;
-        public  double gisAccuracy;
-        public  double x;
-        public  double y;
-        public  String d1;
-        public  String d2;
+        public String id;
+        public int counterNumber;
+        public int counterStateId;
+        public String possibleAddress;
+        public String possibleCounterSerial;
+        public String possibleEshterak;
+        public String possibleMobile;
+        public String possiblePhoneNumber;
+        public int possibleAhadMaskooniOrAsli;
+        public int possibleAhadTejariOrFari;
+        public int possibleAhadSaierOrAbBaha;
+        public int possibleEmpty;
+        public int possibleKarbariCode;
+        public String description;
+        public boolean counterNumberShown;
+        public double gisAccuracy;
+        public double x;
+        public double y;
+        public String d1;
+        public String d2;
 
         public OffLoad() {
         }
@@ -135,10 +135,10 @@ public class OnOffLoadDto {
     }
 
     public static class OffLoadData {
+        public final ArrayList<OffLoadReport> offLoadReports;
         public boolean isFinal;//TODO upload or reading
         public int finalTrackNumber;
         public ArrayList<OffLoad> offLoads;
-        public final ArrayList<OffLoadReport> offLoadReports;
 
         public OffLoadData() {
             offLoadReports = new ArrayList<>();

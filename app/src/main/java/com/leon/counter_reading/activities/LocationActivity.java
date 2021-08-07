@@ -1,5 +1,7 @@
 package com.leon.counter_reading.activities;
 
+import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -37,15 +39,13 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 
-import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
-
 public class LocationActivity extends BaseActivity {
+    private static ArrayList<SavedLocation.LocationOnMap> savedLocations;
     private ActivityLocationBinding binding;
     private Activity activity;
     private SharedPreferenceManager sharedPreferenceManager;
     private ShowOnMap showOnMap;
     private ArrayList<Marker> markers = new ArrayList<>();
-    private static ArrayList<SavedLocation.LocationOnMap> savedLocations;
 
     @Override
     protected void initialize() {
@@ -169,6 +169,55 @@ public class LocationActivity extends BaseActivity {
         new GetDBLocation().execute();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == PackageManager.PERMISSION_GRANTED) {
+            if (requestCode == MyApplication.GPS_CODE)
+                checkPermissions();
+            if (requestCode == MyApplication.REQUEST_NETWORK_CODE) {
+                if (isNetworkAvailable(getApplicationContext()))
+                    checkPermissions();
+                else PermissionManager.setMobileWifiEnabled(this);
+            }
+            if (requestCode == MyApplication.REQUEST_WIFI_CODE) {
+                if (isNetworkAvailable(getApplicationContext()))
+                    checkPermissions();
+                else PermissionManager.enableNetwork(this);
+            }
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        if (showOnMap != null)
+            showOnMap.cancel(true);
+        Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Runtime.getRuntime().gc();
+        System.gc();
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        clearMap();
+        savedLocations = null;
+        binding = null;
+        markers = null;
+        Debug.getNativeHeapAllocatedSize();
+        System.runFinalization();
+        Runtime.getRuntime().totalMemory();
+        Runtime.getRuntime().freeMemory();
+        Runtime.getRuntime().maxMemory();
+        Runtime.getRuntime().gc();
+        System.gc();
+        super.onDestroy();
+    }
+
     static class GetDBLocation extends AsyncTask<Void, Void, Void> {
 
         public GetDBLocation() {
@@ -234,54 +283,5 @@ public class LocationActivity extends BaseActivity {
         protected void onCancelled() {
             super.onCancelled();
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == PackageManager.PERMISSION_GRANTED) {
-            if (requestCode == MyApplication.GPS_CODE)
-                checkPermissions();
-            if (requestCode == MyApplication.REQUEST_NETWORK_CODE) {
-                if (isNetworkAvailable(getApplicationContext()))
-                    checkPermissions();
-                else PermissionManager.setMobileWifiEnabled(this);
-            }
-            if (requestCode == MyApplication.REQUEST_WIFI_CODE) {
-                if (isNetworkAvailable(getApplicationContext()))
-                    checkPermissions();
-                else PermissionManager.enableNetwork(this);
-            }
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        if (showOnMap != null)
-            showOnMap.cancel(true);
-        Debug.getNativeHeapAllocatedSize();
-        System.runFinalization();
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Runtime.getRuntime().gc();
-        System.gc();
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        clearMap();
-        savedLocations = null;
-        binding = null;
-        markers = null;
-        Debug.getNativeHeapAllocatedSize();
-        System.runFinalization();
-        Runtime.getRuntime().totalMemory();
-        Runtime.getRuntime().freeMemory();
-        Runtime.getRuntime().maxMemory();
-        Runtime.getRuntime().gc();
-        System.gc();
-        super.onDestroy();
     }
 }

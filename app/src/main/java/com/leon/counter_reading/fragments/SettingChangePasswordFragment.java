@@ -113,6 +113,12 @@ public class SettingChangePasswordFragment extends Fragment {
                 new ChangePasswordIncomplete(), new ChangePasswordError());
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding.imageViewPassword.setImageDrawable(null);
+    }
+
     class ChangePassword implements ICallback<SimpleResponse> {
         @Override
         public void execute(Response<SimpleResponse> response) {
@@ -155,11 +161,5 @@ public class SettingChangePasswordFragment extends Fragment {
                     activity.getString(R.string.change_password),
                     activity.getString(R.string.accepted));
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding.imageViewPassword.setImageDrawable(null);
     }
 }

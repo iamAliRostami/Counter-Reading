@@ -1,5 +1,8 @@
 package com.leon.counter_reading.utils;
 
+import static com.leon.counter_reading.MyApplication.FASTEST_INTERVAL;
+import static com.leon.counter_reading.MyApplication.MIN_DISTANCE_CHANGE_FOR_UPDATES;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Service;
@@ -32,22 +35,13 @@ import org.osmdroid.config.Configuration;
 
 import java.util.ArrayList;
 
-import static com.leon.counter_reading.MyApplication.FASTEST_INTERVAL;
-import static com.leon.counter_reading.MyApplication.MIN_DISTANCE_CHANGE_FOR_UPDATES;
-
 public class GPSTracker extends Service {
     final Activity activity;
+    final ArrayList<SavedLocation> savedLocations = new ArrayList<>();
     boolean canGetLocation = false;
     double latitude;
     double longitude;
     double accuracy;
-    boolean checkGPS = false;
-    boolean checkNetwork = false;
-    final ArrayList<SavedLocation> savedLocations = new ArrayList<>();
-    Location location;
-    LocationManager locationManager;
-    FusedLocationProviderClient fusedLocationClient;
-    LocationRequest locationRequest;
     final LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(@NotNull LocationResult locationResult) {
@@ -57,6 +51,10 @@ public class GPSTracker extends Service {
         }
     };
     final OnSuccessListener<Location> onSuccessListener = this::addLocation;
+    boolean checkGPS = false;
+    boolean checkNetwork = false;
+    Location location;
+    LocationManager locationManager;
     final LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
             if (locationManager != null)
@@ -73,6 +71,8 @@ public class GPSTracker extends Service {
         public void onProviderDisabled(String provider) {
         }
     };
+    FusedLocationProviderClient fusedLocationClient;
+    LocationRequest locationRequest;
 
     public GPSTracker(Activity activity) {
         this.activity = activity;

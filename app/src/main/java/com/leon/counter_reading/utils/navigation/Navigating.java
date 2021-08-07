@@ -1,13 +1,13 @@
 package com.leon.counter_reading.utils.navigation;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.utils.MyDatabaseClient;
-
-import static android.app.Activity.RESULT_OK;
 
 public class Navigating extends AsyncTask<Activity, Void, Void> {
     int possibleEmpty, position;

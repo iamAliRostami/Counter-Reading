@@ -1,5 +1,7 @@
 package com.leon.counter_reading.fragments;
 
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,8 +28,6 @@ import com.leon.counter_reading.utils.SharedPreferenceManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-
-import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class DeleteFragment extends DialogFragment {
     String id;

@@ -1,5 +1,8 @@
 package com.leon.counter_reading.activities;
 
+import static com.leon.counter_reading.MyApplication.getAndroidVersion;
+import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -31,9 +34,6 @@ import com.leon.counter_reading.utils.login.AttemptLogin;
 import com.leon.counter_reading.utils.login.AttemptRegister;
 
 import java.util.ArrayList;
-
-import static com.leon.counter_reading.MyApplication.getAndroidVersion;
-import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public class LoginActivity extends AppCompatActivity {
     private ISharedPreferenceManager sharedPreferenceManager;

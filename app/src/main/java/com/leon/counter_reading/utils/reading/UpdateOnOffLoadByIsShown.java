@@ -1,14 +1,13 @@
 package com.leon.counter_reading.utils.reading;
 
+import static com.leon.counter_reading.MyApplication.readingData;
+
 import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.leon.counter_reading.MyApplication;
-import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
-
-import static com.leon.counter_reading.MyApplication.readingData;
 
 public class UpdateOnOffLoadByIsShown extends AsyncTask<Activity, Void, Void> {
     int position;

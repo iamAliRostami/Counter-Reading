@@ -1,5 +1,7 @@
 package com.leon.counter_reading.fragments;
 
+import static com.leon.counter_reading.utils.CustomFile.createImageFile;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -34,8 +36,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static com.leon.counter_reading.utils.CustomFile.createImageFile;
-
 public class ImageFragment extends DialogFragment {
 
     FragmentImageBinding binding;
@@ -49,71 +49,6 @@ public class ImageFragment extends DialogFragment {
     ArrayList<Image> images;
     int imageNumber = 1, imageNumberTemp = 0;
     boolean replace = false;
-
-    public ImageFragment() {
-    }
-
-    public static ImageFragment newInstance(String uuid, int position) {
-        ImageFragment fragment = new ImageFragment();
-        Bundle args = new Bundle();
-        args.putString(BundleEnum.BILL_ID.getValue(), uuid);
-        args.putInt(BundleEnum.POSITION.getValue(), position);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            uuid = getArguments().getString(BundleEnum.BILL_ID.getValue());
-            position = getArguments().getInt(BundleEnum.POSITION.getValue());
-        }
-    }
-
-    @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = FragmentImageBinding.inflate(inflater, container, false);
-        activity = getActivity();
-        initialize();
-        return binding.getRoot();
-    }
-
-    void initialize() {
-        setOnButtonClickListener();
-        setOnImageViewPickerClickListener();
-        setOnImageViewDeleteClickListener();
-    }
-
-    void setOnButtonClickListener() {
-        binding.buttonSaveSend.setOnClickListener(v -> {
-//            ((ReadingActivity) activity).updateOnOffLoadImage(position);
-            dismiss();
-        });
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    void setOnImageViewPickerClickListener() {
-        binding.imageView1.setOnClickListener(onPickerClickListener);
-        binding.imageView2.setOnClickListener(onPickerClickListener);
-        binding.imageView3.setOnClickListener(onPickerClickListener);
-        binding.imageView4.setOnClickListener(onPickerClickListener);
-
-        binding.imageView1.setOnLongClickListener(onLongClickListener);
-        binding.imageView2.setOnLongClickListener(onLongClickListener);
-        binding.imageView3.setOnLongClickListener(onLongClickListener);
-        binding.imageView4.setOnLongClickListener(onLongClickListener);
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    void setOnImageViewDeleteClickListener() {
-        binding.imageViewDelete1.setOnClickListener(onDeleteClickListener);
-        binding.imageViewDelete2.setOnClickListener(onDeleteClickListener);
-        binding.imageViewDelete3.setOnClickListener(onDeleteClickListener);
-        binding.imageViewDelete4.setOnClickListener(onDeleteClickListener);
-    }
-
     @SuppressLint("NonConstantResourceId")
     View.OnLongClickListener onLongClickListener = v -> {
         Bitmap bitmap = null;
@@ -236,6 +171,70 @@ public class ImageFragment extends DialogFragment {
             }
         }
     };
+
+    public ImageFragment() {
+    }
+
+    public static ImageFragment newInstance(String uuid, int position) {
+        ImageFragment fragment = new ImageFragment();
+        Bundle args = new Bundle();
+        args.putString(BundleEnum.BILL_ID.getValue(), uuid);
+        args.putInt(BundleEnum.POSITION.getValue(), position);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            uuid = getArguments().getString(BundleEnum.BILL_ID.getValue());
+            position = getArguments().getInt(BundleEnum.POSITION.getValue());
+        }
+    }
+
+    @Override
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = FragmentImageBinding.inflate(inflater, container, false);
+        activity = getActivity();
+        initialize();
+        return binding.getRoot();
+    }
+
+    void initialize() {
+        setOnButtonClickListener();
+        setOnImageViewPickerClickListener();
+        setOnImageViewDeleteClickListener();
+    }
+
+    void setOnButtonClickListener() {
+        binding.buttonSaveSend.setOnClickListener(v -> {
+//            ((ReadingActivity) activity).updateOnOffLoadImage(position);
+            dismiss();
+        });
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    void setOnImageViewPickerClickListener() {
+        binding.imageView1.setOnClickListener(onPickerClickListener);
+        binding.imageView2.setOnClickListener(onPickerClickListener);
+        binding.imageView3.setOnClickListener(onPickerClickListener);
+        binding.imageView4.setOnClickListener(onPickerClickListener);
+
+        binding.imageView1.setOnLongClickListener(onLongClickListener);
+        binding.imageView2.setOnLongClickListener(onLongClickListener);
+        binding.imageView3.setOnLongClickListener(onLongClickListener);
+        binding.imageView4.setOnLongClickListener(onLongClickListener);
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    void setOnImageViewDeleteClickListener() {
+        binding.imageViewDelete1.setOnClickListener(onDeleteClickListener);
+        binding.imageViewDelete2.setOnClickListener(onDeleteClickListener);
+        binding.imageViewDelete3.setOnClickListener(onDeleteClickListener);
+        binding.imageViewDelete4.setOnClickListener(onDeleteClickListener);
+    }
 
     void removeImage(int index) {
         imageNumber = imageNumber - 1;

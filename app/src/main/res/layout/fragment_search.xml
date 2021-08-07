@@ -54,11 +54,11 @@
         tools:ignore="Autofill" />
 
     <CheckBox
-        android:checked="true"
         android:id="@+id/check_box_go_to_page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/edit_text_search"
+        android:checked="true"
         android:padding="@dimen/medium_dp"
         android:text="@string/go_to_page"
         android:textSize="@dimen/text_size_medium" />

@@ -12,9 +12,9 @@ import com.leon.counter_reading.utils.MyDatabaseClient;
 import java.util.ArrayList;
 
 public class GetReadingReportDBData extends AsyncTask<Activity, Integer, Integer> {
-    CustomProgressBar customProgressBar;
     private final String uuid;
     private final int trackNumber;
+    CustomProgressBar customProgressBar;
 
     public GetReadingReportDBData(Activity activity, int trackNumber, String uuid) {
         super();

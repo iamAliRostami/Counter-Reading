@@ -39,15 +39,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class TakePhotoActivity extends AppCompatActivity {
+    public static int replace = 0;
+    boolean result;
+    String uuid;
+    int position, trackNumber;
     private Activity activity;
     private ActivityTakePhotoBinding binding;
     private ArrayList<Image> images;
     private ImageViewAdapter imageViewAdapter;
-
-    boolean result;
-    String uuid;
-    int position, trackNumber;
-    public static int replace = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

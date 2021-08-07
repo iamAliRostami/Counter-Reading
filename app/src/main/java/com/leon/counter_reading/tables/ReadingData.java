@@ -12,6 +12,7 @@ public class ReadingData {
     public final ArrayList<CounterReportDto> counterReportDtos;
     public int status;
     public String message;
+
     public ReadingData() {
         trackingDtos = new ArrayList<>();
         onOffLoadDtos = new ArrayList<>();

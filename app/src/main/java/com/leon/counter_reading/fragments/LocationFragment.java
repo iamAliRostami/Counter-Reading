@@ -88,6 +88,25 @@ public class LocationFragment extends Fragment {
         getDBLocation.execute();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getDBLocation = null;
+        polygonPoint = null;
+        savedLocations = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getDBLocation.cancel(true);
+    }
+
     @SuppressLint("StaticFieldLeak")
     class GetDBLocation extends AsyncTask<Integer, Integer, Integer> {
         public GetDBLocation() {
@@ -176,24 +195,5 @@ public class LocationFragment extends Fragment {
         protected void onCancelled() {
             super.onCancelled();
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getDBLocation = null;
-        polygonPoint = null;
-        savedLocations = null;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        getDBLocation.cancel(true);
     }
 }

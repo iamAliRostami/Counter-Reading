@@ -1,13 +1,13 @@
 package com.leon.counter_reading.utils.reading;
 
+import static com.leon.counter_reading.MyApplication.readingData;
+
 import android.os.AsyncTask;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.MyDatabaseClient;
-
-import static com.leon.counter_reading.MyApplication.readingData;
 
 public class Sent extends AsyncTask<OnOffLoadDto.OffLoadResponses, Integer, Integer> {
     public Sent() {

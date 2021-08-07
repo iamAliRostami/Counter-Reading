@@ -1,5 +1,7 @@
 package com.leon.counter_reading.base_items;
 
+import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -52,8 +54,6 @@ import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

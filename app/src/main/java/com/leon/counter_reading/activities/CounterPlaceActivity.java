@@ -1,13 +1,13 @@
 package com.leon.counter_reading.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
@@ -80,7 +80,7 @@ public class CounterPlaceActivity extends AppCompatActivity {
                 String d2 = binding.editText3.getText().toString().concat(".").
                         concat(binding.editText4.getText().toString());
                 MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                        updateOnOffLoadLocation(uuid,d1,d2);
+                        updateOnOffLoadLocation(uuid, d1, d2);
                 Intent intent = new Intent();
                 intent.putExtra(BundleEnum.POSITION.getValue(), position);
                 intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);

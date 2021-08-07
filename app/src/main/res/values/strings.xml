@@ -190,10 +190,10 @@
     <string name="postal_code">کد پستی</string>
     <string name="select_one">یکی از موارد را انتخاب کنید</string>
     <string name="insert_message">یک پیام نوشته یا ضبط شود.</string>
-<!--    <string name="visible_hide_keyboard">نمایش / عدم نمایش صفحه کلید</string>-->
+    <!--    <string name="visible_hide_keyboard">نمایش / عدم نمایش صفحه کلید</string>-->
     <string name="visible_hide_keyboard">نمایش صفحه کلید</string>
     <string name="last_unread">آخرین بازدید نشده</string>
-    <string name="thank_you">همکار گرامی!\n خداقوت!</string>
+    <string name="thank_you">همکار گرامی!\nخداقوت!</string>
     <string name="all_masir_bazdid">همه مسیرها بازدید شد.</string>
     <string name="this_feature_is_not_active">این ویژگی در این منطقه فعال نشده است.</string>
     <string name="dash">-</string>
@@ -208,12 +208,12 @@
     <string name="error_overload">به علت حجم بالای درخواست، امکان پاسخ دهی وجود ندارد. مجددا تلاش کنید.</string>
     <string name="error_turn_off_proxy">از خاموش بودن پروکسی بر روی دستگاه خود اطمینان حاصل کنید.</string>
     <!--    <string name="number">تعداد</string>-->
-    <string name="check_connection">لطفا اتصالات اینترنت و اینترانت خود را بررسی کنید.</string>
+    <string name="check_connection">شما به صورت آفلاین واردی شده اید.\nلطفا اتصالات اینترنت و اینترانت خود را بررسی کنید.</string>
     <string name="password_and_confirm_not_same">گذرواژه و تکرار آن مشابه نیستند.</string>
     <string name="incorrect_old_password">گذرواژه پیشین نادرست است.</string>
     <string name="go_to_page">برو به صفحه</string>
     <string name="cancel">لغو</string>
-<!--    <string name="mistakes_error">شما به مرز تعداد ثبت نادرست مکرر رسیده اید.</string>-->
+    <!--    <string name="mistakes_error">شما به مرز تعداد ثبت نادرست مکرر رسیده اید.</string>-->
     <string name="mistakes_error">برای ثبت، تنها یک فرصت دیگر دارید.</string>
     <string name="by_mistakes">به علت اشتباه مکرر، اشتراک شماره&#160;</string>
     <string name="is_locked">&#160;قفل شده است.</string>
@@ -226,5 +226,5 @@
     <string name="unuploaded_multimedia">تعداد %d عکس و %d صدای تخلیه نشده باقی مانده است.\nتوصیه می شود پیش از تخلیه نسبت به بارگذاری چندرسانه اقدام نمایید.\nآیا همچنان مایل به تخلیه هستید؟</string>
     <string name="show_points">نمایش نقاط</string>
     <string name="sort_reading_type">مرتب سازی نزولی</string>
-
+    <!--    <string name="COMPANY_NAME" />-->
 </resources>

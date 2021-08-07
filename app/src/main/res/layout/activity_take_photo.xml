@@ -11,11 +11,11 @@
         android:layout_height="match_parent"
         android:layout_above="@id/edit_text_description"
         android:layout_margin="@dimen/medium_dp"
-        android:padding="@dimen/low_dp"
         android:background="@drawable/border_gray_3"
         android:gravity="center"
         android:nestedScrollingEnabled="true"
         android:numColumns="2"
+        android:padding="@dimen/low_dp"
         tools:listitem="@layout/item_image" />
 
     <EditText

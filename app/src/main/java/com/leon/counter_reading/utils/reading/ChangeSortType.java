@@ -1,6 +1,9 @@
 package com.leon.counter_reading.utils.reading;
 
 
+import static com.leon.counter_reading.MyApplication.readingData;
+import static com.leon.counter_reading.MyApplication.readingDataTemp;
+
 import android.app.Activity;
 import android.os.AsyncTask;
 
@@ -9,12 +12,16 @@ import com.leon.counter_reading.utils.CustomProgressBar;
 
 import java.util.Collections;
 
-import static com.leon.counter_reading.MyApplication.readingData;
-import static com.leon.counter_reading.MyApplication.readingDataTemp;
-
 public class ChangeSortType extends AsyncTask<Activity, Void, Void> {
     boolean sortType;
     CustomProgressBar customProgressBar;
+
+    public ChangeSortType(Activity activity, boolean sortType) {
+        super();
+        this.sortType = sortType;
+        customProgressBar = new CustomProgressBar();
+        customProgressBar.show(activity, false);
+    }
 
     @Override
     protected void onPreExecute() {
@@ -25,13 +32,6 @@ public class ChangeSortType extends AsyncTask<Activity, Void, Void> {
     protected void onPostExecute(Void unused) {
         super.onPostExecute(unused);
         customProgressBar.getDialog().dismiss();
-    }
-
-    public ChangeSortType(Activity activity, boolean sortType) {
-        super();
-        this.sortType = sortType;
-        customProgressBar = new CustomProgressBar();
-        customProgressBar.show(activity, false);
     }
 
     @Override

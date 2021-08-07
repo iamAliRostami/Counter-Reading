@@ -1,8 +1,8 @@
 package com.leon.counter_reading.utils.reading;
 
-import com.leon.counter_reading.R;
-
 import static com.leon.counter_reading.MyApplication.readingData;
+
+import com.leon.counter_reading.R;
 
 public class ReadingUtils {
 

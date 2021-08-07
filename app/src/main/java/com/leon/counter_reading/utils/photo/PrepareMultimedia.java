@@ -101,6 +101,35 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
         }
     }
 
+    void setResult(Activity activity, boolean result) {
+        if (result) {
+            Intent intent = new Intent();
+            intent.putExtra(BundleEnum.POSITION.getValue(), position);
+            activity.setResult(Activity.RESULT_OK, intent);
+        }
+        activity.finish();
+    }
+
+    void saveImages(boolean isSent, Activity activity) {
+        for (int i = 0; i < images.size(); i++) {
+            if (!images.get(i).isSent) {
+                images.get(i).isSent = isSent;
+                if (MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
+                        .getImagesById(images.get(i).id).size() > 0) {
+                    MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
+                            .updateImage(images.get(i));
+                } else {
+                    String address = CustomFile.saveTempBitmap(images.get(i).bitmap, activity);
+                    if (!address.equals(activity.getString(R.string.error_external_storage_is_not_writable))) {
+                        images.get(i).address = address;
+                        MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
+                                .insertImage(images.get(i));
+                    }
+                }
+            }
+        }
+    }
+
     class UploadImages implements ICallback<Image.ImageUploadResponse> {
         Activity activity;
 
@@ -151,35 +180,6 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
             new CustomToast().error(error, Toast.LENGTH_LONG);
             saveImages(false, activity);
             setResult(activity, result);
-        }
-    }
-
-    void setResult(Activity activity, boolean result) {
-        if (result) {
-            Intent intent = new Intent();
-            intent.putExtra(BundleEnum.POSITION.getValue(), position);
-            activity.setResult(Activity.RESULT_OK, intent);
-        }
-        activity.finish();
-    }
-
-    void saveImages(boolean isSent, Activity activity) {
-        for (int i = 0; i < images.size(); i++) {
-            if (!images.get(i).isSent) {
-                images.get(i).isSent = isSent;
-                if (MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                        .getImagesById(images.get(i).id).size() > 0) {
-                    MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                            .updateImage(images.get(i));
-                } else {
-                    String address = CustomFile.saveTempBitmap(images.get(i).bitmap, activity);
-                    if (!address.equals(activity.getString(R.string.error_external_storage_is_not_writable))) {
-                        images.get(i).address = address;
-                        MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                                .insertImage(images.get(i));
-                    }
-                }
-            }
         }
     }
 }

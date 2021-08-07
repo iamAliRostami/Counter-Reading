@@ -1,5 +1,9 @@
 package com.leon.counter_reading.utils.reading;
 
+import static com.leon.counter_reading.MyApplication.isMane;
+import static com.leon.counter_reading.MyApplication.readingData;
+import static com.leon.counter_reading.MyApplication.readingDataTemp;
+
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -15,10 +19,6 @@ import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.util.Collections;
-
-import static com.leon.counter_reading.MyApplication.isMane;
-import static com.leon.counter_reading.MyApplication.readingData;
-import static com.leon.counter_reading.MyApplication.readingDataTemp;
 
 public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
     CustomProgressBar customProgressBar;

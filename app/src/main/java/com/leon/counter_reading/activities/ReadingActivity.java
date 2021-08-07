@@ -1,9 +1,12 @@
 package com.leon.counter_reading.activities;
 
+import static com.leon.counter_reading.MyApplication.readingData;
+import static com.leon.counter_reading.MyApplication.readingDataTemp;
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Debug;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,10 +55,6 @@ import com.leon.counter_reading.utils.reading.Search;
 import com.leon.counter_reading.utils.reading.Update;
 
 import java.util.ArrayList;
-
-import static com.leon.counter_reading.MyApplication.readingData;
-import static com.leon.counter_reading.MyApplication.readingDataTemp;
-import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class ReadingActivity extends BaseActivity {
     private int[] imageSrc = new int[15];

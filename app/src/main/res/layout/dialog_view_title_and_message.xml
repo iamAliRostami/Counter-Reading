@@ -20,7 +20,7 @@
         android:layout_marginLeft="@dimen/large_dp"
         android:layout_marginRight="@dimen/large_dp"
         android:layout_marginBottom="8dp"
-        android:textSize="16sp"
         android:textColor="?android:textColorPrimary"
+        android:textSize="16sp"
         android:visibility="visible" />
 </merge>

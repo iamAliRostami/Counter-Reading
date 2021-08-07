@@ -167,26 +167,26 @@
             android:id="@+id/view_3"
             android:layout_width="match_parent"
             android:layout_height="@dimen/small_dp"
-            android:visibility="gone"
             android:layout_below="@id/linear_layout_4"
-            android:background="@color/blue" />
+            android:background="@color/blue"
+            android:visibility="gone" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/text_view_date"
             style="@style/ReadingSettingItemWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/view_3"
             android:layout_centerHorizontal="true"
-            android:text="@string/date" />
+            android:text="@string/date"
+            android:visibility="gone" />
 
         <LinearLayout
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_view_date"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:weightSum="2"
             tools:ignore="UselessParent">
 

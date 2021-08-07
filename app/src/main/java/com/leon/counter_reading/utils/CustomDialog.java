@@ -11,13 +11,13 @@ import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.utils.custom_dialogue.LovelyStandardDialog;
 
 public class CustomDialog {
-    /*@SuppressLint("FieldLeak")
-     */ LovelyStandardDialog lovelyStandardDialog;
     final Context context;
     final String Top;
     final String Title;
     final String Message;
     final String ButtonText;
+    /*@SuppressLint("FieldLeak")
+     */ LovelyStandardDialog lovelyStandardDialog;
 
     public CustomDialog(DialogType choose, Context context, String message, String title,
                         String top, String buttonText, Inline... inline) {

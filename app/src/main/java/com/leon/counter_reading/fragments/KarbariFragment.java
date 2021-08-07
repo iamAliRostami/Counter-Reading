@@ -1,5 +1,7 @@
 package com.leon.counter_reading.fragments;
 
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,8 +22,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
-import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class KarbariFragment extends DialogFragment {
 

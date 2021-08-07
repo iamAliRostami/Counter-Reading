@@ -1,5 +1,7 @@
 package com.leon.counter_reading.utils.custom_dialogue;
 
+import static android.view.View.VISIBLE;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
@@ -12,8 +14,6 @@ import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 
 import com.leon.counter_reading.R;
-
-import static android.view.View.VISIBLE;
 
 public class LovelyStandardDialog extends AbsLovelyDialog<LovelyStandardDialog> {
 

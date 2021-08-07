@@ -113,11 +113,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:id="@+id/linear_layout_location"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/image_view_location"
@@ -162,11 +162,11 @@
         <TableRow android:layout_weight="1">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:id="@+id/linear_layout_help"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/image_view_help"
@@ -185,11 +185,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:id="@+id/linear_layout_app_setting"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:orientation="vertical"
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
@@ -209,11 +209,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:id="@+id/linear_layout_exit"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/image_view_exit"

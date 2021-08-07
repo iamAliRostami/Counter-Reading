@@ -1,10 +1,10 @@
 package com.leon.counter_reading.utils.reading;
 
+import static com.leon.counter_reading.utils.CalendarTool.findDifferentDays;
+
 import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
-
-import static com.leon.counter_reading.utils.CalendarTool.findDifferentDays;
 
 public class Counting {
 
@@ -28,12 +28,12 @@ public class Counting {
         double preAverage = onOffLoadDto.preAverage;
         int difference = currentNumber - onOffLoadDto.preNumber;
         /**if (karbariDto.isMaskooni && karbariDto.isTejari) {
-            // فرمول میانگین گیری عجیب احتمالا
-        } else*/
+         // فرمول میانگین گیری عجیب احتمالا
+         } else*/
         if (karbariDto.isMaskooni) {
             /**
              * ضرایب
-            */
+             */
             average = monthlyAverage(onOffLoadDto.preNumber, currentNumber, onOffLoadDto.preDate, onOffLoadDto.ahadMaskooniOrAsli);
             if (readingConfigDefaultDto.highConstBoundMaskooni < difference)
                 return 1;
@@ -81,8 +81,8 @@ public class Counting {
         double preAverage = onOffLoadDto.preAverage;
         int difference = onOffLoadDto.preNumber - currentNumber;
         /**if (karbariDto.isMaskooni && karbariDto.isTejari) {
-            // فرمول میانگین گیری عجیب احتمالا
-        } else*/
+         // فرمول میانگین گیری عجیب احتمالا
+         } else*/
         if (karbariDto.isMaskooni) {
             /**
              * ضرایب

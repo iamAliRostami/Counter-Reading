@@ -1,5 +1,8 @@
 package com.leon.counter_reading.adapters;
 
+import static com.leon.counter_reading.activities.TakePhotoActivity.replace;
+import static com.leon.counter_reading.utils.CustomFile.createImageFile;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -29,9 +32,6 @@ import com.leon.counter_reading.utils.MyDatabaseClient;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import static com.leon.counter_reading.activities.TakePhotoActivity.replace;
-import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 
 public class ImageViewAdapter extends BaseAdapter {
     private final ArrayList<Image> images;

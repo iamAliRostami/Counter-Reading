@@ -148,7 +148,7 @@ public class ReportForbidActivity extends AppCompatActivity {
         binding.editTextPreAccount.setFilters(
                 new InputFilter[]{
                         new InputFilter.LengthFilter(DifferentCompanyManager.
-                        getEshterakMaxLength(DifferentCompanyManager.getActiveCompanyName()))});
+                                getEshterakMaxLength(DifferentCompanyManager.getActiveCompanyName()))});
 
         forbiddenDto.File = new ArrayList<>();
         forbiddenDto.bitmaps = new ArrayList<>();

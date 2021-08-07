@@ -25,9 +25,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
-    CustomProgressBar customProgressBar;
     private final ForbiddenDto forbiddenDto;
     private final int zoneId;
+    CustomProgressBar customProgressBar;
 
     public PrepareForbid(Activity activity, ForbiddenDto forbiddenDto, int zoneId) {
         super();
@@ -92,9 +92,9 @@ public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
         locationTracker.stopListener();
         activities[0].runOnUiThread(() ->
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activities[0],
-                new Forbidden(activities[0], forbiddenDto),
-                new ForbiddenIncomplete(activities[0], forbiddenDto),
-                new ForbiddenError(activities[0], forbiddenDto)));
+                        new Forbidden(activities[0], forbiddenDto),
+                        new ForbiddenIncomplete(activities[0], forbiddenDto),
+                        new ForbiddenError(activities[0], forbiddenDto)));
         return null;
     }
 

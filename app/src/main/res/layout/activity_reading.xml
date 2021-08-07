@@ -61,10 +61,10 @@
         android:id="@+id/text_view_not_found"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:text="@string/data_not_found"
         android:textColor="@color/red"
         android:textSize="@dimen/text_size_large"
-        android:gravity="center"
         android:visibility="gone" />
 
     <androidx.viewpager.widget.ViewPager

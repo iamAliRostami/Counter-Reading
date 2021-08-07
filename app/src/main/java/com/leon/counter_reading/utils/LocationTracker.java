@@ -1,5 +1,8 @@
 package com.leon.counter_reading.utils;
 
+import static com.leon.counter_reading.MyApplication.MIN_DISTANCE_CHANGE_FOR_UPDATES;
+import static com.leon.counter_reading.MyApplication.MIN_TIME_BW_UPDATES;
+
 import android.Manifest;
 import android.app.Service;
 import android.content.Context;
@@ -10,7 +13,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
@@ -19,13 +21,13 @@ import com.leon.counter_reading.tables.SavedLocation;
 
 import org.jetbrains.annotations.NotNull;
 
-import static com.leon.counter_reading.MyApplication.MIN_DISTANCE_CHANGE_FOR_UPDATES;
-import static com.leon.counter_reading.MyApplication.MIN_TIME_BW_UPDATES;
-
 
 public class LocationTracker extends Service implements LocationListener {
 
     private final Context mContext;
+    //    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
+//    private static final long MIN_TIME_BW_UPDATES = 1000 * 60;
+    protected LocationManager locationManager;
     boolean checkGPS = false;
     boolean checkNetwork = false;
     boolean canGetLocation = false;
@@ -33,10 +35,6 @@ public class LocationTracker extends Service implements LocationListener {
     double longitude;
     double accuracy;
     Location location;
-
-    //    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
-//    private static final long MIN_TIME_BW_UPDATES = 1000 * 60;
-    protected LocationManager locationManager;
 
     public LocationTracker(Context mContext) {
         this.mContext = mContext;

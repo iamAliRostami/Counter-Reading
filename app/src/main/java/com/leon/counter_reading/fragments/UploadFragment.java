@@ -127,16 +127,6 @@ public class UploadFragment extends Fragment {
         return true;
     }
 
-    class Inline implements CustomDialog.Inline {
-        @Override
-        public void inline() {
-            new PrepareOffLoadToUpload(activity,
-                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber,
-                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id).
-                    execute(activity);
-        }
-    }
-
     void setOnButtonUploadClickListener() {
         binding.buttonUpload.setOnClickListener(v -> {
             if (type == 1 || type == 2) {
@@ -163,5 +153,15 @@ public class UploadFragment extends Fragment {
         imageSrc = null;
         trackingDtos = null;
         items = null;
+    }
+
+    class Inline implements CustomDialog.Inline {
+        @Override
+        public void inline() {
+            new PrepareOffLoadToUpload(activity,
+                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber,
+                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id).
+                    execute(activity);
+        }
     }
 }

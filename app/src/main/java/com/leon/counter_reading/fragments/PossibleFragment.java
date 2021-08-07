@@ -1,5 +1,7 @@
 package com.leon.counter_reading.fragments;
 
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -33,9 +35,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static com.leon.counter_reading.utils.MakeNotification.makeRing;
-
 public class PossibleFragment extends DialogFragment {
+    static boolean justMobile = false;
     FragmentPossibleBinding binding;
     OnOffLoadDto onOffLoadDto;
     int position;
@@ -46,12 +47,11 @@ public class PossibleFragment extends DialogFragment {
     ArrayList<String> items1 = new ArrayList<>();
     ArrayList<String> items2 = new ArrayList<>();
     SpinnerCustomAdapter spinnerCustomAdapterKarbari, spinnerCustomAdapterReadingReport;
-    static boolean justMobile = false;
 
     public PossibleFragment() {
     }
 
-    public static PossibleFragment newInstance(OnOffLoadDto onOffLoadDto, int position,boolean justMobile) {
+    public static PossibleFragment newInstance(OnOffLoadDto onOffLoadDto, int position, boolean justMobile) {
         PossibleFragment.justMobile = justMobile;
         PossibleFragment fragment = new PossibleFragment();
         fragment.setArguments(putBundle(onOffLoadDto, position));
@@ -70,7 +70,7 @@ public class PossibleFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            getBundle();
+        getBundle();
     }
 
     void getBundle() {
@@ -283,7 +283,7 @@ public class PossibleFragment extends DialogFragment {
                     MyDatabaseClient.getInstance(activity).getMyDatabase().offLoadReportDao().
                             insertOffLoadReport(offLoadReport);
                 }
-                ((ReadingActivity) activity).updateOnOffLoadByNavigation(position, onOffLoadDto,justMobile);
+                ((ReadingActivity) activity).updateOnOffLoadByNavigation(position, onOffLoadDto, justMobile);
                 dismiss();
 
             }

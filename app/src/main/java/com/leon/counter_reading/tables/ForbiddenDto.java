@@ -108,7 +108,6 @@ public class ForbiddenDto {
     }
 
     public static class ForbiddenDtoMultiple {
-        public Integer zoneId;
         public final String description;
         public final String preEshterak;
         public final String nextEshterak;
@@ -117,6 +116,7 @@ public class ForbiddenDto {
         public final String x;
         public final String y;
         public final String gisAccuracy;
+        public Integer zoneId;
 
         public ForbiddenDtoMultiple(Integer zoneId, String description, String preEshterak,
                                     String nextEshterak, String postalCode, int tedadVahed,

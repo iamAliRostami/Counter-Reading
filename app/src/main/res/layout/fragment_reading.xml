@@ -6,11 +6,11 @@
     tools:context="com.leon.counter_reading.fragments.ReadingFragment">
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/low_dp"
         android:layout_marginRight="@dimen/low_dp"
-        android:layout_marginBottom="@dimen/low_dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_marginBottom="@dimen/low_dp">
 
         <LinearLayout
             android:id="@+id/linear_layout_1"

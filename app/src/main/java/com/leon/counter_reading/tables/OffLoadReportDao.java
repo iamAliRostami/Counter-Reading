@@ -25,7 +25,7 @@ public interface OffLoadReportDao {
             "Inner Join OnOffLoadDto On OnOffLoadDto.id = OffLoadreport.onOffLoadId " +
             "Inner Join TrackingDto On OnOffLoadDto.trackNumber = TrackingDto.trackNumber " +
             "WHERE TrackingDto.isActive = :isActive AND isSent = :isSent")
-    List<OffLoadReport> getAllOffLoadReportByActive(boolean isActive,boolean isSent);
+    List<OffLoadReport> getAllOffLoadReportByActive(boolean isActive, boolean isSent);
 
 
     @Update(onConflict = OnConflictStrategy.REPLACE)

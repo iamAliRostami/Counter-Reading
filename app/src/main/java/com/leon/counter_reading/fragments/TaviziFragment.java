@@ -1,5 +1,7 @@
 package com.leon.counter_reading.fragments;
 
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,8 +20,6 @@ import com.leon.counter_reading.utils.MyDatabaseClient;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-
-import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class TaviziFragment extends DialogFragment {
     String uuid;

@@ -1,5 +1,7 @@
 package com.leon.counter_reading.utils.voice;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -31,8 +33,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-
-import static android.app.Activity.RESULT_OK;
 
 public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
     private final CustomProgressBar customProgressBar;

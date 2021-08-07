@@ -1,5 +1,7 @@
 package com.leon.counter_reading.fragments;
 
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
+
 import android.Manifest;
 import android.app.Activity;
 import android.os.Bundle;
@@ -39,21 +41,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-import static com.leon.counter_reading.utils.MakeNotification.makeRing;
-
 public class ReadingFragment extends Fragment {
+    static SpinnerCustomAdapter adapter;
     FragmentReadingBinding binding;
-
     ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     OnOffLoadDto onOffLoadDto;
     ReadingConfigDefaultDto readingConfigDefaultDto;
     KarbariDto karbariDto;
-
     int position, counterStateCode, counterStatePosition;
     boolean canBeEmpty, canLessThanPre, isMakoos, isMane;
-
-    static SpinnerCustomAdapter adapter;
-
     Activity activity;
 
     public ReadingFragment() {

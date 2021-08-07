@@ -1,5 +1,8 @@
 package com.leon.counter_reading.utils.reading;
 
+import static com.leon.counter_reading.MyApplication.readingData;
+import static com.leon.counter_reading.MyApplication.readingDataTemp;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -10,9 +13,6 @@ import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
-
-import static com.leon.counter_reading.MyApplication.readingData;
-import static com.leon.counter_reading.MyApplication.readingDataTemp;
 
 public class Result extends AsyncTask<Activity, Void, Void> {
     Intent data;
@@ -31,7 +31,7 @@ public class Result extends AsyncTask<Activity, Void, Void> {
         readingData.onOffLoadDtos.set(position, myDatabase.onOffLoadDao().
                 getAllOnOffLoadById(uuid, readingData.onOffLoadDtos.get(position).trackNumber));
 
-        ((ReadingActivity)(activities[0])).setupViewPagerAdapter(position);
+        ((ReadingActivity) (activities[0])).setupViewPagerAdapter(position);
         for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
             if (onOffLoadDto.id.equals(uuid))
                 readingDataTemp.onOffLoadDtos.set(i, readingData.onOffLoadDtos.get(position));

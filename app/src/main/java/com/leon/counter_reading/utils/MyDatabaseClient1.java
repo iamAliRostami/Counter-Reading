@@ -9,19 +9,12 @@ import com.leon.counter_reading.MyApplication;
 
 public class MyDatabaseClient1 {
 
-    private MyDatabaseClient1 mInstance;
     private final MyDatabase myDatabase;
+    private MyDatabaseClient1 mInstance;
 
     private MyDatabaseClient1(Context context) {
         myDatabase = Room.databaseBuilder(context, MyDatabase.class, MyApplication.getDBName())
                 .allowMainThreadQueries().build();
-    }
-
-    public MyDatabaseClient1 getInstance(Context context) {
-        if (mInstance == null) {
-            mInstance = new MyDatabaseClient1(context);
-        }
-        return mInstance;
     }
 
     public static void migration(Context context) {
@@ -42,6 +35,13 @@ public class MyDatabaseClient1 {
         database.execSQL(deleteSqLiteSequence);
     }
 
+    public MyDatabaseClient1 getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new MyDatabaseClient1(context);
+        }
+        return mInstance;
+    }
+
     public MyDatabase getMyDatabase() {
         return myDatabase;
     }
@@ -53,6 +53,7 @@ public class MyDatabaseClient1 {
             myDatabase.close();
         }
     }
+
     public void destroyDatabase(MyDatabase myDatabase) {
         mInstance = null;
         if (myDatabase.isOpen()) {

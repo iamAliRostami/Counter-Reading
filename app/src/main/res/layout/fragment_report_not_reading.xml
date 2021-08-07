@@ -10,8 +10,8 @@
         android:id="@+id/image_view_not_read"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/medium_dp"
         android:layout_above="@id/relative_layout_info"
+        android:layout_margin="@dimen/medium_dp"
         android:src="@drawable/img_not_read"
         tools:ignore="ContentDescription" />
 

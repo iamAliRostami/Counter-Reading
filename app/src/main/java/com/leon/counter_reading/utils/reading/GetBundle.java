@@ -1,13 +1,13 @@
 package com.leon.counter_reading.utils.reading;
 
+import static com.leon.counter_reading.MyApplication.isMane;
+
 import android.os.AsyncTask;
 import android.os.Build;
 
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-
-import static com.leon.counter_reading.MyApplication.isMane;
 
 public class GetBundle extends AsyncTask<Void, Void, Void> {
     ArrayList<String> json;

@@ -1,5 +1,7 @@
 package com.leon.counter_reading.fragments;
 
+import static com.leon.counter_reading.utils.MakeNotification.makeRing;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +20,6 @@ import com.leon.counter_reading.enums.NotificationType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-
-import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 public class AreYouSureFragment extends DialogFragment {
     FragmentAreYouSureBinding binding;

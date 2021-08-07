@@ -10,4 +10,10 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">37.191.92.130</domain>
     </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">81.12.106.167:8081</domain>
+    </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">81.12.106.167</domain>
+    </domain-config>
 </network-security-config>

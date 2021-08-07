@@ -2,7 +2,6 @@ package com.leon.counter_reading.utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import androidx.room.Room;
 
@@ -54,6 +53,7 @@ public class MyDatabaseClient {
             myDatabase.close();
         }
     }
+
     public void destroyDatabase(MyDatabase myDatabase) {
         mInstance = null;
         if (myDatabase.isOpen()) {

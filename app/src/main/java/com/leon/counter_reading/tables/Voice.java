@@ -26,9 +26,9 @@ public class Voice {
 
 
     public static class VoiceGrouped {
+        public final ArrayList<MultipartBody.Part> File;
         public RequestBody OnOffLoadId;
         public RequestBody Description;
-        public final ArrayList<MultipartBody.Part> File;
 
         public VoiceGrouped() {
             File = new ArrayList<>();

@@ -1,5 +1,7 @@
 package com.leon.counter_reading;
 
+import static android.os.Build.UNKNOWN;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
@@ -20,8 +22,6 @@ import com.leon.counter_reading.tables.ReadingData;
 import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
-
-import static android.os.Build.UNKNOWN;
 
 public class MyApplication extends Application {
     public static final String FONT_NAME = "font/font_1.ttf";
@@ -46,13 +46,10 @@ public class MyApplication extends Application {
     public static Bitmap bitmapSelectedImage;
     public static String fileName;
     public static boolean FOCUS_ON_EDIT_TEXT;
-    static Context appContext;
-
-
-    static int errorCounter = 0;
-
     public static ArrayList<Integer> isMane = new ArrayList<>();
     public static ReadingData readingData, readingDataTemp;
+    static Context appContext;
+    static int errorCounter = 0;
 
     public static Context getContext() {
         return appContext;
@@ -94,24 +91,6 @@ public class MyApplication extends Application {
         return "MyDatabase_6";
     }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
-
-    @Override
-    public void onCreate() {
-        appContext = getApplicationContext();
-        Toasty.Config.getInstance()
-                .tintIcon(true)
-                .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), MyApplication.FONT_NAME))
-                .setTextSize(TOAST_TEXT_SIZE)
-                .allowQueue(true).apply();
-        super.onCreate();
-//        throw new RuntimeException("Test Crash");
-    }
-
     static public String getAndroidVersion() {
         String release = Build.VERSION.RELEASE;
         int sdkVersion = Build.VERSION.SDK_INT;
@@ -146,5 +125,23 @@ public class MyApplication extends Application {
             }
         }
         return isCarrier;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+    @Override
+    public void onCreate() {
+        appContext = getApplicationContext();
+        Toasty.Config.getInstance()
+                .tintIcon(true)
+                .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), MyApplication.FONT_NAME))
+                .setTextSize(TOAST_TEXT_SIZE)
+                .allowQueue(true).apply();
+        super.onCreate();
+//        throw new RuntimeException("Test Crash");
     }
 }
