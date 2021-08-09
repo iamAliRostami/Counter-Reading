@@ -25,7 +25,7 @@ import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.LocationTracker;
+import com.leon.counter_reading.utils.locating.LocationTracker;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;

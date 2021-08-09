@@ -1,4 +1,4 @@
-package com.leon.counter_reading.utils.gis;
+package com.leon.counter_reading.utils.locating;
 
 public class FeatureGIS {
     public final Properties properties;

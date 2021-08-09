@@ -168,7 +168,7 @@ public class DifferentCompanyManager {
             case ESF:
                 return 5;
             case ZONE4:
-                return 10;
+                return 5;
             default:
                 return 10;
         }
@@ -179,7 +179,7 @@ public class DifferentCompanyManager {
             case ESF:
                 return 15;
             case ZONE4:
-                return 20;
+                return 15;
             default:
                 return 10;
         }

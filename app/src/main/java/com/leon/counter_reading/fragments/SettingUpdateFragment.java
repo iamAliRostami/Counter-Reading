@@ -22,7 +22,7 @@ import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.LastInfo;
-import com.leon.counter_reading.utils.CustomDialog;
+import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;

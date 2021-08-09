@@ -1,4 +1,4 @@
-package com.leon.counter_reading.utils;
+package com.leon.counter_reading.utils.locating;
 
 import static com.leon.counter_reading.MyApplication.FASTEST_INTERVAL;
 import static com.leon.counter_reading.MyApplication.MIN_DISTANCE_CHANGE_FOR_UPDATES;
@@ -29,6 +29,10 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.tables.SavedLocation;
+import com.leon.counter_reading.utils.CustomToast;
+import com.leon.counter_reading.utils.MyDatabase;
+import com.leon.counter_reading.utils.MyDatabaseClient;
+import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
 import org.osmdroid.config.Configuration;
@@ -93,9 +97,8 @@ public class GPSTracker extends Service {
             SavedLocation savedLocation = new SavedLocation(accuracy, longitude, latitude);
             MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
             myDatabase.savedLocationDao().insertSavedLocation(savedLocation);
-//            MyDatabaseClient.getInstance(activity).destroyDatabase(myDatabase);
             savedLocations.add(savedLocation);
-        }
+        } else Log.e("location", "is null or zero");
     }
 
     @SuppressLint("MissingPermission")
@@ -196,10 +199,6 @@ public class GPSTracker extends Service {
         return latitude;
     }
 
-    public boolean canGetLocation() {
-        return this.canGetLocation;
-    }
-
     void stopFusedLocation() {
         if (fusedLocationClient != null) {
             fusedLocationClient.removeLocationUpdates(locationCallback);
@@ -222,8 +221,6 @@ public class GPSTracker extends Service {
     public void onDestroy() {
         stopFusedLocation();
         stopListener();
-        latitude = 0;
-        longitude = 0;
         super.onDestroy();
     }
 }

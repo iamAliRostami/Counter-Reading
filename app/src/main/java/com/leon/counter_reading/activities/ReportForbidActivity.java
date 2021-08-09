@@ -42,7 +42,7 @@ import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.LocationTracker;
+import com.leon.counter_reading.utils.locating.LocationTracker;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.forbid.PrepareForbid;

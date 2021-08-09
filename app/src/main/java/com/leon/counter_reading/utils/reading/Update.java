@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.leon.counter_reading.MyApplication;
-import com.leon.counter_reading.utils.LocationTracker;
+import com.leon.counter_reading.utils.locating.LocationTracker;
 import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 

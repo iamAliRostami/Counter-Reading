@@ -16,7 +16,7 @@ import com.leon.counter_reading.databinding.FragmentUploadBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.tables.TrackingDto;
-import com.leon.counter_reading.utils.CustomDialog;
+import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.MyDatabaseClient;

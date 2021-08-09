@@ -1,4 +1,4 @@
-package com.leon.counter_reading.utils;
+package com.leon.counter_reading.utils.custom_dialogue;
 
 import android.content.Context;
 import android.content.Intent;

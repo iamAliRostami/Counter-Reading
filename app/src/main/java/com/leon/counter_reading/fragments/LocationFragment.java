@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentLocationBinding;
 import com.leon.counter_reading.tables.SavedLocation;
-import com.leon.counter_reading.utils.GPSTracker;
+import com.leon.counter_reading.utils.locating.GPSTracker;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import org.jetbrains.annotations.NotNull;

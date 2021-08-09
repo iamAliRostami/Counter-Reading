@@ -24,7 +24,7 @@ import com.leon.counter_reading.tables.QotrDictionary;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.ReadingData;
 import com.leon.counter_reading.tables.TrackingDto;
-import com.leon.counter_reading.utils.CustomDialog;
+import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;

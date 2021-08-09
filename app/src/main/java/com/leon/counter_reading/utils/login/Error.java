@@ -5,7 +5,7 @@ import android.app.Activity;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.infrastructure.ICallbackError;
-import com.leon.counter_reading.utils.CustomDialog;
+import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 
 class Error implements ICallbackError {

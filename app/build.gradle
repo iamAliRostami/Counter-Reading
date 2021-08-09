@@ -82,31 +82,32 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'androidx.annotation:annotation:1.2.0'
-
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
     //TODO 1.2.0
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.multidex:multidex:2.0.1'
+
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation 'com.github.GrenderG:Toasty:1.5.0'
+    implementation 'com.github.blackfizz:eazegraph:1.2.3@aar'
+
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
+    implementation 'gun0912.ted:tedpermission:1.0.3'
+    implementation 'com.auth0.android:jwtdecode:2.0.0'
 
     testImplementation 'junit:junit:4.13.2'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'com.android.support:multidex:1.0.3'
-
-    implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
-    implementation 'com.github.GrenderG:Toasty:1.5.0'
-    implementation 'com.intuit.sdp:sdp-android:1.0.6'
-    implementation 'com.github.blackfizz:eazegraph:1.2.3@aar'
-    implementation 'com.nineoldandroids:library:2.4.0'
-    implementation 'gun0912.ted:tedpermission:1.0.3'
-
     implementation 'com.google.android.gms:play-services-location:18.0.0'
 
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
     implementation "com.squareup.retrofit2:converter-scalars:2.6.2"
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
 
     implementation 'org.osmdroid:osmdroid-android:6.1.10@aar'
 
@@ -114,8 +115,6 @@ dependencies {
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
     androidTestImplementation 'android.arch.persistence.room:testing:1.1.1'
 
-    implementation 'com.auth0.android:jwtdecode:2.0.0'
-    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     implementation platform('com.google.firebase:firebase-bom:28.1.0')
     implementation 'com.google.firebase:firebase-analytics'

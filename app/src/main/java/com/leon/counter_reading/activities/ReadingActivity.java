@@ -7,6 +7,7 @@ import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Debug;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,11 +39,12 @@ import com.leon.counter_reading.infrastructure.IFlashLightManager;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
-import com.leon.counter_reading.utils.CustomDialog;
+import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DepthPageTransformer;
 import com.leon.counter_reading.utils.FlashLightManager;
-import com.leon.counter_reading.utils.LocationTracker;
+import com.leon.counter_reading.utils.locating.GPSTracker;
+import com.leon.counter_reading.utils.locating.LocationTracker;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.reading.ChangeSortType;
@@ -66,7 +68,6 @@ public class ReadingActivity extends BaseActivity {
     private SpinnerCustomAdapter adapter;
     private int readStatus = 0, highLow = 1;
     private boolean isReading = false;
-
     @Override
     protected void initialize() {
         binding = ActivityReadingBinding.inflate(getLayoutInflater());
