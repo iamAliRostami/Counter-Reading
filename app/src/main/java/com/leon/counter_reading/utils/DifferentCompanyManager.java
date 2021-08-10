@@ -81,6 +81,8 @@ public class DifferentCompanyManager {
                 return "abfaEsfahan.ir";
             case ZONE4:
                 return "t4ww.tpww.ir";
+            case TSE:
+                return "swest.tpww.ir";
             default:
                 throw new UnsupportedOperationException();
         }
@@ -91,6 +93,7 @@ public class DifferentCompanyManager {
             case ESF:
                 return "واحد";
             case ZONE4:
+            case TSE:
                 return "آحاد";
             default:
                 throw new UnsupportedOperationException();
@@ -102,6 +105,7 @@ public class DifferentCompanyManager {
             case ESF:
                 return "واحد مسکونی";
             case ZONE4:
+            case TSE:
                 return "آحاد مسکونی";
             default:
                 throw new UnsupportedOperationException();
@@ -113,6 +117,7 @@ public class DifferentCompanyManager {
             case ESF:
                 return "واحد تجاری";
             case ZONE4:
+            case TSE:
                 return "آحاد تجاری";
             default:
                 throw new UnsupportedOperationException();
@@ -124,6 +129,7 @@ public class DifferentCompanyManager {
             case ESF:
                 return "واحد کل";
             case ZONE4:
+            case TSE:
                 return "آحاد کل";
             default:
                 throw new UnsupportedOperationException();
@@ -135,6 +141,7 @@ public class DifferentCompanyManager {
             case ESF:
                 return 4;
             case ZONE4:
+            case TSE:
                 return 4;
             default:
                 return 4;
@@ -146,6 +153,7 @@ public class DifferentCompanyManager {
             case ESF:
                 return 3;
             case ZONE4:
+            case TSE:
                 return 3;
             default:
                 return 3;
@@ -157,6 +165,7 @@ public class DifferentCompanyManager {
             case ESF:
                 return 6;
             case ZONE4:
+            case TSE:
                 return 6;
             default:
                 throw new UnsupportedOperationException();
@@ -168,6 +177,7 @@ public class DifferentCompanyManager {
             case ESF:
                 return 5;
             case ZONE4:
+            case TSE:
                 return 5;
             default:
                 return 10;
@@ -179,6 +189,7 @@ public class DifferentCompanyManager {
             case ESF:
                 return 15;
             case ZONE4:
+            case TSE:
                 return 15;
             default:
                 return 10;

@@ -65,9 +65,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:899903509032:android:60fac1bb2d57cc76b09b1d",
+        "mobilesdk_app_id": "1:899903509032:android:59d2153190136d40b09b1d",
         "android_client_info": {
-          "package_name": "com.leon.counter_reading.release.esf"
+          "package_name": "com.leon.counter_reading.tse"
         }
       },
       "oauth_client": [
