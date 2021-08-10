@@ -47,7 +47,7 @@ import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.locating.GPSTracker;
+import com.leon.counter_reading.utils.locating.LocationTrackerGoogle;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
@@ -62,7 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity
     private ActivityBaseBinding binding;
     private Activity activity;
     private ISharedPreferenceManager sharedPreferenceManager;
-    private GPSTracker gpsTracker;
+    private LocationTrackerGoogle locationTrackerGoogle;
     private boolean exit = false;
 
     protected abstract void initialize();
@@ -101,7 +101,7 @@ public abstract class BaseActivity extends AppCompatActivity
             } else {
                 initialize();
                 if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.POINT.getValue()))
-                    gpsTracker = new GPSTracker(this);
+                    locationTrackerGoogle = new LocationTrackerGoogle(this);
             }
     }
 
@@ -303,9 +303,9 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        if (gpsTracker != null) {
-            gpsTracker.onBind(getIntent());
-            gpsTracker.onDestroy();
+        if (locationTrackerGoogle != null) {
+            locationTrackerGoogle.onBind(getIntent());
+            locationTrackerGoogle.onDestroy();
         }
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();

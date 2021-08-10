@@ -15,7 +15,6 @@ import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.HttpClientWrapper;
-import com.leon.counter_reading.utils.locating.LocationTracker;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
@@ -39,7 +38,6 @@ public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
 
     @Override
     protected Activity doInBackground(Activity... activities) {
-        LocationTracker locationTracker = new LocationTracker(activities[0]);
         ISharedPreferenceManager sharedPreferenceManager =
                 new SharedPreferenceManager(activities[0], SharedReferenceNames.ACCOUNT.getValue());
         Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.
@@ -89,7 +87,6 @@ public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
                     forbiddenDto.forbiddenDtoRequest.y,
                     forbiddenDto.forbiddenDtoRequest.gisAccuracy);
         }
-        locationTracker.stopListener();
         activities[0].runOnUiThread(() ->
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activities[0],
                         new Forbidden(activities[0], forbiddenDto),

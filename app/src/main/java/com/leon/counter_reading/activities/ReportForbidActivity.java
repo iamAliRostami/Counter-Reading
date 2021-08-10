@@ -42,10 +42,12 @@ import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.locating.LocationTracker;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.forbid.PrepareForbid;
+import com.leon.counter_reading.utils.locating.CheckSensor;
+import com.leon.counter_reading.utils.locating.LocationTrackerGoogle;
+import com.leon.counter_reading.utils.locating.LocationTrackerGps;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,6 +60,7 @@ public class ReportForbidActivity extends AppCompatActivity {
     private Activity activity;
     private ForbiddenDto forbiddenDto = new ForbiddenDto();
     private int zoneId;
+    private LocationTrackerGoogle locationTrackerGoogle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +82,8 @@ public class ReportForbidActivity extends AppCompatActivity {
             } else if (!PermissionManager.checkCameraPermission(getApplicationContext())) {
                 askCameraPermission();
             } else {
+                if (CheckSensor.checkSensor(activity))
+                    locationTrackerGoogle = new LocationTrackerGoogle(activity);
                 initialize();
             }
     }
@@ -264,9 +269,16 @@ public class ReportForbidActivity extends AppCompatActivity {
     }
 
     void sendForbid() {
-        LocationTracker locationTracker = new LocationTracker(activity);
+        LocationTrackerGps locationTrackerGps = new LocationTrackerGps(activity);
+        double accuracy = locationTrackerGoogle != null ? locationTrackerGoogle.getAccuracy() :
+                locationTrackerGps.getAccuracy();
+        double latitude = locationTrackerGoogle != null ? locationTrackerGoogle.getLatitude() :
+                locationTrackerGps.getLatitude();
+        double longitude = locationTrackerGoogle != null ? locationTrackerGoogle.getLongitude() :
+                locationTrackerGps.getLongitude();
+        locationTrackerGps.stopListener();
         forbiddenDto.prepareToSend(
-                locationTracker.getAccuracy(), locationTracker.getLongitude(), locationTracker.getLatitude(),
+                accuracy, longitude, latitude,
                 binding.editTextPostalCode.getText().toString(),
                 binding.editTextDescription.getText().toString(),
                 binding.editTextPreAccount.getText().toString(),
