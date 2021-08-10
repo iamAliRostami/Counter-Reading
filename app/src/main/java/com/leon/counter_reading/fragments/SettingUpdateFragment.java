@@ -12,32 +12,19 @@ import androidx.fragment.app.Fragment;
 import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentSettingUpdateBinding;
-import com.leon.counter_reading.enums.DialogType;
-import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
-import com.leon.counter_reading.infrastructure.IAbfaService;
-import com.leon.counter_reading.infrastructure.ICallback;
-import com.leon.counter_reading.infrastructure.ICallbackError;
-import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.LastInfo;
-import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
-import com.leon.counter_reading.utils.CustomErrorHandling;
-import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.HttpClientWrapper;
-import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
+import com.leon.counter_reading.utils.updating.GetUpdateFile;
+import com.leon.counter_reading.utils.updating.GetUpdateInfo;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class SettingUpdateFragment extends Fragment {
     FragmentSettingUpdateBinding binding;
@@ -63,7 +50,6 @@ public class SettingUpdateFragment extends Fragment {
         return binding.getRoot();
     }
 
-    //    @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
         sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
         binding.imageViewUpdate.
@@ -71,33 +57,39 @@ public class SettingUpdateFragment extends Fragment {
         setOnButtonReceiveClickListener();
     }
 
-    void updateInfo() {
-        Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
-        IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        Call<LastInfo> call = iAbfaService.getLastInfo();
-        HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                new UpdateInfo(), new UpdateInfoIncomplete(), new UpdateError());
-    }
-
-    void getUpdateFile() {
-//        activity.runOnUiThread(() -> binding.progressBar.setVisibility(View.VISIBLE));
-        Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
-        IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        Call<ResponseBody> call = iAbfaService.getLastApk();
-        HttpClientWrapper.callHttpAsyncProgressDismiss(call, ProgressType.SHOW_CANCELABLE.getValue(),
-                activity, new Update(), new UpdateIncomplete(), new UpdateError());
-    }
-
     void setOnButtonReceiveClickListener() {
         binding.buttonReceive.setOnClickListener(v -> {
             if (firstTime) {
-                updateInfo();
-            } else if (BuildConfig.VERSION_CODE >= versionCode) {
+                new GetUpdateInfo(activity, this);
+            } else if (BuildConfig.VERSION_CODE - 1 >= versionCode) {
                 new CustomToast().success(getString(R.string.you_are_updated));
             } else {
-                getUpdateFile();
+                new GetUpdateFile(activity);
             }
         });
+    }
+
+    public void updateInfoUi(LastInfo lastInfo) {
+        activity.runOnUiThread(() -> {
+            binding.textViewVersion.setText(lastInfo.versionName);
+            ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(
+                    activity, SharedReferenceNames.ACCOUNT.getValue());
+            sharedPreferenceManager.putData(SharedReferenceKeys.DATE.getValue(),
+                    lastInfo.uploadDateJalali);
+            binding.textViewDate.setText(lastInfo.uploadDateJalali);
+            binding.textViewPossibility.setText(lastInfo.description);
+            float size = (float) lastInfo.sizeInByte / (1028 * 1028);
+            binding.textViewSize.setText(new DecimalFormat("###.##").format(size).
+                    concat(getString(R.string.mega_byte)));
+
+            binding.linearLayout1.setVisibility(View.VISIBLE);
+            binding.linearLayout2.setVisibility(View.VISIBLE);
+            binding.linearLayout3.setVisibility(View.VISIBLE);
+            binding.linearLayout4.setVisibility(View.VISIBLE);
+            binding.buttonReceive.setText(getString(R.string.receive_file));
+        });
+        versionCode = lastInfo.versionCode;
+        firstTime = false;
     }
 
     @Override
@@ -112,84 +104,5 @@ public class SettingUpdateFragment extends Fragment {
         super.onDestroy();
         if (HttpClientWrapper.call != null)
             HttpClientWrapper.call.cancel();
-    }
-
-    //    @SuppressLint("SetTextI18n")
-    class UpdateInfo implements ICallback<LastInfo> {
-        @Override
-        public void execute(Response<LastInfo> response) {
-            if (response.body() != null) {
-                activity.runOnUiThread(() -> {
-                    binding.textViewVersion.setText(response.body().versionName);
-                    ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(
-                            activity, SharedReferenceNames.ACCOUNT.getValue());
-                    sharedPreferenceManager.putData(SharedReferenceKeys.DATE.getValue(),
-                            response.body().uploadDateJalali);
-                    binding.textViewDate.setText(response.body().uploadDateJalali);
-                    binding.textViewPossibility.setText(response.body().description);
-                    float size = (float) response.body().sizeInByte / (1028 * 1028);
-                    binding.textViewSize.setText(new DecimalFormat("###.##").format(size).
-                            concat(getString(R.string.mega_byte)));
-
-//                    binding.linearLayoutUpdate.setVisibility(View.VISIBLE);
-                    binding.linearLayout1.setVisibility(View.VISIBLE);
-                    binding.linearLayout2.setVisibility(View.VISIBLE);
-                    binding.linearLayout3.setVisibility(View.VISIBLE);
-                    binding.linearLayout4.setVisibility(View.VISIBLE);
-//                    binding.progressBar.setVisibility(View.GONE);
-                    binding.buttonReceive.setText(getString(R.string.receive_file));
-                });
-                versionCode = response.body().versionCode;
-                firstTime = false;
-            }
-        }
-    }
-
-    class UpdateInfoIncomplete implements ICallbackIncomplete<LastInfo> {
-        @Override
-        public void executeIncomplete(Response<LastInfo> response) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-            String error = customErrorHandlingNew.getErrorMessageDefault(response);
-            new CustomDialog(DialogType.Yellow, activity, error,
-                    activity.getString(R.string.dear_user),
-                    activity.getString(R.string.update),
-                    activity.getString(R.string.accepted));
-        }
-    }
-
-    class Update implements ICallback<ResponseBody> {
-        @Override
-        public void execute(Response<ResponseBody> response) {
-            if (!CustomFile.writeResponseApkToDisk(response.body(), activity))
-                activity.runOnUiThread(() ->
-                        new CustomToast().warning(activity.getString(R.string.error_update)));
-//            binding.progressBar.setVisibility(View.GONE);
-        }
-    }
-
-    class UpdateIncomplete implements ICallbackIncomplete<ResponseBody> {
-        @Override
-        public void executeIncomplete(Response<ResponseBody> response) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-            String error = customErrorHandlingNew.getErrorMessageDefault(response);
-            new CustomDialog(DialogType.Yellow, activity, error,
-                    activity.getString(R.string.dear_user),
-                    activity.getString(R.string.update),
-                    activity.getString(R.string.accepted));
-//            binding.progressBar.setVisibility(View.GONE);
-        }
-    }
-
-    class UpdateError implements ICallbackError {
-        @Override
-        public void executeError(Throwable t) {
-            CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
-            String error = customErrorHandlingNew.getErrorMessageTotal(t);
-            new CustomDialog(DialogType.Red, getContext(), error,
-                    activity.getString(R.string.dear_user),
-                    activity.getString(R.string.update),
-                    activity.getString(R.string.accepted));
-//            binding.progressBar.setVisibility(View.GONE);
-        }
     }
 }

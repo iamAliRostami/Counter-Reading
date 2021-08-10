@@ -154,21 +154,6 @@ public class CustomFile {
 
     @SuppressLint({"SimpleDateFormat"})
     public static String createAudioFile(Context context) {
-//        try {
-////            Files.createDirectories(
-////                    Paths.get(Environment.getExternalStorageDirectory().getAbsolutePath() +
-////                            context.getString(R.string.audio_folder)));
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                Files.createDirectories(
-//                        Paths.get(context.getExternalFilesDir(null).getAbsolutePath() +
-//                                context.getString(R.string.audio_folder)));
-//            } else {
-//                new CustomToast().warning(context.getString(R.string.error_external_storage_is_not_writable));
-//            }
-//        } catch (IOException e) {
-//            new CustomToast().warning(context.getString(R.string.error_external_storage_is_not_writable));
-//            e.printStackTrace();
-//        }
         File storageDir = new File(context.getExternalFilesDir(null).getAbsolutePath() + context.getString(R.string.audio_folder));
         storageDir.mkdirs();
         String timeStamp = (new SimpleDateFormat(
