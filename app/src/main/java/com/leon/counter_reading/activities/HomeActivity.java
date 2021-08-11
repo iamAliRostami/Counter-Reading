@@ -110,15 +110,20 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        binding.imageViewAppSetting.setImageDrawable(null);
-        binding.imageViewDownload.setImageDrawable(null);
-        binding.imageViewUpload.setImageDrawable(null);
-        binding.imageViewReadingSetting.setImageDrawable(null);
-        binding.imageViewHelp.setImageDrawable(null);
-        binding.imageViewExit.setImageDrawable(null);
-        binding.imageViewReading.setImageDrawable(null);
-        binding.imageViewReport.setImageDrawable(null);
-        binding.imageViewLocation.setImageDrawable(null);
+        try {
+            binding.imageViewAppSetting.setImageDrawable(null);
+            binding.imageViewDownload.setImageDrawable(null);
+            binding.imageViewUpload.setImageDrawable(null);
+            binding.imageViewReadingSetting.setImageDrawable(null);
+            binding.imageViewHelp.setImageDrawable(null);
+            binding.imageViewExit.setImageDrawable(null);
+            binding.imageViewReading.setImageDrawable(null);
+            binding.imageViewReport.setImageDrawable(null);
+            binding.imageViewLocation.setImageDrawable(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         binding = null;
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
