@@ -309,6 +309,7 @@ public class ReportForbidActivity extends AppCompatActivity {
             });
             builder.setNegativeButton(R.string.camera, (dialog, which) -> {
                 dialog.dismiss();
+//                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 Intent cameraIntent = new Intent("android.media.action.IMAGE_CAPTURE");
                 if (cameraIntent.resolveActivity(ReportForbidActivity.this.getPackageManager()) != null) {
                     File photoFile = null;

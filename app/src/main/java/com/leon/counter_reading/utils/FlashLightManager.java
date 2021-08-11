@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
-import android.os.Build;
 
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.infrastructure.IFlashLightManager;
@@ -23,9 +22,13 @@ public final class FlashLightManager implements IFlashLightManager {
             CameraManager camManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
             try {
                 String[] cameraId = camManager.getCameraIdList();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                try {
                     camManager.setTorchMode(cameraId[0], true);
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
                 }
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                }
                 isFlashOn = true;
             } catch (CameraAccessException e) {
                 e.printStackTrace();
@@ -40,9 +43,9 @@ public final class FlashLightManager implements IFlashLightManager {
         CameraManager camManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         try {
             String[] cameraId = camManager.getCameraIdList();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                camManager.setTorchMode(cameraId[0], false);
-            }
+            camManager.setTorchMode(cameraId[0], false);
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            }
             isFlashOn = false;
         } catch (CameraAccessException e) {
             e.printStackTrace();
