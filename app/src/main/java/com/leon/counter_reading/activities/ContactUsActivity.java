@@ -2,6 +2,7 @@ package com.leon.counter_reading.activities;
 
 import android.os.Bundle;
 import android.os.Debug;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -33,6 +34,10 @@ public class ContactUsActivity extends AppCompatActivity {
     }
 
     void initialize() {
+
+        TextView textViewCompanyName = findViewById(R.id.text_view_company_name);
+        textViewCompanyName.setText(DifferentCompanyManager.getCompanyName(DifferentCompanyManager.getActiveCompanyName()));
+
         if (sharedPreferenceManager.checkIsNotEmpty(SharedReferenceKeys.USERNAME_TEMP.getValue()))
             binding.textViewDate.setText(sharedPreferenceManager.
                     getStringData(SharedReferenceKeys.DATE.getValue()));

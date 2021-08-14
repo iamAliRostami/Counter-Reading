@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Debug;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -19,6 +20,7 @@ import com.leon.counter_reading.fragments.ReadingSettingDeleteFragment;
 import com.leon.counter_reading.fragments.ReadingSettingFragment;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.DepthPageTransformer;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.util.ArrayList;
@@ -35,6 +37,10 @@ public class ReadingSettingActivity extends BaseActivity {
         View childLayout = binding.getRoot();
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
+
+        TextView textViewCompanyName = findViewById(R.id.text_view_company_name);
+        textViewCompanyName.setText(DifferentCompanyManager.getCompanyName(DifferentCompanyManager.getActiveCompanyName()));
+
         activity = this;
         trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
                 trackingDao().getTrackingDtoNotArchive(false));

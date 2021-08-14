@@ -137,7 +137,7 @@ public class CustomFile {
     }
 
     @SuppressLint({"SimpleDateFormat"})
-    public static File createImageFile(Context context) throws IOException {
+    public static File createImageFileOld(Context context) throws IOException {
         String timeStamp = (new SimpleDateFormat(context.getString(R.string.save_format_name))).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
 //        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
@@ -149,6 +149,23 @@ public class CustomFile {
         Objects.requireNonNull(image);
         MyApplication.fileName = null;
         MyApplication.fileName = stringBuilder.append(image.getAbsolutePath()).toString();
+        return image;
+    }
+
+    @SuppressLint({"SimpleDateFormat"})
+    public static File createImageFile(Context context) throws IOException {
+        // Create an image file name
+        String timeStamp = (new SimpleDateFormat(context.getString(R.string.save_format_name))).format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+        // Save a file: path for use with ACTION_VIEW intents
+        MyApplication.fileName = null;
+        MyApplication.fileName = image.getAbsolutePath();
         return image;
     }
 

@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,7 @@ import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.Voice;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
@@ -57,6 +59,9 @@ public class DescriptionActivity extends AppCompatActivity {
                 true);
         binding = ActivityDescriptionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        TextView textViewCompanyName = findViewById(R.id.text_view_company_name);
+        textViewCompanyName.setText(DifferentCompanyManager.getCompanyName(DifferentCompanyManager.getActiveCompanyName()));
+
         activity = this;
         if (PermissionManager.checkRecorderPermission(getApplicationContext()))
             initialize();

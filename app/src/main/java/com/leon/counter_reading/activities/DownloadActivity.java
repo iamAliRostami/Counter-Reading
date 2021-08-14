@@ -3,6 +3,7 @@ package com.leon.counter_reading.activities;
 import android.graphics.Color;
 import android.os.Debug;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -14,6 +15,7 @@ import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityDownloadBinding;
 import com.leon.counter_reading.fragments.DownloadFragment;
 import com.leon.counter_reading.utils.DepthPageTransformer;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 
 public class DownloadActivity extends BaseActivity {
     private ActivityDownloadBinding binding;
@@ -30,6 +32,9 @@ public class DownloadActivity extends BaseActivity {
     }
 
     void initializeTextViews() {
+        TextView textViewCompanyName = findViewById(R.id.text_view_company_name);
+        textViewCompanyName.setText(DifferentCompanyManager.getCompanyName(DifferentCompanyManager.getActiveCompanyName()));
+
         textViewDownloadNormal();
         textViewDownloadSpecial();
         textViewDownloadOff();

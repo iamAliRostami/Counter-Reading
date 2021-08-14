@@ -2,16 +2,14 @@ package com.leon.counter_reading.activities;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ImageDecoder;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
 import android.provider.MediaStore;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +27,7 @@ import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
@@ -59,6 +58,9 @@ public class TakePhotoActivity extends AppCompatActivity {
         MyApplication.onActivitySetTheme(this, theme, true);
         binding = ActivityTakePhotoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        TextView textViewCompanyName = findViewById(R.id.text_view_company_name);
+        textViewCompanyName.setText(DifferentCompanyManager.getCompanyName(DifferentCompanyManager.getActiveCompanyName()));
+
         activity = this;
         if (PermissionManager.checkCameraPermission(getApplicationContext()))
             initialize();
@@ -143,32 +145,60 @@ public class TakePhotoActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             } else if (requestCode == MyApplication.CAMERA_REQUEST) {
-                ContentResolver contentResolver = this.getContentResolver();
-                try {
-                    if (Build.VERSION.SDK_INT > 28) {
-                        ImageDecoder.Source source =
-                                ImageDecoder.createSource(this.getContentResolver(), Uri.parse(MyApplication.fileName));
-                        MyApplication.bitmapSelectedImage = ImageDecoder.decodeBitmap(source);
-                    } else
-                        MyApplication.bitmapSelectedImage = MediaStore.Images.Media.getBitmap(
-                                contentResolver, Uri.parse(MyApplication.fileName));
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (MyApplication.photoURI != null) {
+                    try {
+                        MyApplication.bitmapSelectedImage = MediaStore.Images.Media.getBitmap(getContentResolver(), MyApplication.photoURI);
+
+                        Image image = new Image();
+                        image.OnOffLoadId = uuid;
+                        image.trackNumber = trackNumber;
+                        image.File = CustomFile.bitmapToFile(MyApplication.bitmapSelectedImage, activity);
+                        image.bitmap = MyApplication.bitmapSelectedImage;
+                        if (replace > 0) {
+                            MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().
+                                    deleteImage(images.get(replace - 1).id);
+                            images.set(replace - 1, image);
+                        } else {
+                            images.add(image);
+                        }
+                        imageViewAdapter.notifyDataSetChanged();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 }
+
+//                if (data != null) {
+//                    Bundle extras = data.getExtras();
+//                    MyApplication.bitmapSelectedImage = (Bitmap) extras.get("data");
+//                    Image image = new Image();
+//                    image.OnOffLoadId = uuid;
+//                    image.trackNumber = trackNumber;
+//                    image.File = CustomFile.bitmapToFile(MyApplication.bitmapSelectedImage, activity);
+//                    image.bitmap = MyApplication.bitmapSelectedImage;
+//                    if (replace > 0) {
+//                        MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().
+//                                deleteImage(images.get(replace - 1).id);
+//                        images.set(replace - 1, image);
+//                    } else {
+//                        images.add(image);
+//                    }
+//                    imageViewAdapter.notifyDataSetChanged();
+//                }
+//                ContentResolver contentResolver = this.getContentResolver();
+//                try {
+//                    if (Build.VERSION.SDK_INT > 28) {
+//                        ImageDecoder.Source source =
+//                                ImageDecoder.createSource(this.getContentResolver(), Uri.parse(MyApplication.fileName));
+//                        MyApplication.bitmapSelectedImage = ImageDecoder.decodeBitmap(source);
+//                    } else
+//                        MyApplication.bitmapSelectedImage = MediaStore.Images.Media.getBitmap(
+//                                contentResolver, Uri.parse(MyApplication.fileName));
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    Log.e("error", e.toString());
+//                }
             }
-            Image image = new Image();
-            image.OnOffLoadId = uuid;
-            image.trackNumber = trackNumber;
-            image.File = CustomFile.bitmapToFile(MyApplication.bitmapSelectedImage, activity);
-            image.bitmap = MyApplication.bitmapSelectedImage;
-            if (replace > 0) {
-                MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().deleteImage(
-                        images.get(replace - 1).id);
-                images.set(replace - 1, image);
-            } else {
-                images.add(image);
-            }
-            imageViewAdapter.notifyDataSetChanged();
         }
     }
 

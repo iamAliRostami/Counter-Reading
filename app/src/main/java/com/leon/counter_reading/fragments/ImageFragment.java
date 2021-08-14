@@ -1,6 +1,6 @@
 package com.leon.counter_reading.fragments;
 
-import static com.leon.counter_reading.utils.CustomFile.createImageFile;
+import static com.leon.counter_reading.utils.CustomFile.createImageFileOld;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -260,7 +260,7 @@ public class ImageFragment extends DialogFragment {
             if (cameraIntent.resolveActivity(activity.getPackageManager()) != null) {
                 File photoFile = null;
                 try {
-                    photoFile = createImageFile(activity);
+                    photoFile = createImageFileOld(activity);
                 } catch (IOException e) {
                     Log.e("Main", e.toString());
                 }

@@ -3,6 +3,7 @@ package com.leon.counter_reading.activities;
 import android.content.Intent;
 import android.os.Debug;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -11,6 +12,7 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityHomeBinding;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 
 public class HomeActivity extends BaseActivity {
     private ActivityHomeBinding binding;
@@ -59,6 +61,10 @@ public class HomeActivity extends BaseActivity {
         View childLayout = binding.getRoot();
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
+
+        TextView textViewCompanyName = findViewById(R.id.text_view_company_name);
+        textViewCompanyName.setText(DifferentCompanyManager.getCompanyName(DifferentCompanyManager.getActiveCompanyName()));
+
         initializeImageViews();
         setOnImageViewClickListener();
     }

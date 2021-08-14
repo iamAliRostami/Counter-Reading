@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -16,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityHelpBinding;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 
 public class HelpActivity extends BaseActivity {
     private ActivityHelpBinding binding;
@@ -29,6 +31,9 @@ public class HelpActivity extends BaseActivity {
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
 //        binding.pdfView.fromAsset("counter_reading.pdf").load();
+        TextView textViewCompanyName = findViewById(R.id.text_view_company_name);
+        textViewCompanyName.setText(DifferentCompanyManager.getCompanyName(DifferentCompanyManager.getActiveCompanyName()));
+
         WebSettings settings = binding.webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setAllowFileAccessFromFileURLs(true);

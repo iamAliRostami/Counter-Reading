@@ -17,6 +17,7 @@
         android:src="@drawable/img_logo_footer" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_view_company_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/copy_right"

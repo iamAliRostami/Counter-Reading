@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Debug;
 import android.text.InputType;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,7 @@ import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.Crypto;
 import com.leon.counter_reading.utils.CustomToast;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.login.AttemptLogin;
@@ -86,6 +88,10 @@ public class LoginActivity extends AppCompatActivity {
     void initialize() {
         binding.textViewVersion.setText(getString(R.string.version).concat(" ").concat(getAndroidVersion())
                 .concat(" *** ").concat(BuildConfig.VERSION_NAME));
+
+        TextView textViewCompanyName = findViewById(R.id.text_view_company_name);
+        textViewCompanyName.setText(DifferentCompanyManager.getCompanyName(DifferentCompanyManager.getActiveCompanyName()));
+
         loadPreference();
         binding.imageViewPassword.setImageResource(R.drawable.img_password);
         binding.imageViewLogo.setImageResource(R.drawable.img_login_logo);

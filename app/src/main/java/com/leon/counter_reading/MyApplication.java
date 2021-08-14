@@ -10,6 +10,7 @@ import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -19,6 +20,7 @@ import androidx.multidex.MultiDex;
 
 import com.leon.counter_reading.tables.ReadingData;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
@@ -44,6 +46,7 @@ public class MyApplication extends Application {
     public static final int CARRIER_PRIVILEGE_STATUS = 901;
     public static int POSITION = -1;
     public static Bitmap bitmapSelectedImage;
+    public static Uri photoURI;
     public static String fileName;
     public static boolean FOCUS_ON_EDIT_TEXT;
     public static ArrayList<Integer> isMane = new ArrayList<>();

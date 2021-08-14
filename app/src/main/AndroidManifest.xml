@@ -4,6 +4,12 @@
     package="com.leon.counter_reading">
 
     <queries>
+        <intent>
+            <action android:name="android.provider.MediaStore.ACTION_IMAGE_CAPTURE" />
+        </intent>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
         <package android:name="com.leon.counter_reading.activities.ReportForbidActivity" />
         <package android:name="com.leon.counter_reading.activities.TakePhotoActivity" />
         <package android:name="com.leon.counter_reading.activities.DescriptionActivity" />

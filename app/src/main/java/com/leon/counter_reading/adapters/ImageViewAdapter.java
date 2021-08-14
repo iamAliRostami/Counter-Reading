@@ -1,14 +1,15 @@
 package com.leon.counter_reading.adapters;
 
+import static com.leon.counter_reading.MyApplication.photoURI;
 import static com.leon.counter_reading.activities.TakePhotoActivity.replace;
 import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,11 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.TakePhotoActivity;
@@ -113,21 +116,59 @@ public class ImageViewAdapter extends BaseAdapter {
         });
         builder.setNegativeButton(R.string.camera, (dialog, which) -> {
             dialog.dismiss();
-            Intent cameraIntent = new Intent("android.media.action.IMAGE_CAPTURE");
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//            try {
+//                ((TakePhotoActivity) (context)).startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
+//            } catch (ActivityNotFoundException e) {
+//                // display error state to the user
+//            }
             if (cameraIntent.resolveActivity(context.getPackageManager()) != null) {
+                // Create the File where the photo should go
                 File photoFile = null;
                 try {
                     photoFile = createImageFile(context);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    // Error occurred while creating the File
                 }
+                // Continue only if the File was successfully created
                 if (photoFile != null) {
-                    StrictMode.VmPolicy.Builder builderTemp = new StrictMode.VmPolicy.Builder();
-                    StrictMode.setVmPolicy(builderTemp.build());
-                    cameraIntent.putExtra("output", Uri.fromFile(photoFile));
-                    ((TakePhotoActivity) (context)).startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
+                    photoURI = FileProvider.getUriForFile(context,
+                            BuildConfig.APPLICATION_ID.concat(".provider"),
+                            photoFile);
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    try {
+                        ((TakePhotoActivity) (context)).startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
+                    } catch (ActivityNotFoundException e) {
+                        e.printStackTrace();
+                        // display error state to the user
+                    }
                 }
             }
+
+//            if (cameraIntent.resolveActivity(context.getPackageManager()) != null) {
+//                File photoFile = createImageFileN(context);
+//                StrictMode.VmPolicy.Builder builderTemp = new StrictMode.VmPolicy.Builder();
+//                StrictMode.setVmPolicy(builderTemp.build());
+//                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+//                ((TakePhotoActivity) (context)).startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
+
+
+//            Intent cameraIntent = new Intent("android.media.action.IMAGE_CAPTURE");
+
+//                File photoFile = null;
+//                try {
+//                    photoFile = createImageFile(context);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                if (photoFile != null) {
+//                    StrictMode.VmPolicy.Builder builderTemp = new StrictMode.VmPolicy.Builder();
+//                    StrictMode.setVmPolicy(builderTemp.build());
+//                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+//                    ((TakePhotoActivity) (context)).startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
+//                }
+//            }
         });
         builder.setNeutralButton("", (dialog, which) -> dialog.dismiss());
         builder.create().show();

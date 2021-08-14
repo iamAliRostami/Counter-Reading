@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Debug;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -17,6 +18,7 @@ import com.leon.counter_reading.fragments.SettingChangePasswordFragment;
 import com.leon.counter_reading.fragments.SettingChangeThemeFragment;
 import com.leon.counter_reading.fragments.SettingUpdateFragment;
 import com.leon.counter_reading.utils.DepthPageTransformer;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 
 public class SettingActivity extends BaseActivity {
     private ActivitySettingBinding binding;
@@ -35,6 +37,9 @@ public class SettingActivity extends BaseActivity {
     }
 
     void initializeTextViews() {
+        TextView textViewCompanyName = findViewById(R.id.text_view_company_name);
+        textViewCompanyName.setText(DifferentCompanyManager.getCompanyName(DifferentCompanyManager.getActiveCompanyName()));
+
         textViewChangeTheme();
         textViewChangePassword();
         textViewUpdate();

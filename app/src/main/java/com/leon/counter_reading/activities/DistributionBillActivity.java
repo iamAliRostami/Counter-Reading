@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Debug;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -14,6 +15,7 @@ import com.leon.counter_reading.databinding.ActivityDistributionBillBinding;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 public class DistributionBillActivity extends AppCompatActivity {
@@ -32,6 +34,9 @@ public class DistributionBillActivity extends AppCompatActivity {
     }
 
     void initialize() {
+        TextView textViewCompanyName = findViewById(R.id.text_view_company_name);
+        textViewCompanyName.setText(DifferentCompanyManager.getCompanyName(DifferentCompanyManager.getActiveCompanyName()));
+
         binding.imageViewBill.setImageDrawable(
                 AppCompatResources.getDrawable(getApplicationContext(), R.drawable.img_temporary));
         startAnimationOnTextViewCounter();
