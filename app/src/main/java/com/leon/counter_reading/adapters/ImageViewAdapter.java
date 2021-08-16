@@ -117,11 +117,6 @@ public class ImageViewAdapter extends BaseAdapter {
         builder.setNegativeButton(R.string.camera, (dialog, which) -> {
             dialog.dismiss();
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//            try {
-//                ((TakePhotoActivity) (context)).startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
-//            } catch (ActivityNotFoundException e) {
-//                // display error state to the user
-//            }
             if (cameraIntent.resolveActivity(context.getPackageManager()) != null) {
                 // Create the File where the photo should go
                 File photoFile = null;
@@ -145,30 +140,6 @@ public class ImageViewAdapter extends BaseAdapter {
                     }
                 }
             }
-
-//            if (cameraIntent.resolveActivity(context.getPackageManager()) != null) {
-//                File photoFile = createImageFileN(context);
-//                StrictMode.VmPolicy.Builder builderTemp = new StrictMode.VmPolicy.Builder();
-//                StrictMode.setVmPolicy(builderTemp.build());
-//                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-//                ((TakePhotoActivity) (context)).startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
-
-
-//            Intent cameraIntent = new Intent("android.media.action.IMAGE_CAPTURE");
-
-//                File photoFile = null;
-//                try {
-//                    photoFile = createImageFile(context);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                if (photoFile != null) {
-//                    StrictMode.VmPolicy.Builder builderTemp = new StrictMode.VmPolicy.Builder();
-//                    StrictMode.setVmPolicy(builderTemp.build());
-//                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-//                    ((TakePhotoActivity) (context)).startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
-//                }
-//            }
         });
         builder.setNeutralButton("", (dialog, which) -> dialog.dismiss());
         builder.create().show();

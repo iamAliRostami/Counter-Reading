@@ -302,18 +302,17 @@ public class ReportForbidActivity extends AppCompatActivity {
             builder.setMessage(R.string.select_source);
             builder.setPositiveButton(R.string.gallery, (dialog, which) -> {
                 dialog.dismiss();
-                Intent intent = new Intent("android.intent.action.PICK");
+                Intent intent = new Intent();
                 intent.setType("image/*");
-                startActivityForResult(intent, MyApplication.GALLERY_REQUEST);
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), MyApplication.GALLERY_REQUEST);
+//                Intent intent = new Intent("android.intent.action.PICK");
+//                intent.setType("image/*");
+//                startActivityForResult(intent, MyApplication.GALLERY_REQUEST);
             });
             builder.setNegativeButton(R.string.camera, (dialog, which) -> {
                 dialog.dismiss();
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//            try {
-//                ((TakePhotoActivity) (context)).startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
-//            } catch (ActivityNotFoundException e) {
-//                // display error state to the user
-//            }
                 if (cameraIntent.resolveActivity(activity.getPackageManager()) != null) {
                     // Create the File where the photo should go
                     File photoFile = null;
@@ -337,22 +336,6 @@ public class ReportForbidActivity extends AppCompatActivity {
                         }
                     }
                 }
-//                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-////                Intent cameraIntent = new Intent("android.media.action.IMAGE_CAPTURE");
-//                if (cameraIntent.resolveActivity(ReportForbidActivity.this.getPackageManager()) != null) {
-//                    File photoFile = null;
-//                    try {
-//                        photoFile = createImageFileOld(activity);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    if (photoFile != null) {
-//                        StrictMode.VmPolicy.Builder builderTemp = new StrictMode.VmPolicy.Builder();
-//                        StrictMode.setVmPolicy(builderTemp.build());
-//                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-//                        startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
-//                    }
-//                }
             });
             builder.setNeutralButton("", (dialog, which) -> dialog.dismiss());
             builder.create().show();
@@ -391,21 +374,11 @@ public class ReportForbidActivity extends AppCompatActivity {
                 }
             } else if (requestCode == MyApplication.CAMERA_REQUEST) {
                 try {
-                    MyApplication.bitmapSelectedImage = MediaStore.Images.Media.getBitmap(getContentResolver(), MyApplication.photoURI);
+                    MyApplication.bitmapSelectedImage =
+                            MediaStore.Images.Media.getBitmap(getContentResolver(), MyApplication.photoURI);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-//                ContentResolver contentResolver = this.getContentResolver();
-//                try {
-//                    if (Build.VERSION.SDK_INT > 28) {
-//                        ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), Uri.parse(MyApplication.fileName));
-//                        MyApplication.bitmapSelectedImage = ImageDecoder.decodeBitmap(source);
-//                    } else
-//                        MyApplication.bitmapSelectedImage = MediaStore.Images.Media.getBitmap(
-//                                contentResolver, Uri.parse(MyApplication.fileName));
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
             }
             forbiddenDto.bitmaps.add(MyApplication.bitmapSelectedImage);
             binding.relativeLayoutImage.setVisibility(View.VISIBLE);
