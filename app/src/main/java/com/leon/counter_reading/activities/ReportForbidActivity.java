@@ -302,13 +302,13 @@ public class ReportForbidActivity extends AppCompatActivity {
             builder.setMessage(R.string.select_source);
             builder.setPositiveButton(R.string.gallery, (dialog, which) -> {
                 dialog.dismiss();
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), MyApplication.GALLERY_REQUEST);
-//                Intent intent = new Intent("android.intent.action.PICK");
+//                Intent intent = new Intent();
 //                intent.setType("image/*");
-//                startActivityForResult(intent, MyApplication.GALLERY_REQUEST);
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(intent, "Select Picture"), MyApplication.GALLERY_REQUEST);
+                Intent intent = new Intent("android.intent.action.PICK");
+                intent.setType("image/*");
+                startActivityForResult(intent, MyApplication.GALLERY_REQUEST);
             });
             builder.setNegativeButton(R.string.camera, (dialog, which) -> {
                 dialog.dismiss();
@@ -320,7 +320,6 @@ public class ReportForbidActivity extends AppCompatActivity {
                         photoFile = createImageFile(activity);
                     } catch (IOException e) {
                         e.printStackTrace();
-                        // Error occurred while creating the File
                     }
                     // Continue only if the File was successfully created
                     if (photoFile != null) {

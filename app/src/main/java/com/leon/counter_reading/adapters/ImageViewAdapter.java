@@ -124,7 +124,6 @@ public class ImageViewAdapter extends BaseAdapter {
                     photoFile = createImageFile(context);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    // Error occurred while creating the File
                 }
                 // Continue only if the File was successfully created
                 if (photoFile != null) {
