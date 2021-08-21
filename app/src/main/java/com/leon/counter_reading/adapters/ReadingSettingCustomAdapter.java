@@ -61,7 +61,7 @@ public class ReadingSettingCustomAdapter extends BaseAdapter {
             else
                 convertView = inflater.inflate(R.layout.item_reading_setting_2, null);
         }
-        CheckBoxViewHolder holder = new CheckBoxViewHolder(convertView);
+        ReadingSettingCheckBoxViewHolder holder = new ReadingSettingCheckBoxViewHolder(convertView);
         holder.textViewTrackNumber.setText(String.valueOf(trackingDtos.get(position).trackNumber));
         holder.textViewZoneTitle.setText(trackingDtos.get(position).zoneTitle);
         holder.textViewStartEshterak.setText(trackingDtos.get(position).fromEshterak);
@@ -80,28 +80,28 @@ public class ReadingSettingCustomAdapter extends BaseAdapter {
         holder.checkBox.setChecked(trackingDtos.get(position).isActive);
         return convertView;
     }
+}
 
-    static class CheckBoxViewHolder {
-        final CheckedTextView checkBox;
-        final LinearLayout linearLayout;
-        final TextView textViewTrackNumber;
-        final TextView textViewZoneTitle;
-        final TextView textViewStartDate;
-        final TextView textViewEndDate;
-        final TextView textViewStartEshterak;
-        final TextView textViewEndEshterak;
-        final TextView textViewNumber;
+class ReadingSettingCheckBoxViewHolder {
+    final CheckedTextView checkBox;
+    final LinearLayout linearLayout;
+    final TextView textViewTrackNumber;
+    final TextView textViewZoneTitle;
+    final TextView textViewStartDate;
+    final TextView textViewEndDate;
+    final TextView textViewStartEshterak;
+    final TextView textViewEndEshterak;
+    final TextView textViewNumber;
 
-        CheckBoxViewHolder(View view) {
-            checkBox = view.findViewById(android.R.id.text1);
-            linearLayout = view.findViewById(R.id.linear_layout);
-            textViewEndDate = view.findViewById(R.id.text_view_end_date);
-            textViewStartDate = view.findViewById(R.id.text_view_start_date);
-            textViewEndEshterak = view.findViewById(R.id.text_view_end_eshterak);
-            textViewStartEshterak = view.findViewById(R.id.text_view_start_eshterak);
-            textViewTrackNumber = view.findViewById(R.id.text_view_track_number);
-            textViewZoneTitle = view.findViewById(R.id.text_view_zone_title);
-            textViewNumber = view.findViewById(R.id.text_view_number);
-        }
+    ReadingSettingCheckBoxViewHolder(View view) {
+        checkBox = view.findViewById(android.R.id.text1);
+        linearLayout = view.findViewById(R.id.linear_layout);
+        textViewEndDate = view.findViewById(R.id.text_view_end_date);
+        textViewStartDate = view.findViewById(R.id.text_view_start_date);
+        textViewEndEshterak = view.findViewById(R.id.text_view_end_eshterak);
+        textViewStartEshterak = view.findViewById(R.id.text_view_start_eshterak);
+        textViewTrackNumber = view.findViewById(R.id.text_view_track_number);
+        textViewZoneTitle = view.findViewById(R.id.text_view_zone_title);
+        textViewNumber = view.findViewById(R.id.text_view_number);
     }
 }

@@ -147,8 +147,8 @@ public class CustomFile {
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         StringBuilder stringBuilder = (new StringBuilder()).append("file:");
         Objects.requireNonNull(image);
-        MyApplication.fileName = null;
-        MyApplication.fileName = stringBuilder.append(image.getAbsolutePath()).toString();
+//        MyApplication.fileName = null;
+//        MyApplication.fileName = stringBuilder.append(image.getAbsolutePath()).toString();
         return image;
     }
 
@@ -164,8 +164,8 @@ public class CustomFile {
                 storageDir      /* directory */
         );
         // Save a file: path for use with ACTION_VIEW intents
-        MyApplication.fileName = null;
-        MyApplication.fileName = image.getAbsolutePath();
+//        MyApplication.fileName = null;
+//        MyApplication.fileName = image.getAbsolutePath();
         return image;
     }
 

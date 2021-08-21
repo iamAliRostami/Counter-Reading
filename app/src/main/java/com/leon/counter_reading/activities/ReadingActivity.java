@@ -7,7 +7,6 @@ import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Debug;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -557,8 +556,8 @@ public class ReadingActivity extends BaseActivity {
         binding.imageViewOffLoadState.setImageDrawable(null);
         binding.imageViewReadingType.setImageDrawable(null);
         binding.imageViewExceptionState.setImageDrawable(null);
-
-        locationTrackerGoogle.onDestroy();
+        if (locationTrackerGoogle != null)
+            locationTrackerGoogle.onDestroy();
         MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase();
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();

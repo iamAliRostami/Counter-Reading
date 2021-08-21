@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
+//apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 30
@@ -38,6 +39,10 @@ android {
     }
 
     buildTypes {
+        debug{
+            buildConfigField 'com.leon.counter_reading.enums.CompanyNames', 'COMPANY_NAME',
+                    "com.leon.counter_reading.enums.CompanyNames.DEBUG"
+        }
         release {
             debuggable true
             signingConfig signingConfigs.config
@@ -128,10 +133,20 @@ dependencies {
     implementation 'com.google.firebase:firebase-perf'
 
 
+
     annotationProcessor("javax.annotation:javax.annotation-api:1.3.2")
-    // Libraries For Dependency Injection Using Dagger 2
+//     Libraries For Dependency Injection Using Dagger 2
     implementation 'com.google.dagger:dagger:2.11'
     implementation 'com.google.dagger:dagger-android:2.35.1'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
+
+    ext {
+        DAGGER_VERSION = '2.35.1'
+    }
+    // Libraries For Dependency Injection Using Dagger 2
+//    implementation "com.google.dagger:dagger:$DAGGER_VERSION"
+//    implementation "com.google.dagger:dagger-android:$DAGGER_VERSION"
+//    annotationProcessor "com.google.dagger:dagger-android-processor:$DAGGER_VERSION"
+//    annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
 }

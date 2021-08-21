@@ -40,7 +40,9 @@ import com.leon.counter_reading.activities.ReadingSettingActivity;
 import com.leon.counter_reading.activities.ReportActivity;
 import com.leon.counter_reading.activities.SettingActivity;
 import com.leon.counter_reading.activities.UploadActivity;
+import com.leon.counter_reading.adapters.DrawerItem;
 import com.leon.counter_reading.adapters.NavigationDrawerAdapter;
+import com.leon.counter_reading.adapters.RecyclerItemClickListener;
 import com.leon.counter_reading.databinding.ActivityBaseBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
@@ -58,7 +60,7 @@ import java.util.List;
 public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Toolbar toolbar;
-    private List<NavigationDrawerAdapter.DrawerItem> dataList;
+    private List<DrawerItem> dataList;
     private ActivityBaseBinding binding;
     private Activity activity;
     private ISharedPreferenceManager sharedPreferenceManager;
@@ -185,8 +187,8 @@ public abstract class BaseActivity extends AppCompatActivity
                 binding.drawerLayout.closeDrawer(GravityCompat.START);
         });
         binding.recyclerView.addOnItemTouchListener(
-                new NavigationDrawerAdapter.RecyclerItemClickListener(MyApplication.getContext(),
-                        binding.recyclerView, new NavigationDrawerAdapter.RecyclerItemClickListener.OnItemClickListener() {
+                new RecyclerItemClickListener(MyApplication.getContext(),
+                        binding.recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         binding.drawerLayout.closeDrawer(GravityCompat.START);
@@ -261,7 +263,7 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     void fillDrawerListView() {
-        dataList = NavigationDrawerAdapter.DrawerItem.createItemList(
+        dataList = DrawerItem.createItemList(
                 getResources().getStringArray(R.array.menu),
                 getResources().obtainTypedArray(R.array.icons));
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(this, dataList);

@@ -59,12 +59,12 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
     @SuppressLint("InflateParams")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CheckBoxViewHolder holder;
+        ReadingReportCheckBoxViewHolder holder;
         View view = convertView;
         if (view == null) {
             view = inflater.inflate(R.layout.item_public, null);
         }
-        holder = new CheckBoxViewHolder(view);
+        holder = new ReadingReportCheckBoxViewHolder(view);
         holder.checkBox.setText(counterReportDtos.get(position).title);
         holder.checkBox.setOnClickListener(view1 -> {
             holder.checkBox.setChecked(!holder.checkBox.isChecked());
@@ -105,11 +105,13 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
         return view;
     }
 
-    static class CheckBoxViewHolder {
-        final CheckedTextView checkBox;
 
-        CheckBoxViewHolder(View view) {
-            checkBox = view.findViewById(android.R.id.text1);
-        }
+}
+
+class ReadingReportCheckBoxViewHolder {
+    final CheckedTextView checkBox;
+
+    ReadingReportCheckBoxViewHolder(View view) {
+        checkBox = view.findViewById(android.R.id.text1);
     }
 }

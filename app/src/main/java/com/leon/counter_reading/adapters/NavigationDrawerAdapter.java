@@ -5,9 +5,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NavigationDrawerAdapter extends
-        RecyclerView.Adapter<NavigationDrawerAdapter.DrawerItemHolder> {
+        RecyclerView.Adapter<DrawerItemHolder> {
     private final List<DrawerItem> drawerItemList;
     private final Context context;
 
@@ -71,92 +69,18 @@ public class NavigationDrawerAdapter extends
         return drawerItemList.size();
     }
 
-    public static class DrawerItem {
-        final String ItemName;
-        Drawable drawable;
 
-        DrawerItem(String itemName, Drawable drawable) {
-            this.ItemName = itemName;
-            this.drawable = drawable;
-        }
+}
 
-        public static ArrayList<DrawerItem> createItemList(String[] menu, TypedArray drawable) {
-            ArrayList<DrawerItem> drawerItems = new ArrayList<>();
-            int numItem = menu.length;
-            for (int i = 0; i < numItem; i++) {
-                drawerItems.add(new DrawerItem(menu[i], drawable.getDrawable(i)));
-            }
-            return drawerItems;
-        }
+class DrawerItemHolder extends RecyclerView.ViewHolder {
+    final TextView textViewTitle;
+    final ImageView imageViewIcon;
+    final LinearLayout linearLayout;
 
-        public Drawable getDrawable() {
-            return drawable;
-        }
-
-        public void setDrawable(Drawable drawable) {
-            this.drawable = drawable;
-        }
-    }
-
-    static class DrawerItemHolder extends RecyclerView.ViewHolder {
-        final TextView textViewTitle;
-        final ImageView imageViewIcon;
-        final LinearLayout linearLayout;
-
-        public DrawerItemHolder(View viewItem) {
-            super(viewItem);
-            this.textViewTitle = viewItem.findViewById(R.id.text_view_title);
-            this.imageViewIcon = viewItem.findViewById(R.id.image_view_icon);
-            this.linearLayout = viewItem.findViewById(R.id.linear_layout_background);
-        }
-    }
-
-    public static class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
-        final OnItemClickListener mListener;
-        final GestureDetector mGestureDetector;
-
-        public RecyclerItemClickListener(Context context, final RecyclerView recyclerView,
-                                         OnItemClickListener listener) {
-            mListener = listener;
-            mGestureDetector = new GestureDetector(context,
-                    new GestureDetector.SimpleOnGestureListener() {
-                        @Override
-                        public boolean onSingleTapUp(MotionEvent e) {
-                            return true;
-                        }
-
-                        @Override
-                        public void onLongPress(MotionEvent e) {
-                            View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                            if (child != null && mListener != null) {
-                                mListener.onLongItemClick(child, recyclerView.getChildAdapterPosition(child));
-                            }
-                        }
-                    });
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
-            View childView = view.findChildViewUnder(e.getX(), e.getY());
-            if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
-                mListener.onItemClick(childView, view.getChildAdapterPosition(childView));
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        public void onTouchEvent(@NonNull RecyclerView view, @NonNull MotionEvent motionEvent) {
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-        }
-
-        public interface OnItemClickListener {
-            void onItemClick(View view, int position);
-
-            void onLongItemClick(View view, int position);
-        }
+    public DrawerItemHolder(View viewItem) {
+        super(viewItem);
+        this.textViewTitle = viewItem.findViewById(R.id.text_view_title);
+        this.imageViewIcon = viewItem.findViewById(R.id.image_view_icon);
+        this.linearLayout = viewItem.findViewById(R.id.linear_layout_background);
     }
 }

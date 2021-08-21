@@ -135,7 +135,6 @@ public class ImageViewAdapter extends BaseAdapter {
                         ((TakePhotoActivity) (context)).startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
                     } catch (ActivityNotFoundException e) {
                         e.printStackTrace();
-                        // display error state to the user
                     }
                 }
             }
@@ -143,15 +142,15 @@ public class ImageViewAdapter extends BaseAdapter {
         builder.setNeutralButton("", (dialog, which) -> dialog.dismiss());
         builder.create().show();
     }
+}
 
-    static class ImageViewHolder {
+class ImageViewHolder {
 
-        public ImageView imageView, imageViewDelete, imageViewSent;
+    public ImageView imageView, imageViewDelete, imageViewSent;
 
-        public ImageViewHolder(View view) {
-            imageView = view.findViewById(R.id.image_view);
-            imageViewSent = view.findViewById(R.id.image_View_sent);
-            imageViewDelete = view.findViewById(R.id.image_View_delete);
-        }
+    public ImageViewHolder(View view) {
+        imageView = view.findViewById(R.id.image_view);
+        imageViewSent = view.findViewById(R.id.image_View_sent);
+        imageViewDelete = view.findViewById(R.id.image_View_delete);
     }
 }
