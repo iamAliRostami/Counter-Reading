@@ -2,8 +2,6 @@ package com.leon.counter_reading.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NavigationDrawerAdapter extends

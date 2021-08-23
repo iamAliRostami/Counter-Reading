@@ -11,12 +11,25 @@ import com.leon.counter_reading.utils.CustomToast;
 import javax.inject.Inject;
 
 public class FlashViewModel {
-    public final Context context;
+    @Inject
+    public Context context;
     private boolean isFlashOn = false;
 
-    @Inject
+//    @Inject
     public FlashViewModel(Context context) {
         this.context = context;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public boolean isFlashOn() {
+        return isFlashOn;
+    }
+
+    public void setFlashOn(boolean flashOn) {
+        isFlashOn = flashOn;
     }
 
     public boolean turnOn() {

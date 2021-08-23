@@ -18,7 +18,10 @@ import android.telephony.TelephonyManager;
 import androidx.core.app.ActivityCompat;
 import androidx.multidex.MultiDex;
 
-import com.leon.counter_reading.di.component.UserComponent;
+//import com.leon.counter_reading.di.component.DaggerUserComponent;
+import com.leon.counter_reading.di.component.ApplicationComponent;
+import com.leon.counter_reading.di.component.DaggerApplicationComponent;
+import com.leon.counter_reading.di.view_model.FlashViewModel;
 import com.leon.counter_reading.tables.ReadingData;
 
 import java.util.ArrayList;
@@ -55,7 +58,9 @@ public class MyApplication extends Application {
     public static ReadingData readingData, readingDataTemp;
     static Context appContext;
     static int errorCounter = 0;
-    public static UserComponent userComponent;
+    public static ApplicationComponent applicationComponent;
+    //    @Inject
+    public FlashViewModel flashViewModel;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -71,11 +76,14 @@ public class MyApplication extends Application {
                 .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), MyApplication.FONT_NAME))
                 .setTextSize(TOAST_TEXT_SIZE)
                 .allowQueue(true).apply();
-//        userComponent = DaggerUserComponent
-//                .builder()
-//                .build();
-//        userComponent.inject(this);
-//        userComponent.flashViewModel(appContext).toggleFlash();
+        applicationComponent = DaggerApplicationComponent
+                .builder()
+//                .context(appContext)
+                .build();
+
+        applicationComponent.inject(this);
+
+//        flashViewModel.toggleFlash();
         super.onCreate();
 //        throw new RuntimeException("Test Crash");
     }
