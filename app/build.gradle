@@ -5,7 +5,7 @@ apply plugin: 'com.google.firebase.firebase-perf'
 //apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
     signingConfigs {
         config {
@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId 'com.leon.counter_reading'
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 31
         versionName "1.00.05.23"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

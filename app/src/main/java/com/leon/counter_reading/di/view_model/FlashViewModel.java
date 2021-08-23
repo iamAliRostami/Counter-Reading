@@ -6,30 +6,19 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.infrastructure.IFlashLightManager;
 import com.leon.counter_reading.utils.CustomToast;
 
 import javax.inject.Inject;
 
-public class FlashViewModel {
-    @Inject
-    public Context context;
+public class FlashViewModel implements IFlashLightManager {
+
+    private final Context context;
     private boolean isFlashOn = false;
 
-//    @Inject
+    @Inject
     public FlashViewModel(Context context) {
         this.context = context;
-    }
-
-    public Context getContext() {
-        return context;
-    }
-
-    public boolean isFlashOn() {
-        return isFlashOn;
-    }
-
-    public void setFlashOn(boolean flashOn) {
-        isFlashOn = flashOn;
     }
 
     public boolean turnOn() {

@@ -12,20 +12,15 @@ import dagger.Provides;
 @Singleton
 @Module
 public class FlashModule {
-    Context context;
+    private final FlashViewModel flashViewModel;
 
     public FlashModule(Context context) {
-        this.context = context;
+        this.flashViewModel = new FlashViewModel(context);
     }
 
+    @Singleton
     @Provides
-    public Context getContext() {
-        return context;
+    public FlashViewModel providesFlashViewModel() {
+        return flashViewModel;
     }
-
-//    @Singleton
-//    @Provides
-//    public FlashViewModel provideFlashViewModel(FlashViewModel flashViewModel) {
-//        return flashViewModel;
-//    }
 }

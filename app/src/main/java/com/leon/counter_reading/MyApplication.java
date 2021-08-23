@@ -18,10 +18,10 @@ import android.telephony.TelephonyManager;
 import androidx.core.app.ActivityCompat;
 import androidx.multidex.MultiDex;
 
-//import com.leon.counter_reading.di.component.DaggerUserComponent;
 import com.leon.counter_reading.di.component.ApplicationComponent;
 import com.leon.counter_reading.di.component.DaggerApplicationComponent;
-import com.leon.counter_reading.di.view_model.FlashViewModel;
+import com.leon.counter_reading.di.module.FlashModule;
+import com.leon.counter_reading.di.module.MyDatabaseModule;
 import com.leon.counter_reading.tables.ReadingData;
 
 import java.util.ArrayList;
@@ -58,9 +58,7 @@ public class MyApplication extends Application {
     public static ReadingData readingData, readingDataTemp;
     static Context appContext;
     static int errorCounter = 0;
-    public static ApplicationComponent applicationComponent;
-    //    @Inject
-    public FlashViewModel flashViewModel;
+    static ApplicationComponent applicationComponent;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -78,14 +76,17 @@ public class MyApplication extends Application {
                 .allowQueue(true).apply();
         applicationComponent = DaggerApplicationComponent
                 .builder()
-//                .context(appContext)
+                .flashModule(new FlashModule(appContext))
+                .myDatabaseModule(new MyDatabaseModule(appContext))
                 .build();
-
         applicationComponent.inject(this);
 
-//        flashViewModel.toggleFlash();
         super.onCreate();
 //        throw new RuntimeException("Test Crash");
+    }
+
+    public static ApplicationComponent getApplicationComponent() {
+        return applicationComponent;
     }
 
     public static Context getContext() {

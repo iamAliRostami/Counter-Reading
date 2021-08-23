@@ -1,5 +1,6 @@
 package com.leon.counter_reading.utils.reading;
 
+import static com.leon.counter_reading.MyApplication.getApplicationComponent;
 import static com.leon.counter_reading.MyApplication.isMane;
 import static com.leon.counter_reading.MyApplication.readingData;
 import static com.leon.counter_reading.MyApplication.readingDataTemp;
@@ -49,7 +50,8 @@ public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
     protected Integer doInBackground(Activity... activities) {
         readingData = new ReadingData();
         readingDataTemp = new ReadingData();
-        MyDatabase myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
+//        MyDatabase myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
+        MyDatabase myDatabase = getApplicationComponent().MyDatabase();
         readingData.counterStateDtos.addAll(myDatabase.counterStateDao().getCounterStateDtos());
         readingData.karbariDtos.addAll(myDatabase.karbariDao().getAllKarbariDto());
         readingData.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());

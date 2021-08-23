@@ -99,7 +99,8 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void setOnImageViewsClickListener() {
-        flashLightManager = new FlashLightManager(activity);
+//        flashLightManager = new FlashLightManager(activity);
+        flashLightManager = MyApplication.getApplicationComponent().FlashViewModel();
         ImageView imageViewFlash = findViewById(R.id.image_view_flash);
         imageViewFlash.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(),
                 R.drawable.img_flash_off));
