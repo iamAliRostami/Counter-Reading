@@ -25,7 +25,6 @@ import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.locating.LocationTrackerGoogle;
@@ -231,7 +230,8 @@ public class LocationActivity extends BaseActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                savedLocations = new ArrayList<>(MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().savedLocationDao().getSavedLocationsXY());
+                savedLocations = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase()
+                        .savedLocationDao().getSavedLocationsXY());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -258,7 +258,7 @@ public class LocationActivity extends BaseActivity {
         protected Void doInBackground(Void... voids) {
             if (savedLocations == null || savedLocations.isEmpty()) {
                 savedLocations = new ArrayList<>(
-                        MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().
+                        MyApplication.getApplicationComponent().MyDatabase().
                                 savedLocationDao().getSavedLocationsXY());
             }
             markers = new ArrayList<>();

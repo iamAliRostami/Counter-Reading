@@ -11,11 +11,11 @@ import android.view.WindowManager;
 
 import androidx.fragment.app.DialogFragment;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentSerialBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.NotificationType;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -71,8 +71,8 @@ public class TaviziFragment extends DialogFragment {
                 binding.editTextSerial.setError(getString(R.string.error_format));
                 view.requestFocus();
             } else {
-                MyDatabaseClient.getInstance(context).getMyDatabase().onOffLoadDao().
-                        updateOnOffLoad(number, uuid);
+                MyApplication.getApplicationComponent().MyDatabase()
+                        .onOffLoadDao().updateOnOffLoad(number, uuid);
                 dismiss();
             }
         });

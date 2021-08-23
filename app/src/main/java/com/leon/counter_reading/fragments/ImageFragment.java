@@ -27,7 +27,6 @@ import com.leon.counter_reading.databinding.FragmentImageBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.Image;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -239,8 +238,8 @@ public class ImageFragment extends DialogFragment {
     void removeImage(int index) {
         imageNumber = imageNumber - 1;
         bitmaps.remove(index);
-        MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().
-                deleteImage(images.get(index).id);
+        MyApplication.getApplicationComponent().MyDatabase()
+                .imageDao().deleteImage(images.get(index).id);
         images.remove(index);
     }
 

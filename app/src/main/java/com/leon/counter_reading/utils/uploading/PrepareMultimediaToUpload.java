@@ -22,7 +22,6 @@ import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.HttpClientWrapper;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
@@ -53,10 +52,10 @@ public class PrepareMultimediaToUpload extends AsyncTask<Activity, Activity, Act
     @Override
     protected Activity doInBackground(Activity... activities) {
         images.clear();
-        images.addAll(MyDatabaseClient.getInstance(activities[0]).getMyDatabase().imageDao()
+        images.addAll(MyApplication.getApplicationComponent().MyDatabase().imageDao()
                 .getImagesByBySent(false));
         voice.clear();
-        voice.addAll(MyDatabaseClient.getInstance(activities[0]).getMyDatabase().voiceDao().
+        voice.addAll(MyApplication.getApplicationComponent().MyDatabase().voiceDao().
                 getVoicesByBySent(false));
         for (int i = 0; i < images.size(); i++) {
             Bitmap bitmap = CustomFile.loadImage(activities[0], images.get(i).address);
@@ -69,7 +68,7 @@ public class PrepareMultimediaToUpload extends AsyncTask<Activity, Activity, Act
                         MediaType.parse("text/plain")));
                 imageMultiples.File.add(images.get(i).File);
             } else {
-                MyDatabaseClient.getInstance(activities[0]).getMyDatabase().imageDao().
+                MyApplication.getApplicationComponent().MyDatabase().imageDao().
                         deleteImage(images.get(i).id);
             }
         }
@@ -82,7 +81,7 @@ public class PrepareMultimediaToUpload extends AsyncTask<Activity, Activity, Act
                         MediaType.parse("text/plain")));
                 voiceMultiples.File.add(voice.get(i).File);
             } else {
-                MyDatabaseClient.getInstance(activities[0]).getMyDatabase().voiceDao().
+                MyApplication.getApplicationComponent().MyDatabase().voiceDao().
                         deleteVoice(voice.get(i).id);
             }
         }
@@ -145,7 +144,7 @@ public class PrepareMultimediaToUpload extends AsyncTask<Activity, Activity, Act
         void updateImages() {
             for (int i = 0; i < images.size(); i++) {
                 images.get(i).isSent = true;
-                MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().imageDao()
+                MyApplication.getApplicationComponent().MyDatabase().imageDao()
                         .updateImage(images.get(i));
             }
         }
@@ -163,7 +162,7 @@ public class PrepareMultimediaToUpload extends AsyncTask<Activity, Activity, Act
         void updateVoice() {
             for (int i = 0; i < voice.size(); i++) {
                 voice.get(i).isSent = true;
-                MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().voiceDao()
+                MyApplication.getApplicationComponent().MyDatabase().voiceDao()
                         .updateVoice(voice.get(i));
             }
         }

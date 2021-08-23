@@ -5,8 +5,6 @@ import static com.leon.counter_reading.MyApplication.readingData;
 import android.os.AsyncTask;
 
 import com.leon.counter_reading.MyApplication;
-import com.leon.counter_reading.utils.MyDatabase;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 public class UpdateOnOffLoadByAttemptNumber extends AsyncTask<Void, Void, Void> {
     int position, attemptNumber;
@@ -19,9 +17,8 @@ public class UpdateOnOffLoadByAttemptNumber extends AsyncTask<Void, Void, Void> 
 
     @Override
     protected Void doInBackground(Void... voids) {
-        MyDatabase myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
-        myDatabase.onOffLoadDao().updateOnOffLoadByAttemptNumber(
-                readingData.onOffLoadDtos.get(position).id, attemptNumber);
+        MyApplication.getApplicationComponent().MyDatabase()
+                .onOffLoadDao().updateOnOffLoadByAttemptNumber(readingData.onOffLoadDtos.get(position).id, attemptNumber);
         readingData.onOffLoadDtos.get(position).attemptNumber = attemptNumber;
         return null;
     }

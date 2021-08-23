@@ -3,10 +3,10 @@ package com.leon.counter_reading.utils.uploading;
 import android.app.Activity;
 import android.os.AsyncTask;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.activities.UploadActivity;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomProgressBar;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class GetUploadDBData extends AsyncTask<Activity, Integer, Integer> {
 
     @Override
     protected Integer doInBackground(Activity... activities) {
-        ArrayList<TrackingDto> trackingDtos = new ArrayList<>(MyDatabaseClient.getInstance(activities[0]).getMyDatabase().
+        ArrayList<TrackingDto> trackingDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase().
                 trackingDao().getTrackingDtoNotArchive(false));
         ((UploadActivity) (activities[0])).setupUI(trackingDtos);
         return null;

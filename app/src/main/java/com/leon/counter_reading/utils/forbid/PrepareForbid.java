@@ -3,6 +3,7 @@ package com.leon.counter_reading.utils.forbid;
 import android.app.Activity;
 import android.os.AsyncTask;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
@@ -15,7 +16,6 @@ import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.HttpClientWrapper;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
@@ -120,7 +120,7 @@ class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
     @Override
     public void execute(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
         if (!response.isSuccessful())
-            MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
+            MyApplication.getApplicationComponent().MyDatabase().forbiddenDao().
                     insertForbiddenDto(forbiddenDto);
         else {
             if (response.body() != null) {
@@ -142,7 +142,7 @@ class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDto.ForbiddenD
 
     @Override
     public void executeIncomplete(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
-        MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
+        MyApplication.getApplicationComponent().MyDatabase().forbiddenDao().
                 insertForbiddenDto(forbiddenDto);
         activity.finish();
     }
@@ -159,7 +159,7 @@ class ForbiddenError implements ICallbackError {
 
     @Override
     public void executeError(Throwable t) {
-        MyDatabaseClient.getInstance(activity).getMyDatabase().forbiddenDao().
+        MyApplication.getApplicationComponent().MyDatabase().forbiddenDao().
                 insertForbiddenDto(forbiddenDto);
         activity.finish();
     }

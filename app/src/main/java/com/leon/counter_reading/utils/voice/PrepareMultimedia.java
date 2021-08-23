@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.ProgressType;
@@ -24,7 +25,6 @@ import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.HttpClientWrapper;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
@@ -89,17 +89,17 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
 
     void saveVoice(Activity activity, boolean isSent) {
         voice.isSent = isSent;
-        if (MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                .getImagesById(voice.id).size() > 0) {
-            MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().updateVoice(voice);
+        if (MyApplication.getApplicationComponent().MyDatabase()
+                .imageDao().getImagesById(voice.id).size() > 0) {
+            MyApplication.getApplicationComponent().MyDatabase().voiceDao().updateVoice(voice);
         } else {
-            MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().insertVoice(voice);
+            MyApplication.getApplicationComponent().MyDatabase().voiceDao().insertVoice(voice);
         }
     }
 
     void finishDescription(Activity activity, String message) {
-        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                updateOnOffLoadDescription(uuid, message);
+        MyApplication.getApplicationComponent().MyDatabase()
+                .onOffLoadDao().updateOnOffLoadDescription(uuid, message);
         Intent intent = new Intent();
         intent.putExtra(BundleEnum.POSITION.getValue(), position);
         intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);

@@ -16,7 +16,6 @@ import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 public class CounterPlaceActivity extends AppCompatActivity {
@@ -79,8 +78,8 @@ public class CounterPlaceActivity extends AppCompatActivity {
                         concat(binding.editText2.getText().toString());
                 String d2 = binding.editText3.getText().toString().concat(".").
                         concat(binding.editText4.getText().toString());
-                MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
-                        updateOnOffLoadLocation(uuid, d1, d2);
+                MyApplication.getApplicationComponent().MyDatabase()
+                        .onOffLoadDao().updateOnOffLoadLocation(uuid, d1, d2);
                 Intent intent = new Intent();
                 intent.putExtra(BundleEnum.POSITION.getValue(), position);
                 intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);

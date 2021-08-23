@@ -44,15 +44,15 @@ import com.leon.counter_reading.adapters.DrawerItem;
 import com.leon.counter_reading.adapters.NavigationDrawerAdapter;
 import com.leon.counter_reading.adapters.RecyclerItemClickListener;
 import com.leon.counter_reading.databinding.ActivityBaseBinding;
+import com.leon.counter_reading.di.view_model.MyDatabaseClientModel;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.locating.LocationTrackerGoogle;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
+import com.leon.counter_reading.utils.locating.LocationTrackerGoogle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +87,7 @@ public abstract class BaseActivity extends AppCompatActivity
         setContentView(binding.getRoot());
 
 //        MyDatabaseClient.deleteAndReset(this);
-        MyDatabaseClient.migration(this);
+        MyDatabaseClientModel.migration(this);
         initializeBase();
         if (isNetworkAvailable(getApplicationContext()))
             checkPermissions();

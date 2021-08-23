@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.gson.Gson;
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
@@ -27,7 +28,6 @@ import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
@@ -197,8 +197,7 @@ public class PossibleFragment extends DialogFragment {
         binding.linearLayoutKarbari.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.KARBARI.getValue()) ? View.VISIBLE : View.GONE);
         if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue())) {
-            karbariDtos = new ArrayList<>(MyDatabaseClient.
-                    getInstance(activity).getMyDatabase().karbariDao().getAllKarbariDto());
+            karbariDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase().karbariDao().getAllKarbariDto());
             for (KarbariDto karbariDto : karbariDtos) {
                 items1.add(karbariDto.title);
             }
@@ -210,8 +209,8 @@ public class PossibleFragment extends DialogFragment {
         binding.linearLayoutReadingReport.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.READING_REPORT.getValue()) ? View.VISIBLE : View.GONE);
         if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.READING_REPORT.getValue())) {
-            counterReportDtos = new ArrayList<>(MyDatabaseClient.getInstance(activity).
-                    getMyDatabase().counterReportDao().getAllCounterStateReport());
+            counterReportDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase()
+                    .counterReportDao().getAllCounterStateReport());
             for (CounterReportDto counterReportDto : counterReportDtos) {
                 items2.add(counterReportDto.title);
             }
@@ -280,8 +279,8 @@ public class PossibleFragment extends DialogFragment {
                     offLoadReport.reportId = counterReportDtos.get(binding.spinnerReadingReport.getSelectedItemPosition() - 1).id;
                     offLoadReport.onOffLoadId = onOffLoadDto.id;
                     offLoadReport.trackNumber = onOffLoadDto.trackNumber;
-                    MyDatabaseClient.getInstance(activity).getMyDatabase().offLoadReportDao().
-                            insertOffLoadReport(offLoadReport);
+                    MyApplication.getApplicationComponent().MyDatabase()
+                            .offLoadReportDao().insertOffLoadReport(offLoadReport);
                 }
                 ((ReadingActivity) activity).updateOnOffLoadByNavigation(position, onOffLoadDto, justMobile);
                 dismiss();

@@ -31,7 +31,6 @@ import com.leon.counter_reading.tables.Voice;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
@@ -155,7 +154,8 @@ public class DescriptionActivity extends AppCompatActivity {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+//        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         mediaRecorder.setOutputFile(voice.address);
     }
 
@@ -238,7 +238,7 @@ public class DescriptionActivity extends AppCompatActivity {
     }
 
     void checkMultimediaAndToggle() {
-        voice = MyDatabaseClient.getInstance(activity).getMyDatabase().voiceDao().
+        voice = MyApplication.getApplicationComponent().MyDatabase().voiceDao().
                 getVoicesByOnOffLoadId(uuid);
         if (voice == null) {
             voice = new Voice();
@@ -276,7 +276,7 @@ public class DescriptionActivity extends AppCompatActivity {
     }
 
     void finishDescription(String message) {
-        MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+        MyApplication.getApplicationComponent().MyDatabase().onOffLoadDao().
                 updateOnOffLoadDescription(uuid, message);
         Intent intent = new Intent();
         intent.putExtra(BundleEnum.POSITION.getValue(), position);

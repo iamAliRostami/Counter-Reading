@@ -7,8 +7,6 @@ import android.location.Location;
 import android.os.AsyncTask;
 
 import com.leon.counter_reading.MyApplication;
-import com.leon.counter_reading.utils.MyDatabase;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 public class Update extends AsyncTask<Activity, Void, Void> {
     int position;
@@ -23,8 +21,8 @@ public class Update extends AsyncTask<Activity, Void, Void> {
 
     @Override
     protected Void doInBackground(Activity... activities) {
-        MyDatabase myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
-        myDatabase.onOffLoadDao().updateOnOffLoad(readingData.onOffLoadDtos.get(position));
+        MyApplication.getApplicationComponent().MyDatabase()
+                .onOffLoadDao().updateOnOffLoad(readingData.onOffLoadDtos.get(position));
         return null;
     }
 }

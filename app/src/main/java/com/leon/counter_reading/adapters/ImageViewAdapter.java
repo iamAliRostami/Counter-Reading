@@ -30,7 +30,6 @@ import com.leon.counter_reading.activities.TakePhotoActivity;
 import com.leon.counter_reading.fragments.HighQualityFragment;
 import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -91,8 +90,8 @@ public class ImageViewAdapter extends BaseAdapter {
                 return false;
             });
             holder.imageViewDelete.setOnClickListener(v -> {
-                MyDatabaseClient.getInstance(context).getMyDatabase().imageDao().
-                        deleteImage(images.get(position).id);
+                MyApplication.getApplicationComponent().MyDatabase()
+                        .imageDao().deleteImage(images.get(position).id);
                 images.remove(position);
                 notifyDataSetChanged();
                 bitmap[0] = null;

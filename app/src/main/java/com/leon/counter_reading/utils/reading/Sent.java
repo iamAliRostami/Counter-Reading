@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.tables.OnOffLoadDto;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 public class Sent extends AsyncTask<OnOffLoadDto.OffLoadResponses, Integer, Integer> {
     public Sent() {
@@ -18,11 +17,11 @@ public class Sent extends AsyncTask<OnOffLoadDto.OffLoadResponses, Integer, Inte
     protected Integer doInBackground(OnOffLoadDto.OffLoadResponses... offLoadResponses) {
         try {
             //TODO
-            MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().offLoadReportDao().updateOffLoadReportByIsSent(true);
+            MyApplication.getApplicationComponent().MyDatabase().offLoadReportDao().updateOffLoadReportByIsSent(true);
             int state = offLoadResponses[0].isValid ? OffloadStateEnum.SENT.getValue() :
                     OffloadStateEnum.SENT_WITH_ERROR.getValue();
-            MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().onOffLoadDao().updateOnOffLoad(state, offLoadResponses[0].targetObject);
-
+            MyApplication.getApplicationComponent().MyDatabase().onOffLoadDao()
+                    .updateOnOffLoad(state, offLoadResponses[0].targetObject);
             for (String s : offLoadResponses[0].targetObject) {
                 for (int j = 0; j < readingData.onOffLoadDtos.size(); j++) {
                     if (s.equals(readingData.onOffLoadDtos.get(j).id)) {

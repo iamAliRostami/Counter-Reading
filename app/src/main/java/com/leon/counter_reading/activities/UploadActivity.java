@@ -9,7 +9,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.ViewPagerAdapterTab;
 import com.leon.counter_reading.base_items.BaseActivity;
@@ -18,7 +17,6 @@ import com.leon.counter_reading.fragments.UploadFragment;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.DepthPageTransformer;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.uploading.GetUploadDBData;
 
 import java.util.ArrayList;
@@ -165,7 +163,7 @@ public class UploadActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase();
+//        MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase();
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

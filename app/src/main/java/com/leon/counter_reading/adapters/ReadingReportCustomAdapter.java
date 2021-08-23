@@ -11,6 +11,7 @@ import android.widget.CheckedTextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.fragments.AhadFragment;
 import com.leon.counter_reading.fragments.KarbariFragment;
@@ -18,7 +19,6 @@ import com.leon.counter_reading.fragments.TaviziFragment;
 import com.leon.counter_reading.tables.CounterReportDto;
 import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.util.ArrayList;
 
@@ -73,8 +73,8 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
                 offLoadReport.reportId = counterReportDtos.get(position).id;
                 offLoadReport.onOffLoadId = uuid;
                 offLoadReport.trackNumber = tracking;
-                MyDatabaseClient.getInstance(context).getMyDatabase().offLoadReportDao().
-                        insertOffLoadReport(offLoadReport);
+                MyApplication.getApplicationComponent().MyDatabase()
+                        .offLoadReportDao().insertOffLoadReport(offLoadReport);
                 offLoadReports.add(offLoadReport);
                 FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
                 if (counterReportDtos.get(position).isAhad) {
@@ -92,7 +92,7 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
             } else {
                 for (int i = 0; i < offLoadReports.size(); i++) {
                     if (offLoadReports.get(i).reportId == counterReportDtos.get(position).id) {
-                        MyDatabaseClient.getInstance(context).getMyDatabase().offLoadReportDao().
+                        MyApplication.getApplicationComponent().MyDatabase().offLoadReportDao().
                                 deleteOffLoadReport(offLoadReports.get(i).reportId, tracking, uuid);
                         offLoadReports.remove(offLoadReports.get(i));
                     }

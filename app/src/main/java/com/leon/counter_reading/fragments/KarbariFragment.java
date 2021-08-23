@@ -11,12 +11,12 @@ import android.view.WindowManager;
 
 import androidx.fragment.app.DialogFragment;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentKarbariBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.NotificationType;
 import com.leon.counter_reading.tables.KarbariDto;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -69,7 +69,7 @@ public class KarbariFragment extends DialogFragment {
     }
 
     void initializeSpinner() {
-        karbariDtos = new ArrayList<>(MyDatabaseClient.getInstance(activity).getMyDatabase().
+        karbariDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase().
                 karbariDao().getAllKarbariDto());
         for (KarbariDto karbariDto : karbariDtos)
             items.add(karbariDto.title);
@@ -80,7 +80,7 @@ public class KarbariFragment extends DialogFragment {
     void setOnButtonClickListener() {
         binding.buttonClose.setOnClickListener(v -> dismiss());
         binding.buttonSubmit.setOnClickListener(v -> {
-            MyDatabaseClient.getInstance(activity).getMyDatabase().onOffLoadDao().
+            MyApplication.getApplicationComponent().MyDatabase().onOffLoadDao().
                     updateOnOffLoad(uuid, karbariDtos.get(
                             binding.spinnerKarbari.getSelectedItemPosition()).moshtarakinId);
             dismiss();

@@ -24,15 +24,14 @@ import com.leon.counter_reading.tables.QotrDictionary;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.ReadingData;
 import com.leon.counter_reading.tables.TrackingDto;
-import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.HttpClientWrapper;
 import com.leon.counter_reading.utils.MyDatabase;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
+import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
 
 import java.util.ArrayList;
 
@@ -87,7 +86,7 @@ class DownloadCompleted implements ICallback<ReadingData> {
         if (response != null && response.body() != null) {
             ReadingData readingData = response.body();
             ReadingData readingDataTemp = response.body();
-            MyDatabase myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
+            MyDatabase myDatabase = MyApplication.getApplicationComponent().MyDatabase();
             ArrayList<TrackingDto> trackingDtos = new ArrayList<>(
                     myDatabase.trackingDao().getTrackingDtoNotArchive(false));
             final boolean[] isActive = {false};

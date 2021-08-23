@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.UploadActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
@@ -16,10 +17,9 @@ import com.leon.counter_reading.databinding.FragmentUploadBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.tables.TrackingDto;
-import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.MyDatabase;
-import com.leon.counter_reading.utils.MyDatabaseClient;
+import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
 import com.leon.counter_reading.utils.uploading.PrepareMultimediaToUpload;
 import com.leon.counter_reading.utils.uploading.PrepareOffLoadToUpload;
 
@@ -92,7 +92,7 @@ public class UploadFragment extends Fragment {
     boolean checkOnOffLoad() {
         int total, mane = 0, unread, alalPercent, imagesCount, voicesCount, trackNumber;
         double alalMane;
-        MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+        MyDatabase myDatabase = MyApplication.getApplicationComponent().MyDatabase();
         if (binding.spinner.getSelectedItemPosition() != 0) {
             trackNumber = trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber;
             total = myDatabase.onOffLoadDao().getOnOffLoadCount(trackNumber);

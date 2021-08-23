@@ -3,11 +3,11 @@ package com.leon.counter_reading.utils.reporting;
 import android.app.Activity;
 import android.os.AsyncTask;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.activities.ReadingReportActivity;
 import com.leon.counter_reading.tables.CounterReportDto;
 import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.utils.CustomProgressBar;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.util.ArrayList;
 
@@ -32,10 +32,10 @@ public class GetReadingReportDBData extends AsyncTask<Activity, Integer, Integer
 
     @Override
     protected Integer doInBackground(Activity... activities) {
-        ArrayList<CounterReportDto> counterReportDtos = new ArrayList<>(MyDatabaseClient.getInstance(activities[0]).
-                getMyDatabase().counterReportDao().getAllCounterStateReport());
-        ArrayList<OffLoadReport> offLoadReports = new ArrayList<>(MyDatabaseClient.getInstance(activities[0]).getMyDatabase().
-                offLoadReportDao().getAllOffLoadReportById(uuid, trackNumber));
+        ArrayList<CounterReportDto> counterReportDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase()
+                .counterReportDao().getAllCounterStateReport());
+        ArrayList<OffLoadReport> offLoadReports = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase()
+                .offLoadReportDao().getAllOffLoadReportById(uuid, trackNumber));
         for (int i = 0; i < offLoadReports.size(); i++) {
             for (int j = 0; j < counterReportDtos.size(); j++) {
                 if (offLoadReports.get(i).reportId == counterReportDtos.get(j).id) {

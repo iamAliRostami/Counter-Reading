@@ -10,9 +10,9 @@ import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.tables.TrackingDto;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.util.ArrayList;
 
@@ -73,7 +73,7 @@ public class ReadingSettingCustomAdapter extends BaseAdapter {
         holder.linearLayout.setOnClickListener(view1 -> {
             holder.checkBox.setChecked(!holder.checkBox.isChecked());
             trackingDtos.get(position).isActive = holder.checkBox.isChecked();
-            MyDatabaseClient.getInstance(context).getMyDatabase().
+            MyApplication.getApplicationComponent().MyDatabase().
                     trackingDao().updateTrackingDtoByStatus(
                     trackingDtos.get(position).id, trackingDtos.get(position).isActive);
         });

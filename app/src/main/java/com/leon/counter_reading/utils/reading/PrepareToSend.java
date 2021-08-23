@@ -15,7 +15,6 @@ import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.HttpClientWrapper;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
 
 import java.util.ArrayList;
@@ -37,9 +36,9 @@ public class PrepareToSend extends AsyncTask<Activity, Integer, Integer> {
     @Override
     protected Integer doInBackground(Activity... activities) {
         offLoadData.isFinal = false;
-        offLoadData.offLoads = new ArrayList<>(MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().onOffLoadDao().getAllOnOffLoadInsert(
-                OffloadStateEnum.INSERTED.getValue(), true));
-        offLoadData.offLoadReports.addAll(MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().offLoadReportDao().
+        offLoadData.offLoads = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase().
+                onOffLoadDao().getAllOnOffLoadInsert(OffloadStateEnum.INSERTED.getValue(), true));
+        offLoadData.offLoadReports.addAll(MyApplication.getApplicationComponent().MyDatabase().offLoadReportDao().
                 getAllOffLoadReportByActive(true, false));
         Retrofit retrofit = NetworkHelper.getInstance(2, token);
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);

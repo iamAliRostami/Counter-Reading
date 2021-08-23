@@ -6,8 +6,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.enums.BundleEnum;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 public class Navigating extends AsyncTask<Activity, Void, Void> {
     int possibleEmpty, position;
@@ -28,9 +28,9 @@ public class Navigating extends AsyncTask<Activity, Void, Void> {
 
     @Override
     protected Void doInBackground(Activity... activities) {
-        MyDatabaseClient.getInstance(activities[0]).getMyDatabase().onOffLoadDao().
-                updateOnOffLoad(uuid, possibleEshterak, possibleMobile, possibleEmpty, phoneNumber,
-                        serialNumber, address);
+        MyApplication.getApplicationComponent().MyDatabase()
+                .onOffLoadDao().updateOnOffLoad(uuid, possibleEshterak, possibleMobile,
+                possibleEmpty, phoneNumber, serialNumber, address);
         Intent intent = new Intent();
         intent.putExtra(BundleEnum.POSITION.getValue(), position);
         intent.putExtra(BundleEnum.BILL_ID.getValue(), uuid);

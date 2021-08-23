@@ -28,7 +28,6 @@ import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.photo.PrepareMultimedia;
@@ -81,8 +80,8 @@ public class TakePhotoActivity extends AppCompatActivity {
     void imageSetup() {
         images = new ArrayList<>();
         if (!result) {
-            images.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
-                    .getImagesByOnOffLoadId(uuid));
+            images.addAll(MyApplication.getApplicationComponent().MyDatabase()
+                    .imageDao().getImagesByOnOffLoadId(uuid));
             for (int i = 0; i < images.size(); i++) {
                 images.get(i).bitmap = CustomFile.loadImage(activity, images.get(i).address);
             }
@@ -155,8 +154,8 @@ public class TakePhotoActivity extends AppCompatActivity {
                         image.File = CustomFile.bitmapToFile(MyApplication.bitmapSelectedImage, activity);
                         image.bitmap = MyApplication.bitmapSelectedImage;
                         if (replace > 0) {
-                            MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().
-                                    deleteImage(images.get(replace - 1).id);
+                            MyApplication.getApplicationComponent().MyDatabase()
+                                    .imageDao().deleteImage(images.get(replace - 1).id);
                             images.set(replace - 1, image);
                         } else {
                             images.add(image);
@@ -167,37 +166,6 @@ public class TakePhotoActivity extends AppCompatActivity {
                     }
 
                 }
-
-//                if (data != null) {
-//                    Bundle extras = data.getExtras();
-//                    MyApplication.bitmapSelectedImage = (Bitmap) extras.get("data");
-//                    Image image = new Image();
-//                    image.OnOffLoadId = uuid;
-//                    image.trackNumber = trackNumber;
-//                    image.File = CustomFile.bitmapToFile(MyApplication.bitmapSelectedImage, activity);
-//                    image.bitmap = MyApplication.bitmapSelectedImage;
-//                    if (replace > 0) {
-//                        MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao().
-//                                deleteImage(images.get(replace - 1).id);
-//                        images.set(replace - 1, image);
-//                    } else {
-//                        images.add(image);
-//                    }
-//                    imageViewAdapter.notifyDataSetChanged();
-//                }
-//                ContentResolver contentResolver = this.getContentResolver();
-//                try {
-//                    if (Build.VERSION.SDK_INT > 28) {
-//                        ImageDecoder.Source source =
-//                                ImageDecoder.createSource(this.getContentResolver(), Uri.parse(MyApplication.fileName));
-//                        MyApplication.bitmapSelectedImage = ImageDecoder.decodeBitmap(source);
-//                    } else
-//                        MyApplication.bitmapSelectedImage = MediaStore.Images.Media.getBitmap(
-//                                contentResolver, Uri.parse(MyApplication.fileName));
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    Log.e("error", e.toString());
-//                }
             }
         }
     }

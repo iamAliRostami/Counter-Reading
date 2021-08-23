@@ -22,7 +22,6 @@ import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.HttpClientWrapper;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
@@ -54,14 +53,14 @@ public class PrepareOffLoadToUpload extends AsyncTask<Activity, Activity, Activi
     @Override
     protected Activity doInBackground(Activity... activities) {
         forbiddenDtos.clear();
-        forbiddenDtos.addAll(MyDatabaseClient.getInstance(activities[0]).getMyDatabase().
+        forbiddenDtos.addAll(MyApplication.getApplicationComponent().MyDatabase().
                 forbiddenDao().getAllForbiddenDto(false));
         onOffLoadDtos.clear();
-        onOffLoadDtos.addAll(MyDatabaseClient.getInstance(activities[0]).getMyDatabase().
+        onOffLoadDtos.addAll(MyApplication.getApplicationComponent().MyDatabase().
                 onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(trackNumber,
                 OffloadStateEnum.INSERTED.getValue()));
         offLoadReports.clear();
-        offLoadReports.addAll(MyDatabaseClient.getInstance(activities[0]).getMyDatabase().
+        offLoadReports.addAll(MyApplication.getApplicationComponent().MyDatabase().
                 offLoadReportDao().getAllOffLoadReport(false));
         return activities[0];
     }
@@ -101,12 +100,12 @@ public class PrepareOffLoadToUpload extends AsyncTask<Activity, Activity, Activi
         if (onOffLoadDtos.size() <= 0) {
             thankYou(activity);
             onOffLoadDtos.clear();
-            onOffLoadDtos.add(MyDatabaseClient.getInstance(activity).getMyDatabase().
+            onOffLoadDtos.add(MyApplication.getApplicationComponent().MyDatabase().
                     onOffLoadDao().getOnOffLoadReadByTrackingAndOffLoad(trackNumber));
         }
         if (onOffLoadDtos.size() == 0 || onOffLoadDtos.get(0) == null) {
-            MyDatabaseClient.getInstance(activity).getMyDatabase().trackingDao().
-                    updateTrackingDtoByArchive(id, true, false);
+            MyApplication.getApplicationComponent().MyDatabase().
+                    trackingDao().updateTrackingDtoByArchive(id, true, false);
             return;
         }
         Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
@@ -133,11 +132,11 @@ public class PrepareOffLoadToUpload extends AsyncTask<Activity, Activity, Activi
             if (response.body() != null && response.body().status == 200) {
                 int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
                         OffloadStateEnum.SENT_WITH_ERROR.getValue();
-                MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().onOffLoadDao().
+                MyApplication.getApplicationComponent().MyDatabase().onOffLoadDao().
                         updateOnOffLoad(state, response.body().targetObject);
-                MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().trackingDao().
+                MyApplication.getApplicationComponent().MyDatabase().trackingDao().
                         updateTrackingDtoByArchive(id, true, false);
-                MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().offLoadReportDao().
+                MyApplication.getApplicationComponent().MyDatabase().offLoadReportDao().
                         updateOffLoadReportByIsSent(true);
                 new CustomToast().success(response.body().message, Toast.LENGTH_LONG);
 //                new CustomDialog(DialogType.Green, getContext(), response.body().message,
@@ -153,7 +152,7 @@ class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
     @Override
     public void execute(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
         if (response.isSuccessful()) {
-            MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase().forbiddenDao().
+            MyApplication.getApplicationComponent().MyDatabase().forbiddenDao().
                     updateAllForbiddenDtoBySent(true);
             if (response.body() != null) {
                 new CustomToast().success(MyApplication.getContext().

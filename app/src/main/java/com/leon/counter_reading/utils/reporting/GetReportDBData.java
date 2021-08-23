@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.activities.ReportActivity;
 import com.leon.counter_reading.enums.HighLowStateEnum;
 import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.MyDatabase;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class GetReportDBData extends AsyncTask<Activity, Integer, Integer> {
 
     public GetReportDBData(Activity activity) {
         super();
-        myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
+        myDatabase = MyApplication.getApplicationComponent().MyDatabase();
         customProgressBar = new CustomProgressBar();
         customProgressBar.show(activity, false);
     }

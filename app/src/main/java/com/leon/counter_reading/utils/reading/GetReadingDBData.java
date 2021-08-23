@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 
-import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.enums.ReadStatusEnum;
@@ -17,7 +16,6 @@ import com.leon.counter_reading.tables.ReadingData;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.MyDatabase;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.util.Collections;
 

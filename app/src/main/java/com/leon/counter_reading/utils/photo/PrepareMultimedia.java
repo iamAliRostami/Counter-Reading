@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.ProgressType;
@@ -21,7 +22,6 @@ import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.HttpClientWrapper;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.NetworkHelper;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
@@ -114,15 +114,15 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
         for (int i = 0; i < images.size(); i++) {
             if (!images.get(i).isSent) {
                 images.get(i).isSent = isSent;
-                if (MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
+                if (MyApplication.getApplicationComponent().MyDatabase().imageDao()
                         .getImagesById(images.get(i).id).size() > 0) {
-                    MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
+                    MyApplication.getApplicationComponent().MyDatabase().imageDao()
                             .updateImage(images.get(i));
                 } else {
                     String address = CustomFile.saveTempBitmap(images.get(i).bitmap, activity);
                     if (!address.equals(activity.getString(R.string.error_external_storage_is_not_writable))) {
                         images.get(i).address = address;
-                        MyDatabaseClient.getInstance(activity).getMyDatabase().imageDao()
+                        MyApplication.getApplicationComponent().MyDatabase().imageDao()
                                 .insertImage(images.get(i));
                     }
                 }

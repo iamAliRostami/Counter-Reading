@@ -11,12 +11,12 @@ import android.view.WindowManager;
 
 import androidx.fragment.app.DialogFragment;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentAhadBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.NotificationType;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -90,8 +90,8 @@ public class AhadFragment extends DialogFragment {
                 }
             }
             if (!cancel) {
-                MyDatabaseClient.getInstance(context).getMyDatabase().onOffLoadDao().
-                        updateOnOffLoad(asli, fari, uuid);
+                MyApplication.getApplicationComponent().MyDatabase()
+                        .onOffLoadDao().updateOnOffLoad(asli, fari, uuid);
                 dismiss();
             }
         });

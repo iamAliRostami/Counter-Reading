@@ -18,8 +18,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.tables.SavedLocation;
-import com.leon.counter_reading.utils.MyDatabase;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import org.jetbrains.annotations.NotNull;
 import org.osmdroid.config.Configuration;
@@ -55,8 +53,7 @@ public class LocationTrackerGoogle extends Service {
             longitude = location.getLongitude();
             accuracy = location.getAccuracy();
             SavedLocation savedLocation = new SavedLocation(accuracy, longitude, latitude);
-            MyDatabase myDatabase = MyDatabaseClient.getInstance(activity).getMyDatabase();
-            myDatabase.savedLocationDao().insertSavedLocation(savedLocation);
+            MyApplication.getApplicationComponent().MyDatabase().savedLocationDao().insertSavedLocation(savedLocation);
         }
     }
 

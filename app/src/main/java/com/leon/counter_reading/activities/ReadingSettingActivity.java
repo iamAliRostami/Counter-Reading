@@ -21,7 +21,6 @@ import com.leon.counter_reading.fragments.ReadingSettingFragment;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.DepthPageTransformer;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 
 import java.util.ArrayList;
 
@@ -42,7 +41,7 @@ public class ReadingSettingActivity extends BaseActivity {
         textViewCompanyName.setText(DifferentCompanyManager.getCompanyName(DifferentCompanyManager.getActiveCompanyName()));
 
         activity = this;
-        trackingDtos.addAll(MyDatabaseClient.getInstance(activity).getMyDatabase().
+        trackingDtos.addAll(MyApplication.getApplicationComponent().MyDatabase().
                 trackingDao().getTrackingDtoNotArchive(false));
         setupViewPager();
         initializeTextViews();
@@ -159,7 +158,7 @@ public class ReadingSettingActivity extends BaseActivity {
     protected void onDestroy() {
         trackingDtos = null;
         binding = null;
-        MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase();
+//        MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase();
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

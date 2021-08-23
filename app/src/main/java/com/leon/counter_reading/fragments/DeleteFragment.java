@@ -13,6 +13,7 @@ import android.view.WindowManager;
 
 import androidx.fragment.app.DialogFragment;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentDeleteBinding;
 import com.leon.counter_reading.enums.BundleEnum;
@@ -22,7 +23,6 @@ import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.Crypto;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
@@ -90,10 +90,10 @@ public class DeleteFragment extends DialogFragment {
                                 SharedReferenceKeys.PASSWORD_TEMP.getValue())).contains(password)
                 ) {
                     if (id.isEmpty()) {
-                        MyDatabaseClient.getInstance(activity).getMyDatabase().
+                        MyApplication.getApplicationComponent().MyDatabase().
                                 trackingDao().updateTrackingDtoByArchive(true, false);
                     } else {
-                        MyDatabaseClient.getInstance(activity).getMyDatabase().
+                        MyApplication.getApplicationComponent().MyDatabase().
                                 trackingDao().updateTrackingDtoByArchive(id, true, false);
                     }
                     Intent intent = activity.getIntent();

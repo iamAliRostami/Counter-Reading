@@ -20,7 +20,6 @@ import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.MyDatabaseClient;
 import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.osmdroid.config.Configuration;
@@ -61,7 +60,7 @@ public class LocationTrackerGps extends Service {
             longitude = location.getLongitude();
             accuracy = location.getAccuracy();
             SavedLocation savedLocation = new SavedLocation(accuracy, longitude, latitude);
-            MyDatabaseClient.getInstance(activity).getMyDatabase().savedLocationDao().insertSavedLocation(savedLocation);
+            MyApplication.getApplicationComponent().MyDatabase().savedLocationDao().insertSavedLocation(savedLocation);
         }
     }
 
