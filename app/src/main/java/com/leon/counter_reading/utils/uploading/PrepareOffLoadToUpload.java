@@ -6,9 +6,9 @@ import android.widget.Toast;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.enums.ProgressType;
-import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
@@ -20,8 +20,6 @@ import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.di.view_model.NetworkHelper;
-import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 
 import java.util.ArrayList;
 
@@ -75,8 +73,7 @@ public class PrepareOffLoadToUpload extends AsyncTask<Activity, Activity, Activi
     void uploadForbid(Activity activity) {
         ForbiddenDto.ForbiddenDtoRequestMultiple forbiddenDtoRequestMultiple =
                 new ForbiddenDto.ForbiddenDtoRequestMultiple();
-        Retrofit retrofit = NetworkHelper.getInstance(
-                sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
+        Retrofit retrofit = MyApplication.getApplicationComponent().Retrofit();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         for (ForbiddenDto forbiddenDto : forbiddenDtos) {
             ForbiddenDto.ForbiddenDtoMultiple forbiddenDtoMultiple =
@@ -105,7 +102,7 @@ public class PrepareOffLoadToUpload extends AsyncTask<Activity, Activity, Activi
                     trackingDao().updateTrackingDtoByArchive(id, true, false);
             return;
         }
-        Retrofit retrofit = NetworkHelper.getInstance(sharedPreferenceManager.getStringData(SharedReferenceKeys.TOKEN.getValue()));
+        Retrofit retrofit = MyApplication.getApplicationComponent().Retrofit();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         OnOffLoadDto.OffLoadData offLoadData = new OnOffLoadDto.OffLoadData();
         offLoadData.isFinal = true;

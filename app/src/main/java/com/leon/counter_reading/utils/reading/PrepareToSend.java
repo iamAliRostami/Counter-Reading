@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.di.view_model.HttpClientWrapper;
+import com.leon.counter_reading.di.view_model.NetworkHelperModel;
 import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.infrastructure.IAbfaService;
@@ -14,8 +16,6 @@ import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.di.view_model.NetworkHelper;
-import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 
 import java.util.ArrayList;
 
@@ -40,7 +40,7 @@ public class PrepareToSend extends AsyncTask<Activity, Integer, Integer> {
                 onOffLoadDao().getAllOnOffLoadInsert(OffloadStateEnum.INSERTED.getValue(), true));
         offLoadData.offLoadReports.addAll(MyApplication.getApplicationComponent().MyDatabase().offLoadReportDao().
                 getAllOffLoadReportByActive(true, false));
-        Retrofit retrofit = NetworkHelper.getInstance(2, token);
+        Retrofit retrofit = NetworkHelperModel.getInstance(2, token);
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
         if (HttpClientWrapper.call != null)

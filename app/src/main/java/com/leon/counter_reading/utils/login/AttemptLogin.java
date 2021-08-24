@@ -9,6 +9,7 @@ import com.auth0.android.jwt.JWT;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.HomeActivity;
+import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.infrastructure.IAbfaService;
@@ -18,8 +19,6 @@ import com.leon.counter_reading.tables.LoginFeedBack;
 import com.leon.counter_reading.tables.LoginInfo;
 import com.leon.counter_reading.utils.Crypto;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.di.view_model.NetworkHelper;
-import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class AttemptLogin extends AsyncTask<Activity, Activity, Void> {
 
     @Override
     protected Void doInBackground(Activity... activities) {
-        Retrofit retrofit = NetworkHelper.getInstance();
+        Retrofit retrofit = MyApplication.getApplicationComponent().NetworkHelperModel().getInstance();
         final IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         Call<LoginFeedBack> call = iAbfaService.login(new LoginInfo(username, password, serial));
         activities[0].runOnUiThread(() ->

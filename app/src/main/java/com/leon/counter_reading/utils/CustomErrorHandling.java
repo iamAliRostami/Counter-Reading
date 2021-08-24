@@ -2,6 +2,7 @@ package com.leon.counter_reading.utils;
 
 import android.content.Context;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 
 import java.io.IOException;
@@ -12,8 +13,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Converter;
 import retrofit2.Response;
 
-import com.leon.counter_reading.di.view_model.NetworkHelper;
-import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 public class CustomErrorHandling {
     final Context context;
 
@@ -70,9 +69,8 @@ public class CustomErrorHandling {
 
     public APIError parseError(Response<?> response) {
         try {
-            Converter<ResponseBody, APIError> converter =
-                    NetworkHelper.getInstance().
-                            responseBodyConverter(APIError.class, new Annotation[0]);
+            Converter<ResponseBody, APIError> converter = MyApplication.getApplicationComponent()
+                    .Retrofit().responseBodyConverter(APIError.class, new Annotation[0]);
             APIError error;
             error = converter.convert(Objects.requireNonNull(response.errorBody()));
             return error;

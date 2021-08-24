@@ -9,11 +9,11 @@ import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 
 import javax.inject.Inject;
 
-public class SharedPreferenceModel implements ISharedPreferenceManager {
+public class SharedPreferencemanagerModel implements ISharedPreferenceManager {
     final SharedPreferences appPrefs;
 
     @Inject
-    public SharedPreferenceModel(Context context, String xml) {
+    public SharedPreferencemanagerModel(Context context, String xml) {
         appPrefs = context.getSharedPreferences(xml, MODE_PRIVATE);
     }
 

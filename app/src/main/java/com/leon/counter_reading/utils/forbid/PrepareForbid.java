@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.ProgressType;
-import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
@@ -13,8 +13,6 @@ import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.di.view_model.NetworkHelper;
-import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -35,8 +33,7 @@ public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
 
     @Override
     protected Activity doInBackground(Activity... activities) {
-        Retrofit retrofit = NetworkHelper.getInstance(MyApplication.getApplicationComponent()
-                .SharedPreferenceModel().getStringData(SharedReferenceKeys.TOKEN.getValue()));
+        Retrofit retrofit = MyApplication.getApplicationComponent().Retrofit();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         Call<ForbiddenDto.ForbiddenDtoResponses> call;
         if (zoneId != 0 && forbiddenDto.File.size() > 0) {

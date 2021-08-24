@@ -4,11 +4,14 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -19,16 +22,16 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public final class NetworkHelper {
+public final class NetworkHelperModel {
     private static final TimeUnit TIME_UNIT = TimeUnit.SECONDS;
+    private static final boolean RETRY_ENABLED = false;
     private static final long READ_TIMEOUT = 120;
     private static final long WRITE_TIMEOUT = 60;
     private static final long CONNECT_TIMEOUT = 10;
-    private static final boolean RETRY_ENABLED = false;
+
     private static Gson gson;
     private static OkHttpClient okHttpClient;
     private static Retrofit retrofit;
-
 
     public static OkHttpClient getHttpClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -84,14 +87,6 @@ public final class NetworkHelper {
         return okHttpClient;
     }
 
-    public static Gson getGson() {
-        if (gson == null)
-            gson = new GsonBuilder()
-                    .setLenient()
-                    .create();
-        return gson;
-    }
-
     public static Retrofit getInstance(boolean b, int denominator, String... s) {
         String baseUrl = b ?
                 DifferentCompanyManager.getBaseUrl(DifferentCompanyManager.getActiveCompanyName()) :
@@ -99,19 +94,19 @@ public final class NetworkHelper {
         if (s.length == 0)
             return new Retrofit.Builder()
                     .baseUrl(baseUrl)
-                    .client(NetworkHelper.getHttpClient())
+                    .client(NetworkHelperModel.getHttpClient())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create(getGson()))
+                    .addConverterFactory(GsonConverterFactory.create(MyApplication.getApplicationComponent().Gson()))
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .build();
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)
-                    .client(NetworkHelper.getHttpClient(denominator, s))
+                    .client(NetworkHelperModel.getHttpClient(denominator, s))
 //                    .client(s[1] != null ?
 //                            NetworkHelper.getHttpClient(denominator, s[0], s[1]) :
 //                            NetworkHelper.getHttpClient(denominator, s[0]))
-                    .addConverterFactory(GsonConverterFactory.create(getGson()))
+                    .addConverterFactory(GsonConverterFactory.create(MyApplication.getApplicationComponent().Gson()))
                     .build();
         }
         return retrofit;
@@ -119,10 +114,6 @@ public final class NetworkHelper {
 
     public static Retrofit getInstance(int denominator, String... s) {
         return getInstance(true, denominator, s);
-    }
-
-    public static Retrofit getInstance(String... s) {
-        return getInstance(true, 1, s);
     }
 
     /**
@@ -143,6 +134,20 @@ public final class NetworkHelper {
                         DifferentCompanyManager.getActiveCompanyName()))
                 .client(client).addConverterFactory(GsonConverterFactory
                         .create(new GsonBuilder().setLenient().create())).build();
+    }
+
+    @Inject
+    public Gson getGson() {
+        if (gson == null)
+            gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+        return gson;
+    }
+
+    @Inject
+    public Retrofit getInstance(String... s) {
+        return getInstance(true, 1, s);
     }
 }
 

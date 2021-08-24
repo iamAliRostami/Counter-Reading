@@ -78,7 +78,7 @@ public class DeleteFragment extends DialogFragment {
                 view = binding.editTextPassword;
                 view.requestFocus();
             } else {
-                ISharedPreferenceManager sharedPreferenceManager =MyApplication.getApplicationComponent().SharedPreferenceModel();
+                ISharedPreferenceManager sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
                 String password = binding.editTextPassword.getText().toString();
                 String username = binding.editTextUsername.getText().toString();
                 if (sharedPreferenceManager.getStringData(

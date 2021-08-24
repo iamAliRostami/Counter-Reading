@@ -5,17 +5,15 @@ import android.content.Context;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.ProgressType;
-import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.fragments.SettingUpdateFragment;
 import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.LastInfo;
 import com.leon.counter_reading.utils.CustomErrorHandling;
-import com.leon.counter_reading.di.view_model.NetworkHelper;
-import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
 
 import retrofit2.Call;
@@ -25,8 +23,7 @@ import retrofit2.Retrofit;
 public class GetUpdateInfo {
 
     public GetUpdateInfo(Activity activity, SettingUpdateFragment settingUpdateFragment) {
-        Retrofit retrofit = NetworkHelper.getInstance(MyApplication.getApplicationComponent()
-                .SharedPreferenceModel().getStringData(SharedReferenceKeys.TOKEN.getValue()));
+        Retrofit retrofit = MyApplication.getApplicationComponent().Retrofit();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         Call<LastInfo> call = iAbfaService.getLastInfo();
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,

@@ -3,14 +3,14 @@ package com.leon.counter_reading.utils.login;
 import android.app.Activity;
 import android.os.AsyncTask;
 
+import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.tables.LoginFeedBack;
 import com.leon.counter_reading.tables.LoginInfo;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.di.view_model.NetworkHelper;
-import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -29,7 +29,7 @@ public class AttemptRegister extends AsyncTask<Activity, Activity, Void> {
     @Override
     protected Void doInBackground(Activity... activities) {
 
-        Retrofit retrofit = NetworkHelper.getInstance();
+        Retrofit retrofit = MyApplication.getApplicationComponent().NetworkHelperModel().getInstance();
         final IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         Call<LoginFeedBack> call = iAbfaService.register(new LoginInfo(username, password, serial));
         activities[0].runOnUiThread(() ->

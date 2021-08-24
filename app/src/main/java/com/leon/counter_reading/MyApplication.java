@@ -22,6 +22,7 @@ import com.leon.counter_reading.di.component.ApplicationComponent;
 import com.leon.counter_reading.di.component.DaggerApplicationComponent;
 import com.leon.counter_reading.di.module.FlashModule;
 import com.leon.counter_reading.di.module.MyDatabaseModule;
+import com.leon.counter_reading.di.module.NetworkModule;
 import com.leon.counter_reading.di.module.SharedPreferenceModule;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.tables.ReadingData;
@@ -61,32 +62,6 @@ public class MyApplication extends Application {
     static Context appContext;
     static int errorCounter = 0;
     static ApplicationComponent applicationComponent;
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
-
-    @Override
-    public void onCreate() {
-        appContext = getApplicationContext();
-        Toasty.Config.getInstance()
-                .tintIcon(true)
-                .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), MyApplication.FONT_NAME))
-                .setTextSize(TOAST_TEXT_SIZE)
-                .allowQueue(true).apply();
-        applicationComponent = DaggerApplicationComponent
-                .builder()
-                .flashModule(new FlashModule(appContext))
-                .myDatabaseModule(new MyDatabaseModule(appContext))
-                .sharedPreferenceModule(new SharedPreferenceModule(appContext, SharedReferenceNames.ACCOUNT))
-                .build();
-        applicationComponent.inject(this);
-
-        super.onCreate();
-//        .throw new RuntimeException("Test Crash");
-    }
 
     public static ApplicationComponent getApplicationComponent() {
         return applicationComponent;
@@ -166,5 +141,32 @@ public class MyApplication extends Application {
             }
         }
         return isCarrier;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+    @Override
+    public void onCreate() {
+        appContext = getApplicationContext();
+        Toasty.Config.getInstance()
+                .tintIcon(true)
+                .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), MyApplication.FONT_NAME))
+                .setTextSize(TOAST_TEXT_SIZE)
+                .allowQueue(true).apply();
+        applicationComponent = DaggerApplicationComponent
+                .builder()
+                .networkModule(new NetworkModule())
+                .flashModule(new FlashModule(appContext))
+                .myDatabaseModule(new MyDatabaseModule(appContext))
+                .sharedPreferenceModule(new SharedPreferenceModule(appContext, SharedReferenceNames.ACCOUNT))
+                .build();
+        applicationComponent.inject(this);
+
+        super.onCreate();
+//        .throw new RuntimeException("Test Crash");
     }
 }

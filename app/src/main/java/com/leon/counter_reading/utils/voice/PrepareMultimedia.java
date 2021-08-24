@@ -9,9 +9,9 @@ import android.widget.Toast;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.ProgressType;
-import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
@@ -22,8 +22,6 @@ import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.di.view_model.NetworkHelper;
-import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -74,8 +72,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
                 voice.OnOffLoadId, MediaType.parse("text/plain"));
         voiceGrouped.Description = RequestBody.create(
                 voice.Description, MediaType.parse("text/plain"));
-        Retrofit retrofit = NetworkHelper.getInstance(MyApplication.getApplicationComponent()
-                .SharedPreferenceModel().getStringData(SharedReferenceKeys.TOKEN.getValue()));
+        Retrofit retrofit = MyApplication.getApplicationComponent().Retrofit();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(
                 voiceGrouped.File, voiceGrouped.OnOffLoadId, voiceGrouped.Description);
