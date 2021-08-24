@@ -43,12 +43,18 @@ public final class NetworkHelperModel {
         int cacheSize = 50 * 1024 * 1024; // 50 MB
         File httpCacheDirectory = new File(context.getCacheDir(), context.getString(R.string.cache_folder));
         Cache cache = new Cache(httpCacheDirectory, cacheSize);
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.level(HttpLoggingInterceptor.Level.BODY);
+
         OkHttpClient client = new OkHttpClient.Builder().readTimeout(READ_TIMEOUT, TIME_UNIT)
                 .writeTimeout(WRITE_TIMEOUT, TIME_UNIT).connectTimeout(CONNECT_TIMEOUT, TIME_UNIT)
                 .retryOnConnectionFailure(RETRY_ENABLED).addInterceptor(chain ->
                         chain.proceed(chain.request().newBuilder().build()))
-                .addInterceptor(new HttpLoggingInterceptor()
-                        .setLevel(HttpLoggingInterceptor.Level.BODY)).cache(cache).build();
+                .addInterceptor(logging)
+//                .addInterceptor(new HttpLoggingInterceptor()
+//                        .setLevel(HttpLoggingInterceptor.Level.BODY))
+                .cache(cache).build();
         return new Retrofit.Builder()
                 .baseUrl(DifferentCompanyManager.getBaseUrl(
                         DifferentCompanyManager.getActiveCompanyName()))

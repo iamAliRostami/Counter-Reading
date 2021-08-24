@@ -5,8 +5,6 @@ import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.enums.CompanyNames;
 
 public class DifferentCompanyManager {
-    private DifferentCompanyManager() {
-    }
 
     public static CompanyNames getActiveCompanyName() {
 //        return CompanyNames.ZONE4;
@@ -222,7 +220,6 @@ public class DifferentCompanyManager {
                 return CompanyNames.ESF;
             default:
                 throw new UnsupportedOperationException();
-
         }
     }
 
