@@ -12,10 +12,8 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivityContactUsBinding;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 public class ContactUsActivity extends AppCompatActivity {
     private ActivityContactUsBinding binding;
@@ -24,8 +22,7 @@ public class ContactUsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
-                SharedReferenceNames.ACCOUNT.getValue());
+        sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
         int theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         MyApplication.onActivitySetTheme(this, theme, true);
         binding = ActivityContactUsBinding.inflate(getLayoutInflater());

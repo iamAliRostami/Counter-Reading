@@ -22,11 +22,10 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityLocationBinding;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
+import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.PermissionManager;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.locating.LocationTrackerGoogle;
 import com.leon.counter_reading.utils.locating.LocationTrackerGps;
 
@@ -43,7 +42,7 @@ public class LocationActivity extends BaseActivity {
     private static ArrayList<SavedLocation.LocationOnMap> savedLocations;
     private ActivityLocationBinding binding;
     private Activity activity;
-    private SharedPreferenceManager sharedPreferenceManager;
+    private ISharedPreferenceManager sharedPreferenceManager;
     private ShowOnMap showOnMap;
     private ArrayList<Marker> markers = new ArrayList<>();
     private LocationTrackerGoogle locationTracker;
@@ -88,7 +87,7 @@ public class LocationActivity extends BaseActivity {
                 askStoragePermission();
             } else {
                 locationTracker = new LocationTrackerGoogle(activity);
-                sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
+                sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
                 initializeMapView();
                 initializeCheckBoxPoint();
             }

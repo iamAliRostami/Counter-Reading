@@ -21,14 +21,12 @@ import com.leon.counter_reading.databinding.FragmentPossibleBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.NotificationType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.CounterReportDto;
 import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -93,7 +91,7 @@ public class PossibleFragment extends DialogFragment {
 
     void initialize() {
         makeRing(activity, NotificationType.OTHER);
-        sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
+        sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
         if (justMobile) {
             binding.linearLayoutMobile.setVisibility(View.VISIBLE);
             binding.editTextMobile.setVisibility(View.VISIBLE);
@@ -113,8 +111,6 @@ public class PossibleFragment extends DialogFragment {
             binding.editTextAhad1.setVisibility(View.GONE);
             binding.editTextAhad2.setVisibility(View.GONE);
             binding.editTextAhadTotal.setVisibility(View.GONE);
-//            binding.spinnerKarbari.setVisibility(View.GONE);
-//            binding.spinnerReadingReport.setVisibility(View.GONE);
 
             binding.linearLayoutReadingReport.setVisibility(View.GONE);
             binding.linearLayoutKarbari.setVisibility(View.GONE);

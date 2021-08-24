@@ -14,8 +14,8 @@ import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.HttpClientWrapper;
-import com.leon.counter_reading.utils.NetworkHelper;
+import com.leon.counter_reading.di.view_model.NetworkHelper;
+import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 
 import java.util.ArrayList;
 

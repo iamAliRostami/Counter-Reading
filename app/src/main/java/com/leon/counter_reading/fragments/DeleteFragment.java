@@ -19,11 +19,9 @@ import com.leon.counter_reading.databinding.FragmentDeleteBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.NotificationType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.Crypto;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -80,8 +78,7 @@ public class DeleteFragment extends DialogFragment {
                 view = binding.editTextPassword;
                 view.requestFocus();
             } else {
-                ISharedPreferenceManager sharedPreferenceManager =
-                        new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
+                ISharedPreferenceManager sharedPreferenceManager =MyApplication.getApplicationComponent().SharedPreferenceModel();
                 String password = binding.editTextPassword.getText().toString();
                 String username = binding.editTextUsername.getText().toString();
                 if (sharedPreferenceManager.getStringData(

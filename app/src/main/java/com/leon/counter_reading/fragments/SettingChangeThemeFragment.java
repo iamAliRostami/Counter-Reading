@@ -16,17 +16,13 @@ import com.leon.counter_reading.activities.SettingActivity;
 import com.leon.counter_reading.databinding.FragmentSettingChangeThemeBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
-import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
 
 public class SettingChangeThemeFragment extends Fragment {
     static int theme;
     FragmentSettingChangeThemeBinding binding;
-    ISharedPreferenceManager sharedPreferenceManager;
 
     public SettingChangeThemeFragment() {
     }
@@ -46,7 +42,6 @@ public class SettingChangeThemeFragment extends Fragment {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
-        sharedPreferenceManager = new SharedPreferenceManager(getActivity(), SharedReferenceNames.ACCOUNT.getValue());
         binding.imageViewBlack.setImageDrawable(ContextCompat.getDrawable(
                 MyApplication.getContext(), R.drawable.img_black));
         binding.imageViewBlue.setImageDrawable(ContextCompat.getDrawable(
@@ -82,7 +77,7 @@ public class SettingChangeThemeFragment extends Fragment {
 
     void setButtonChangeThemeClickListener() {
         binding.buttonChangeTheme.setOnClickListener(view -> {
-            sharedPreferenceManager.putData(SharedReferenceKeys.THEME_STABLE.getValue(), theme);
+            MyApplication.getApplicationComponent().SharedPreferenceModel().putData(SharedReferenceKeys.THEME_STABLE.getValue(), theme);
             new CustomToast().success(getString(R.string.theme_changed));
             changeTheme();
         });

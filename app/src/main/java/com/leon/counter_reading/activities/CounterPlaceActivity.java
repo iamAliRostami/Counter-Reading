@@ -14,9 +14,6 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivityCounterPlaceBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
-import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 public class CounterPlaceActivity extends AppCompatActivity {
     private ActivityCounterPlaceBinding binding;
@@ -27,9 +24,8 @@ public class CounterPlaceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
-                SharedReferenceNames.ACCOUNT.getValue());
-        int theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
+        int theme = MyApplication.getApplicationComponent().SharedPreferenceModel().
+                getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         MyApplication.onActivitySetTheme(this, theme, true);
         binding = ActivityCounterPlaceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

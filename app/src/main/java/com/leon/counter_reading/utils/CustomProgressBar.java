@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.leon.counter_reading.di.view_model.NetworkHelper;
+import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 

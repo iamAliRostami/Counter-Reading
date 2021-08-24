@@ -35,15 +35,12 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivityReportForbidBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.fragments.HighQualityFragment;
-import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.PermissionManager;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.forbid.PrepareForbid;
 import com.leon.counter_reading.utils.locating.CheckSensor;
 import com.leon.counter_reading.utils.locating.LocationTrackerGoogle;
@@ -64,9 +61,8 @@ public class ReportForbidActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
-                SharedReferenceNames.ACCOUNT.getValue());
-        int theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
+        int theme = MyApplication.getApplicationComponent().SharedPreferenceModel()
+                .getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         MyApplication.onActivitySetTheme(this, theme, true);
         binding = ActivityReportForbidBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

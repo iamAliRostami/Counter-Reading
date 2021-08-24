@@ -1,10 +1,11 @@
-package com.leon.counter_reading.utils;
+package com.leon.counter_reading.di.view_model;
 
 import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.utils.DifferentCompanyManager;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -28,8 +29,6 @@ public final class NetworkHelper {
     private static OkHttpClient okHttpClient;
     private static Retrofit retrofit;
 
-    private NetworkHelper() {
-    }
 
     public static OkHttpClient getHttpClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -126,7 +125,9 @@ public final class NetworkHelper {
         return getInstance(true, 1, s);
     }
 
-    //with cache
+    /**
+     * with cache
+     */
     public static Retrofit getInstance(Context context) {
         int cacheSize = 50 * 1024 * 1024; // 50 MB
         File httpCacheDirectory = new File(context.getCacheDir(), context.getString(R.string.cache_folder));

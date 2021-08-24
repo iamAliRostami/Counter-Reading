@@ -1,4 +1,4 @@
-package com.leon.counter_reading.utils;
+package com.leon.counter_reading.di.view_model;
 
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
@@ -12,6 +12,8 @@ import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
+import com.leon.counter_reading.utils.CustomProgressBar;
+import com.leon.counter_reading.utils.CustomToast;
 
 import retrofit2.Call;
 import retrofit2.Callback;

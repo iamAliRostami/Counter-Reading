@@ -21,6 +21,7 @@ public class FlashViewModel implements IFlashLightManager {
         this.context = context;
     }
 
+    @Override
     public boolean turnOn() {
         boolean hasFlash = context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
         if (hasFlash) {
@@ -42,6 +43,7 @@ public class FlashViewModel implements IFlashLightManager {
         return isFlashOn;
     }
 
+    @Override
     public boolean turnOff() {
         CameraManager camManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         try {
@@ -54,6 +56,7 @@ public class FlashViewModel implements IFlashLightManager {
         return isFlashOn;
     }
 
+    @Override
     public boolean toggleFlash() {
         if (isFlashOn) {
             return turnOff();

@@ -17,16 +17,14 @@ import android.preference.PreferenceManager;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.osmdroid.config.Configuration;
 
 public class LocationTrackerGps extends Service {
-    final Activity activity;
     static double latitude, longitude, accuracy;
+    final Activity activity;
     boolean checkGPS = false, checkNetwork = false;
     Location location;
     LocationManager locationManager;
@@ -111,8 +109,8 @@ public class LocationTrackerGps extends Service {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
-        if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.POINT.getValue()))
+        if (MyApplication.getApplicationComponent().SharedPreferenceModel()
+                .getBoolData(SharedReferenceKeys.POINT.getValue()))
             new Handler().postDelayed(this::getLocation, MyApplication.MIN_TIME_BW_UPDATES);
         return location;
     }

@@ -23,8 +23,8 @@ import org.jetbrains.annotations.NotNull;
 import org.osmdroid.config.Configuration;
 
 public class LocationTrackerGoogle extends Service {
-    final Activity activity;
     static double latitude, longitude, accuracy;
+    final Activity activity;
     FusedLocationProviderClient fusedLocationClient;
     LocationRequest locationRequest;
     private Location location;

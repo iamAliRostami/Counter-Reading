@@ -14,12 +14,9 @@ import com.leon.counter_reading.adapters.ReadingReportCustomAdapter;
 import com.leon.counter_reading.databinding.ActivityReadingReportBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
-import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.CounterReportDto;
 import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.reporting.GetReadingReportDBData;
 
 import java.util.ArrayList;
@@ -33,9 +30,8 @@ public class ReadingReportActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
-                SharedReferenceNames.ACCOUNT.getValue());
-        int theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
+        int theme = MyApplication.getApplicationComponent().SharedPreferenceModel()
+                .getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         MyApplication.onActivitySetTheme(this, theme, true);
         binding = ActivityReadingReportBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

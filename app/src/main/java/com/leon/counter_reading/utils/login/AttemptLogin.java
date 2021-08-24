@@ -6,11 +6,11 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.auth0.android.jwt.JWT;
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.HomeActivity;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
@@ -18,9 +18,8 @@ import com.leon.counter_reading.tables.LoginFeedBack;
 import com.leon.counter_reading.tables.LoginInfo;
 import com.leon.counter_reading.utils.Crypto;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.HttpClientWrapper;
-import com.leon.counter_reading.utils.NetworkHelper;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
+import com.leon.counter_reading.di.view_model.NetworkHelper;
+import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 
 import java.util.List;
 
@@ -88,27 +87,26 @@ class LoginCompleted implements ICallback<LoginFeedBack> {
     }
 
     void savePreference(LoginFeedBack loginFeedBack, boolean isChecked) {
-        ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(activity,
-                SharedReferenceNames.ACCOUNT.getValue());
-        sharedPreferenceManager.putData(
-                SharedReferenceKeys.DISPLAY_NAME.getValue(), loginFeedBack.displayName);
-        sharedPreferenceManager.putData(
-                SharedReferenceKeys.USER_CODE.getValue(), loginFeedBack.userCode);
-        sharedPreferenceManager.putData(
-                SharedReferenceKeys.TOKEN.getValue(), loginFeedBack.access_token);
-        sharedPreferenceManager.putData(
-                SharedReferenceKeys.REFRESH_TOKEN.getValue(), loginFeedBack.refresh_token);
-        sharedPreferenceManager.putData(
-                SharedReferenceKeys.XSRF.getValue(), loginFeedBack.XSRFToken);
-        sharedPreferenceManager.putData(
-                SharedReferenceKeys.USERNAME_TEMP.getValue(), username);
-        sharedPreferenceManager.putData(
-                SharedReferenceKeys.PASSWORD_TEMP.getValue(), Crypto.encrypt(password));
+        ISharedPreferenceManager sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
+        sharedPreferenceManager
+                .putData(SharedReferenceKeys.DISPLAY_NAME.getValue(), loginFeedBack.displayName);
+        sharedPreferenceManager
+                .putData(SharedReferenceKeys.USER_CODE.getValue(), loginFeedBack.userCode);
+        sharedPreferenceManager
+                .putData(SharedReferenceKeys.TOKEN.getValue(), loginFeedBack.access_token);
+        sharedPreferenceManager
+                .putData(SharedReferenceKeys.REFRESH_TOKEN.getValue(), loginFeedBack.refresh_token);
+        sharedPreferenceManager
+                .putData(SharedReferenceKeys.XSRF.getValue(), loginFeedBack.XSRFToken);
+        sharedPreferenceManager
+                .putData(SharedReferenceKeys.USERNAME_TEMP.getValue(), username);
+        sharedPreferenceManager
+                .putData(SharedReferenceKeys.PASSWORD_TEMP.getValue(), Crypto.encrypt(password));
         if (isChecked) {
-            sharedPreferenceManager.putData(
-                    SharedReferenceKeys.USERNAME.getValue(), username);
-            sharedPreferenceManager.putData(
-                    SharedReferenceKeys.PASSWORD.getValue(), Crypto.encrypt(password));
+            sharedPreferenceManager
+                    .putData(SharedReferenceKeys.USERNAME.getValue(), username);
+            sharedPreferenceManager
+                    .putData(SharedReferenceKeys.PASSWORD.getValue(), Crypto.encrypt(password));
         }
     }
 }

@@ -10,15 +10,13 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.leon.counter_reading.BuildConfig;
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentSettingUpdateBinding;
+import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
-import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.LastInfo;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.HttpClientWrapper;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.updating.GetUpdateFile;
 import com.leon.counter_reading.utils.updating.GetUpdateInfo;
 
@@ -31,7 +29,6 @@ public class SettingUpdateFragment extends Fragment {
     Activity activity;
     boolean firstTime = true;
     int versionCode;
-    ISharedPreferenceManager sharedPreferenceManager;
 
     public SettingUpdateFragment() {
     }
@@ -51,7 +48,6 @@ public class SettingUpdateFragment extends Fragment {
     }
 
     void initialize() {
-        sharedPreferenceManager = new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
         binding.imageViewUpdate.
                 setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.img_update));
         setOnButtonReceiveClickListener();
@@ -72,10 +68,8 @@ public class SettingUpdateFragment extends Fragment {
     public void updateInfoUi(LastInfo lastInfo) {
         activity.runOnUiThread(() -> {
             binding.textViewVersion.setText(lastInfo.versionName);
-            ISharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager(
-                    activity, SharedReferenceNames.ACCOUNT.getValue());
-            sharedPreferenceManager.putData(SharedReferenceKeys.DATE.getValue(),
-                    lastInfo.uploadDateJalali);
+            MyApplication.getApplicationComponent().SharedPreferenceModel().
+                    putData(SharedReferenceKeys.DATE.getValue(), lastInfo.uploadDateJalali);
             binding.textViewDate.setText(lastInfo.uploadDateJalali);
             binding.textViewPossibility.setText(lastInfo.description);
             float size = (float) lastInfo.sizeInByte / (1028 * 1028);

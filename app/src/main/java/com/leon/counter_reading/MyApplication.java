@@ -22,6 +22,8 @@ import com.leon.counter_reading.di.component.ApplicationComponent;
 import com.leon.counter_reading.di.component.DaggerApplicationComponent;
 import com.leon.counter_reading.di.module.FlashModule;
 import com.leon.counter_reading.di.module.MyDatabaseModule;
+import com.leon.counter_reading.di.module.SharedPreferenceModule;
+import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.tables.ReadingData;
 
 import java.util.ArrayList;
@@ -78,11 +80,12 @@ public class MyApplication extends Application {
                 .builder()
                 .flashModule(new FlashModule(appContext))
                 .myDatabaseModule(new MyDatabaseModule(appContext))
+                .sharedPreferenceModule(new SharedPreferenceModule(appContext, SharedReferenceNames.ACCOUNT))
                 .build();
         applicationComponent.inject(this);
 
         super.onCreate();
-//        throw new RuntimeException("Test Crash");
+//        .throw new RuntimeException("Test Crash");
     }
 
     public static ApplicationComponent getApplicationComponent() {

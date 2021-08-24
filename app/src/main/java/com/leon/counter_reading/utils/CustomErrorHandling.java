@@ -12,6 +12,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Converter;
 import retrofit2.Response;
 
+import com.leon.counter_reading.di.view_model.NetworkHelper;
+import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 public class CustomErrorHandling {
     final Context context;
 

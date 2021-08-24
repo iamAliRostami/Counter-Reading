@@ -9,8 +9,8 @@ import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.tables.LoginFeedBack;
 import com.leon.counter_reading.tables.LoginInfo;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.HttpClientWrapper;
-import com.leon.counter_reading.utils.NetworkHelper;
+import com.leon.counter_reading.di.view_model.NetworkHelper;
+import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 
 import retrofit2.Call;
 import retrofit2.Response;

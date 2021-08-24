@@ -22,14 +22,11 @@ import com.leon.counter_reading.adapters.ImageViewAdapter;
 import com.leon.counter_reading.databinding.ActivityTakePhotoBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
-import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.PermissionManager;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.photo.PrepareMultimedia;
 
 import java.io.IOException;
@@ -49,16 +46,14 @@ public class TakePhotoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ISharedPreferenceManager sharedPreferenceManager =
-                new SharedPreferenceManager(getApplicationContext(),
-                        SharedReferenceNames.ACCOUNT.getValue());
-        int theme = sharedPreferenceManager.getIntData(
-                SharedReferenceKeys.THEME_STABLE.getValue());
+        int theme = MyApplication.getApplicationComponent().SharedPreferenceModel()
+                .getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         MyApplication.onActivitySetTheme(this, theme, true);
         binding = ActivityTakePhotoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         TextView textViewCompanyName = findViewById(R.id.text_view_company_name);
-        textViewCompanyName.setText(DifferentCompanyManager.getCompanyName(DifferentCompanyManager.getActiveCompanyName()));
+        textViewCompanyName.setText(DifferentCompanyManager.
+                getCompanyName(DifferentCompanyManager.getActiveCompanyName()));
 
         activity = this;
         if (PermissionManager.checkCameraPermission(getApplicationContext()))

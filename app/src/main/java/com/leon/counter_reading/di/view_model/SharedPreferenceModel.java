@@ -1,4 +1,4 @@
-package com.leon.counter_reading.utils;
+package com.leon.counter_reading.di.view_model;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -7,24 +7,17 @@ import android.content.SharedPreferences;
 
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 
-public class SharedPreferenceManager implements ISharedPreferenceManager {
-    final Context context;
+import javax.inject.Inject;
+
+public class SharedPreferenceModel implements ISharedPreferenceManager {
     final SharedPreferences appPrefs;
 
-    public SharedPreferenceManager(Context context, String xml) {
-        this.context = context;
-        appPrefs = this.context.getSharedPreferences(xml, MODE_PRIVATE);
+    @Inject
+    public SharedPreferenceModel(Context context, String xml) {
+        appPrefs = context.getSharedPreferences(xml, MODE_PRIVATE);
     }
-//
-//    public boolean checkIsNotEmpty(String key) {
-//        if (appPrefs == null) {
-//            return true;
-//        } else if (appPrefs.getString(key, "").length() < 1) {
-//            return true;
-//        } else return !appPrefs.getString(key, "").isEmpty();
-//    }
 
-
+    @Override
     public boolean checkIsNotEmpty(String key) {
         if (appPrefs == null) {
             return false;

@@ -47,11 +47,9 @@ import com.leon.counter_reading.databinding.ActivityBaseBinding;
 import com.leon.counter_reading.di.view_model.MyDatabaseClientModel;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.PermissionManager;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.locating.LocationTrackerGoogle;
 
 import java.util.ArrayList;
@@ -72,8 +70,7 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(),
-                SharedReferenceNames.ACCOUNT.getValue());
+        sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
         int theme;
         if (getIntent().getExtras() != null) {
             theme = getIntent().getExtras().getInt(BundleEnum.THEME.getValue());

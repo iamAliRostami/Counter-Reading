@@ -14,52 +14,16 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class BackgroundLocationService extends Service {
+    public static String latitude, longitude;
+    public static Date currentTime;
     private final LocationServiceBinder binder = new LocationServiceBinder();
     private final String TAG = "BackgroundService";
     private LocationListener mLocationListener;
     private LocationManager mLocationManager;
-    public static String latitude, longitude;
-    public static Date currentTime;
 
     @Override
     public IBinder onBind(Intent intent) {
         return binder;
-    }
-
-    private class LocationListener implements android.location.LocationListener {
-        private final String TAG = "LocationListener";
-        Location mLastLocation;
-
-        LocationListener(String provider) {
-            mLastLocation = new Location(provider);
-        }
-
-        @Override
-        public void onLocationChanged(Location location) {
-            mLastLocation = location;
-            currentTime = Calendar.getInstance().getTime();
-            latitude = String.valueOf(location.getLatitude());
-            longitude = String.valueOf(location.getLongitude());
-//            textView.append("\nTime: " + currentTime + "\nLocation: " + latitude + ", " + longitude);
-//            String type = "loc";
-//            DataBaseHelper backgroundWorker = new DataBaseHelper(getApplicationContext());
-//            backgroundWorker.execute(type, latitude, longitude);
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-            Log.e(TAG, "onProviderDisabled: " + provider);
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-            Log.e(TAG, "onProviderEnabled: " + provider);
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-            Log.e(TAG, "onStatusChanged: " + status);
-        }
     }
 
     @Override
@@ -118,6 +82,42 @@ public class BackgroundLocationService extends Service {
         this.onDestroy();
     }
 
+    private class LocationListener implements android.location.LocationListener {
+        private final String TAG = "LocationListener";
+        Location mLastLocation;
+
+        LocationListener(String provider) {
+            mLastLocation = new Location(provider);
+        }
+
+        @Override
+        public void onLocationChanged(Location location) {
+            mLastLocation = location;
+            currentTime = Calendar.getInstance().getTime();
+            latitude = String.valueOf(location.getLatitude());
+            longitude = String.valueOf(location.getLongitude());
+//            textView.append("\nTime: " + currentTime + "\nLocation: " + latitude + ", " + longitude);
+//            String type = "loc";
+//            DataBaseHelper backgroundWorker = new DataBaseHelper(getApplicationContext());
+//            backgroundWorker.execute(type, latitude, longitude);
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            Log.e(TAG, "onProviderDisabled: " + provider);
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            Log.e(TAG, "onProviderEnabled: " + provider);
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            Log.e(TAG, "onStatusChanged: " + status);
+        }
+    }
+
 /*
     @RequiresApi(api = Build.VERSION_CODES.O)
     private Notification getNotification() {
@@ -149,7 +149,6 @@ public class BackgroundLocationService extends Service {
         return build;
     }
 */
-
 
     public class LocationServiceBinder extends Binder {
         public BackgroundLocationService getService() {

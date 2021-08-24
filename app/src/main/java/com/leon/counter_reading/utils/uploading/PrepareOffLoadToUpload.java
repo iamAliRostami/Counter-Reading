@@ -9,7 +9,6 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
@@ -21,9 +20,8 @@ import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.HttpClientWrapper;
-import com.leon.counter_reading.utils.NetworkHelper;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
+import com.leon.counter_reading.di.view_model.NetworkHelper;
+import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 
 import java.util.ArrayList;
 
@@ -46,8 +44,7 @@ public class PrepareOffLoadToUpload extends AsyncTask<Activity, Activity, Activi
         this.id = id;
         customProgressBar = new CustomProgressBar();
         customProgressBar.show(activity, false);
-        sharedPreferenceManager = new SharedPreferenceManager(activity,
-                SharedReferenceNames.ACCOUNT.getValue());
+        sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
     }
 
     @Override

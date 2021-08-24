@@ -31,7 +31,6 @@ import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.NotificationType;
 import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.fragments.PossibleFragment;
 import com.leon.counter_reading.fragments.SearchFragment;
 import com.leon.counter_reading.infrastructure.IFlashLightManager;
@@ -40,7 +39,6 @@ import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DepthPageTransformer;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
 import com.leon.counter_reading.utils.locating.CheckSensor;
 import com.leon.counter_reading.utils.locating.LocationTrackerGoogle;
@@ -77,8 +75,7 @@ public class ReadingActivity extends BaseActivity {
         activity = this;
         if (CheckSensor.checkSensor(activity))
             locationTrackerGoogle = new LocationTrackerGoogle(activity);
-        sharedPreferenceManager =
-                new SharedPreferenceManager(activity, SharedReferenceNames.ACCOUNT.getValue());
+        sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
         imageSrc = ReadingUtils.setAboveIcons();
         getBundle();
         setOnImageViewsClickListener();

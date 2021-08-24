@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentReadingPossibleSettingBinding;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.SharedPreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,7 +44,7 @@ public class ReadingPossibleSettingFragment extends Fragment {
 
     void initialize() {
         context = getContext();
-        sharedPreferenceManager = new SharedPreferenceManager(context, SharedReferenceNames.ACCOUNT.getValue());
+        sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
         initializeCheckBoxes();
     }
 
