@@ -40,7 +40,8 @@ public class PrepareToSend extends AsyncTask<Activity, Integer, Integer> {
                 onOffLoadDao().getAllOnOffLoadInsert(OffloadStateEnum.INSERTED.getValue(), true));
         offLoadData.offLoadReports.addAll(MyApplication.getApplicationComponent().MyDatabase().offLoadReportDao().
                 getAllOffLoadReportByActive(true, false));
-        Retrofit retrofit = NetworkHelperModel.getInstance(2, token);
+        Retrofit retrofit = MyApplication.getApplicationComponent().NetworkHelperModel().getInstance(2,token);
+//        Retrofit retrofit = NetworkHelperModel.getInstance(2, token);
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
         if (HttpClientWrapper.call != null)

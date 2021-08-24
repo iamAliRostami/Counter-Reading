@@ -29,11 +29,15 @@ public final class NetworkHelperModel {
     private static final long WRITE_TIMEOUT = 60;
     private static final long CONNECT_TIMEOUT = 10;
 
-    private static Gson gson;
-    private static OkHttpClient okHttpClient;
-    private static Retrofit retrofit;
+    @Inject
+    OkHttpClient okHttpClient;
+    @Inject
+    Gson gson;
+    @Inject
+    Retrofit retrofit;
 
-    public static OkHttpClient getHttpClient() {
+    @Inject
+    public OkHttpClient getHttpClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.level(HttpLoggingInterceptor.Level.BODY);
         return new OkHttpClient
@@ -45,7 +49,8 @@ public final class NetworkHelperModel {
                 .addInterceptor(interceptor).build();
     }
 
-    public static OkHttpClient getHttpClient(String... s) {
+    @Inject
+    public OkHttpClient getHttpClient(String... s) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.level(HttpLoggingInterceptor.Level.BODY);
         return new OkHttpClient
@@ -62,7 +67,8 @@ public final class NetworkHelperModel {
                 }).addInterceptor(interceptor).build();
     }
 
-    public static OkHttpClient getHttpClient(final int denominator, String... s) {
+    @Inject
+    public OkHttpClient getHttpClient(final int denominator, String... s) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.level(HttpLoggingInterceptor.Level.BODY);
         if (denominator == 1) {
@@ -87,14 +93,15 @@ public final class NetworkHelperModel {
         return okHttpClient;
     }
 
-    public static Retrofit getInstance(boolean b, int denominator, String... s) {
+    @Inject
+    public Retrofit getInstance(boolean b, int denominator, String... s) {
         String baseUrl = b ?
                 DifferentCompanyManager.getBaseUrl(DifferentCompanyManager.getActiveCompanyName()) :
                 DifferentCompanyManager.getLocalBaseUrl(DifferentCompanyManager.getActiveCompanyName());
         if (s.length == 0)
             return new Retrofit.Builder()
                     .baseUrl(baseUrl)
-                    .client(NetworkHelperModel.getHttpClient())
+                    .client(MyApplication.getApplicationComponent().NetworkHelperModel().getHttpClient())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create(MyApplication.getApplicationComponent().Gson()))
                     .addConverterFactory(ScalarsConverterFactory.create())
@@ -102,7 +109,7 @@ public final class NetworkHelperModel {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)
-                    .client(NetworkHelperModel.getHttpClient(denominator, s))
+                    .client(MyApplication.getApplicationComponent().NetworkHelperModel().getHttpClient(denominator, s))
 //                    .client(s[1] != null ?
 //                            NetworkHelper.getHttpClient(denominator, s[0], s[1]) :
 //                            NetworkHelper.getHttpClient(denominator, s[0]))
@@ -112,7 +119,8 @@ public final class NetworkHelperModel {
         return retrofit;
     }
 
-    public static Retrofit getInstance(int denominator, String... s) {
+    @Inject
+    public Retrofit getInstance(int denominator, String... s) {
         return getInstance(true, denominator, s);
     }
 
@@ -137,17 +145,17 @@ public final class NetworkHelperModel {
     }
 
     @Inject
+    public Retrofit getInstance(String... s) {
+        return getInstance(true, 1, s);
+    }
+
+    @Inject
     public Gson getGson() {
         if (gson == null)
             gson = new GsonBuilder()
                     .setLenient()
                     .create();
         return gson;
-    }
-
-    @Inject
-    public Retrofit getInstance(String... s) {
-        return getInstance(true, 1, s);
     }
 }
 
