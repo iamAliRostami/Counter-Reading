@@ -13,7 +13,6 @@ import com.leon.counter_reading.utils.MyDatabase;
 
 import javax.inject.Singleton;
 
-import dagger.BindsInstance;
 import dagger.Component;
 import retrofit2.Retrofit;
 

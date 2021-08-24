@@ -36,6 +36,26 @@ public final class NetworkHelperModel {
     @Inject
     Retrofit retrofit;
 
+    /**
+     * with cache
+     */
+    public static Retrofit getInstance(Context context) {
+        int cacheSize = 50 * 1024 * 1024; // 50 MB
+        File httpCacheDirectory = new File(context.getCacheDir(), context.getString(R.string.cache_folder));
+        Cache cache = new Cache(httpCacheDirectory, cacheSize);
+        OkHttpClient client = new OkHttpClient.Builder().readTimeout(READ_TIMEOUT, TIME_UNIT)
+                .writeTimeout(WRITE_TIMEOUT, TIME_UNIT).connectTimeout(CONNECT_TIMEOUT, TIME_UNIT)
+                .retryOnConnectionFailure(RETRY_ENABLED).addInterceptor(chain ->
+                        chain.proceed(chain.request().newBuilder().build()))
+                .addInterceptor(new HttpLoggingInterceptor()
+                        .setLevel(HttpLoggingInterceptor.Level.BODY)).cache(cache).build();
+        return new Retrofit.Builder()
+                .baseUrl(DifferentCompanyManager.getBaseUrl(
+                        DifferentCompanyManager.getActiveCompanyName()))
+                .client(client).addConverterFactory(GsonConverterFactory
+                        .create(new GsonBuilder().setLenient().create())).build();
+    }
+
     @Inject
     public OkHttpClient getHttpClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -122,26 +142,6 @@ public final class NetworkHelperModel {
     @Inject
     public Retrofit getInstance(int denominator, String... s) {
         return getInstance(true, denominator, s);
-    }
-
-    /**
-     * with cache
-     */
-    public static Retrofit getInstance(Context context) {
-        int cacheSize = 50 * 1024 * 1024; // 50 MB
-        File httpCacheDirectory = new File(context.getCacheDir(), context.getString(R.string.cache_folder));
-        Cache cache = new Cache(httpCacheDirectory, cacheSize);
-        OkHttpClient client = new OkHttpClient.Builder().readTimeout(READ_TIMEOUT, TIME_UNIT)
-                .writeTimeout(WRITE_TIMEOUT, TIME_UNIT).connectTimeout(CONNECT_TIMEOUT, TIME_UNIT)
-                .retryOnConnectionFailure(RETRY_ENABLED).addInterceptor(chain ->
-                        chain.proceed(chain.request().newBuilder().build()))
-                .addInterceptor(new HttpLoggingInterceptor()
-                        .setLevel(HttpLoggingInterceptor.Level.BODY)).cache(cache).build();
-        return new Retrofit.Builder()
-                .baseUrl(DifferentCompanyManager.getBaseUrl(
-                        DifferentCompanyManager.getActiveCompanyName()))
-                .client(client).addConverterFactory(GsonConverterFactory
-                        .create(new GsonBuilder().setLenient().create())).build();
     }
 
     @Inject
