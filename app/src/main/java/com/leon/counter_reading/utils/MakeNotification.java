@@ -1,5 +1,6 @@
 package com.leon.counter_reading.utils;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -45,7 +46,7 @@ public class MakeNotification {
             e.printStackTrace();
         }
     }
-
+    @SuppressLint("LaunchActivityFromNotification")
     public static void makeAboveNotification(Context context, Class<?> aClass, String actionName,
                                              String title, String text, String actionTitle,
                                              int smallIcon, int actionIcon) {
