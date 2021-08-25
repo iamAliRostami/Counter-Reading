@@ -23,8 +23,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class PrepareToSend extends AsyncTask<Activity, Integer, Integer> {
-    OnOffLoadDto.OffLoadData offLoadData;
-    String token;
+    private final OnOffLoadDto.OffLoadData offLoadData;
+    private final String token;
 
     public PrepareToSend(String token) {
         super();

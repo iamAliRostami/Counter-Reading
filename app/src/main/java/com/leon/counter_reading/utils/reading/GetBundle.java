@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 public class GetBundle extends AsyncTask<Void, Void, Void> {
-    ArrayList<String> json;
+    private final ArrayList<String> json;
 
     public GetBundle(ArrayList<String> json) {
         super();

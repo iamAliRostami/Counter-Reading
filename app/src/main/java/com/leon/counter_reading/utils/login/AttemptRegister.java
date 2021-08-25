@@ -17,7 +17,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class AttemptRegister extends AsyncTask<Activity, Activity, Void> {
-    String username, password, serial;
+    private final String username;
+    private final String password;
+    private final String serial;
 
     public AttemptRegister(String username, String password, String serial) {
         super();
@@ -34,7 +36,7 @@ public class AttemptRegister extends AsyncTask<Activity, Activity, Void> {
         Call<LoginFeedBack> call = iAbfaService.register(new LoginInfo(username, password, serial));
         activities[0].runOnUiThread(() ->
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activities[0],
-                        new RegisterCompleted(activities[0], username, password),
+                        new RegisterCompleted(),
                         new Incomplete(activities[0]),
                         new Error(activities[0])));
         return null;
@@ -42,14 +44,6 @@ public class AttemptRegister extends AsyncTask<Activity, Activity, Void> {
 }
 
 class RegisterCompleted implements ICallback<LoginFeedBack> {
-    Activity activity;
-    String username, password;
-
-    public RegisterCompleted(Activity activity, String username, String password) {
-        this.activity = activity;
-        this.username = username;
-        this.password = password;
-    }
 
     @Override
     public void execute(Response<LoginFeedBack> response) {

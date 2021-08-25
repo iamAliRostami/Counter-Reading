@@ -17,7 +17,7 @@ import java.io.IOException;
 import retrofit2.Response;
 
 class Incomplete implements ICallbackIncomplete<LoginFeedBack> {
-    Activity activity;
+    private final Activity activity;
 
     public Incomplete(Activity activity) {
         super();

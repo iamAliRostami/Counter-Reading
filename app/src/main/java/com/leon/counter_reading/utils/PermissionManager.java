@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class PermissionManager {
-
-
     public static boolean checkRecorderPermission(Context context) {
         return ActivityCompat.checkSelfPermission(context,
                 Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&

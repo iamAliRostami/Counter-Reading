@@ -13,7 +13,7 @@ import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 
 public class Result extends AsyncTask<Activity, Void, Void> {
-    Intent data;
+    private final Intent data;
 
     public Result(Intent data) {
         super();

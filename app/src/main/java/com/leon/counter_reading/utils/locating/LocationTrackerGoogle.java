@@ -23,12 +23,12 @@ import org.jetbrains.annotations.NotNull;
 import org.osmdroid.config.Configuration;
 
 public class LocationTrackerGoogle extends Service {
-    static double latitude, longitude, accuracy;
-    final Activity activity;
-    FusedLocationProviderClient fusedLocationClient;
-    LocationRequest locationRequest;
+    private static double latitude, longitude, accuracy;
+    private final Activity activity;
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationRequest locationRequest;
     private Location location;
-    final LocationCallback locationCallback = new LocationCallback() {
+    private final LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(@NotNull LocationResult locationResult) {
             for (Location location : locationResult.getLocations()) {
@@ -36,7 +36,7 @@ public class LocationTrackerGoogle extends Service {
             }
         }
     };
-    final OnSuccessListener<Location> onSuccessListener = this::addLocation;
+    private final OnSuccessListener<Location> onSuccessListener = this::addLocation;
 
 
     public LocationTrackerGoogle(Activity activity) {

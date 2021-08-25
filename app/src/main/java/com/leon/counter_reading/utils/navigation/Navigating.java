@@ -10,8 +10,14 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.enums.BundleEnum;
 
 public class Navigating extends AsyncTask<Activity, Void, Void> {
-    int possibleEmpty, position;
-    String uuid, possibleEshterak, possibleMobile, phoneNumber, serialNumber, address;
+    private final int possibleEmpty;
+    private final int position;
+    private final String uuid;
+    private final String possibleEshterak;
+    private final String possibleMobile;
+    private final String phoneNumber;
+    private final String serialNumber;
+    private final String address;
 
     public Navigating(int position, String uuid, int possibleEmpty, String possibleEshterak,
                       String possibleMobile, String phoneNumber, String serialNumber, String address) {

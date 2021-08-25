@@ -35,7 +35,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class Download extends AsyncTask<Activity, Void, Void> {
-    CustomProgressBar customProgressBar;
+    private final CustomProgressBar customProgressBar;
 
     public Download(Activity activity) {
         super();
@@ -190,7 +190,6 @@ class DownloadIncomplete implements ICallbackIncomplete<ReadingData> {
     public void executeIncomplete(Response<ReadingData> response) {
         CustomErrorHandling customErrorHandling = new CustomErrorHandling(MyApplication.getContext());
         String error = customErrorHandling.getErrorMessageDefault(response);
-
         if (response.code() == 400) {
             CustomErrorHandling.APIError apiError = customErrorHandling.parseError(response);
             error = apiError.message();

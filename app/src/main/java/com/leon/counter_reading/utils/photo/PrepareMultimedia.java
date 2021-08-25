@@ -15,6 +15,8 @@ import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.Image;
+import com.leon.counter_reading.tables.ImageGrouped;
+import com.leon.counter_reading.tables.MultimediaUploadResponse;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomProgressBar;
@@ -30,7 +32,7 @@ import retrofit2.Retrofit;
 
 public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
     private final CustomProgressBar customProgressBar;
-    private final Image.ImageGrouped imageGrouped = new Image.ImageGrouped();
+    private final ImageGrouped imageGrouped = new ImageGrouped();
     private final ArrayList<Image> images;
     private final String description;
     private final boolean result;
@@ -81,7 +83,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
                     images.get(0).Description, MediaType.parse("text/plain"));
             Retrofit retrofit = MyApplication.getApplicationComponent().Retrofit();
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-            Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(
+            Call<MultimediaUploadResponse> call = iAbfaService.fileUploadGrouped(
                     imageGrouped.File, imageGrouped.OnOffLoadId, imageGrouped.Description);
             HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                     new UploadImages(activity), new UploadImagesIncomplete(activity), new UploadImagesError(activity));
@@ -122,15 +124,15 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
         }
     }
 
-    class UploadImages implements ICallback<Image.ImageUploadResponse> {
-        Activity activity;
+    class UploadImages implements ICallback<MultimediaUploadResponse> {
+        private final Activity activity;
 
         public UploadImages(Activity activity) {
             this.activity = activity;
         }
 
         @Override
-        public void execute(Response<Image.ImageUploadResponse> response) {
+        public void execute(Response<MultimediaUploadResponse> response) {
             if (response.body() != null && response.body().status == 200) {
                 new CustomToast().success(response.body().message, Toast.LENGTH_LONG);
             } else {
@@ -141,15 +143,15 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
         }
     }
 
-    class UploadImagesIncomplete implements ICallbackIncomplete<Image.ImageUploadResponse> {
-        Activity activity;
+    class UploadImagesIncomplete implements ICallbackIncomplete<MultimediaUploadResponse> {
+        private final Activity activity;
 
         public UploadImagesIncomplete(Activity activity) {
             this.activity = activity;
         }
 
         @Override
-        public void executeIncomplete(Response<Image.ImageUploadResponse> response) {
+        public void executeIncomplete(Response<MultimediaUploadResponse> response) {
             CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
             String error = customErrorHandlingNew.getErrorMessageDefault(response);
             new CustomToast().warning(error, Toast.LENGTH_LONG);
@@ -159,7 +161,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
     }
 
     class UploadImagesError implements ICallbackError {
-        Activity activity;
+        private final Activity activity;
 
         public UploadImagesError(Activity activity) {
             this.activity = activity;

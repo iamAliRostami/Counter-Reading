@@ -8,7 +8,7 @@ import android.os.AsyncTask;
 import com.leon.counter_reading.MyApplication;
 
 public class UpdateOnOffLoadByIsShown extends AsyncTask<Activity, Void, Void> {
-    int position;
+    private final int position;
 
     public UpdateOnOffLoadByIsShown(int position) {
         super();

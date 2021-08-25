@@ -12,7 +12,18 @@ import java.util.GregorianCalendar;
 import java.util.Objects;
 
 public class CalendarTool {
-
+    private int irYear;
+    private int irMonth;
+    private int irDay;
+    private int gYear;
+    private int gMonth;
+    private int gDay;
+    private int juYear;
+    private int juMonth;
+    private int juDay;
+    private int leap;
+    private int JDN;
+    private int march;
     static final String[] iranianWeekDayStr = {
             "دوشنبه",
             "سه شنبه",
@@ -36,18 +47,6 @@ public class CalendarTool {
             "بهمن",
             "اسفند",
     };
-    private int irYear;
-    private int irMonth;
-    private int irDay;
-    private int gYear;
-    private int gMonth;
-    private int gDay;
-    private int juYear;
-    private int juMonth;
-    private int juDay;
-    private int leap;
-    private int JDN;
-    private int march;
 
     public CalendarTool() {
         Calendar calendar = new GregorianCalendar();

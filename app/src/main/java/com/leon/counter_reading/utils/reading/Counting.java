@@ -27,7 +27,8 @@ public class Counting {
         double average = monthlyAverage(onOffLoadDto.preNumber, currentNumber, onOffLoadDto.preDate);
         double preAverage = onOffLoadDto.preAverage;
         int difference = currentNumber - onOffLoadDto.preNumber;
-        /**if (karbariDto.isMaskooni && karbariDto.isTejari) {
+        /**
+         * if (karbariDto.isMaskooni && karbariDto.isTejari) {
          // فرمول میانگین گیری عجیب احتمالا
          } else*/
         if (karbariDto.isMaskooni) {
@@ -44,8 +45,9 @@ public class Counting {
             else if ((100 - readingConfigDefaultDto.lowPercentBoundMaskooni) * preAverage > (average * 100))
                 return -1;
         } else if (karbariDto.isTejari) {
-            /**        محاسبه فقط تجاری ساده با ظرفیت
-             **/
+            /**
+             * محاسبه فقط تجاری ساده با ظرفیت
+             */
             average = monthlyAverage(onOffLoadDto.preNumber, currentNumber, onOffLoadDto.preDate, onOffLoadDto.ahadTejariOrFari);
             if (readingConfigDefaultDto.highConstZarfiatBound < difference)
                 return 1;
@@ -80,9 +82,11 @@ public class Counting {
         double average = monthlyAverage(currentNumber, onOffLoadDto.preNumber, onOffLoadDto.preDate);
         double preAverage = onOffLoadDto.preAverage;
         int difference = onOffLoadDto.preNumber - currentNumber;
-        /**if (karbariDto.isMaskooni && karbariDto.isTejari) {
+        /**
+         * if (karbariDto.isMaskooni && karbariDto.isTejari) {
          // فرمول میانگین گیری عجیب احتمالا
-         } else*/
+         } else
+         */
         if (karbariDto.isMaskooni) {
             /**
              * ضرایب

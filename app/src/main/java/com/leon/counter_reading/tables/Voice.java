@@ -5,10 +5,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import java.util.ArrayList;
-
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 @Entity(tableName = "Voice", indices = @Index(value = "id", unique = true))
 public class Voice {
@@ -23,43 +20,4 @@ public class Voice {
     public boolean isArchived;
     @Ignore
     public MultipartBody.Part File;
-
-
-    public static class VoiceGrouped {
-        public final ArrayList<MultipartBody.Part> File;
-        public RequestBody OnOffLoadId;
-        public RequestBody Description;
-
-        public VoiceGrouped() {
-            File = new ArrayList<>();
-        }
-    }
-
-    public static class VoiceMultiple {
-        public final ArrayList<RequestBody> OnOffLoadId;
-        public final ArrayList<RequestBody> Description;
-        public final ArrayList<MultipartBody.Part> File;
-
-        public VoiceMultiple() {
-            File = new ArrayList<>();
-            Description = new ArrayList<>();
-            OnOffLoadId = new ArrayList<>();
-        }
-    }
-
-    public static class VoiceUploadResponse {
-        public int status;
-        public Errors errors;
-        public String message;
-        public String generationDateTime;
-        public boolean isValid;
-        public Object targetObject;
-        public String type;
-        public String title;
-        public String traceId;
-    }
-
-    public static class Errors {
-        public ArrayList<String> onOffLoadId;
-    }
 }

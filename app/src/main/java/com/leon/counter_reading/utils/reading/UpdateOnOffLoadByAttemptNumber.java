@@ -7,7 +7,8 @@ import android.os.AsyncTask;
 import com.leon.counter_reading.MyApplication;
 
 public class UpdateOnOffLoadByAttemptNumber extends AsyncTask<Void, Void, Void> {
-    int position, attemptNumber;
+    private final int position;
+    private final int attemptNumber;
 
     public UpdateOnOffLoadByAttemptNumber(int position, int attemptNumber) {
         super();

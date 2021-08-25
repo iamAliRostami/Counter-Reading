@@ -13,8 +13,8 @@ import com.leon.counter_reading.utils.CustomProgressBar;
 import java.util.Collections;
 
 public class ChangeSortType extends AsyncTask<Activity, Void, Void> {
-    boolean sortType;
-    CustomProgressBar customProgressBar;
+    private final boolean sortType;
+    private final CustomProgressBar customProgressBar;
 
     public ChangeSortType(Activity activity, boolean sortType) {
         super();

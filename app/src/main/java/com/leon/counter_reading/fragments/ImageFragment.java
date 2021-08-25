@@ -4,7 +4,6 @@ import static com.leon.counter_reading.utils.CustomFile.createImageFileOld;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -25,8 +24,8 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentImageBinding;
 import com.leon.counter_reading.enums.BundleEnum;
-import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.Image;
+import com.leon.counter_reading.tables.ImageGrouped;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -40,11 +39,8 @@ public class ImageFragment extends DialogFragment {
     FragmentImageBinding binding;
     String uuid;
     int position;
-    Context context;
     Activity activity;
-    ISharedPreferenceManager sharedPreferenceManager;
     ArrayList<Bitmap> bitmaps;
-    Image.ImageGrouped imageGrouped = new Image.ImageGrouped();
     ArrayList<Image> images;
     int imageNumber = 1, imageNumberTemp = 0;
     boolean replace = false;
@@ -170,9 +166,6 @@ public class ImageFragment extends DialogFragment {
             }
         }
     };
-
-    public ImageFragment() {
-    }
 
     public static ImageFragment newInstance(String uuid, int position) {
         ImageFragment fragment = new ImageFragment();

@@ -27,8 +27,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class AttemptLogin extends AsyncTask<Activity, Activity, Void> {
-    String username, password, serial;
-    boolean isChecked;
+    private final String username;
+    private final String password;
+    private final String serial;
+    private final boolean isChecked;
 
     public AttemptLogin(String username, String password, String serial, boolean isChecked) {
         super();
@@ -53,9 +55,10 @@ public class AttemptLogin extends AsyncTask<Activity, Activity, Void> {
 }
 
 class LoginCompleted implements ICallback<LoginFeedBack> {
-    Activity activity;
-    boolean isChecked;
-    String username, password;
+    private final Activity activity;
+    private final boolean isChecked;
+    private final String username;
+    private final String password;
 
     public LoginCompleted(Activity activity, boolean isChecked, String username, String password) {
         this.activity = activity;

@@ -18,9 +18,9 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 public final class RecordVoice {
-    public static String FileName = null;
+    private static String FileName = null;
     private final Context context;
-    public MediaPlayer Player = null;
+    private MediaPlayer Player = null;
     private MediaRecorder Recorder = null;
 
     @SuppressLint("SimpleDateFormat")

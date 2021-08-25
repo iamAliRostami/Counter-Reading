@@ -7,10 +7,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import java.util.ArrayList;
-
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 @Entity(tableName = "Image", indices = @Index(value = "id", unique = true))
 public class Image {
@@ -27,43 +24,4 @@ public class Image {
     public MultipartBody.Part File;
     @Ignore
     public Bitmap bitmap;
-
-
-    public static class ImageGrouped {
-        public final ArrayList<MultipartBody.Part> File;
-        public RequestBody OnOffLoadId;
-        public RequestBody Description;
-
-        public ImageGrouped() {
-            File = new ArrayList<>();
-        }
-    }
-
-    public static class ImageMultiple {
-        public final ArrayList<RequestBody> OnOffLoadId;
-        public final ArrayList<RequestBody> Description;
-        public final ArrayList<MultipartBody.Part> File;
-
-        public ImageMultiple() {
-            File = new ArrayList<>();
-            Description = new ArrayList<>();
-            OnOffLoadId = new ArrayList<>();
-        }
-    }
-
-    public static class ImageUploadResponse {
-        public int status;
-        public Errors errors;
-        public String message;
-        public String generationDateTime;
-        public boolean isValid;
-        public Object targetObject;
-        public String type;
-        public String title;
-        public String traceId;
-    }
-
-    public static class Errors {
-        public ArrayList<String> onOffLoadId;
-    }
 }

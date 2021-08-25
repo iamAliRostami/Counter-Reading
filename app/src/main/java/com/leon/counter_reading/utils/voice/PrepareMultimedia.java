@@ -16,8 +16,9 @@ import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
-import com.leon.counter_reading.tables.Image;
+import com.leon.counter_reading.tables.MultimediaUploadResponse;
 import com.leon.counter_reading.tables.Voice;
+import com.leon.counter_reading.tables.VoiceGrouped;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomProgressBar;
@@ -34,7 +35,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
     private final Voice voice;
     private final String uuid;
     private final int position;
-    private final Voice.VoiceGrouped voiceGrouped;
+    private final VoiceGrouped voiceGrouped;
 
     public PrepareMultimedia(Activity activity, Voice voice, String description, String uuid, int position) {
         super();
@@ -44,7 +45,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
         this.voice.Description = description;
         this.uuid = uuid;
         this.position = position;
-        voiceGrouped = new Voice.VoiceGrouped();
+        voiceGrouped = new VoiceGrouped();
     }
 
     @Override
@@ -74,13 +75,13 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
                 voice.Description, MediaType.parse("text/plain"));
         Retrofit retrofit = MyApplication.getApplicationComponent().Retrofit();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadGrouped(
+        Call<MultimediaUploadResponse> call = iAbfaService.fileUploadGrouped(
                 voiceGrouped.File, voiceGrouped.OnOffLoadId, voiceGrouped.Description);
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                 new UploadVoice(activity), new UploadVoiceIncomplete(activity), new uploadVoiceError(activity));
     }
 
-    void saveVoice(Activity activity, boolean isSent) {
+    void saveVoice(boolean isSent) {
         voice.isSent = isSent;
         if (MyApplication.getApplicationComponent().MyDatabase()
                 .imageDao().getImagesById(voice.id).size() > 0) {
@@ -100,7 +101,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
         activity.finish();
     }
 
-    class UploadVoice implements ICallback<Image.ImageUploadResponse> {
+    class UploadVoice implements ICallback<MultimediaUploadResponse> {
         Activity activity;
 
         public UploadVoice(Activity activity) {
@@ -108,18 +109,18 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
         }
 
         @Override
-        public void execute(Response<Image.ImageUploadResponse> response) {
+        public void execute(Response<MultimediaUploadResponse> response) {
             if (response.body() != null && response.body().status == 200) {
                 new CustomToast().success(response.body().message, Toast.LENGTH_LONG);
             } else {
                 new CustomToast().warning(activity.getString(R.string.error_upload), Toast.LENGTH_LONG);
             }
-            saveVoice(activity, response.body() != null && response.body().status == 200);
+            saveVoice(response.body() != null && response.body().status == 200);
             finishDescription(activity, voice.Description);
         }
     }
 
-    class UploadVoiceIncomplete implements ICallbackIncomplete<Image.ImageUploadResponse> {
+    class UploadVoiceIncomplete implements ICallbackIncomplete<MultimediaUploadResponse> {
         Activity activity;
 
         public UploadVoiceIncomplete(Activity activity) {
@@ -127,11 +128,11 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
         }
 
         @Override
-        public void executeIncomplete(Response<Image.ImageUploadResponse> response) {
+        public void executeIncomplete(Response<MultimediaUploadResponse> response) {
             CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
             String error = customErrorHandlingNew.getErrorMessageDefault(response);
             new CustomToast().warning(error, Toast.LENGTH_LONG);
-            saveVoice(activity, false);
+            saveVoice(false);
             finishDescription(activity, voice.Description);
         }
     }
@@ -148,7 +149,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
             CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
             String error = customErrorHandlingNew.getErrorMessageTotal(t);
             new CustomToast().error(error, Toast.LENGTH_LONG);
-            saveVoice(activity, false);
+            saveVoice(false);
             finishDescription(activity, voice.Description);
         }
     }

@@ -14,7 +14,7 @@ import retrofit2.Converter;
 import retrofit2.Response;
 
 public class CustomErrorHandling {
-    final Context context;
+    private final Context context;
 
     public CustomErrorHandling(Context context) {
         this.context = context;

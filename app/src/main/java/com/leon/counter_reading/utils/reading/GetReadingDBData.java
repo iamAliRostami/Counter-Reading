@@ -20,9 +20,10 @@ import com.leon.counter_reading.utils.MyDatabase;
 import java.util.Collections;
 
 public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
-    CustomProgressBar customProgressBar;
-    int readStatus, highLow;
-    boolean sortType;
+    private final CustomProgressBar customProgressBar;
+    private final int readStatus;
+    private final int highLow;
+    private final boolean sortType;
 
     public GetReadingDBData(Activity activity, int readStatus, int highLow, boolean sortType) {
         super();
@@ -48,7 +49,6 @@ public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
     protected Integer doInBackground(Activity... activities) {
         readingData = new ReadingData();
         readingDataTemp = new ReadingData();
-//        MyDatabase myDatabase = MyDatabaseClient.getInstance(MyApplication.getContext()).getMyDatabase();
         MyDatabase myDatabase = getApplicationComponent().MyDatabase();
         readingData.counterStateDtos.addAll(myDatabase.counterStateDao().getCounterStateDtos());
         readingData.karbariDtos.addAll(myDatabase.karbariDao().getAllKarbariDto());
@@ -115,7 +115,6 @@ public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
             readingDataTemp.trackingDtos.addAll(readingData.trackingDtos);
             readingDataTemp.karbariDtos.addAll(readingData.karbariDtos);
             readingDataTemp.readingConfigDefaultDtos.addAll(readingData.readingConfigDefaultDtos);
-//            sharedPreferenceManager.getBoolData(SharedReferenceKeys.SORT_TYPE.getValue())
             if (sortType) {
                 Collections.sort(readingData.onOffLoadDtos, (o1, o2) -> o2.eshterak.compareTo(
                         o1.eshterak));

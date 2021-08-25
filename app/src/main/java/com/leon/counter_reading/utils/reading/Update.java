@@ -9,7 +9,7 @@ import android.os.AsyncTask;
 import com.leon.counter_reading.MyApplication;
 
 public class Update extends AsyncTask<Activity, Void, Void> {
-    int position;
+    private final int position;
 
     public Update(int position, Location location) {
         super();

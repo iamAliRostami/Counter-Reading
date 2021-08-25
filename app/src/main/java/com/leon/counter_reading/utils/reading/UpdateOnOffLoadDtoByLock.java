@@ -10,8 +10,9 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.activities.ReadingActivity;
 
 public class UpdateOnOffLoadDtoByLock extends AsyncTask<Activity, Void, Void> {
-    int position, trackNumber;
-    String id;
+    private final int position;
+    private final int trackNumber;
+    private final String id;
 
     public UpdateOnOffLoadDtoByLock(int position, int trackNumber, String id) {
         super();
@@ -26,7 +27,6 @@ public class UpdateOnOffLoadDtoByLock extends AsyncTask<Activity, Void, Void> {
             if (readingDataTemp.onOffLoadDtos.get(i).id.equals(id))
                 readingDataTemp.onOffLoadDtos.get(i).isLocked = true;
         }
-
         MyApplication.getApplicationComponent().MyDatabase().onOffLoadDao().updateOnOffLoadByLock(id, trackNumber, true);
         readingData.onOffLoadDtos.get(position).isLocked = true;
         ((ReadingActivity) (activities[0])).setupViewPagerAdapter(position);

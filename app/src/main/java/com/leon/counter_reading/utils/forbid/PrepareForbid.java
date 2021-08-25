@@ -20,9 +20,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
+    private final CustomProgressBar customProgressBar;
     private final ForbiddenDto forbiddenDto;
     private final int zoneId;
-    private final CustomProgressBar customProgressBar;
 
     public PrepareForbid(Activity activity, ForbiddenDto forbiddenDto, int zoneId) {
         super();
@@ -86,11 +86,6 @@ public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
                         new ForbiddenIncomplete(activities[0], forbiddenDto),
                         new ForbiddenError(activities[0], forbiddenDto)));
         return null;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
     }
 
     @Override

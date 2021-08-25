@@ -23,12 +23,11 @@ import com.leon.counter_reading.utils.CustomToast;
 import org.osmdroid.config.Configuration;
 
 public class LocationTrackerGps extends Service {
-    static double latitude, longitude, accuracy;
-    final Activity activity;
-    boolean checkGPS = false, checkNetwork = false;
-    Location location;
-    LocationManager locationManager;
-    final LocationListener locationListener = new LocationListener() {
+    private static double latitude, longitude, accuracy;
+    private final Activity activity;
+    private Location location;
+    private LocationManager locationManager;
+    private final LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
             if (locationManager != null)
                 locationManager.removeUpdates(locationListener);
@@ -68,9 +67,9 @@ public class LocationTrackerGps extends Service {
             locationManager = (LocationManager) activity
                     .getSystemService(LOCATION_SERVICE);
             // get GPS status
-            checkGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            boolean checkGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             // get network provider status
-            checkNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            boolean checkNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
             if (!checkGPS && !checkNetwork) {
                 new CustomToast().warning(getString(R.string.services_is_not_available));
             } else {
@@ -114,7 +113,6 @@ public class LocationTrackerGps extends Service {
             new Handler().postDelayed(this::getLocation, MyApplication.MIN_TIME_BW_UPDATES);
         return location;
     }
-
 
     public double getAccuracy() {
         return accuracy;

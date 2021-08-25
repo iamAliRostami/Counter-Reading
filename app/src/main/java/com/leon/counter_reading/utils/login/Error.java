@@ -9,7 +9,7 @@ import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
 
 class Error implements ICallbackError {
-    Activity activity;
+    private final Activity activity;
 
     public Error(Activity activity) {
         this.activity = activity;

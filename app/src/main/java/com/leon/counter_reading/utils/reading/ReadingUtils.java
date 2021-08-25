@@ -5,7 +5,6 @@ import static com.leon.counter_reading.MyApplication.readingData;
 import com.leon.counter_reading.R;
 
 public class ReadingUtils {
-
     /**
      * Create above image icons resource
      **/

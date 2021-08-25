@@ -4,9 +4,6 @@ import android.util.Base64;
 
 public class Crypto {
 
-    private Crypto() {
-    }
-
     public static String encrypt(String password) {
         String encodedPassword_1 = Base64.encodeToString(password.getBytes(), Base64.DEFAULT);
         return Base64.encodeToString(encodedPassword_1.getBytes(), Base64.NO_CLOSE);

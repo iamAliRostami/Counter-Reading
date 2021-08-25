@@ -13,9 +13,11 @@ import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
-import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.Image;
+import com.leon.counter_reading.tables.ImageMultiple;
+import com.leon.counter_reading.tables.MultimediaUploadResponse;
 import com.leon.counter_reading.tables.Voice;
+import com.leon.counter_reading.tables.VoiceMultiple;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomProgressBar;
@@ -30,18 +32,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
-    CustomProgressBar customProgressBar;
-    ArrayList<Image> images = new ArrayList<>();
-    ArrayList<Voice> voice = new ArrayList<>();
-    Image.ImageMultiple imageMultiples = new Image.ImageMultiple();
-    Voice.VoiceMultiple voiceMultiples = new Voice.VoiceMultiple();
-    ISharedPreferenceManager sharedPreferenceManager;
+    private final CustomProgressBar customProgressBar;
+    private final ArrayList<Image> images = new ArrayList<>();
+    private final ArrayList<Voice> voice = new ArrayList<>();
+    private final ImageMultiple imageMultiples = new ImageMultiple();
+    private final VoiceMultiple voiceMultiples = new VoiceMultiple();
 
     public PrepareMultimedia(Activity activity) {
         super();
         customProgressBar = new CustomProgressBar();
         customProgressBar.show(activity, false);
-        sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
     }
 
     @Override
@@ -84,11 +84,6 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
     protected void onPostExecute(Activity activity) {
         super.onPostExecute(activity);
         customProgressBar.getDialog().dismiss();
@@ -100,10 +95,10 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
         if (voice.size() > 0) {
             Retrofit retrofit = MyApplication.getApplicationComponent().Retrofit();
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-            Call<Voice.VoiceUploadResponse> call = iAbfaService.voiceUploadMultiple(
+            Call<MultimediaUploadResponse> call = iAbfaService.voiceUploadMultiple(
                     voiceMultiples.File, voiceMultiples.OnOffLoadId, voiceMultiples.Description);
             HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                    new UploadVoices(), new UploadVoicesIncomplete(), new UploadMultimediaError());
+                    new UploadVoices(voice), new UploadVoicesIncomplete(), new UploadMultimediaError());
         } else {
             activity.runOnUiThread(() ->
                     new CustomToast().info(activity.getString(R.string.there_is_no_message),
@@ -115,10 +110,10 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
         if (images.size() > 0) {
             Retrofit retrofit = MyApplication.getApplicationComponent().Retrofit();
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-            Call<Image.ImageUploadResponse> call = iAbfaService.fileUploadMultiple(
+            Call<MultimediaUploadResponse> call = iAbfaService.fileUploadMultiple(
                     imageMultiples.File, imageMultiples.OnOffLoadId, imageMultiples.Description);
             HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                    new UploadImages(), new UploadImagesIncomplete(), new UploadMultimediaError());
+                    new UploadImages(images), new UploadImagesIncomplete(), new UploadMultimediaError());
         } else {
             activity.runOnUiThread(() ->
                     new CustomToast().info(activity.getString(R.string.there_is_no_images),
@@ -126,67 +121,71 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
         }
     }
 
-    class UploadImages implements ICallback<Image.ImageUploadResponse> {
-        @Override
-        public void execute(Response<Image.ImageUploadResponse> response) {
-            if (response.body() != null && response.body().status == 200) {
-                new CustomToast().success(response.body().message, Toast.LENGTH_LONG);
-                updateImages();
-            }
-        }
+}
 
-        void updateImages() {
-            for (int i = 0; i < images.size(); i++) {
-                images.get(i).isSent = true;
-                MyApplication.getApplicationComponent().MyDatabase().imageDao()
-                        .updateImage(images.get(i));
-            }
+class UploadImages implements ICallback<MultimediaUploadResponse> {
+    private final ArrayList<Image> images;
+
+    public UploadImages(ArrayList<Image> images) {
+        this.images = new ArrayList<>(images);
+    }
+
+    @Override
+    public void execute(Response<MultimediaUploadResponse> response) {
+        if (response.body() != null && response.body().status == 200) {
+            new CustomToast().success(response.body().message, Toast.LENGTH_LONG);
+            updateImages();
         }
     }
 
-    class UploadVoices implements ICallback<Voice.VoiceUploadResponse> {
-        @Override
-        public void execute(Response<Voice.VoiceUploadResponse> response) {
-            if (response.body() != null && response.body().status == 200) {
-                new CustomToast().success(response.body().message);
-                updateVoice();
-            }
-        }
-
-        void updateVoice() {
-            for (int i = 0; i < voice.size(); i++) {
-                voice.get(i).isSent = true;
-                MyApplication.getApplicationComponent().MyDatabase().voiceDao()
-                        .updateVoice(voice.get(i));
-            }
+    void updateImages() {
+        for (int i = 0; i < images.size(); i++) {
+            images.get(i).isSent = true;
+            MyApplication.getApplicationComponent().MyDatabase().imageDao()
+                    .updateImage(images.get(i));
         }
     }
 }
 
-class UploadImagesIncomplete implements ICallbackIncomplete<Image.ImageUploadResponse> {
-    @Override
-    public void executeIncomplete(Response<Image.ImageUploadResponse> response) {
-        CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(MyApplication.getContext());
-        String error = customErrorHandlingNew.getErrorMessageDefault(response);
-        new CustomToast().warning(error, Toast.LENGTH_LONG);
+class UploadVoices implements ICallback<MultimediaUploadResponse> {
+    private final ArrayList<Voice> voice;
 
-//        new CustomDialog(DialogType.Yellow, getContext(), error,
-//                activity.getString(R.string.dear_user),
-//                activity.getString(R.string.upload_multimedia),
-//                activity.getString(R.string.accepted));
+    public UploadVoices(ArrayList<Voice> voice) {
+        this.voice = new ArrayList<>(voice);
+    }
+
+    @Override
+    public void execute(Response<MultimediaUploadResponse> response) {
+        if (response.body() != null && response.body().status == 200) {
+            new CustomToast().success(response.body().message);
+            updateVoice();
+        }
+    }
+
+    void updateVoice() {
+        for (int i = 0; i < voice.size(); i++) {
+            voice.get(i).isSent = true;
+            MyApplication.getApplicationComponent().MyDatabase().voiceDao()
+                    .updateVoice(voice.get(i));
+        }
     }
 }
 
-class UploadVoicesIncomplete implements ICallbackIncomplete<Voice.VoiceUploadResponse> {
+class UploadImagesIncomplete implements ICallbackIncomplete<MultimediaUploadResponse> {
     @Override
-    public void executeIncomplete(Response<Voice.VoiceUploadResponse> response) {
+    public void executeIncomplete(Response<MultimediaUploadResponse> response) {
         CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(MyApplication.getContext());
         String error = customErrorHandlingNew.getErrorMessageDefault(response);
         new CustomToast().warning(error, Toast.LENGTH_LONG);
-//        new CustomDialog(DialogType.Yellow, getContext(), error,
-//                activity.getString(R.string.dear_user),
-//                activity.getString(R.string.upload_message),
-//                activity.getString(R.string.accepted));
+    }
+}
+
+class UploadVoicesIncomplete implements ICallbackIncomplete<MultimediaUploadResponse> {
+    @Override
+    public void executeIncomplete(Response<MultimediaUploadResponse> response) {
+        CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(MyApplication.getContext());
+        String error = customErrorHandlingNew.getErrorMessageDefault(response);
+        new CustomToast().warning(error, Toast.LENGTH_LONG);
     }
 }
 
@@ -196,10 +195,6 @@ class UploadMultimediaError implements ICallbackError {
         CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(MyApplication.getContext());
         String error = customErrorHandlingNew.getErrorMessageTotal(t);
         new CustomToast().error(error, Toast.LENGTH_LONG);
-//        new CustomDialog(DialogType.Red, getContext(), error,
-//                activity.getString(R.string.dear_user),
-//                activity.getString(R.string.upload),
-//                activity.getString(R.string.accepted));
     }
 }
 

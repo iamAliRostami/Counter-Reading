@@ -13,9 +13,9 @@ import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomToast;
 
 public class Search extends AsyncTask<Activity, Void, Void> {
-    int type;
-    String key;
-    boolean goToPage;
+    private final int type;
+    private final String key;
+    private final boolean goToPage;
 
     public Search(int type, String key, boolean goToPage) {
         super();
