@@ -192,7 +192,7 @@
     <string name="insert_message">یک پیام نوشته یا ضبط شود.</string>
     <!--    <string name="visible_hide_keyboard">نمایش / عدم نمایش صفحه کلید</string>-->
     <string name="visible_hide_keyboard">نمایش صفحه کلید</string>
-    <string name="last_unread">آخرین بازدید نشده</string>
+    <string name="last_unread">آخرین قرائت</string>
     <string name="thank_you">همکار گرامی!\nخداقوت!</string>
     <string name="all_masir_bazdid">همه مسیرها بازدید شد.</string>
     <string name="this_feature_is_not_active">این ویژگی در این منطقه فعال نشده است.</string>
@@ -223,7 +223,8 @@
     <string name="download_message">تعداد %d مسیر و %d اشتراک بارگیری شد.</string>
     <string name="unread_number">همکار گرامی!\nتعداد %d اشتراک قرائت نشده است.</string>
     <string name="darsad_alal">همکار گرامی!\nدرصد علی الحساب بالاتر از حد مجاز است.</string>
-    <string name="unuploaded_multimedia">تعداد %d عکس و %d صدای تخلیه نشده باقی مانده است.\nتوصیه می شود پیش از تخلیه نسبت به بارگذاری چندرسانه اقدام نمایید.\nآیا همچنان مایل به تخلیه هستید؟</string>
+    <string name="unuploaded_multimedia">تعداد %d عکس و %d صدای تخلیه نشده باقی مانده است.</string>
+    <string name="recommend_multimedia">توصیه می شود پیش از تخلیه نسبت به بارگذاری چندرسانه اقدام نمایید.\nآیا همچنان مایل به تخلیه هستید؟</string>
     <string name="show_points">نمایش نقاط</string>
     <string name="sort_reading_type">مرتب سازی نزولی</string>
     <!--    <string name="COMPANY_NAME" />-->

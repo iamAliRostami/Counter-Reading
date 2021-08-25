@@ -28,18 +28,15 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class UploadFragment extends Fragment {
-    int[] imageSrc = {
+    private int[] imageSrc = {
             R.drawable.img_upload_on,
             R.drawable.img_upload_off,
             R.drawable.img_multimedia};
-    int type;
-    FragmentUploadBinding binding;
-    Activity activity;
-    ArrayList<String> items = new ArrayList<>();
-    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
-
-    public UploadFragment() {
-    }
+    private int type;
+    private FragmentUploadBinding binding;
+    private Activity activity;
+    private ArrayList<String> items = new ArrayList<>();
+    private ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
 
     public static UploadFragment newInstance(int type) {
         UploadFragment fragment = new UploadFragment();
@@ -74,6 +71,11 @@ public class UploadFragment extends Fragment {
     void initialize() {
         if (type == 3) {
             binding.linearLayoutSpinner.setVisibility(View.GONE);
+            binding.textViewMultimedia.setVisibility(View.VISIBLE);
+            int imagesCount = MyApplication.getApplicationComponent().MyDatabase().imageDao().getUnsentImageCount(false);
+            int voicesCount = MyApplication.getApplicationComponent().MyDatabase().voiceDao().getUnsentVoiceCount(false);
+            String message = String.format(getString(R.string.unuploaded_multimedia), imagesCount, voicesCount);
+            binding.textViewMultimedia.setText(message);
         } else {
             items.clear();
             items.addAll(TrackingDto.getTrackingDtoItems(trackingDtos));
@@ -105,8 +107,8 @@ public class UploadFragment extends Fragment {
             alalPercent = myDatabase.trackingDao().getAlalHesabByZoneId(
                     trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).zoneId);
             alalMane = (double) mane / total * 100;
-            imagesCount = myDatabase.imageDao().getUnsentImageCount(trackNumber, false);
-            voicesCount = myDatabase.voiceDao().getUnsentVoiceCount(trackNumber, false);
+            imagesCount = myDatabase.imageDao().getUnsentImageCountByTrackNumber(trackNumber, false);
+            voicesCount = myDatabase.voiceDao().getUnsentVoiceCountByTrackNumber(trackNumber, false);
 
         } else return false;
         if (unread > 0) {
@@ -117,7 +119,9 @@ public class UploadFragment extends Fragment {
             new CustomToast().info(getString(R.string.darsad_alal), Toast.LENGTH_LONG);
             return false;
         } else if (imagesCount > 0 || voicesCount > 0) {
-            String message = String.format(getString(R.string.unuploaded_multimedia), imagesCount, voicesCount);
+            String message = String.format(getString(R.string.unuploaded_multimedia),
+                    imagesCount, voicesCount).concat("\n")
+                    .concat(getString(R.string.recommend_multimedia));
             //TODO
             new CustomDialog(DialogType.YellowRedirect, activity, message,
                     getString(R.string.dear_user),

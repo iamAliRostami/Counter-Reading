@@ -27,6 +27,8 @@ public class ForbiddenDto {
     public String y;
     public String gisAccuracy;
     public boolean isSent;
+    public String address;
+
     @Ignore
     public ArrayList<MultipartBody.Part> File;
     @Ignore

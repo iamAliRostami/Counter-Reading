@@ -24,7 +24,10 @@ public interface VoiceDao {
     List<Voice> getVoicesByBySent(boolean isSent);
 
     @Query("SELECT COUNT(*) FROM Voice WHERE isSent = :isSent AND trackNumber = :trackNumber")
-    int getUnsentVoiceCount(int trackNumber, boolean isSent);
+    int getUnsentVoiceCountByTrackNumber(int trackNumber, boolean isSent);
+
+    @Query("SELECT COUNT(*) FROM Voice WHERE isSent = :isSent")
+    int getUnsentVoiceCount(boolean isSent);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertVoice(Voice Voice);

@@ -88,7 +88,7 @@ public class DescriptionActivity extends AppCompatActivity {
                 setupMediaRecorder();
                 try {
                     mediaRecorder.prepare();
-                    mediaRecorder.start();
+                    mediaRecorder.start();//TODO I don't know why sometimes crashes!
                 } catch (IOException e) {
                     e.printStackTrace();
                     new CustomToast().warning(getString(R.string.error_in_record_voice));

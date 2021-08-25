@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/background_spinner.xml" value="0.39609375" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_login.xml" value="0.365625" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_navigation.xml" value="0.4" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_report_forbid.xml" value="0.4" />
@@ -12,6 +13,8 @@
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_possible.xml" value="0.4" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_search.xml" value="0.1875" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_serial.xml" value="0.365625" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_upload.xml" value="0.4" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/item_dropdown_menu.xml" value="0.20234375" />
       </map>
     </option>
   </component>

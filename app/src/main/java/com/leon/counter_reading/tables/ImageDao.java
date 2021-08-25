@@ -24,7 +24,10 @@ public interface ImageDao {
     List<Image> getImagesByBySent(boolean isSent);
 
     @Query("SELECT COUNT(*) FROM Image WHERE isSent = :isSent AND trackNumber = :trackNumber")
-    int getUnsentImageCount(int trackNumber, boolean isSent);
+    int getUnsentImageCountByTrackNumber(int trackNumber, boolean isSent);
+
+    @Query("SELECT COUNT(*) FROM Image WHERE isSent = :isSent")
+    int getUnsentImageCount(boolean isSent);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertImage(Image image);

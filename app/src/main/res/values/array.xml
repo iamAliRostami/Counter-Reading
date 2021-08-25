@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="search_option">
-        <item>@string/eshterak</item>
-        <item>@string/radif</item>
-        <item>@string/counter_body_number</item>
-        <item>@string/name</item>
-        <item>@string/page_number</item>
-        <item>@string/all</item>
-    </string-array>
 
     <string-array name="menu">
         <item>@string/download_information</item>
@@ -33,5 +25,13 @@
         <item>@drawable/tiny_img_help</item>
         <item>@drawable/tiny_img_exit</item>
     </array>
-    <string name="radif">ردیف</string>
+    <string-array name="search_option">
+        <item>@string/eshterak</item>
+        <!--        <item>@string/radif</item>-->
+        <item>@string/counter_body_number</item>
+        <item>@string/name</item>
+        <item>@string/page_number</item>
+        <item>@string/all</item>
+    </string-array>
+    <!--    <string name="radif">ردیف</string>-->
 </resources>

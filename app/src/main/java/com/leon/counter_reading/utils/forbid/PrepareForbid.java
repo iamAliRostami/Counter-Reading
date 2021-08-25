@@ -1,9 +1,11 @@
 package com.leon.counter_reading.utils.forbid;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.R;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.infrastructure.IAbfaService;
@@ -12,6 +14,7 @@ import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.tables.ForbiddenDtoResponses;
+import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 
@@ -38,8 +41,7 @@ public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         Call<ForbiddenDtoResponses> call;
         if (zoneId != 0 && forbiddenDto.File.size() > 0) {
-            call = iAbfaService.singleForbidden(forbiddenDto.File,
-                    forbiddenDto.forbiddenDtoRequest.zoneId,
+            call = iAbfaService.singleForbidden(forbiddenDto.File, forbiddenDto.forbiddenDtoRequest.zoneId,
                     forbiddenDto.forbiddenDtoRequest.description,
                     forbiddenDto.forbiddenDtoRequest.preEshterak,
                     forbiddenDto.forbiddenDtoRequest.nextEshterak,
@@ -59,8 +61,7 @@ public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
                     forbiddenDto.forbiddenDtoRequest.y,
                     forbiddenDto.forbiddenDtoRequest.gisAccuracy);
         } else if (zoneId != 0) {
-            call = iAbfaService.singleForbidden(
-                    forbiddenDto.forbiddenDtoRequest.zoneId,
+            call = iAbfaService.singleForbidden(forbiddenDto.forbiddenDtoRequest.zoneId,
                     forbiddenDto.forbiddenDtoRequest.description,
                     forbiddenDto.forbiddenDtoRequest.preEshterak,
                     forbiddenDto.forbiddenDtoRequest.nextEshterak,
@@ -70,8 +71,7 @@ public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
                     forbiddenDto.forbiddenDtoRequest.y,
                     forbiddenDto.forbiddenDtoRequest.gisAccuracy);
         } else {
-            call = iAbfaService.singleForbidden(
-                    forbiddenDto.forbiddenDtoRequest.description,
+            call = iAbfaService.singleForbidden(forbiddenDto.forbiddenDtoRequest.description,
                     forbiddenDto.forbiddenDtoRequest.preEshterak,
                     forbiddenDto.forbiddenDtoRequest.nextEshterak,
                     forbiddenDto.forbiddenDtoRequest.postalCode,
@@ -83,8 +83,8 @@ public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
         activities[0].runOnUiThread(() ->
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activities[0],
                         new Forbidden(activities[0], forbiddenDto),
-                        new ForbiddenIncomplete(activities[0], forbiddenDto),
-                        new ForbiddenError(activities[0], forbiddenDto)));
+                        new ForbiddenIncomplete(activities[0]),
+                        new ForbiddenError(activities[0])));
         return null;
     }
 
@@ -94,6 +94,48 @@ public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
         customProgressBar.getDialog().dismiss();
     }
 
+    void saveForbidden(Activity activity) {
+        if (forbiddenDto.bitmaps.size() > 0)
+            for (Bitmap bitmap : forbiddenDto.bitmaps) {
+                String address = CustomFile.saveTempBitmap(bitmap, activity);
+                if (!address.equals(activity.getString(R.string.error_external_storage_is_not_writable))) {
+                    forbiddenDto.address = address;
+                    MyApplication.getApplicationComponent().MyDatabase().forbiddenDao()
+                            .insertForbiddenDto(forbiddenDto);
+                }
+            }
+        else
+            MyApplication.getApplicationComponent().MyDatabase().forbiddenDao().
+                    insertForbiddenDto(forbiddenDto);
+    }
+
+    class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDtoResponses> {
+        private final Activity activity;
+
+        public ForbiddenIncomplete(Activity activity) {
+            this.activity = activity;
+        }
+
+        @Override
+        public void executeIncomplete(Response<ForbiddenDtoResponses> response) {
+            saveForbidden(activity);
+            activity.finish();
+        }
+    }
+
+    class ForbiddenError implements ICallbackError {
+        private final Activity activity;
+
+        public ForbiddenError(Activity activity) {
+            this.activity = activity;
+        }
+
+        @Override
+        public void executeError(Throwable t) {
+            saveForbidden(activity);
+            activity.finish();
+        }
+    }
 }
 
 class Forbidden implements ICallback<ForbiddenDtoResponses> {
@@ -119,36 +161,3 @@ class Forbidden implements ICallback<ForbiddenDtoResponses> {
     }
 }
 
-class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDtoResponses> {
-    private final Activity activity;
-    private final ForbiddenDto forbiddenDto;
-
-    public ForbiddenIncomplete(Activity activity, ForbiddenDto forbiddenDto) {
-        this.activity = activity;
-        this.forbiddenDto = forbiddenDto;
-    }
-
-    @Override
-    public void executeIncomplete(Response<ForbiddenDtoResponses> response) {
-        MyApplication.getApplicationComponent().MyDatabase().forbiddenDao().
-                insertForbiddenDto(forbiddenDto);
-        activity.finish();
-    }
-}
-
-class ForbiddenError implements ICallbackError {
-    private final Activity activity;
-    private final ForbiddenDto forbiddenDto;
-
-    public ForbiddenError(Activity activity, ForbiddenDto forbiddenDto) {
-        this.activity = activity;
-        this.forbiddenDto = forbiddenDto;
-    }
-
-    @Override
-    public void executeError(Throwable t) {
-        MyApplication.getApplicationComponent().MyDatabase().forbiddenDao().
-                insertForbiddenDto(forbiddenDto);
-        activity.finish();
-    }
-}

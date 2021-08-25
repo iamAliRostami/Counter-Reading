@@ -20,6 +20,7 @@ import com.leon.counter_reading.tables.ForbiddenDtoResponses;
 import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomErrorHandling;
+import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 
@@ -76,16 +77,21 @@ public class PrepareOffLoad extends AsyncTask<Activity, Activity, Activity> {
         Retrofit retrofit = MyApplication.getApplicationComponent().Retrofit();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         for (ForbiddenDto forbiddenDto : forbiddenDtos) {
+            /*  TODO */
             ForbiddenDtoMultiple forbiddenDtoMultiple =
                     new ForbiddenDtoMultiple(forbiddenDto.zoneId,
                             forbiddenDto.description, forbiddenDto.preEshterak,
                             forbiddenDto.nextEshterak, forbiddenDto.postalCode,
                             forbiddenDto.tedadVahed, forbiddenDto.x, forbiddenDto.y,
                             forbiddenDto.gisAccuracy);
+
+//            ForbiddenDtoMultiple forbiddenDtoMultiple = new ForbiddenDtoMultiple(forbiddenDto);
+            if (forbiddenDto.address != null)
+                forbiddenDtoMultiple.File = CustomFile.bitmapToFile(CustomFile.loadImage(activity,
+                        forbiddenDto.address), activity);
             forbiddenDtoRequestMultiple.forbiddenDtos.add(forbiddenDtoMultiple);
         }
-        Call<ForbiddenDtoResponses> call =
-                iAbfaService.multipleForbidden(forbiddenDtoRequestMultiple);
+        Call<ForbiddenDtoResponses> call = iAbfaService.multipleForbidden(forbiddenDtoRequestMultiple);
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
                 new Forbidden(), new ForbiddenIncomplete(), new ForbiddenError());
     }

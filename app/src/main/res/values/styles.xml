@@ -199,7 +199,6 @@
     </style>
 
     <style name="CheckBoxPossible">
-
         <item name="background">@drawable/border_gray_3</item>
         <item name="android:background">@drawable/border_white_3</item>
         <item name="android:layout_margin">@dimen/low_dp</item>

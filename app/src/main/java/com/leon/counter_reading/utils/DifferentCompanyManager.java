@@ -194,6 +194,18 @@ public class DifferentCompanyManager {
         }
     }
 
+    public static String getSecondSearchItem(CompanyNames companyNames) {
+        switch (companyNames) {
+            case ESF:
+                return "ردیف";
+            case ZONE4:
+            case TSE:
+                return "شماره پرونده";
+            default:
+                return "دیگر";
+        }
+    }
+
     public static CompanyNames getCompanyNameEnum(int companyCode) {
         switch (companyCode) {
             case 1:

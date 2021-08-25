@@ -131,10 +131,23 @@ public class TakePhotoActivity extends AppCompatActivity {
                 Uri selectedImage = data.getData();
                 Bitmap bitmap;
                 try {
-                    InputStream inputStream =
-                            this.getContentResolver().openInputStream(selectedImage);
+                    InputStream inputStream = this.getContentResolver().openInputStream(selectedImage);
                     bitmap = BitmapFactory.decodeStream(inputStream);
                     MyApplication.bitmapSelectedImage = bitmap;
+                    prepareImage();
+                    /* Image image = new Image();
+                    image.OnOffLoadId = uuid;
+                    image.trackNumber = trackNumber;
+                    image.File = CustomFile.bitmapToFile(MyApplication.bitmapSelectedImage, activity);
+                    image.bitmap = MyApplication.bitmapSelectedImage;
+                    if (replace > 0) {
+                        MyApplication.getApplicationComponent().MyDatabase()
+                                .imageDao().deleteImage(images.get(replace - 1).id);
+                        images.set(replace - 1, image);
+                    } else {
+                        images.add(image);
+                    }
+                    imageViewAdapter.notifyDataSetChanged();*/
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -142,8 +155,8 @@ public class TakePhotoActivity extends AppCompatActivity {
                 if (MyApplication.photoURI != null) {
                     try {
                         MyApplication.bitmapSelectedImage = MediaStore.Images.Media.getBitmap(getContentResolver(), MyApplication.photoURI);
-
-                        Image image = new Image();
+                        prepareImage();
+                        /* Image image = new Image();
                         image.OnOffLoadId = uuid;
                         image.trackNumber = trackNumber;
                         image.File = CustomFile.bitmapToFile(MyApplication.bitmapSelectedImage, activity);
@@ -155,7 +168,7 @@ public class TakePhotoActivity extends AppCompatActivity {
                         } else {
                             images.add(image);
                         }
-                        imageViewAdapter.notifyDataSetChanged();
+                        imageViewAdapter.notifyDataSetChanged();*/
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -163,6 +176,22 @@ public class TakePhotoActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    void prepareImage() {
+        Image image = new Image();
+        image.OnOffLoadId = uuid;
+        image.trackNumber = trackNumber;
+        image.File = CustomFile.bitmapToFile(MyApplication.bitmapSelectedImage, activity);
+        image.bitmap = MyApplication.bitmapSelectedImage;
+        if (replace > 0) {
+            MyApplication.getApplicationComponent().MyDatabase()
+                    .imageDao().deleteImage(images.get(replace - 1).id);
+            images.set(replace - 1, image);
+        } else {
+            images.add(image);
+        }
+        imageViewAdapter.notifyDataSetChanged();
     }
 
     @Override
