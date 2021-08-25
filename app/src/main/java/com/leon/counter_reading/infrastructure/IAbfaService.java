@@ -1,6 +1,8 @@
 package com.leon.counter_reading.infrastructure;
 
 import com.leon.counter_reading.tables.ForbiddenDto;
+import com.leon.counter_reading.tables.ForbiddenDtoRequestMultiple;
+import com.leon.counter_reading.tables.ForbiddenDtoResponses;
 import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.tables.LastInfo;
 import com.leon.counter_reading.tables.LoginFeedBack;
@@ -97,7 +99,7 @@ public interface IAbfaService {
 
     @Multipart
     @POST("KontoriNew/V1/Forbidden/Single")
-    Call<ForbiddenDto.ForbiddenDtoResponses> singleForbidden(
+    Call<ForbiddenDtoResponses> singleForbidden(
             @Part ArrayList<MultipartBody.Part> files,
             @Part("zoneId") RequestBody zoneId,
             @Part("Description") RequestBody Description,
@@ -111,7 +113,7 @@ public interface IAbfaService {
 
     @Multipart
     @POST("KontoriNew/V1/Forbidden/Single")
-    Call<ForbiddenDto.ForbiddenDtoResponses> singleForbidden(
+    Call<ForbiddenDtoResponses> singleForbidden(
             @Part("zoneId") RequestBody zoneId,
             @Part("Description") RequestBody Description,
             @Part("PreEshterak") RequestBody preEshterak,
@@ -124,7 +126,7 @@ public interface IAbfaService {
 
     @Multipart
     @POST("KontoriNew/V1/Forbidden/Single")
-    Call<ForbiddenDto.ForbiddenDtoResponses> singleForbidden(
+    Call<ForbiddenDtoResponses> singleForbidden(
             @Part ArrayList<MultipartBody.Part> files,
             @Part("Description") RequestBody Description,
             @Part("PreEshterak") RequestBody preEshterak,
@@ -137,7 +139,7 @@ public interface IAbfaService {
 
     @Multipart
     @POST("KontoriNew/V1/Forbidden/Single")
-    Call<ForbiddenDto.ForbiddenDtoResponses> singleForbidden(
+    Call<ForbiddenDtoResponses> singleForbidden(
             @Part("Description") RequestBody Description,
             @Part("PreEshterak") RequestBody preEshterak,
             @Part("NextEshterak") RequestBody nextEshterak,
@@ -149,6 +151,6 @@ public interface IAbfaService {
 
     //    @Multipart
     @POST("KontoriNew/V1/Forbidden/Multiple")
-    Call<ForbiddenDto.ForbiddenDtoResponses> multipleForbidden(@Body ForbiddenDto.ForbiddenDtoRequestMultiple forbiddenDto);
+    Call<ForbiddenDtoResponses> multipleForbidden(@Body ForbiddenDtoRequestMultiple forbiddenDto);
 }
 

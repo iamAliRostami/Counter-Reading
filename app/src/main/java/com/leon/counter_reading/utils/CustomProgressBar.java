@@ -34,9 +34,6 @@ public final class CustomProgressBar {
                     MyApplication.getContext().getString(R.string.canceled),
                     Toast.LENGTH_LONG).show();
             HttpClientWrapper.call.cancel();
-//            Intent intent = new Intent(context, HomeActivity.class);
-//            context.startActivity(intent);
-//            ((Activity) context).finish();
         });
     }
 

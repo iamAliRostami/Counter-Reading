@@ -13,8 +13,10 @@ import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
-import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.ForbiddenDto;
+import com.leon.counter_reading.tables.ForbiddenDtoMultiple;
+import com.leon.counter_reading.tables.ForbiddenDtoRequestMultiple;
+import com.leon.counter_reading.tables.ForbiddenDtoResponses;
 import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomErrorHandling;
@@ -27,22 +29,20 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class PrepareOffLoadToUpload extends AsyncTask<Activity, Activity, Activity> {
-    CustomProgressBar customProgressBar;
-    ISharedPreferenceManager sharedPreferenceManager;
-    ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
-    ArrayList<OffLoadReport> offLoadReports = new ArrayList<>();
-    ArrayList<ForbiddenDto> forbiddenDtos = new ArrayList<>();
-    int trackNumber;
-    String id;
+public class PrepareOffLoad extends AsyncTask<Activity, Activity, Activity> {
+    private final CustomProgressBar customProgressBar;
+    private final ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
+    private final ArrayList<OffLoadReport> offLoadReports = new ArrayList<>();
+    private final ArrayList<ForbiddenDto> forbiddenDtos = new ArrayList<>();
+    private final int trackNumber;
+    private final String id;
 
-    public PrepareOffLoadToUpload(Activity activity, int trackNumber, String id) {
+    public PrepareOffLoad(Activity activity, int trackNumber, String id) {
         super();
         this.trackNumber = trackNumber;
         this.id = id;
         customProgressBar = new CustomProgressBar();
         customProgressBar.show(activity, false);
-        sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
     }
 
     @Override
@@ -71,23 +71,23 @@ public class PrepareOffLoadToUpload extends AsyncTask<Activity, Activity, Activi
     }
 
     void uploadForbid(Activity activity) {
-        ForbiddenDto.ForbiddenDtoRequestMultiple forbiddenDtoRequestMultiple =
-                new ForbiddenDto.ForbiddenDtoRequestMultiple();
+        ForbiddenDtoRequestMultiple forbiddenDtoRequestMultiple =
+                new ForbiddenDtoRequestMultiple();
         Retrofit retrofit = MyApplication.getApplicationComponent().Retrofit();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
         for (ForbiddenDto forbiddenDto : forbiddenDtos) {
-            ForbiddenDto.ForbiddenDtoMultiple forbiddenDtoMultiple =
-                    new ForbiddenDto.ForbiddenDtoMultiple(forbiddenDto.zoneId,
+            ForbiddenDtoMultiple forbiddenDtoMultiple =
+                    new ForbiddenDtoMultiple(forbiddenDto.zoneId,
                             forbiddenDto.description, forbiddenDto.preEshterak,
                             forbiddenDto.nextEshterak, forbiddenDto.postalCode,
                             forbiddenDto.tedadVahed, forbiddenDto.x, forbiddenDto.y,
                             forbiddenDto.gisAccuracy);
             forbiddenDtoRequestMultiple.forbiddenDtos.add(forbiddenDtoMultiple);
         }
-        Call<ForbiddenDto.ForbiddenDtoResponses> call =
+        Call<ForbiddenDtoResponses> call =
                 iAbfaService.multipleForbidden(forbiddenDtoRequestMultiple);
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                new Forbidden(), new ForbiddenIncomplete(), new UploadForbidenError());
+                new Forbidden(), new ForbiddenIncomplete(), new ForbiddenError());
     }
 
     void uploadOffLoad(Activity activity) {
@@ -112,39 +112,18 @@ public class PrepareOffLoadToUpload extends AsyncTask<Activity, Activity, Activi
         offLoadData.offLoadReports.addAll(offLoadReports);
         Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
         HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                new OffLoadData(), new OffLoadDataIncomplete(), new UploadOnOffLoadError());
+                new OffLoadData(id), new OffLoadDataIncomplete(), new OffLoadError());
     }
 
     void thankYou(Activity activity) {
         activity.runOnUiThread(() ->
                 new CustomToast().info(activity.getString(R.string.thank_you), Toast.LENGTH_LONG));
     }
-
-    class OffLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
-        @Override
-        public void execute(Response<OnOffLoadDto.OffLoadResponses> response) {
-            if (response.body() != null && response.body().status == 200) {
-                int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
-                        OffloadStateEnum.SENT_WITH_ERROR.getValue();
-                MyApplication.getApplicationComponent().MyDatabase().onOffLoadDao().
-                        updateOnOffLoad(state, response.body().targetObject);
-                MyApplication.getApplicationComponent().MyDatabase().trackingDao().
-                        updateTrackingDtoByArchive(id, true, false);
-                MyApplication.getApplicationComponent().MyDatabase().offLoadReportDao().
-                        updateOffLoadReportByIsSent(true);
-                new CustomToast().success(response.body().message, Toast.LENGTH_LONG);
-//                new CustomDialog(DialogType.Green, getContext(), response.body().message,
-//                        activity.getString(R.string.dear_user),
-//                        activity.getString(R.string.upload_information),
-//                        activity.getString(R.string.accepted));
-            }
-        }
-    }
 }
 
-class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
+class Forbidden implements ICallback<ForbiddenDtoResponses> {
     @Override
-    public void execute(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
+    public void execute(Response<ForbiddenDtoResponses> response) {
         if (response.isSuccessful()) {
             MyApplication.getApplicationComponent().MyDatabase().forbiddenDao().
                     updateAllForbiddenDtoBySent(true);
@@ -157,18 +136,40 @@ class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
     }
 }
 
-class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDto.ForbiddenDtoResponses> {
+class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDtoResponses> {
     @Override
-    public void executeIncomplete(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
+    public void executeIncomplete(Response<ForbiddenDtoResponses> response) {
     }
 }
 
-class UploadForbidenError implements ICallbackError {
+class ForbiddenError implements ICallbackError {
     @Override
     public void executeError(Throwable t) {
     }
 }
 
+class OffLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
+    private final String id;
+
+    public OffLoadData(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public void execute(Response<OnOffLoadDto.OffLoadResponses> response) {
+        if (response.body() != null && response.body().status == 200) {
+            int state = response.body().isValid ? OffloadStateEnum.SENT.getValue() :
+                    OffloadStateEnum.SENT_WITH_ERROR.getValue();
+            MyApplication.getApplicationComponent().MyDatabase().onOffLoadDao().
+                    updateOnOffLoad(state, response.body().targetObject);
+            MyApplication.getApplicationComponent().MyDatabase().trackingDao().
+                    updateTrackingDtoByArchive(id, true, false);
+            MyApplication.getApplicationComponent().MyDatabase().offLoadReportDao().
+                    updateOffLoadReportByIsSent(true);
+            new CustomToast().success(response.body().message, Toast.LENGTH_LONG);
+        }
+    }
+}
 
 class OffLoadDataIncomplete implements ICallbackIncomplete<OnOffLoadDto.OffLoadResponses> {
     @Override
@@ -176,22 +177,14 @@ class OffLoadDataIncomplete implements ICallbackIncomplete<OnOffLoadDto.OffLoadR
         CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(MyApplication.getContext());
         String error = customErrorHandlingNew.getErrorMessageDefault(response);
         new CustomToast().warning(error, Toast.LENGTH_LONG);
-//        new CustomDialog(DialogType.Yellow, getContext(), error,
-//                activity.getString(R.string.dear_user),
-//                activity.getString(R.string.upload_information),
-//                activity.getString(R.string.accepted));
     }
 }
 
-class UploadOnOffLoadError implements ICallbackError {
+class OffLoadError implements ICallbackError {
     @Override
     public void executeError(Throwable t) {
         CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(MyApplication.getContext());
         String error = customErrorHandlingNew.getErrorMessageTotal(t);
         new CustomToast().error(error, Toast.LENGTH_LONG);
-//        new CustomDialog(DialogType.Red, getContext(), error,
-//                activity.getString(R.string.dear_user),
-//                activity.getString(R.string.upload),
-//                activity.getString(R.string.accepted));
     }
 }

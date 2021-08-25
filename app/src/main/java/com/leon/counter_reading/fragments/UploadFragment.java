@@ -20,8 +20,8 @@ import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.MyDatabase;
 import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
-import com.leon.counter_reading.utils.uploading.PrepareMultimediaToUpload;
-import com.leon.counter_reading.utils.uploading.PrepareOffLoadToUpload;
+import com.leon.counter_reading.utils.uploading.PrepareMultimedia;
+import com.leon.counter_reading.utils.uploading.PrepareOffLoad;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -131,12 +131,12 @@ public class UploadFragment extends Fragment {
         binding.buttonUpload.setOnClickListener(v -> {
             if (type == 1 || type == 2) {
                 if (checkOnOffLoad())
-                    new PrepareOffLoadToUpload(activity,
+                    new PrepareOffLoad(activity,
                             trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber,
                             trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id).
                             execute(activity);
             } else if (type == 3) {
-                new PrepareMultimediaToUpload(activity).execute(activity);
+                new PrepareMultimedia(activity).execute(activity);
             }
         });
     }
@@ -158,7 +158,7 @@ public class UploadFragment extends Fragment {
     class Inline implements CustomDialog.Inline {
         @Override
         public void inline() {
-            new PrepareOffLoadToUpload(activity,
+            new PrepareOffLoad(activity,
                     trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber,
                     trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id).
                     execute(activity);

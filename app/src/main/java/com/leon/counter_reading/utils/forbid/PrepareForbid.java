@@ -11,6 +11,7 @@ import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.ForbiddenDto;
+import com.leon.counter_reading.tables.ForbiddenDtoResponses;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 
@@ -21,7 +22,7 @@ import retrofit2.Retrofit;
 public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
     private final ForbiddenDto forbiddenDto;
     private final int zoneId;
-    CustomProgressBar customProgressBar;
+    private final CustomProgressBar customProgressBar;
 
     public PrepareForbid(Activity activity, ForbiddenDto forbiddenDto, int zoneId) {
         super();
@@ -35,7 +36,7 @@ public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
     protected Activity doInBackground(Activity... activities) {
         Retrofit retrofit = MyApplication.getApplicationComponent().Retrofit();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        Call<ForbiddenDto.ForbiddenDtoResponses> call;
+        Call<ForbiddenDtoResponses> call;
         if (zoneId != 0 && forbiddenDto.File.size() > 0) {
             call = iAbfaService.singleForbidden(forbiddenDto.File,
                     forbiddenDto.forbiddenDtoRequest.zoneId,
@@ -100,7 +101,7 @@ public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
 
 }
 
-class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
+class Forbidden implements ICallback<ForbiddenDtoResponses> {
     private final Activity activity;
     private final ForbiddenDto forbiddenDto;
 
@@ -110,7 +111,7 @@ class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
     }
 
     @Override
-    public void execute(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
+    public void execute(Response<ForbiddenDtoResponses> response) {
         if (!response.isSuccessful())
             MyApplication.getApplicationComponent().MyDatabase().forbiddenDao().
                     insertForbiddenDto(forbiddenDto);
@@ -123,7 +124,7 @@ class Forbidden implements ICallback<ForbiddenDto.ForbiddenDtoResponses> {
     }
 }
 
-class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDto.ForbiddenDtoResponses> {
+class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDtoResponses> {
     private final Activity activity;
     private final ForbiddenDto forbiddenDto;
 
@@ -133,7 +134,7 @@ class ForbiddenIncomplete implements ICallbackIncomplete<ForbiddenDto.ForbiddenD
     }
 
     @Override
-    public void executeIncomplete(Response<ForbiddenDto.ForbiddenDtoResponses> response) {
+    public void executeIncomplete(Response<ForbiddenDtoResponses> response) {
         MyApplication.getApplicationComponent().MyDatabase().forbiddenDao().
                 insertForbiddenDto(forbiddenDto);
         activity.finish();

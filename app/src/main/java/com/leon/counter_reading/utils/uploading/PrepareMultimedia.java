@@ -29,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class PrepareMultimediaToUpload extends AsyncTask<Activity, Activity, Activity> {
+public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
     CustomProgressBar customProgressBar;
     ArrayList<Image> images = new ArrayList<>();
     ArrayList<Voice> voice = new ArrayList<>();
@@ -37,7 +37,7 @@ public class PrepareMultimediaToUpload extends AsyncTask<Activity, Activity, Act
     Voice.VoiceMultiple voiceMultiples = new Voice.VoiceMultiple();
     ISharedPreferenceManager sharedPreferenceManager;
 
-    public PrepareMultimediaToUpload(Activity activity) {
+    public PrepareMultimedia(Activity activity) {
         super();
         customProgressBar = new CustomProgressBar();
         customProgressBar.show(activity, false);

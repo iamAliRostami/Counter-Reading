@@ -44,9 +44,9 @@ public class PrepareToSend extends AsyncTask<Activity, Integer, Integer> {
         Call<OnOffLoadDto.OffLoadResponses> call = iAbfaService.OffLoadData(offLoadData);
         if (HttpClientWrapper.call != null)
             HttpClientWrapper.call.cancel();
-        activities[0].runOnUiThread(() -> HttpClientWrapper.callHttpAsync(
-                call, ProgressType.NOT_SHOW.getValue(), activities[0],
-                new offLoadData(), new offLoadDataIncomplete(), new offLoadError()));
+        activities[0].runOnUiThread(() ->
+                HttpClientWrapper.callHttpAsync(call, ProgressType.NOT_SHOW.getValue(), activities[0],
+                        new offLoadData(), new offLoadDataIncomplete(), new offLoadError()));
         return null;
     }
 

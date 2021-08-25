@@ -272,8 +272,7 @@ public class ReportForbidActivity extends AppCompatActivity {
         double longitude = locationTrackerGoogle != null ? locationTrackerGoogle.getLongitude() :
                 locationTrackerGps.getLongitude();
         locationTrackerGps.stopListener();
-        forbiddenDto.prepareToSend(
-                accuracy, longitude, latitude,
+        forbiddenDto.prepareToSend(accuracy, longitude, latitude,
                 binding.editTextPostalCode.getText().toString(),
                 binding.editTextDescription.getText().toString(),
                 binding.editTextPreAccount.getText().toString(),

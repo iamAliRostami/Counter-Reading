@@ -2,6 +2,7 @@ package com.leon.counter_reading.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,7 @@ public class SettingUpdateFragment extends Fragment {
         binding.buttonReceive.setOnClickListener(v -> {
             if (firstTime) {
                 new GetUpdateInfo(activity, this);
-            } else if (BuildConfig.VERSION_CODE - 1 >= versionCode) {
+            } else if (BuildConfig.VERSION_CODE - 5 >= versionCode) {
                 new CustomToast().success(getString(R.string.you_are_updated));
             } else {
                 new GetUpdateFile(activity);
@@ -96,7 +97,8 @@ public class SettingUpdateFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (HttpClientWrapper.call != null)
+        if (HttpClientWrapper.call != null) {
             HttpClientWrapper.call.cancel();
+        }
     }
 }

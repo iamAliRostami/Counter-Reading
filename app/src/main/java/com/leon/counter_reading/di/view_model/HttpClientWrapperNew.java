@@ -19,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HttpClientWrapper {
+public class HttpClientWrapperNew {
     public static Call call;
     public static CustomProgressBar progressBarCancelable;
 
@@ -28,7 +28,7 @@ public class HttpClientWrapper {
                                          final ICallback<T> callback,
                                          final ICallbackIncomplete<T> callbackIncomplete,
                                          final ICallbackError callbackError) {
-
+        HttpClientWrapperNew.call = call;
         CustomProgressBar progressBar = new CustomProgressBar();
         if (progressType == ProgressType.SHOW.getValue()) {
             progressBar.show(context, context.getString(R.string.waiting));
@@ -57,7 +57,7 @@ public class HttpClientWrapper {
                         progressBar.getDialog().dismiss();
                 }
             });
-            HttpClientWrapper.call = call;
+            HttpClientWrapperNew.call = call;
         } else {
             if (progressBar.getDialog() != null)
                 progressBar.getDialog().dismiss();
@@ -71,7 +71,7 @@ public class HttpClientWrapper {
                                                         final ICallback<T> callback,
                                                         final ICallbackIncomplete<T> callbackIncomplete,
                                                         final ICallbackError callbackError) {
-
+        HttpClientWrapperNew.call = call;
         progressBarCancelable = new CustomProgressBar();
         if (progressType == ProgressType.SHOW.getValue()) {
             progressBarCancelable.show(context, context.getString(R.string.waiting));
@@ -81,7 +81,7 @@ public class HttpClientWrapper {
             progressBarCancelable.show(context, context.getString(R.string.waiting), true);
         }
         if (isNetworkAvailable(context)) {
-            call.enqueue(new Callback<T>() {
+            HttpClientWrapperNew.call.enqueue(new Callback<T>() {
                 @Override
                 public void onResponse(@NonNull Call<T> call, @NonNull Response<T> response) {
                     if (progressBarCancelable.getDialog() != null)
@@ -100,7 +100,6 @@ public class HttpClientWrapper {
                     ((Activity) context).runOnUiThread(() -> callbackError.executeError(t));
                 }
             });
-            HttpClientWrapper.call = call;
         } else {
             if (progressBarCancelable.getDialog() != null)
                 progressBarCancelable.getDialog().dismiss();
