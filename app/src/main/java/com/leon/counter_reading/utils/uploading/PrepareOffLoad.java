@@ -70,7 +70,6 @@ public class PrepareOffLoad extends AsyncTask<Activity, Activity, Activity> {
             uploadForbid(activity);
         }
     }
-
     void uploadForbid(Activity activity) {
         ForbiddenDtoRequestMultiple forbiddenDtoRequestMultiple =
                 new ForbiddenDtoRequestMultiple();

@@ -3,10 +3,10 @@ package com.leon.counter_reading.utils.login;
 import android.app.Activity;
 
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.di.view_model.CustomDialog;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.utils.CustomErrorHandling;
-import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
 
 class Error implements ICallbackError {
     private final Activity activity;

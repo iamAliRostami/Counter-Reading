@@ -26,7 +26,7 @@ import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.MyDatabase;
-import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
+import com.leon.counter_reading.di.view_model.CustomDialog;
 
 import java.util.ArrayList;
 

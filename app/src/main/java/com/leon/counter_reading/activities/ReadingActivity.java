@@ -39,7 +39,7 @@ import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DepthPageTransformer;
-import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
+import com.leon.counter_reading.di.view_model.CustomDialog;
 import com.leon.counter_reading.utils.locating.CheckSensor;
 import com.leon.counter_reading.utils.locating.LocationTrackerGoogle;
 import com.leon.counter_reading.utils.locating.LocationTrackerGps;

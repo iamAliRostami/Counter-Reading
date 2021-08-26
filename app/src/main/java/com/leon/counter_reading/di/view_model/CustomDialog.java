@@ -1,4 +1,4 @@
-package com.leon.counter_reading.utils.custom_dialogue;
+package com.leon.counter_reading.di.view_model;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,42 +8,45 @@ import androidx.core.content.ContextCompat;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.HomeActivity;
 import com.leon.counter_reading.enums.DialogType;
+import com.leon.counter_reading.utils.custom_dialog.LovelyStandardDialog;
 
 public class CustomDialog {
-    final Context context;
-    final String Top;
-    final String Title;
-    final String Message;
-    final String ButtonText;
-    /*@SuppressLint("FieldLeak")
-     */ LovelyStandardDialog lovelyStandardDialog;
+    private Context context;
+    private LovelyStandardDialog lovelyStandardDialog;
+
+    //    @Inject
+    public CustomDialog(Context context) {
+        this.context = context;
+        lovelyStandardDialog = new LovelyStandardDialog(context);
+    }
 
     public CustomDialog(DialogType choose, Context context, String message, String title,
                         String top, String buttonText, Inline... inline) {
+//        this.context = MyApplication.getApplicationComponent().CustomDialog().context;
+//        lovelyStandardDialog =
+//                MyApplication.getApplicationComponent().CustomDialog().lovelyStandardDialog;
+//        new CustomDialog(context);
+
         this.context = context;
-        Message = message;
-        Title = title;
-        Top = top;
-        ButtonText = buttonText;
-        lovelyStandardDialog = new LovelyStandardDialog(context)
-                .setTitle(Title)
-                .setMessage(Message)
-                .setTopTitle(Top);
+        lovelyStandardDialog = new LovelyStandardDialog(context);
+        lovelyStandardDialog.setTitle(title)
+                .setMessage(message)
+                .setTopTitle(top);
         if (choose == DialogType.Green)
-            CustomGreenDialog(this.context, ButtonText);
+            CustomGreenDialog(buttonText);
         else if (choose == DialogType.Yellow)
-            CustomYellowDialog(this.context, ButtonText);
+            CustomYellowDialog(buttonText);
         else if (choose == DialogType.Red)
-            CustomRedDialog(this.context, ButtonText);
+            CustomRedDialog(buttonText);
         else if (choose == DialogType.GreenRedirect)
-            CustomGreenDialogRedirect(this.context, ButtonText);
+            CustomGreenDialogRedirect(buttonText);
         else if (choose == DialogType.YellowRedirect)
-            CustomYellowDialogRedirect(this.context, ButtonText, inline);
+            CustomYellowDialogRedirect(buttonText, inline);
         else if (choose == DialogType.RedRedirect)
-            CustomRedDialogRedirect(this.context, ButtonText);
+            CustomRedDialogRedirect(buttonText);
     }
 
-    public void CustomGreenDialogRedirect(final Context context, String ButtonText) {
+    public void CustomGreenDialogRedirect(String ButtonText) {
         lovelyStandardDialog
                 .setTopColorRes(R.color.green)
                 .setTopTitleColor(ContextCompat.getColor(context, R.color.text_color_light))
@@ -55,7 +58,7 @@ public class CustomDialog {
         lovelyStandardDialog.show();
     }
 
-    public void CustomYellowDialogRedirect(final Context context, String buttonText, Inline... inlines) {
+    public void CustomYellowDialogRedirect(String buttonText, Inline... inlines) {
         lovelyStandardDialog
                 .setTopTitleColor(ContextCompat.getColor(context, R.color.text_color_light))
                 .setButtonsBackground(R.drawable.border_yellow_1)
@@ -64,7 +67,7 @@ public class CustomDialog {
                 .show();
     }
 
-    public void CustomRedDialogRedirect(final Context context, String buttonText) {
+    public void CustomRedDialogRedirect(String buttonText) {
         lovelyStandardDialog
                 .setTopColorRes(R.color.red)
                 .setTopTitleColor(ContextCompat.getColor(context, R.color.text_color_light))
@@ -73,7 +76,7 @@ public class CustomDialog {
                 .show();
     }
 
-    public void CustomGreenDialog(final Context context, String ButtonText) {
+    public void CustomGreenDialog(String ButtonText) {
         lovelyStandardDialog
                 .setTopColorRes(R.color.green)
                 .setTopTitleColor(ContextCompat.getColor(context, R.color.text_color_light))
@@ -82,7 +85,7 @@ public class CustomDialog {
                 .show();
     }
 
-    public void CustomYellowDialog(final Context context, String buttonText) {
+    public void CustomYellowDialog(String buttonText) {
         lovelyStandardDialog
                 .setTopTitleColor(ContextCompat.getColor(context, R.color.text_color_light))
                 .setTopColorRes(R.color.yellow)
@@ -91,7 +94,7 @@ public class CustomDialog {
                 .show();
     }
 
-    public void CustomRedDialog(final Context context, String buttonText) {
+    public void CustomRedDialog(String buttonText) {
         lovelyStandardDialog
                 .setTopColorRes(R.color.red)
                 .setTopTitleColor(ContextCompat.getColor(context, R.color.text_color_light))

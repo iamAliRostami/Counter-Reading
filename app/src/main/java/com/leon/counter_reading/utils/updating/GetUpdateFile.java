@@ -14,7 +14,7 @@ import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
+import com.leon.counter_reading.di.view_model.CustomDialog;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

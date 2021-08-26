@@ -1,4 +1,4 @@
-package com.leon.counter_reading.utils.custom_dialogue;
+package com.leon.counter_reading.utils.custom_dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -86,10 +86,6 @@ public abstract class AbsLovelyDialog<T extends AbsLovelyDialog> {
         return (T) this;
     }
 
-    //    public T setTopTitleColor(int color) {
-//        topTitleView.setTextColor(color);
-//        return (T) this;
-//    }
     public T setTopTitleColor(@ColorInt int topColor) {
         ((TextView) findView(R.id.ld_top_title)).setTextColor(topColor);
         return (T) this;
@@ -141,11 +137,6 @@ public abstract class AbsLovelyDialog<T extends AbsLovelyDialog> {
         return setTopColor(color(topColoRes));
     }
 
-    /*
-     * You should call method saveInstanceState on handler object and then use saved info to restore
-     * your dialog in onRestoreInstanceState. Static methods wasDialogOnScreen and getDialogId will
-     * help you in this.
-     */
     public T setInstanceStateHandler(int id, LovelySaveStateHandler handler) {
         handler.handleDialogStateSave(id, this);
         return (T) this;

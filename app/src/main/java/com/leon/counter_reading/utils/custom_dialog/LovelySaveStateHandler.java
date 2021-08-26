@@ -1,4 +1,4 @@
-package com.leon.counter_reading.utils.custom_dialogue;
+package com.leon.counter_reading.utils.custom_dialog;
 
 import android.os.Bundle;
 import android.util.SparseArray;

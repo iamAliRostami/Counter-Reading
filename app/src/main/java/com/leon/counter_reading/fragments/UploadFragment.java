@@ -19,7 +19,7 @@ import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.MyDatabase;
-import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
+import com.leon.counter_reading.di.view_model.CustomDialog;
 import com.leon.counter_reading.utils.uploading.PrepareMultimedia;
 import com.leon.counter_reading.utils.uploading.PrepareOffLoad;
 

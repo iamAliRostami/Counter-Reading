@@ -1,4 +1,4 @@
-package com.leon.counter_reading.utils.custom_dialogue;
+package com.leon.counter_reading.utils.custom_dialog;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

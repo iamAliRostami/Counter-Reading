@@ -20,6 +20,7 @@ import androidx.multidex.MultiDex;
 
 import com.leon.counter_reading.di.component.ApplicationComponent;
 import com.leon.counter_reading.di.component.DaggerApplicationComponent;
+import com.leon.counter_reading.di.module.CustomDialogModule;
 import com.leon.counter_reading.di.module.FlashModule;
 import com.leon.counter_reading.di.module.MyDatabaseModule;
 import com.leon.counter_reading.di.module.NetworkModule;
@@ -162,6 +163,7 @@ public class MyApplication extends Application {
                 .networkModule(new NetworkModule())
                 .flashModule(new FlashModule(appContext))
                 .myDatabaseModule(new MyDatabaseModule(appContext))
+//                .customDialogModule(new CustomDialogModule(this))
                 .sharedPreferenceModule(new SharedPreferenceModule(appContext, SharedReferenceNames.ACCOUNT))
                 .build();
         applicationComponent.inject(this);

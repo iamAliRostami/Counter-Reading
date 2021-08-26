@@ -14,7 +14,7 @@ import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.LastInfo;
 import com.leon.counter_reading.utils.CustomErrorHandling;
-import com.leon.counter_reading.utils.custom_dialogue.CustomDialog;
+import com.leon.counter_reading.di.view_model.CustomDialog;
 
 import retrofit2.Call;
 import retrofit2.Response;
