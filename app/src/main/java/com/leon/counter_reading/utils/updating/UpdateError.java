@@ -3,10 +3,10 @@ package com.leon.counter_reading.utils.updating;
 import android.content.Context;
 
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.di.view_model.CustomDialog;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.utils.CustomErrorHandling;
-import com.leon.counter_reading.di.view_model.CustomDialog;
 
 public class UpdateError implements ICallbackError {
     Context context;

@@ -1,6 +1,6 @@
 package com.leon.counter_reading.activities;
 
-import static com.leon.counter_reading.MyApplication.photoURI;
+import static com.leon.counter_reading.MyApplication.PHOTO_URI;
 import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
@@ -318,10 +318,10 @@ public class ReportForbidActivity extends AppCompatActivity {
                     }
                     // Continue only if the File was successfully created
                     if (photoFile != null) {
-                        photoURI = FileProvider.getUriForFile(activity,
+                        PHOTO_URI = FileProvider.getUriForFile(activity,
                                 BuildConfig.APPLICATION_ID.concat(".provider"),
                                 photoFile);
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, PHOTO_URI);
                         try {
                             startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
                         } catch (ActivityNotFoundException e) {
@@ -354,7 +354,7 @@ public class ReportForbidActivity extends AppCompatActivity {
             }
         }
 
-        MyApplication.bitmapSelectedImage = null;
+        MyApplication.BITMAP_SELECTED_IMAGE = null;
         if (resultCode == RESULT_OK) {
             if (requestCode == MyApplication.GALLERY_REQUEST && data != null) {
                 Uri selectedImage = data.getData();
@@ -362,22 +362,22 @@ public class ReportForbidActivity extends AppCompatActivity {
                 try {
                     InputStream inputStream = this.getContentResolver().openInputStream(selectedImage);
                     bitmap = BitmapFactory.decodeStream(inputStream);
-                    MyApplication.bitmapSelectedImage = bitmap;
+                    MyApplication.BITMAP_SELECTED_IMAGE = bitmap;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if (requestCode == MyApplication.CAMERA_REQUEST) {
                 try {
-                    MyApplication.bitmapSelectedImage =
-                            MediaStore.Images.Media.getBitmap(getContentResolver(), MyApplication.photoURI);
+                    MyApplication.BITMAP_SELECTED_IMAGE =
+                            MediaStore.Images.Media.getBitmap(getContentResolver(), MyApplication.PHOTO_URI);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            forbiddenDto.bitmaps.add(MyApplication.bitmapSelectedImage);
+            forbiddenDto.bitmaps.add(MyApplication.BITMAP_SELECTED_IMAGE);
             binding.relativeLayoutImage.setVisibility(View.VISIBLE);
-            binding.imageViewTaken.setImageBitmap(MyApplication.bitmapSelectedImage);
-            forbiddenDto.File.add(CustomFile.bitmapToFile(MyApplication.bitmapSelectedImage, activity));
+            binding.imageViewTaken.setImageBitmap(MyApplication.BITMAP_SELECTED_IMAGE);
+            forbiddenDto.File.add(CustomFile.bitmapToFile(MyApplication.BITMAP_SELECTED_IMAGE, activity));
         }
     }
 

@@ -34,6 +34,7 @@ public class SplashActivity extends AppCompatActivity {
 //                    WindowManager.LayoutParams.FLAG_FULLSCREEN
 //            );
 //        }
+
         if (!splashLoaded) {
             binding = ActivitySplashBinding.inflate(getLayoutInflater());
             setContentView(binding.getRoot());
@@ -69,6 +70,7 @@ public class SplashActivity extends AppCompatActivity {
         };
         timerThread.start();
     }
+
 
     @Override
     protected void onPause() {

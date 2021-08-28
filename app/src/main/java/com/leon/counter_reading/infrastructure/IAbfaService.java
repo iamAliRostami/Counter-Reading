@@ -2,10 +2,10 @@ package com.leon.counter_reading.infrastructure;
 
 import com.leon.counter_reading.tables.ForbiddenDtoRequestMultiple;
 import com.leon.counter_reading.tables.ForbiddenDtoResponses;
-import com.leon.counter_reading.tables.MultimediaUploadResponse;
 import com.leon.counter_reading.tables.LastInfo;
 import com.leon.counter_reading.tables.LoginFeedBack;
 import com.leon.counter_reading.tables.LoginInfo;
+import com.leon.counter_reading.tables.MultimediaUploadResponse;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.PasswordInfo;
 import com.leon.counter_reading.tables.ReadingData;

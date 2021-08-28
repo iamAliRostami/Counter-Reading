@@ -15,8 +15,8 @@
         tools:listitem="@layout/item_public" />
 
     <Button
+        style="@style/ButtonWarning"
         android:id="@+id/button_submit"
-        style="@style/text_bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -24,8 +24,5 @@
         android:layout_marginTop="@dimen/low_dp"
         android:layout_marginRight="@dimen/large_dp"
         android:layout_marginBottom="@dimen/low_dp"
-        android:background="@drawable/border_green_3"
-        android:text="@string/submit"
-        android:textColor="?android:textColorSecondary"
-        android:textSize="@dimen/text_size_large" />
+        android:text="@string/submit"/>
 </RelativeLayout>

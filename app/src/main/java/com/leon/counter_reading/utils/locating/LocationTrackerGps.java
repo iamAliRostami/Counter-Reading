@@ -10,13 +10,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
-import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.CustomToast;
 
@@ -108,9 +106,9 @@ public class LocationTrackerGps extends Service {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (MyApplication.getApplicationComponent().SharedPreferenceModel()
-                .getBoolData(SharedReferenceKeys.POINT.getValue()))
-            new Handler().postDelayed(this::getLocation, MyApplication.MIN_TIME_BW_UPDATES);
+//        if (MyApplication.getApplicationComponent().SharedPreferenceModel()
+//                .getBoolData(SharedReferenceKeys.POINT.getValue()))
+//            new Handler().postDelayed(this::getLocation, MyApplication.MIN_TIME_BW_UPDATES);
         return location;
     }
 

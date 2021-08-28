@@ -125,7 +125,7 @@ public class TakePhotoActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        MyApplication.bitmapSelectedImage = null;
+        MyApplication.BITMAP_SELECTED_IMAGE = null;
         if (resultCode == RESULT_OK) {
             if (requestCode == MyApplication.GALLERY_REQUEST && data != null) {
                 Uri selectedImage = data.getData();
@@ -133,7 +133,7 @@ public class TakePhotoActivity extends AppCompatActivity {
                 try {
                     InputStream inputStream = this.getContentResolver().openInputStream(selectedImage);
                     bitmap = BitmapFactory.decodeStream(inputStream);
-                    MyApplication.bitmapSelectedImage = bitmap;
+                    MyApplication.BITMAP_SELECTED_IMAGE = bitmap;
                     prepareImage();
                     /* Image image = new Image();
                     image.OnOffLoadId = uuid;
@@ -152,9 +152,9 @@ public class TakePhotoActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             } else if (requestCode == MyApplication.CAMERA_REQUEST) {
-                if (MyApplication.photoURI != null) {
+                if (MyApplication.PHOTO_URI != null) {
                     try {
-                        MyApplication.bitmapSelectedImage = MediaStore.Images.Media.getBitmap(getContentResolver(), MyApplication.photoURI);
+                        MyApplication.BITMAP_SELECTED_IMAGE = MediaStore.Images.Media.getBitmap(getContentResolver(), MyApplication.PHOTO_URI);
                         prepareImage();
                         /* Image image = new Image();
                         image.OnOffLoadId = uuid;
@@ -182,8 +182,8 @@ public class TakePhotoActivity extends AppCompatActivity {
         Image image = new Image();
         image.OnOffLoadId = uuid;
         image.trackNumber = trackNumber;
-        image.File = CustomFile.bitmapToFile(MyApplication.bitmapSelectedImage, activity);
-        image.bitmap = MyApplication.bitmapSelectedImage;
+        image.File = CustomFile.bitmapToFile(MyApplication.BITMAP_SELECTED_IMAGE, activity);
+        image.bitmap = MyApplication.BITMAP_SELECTED_IMAGE;
         if (replace > 0) {
             MyApplication.getApplicationComponent().MyDatabase()
                     .imageDao().deleteImage(images.get(replace - 1).id);
@@ -208,7 +208,7 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        MyApplication.bitmapSelectedImage = null;
+        MyApplication.BITMAP_SELECTED_IMAGE = null;
         images = null;
         binding = null;
         Debug.getNativeHeapAllocatedSize();

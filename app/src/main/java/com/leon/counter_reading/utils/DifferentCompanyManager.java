@@ -104,7 +104,7 @@ public class DifferentCompanyManager {
                 return "واحد مسکونی";
             case ZONE4:
             case TSE:
-                return "آحاد مسکونی";
+                return "آحاد اصلی";
             default:
                 throw new UnsupportedOperationException();
         }
@@ -116,7 +116,7 @@ public class DifferentCompanyManager {
                 return "واحد تجاری";
             case ZONE4:
             case TSE:
-                return "آحاد تجاری";
+                return "آحاد فرعی";
             default:
                 throw new UnsupportedOperationException();
         }
@@ -128,7 +128,7 @@ public class DifferentCompanyManager {
                 return "واحد کل";
             case ZONE4:
             case TSE:
-                return "آحاد کل";
+                return "آحاد مصرف";
             default:
                 throw new UnsupportedOperationException();
         }

@@ -33,11 +33,14 @@
 
     <Button
         android:id="@+id/button_save_send"
-        style="@style/ButtonSubmit"
+        style="@style/ButtonWarning"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/linear_layout_footer"
-        android:layout_margin="@dimen/medium_dp"
+        android:layout_marginStart="@dimen/medium_dp"
+        android:layout_marginTop="@dimen/medium_dp"
+        android:layout_marginEnd="@dimen/medium_dp"
+        android:layout_marginBottom="@dimen/medium_dp"
         android:text="@string/save_send" />
 
     <include layout="@layout/footer" />

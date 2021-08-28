@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.LoginActivity;
+import com.leon.counter_reading.di.view_model.CustomDialog;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.ProgressType;
@@ -19,7 +20,6 @@ import com.leon.counter_reading.tables.PasswordInfo;
 import com.leon.counter_reading.tables.SimpleResponse;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.di.view_model.CustomDialog;
 
 import org.json.JSONObject;
 

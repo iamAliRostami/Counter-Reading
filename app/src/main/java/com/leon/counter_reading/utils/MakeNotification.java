@@ -46,6 +46,7 @@ public class MakeNotification {
             e.printStackTrace();
         }
     }
+
     @SuppressLint("LaunchActivityFromNotification")
     public static void makeAboveNotification(Context context, Class<?> aClass, String actionName,
                                              String title, String text, String actionTitle,

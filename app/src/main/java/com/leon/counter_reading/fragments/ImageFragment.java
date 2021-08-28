@@ -25,7 +25,6 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentImageBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.tables.Image;
-import com.leon.counter_reading.tables.ImageGrouped;
 
 import org.jetbrains.annotations.NotNull;
 

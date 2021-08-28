@@ -7,28 +7,25 @@ import androidx.core.content.ContextCompat;
 
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.HomeActivity;
+import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.utils.custom_dialog.LovelyStandardDialog;
 
-public class CustomDialog {
-    private Context context;
-    private LovelyStandardDialog lovelyStandardDialog;
+import javax.inject.Inject;
 
-    //    @Inject
+public class CustomDialog {
+    private final LovelyStandardDialog lovelyStandardDialog;
+    private Context context;
+
+    @Inject
     public CustomDialog(Context context) {
-        this.context = context;
         lovelyStandardDialog = new LovelyStandardDialog(context);
     }
 
     public CustomDialog(DialogType choose, Context context, String message, String title,
                         String top, String buttonText, Inline... inline) {
-//        this.context = MyApplication.getApplicationComponent().CustomDialog().context;
-//        lovelyStandardDialog =
-//                MyApplication.getApplicationComponent().CustomDialog().lovelyStandardDialog;
-//        new CustomDialog(context);
-
+        lovelyStandardDialog = BaseActivity.getActivityComponent().LovelyStandardDialog();
         this.context = context;
-        lovelyStandardDialog = new LovelyStandardDialog(context);
         lovelyStandardDialog.setTitle(title)
                 .setMessage(message)
                 .setTopTitle(top);
@@ -44,6 +41,10 @@ public class CustomDialog {
             CustomYellowDialogRedirect(buttonText, inline);
         else if (choose == DialogType.RedRedirect)
             CustomRedDialogRedirect(buttonText);
+    }
+
+    public LovelyStandardDialog getLovelyStandardDialog() {
+        return lovelyStandardDialog;
     }
 
     public void CustomGreenDialogRedirect(String ButtonText) {

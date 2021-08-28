@@ -240,7 +240,7 @@
 
         <Button
             android:id="@+id/button_navigation"
-            style="@style/ButtonSubmit"
+            style="@style/ButtonWarning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/linear_layout_empty"

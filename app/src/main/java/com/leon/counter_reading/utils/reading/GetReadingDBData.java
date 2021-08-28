@@ -1,7 +1,7 @@
 package com.leon.counter_reading.utils.reading;
 
+import static com.leon.counter_reading.MyApplication.IS_MANE;
 import static com.leon.counter_reading.MyApplication.getApplicationComponent;
-import static com.leon.counter_reading.MyApplication.isMane;
 import static com.leon.counter_reading.MyApplication.readingData;
 import static com.leon.counter_reading.MyApplication.readingDataTemp;
 
@@ -80,7 +80,7 @@ public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
                     readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
                             getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.trackNumber));
                 } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
-                    isMane.forEach(integer ->
+                    IS_MANE.forEach(integer ->
                             readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
                                     getOnOffLoadReadByIsMane(integer, trackingDto.trackNumber)));
 
@@ -101,7 +101,7 @@ public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
                     readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
                             getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.trackNumber));
                 } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
-                    for (int i : isMane) {
+                    for (int i : IS_MANE) {
                         readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
                                 getOnOffLoadReadByIsMane(i, trackingDto.trackNumber));
                     }

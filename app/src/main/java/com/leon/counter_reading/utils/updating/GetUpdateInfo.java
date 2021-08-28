@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.di.view_model.CustomDialog;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.ProgressType;
@@ -14,7 +15,6 @@ import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.LastInfo;
 import com.leon.counter_reading.utils.CustomErrorHandling;
-import com.leon.counter_reading.di.view_model.CustomDialog;
 
 import retrofit2.Call;
 import retrofit2.Response;

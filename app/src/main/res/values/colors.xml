@@ -11,7 +11,7 @@
     <color name="transparent">#00000000</color>
     <color name="text_color_dark">#413f44</color>
     <color name="text_color_light">#E6E6E6</color>
-<!--    <color name="text_color_light">#5E35B1</color>-->
+    <!--    <color name="text_color_light">#5E35B1</color>-->
 
     <color name="red">#B71C1C</color>
     <color name="forrest">#2e4e16</color>

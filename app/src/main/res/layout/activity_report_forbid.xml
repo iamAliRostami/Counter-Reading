@@ -198,17 +198,13 @@
 
         <Button
             android:id="@+id/button_photo"
-            style="@style/text_bold"
+            style="@style/ButtonInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/linear_layout_description"
             android:layout_marginTop="@dimen/low_dp"
             android:layout_marginBottom="@dimen/low_dp"
-            android:background="@drawable/border_yellow_3"
-            android:text="@string/attach_image"
-            android:textColor="@color/text_color_light"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
+            android:text="@string/attach_image" />
 
         <RelativeLayout
             android:id="@+id/relative_layout_image"
@@ -237,7 +233,7 @@
 
         <Button
             android:id="@+id/button_submit"
-            style="@style/ButtonSubmit"
+            style="@style/ButtonWarning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/relative_layout_image"

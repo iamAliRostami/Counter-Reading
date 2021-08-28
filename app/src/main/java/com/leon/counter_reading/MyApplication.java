@@ -20,7 +20,6 @@ import androidx.multidex.MultiDex;
 
 import com.leon.counter_reading.di.component.ApplicationComponent;
 import com.leon.counter_reading.di.component.DaggerApplicationComponent;
-import com.leon.counter_reading.di.module.CustomDialogModule;
 import com.leon.counter_reading.di.module.FlashModule;
 import com.leon.counter_reading.di.module.MyDatabaseModule;
 import com.leon.counter_reading.di.module.NetworkModule;
@@ -36,10 +35,6 @@ public class MyApplication extends Application {
     public static final String FONT_NAME = "font/font_1.ttf";
     public static final int TOAST_TEXT_SIZE = 20;
 
-    public static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
-    public static final long MIN_TIME_BW_UPDATES = 10000;
-    public static final long FASTEST_INTERVAL = 10000;
-
     public static final int GPS_CODE = 1231;
     public static final int REQUEST_NETWORK_CODE = 1232;
     public static final int REQUEST_WIFI_CODE = 1233;
@@ -53,16 +48,21 @@ public class MyApplication extends Application {
     public static final int COUNTER_LOCATION = 1914;
     public static final int DESCRIPTION = 1909;
 
+    public static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
+    public static final long MIN_TIME_BW_UPDATES = 10000;
+    public static final long FASTEST_INTERVAL = 10000;
+
     public static int POSITION = -1;
-    public static Bitmap bitmapSelectedImage;
-    public static Uri photoURI;
-    //    public static String fileName;
+    public static Bitmap BITMAP_SELECTED_IMAGE;
+    public static Uri PHOTO_URI;
+
     public static boolean FOCUS_ON_EDIT_TEXT;
-    public static ArrayList<Integer> isMane = new ArrayList<>();
+    public static ArrayList<Integer> IS_MANE = new ArrayList<>();
     public static ReadingData readingData, readingDataTemp;
-    static Context appContext;
-    static int errorCounter = 0;
-    static ApplicationComponent applicationComponent;
+
+    private static Context appContext;
+    private static int ERROR_COUNTER = 0;
+    private static ApplicationComponent applicationComponent;
 
     public static ApplicationComponent getApplicationComponent() {
         return applicationComponent;
@@ -73,11 +73,11 @@ public class MyApplication extends Application {
     }
 
     public static int getErrorCounter() {
-        return errorCounter;
+        return ERROR_COUNTER;
     }
 
     public static void setErrorCounter(int errorCounter) {
-        MyApplication.errorCounter = errorCounter;
+        MyApplication.ERROR_COUNTER = errorCounter;
     }
 
     public static void onActivitySetTheme(Activity activity, int theme, boolean actionBar) {
@@ -108,7 +108,7 @@ public class MyApplication extends Application {
         return "MyDatabase_7";
     }
 
-    static public String getAndroidVersion() {
+    public static String getAndroidVersion() {
         String release = Build.VERSION.RELEASE;
         int sdkVersion = Build.VERSION.SDK_INT;
         return "Android SDK: " + sdkVersion + " (" + release + ")";
@@ -127,7 +127,7 @@ public class MyApplication extends Application {
         return serial;
     }
 
-    static boolean hasCarrierPrivileges(Activity activity) {
+    private static boolean hasCarrierPrivileges(Activity activity) {
         TelephonyManager tm = (TelephonyManager)
                 new ContextWrapper(activity).getSystemService(TELEPHONY_SERVICE);
         boolean isCarrier = tm.hasCarrierPrivileges();
@@ -142,12 +142,6 @@ public class MyApplication extends Application {
             }
         }
         return isCarrier;
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
     }
 
     @Override
@@ -170,5 +164,11 @@ public class MyApplication extends Application {
 
         super.onCreate();
 //        .throw new RuntimeException("Test Crash");
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }

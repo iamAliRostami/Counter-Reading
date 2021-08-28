@@ -1,6 +1,6 @@
 package com.leon.counter_reading.adapters;
 
-import static com.leon.counter_reading.MyApplication.photoURI;
+import static com.leon.counter_reading.MyApplication.PHOTO_URI;
 import static com.leon.counter_reading.activities.TakePhotoActivity.replace;
 import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 
@@ -126,10 +126,10 @@ public class ImageViewAdapter extends BaseAdapter {
                 }
                 // Continue only if the File was successfully created
                 if (photoFile != null) {
-                    photoURI = FileProvider.getUriForFile(context,
+                    PHOTO_URI = FileProvider.getUriForFile(context,
                             BuildConfig.APPLICATION_ID.concat(".provider"),
                             photoFile);
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, PHOTO_URI);
                     try {
                         ((TakePhotoActivity) (context)).startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
                     } catch (ActivityNotFoundException e) {

@@ -44,26 +44,33 @@ import com.leon.counter_reading.adapters.DrawerItem;
 import com.leon.counter_reading.adapters.NavigationDrawerAdapter;
 import com.leon.counter_reading.adapters.RecyclerItemClickListener;
 import com.leon.counter_reading.databinding.ActivityBaseBinding;
+import com.leon.counter_reading.di.component.ActivityComponent;
+import com.leon.counter_reading.di.component.DaggerActivityComponent;
+import com.leon.counter_reading.di.module.CustomDialogModule;
 import com.leon.counter_reading.di.view_model.MyDatabaseClientModel;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.PermissionManager;
-import com.leon.counter_reading.utils.locating.LocationTrackerGoogle;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static ActivityComponent activityComponent;
     private Toolbar toolbar;
     private List<DrawerItem> dataList;
     private ActivityBaseBinding binding;
     private Activity activity;
     private ISharedPreferenceManager sharedPreferenceManager;
-    private LocationTrackerGoogle locationTrackerGoogle;
+    //    private LocationTrackerGoogle locationTrackerGoogle;
     private boolean exit = false;
+
+    public static ActivityComponent getActivityComponent() {
+        return activityComponent;
+    }
 
     protected abstract void initialize();
 
@@ -72,6 +79,10 @@ public abstract class BaseActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
         int theme;
+        activityComponent = DaggerActivityComponent
+                .builder()
+                .customDialogModule(new CustomDialogModule(this))
+                .build();
         if (getIntent().getExtras() != null) {
             theme = getIntent().getExtras().getInt(BundleEnum.THEME.getValue());
             if (theme == 0)
@@ -99,8 +110,8 @@ public abstract class BaseActivity extends AppCompatActivity
                 askStoragePermission();
             } else {
                 initialize();
-                if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.POINT.getValue()))
-                    locationTrackerGoogle = new LocationTrackerGoogle(this);
+//                if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.POINT.getValue()))
+//                    locationTrackerGoogle = new LocationTrackerGoogle(this);
             }
     }
 
@@ -302,10 +313,10 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        if (locationTrackerGoogle != null) {
-            locationTrackerGoogle.onBind(getIntent());
-            locationTrackerGoogle.onDestroy();
-        }
+//        if (locationTrackerGoogle != null) {
+//            locationTrackerGoogle.onBind(getIntent());
+//            locationTrackerGoogle.onDestroy();
+//        }
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();
