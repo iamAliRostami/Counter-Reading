@@ -3,12 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/linear_layout_footer"
     style="@style/bottomView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:gravity="center_horizontal"
-    android:orientation="horizontal"
-    android:padding="@dimen/small_dp">
+    android:orientation="horizontal">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="wrap_content"
@@ -20,6 +15,7 @@
         android:id="@+id/text_view_company_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/copy_right"
         android:textColor="@color/text_color_light" />
 

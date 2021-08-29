@@ -14,9 +14,7 @@
 
         <TextView
             android:id="@+id/text_view_pre_account"
-            style="@style/NavigationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/InputTitle"
             android:text="@string/previous_account" />
 
         <LinearLayout
@@ -49,9 +47,7 @@
 
         <TextView
             android:id="@+id/text_view_next_account"
-            style="@style/NavigationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/InputTitle"
             android:layout_below="@id/linear_layout_pre_account"
             android:text="@string/next_account" />
 
@@ -85,9 +81,7 @@
 
         <TextView
             android:id="@+id/text_view_address"
-            style="@style/NavigationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/InputTitle"
             android:layout_below="@id/linear_layout_next_account"
             android:text="@string/postal_code" />
 
@@ -123,9 +117,7 @@
 
         <TextView
             android:id="@+id/text_view_home"
-            style="@style/NavigationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/InputTitle"
             android:layout_below="@id/linear_layout_postal_code" />
 
         <LinearLayout
@@ -160,9 +152,7 @@
 
         <TextView
             android:id="@+id/text_view_description"
-            style="@style/NavigationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/InputTitle"
             android:layout_below="@id/linear_layout_home"
             android:text="@string/description" />
 

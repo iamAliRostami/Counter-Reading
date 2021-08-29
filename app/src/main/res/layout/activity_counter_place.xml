@@ -15,12 +15,9 @@
 
     <TextView
         android:id="@+id/text_view_from_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/InputTitle"
         android:layout_above="@id/linear_layout_1"
-        android:gravity="center"
-        android:text="@string/distance_from_input"
-        android:textSize="@dimen/text_size_large" />
+        android:text="@string/distance_from_input" />
 
     <LinearLayout
         android:id="@+id/linear_layout_1"
@@ -33,15 +30,8 @@
 
         <EditText
             android:id="@+id/edit_Text_2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/border_gray_2"
-            android:gravity="center"
+            style="@style/InputPlace"
             android:hint="@string/cm"
-            android:inputType="number"
-            android:maxLength="2"
-            android:maxLines="1"
             android:nextFocusLeft="@+id/edit_Text_3"
             android:nextFocusRight="@+id/edit_Text_3"
             android:nextFocusUp="@+id/edit_Text_3"
@@ -51,24 +41,14 @@
             tools:ignore="Autofill" />
 
         <TextView
+            style="@style/InputTitle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/slash"
-            android:textSize="@dimen/text_size_large" />
+            android:text="@string/slash" />
 
         <EditText
             android:id="@+id/edit_Text_1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/border_gray_2"
-            android:gravity="center"
+            style="@style/InputPlace"
             android:hint="@string/meter"
-            android:inputType="number"
-            android:maxLength="2"
-            android:maxLines="1"
             android:nextFocusLeft="@+id/edit_Text_2"
             android:nextFocusRight="@+id/edit_Text_2"
             android:nextFocusUp="@+id/edit_Text_2"
@@ -80,12 +60,9 @@
 
     <TextView
         android:id="@+id/text_view_from_wall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/InputTitle"
         android:layout_above="@id/linear_layout_2"
-        android:gravity="center"
-        android:text="@string/distance_from_left"
-        android:textSize="@dimen/text_size_large" />
+        android:text="@string/distance_from_left" />
 
     <LinearLayout
         android:id="@+id/linear_layout_2"
@@ -97,52 +74,30 @@
 
         <EditText
             android:id="@+id/edit_Text_4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/border_gray_2"
-            android:gravity="center"
+            style="@style/InputPlace"
             android:hint="@string/cm"
-            android:inputType="number"
-            android:maxLength="2"
-            android:maxLines="1"
-            android:padding="@dimen/medium_dp"
             tools:ignore="Autofill" />
 
         <TextView
+            style="@style/InputTitle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/slash"
-            android:textSize="@dimen/text_size_large" />
+            android:text="@string/slash" />
 
         <EditText
             android:id="@+id/edit_Text_3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/border_gray_2"
-            android:gravity="center"
+            style="@style/InputPlace"
             android:hint="@string/meter"
-            android:inputType="number"
-            android:maxLength="2"
-            android:maxLines="1"
             android:nextFocusLeft="@+id/edit_Text_4"
             android:nextFocusRight="@+id/edit_Text_4"
             android:nextFocusUp="@+id/edit_Text_4"
             android:nextFocusDown="@+id/edit_Text_4"
             android:nextFocusForward="@+id/edit_Text_4"
-            android:padding="@dimen/medium_dp"
             tools:ignore="Autofill" />
     </LinearLayout>
 
     <Button
         android:id="@+id/button_submit"
         style="@style/ButtonWarning"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/large_dp"
         android:layout_marginTop="@dimen/medium_dp"
         android:layout_marginRight="@dimen/large_dp"

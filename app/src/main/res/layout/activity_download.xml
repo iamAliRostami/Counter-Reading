@@ -8,61 +8,29 @@
 
     <LinearLayout
         android:id="@+id/linear_layout_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryDark"
-        android:orientation="horizontal"
-        android:padding="@dimen/small_dp"
+        style="@style/ViewPagerMenu"
         android:weightSum="4">
 
         <TextView
             android:id="@+id/text_view_download_normal"
-            style="@style/text_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            style="@style/ViewPagerItems"
             android:background="@drawable/border_white_2"
-            android:gravity="center"
-            android:paddingTop="@dimen/medium_dp"
-            android:paddingBottom="@dimen/medium_dp"
-            android:text="@string/normal"
-            android:textColor="@color/text_color_light" />
+            android:text="@string/normal" />
 
         <TextView
             android:id="@+id/text_view_download_retry"
-            style="@style/text_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingTop="@dimen/medium_dp"
-            android:paddingBottom="@dimen/medium_dp"
-            android:text="@string/again"
-            android:textColor="@color/text_color_light" />
+            style="@style/ViewPagerItems"
+            android:text="@string/again" />
 
         <TextView
             android:id="@+id/text_view_download_off"
-            style="@style/text_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingTop="@dimen/medium_dp"
-            android:paddingBottom="@dimen/medium_dp"
-            android:text="@string/off_line"
-            android:textColor="@color/text_color_light" />
+            style="@style/ViewPagerItems"
+            android:text="@string/off_line" />
 
         <TextView
             android:id="@+id/text_view_download_special"
-            style="@style/text_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingTop="@dimen/medium_dp"
-            android:paddingBottom="@dimen/medium_dp"
-            android:text="@string/special"
-            android:textColor="@color/text_color_light" />
+            style="@style/ViewPagerItems"
+            android:text="@string/special" />
     </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager

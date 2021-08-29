@@ -5,12 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".activities.LoginActivity">
 
-    <ImageView
+    <View
         android:id="@+id/image_view_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_120sdp"
-        android:background="?attr/colorPrimary"
-        tools:ignore="ContentDescription" />
+        android:background="?attr/colorPrimary" />
 
     <View
         android:layout_width="match_parent"
@@ -48,15 +47,10 @@
 
         <EditText
             android:id="@+id/edit_text_username"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/border"
-            android:gravity="center"
+            style="@style/InputGray"
             android:hint="@string/username"
             android:inputType="text"
             android:lines="1"
-            android:padding="@dimen/medium_dp"
             tools:ignore="Autofill" />
 
     </LinearLayout>
@@ -82,39 +76,27 @@
 
         <EditText
             android:id="@+id/edit_text_password"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/border"
-            android:gravity="center"
+            style="@style/InputGray"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:lines="1"
-            android:padding="@dimen/medium_dp"
             tools:ignore="Autofill" />
 
     </LinearLayout>
 
     <CheckBox
         android:id="@+id/check_box_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/CheckBox"
         android:layout_below="@id/linear_layout_password"
         android:layout_marginLeft="@dimen/_50sdp"
         android:layout_marginTop="@dimen/low_dp"
         android:layout_marginRight="@dimen/_50sdp"
         android:layout_marginBottom="@dimen/low_dp"
         android:checked="true"
-        android:text="@string/save"
-        android:textColor="@color/text_color_dark"
-        android:textSize="@dimen/text_size_medium"
-        android:textStyle="bold" />
+        android:text="@string/save" />
 
     <Button
         android:id="@+id/button_login"
         style="@style/ButtonInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@id/check_box_save"
         android:layout_marginLeft="@dimen/_50sdp"
         android:layout_marginRight="@dimen/_50sdp"
@@ -126,7 +108,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_100sdp"
         android:layout_below="@id/button_login"
-        android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/low_dp"
         android:layout_marginBottom="@dimen/low_dp"
         android:src="@drawable/img_login_logo"
@@ -137,7 +118,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/linear_layout_footer"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:textColor="@color/text_color_dark" />
 
     <include layout="@layout/footer" />

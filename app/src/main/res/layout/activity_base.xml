@@ -17,7 +17,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="?background"
-        android:choiceMode="singleChoice"
         android:orientation="vertical">
 
         <ImageView

@@ -14,18 +14,13 @@
 
         <TextView
             android:id="@+id/text_view_account"
-            style="@style/NavigationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/InputTitle"
             android:text="@string/account" />
 
         <LinearLayout
             android:id="@+id/linear_layout_account"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_below="@id/text_view_account"
-            android:background="@drawable/border_gray_3"
-            android:orientation="horizontal">
+            style="@style/LinearLayoutNavigation">
 
             <ImageView
                 android:id="@+id/image_view_account"
@@ -36,32 +31,21 @@
 
             <EditText
                 android:id="@+id/edit_text_account"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/border"
-                android:gravity="center"
                 android:inputType="number"
-                android:lines="1"
-                android:padding="@dimen/low_dp"
+                style="@style/InputNavigation"
                 tools:ignore="Autofill,LabelFor" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/text_view_phone"
-            style="@style/NavigationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/InputTitle"
             android:layout_below="@id/linear_layout_account"
             android:text="@string/phone_number" />
 
         <LinearLayout
             android:id="@+id/linear_layout_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_below="@id/text_view_phone"
-            android:background="@drawable/border_gray_3"
-            android:orientation="horizontal">
+            style="@style/LinearLayoutNavigation">
 
             <ImageView
                 android:id="@+id/image_view_phone_number"
@@ -72,34 +56,23 @@
 
             <EditText
                 android:id="@+id/edit_text_phone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/border"
-                android:gravity="center"
                 android:inputType="phone"
-                android:lines="1"
                 android:maxLength="8"
-                android:padding="@dimen/low_dp"
+                style="@style/InputNavigation"
                 tools:ignore="Autofill,LabelFor" />
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/text_view_mobile"
-            style="@style/NavigationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/InputTitle"
             android:layout_below="@id/linear_layout_phone"
             android:text="@string/mobile_number" />
 
         <LinearLayout
             android:id="@+id/linear_layout_cell"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_below="@id/text_view_mobile"
-            android:background="@drawable/border_gray_3"
-            android:orientation="horizontal">
+            style="@style/LinearLayoutNavigation">
 
             <ImageView
                 android:id="@+id/image_view_mobile"
@@ -110,36 +83,23 @@
 
             <EditText
                 android:id="@+id/edit_text_mobile"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/border"
-                android:gravity="center"
                 android:inputType="phone"
-                android:lines="1"
                 android:maxLength="11"
-                android:padding="@dimen/low_dp"
+                style="@style/InputNavigation"
                 tools:ignore="Autofill,LabelFor" />
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/text_view_counter"
-            style="@style/NavigationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/InputTitle"
             android:layout_below="@id/linear_layout_cell"
-            android:maxLines="15"
-
             android:text="@string/counter_serial" />
 
         <LinearLayout
             android:id="@+id/linear_layout_counter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_below="@id/text_view_counter"
-            android:background="@drawable/border_gray_3"
-            android:orientation="horizontal">
+            style="@style/LinearLayoutNavigation">
 
             <ImageView
                 android:id="@+id/image_view_counter_serial"
@@ -150,35 +110,23 @@
 
             <EditText
                 android:id="@+id/edit_text_serial_counter"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/border"
-                android:gravity="center"
                 android:inputType="number"
-                android:lines="1"
                 android:maxLength="15"
-                android:padding="@dimen/low_dp"
+                style="@style/InputNavigation"
                 tools:ignore="Autofill,LabelFor" />
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/text_view_address"
-            style="@style/NavigationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/InputTitle"
             android:layout_below="@id/linear_layout_counter"
-            android:maxLength="50"
             android:text="@string/address" />
 
         <LinearLayout
             android:id="@+id/linear_layout_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_below="@id/text_view_address"
-            android:background="@drawable/border_gray_3"
-            android:orientation="horizontal">
+            style="@style/LinearLayoutNavigation">
 
             <ImageView
                 android:id="@+id/image_view_address"
@@ -189,33 +137,21 @@
 
             <EditText
                 android:id="@+id/edit_text_address"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/border"
-                android:gravity="center"
                 android:inputType="text"
-                android:lines="1"
-                android:maxLines="1"
-                android:padding="@dimen/low_dp"
+                style="@style/InputNavigation"
                 tools:ignore="Autofill,LabelFor,TextFields" />
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/text_view_empty"
-            style="@style/NavigationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/InputTitle"
             android:layout_below="@id/linear_layout_address" />
 
         <LinearLayout
             android:id="@+id/linear_layout_empty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_below="@id/text_view_empty"
-            android:background="@drawable/border_gray_3"
-            android:orientation="horizontal">
+            style="@style/LinearLayoutNavigation">
 
             <ImageView
                 android:id="@+id/image_view_empty"
@@ -226,14 +162,8 @@
 
             <EditText
                 android:id="@+id/edit_text_empty"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/border"
-                android:gravity="center"
                 android:inputType="number"
-                android:lines="1"
-                android:padding="@dimen/low_dp"
+                style="@style/InputNavigation"
                 tools:ignore="Autofill,LabelFor" />
 
         </LinearLayout>
@@ -241,8 +171,6 @@
         <Button
             android:id="@+id/button_navigation"
             style="@style/ButtonWarning"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_below="@id/linear_layout_empty"
             android:layout_marginTop="@dimen/low_dp"
             android:layout_marginBottom="@dimen/low_dp"

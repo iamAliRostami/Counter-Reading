@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/linear_layout_footer"
-        android:layout_margin="@dimen/large_dp"
-        android:orientation="vertical">
+        android:layout_margin="@dimen/large_dp">
 
         <EditText
             android:id="@+id/edit_text_message"
@@ -34,8 +33,7 @@
             android:id="@+id/linear_layout_play"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/linear_layout_seek"
-            android:orientation="horizontal">
+            android:layout_above="@id/linear_layout_seek">
 
             <ImageView
                 android:id="@+id/image_view_play"
@@ -81,14 +79,9 @@
 
         <Button
             android:id="@+id/button_send"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            style="@style/ButtonWarning"
             android:background="@drawable/border_yellow_1"
-            android:text="@string/send"
-            android:textColor="@color/text_color_light"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
+            android:text="@string/send" />
     </RelativeLayout>
 
     <include layout="@layout/footer" />
