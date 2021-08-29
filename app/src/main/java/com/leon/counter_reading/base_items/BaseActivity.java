@@ -47,12 +47,16 @@ import com.leon.counter_reading.databinding.ActivityBaseBinding;
 import com.leon.counter_reading.di.component.ActivityComponent;
 import com.leon.counter_reading.di.component.DaggerActivityComponent;
 import com.leon.counter_reading.di.module.CustomDialogModule;
+import com.leon.counter_reading.di.view_model.LocationTrackerGoogleTemp;
+import com.leon.counter_reading.di.view_model.LocationTrackerGpsTemp;
 import com.leon.counter_reading.di.view_model.MyDatabaseClientModel;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
+import com.leon.counter_reading.infrastructure.ILocationTracker;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.PermissionManager;
+import com.leon.counter_reading.utils.locating.CheckSensor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +69,7 @@ public abstract class BaseActivity extends AppCompatActivity
     private ActivityBaseBinding binding;
     private Activity activity;
     private ISharedPreferenceManager sharedPreferenceManager;
-    //    private LocationTrackerGoogle locationTrackerGoogle;
+    private ILocationTracker locationTracker;
     private boolean exit = false;
 
     public static ActivityComponent getActivityComponent() {
@@ -111,7 +115,10 @@ public abstract class BaseActivity extends AppCompatActivity
             } else {
                 initialize();
 //                if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.POINT.getValue()))
-//                    locationTrackerGoogle = new LocationTrackerGoogle(this);
+                if (!CheckSensor.checkSensor(activity))
+                    locationTracker = new LocationTrackerGoogleTemp(this);
+                else locationTracker = new LocationTrackerGpsTemp(this);
+
             }
     }
 

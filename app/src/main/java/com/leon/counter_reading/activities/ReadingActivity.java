@@ -26,7 +26,7 @@ import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.adapters.ViewPagerAdapterReading;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityReadingBinding;
-import com.leon.counter_reading.di.view_model.CustomDialog;
+import com.leon.counter_reading.di.view_model.CustomDialogModel;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.NotificationType;
@@ -376,7 +376,7 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void showNoEshterakFound() {
-        new CustomDialog(DialogType.Yellow, activity, getString(R.string.no_eshterak_found),
+        new CustomDialogModel(DialogType.Yellow, activity, getString(R.string.no_eshterak_found),
                 getString(R.string.dear_user), getString(R.string.eshterak),
                 getString(R.string.accepted));
     }

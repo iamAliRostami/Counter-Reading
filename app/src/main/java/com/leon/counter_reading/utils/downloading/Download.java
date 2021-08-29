@@ -8,7 +8,7 @@ import android.widget.Toast;
 import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
-import com.leon.counter_reading.di.view_model.CustomDialog;
+import com.leon.counter_reading.di.view_model.CustomDialogModel;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.ProgressType;
@@ -176,7 +176,7 @@ class DownloadCompleted implements ICallback<ReadingData> {
             }
             String message = String.format(MyApplication.getContext().getString(R.string.download_message),
                     readingData.trackingDtos.size(), readingData.onOffLoadDtos.size());
-            activity.runOnUiThread(() -> new CustomDialog(DialogType.Green,
+            activity.runOnUiThread(() -> new CustomDialogModel(DialogType.Green,
                     activity, message,
                     MyApplication.getContext().getString(R.string.dear_user),
                     MyApplication.getContext().getString(R.string.download),

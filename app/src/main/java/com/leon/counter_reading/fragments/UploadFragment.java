@@ -14,7 +14,7 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.UploadActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentUploadBinding;
-import com.leon.counter_reading.di.view_model.CustomDialog;
+import com.leon.counter_reading.di.view_model.CustomDialogModel;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.tables.TrackingDto;
@@ -123,7 +123,7 @@ public class UploadFragment extends Fragment {
                     imagesCount, voicesCount).concat("\n")
                     .concat(getString(R.string.recommend_multimedia));
             //TODO
-            new CustomDialog(DialogType.YellowRedirect, activity, message,
+            new CustomDialogModel(DialogType.YellowRedirect, activity, message,
                     getString(R.string.dear_user),
                     getString(R.string.upload), getString(R.string.confirm), new Inline());
             return false;
@@ -159,7 +159,7 @@ public class UploadFragment extends Fragment {
         items = null;
     }
 
-    class Inline implements CustomDialog.Inline {
+    class Inline implements CustomDialogModel.Inline {
         @Override
         public void inline() {
             new PrepareOffLoad(activity,

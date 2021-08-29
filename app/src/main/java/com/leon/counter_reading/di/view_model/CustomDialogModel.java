@@ -13,17 +13,17 @@ import com.leon.counter_reading.utils.custom_dialog.LovelyStandardDialog;
 
 import javax.inject.Inject;
 
-public class CustomDialog {
+public class CustomDialogModel {
     private final LovelyStandardDialog lovelyStandardDialog;
     private Context context;
 
     @Inject
-    public CustomDialog(Context context) {
+    public CustomDialogModel(Context context) {
         lovelyStandardDialog = new LovelyStandardDialog(context);
     }
 
-    public CustomDialog(DialogType choose, Context context, String message, String title,
-                        String top, String buttonText, Inline... inline) {
+    public CustomDialogModel(DialogType choose, Context context, String message, String title,
+                             String top, String buttonText, Inline... inline) {
         lovelyStandardDialog = BaseActivity.getActivityComponent().LovelyStandardDialog();
         this.context = context;
         lovelyStandardDialog.setTitle(title)

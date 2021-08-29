@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
-import com.leon.counter_reading.di.view_model.CustomDialog;
+import com.leon.counter_reading.di.view_model.CustomDialogModel;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.ProgressType;
@@ -57,7 +57,7 @@ class UpdateInfoIncomplete implements ICallbackIncomplete<LastInfo> {
     public void executeIncomplete(Response<LastInfo> response) {
         CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(context);
         String error = customErrorHandlingNew.getErrorMessageDefault(response);
-        new CustomDialog(DialogType.Yellow, context, error,
+        new CustomDialogModel(DialogType.Yellow, context, error,
                 context.getString(R.string.dear_user),
                 context.getString(R.string.update),
                 context.getString(R.string.accepted));
