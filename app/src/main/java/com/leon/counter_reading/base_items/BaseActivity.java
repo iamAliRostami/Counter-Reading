@@ -300,7 +300,7 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     public static ILocationTracking getLocationTracker(Activity activity) {
-        return !CheckSensor.checkSensor(activity) ?
+        return CheckSensor.checkSensor(activity) ?
                 activityComponent.LocationTrackingGoogle() :
                 activityComponent.LocationTrackingGps();
     }
