@@ -43,9 +43,9 @@
                         android:text="@string/mobile_number" />
 
                     <TextView
-                        android:layout_width="match_parent"
                         android:id="@+id/text_view_mobile"
-                        style="@style/TitlePossible" />
+                        style="@style/TitlePossible"
+                        android:layout_width="match_parent" />
                 </LinearLayout>
 
                 <EditText
@@ -179,7 +179,6 @@
                     android:maxLength="9"
                     tools:ignore="Autofill,LabelFor" />
 
-
                 <EditText
                     android:id="@+id/edit_text_ahad_total"
                     style="@style/InputPossible"
@@ -222,34 +221,18 @@
             android:id="@+id/linear_layout_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/button_submit"
-                style="@style/text_bold"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/low_dp"
-                android:layout_weight="1"
-                android:background="@drawable/border_green_1"
-                android:padding="@dimen/low_dp"
-                android:text="@string/submit"
-                android:textColor="@color/text_color_light"
-                android:textSize="@dimen/text_size_large" />
+                style="@style/ButtonSubmit.Fragment"
+                android:text="@string/submit" />
 
             <Button
                 android:id="@+id/button_close"
-                style="@style/text_bold"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/low_dp"
-                android:layout_weight="1"
-                android:background="@drawable/border_red_1"
-                android:padding="@dimen/low_dp"
+                style="@style/ButtonSubmit.Fragment.Error"
                 android:text="@string/close"
-                android:textColor="@color/text_color_light"
-                android:textSize="@dimen/text_size_large" />
+                android:visibility="gone" />
 
         </LinearLayout>
     </LinearLayout>

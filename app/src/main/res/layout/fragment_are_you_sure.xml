@@ -32,31 +32,14 @@
 
         <Button
             android:id="@+id/button_submit"
-            style="@style/text_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/low_dp"
-            android:layout_weight="1"
-            android:background="@drawable/border_green_1"
-            android:padding="@dimen/low_dp"
-            android:text="@string/submit"
-            android:textColor="@color/text_color_light"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
+            style="@style/ButtonSubmit.Fragment"
+            android:text="@string/submit" />
 
         <Button
             android:id="@+id/button_close"
-            style="@style/text_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/low_dp"
-            android:layout_weight="1"
-            android:background="@drawable/border_red_1"
-            android:padding="@dimen/low_dp"
-            android:text="@string/close"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
+            style="@style/ButtonSubmit.Fragment.Error"
+            android:visibility="gone"
+            android:text="@string/close"/>
 
     </LinearLayout>
 </RelativeLayout>

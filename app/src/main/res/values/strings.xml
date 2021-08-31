@@ -29,8 +29,9 @@
     <string name="error_in_play_voice">در پخش صدا مشکلی به وجود آمد</string>
     <string name="dear_user">همکار گرامی!</string>
     <string name="error_other">خدمات فعلا مقدور نمیباشد، لحظاتی دیگر مجددا تلاش فرمایید.</string>
-    <string name="error_internal">در حال به روزرسانی، لحظاتی دیگر امتحان فرمایید.</string>
-    <string name="error_change_server">در حال تغییرات، منتظر بمانید و در صورت برطرف نشدن مشکل، با پشتیبان تماس حاصل فرمایید.</string>
+<!--    <string name="error_internal">در حال به روزرسانی، لحظاتی دیگر امتحان فرمایید.</string>-->
+    <string name="error_internal">خطای سرور، لحظاتی دیگر امتحان فرمایید.</string>
+    <string name="error_change_server">خطای سرور، منتظر بمانید و در صورت برطرف نشدن مشکل با پشتیبان تماس حاصل فرمایید.</string>
     <string name="error_empty">این فیلد باید پر شود.</string>
     <string name="error_format">فرمت وارد شده صحیح نمیباشد.</string>
     <string name="error_is_not_match">نام کاربری و گذرواژه با یکدیگر مطابقت ندارند</string>
