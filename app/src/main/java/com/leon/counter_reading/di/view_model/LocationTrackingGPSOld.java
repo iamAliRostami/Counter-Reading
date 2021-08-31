@@ -15,14 +15,14 @@ import android.util.Log;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.infrastructure.ILocationTracker;
+import com.leon.counter_reading.infrastructure.ILocationTracking;
 import com.leon.counter_reading.tables.SavedLocation;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class LocationTrackingGPSOld implements ILocationTracker {
+public class LocationTrackingGPSOld implements ILocationTracking {
     private static LocationTrackingGPSOld instance = null;
     private static LocationManager locationManager;
     private static LocationListener locationListener;

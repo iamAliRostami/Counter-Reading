@@ -149,8 +149,8 @@ public class LocationActivity extends BaseActivity {
         IMapController mapController = binding.mapView.getController();
         mapController.setZoom(19.0);
         GeoPoint startPoint = new GeoPoint(BaseActivity
-                .getLocationTracker().getCurrentLocation(activity).getLatitude(), BaseActivity
-                .getLocationTracker().getCurrentLocation(activity).getLongitude());
+                .getLocationTracker(activity).getCurrentLocation(activity).getLatitude(), BaseActivity
+                .getLocationTracker(activity).getCurrentLocation(activity).getLongitude());
         mapController.setCenter(startPoint);
         MyLocationNewOverlay locationOverlay =
                 new MyLocationNewOverlay(new GpsMyLocationProvider(activity), binding.mapView);

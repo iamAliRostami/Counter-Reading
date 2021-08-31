@@ -20,12 +20,14 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.infrastructure.ILocationTracker;
+import com.leon.counter_reading.infrastructure.ILocationTracking;
 import com.leon.counter_reading.tables.SavedLocation;
 
 import org.jetbrains.annotations.NotNull;
 
-public class LocationTrackingGoogle extends Service implements ILocationTracker {
+import javax.inject.Inject;
+
+public class LocationTrackingGoogle extends Service implements ILocationTracking {
     private static LocationTrackingGoogle instance;
     private static FusedLocationProviderClient fusedLocationClient;
     private static LocationRequest locationRequest;
@@ -40,6 +42,7 @@ public class LocationTrackingGoogle extends Service implements ILocationTracker 
         return instance;
     }
 
+//    @Inject
     public LocationTrackingGoogle(Activity activity) {
         locationCallback = new LocationCallback() {
             @Override

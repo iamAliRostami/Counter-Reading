@@ -47,12 +47,11 @@ import com.leon.counter_reading.databinding.ActivityBaseBinding;
 import com.leon.counter_reading.di.component.ActivityComponent;
 import com.leon.counter_reading.di.component.DaggerActivityComponent;
 import com.leon.counter_reading.di.module.CustomDialogModule;
-import com.leon.counter_reading.di.view_model.LocationTrackingGoogle;
-import com.leon.counter_reading.di.view_model.LocationTrackingGps;
+import com.leon.counter_reading.di.module.LocationTrackingModule;
 import com.leon.counter_reading.di.view_model.MyDatabaseClientModel;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.infrastructure.ILocationTracker;
+import com.leon.counter_reading.infrastructure.ILocationTracking;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.PermissionManager;
@@ -70,7 +69,6 @@ public abstract class BaseActivity extends AppCompatActivity
     private ISharedPreferenceManager sharedPreferenceManager;
     private boolean exit = false;
     private static ActivityComponent activityComponent;
-    private static ILocationTracker locationTracker;
 
     protected abstract void initialize();
 
@@ -79,10 +77,6 @@ public abstract class BaseActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
         int theme;
-        activityComponent = DaggerActivityComponent
-                .builder()
-                .customDialogModule(new CustomDialogModule(this))
-                .build();
         if (getIntent().getExtras() != null) {
             theme = getIntent().getExtras().getInt(BundleEnum.THEME.getValue());
             if (theme == 0)
@@ -93,8 +87,6 @@ public abstract class BaseActivity extends AppCompatActivity
         MyApplication.onActivitySetTheme(this, theme, false);
         binding = ActivityBaseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-//        MyDatabaseClient.deleteAndReset(this);
-        MyDatabaseClientModel.migration(this);
         initializeBase();
         if (isNetworkAvailable(getApplicationContext()))
             checkPermissions();
@@ -108,11 +100,6 @@ public abstract class BaseActivity extends AppCompatActivity
             } else if (PermissionManager.checkStoragePermission(getApplicationContext())) {
                 askStoragePermission();
             } else {
-                if (CheckSensor.checkSensor(activity))
-                    locationTracker = LocationTrackingGoogle.getInstance(activity);
-                else
-//                    locationTracker = LocationTrackingGPSOld.getInstance(activity);
-                    locationTracker = LocationTrackingGps.getInstance(activity);
                 initialize();
             }
     }
@@ -242,6 +229,13 @@ public abstract class BaseActivity extends AppCompatActivity
     @SuppressLint("RtlHardcoded")
     private void initializeBase() {
         activity = this;
+        //        MyDatabaseClient.deleteAndReset(this);
+        MyDatabaseClientModel.migration(activity);
+        activityComponent = DaggerActivityComponent
+                .builder()
+                .customDialogModule(new CustomDialogModule(activity))
+                .locationTrackingModule(new LocationTrackingModule(activity))
+                .build();
         TextView textView = findViewById(R.id.text_view_title);
         textView.setText(sharedPreferenceManager.getStringData(
                 SharedReferenceKeys.DISPLAY_NAME.getValue()).
@@ -305,8 +299,10 @@ public abstract class BaseActivity extends AppCompatActivity
         return activityComponent;
     }
 
-    public static ILocationTracker getLocationTracker() {
-        return locationTracker;
+    public static ILocationTracking getLocationTracker(Activity activity) {
+        return !CheckSensor.checkSensor(activity) ?
+                activityComponent.LocationTrackingGoogle() :
+                activityComponent.LocationTrackingGps();
     }
 
     @Override

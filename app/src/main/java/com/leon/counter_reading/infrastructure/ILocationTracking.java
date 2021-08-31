@@ -3,7 +3,8 @@ package com.leon.counter_reading.infrastructure;
 import android.content.Context;
 import android.location.Location;
 
-public interface ILocationTracker {
+public interface ILocationTracking {
+
     Location getLocation();
 
     double getLatitude();

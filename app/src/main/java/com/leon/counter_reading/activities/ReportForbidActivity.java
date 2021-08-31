@@ -259,10 +259,10 @@ public class ReportForbidActivity extends AppCompatActivity {
 
     void sendForbid() {
         double latitude = 0, longitude = 0, accuracy = 0;
-        if (BaseActivity.getLocationTracker().getCurrentLocation(activity) != null) {
-            latitude = BaseActivity.getLocationTracker().getCurrentLocation(activity).getLatitude();
-            longitude = BaseActivity.getLocationTracker().getCurrentLocation(activity).getLatitude();
-            accuracy = BaseActivity.getLocationTracker().getCurrentLocation(activity).getLatitude();
+        if (BaseActivity.getLocationTracker(activity).getCurrentLocation(activity) != null) {
+            latitude = BaseActivity.getLocationTracker(activity).getCurrentLocation(activity).getLatitude();
+            longitude = BaseActivity.getLocationTracker(activity).getCurrentLocation(activity).getLatitude();
+            accuracy = BaseActivity.getLocationTracker(activity).getCurrentLocation(activity).getLatitude();
         }
         forbiddenDto.prepareToSend(accuracy, longitude, latitude,
                 binding.editTextPostalCode.getText().toString(),

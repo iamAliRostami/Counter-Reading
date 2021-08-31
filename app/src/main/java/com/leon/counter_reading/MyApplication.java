@@ -157,7 +157,6 @@ public class MyApplication extends Application {
                 .networkModule(new NetworkModule())
                 .flashModule(new FlashModule(appContext))
                 .myDatabaseModule(new MyDatabaseModule(appContext))
-//                .customDialogModule(new CustomDialogModule(this))
                 .sharedPreferenceModule(new SharedPreferenceModule(appContext, SharedReferenceNames.ACCOUNT))
                 .build();
         applicationComponent.inject(this);

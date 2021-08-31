@@ -313,7 +313,7 @@ public class ReadingActivity extends BaseActivity {
             showImage(position);
         } else {
             makeRing(activity, NotificationType.SAVE);
-            new Update(position, BaseActivity.getLocationTracker().getCurrentLocation(activity)).execute(activity);
+            new Update(position, BaseActivity.getLocationTracker(activity).getCurrentLocation(activity)).execute(activity);
             new PrepareToSend(sharedPreferenceManager.
                     getStringData(SharedReferenceKeys.TOKEN.getValue())).execute(activity);
             changePage(binding.viewPager.getCurrentItem() + 1);

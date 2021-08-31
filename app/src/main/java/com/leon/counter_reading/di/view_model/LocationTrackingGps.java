@@ -15,27 +15,31 @@ import android.util.Log;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.infrastructure.ILocationTracker;
+import com.leon.counter_reading.infrastructure.ILocationTracking;
 import com.leon.counter_reading.tables.SavedLocation;
 
 import java.util.List;
 
-public class LocationTrackingGps implements ILocationTracker {
+import javax.inject.Inject;
 
+public class LocationTrackingGps implements ILocationTracking {
     private static LocationTrackingGps instance = null;
-
     private static LocationManager locationManager;
     private static LocationListener locationListener;
-    private volatile static Location location;
     private static boolean isRegistered = false;
+    private volatile static Location location;
 
     public static synchronized LocationTrackingGps getInstance(Context context) {
         if (instance == null) {
-            registerLocationListeners(context);
-            instance = new LocationTrackingGps();
+            instance = new LocationTrackingGps(context);
         }
 
         return instance;
+    }
+
+    @Inject
+    public LocationTrackingGps(Context context) {
+        registerLocationListeners(context);
     }
 
     public synchronized boolean isRegistered() {
