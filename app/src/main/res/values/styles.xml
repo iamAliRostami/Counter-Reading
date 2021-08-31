@@ -168,6 +168,30 @@
         <item name="android:textSize">@dimen/text_size_large</item>
     </style>
 
+    <style name="TitlePossible">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_color_dark</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+
+    <style name="InputPossible">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/border_gray_2</item>
+
+        <item name="android:textColor">@color/text_color_dark</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:padding">@dimen/medium_dp</item>
+        <item name="android:layout_margin">@dimen/low_dp</item>
+
+        <item name="maxLines">1</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+
     <style name="LinearLayoutNavigation">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

@@ -39,47 +39,27 @@
                     android:padding="@dimen/medium_dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="@string/mobile_number"
-                        android:textSize="@dimen/text_size_medium" />
+                        style="@style/TitlePossible"
+                        android:text="@string/mobile_number" />
 
                     <TextView
-                        android:id="@+id/text_view_mobile"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textSize="@dimen/text_size_large" />
+                        android:id="@+id/text_view_mobile"
+                        style="@style/TitlePossible" />
                 </LinearLayout>
 
                 <EditText
                     android:id="@+id/edit_text_mobile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/low_dp"
-                    android:background="@drawable/border_gray_2"
-                    android:gravity="center"
+                    style="@style/InputPossible"
                     android:hint="@string/mobile_number"
                     android:inputType="phone"
                     android:maxLength="11"
-                    android:maxLines="1"
-                    android:padding="@dimen/medium_dp"
-                    android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill" />
 
                 <EditText
                     android:id="@+id/edit_text_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/low_dp"
-                    android:background="@drawable/border_gray_2"
-                    android:gravity="center"
+                    style="@style/InputPossible"
                     android:hint="@string/address"
-                    android:maxLines="1"
-                    android:padding="@dimen/medium_dp"
-                    android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill,TextFields" />
 
                 <LinearLayout
@@ -107,45 +87,24 @@
 
                 <EditText
                     android:id="@+id/edit_text_account"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/low_dp"
-                    android:background="@drawable/border_gray_2"
-                    android:gravity="center"
+                    style="@style/InputPossible"
                     android:hint="@string/account"
                     android:inputType="number"
-                    android:maxLines="1"
-                    android:padding="@dimen/medium_dp"
-                    android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill" />
 
                 <EditText
                     android:id="@+id/edit_text_serial"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/low_dp"
-                    android:background="@drawable/border_gray_2"
-                    android:gravity="center"
+                    style="@style/InputPossible"
                     android:hint="@string/counter_serial"
                     android:inputType="number"
                     android:maxLength="15"
-                    android:maxLines="1"
-                    android:padding="@dimen/medium_dp"
-                    android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill" />
 
                 <EditText
                     android:id="@+id/edit_text_ahad_empty"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/low_dp"
-                    android:background="@drawable/border_gray_2"
-                    android:gravity="center"
+                    style="@style/InputPossible"
                     android:inputType="number"
                     android:maxLength="9"
-                    android:maxLines="1"
-                    android:padding="@dimen/medium_dp"
-                    android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill,LabelFor" />
 
                 <LinearLayout
@@ -161,123 +120,77 @@
 
                     <TextView
                         android:id="@+id/text_view_ahad_1_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        style="@style/TitlePossible"
                         android:layout_marginLeft="@dimen/small_dp"
-                        android:layout_marginRight="@dimen/small_dp"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:layout_marginRight="@dimen/small_dp" />
 
                     <TextView
                         android:id="@+id/text_view_ahad_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        style="@style/TitlePossible"
                         android:layout_marginLeft="@dimen/small_dp"
-                        android:layout_marginRight="@dimen/small_dp"
-                        android:textSize="@dimen/text_size_large" />
+                        android:layout_marginRight="@dimen/small_dp" />
 
-                    <LinearLayout
+                    <View
                         android:layout_width="@dimen/small_dp"
                         android:layout_height="match_parent"
                         android:background="@color/smoked" />
 
                     <TextView
                         android:id="@+id/text_view_ahad2_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        style="@style/TitlePossible"
                         android:layout_marginLeft="@dimen/small_dp"
-                        android:layout_marginRight="@dimen/small_dp"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:layout_marginRight="@dimen/small_dp" />
 
                     <TextView
                         android:id="@+id/text_view_ahad_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        style="@style/TitlePossible"
                         android:layout_marginLeft="@dimen/small_dp"
-                        android:layout_marginRight="@dimen/small_dp"
-                        android:textSize="@dimen/text_size_large" />
+                        android:layout_marginRight="@dimen/small_dp" />
 
-                    <LinearLayout
+                    <View
                         android:layout_width="@dimen/small_dp"
                         android:layout_height="match_parent"
                         android:background="@color/smoked" />
 
                     <TextView
                         android:id="@+id/text_view_ahad_total_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        style="@style/TitlePossible"
                         android:layout_marginLeft="@dimen/small_dp"
-                        android:layout_marginRight="@dimen/small_dp"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:layout_marginRight="@dimen/small_dp" />
 
                     <TextView
                         android:id="@+id/text_view_ahad_total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        style="@style/TitlePossible"
                         android:layout_marginLeft="@dimen/small_dp"
-                        android:layout_marginRight="@dimen/small_dp"
-                        android:textSize="@dimen/text_size_large" />
+                        android:layout_marginRight="@dimen/small_dp" />
                 </LinearLayout>
 
                 <EditText
                     android:id="@+id/edit_text_ahad_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/low_dp"
-                    android:background="@drawable/border_gray_2"
-                    android:gravity="center"
+                    style="@style/InputPossible"
                     android:inputType="number"
                     android:maxLength="9"
-                    android:maxLines="1"
-                    android:padding="@dimen/medium_dp"
-                    android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill,LabelFor" />
 
                 <EditText
                     android:id="@+id/edit_text_ahad_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/low_dp"
-                    android:background="@drawable/border_gray_2"
-                    android:gravity="center"
+                    style="@style/InputPossible"
                     android:inputType="number"
                     android:maxLength="9"
-                    android:maxLines="1"
-                    android:padding="@dimen/medium_dp"
-                    android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill,LabelFor" />
 
 
                 <EditText
                     android:id="@+id/edit_text_ahad_total"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/low_dp"
-                    android:background="@drawable/border_gray_2"
-                    android:gravity="center"
+                    style="@style/InputPossible"
                     android:inputType="number"
                     android:maxLength="9"
-                    android:maxLines="1"
-                    android:padding="@dimen/medium_dp"
-                    android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill,LabelFor" />
 
                 <EditText
                     android:id="@+id/edit_text_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/low_dp"
-                    android:background="@drawable/border_gray_2"
-                    android:gravity="center"
+                    style="@style/InputPossible"
                     android:hint="@string/description"
-                    android:maxLines="1"
-                    android:padding="@dimen/medium_dp"
-                    android:textSize="@dimen/text_size_large"
                     tools:ignore="Autofill,TextFields" />
 
                 <LinearLayout
