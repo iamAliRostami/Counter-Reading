@@ -40,9 +40,6 @@ import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DepthPageTransformer;
-import com.leon.counter_reading.utils.locating.CheckSensor;
-import com.leon.counter_reading.utils.locating.LocationTrackerGoogle;
-import com.leon.counter_reading.utils.locating.LocationTrackerGps;
 import com.leon.counter_reading.utils.reading.ChangeSortType;
 import com.leon.counter_reading.utils.reading.GetBundle;
 import com.leon.counter_reading.utils.reading.GetReadingDBData;
@@ -64,7 +61,6 @@ public class ReadingActivity extends BaseActivity {
     private SpinnerCustomAdapter adapter;
     private int readStatus = 0, highLow = 1;
     private boolean isReading = false;
-    private LocationTrackerGoogle locationTrackerGoogle;
 
     @Override
     protected void initialize() {
@@ -73,8 +69,6 @@ public class ReadingActivity extends BaseActivity {
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
         parentLayout.addView(childLayout);
         activity = this;
-        if (CheckSensor.checkSensor(activity))
-            locationTrackerGoogle = new LocationTrackerGoogle(activity);
         sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
         imageSrc = ReadingUtils.setAboveIcons();
         getBundle();
@@ -318,12 +312,8 @@ public class ReadingActivity extends BaseActivity {
         } else if (isImage && sharedPreferenceManager.getBoolData(SharedReferenceKeys.IMAGE.getValue())) {
             showImage(position);
         } else {
-            LocationTrackerGps locationTrackerGps = new LocationTrackerGps(activity);
             makeRing(activity, NotificationType.SAVE);
-            new Update(position, locationTrackerGoogle != null ?
-                    locationTrackerGoogle.getLocation() : locationTrackerGps.getLocation()).
-                    execute(activity);
-            locationTrackerGps.stopListener();
+            new Update(position, BaseActivity.getLocationTracker().getCurrentLocation(activity)).execute(activity);
             new PrepareToSend(sharedPreferenceManager.
                     getStringData(SharedReferenceKeys.TOKEN.getValue())).execute(activity);
             changePage(binding.viewPager.getCurrentItem() + 1);
@@ -552,9 +542,6 @@ public class ReadingActivity extends BaseActivity {
         binding.imageViewOffLoadState.setImageDrawable(null);
         binding.imageViewReadingType.setImageDrawable(null);
         binding.imageViewExceptionState.setImageDrawable(null);
-        if (locationTrackerGoogle != null)
-            locationTrackerGoogle.onDestroy();
-//        MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase();
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

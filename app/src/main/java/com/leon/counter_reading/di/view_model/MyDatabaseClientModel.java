@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 public class MyDatabaseClientModel {
 
-    private static MyDatabaseClientModel mInstance;
+    private static MyDatabaseClientModel instance;
     private final MyDatabase myDatabase;
 
     @Inject
@@ -21,10 +21,10 @@ public class MyDatabaseClientModel {
     }
 
     public static synchronized MyDatabaseClientModel getInstance(Context context) {
-        if (mInstance == null) {
-            mInstance = new MyDatabaseClientModel(context);
+        if (instance == null) {
+            instance = new MyDatabaseClientModel(context);
         }
-        return mInstance;
+        return instance;
     }
 
     public static void migration(Context context) {

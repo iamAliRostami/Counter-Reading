@@ -47,8 +47,8 @@ import com.leon.counter_reading.databinding.ActivityBaseBinding;
 import com.leon.counter_reading.di.component.ActivityComponent;
 import com.leon.counter_reading.di.component.DaggerActivityComponent;
 import com.leon.counter_reading.di.module.CustomDialogModule;
-import com.leon.counter_reading.di.view_model.LocationTrackerGoogleTemp;
-import com.leon.counter_reading.di.view_model.LocationTrackerGpsTemp;
+import com.leon.counter_reading.di.view_model.LocationTrackingGoogle;
+import com.leon.counter_reading.di.view_model.LocationTrackingGps;
 import com.leon.counter_reading.di.view_model.MyDatabaseClientModel;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
@@ -63,18 +63,14 @@ import java.util.List;
 
 public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private static ActivityComponent activityComponent;
+    private Activity activity;
     private Toolbar toolbar;
     private List<DrawerItem> dataList;
     private ActivityBaseBinding binding;
-    private Activity activity;
     private ISharedPreferenceManager sharedPreferenceManager;
-    private ILocationTracker locationTracker;
     private boolean exit = false;
-
-    public static ActivityComponent getActivityComponent() {
-        return activityComponent;
-    }
+    private static ActivityComponent activityComponent;
+    private static ILocationTracker locationTracker;
 
     protected abstract void initialize();
 
@@ -97,7 +93,6 @@ public abstract class BaseActivity extends AppCompatActivity
         MyApplication.onActivitySetTheme(this, theme, false);
         binding = ActivityBaseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
 //        MyDatabaseClient.deleteAndReset(this);
         MyDatabaseClientModel.migration(this);
         initializeBase();
@@ -113,12 +108,12 @@ public abstract class BaseActivity extends AppCompatActivity
             } else if (PermissionManager.checkStoragePermission(getApplicationContext())) {
                 askStoragePermission();
             } else {
+                if (CheckSensor.checkSensor(activity))
+                    locationTracker = LocationTrackingGoogle.getInstance(activity);
+                else
+//                    locationTracker = LocationTrackingGPSOld.getInstance(activity);
+                    locationTracker = LocationTrackingGps.getInstance(activity);
                 initialize();
-//                if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.POINT.getValue()))
-                if (!CheckSensor.checkSensor(activity))
-                    locationTracker = new LocationTrackerGoogleTemp(this);
-                else locationTracker = new LocationTrackerGpsTemp(this);
-
             }
     }
 
@@ -244,7 +239,7 @@ public abstract class BaseActivity extends AppCompatActivity
         );
     }
 
-    @SuppressLint("WrongConstant")
+    @SuppressLint("RtlHardcoded")
     private void initializeBase() {
         activity = this;
         TextView textView = findViewById(R.id.text_view_title);
@@ -274,7 +269,7 @@ public abstract class BaseActivity extends AppCompatActivity
         binding.drawerLayout.addDrawerListener(toggle);
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         toggle.syncState();
-        toolbar.setNavigationOnClickListener(view1 -> binding.drawerLayout.openDrawer(Gravity.START));
+        toolbar.setNavigationOnClickListener(view1 -> binding.drawerLayout.openDrawer(Gravity.RIGHT));
     }
 
     void fillDrawerListView() {
@@ -306,6 +301,14 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
 
+    public static ActivityComponent getActivityComponent() {
+        return activityComponent;
+    }
+
+    public static ILocationTracker getLocationTracker() {
+        return locationTracker;
+    }
+
     @Override
     protected void onStop() {
         Debug.getNativeHeapAllocatedSize();
@@ -320,10 +323,6 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-//        if (locationTrackerGoogle != null) {
-//            locationTrackerGoogle.onBind(getIntent());
-//            locationTrackerGoogle.onDestroy();
-//        }
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

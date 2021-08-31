@@ -1,14 +1,15 @@
 package com.leon.counter_reading.di.view_model;
 
 import static com.leon.counter_reading.MyApplication.FASTEST_INTERVAL;
+import static com.leon.counter_reading.MyApplication.MIN_TIME_BW_UPDATES;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -18,43 +19,46 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.infrastructure.ILocationTracker;
 import com.leon.counter_reading.tables.SavedLocation;
 
 import org.jetbrains.annotations.NotNull;
-import org.osmdroid.config.Configuration;
 
-public class LocationTrackerGoogleTemp extends Service implements ILocationTracker {
-    private static double latitude, longitude, accuracy;
-    private final Activity activity;
-    private FusedLocationProviderClient fusedLocationClient;
-    private LocationRequest locationRequest;
-    private Location location;
-    private final LocationCallback locationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(@NotNull LocationResult locationResult) {
-            for (Location location : locationResult.getLocations()) {
-                addLocation(location);
-            }
-        }
-    };
+public class LocationTrackingGoogle extends Service implements ILocationTracker {
+    private static LocationTrackingGoogle instance;
+    private static FusedLocationProviderClient fusedLocationClient;
+    private static LocationRequest locationRequest;
+    private static Location location;
+    private static LocationCallback locationCallback;
     private final OnSuccessListener<Location> onSuccessListener = this::addLocation;
 
-
-    public LocationTrackerGoogleTemp(Activity activity) {
-        this.activity = activity;
-        Configuration.getInstance().load(activity,
-                PreferenceManager.getDefaultSharedPreferences(activity));
-        startFusedLocation();
+    public static synchronized LocationTrackingGoogle getInstance(Activity activity) {
+        if (instance == null) {
+            instance = new LocationTrackingGoogle(activity);
+        }
+        return instance;
     }
 
-    void startFusedLocation() {
+    public LocationTrackingGoogle(Activity activity) {
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NotNull LocationResult locationResult) {
+                for (Location location : locationResult.getLocations()) {
+                    addLocation(location);
+                }
+            }
+        };
+        startFusedLocation(activity);
+    }
+
+    void startFusedLocation(Activity activity) {
         locationRequest = LocationRequest.create();
-        locationRequest.setInterval(MyApplication.MIN_TIME_BW_UPDATES);
+        locationRequest.setInterval(MIN_TIME_BW_UPDATES);
         locationRequest.setFastestInterval(FASTEST_INTERVAL);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
-        registerRequestUpdateGoogle();
+        registerRequestUpdateGoogle(activity);
     }
 
     void stopFusedLocation() {
@@ -64,7 +68,7 @@ public class LocationTrackerGoogleTemp extends Service implements ILocationTrack
     }
 
     @SuppressLint("MissingPermission")
-    void registerRequestUpdateGoogle() {
+    void registerRequestUpdateGoogle(Activity activity) {
         fusedLocationClient.getLastLocation().addOnSuccessListener(activity, onSuccessListener);
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
     }
@@ -72,29 +76,36 @@ public class LocationTrackerGoogleTemp extends Service implements ILocationTrack
     @Override
     public void addLocation(Location location) {
         if (location != null) {
-            this.location = location;
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
-            accuracy = location.getAccuracy();
-            SavedLocation savedLocation = new SavedLocation(accuracy, longitude, latitude);
-            MyApplication.getApplicationComponent().MyDatabase().savedLocationDao().insertSavedLocation(savedLocation);
-            Log.e("accuracy google", String.valueOf(accuracy));
+            LocationTrackingGoogle.location = location;
+            if (MyApplication.getApplicationComponent().SharedPreferenceModel()
+                    .getBoolData(SharedReferenceKeys.POINT.getValue())) {
+                SavedLocation savedLocation = new SavedLocation(location.getAccuracy(),
+                        location.getLongitude(), location.getLatitude());
+                MyApplication.getApplicationComponent().MyDatabase().savedLocationDao()
+                        .insertSavedLocation(savedLocation);
+            }
+            Log.e("google", String.valueOf(getAccuracy()));
         }
     }
 
     @Override
+    public Location getCurrentLocation(Context context) {
+        return location;
+    }
+
+    @Override
     public double getAccuracy() {
-        return accuracy;
+        return location.getAccuracy();
     }
 
     @Override
     public double getLongitude() {
-        return longitude;
+        return location.getLongitude();
     }
 
     @Override
     public double getLatitude() {
-        return latitude;
+        return location.getLatitude();
     }
 
     @Override

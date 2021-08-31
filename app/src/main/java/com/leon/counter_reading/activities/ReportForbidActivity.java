@@ -32,6 +32,7 @@ import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityReportForbidBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
@@ -42,9 +43,6 @@ import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.forbid.PrepareForbid;
-import com.leon.counter_reading.utils.locating.CheckSensor;
-import com.leon.counter_reading.utils.locating.LocationTrackerGoogle;
-import com.leon.counter_reading.utils.locating.LocationTrackerGps;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,7 +54,6 @@ public class ReportForbidActivity extends AppCompatActivity {
     private Activity activity;
     private ForbiddenDto forbiddenDto = new ForbiddenDto();
     private int zoneId;
-    private LocationTrackerGoogle locationTrackerGoogle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +74,6 @@ public class ReportForbidActivity extends AppCompatActivity {
             } else if (!PermissionManager.checkCameraPermission(getApplicationContext())) {
                 askCameraPermission();
             } else {
-                if (CheckSensor.checkSensor(activity))
-                    locationTrackerGoogle = new LocationTrackerGoogle(activity);
                 initialize();
             }
     }
@@ -139,16 +134,15 @@ public class ReportForbidActivity extends AppCompatActivity {
     void initialize() {
         if (getIntent().getExtras() != null)
             zoneId = getIntent().getExtras().getInt(BundleEnum.ZONE_ID.getValue());
-        binding.textViewHome.setText(getString(R.string.number).concat(DifferentCompanyManager.getAhad(DifferentCompanyManager.getActiveCompanyName())));
+        binding.textViewHome.setText(getString(R.string.number).concat(DifferentCompanyManager
+                .getAhad(DifferentCompanyManager.getActiveCompanyName())));
 
-        binding.editTextNextAccount.setFilters(
-                new InputFilter[]{
-                        new InputFilter.LengthFilter(DifferentCompanyManager.
-                                getEshterakMaxLength(DifferentCompanyManager.getActiveCompanyName()))});
-        binding.editTextPreAccount.setFilters(
-                new InputFilter[]{
-                        new InputFilter.LengthFilter(DifferentCompanyManager.
-                                getEshterakMaxLength(DifferentCompanyManager.getActiveCompanyName()))});
+        binding.editTextNextAccount.setFilters(new InputFilter[]{new InputFilter
+                .LengthFilter(DifferentCompanyManager.getEshterakMaxLength(DifferentCompanyManager
+                .getActiveCompanyName()))});
+        binding.editTextPreAccount.setFilters(new InputFilter[]{new InputFilter
+                .LengthFilter(DifferentCompanyManager.getEshterakMaxLength(DifferentCompanyManager
+                .getActiveCompanyName()))});
 
         forbiddenDto.File = new ArrayList<>();
         forbiddenDto.bitmaps = new ArrayList<>();
@@ -264,14 +258,12 @@ public class ReportForbidActivity extends AppCompatActivity {
     }
 
     void sendForbid() {
-        LocationTrackerGps locationTrackerGps = new LocationTrackerGps(activity);
-        double accuracy = locationTrackerGoogle != null ? locationTrackerGoogle.getAccuracy() :
-                locationTrackerGps.getAccuracy();
-        double latitude = locationTrackerGoogle != null ? locationTrackerGoogle.getLatitude() :
-                locationTrackerGps.getLatitude();
-        double longitude = locationTrackerGoogle != null ? locationTrackerGoogle.getLongitude() :
-                locationTrackerGps.getLongitude();
-        locationTrackerGps.stopListener();
+        double latitude = 0, longitude = 0, accuracy = 0;
+        if (BaseActivity.getLocationTracker().getCurrentLocation(activity) != null) {
+            latitude = BaseActivity.getLocationTracker().getCurrentLocation(activity).getLatitude();
+            longitude = BaseActivity.getLocationTracker().getCurrentLocation(activity).getLatitude();
+            accuracy = BaseActivity.getLocationTracker().getCurrentLocation(activity).getLatitude();
+        }
         forbiddenDto.prepareToSend(accuracy, longitude, latitude,
                 binding.editTextPostalCode.getText().toString(),
                 binding.editTextDescription.getText().toString(),
@@ -326,7 +318,6 @@ public class ReportForbidActivity extends AppCompatActivity {
                             startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
                         } catch (ActivityNotFoundException e) {
                             e.printStackTrace();
-                            // display error state to the user
                         }
                     }
                 }

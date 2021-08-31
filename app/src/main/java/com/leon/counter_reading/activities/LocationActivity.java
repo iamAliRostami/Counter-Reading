@@ -26,8 +26,6 @@ import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.PermissionManager;
-import com.leon.counter_reading.utils.locating.LocationTrackerGoogle;
-import com.leon.counter_reading.utils.locating.LocationTrackerGps;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.util.GeoPoint;
@@ -45,7 +43,6 @@ public class LocationActivity extends BaseActivity {
     private ISharedPreferenceManager sharedPreferenceManager;
     private ShowOnMap showOnMap;
     private ArrayList<Marker> markers = new ArrayList<>();
-    private LocationTrackerGoogle locationTracker;
 
     @Override
     protected void initialize() {
@@ -86,7 +83,6 @@ public class LocationActivity extends BaseActivity {
             } else if (PermissionManager.checkStoragePermission(getApplicationContext())) {
                 askStoragePermission();
             } else {
-                locationTracker = new LocationTrackerGoogle(activity);
                 sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
                 initializeMapView();
                 initializeCheckBoxPoint();
@@ -152,17 +148,9 @@ public class LocationActivity extends BaseActivity {
         binding.mapView.setMultiTouchControls(true);
         IMapController mapController = binding.mapView.getController();
         mapController.setZoom(19.0);
-
-        double latitude = locationTracker.getLatitude();
-        double longitude = locationTracker.getLongitude();
-        if (latitude == 0 || longitude == 0) {
-            LocationTrackerGps locationTrackerGps = new LocationTrackerGps(activity);
-            latitude = locationTrackerGps.getLatitude();
-            longitude = locationTrackerGps.getLongitude();
-            locationTrackerGps.stopListener();
-        }
-        locationTracker.onDestroy();
-        GeoPoint startPoint = new GeoPoint(latitude, longitude);
+        GeoPoint startPoint = new GeoPoint(BaseActivity
+                .getLocationTracker().getCurrentLocation(activity).getLatitude(), BaseActivity
+                .getLocationTracker().getCurrentLocation(activity).getLongitude());
         mapController.setCenter(startPoint);
         MyLocationNewOverlay locationOverlay =
                 new MyLocationNewOverlay(new GpsMyLocationProvider(activity), binding.mapView);

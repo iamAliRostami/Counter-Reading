@@ -70,7 +70,7 @@ public class UploadFragment extends Fragment {
 
     void initialize() {
         if (type == 3) {
-            binding.linearLayoutSpinner.setVisibility(View.GONE);
+            binding.spinner.setVisibility(View.GONE);
             binding.textViewMultimedia.setVisibility(View.VISIBLE);
             int imagesCount = MyApplication.getApplicationComponent().MyDatabase().imageDao().getUnsentImageCount(false);
             int voicesCount = MyApplication.getApplicationComponent().MyDatabase().voiceDao().getUnsentVoiceCount(false);

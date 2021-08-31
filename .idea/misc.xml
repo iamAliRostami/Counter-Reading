@@ -6,18 +6,24 @@
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/background_spinner.xml" value="0.39609375" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/border.xml" value="0.39609375" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/border_blue_3.xml" value="0.39609375" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/border_gray_1.xml" value="0.2828125" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/border_gray_2.xml" value="0.2828125" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/border_gray_3.xml" value="0.2828125" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/border_gray_4.xml" value="0.2828125" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/border_gray_5.xml" value="0.2828125" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/border_gray_6.xml" value="0.2828125" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_base.xml" value="0.2056159420289855" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_contact_us.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_counter_place.xml" value="0.2" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_description.xml" value="0.2366504854368932" />
-        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_download.xml" value="0.365625" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_download.xml" value="0.2" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_help.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_home.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_location.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_main.xml" value="0.365625" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_navigation.xml" value="0.2" />
-        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_reading_report.xml" value="0.6" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_reading_report.xml" value="0.152" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_reading_setting.xml" value="0.365625" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_report.xml" value="0.365625" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_report_forbid.xml" value="0.176" />

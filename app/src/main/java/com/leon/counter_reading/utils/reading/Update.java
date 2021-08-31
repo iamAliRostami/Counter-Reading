@@ -5,6 +5,7 @@ import static com.leon.counter_reading.MyApplication.readingData;
 import android.app.Activity;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.leon.counter_reading.MyApplication;
 
@@ -14,9 +15,11 @@ public class Update extends AsyncTask<Activity, Void, Void> {
     public Update(int position, Location location) {
         super();
         this.position = position;
-        readingData.onOffLoadDtos.get(position).x = location.getLongitude();
-        readingData.onOffLoadDtos.get(position).y = location.getLatitude();
-        readingData.onOffLoadDtos.get(position).gisAccuracy = location.getAccuracy();
+        if (location != null) {
+            readingData.onOffLoadDtos.get(position).x = location.getLongitude();
+            readingData.onOffLoadDtos.get(position).y = location.getLatitude();
+            readingData.onOffLoadDtos.get(position).gisAccuracy = location.getAccuracy();
+        }
     }
 
     @Override

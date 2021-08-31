@@ -34,6 +34,7 @@
     <Button
         android:id="@+id/button_save_send"
         style="@style/ButtonWarning"
+        android:layout_alignParentBottom="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/linear_layout_footer"

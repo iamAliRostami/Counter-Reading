@@ -17,7 +17,7 @@
         style="@style/CheckBox.Possible"
         android:layout_width="wrap_content"
         android:text="@string/set_point"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <CheckBox
         android:id="@+id/check_box_show_point"

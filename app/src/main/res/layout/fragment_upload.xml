@@ -14,17 +14,6 @@
         android:src="@drawable/img_upload_on"
         tools:ignore="ContentDescription" />
 
-    <TextView
-        android:id="@+id/text_view_multimedia"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/button_upload"
-        android:layout_marginLeft="@dimen/large_dp"
-        android:layout_marginRight="@dimen/large_dp"
-        android:background="@drawable/border_gray_6"
-        android:gravity="center"
-        android:textSize="@dimen/text_size_medium"
-        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/linear_layout_spinner"
@@ -34,6 +23,15 @@
         android:layout_marginLeft="@dimen/large_dp"
         android:layout_marginRight="@dimen/large_dp"
         android:background="@drawable/border_gray_1">
+
+        <TextView
+            android:id="@+id/text_view_multimedia"
+            style="@style/InputTitle"
+            android:background="@drawable/border_gray_6"
+            android:paddingLeft="@dimen/low_dp"
+            android:paddingRight="@dimen/low_dp"
+            android:visibility="gone"
+            android:textColor="@color/text_color_dark" />
 
         <Spinner
             android:id="@+id/spinner"

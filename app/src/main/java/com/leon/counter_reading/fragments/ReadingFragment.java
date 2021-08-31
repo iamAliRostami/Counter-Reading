@@ -156,14 +156,13 @@ public class ReadingFragment extends Fragment {
         } else binding.textViewCode.setText(onOffLoadDto.eshterak);
 
         binding.textViewKarbari.setText(karbariDto.title);
-        binding.textViewBranch.setText(onOffLoadDto.qotr);
-        binding.textViewSiphon.setText(onOffLoadDto.sifoonQotr);
+        binding.textViewBranch.setText(onOffLoadDto.qotr.equals("مشخص نشده") ? "-" : onOffLoadDto.qotr);
+        binding.textViewSiphon.setText(onOffLoadDto.sifoonQotr.equals("مشخص نشده") ? "-" : onOffLoadDto.sifoonQotr);
 
         binding.textViewPreNumber.setOnClickListener(v -> {
             if (onOffLoadDto.hasPreNumber) {
                 activity.runOnUiThread(() ->
                         binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber)));
-//                binding.textViewPreNumber.setText(String.valueOf(onOffLoadDto.preNumber));
                 new UpdateOnOffLoadByIsShown(position).execute(activity);
             } else {
                 new CustomToast().warning(getString(R.string.can_not_show_pre));
