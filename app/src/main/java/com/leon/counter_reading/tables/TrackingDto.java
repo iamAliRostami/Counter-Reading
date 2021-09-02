@@ -41,4 +41,13 @@ public class TrackingDto {
         }
         return items;
     }
+
+    public static String[] getTrackingDtoItems(ArrayList<TrackingDto> trackingDtos, String last) {
+        String[] items = new String[trackingDtos.size() + 1];
+        for (int i = 0; i < trackingDtos.size(); i++) {
+            items[i] = String.valueOf(trackingDtos.get(i).trackNumber);
+        }
+        items[trackingDtos.size()] = last;
+        return items;
+    }
 }

@@ -12,7 +12,7 @@ import android.view.WindowManager;
 import androidx.fragment.app.DialogFragment;
 
 import com.leon.counter_reading.MyApplication;
-import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
+import com.leon.counter_reading.adapters.SpinnerCustomAdapterNew;
 import com.leon.counter_reading.databinding.FragmentKarbariBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.NotificationType;
@@ -30,7 +30,7 @@ public class KarbariFragment extends DialogFragment {
     int position;
     Activity activity;
     ArrayList<KarbariDto> karbariDtos;
-    ArrayList<String> items = new ArrayList<>();
+    String[] items;
 
     public KarbariFragment() {
     }
@@ -71,10 +71,11 @@ public class KarbariFragment extends DialogFragment {
     void initializeSpinner() {
         karbariDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase().
                 karbariDao().getAllKarbariDto());
-        for (KarbariDto karbariDto : karbariDtos)
-            items.add(karbariDto.title);
-        SpinnerCustomAdapter spinnerCustomAdapter = new SpinnerCustomAdapter(activity, items);
-        binding.spinnerKarbari.setAdapter(spinnerCustomAdapter);
+        items = new String[karbariDtos.size()];
+        for (int i = 0; i < karbariDtos.size(); i++)
+            items[i] = (karbariDtos.get(i).title);
+        SpinnerCustomAdapterNew spinnerCustomAdapter = new SpinnerCustomAdapterNew(activity, items);
+        binding.spinner.setAdapter(spinnerCustomAdapter);
     }
 
     void setOnButtonClickListener() {
@@ -82,7 +83,7 @@ public class KarbariFragment extends DialogFragment {
         binding.buttonSubmit.setOnClickListener(v -> {
             MyApplication.getApplicationComponent().MyDatabase().onOffLoadDao().
                     updateOnOffLoad(uuid, karbariDtos.get(
-                            binding.spinnerKarbari.getSelectedItemPosition()).moshtarakinId);
+                            binding.spinner.getSelectedItemPosition()).moshtarakinId);
             dismiss();
         });
     }

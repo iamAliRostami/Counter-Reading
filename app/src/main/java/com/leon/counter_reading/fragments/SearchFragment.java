@@ -12,14 +12,12 @@ import androidx.fragment.app.DialogFragment;
 
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
-import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
+import com.leon.counter_reading.adapters.SpinnerCustomAdapterNew;
 import com.leon.counter_reading.databinding.FragmentSearchBinding;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class SearchFragment extends DialogFragment {
@@ -68,10 +66,9 @@ public class SearchFragment extends DialogFragment {
     }
 
     void initializeSpinner() {
-        ArrayList<String> items = new ArrayList<>(
-                Arrays.asList(getResources().getStringArray(R.array.search_option)));
-        items.add(1, DifferentCompanyManager.getSecondSearchItem(DifferentCompanyManager.getActiveCompanyName()));
-        SpinnerCustomAdapter adapter = new SpinnerCustomAdapter(getActivity(), items);
+        String[] items = getResources().getStringArray(R.array.search_option);
+        items[1] = DifferentCompanyManager.getSecondSearchItem(DifferentCompanyManager.getActiveCompanyName());
+        SpinnerCustomAdapterNew adapter = new SpinnerCustomAdapterNew(getActivity(), items);
         binding.spinnerSearch.setAdapter(adapter);
         binding.spinnerSearch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

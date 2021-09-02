@@ -26,12 +26,7 @@
 
         <Spinner
             android:id="@+id/spinner"
-            style="@style/Widget.AppCompat.Spinner.DropDown"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_spinner"
-            android:popupBackground="@drawable/border_gray_5"
-            android:spinnerMode="dialog"
+            style="@style/Spinner"
             tools:listitem="@layout/item_dropdown_menu" />
 
     </RelativeLayout>

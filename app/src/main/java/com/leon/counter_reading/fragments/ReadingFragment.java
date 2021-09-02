@@ -21,6 +21,7 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
+import com.leon.counter_reading.adapters.SpinnerCustomAdapterNew;
 import com.leon.counter_reading.databinding.FragmentReadingBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.HighLowStateEnum;
@@ -42,7 +43,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class ReadingFragment extends Fragment {
-    static SpinnerCustomAdapter adapter;
+    static SpinnerCustomAdapterNew adapter;
     FragmentReadingBinding binding;
     ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     OnOffLoadDto onOffLoadDto;
@@ -60,7 +61,7 @@ public class ReadingFragment extends Fragment {
             ReadingConfigDefaultDto readingConfigDefaultDto,
             KarbariDto karbariDto,
             ArrayList<CounterStateDto> counterStateDtos,
-            SpinnerCustomAdapter adapter,
+            SpinnerCustomAdapterNew adapter,
             int position) {
         ReadingFragment fragment = new ReadingFragment();
         fragment.setArguments(putBundle(onOffLoadDto, readingConfigDefaultDto, karbariDto,
@@ -72,7 +73,7 @@ public class ReadingFragment extends Fragment {
                             ReadingConfigDefaultDto readingConfigDefaultDto,
                             KarbariDto karbariDto,
                             ArrayList<CounterStateDto> counterStateDtos,
-                            SpinnerCustomAdapter adapterTemp,
+                            SpinnerCustomAdapterNew adapterTemp,
                             int position) {
         Bundle args = new Bundle();
         Gson gson = new Gson();

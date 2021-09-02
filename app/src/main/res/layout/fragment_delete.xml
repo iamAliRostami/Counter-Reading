@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/low_dp"
-    android:background="@drawable/border_white_3"
+    style="@style/FragmentStyle"
     tools:context="com.leon.counter_reading.fragments.DeleteFragment">
 
     <View
@@ -30,15 +27,10 @@
 
         <EditText
             android:id="@+id/edit_text_username"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/border"
-            android:gravity="center"
+            style="@style/InputGray"
             android:hint="@string/username"
             android:inputType="text"
             android:lines="1"
-            android:padding="@dimen/medium_dp"
             tools:ignore="Autofill" />
 
     </LinearLayout>
@@ -61,15 +53,9 @@
 
         <EditText
             android:id="@+id/edit_text_password"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/border"
-            android:gravity="center"
+            style="@style/InputGray"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:lines="1"
-            android:padding="@dimen/medium_dp"
             tools:ignore="Autofill" />
     </LinearLayout>
 
@@ -83,27 +69,13 @@
 
         <Button
             android:id="@+id/button_close"
-            style="@style/text_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/low_dp"
-            android:layout_weight="1"
-            android:background="@drawable/border_red_1"
-            android:text="@string/close"
-            android:textColor="@color/text_color_light"
-            android:textSize="@dimen/text_size_large" />
+            style="@style/ButtonSubmit.Fragment.Error"
+            android:text="@string/close" />
 
         <Button
             android:id="@+id/button_submit"
-            style="@style/text_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/low_dp"
-            android:layout_weight="1"
-            android:background="@drawable/border_green_1"
-            android:text="@string/delete"
-            android:textColor="@color/text_color_light"
-            android:textSize="@dimen/text_size_large" />
+            style="@style/ButtonSubmit.Fragment"
+            android:text="@string/delete" />
 
     </LinearLayout>
 </RelativeLayout>

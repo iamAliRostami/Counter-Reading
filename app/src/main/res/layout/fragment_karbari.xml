@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/low_dp"
-    android:background="@drawable/border_white_3"
+    style="@style/FragmentStyle"
     tools:context=".fragments.KarbariFragment">
 
     <View
@@ -18,22 +15,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/view_1"
-        android:layout_margin="@dimen/medium_dp"
+        android:layout_marginStart="@dimen/medium_dp"
+        android:layout_marginTop="@dimen/medium_dp"
+        android:layout_marginEnd="@dimen/medium_dp"
+        android:layout_marginBottom="@dimen/medium_dp"
         android:background="@drawable/border_gray_6"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="@dimen/medium_dp">
 
         <Spinner
-            android:id="@+id/spinner_karbari"
-            style="@style/Widget.AppCompat.Spinner.DropDown"
+            android:id="@+id/spinner"
+            style="@style/Spinner"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/background_spinner"
-            android:gravity="center"
-            android:popupBackground="@drawable/border_gray_5"
-            android:spinnerMode="dialog"
             tools:listitem="@layout/item_dropdown_menu" />
     </LinearLayout>
 
@@ -52,7 +47,7 @@
         <Button
             android:id="@+id/button_close"
             style="@style/ButtonSubmit.Fragment.Error"
-            android:visibility="gone"
-            android:text="@string/close"/>
+            android:text="@string/close"
+            android:visibility="gone" />
     </LinearLayout>
 </RelativeLayout>

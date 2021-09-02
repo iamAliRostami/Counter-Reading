@@ -27,7 +27,7 @@
     </array>
     <string-array name="search_option">
         <item>@string/eshterak</item>
-        <!--        <item>@string/radif</item>-->
+        <item> </item>
         <item>@string/counter_body_number</item>
         <item>@string/name</item>
         <item>@string/page_number</item>

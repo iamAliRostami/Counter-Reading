@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.UploadActivity;
-import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
+import com.leon.counter_reading.adapters.SpinnerCustomAdapterNew;
 import com.leon.counter_reading.databinding.FragmentUploadBinding;
 import com.leon.counter_reading.di.view_model.CustomDialogModel;
 import com.leon.counter_reading.enums.BundleEnum;
@@ -35,7 +35,7 @@ public class UploadFragment extends Fragment {
     private int type;
     private FragmentUploadBinding binding;
     private Activity activity;
-    private ArrayList<String> items = new ArrayList<>();
+    private String[] items;
     private ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
 
     public static UploadFragment newInstance(int type) {
@@ -77,9 +77,7 @@ public class UploadFragment extends Fragment {
             String message = String.format(getString(R.string.unuploaded_multimedia), imagesCount, voicesCount);
             binding.textViewMultimedia.setText(message);
         } else {
-            items.clear();
-            items.addAll(TrackingDto.getTrackingDtoItems(trackingDtos));
-            items.add(0, getString(R.string.select_one));
+            items = TrackingDto.getTrackingDtoItems(trackingDtos, getString(R.string.select_one));
             setupSpinner();
         }
         binding.imageViewUpload.setImageResource(imageSrc[type - 1]);
@@ -87,7 +85,7 @@ public class UploadFragment extends Fragment {
     }
 
     void setupSpinner() {
-        SpinnerCustomAdapter spinnerCustomAdapter = new SpinnerCustomAdapter(activity, items);
+        SpinnerCustomAdapterNew spinnerCustomAdapter = new SpinnerCustomAdapterNew(activity, items);
         binding.spinner.setAdapter(spinnerCustomAdapter);
     }
 

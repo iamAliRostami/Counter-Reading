@@ -27,17 +27,17 @@ public class ViewPagerAdapterReading extends FragmentStatePagerAdapter {
     private final ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
     private final ArrayList<KarbariDto> karbariDtos = new ArrayList<>();
     private final ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
-    private final SpinnerCustomAdapter adapter;
+    private final SpinnerCustomAdapterNew adapter;
 
     public ViewPagerAdapterReading(@NonNull FragmentManager fm,
                                    ReadingData readingData, Activity activity) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         onOffLoadDtos.addAll(readingData.onOffLoadDtos);
-        final ArrayList<String> items = new ArrayList<>();
+        final String[] items = new String[readingData.counterStateDtos.size()];
         for (int i = 0; i < readingData.counterStateDtos.size(); i++) {
-            items.add(readingData.counterStateDtos.get(i).title);
+            items[i] = readingData.counterStateDtos.get(i).title;
         }
-        adapter = new SpinnerCustomAdapter(activity, items);
+        adapter = new SpinnerCustomAdapterNew(activity, items);
         counterStateDtos.addAll(readingData.counterStateDtos);
         for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
             for (ReadingConfigDefaultDto readingConfigDefaultDto : readingData.readingConfigDefaultDtos) {

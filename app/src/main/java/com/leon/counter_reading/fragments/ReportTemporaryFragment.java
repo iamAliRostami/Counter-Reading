@@ -19,7 +19,7 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.activities.ReportActivity;
-import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
+import com.leon.counter_reading.adapters.SpinnerCustomAdapterNew;
 import com.leon.counter_reading.databinding.FragmentReportTemporaryBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.ReadStatusEnum;
@@ -30,16 +30,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class ReportTemporaryFragment extends Fragment {
-    FragmentReportTemporaryBinding binding;
-    ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
-    SpinnerCustomAdapter adapter;
-    Activity activity;
-    ArrayList<String> items = new ArrayList<>();
-    int total, isMane;
-    boolean isFirst = true;
-
-    public ReportTemporaryFragment() {
-    }
+    private FragmentReportTemporaryBinding binding;
+    private ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
+    private SpinnerCustomAdapterNew adapter;
+    private Activity activity;
+    private String[] items;
+    private int total, isMane;
+    private boolean isFirst = true;
 
     public static ReportTemporaryFragment newInstance(int total, int isMane) {
         ReportTemporaryFragment fragment = new ReportTemporaryFragment();
@@ -49,15 +46,6 @@ public class ReportTemporaryFragment extends Fragment {
 
     static Bundle putBundle(int total, int isMane) {
         Bundle args = new Bundle();
-//        Gson gson = new Gson();
-//        ArrayList<String> json1 = new ArrayList<>();
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-//            counterStateDtos.forEach(counterStateDto -> json1.add(gson.toJson(counterStateDto)));
-//        else
-//            for (CounterStateDto counterStateDto : counterStateDtos) {
-//                json1.add(gson.toJson(counterStateDto));
-//            }
-//        args.putStringArrayList(BundleEnum.COUNTER_STATE.getValue(), json1);
         args.putInt(BundleEnum.TOTAL.getValue(), total);
         args.putInt(BundleEnum.IS_MANE.getValue(), isMane);
         return args;
@@ -87,7 +75,7 @@ public class ReportTemporaryFragment extends Fragment {
     }
 
     void initializeSpinner() {
-        adapter = new SpinnerCustomAdapter(activity, items);
+        adapter = new SpinnerCustomAdapterNew(activity, items);
         binding.spinner.setAdapter(adapter);
         binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -135,31 +123,15 @@ public class ReportTemporaryFragment extends Fragment {
     }
 
     void getBundle() {
-        items.clear();
-        items.add(getString(R.string.all_items));
         activity = getActivity();
         if (getArguments() != null) {
             total = getArguments().getInt(BundleEnum.TOTAL.getValue());
             isMane = getArguments().getInt(BundleEnum.IS_MANE.getValue());
             counterStateDtos = new ArrayList<>(((ReportActivity) activity).getCounterStateDtos());
-            items.addAll(CounterStateDto.getCounterStateItems(counterStateDtos));
-//            Gson gson = new Gson();
-//            ArrayList<String> json1 = getArguments().getStringArrayList(
-//                    BundleEnum.COUNTER_STATE.getValue());
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                json1.forEach(s -> {
-//                    counterStateDtos.add(gson.fromJson(s, CounterStateDto.class));
-//                    items.add(counterStateDtos.get(counterStateDtos.size() - 1).title);
-//                });
-//            } else {
-//                for (String s : json1) {
-//                    counterStateDtos.add(gson.fromJson(s, CounterStateDto.class));
-//                    items.add(counterStateDtos.get(counterStateDtos.size() - 1).title);
-//                }
-//            }
+//            items = new String[];
+            items = CounterStateDto.getCounterStateItems(counterStateDtos,
+                    getString(R.string.all_items), getString(R.string.all_mane));
         }
-
-        items.add(getString(R.string.all_mane));
     }
 
     @Override

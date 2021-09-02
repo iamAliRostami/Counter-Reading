@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
 import com.leon.counter_reading.R;
-import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
+import com.leon.counter_reading.adapters.SpinnerCustomAdapterNew;
 import com.leon.counter_reading.databinding.FragmentReadingSettingDeleteBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.tables.TrackingDto;
@@ -24,11 +24,10 @@ import java.util.ArrayList;
 
 public class ReadingSettingDeleteFragment extends Fragment {
     FragmentReadingSettingDeleteBinding binding;
-    ArrayList<String> items = new ArrayList<>();
-    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
-    ArrayList<String> json;
-    SpinnerCustomAdapter adapter;
-    Activity activity;
+    private String[] items;
+    private ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    private ArrayList<String> json;
+    private Activity activity;
 
     public ReadingSettingDeleteFragment() {
     }
@@ -95,17 +94,14 @@ public class ReadingSettingDeleteFragment extends Fragment {
     }
 
     void initializeSpinner() {
-        items.clear();
+        items = new String[trackingDtos.size() + 1];
         if (trackingDtos.size() > 0) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                trackingDtos.forEach(trackingDto -> items.add(String.valueOf(trackingDto.trackNumber)));
-            } else
-                for (TrackingDto trackingDto : trackingDtos) {
-                    items.add(String.valueOf(trackingDto.trackNumber));
-                }
+            for (int i = 0; i < trackingDtos.size(); i++) {
+                items[i + 1] = String.valueOf(trackingDtos.get(i).trackNumber);
+            }
         }
-        items.add(0, getString(R.string.all_items));
-        adapter = new SpinnerCustomAdapter(activity, items);
+        items[0] = getString(R.string.all_items);
+        SpinnerCustomAdapterNew adapter = new SpinnerCustomAdapterNew(activity, items);
         binding.spinner.setAdapter(adapter);
     }
 

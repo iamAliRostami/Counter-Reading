@@ -181,7 +181,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/border_gray_2</item>
-
+        <item name="android:textColorHint">@color/smoked</item>
         <item name="android:textColor">@color/text_color_dark</item>
         <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:padding">@dimen/medium_dp</item>
@@ -216,6 +216,7 @@
         <item name="android:padding">@dimen/low_dp</item>
         <item name="android:layout_margin">@dimen/low_dp</item>
     </style>
+
     <style name="ButtonSubmit.Fragment.Error">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -225,6 +226,7 @@
         <item name="android:padding">@dimen/low_dp</item>
         <item name="android:layout_margin">@dimen/low_dp</item>
     </style>
+
     <style name="ButtonWarning">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -384,4 +386,24 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <style name="Spinner" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:dividerHeight">@dimen/large_dp</item>
+        <item name="android:divider">#000</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="popupMenuBackground">@drawable/border_gray_5</item>
+        <item name="android:popupBackground">@drawable/border_gray_5</item>
+        <!--        <item name="backgroundTint">@color/smoked</item>-->
+        <!--        <item name="android:backgroundTint">@color/smoked</item>-->
+        <item name="background">@drawable/background_spinner</item>
+        <item name="android:background">@drawable/background_spinner</item>
+    </style>
+
+    <style name="FragmentStyle">
+        <item name="background">@drawable/border_white_3</item>
+        <item name="android:background">@drawable/border_white_3</item>
+        <item name="android:layout_margin">@dimen/low_dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>

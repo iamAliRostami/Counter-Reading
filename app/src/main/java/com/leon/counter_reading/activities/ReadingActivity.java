@@ -22,7 +22,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
-import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.adapters.ViewPagerAdapterReading;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityReadingBinding;
@@ -36,7 +35,6 @@ import com.leon.counter_reading.fragments.PossibleFragment;
 import com.leon.counter_reading.fragments.SearchFragment;
 import com.leon.counter_reading.infrastructure.IFlashLightManager;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
-import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DepthPageTransformer;
@@ -58,7 +56,6 @@ public class ReadingActivity extends BaseActivity {
     private IFlashLightManager flashLightManager;
     private ViewPagerAdapterReading viewPagerAdapterReading;
     private ISharedPreferenceManager sharedPreferenceManager;
-    private SpinnerCustomAdapter adapter;
     private int readStatus = 0, highLow = 1;
     private boolean isReading = false;
 
@@ -232,11 +229,6 @@ public class ReadingActivity extends BaseActivity {
     }
 
     public void setupViewPager() {
-        if (adapter == null) {
-            ArrayList<String> items =
-                    new ArrayList<>(CounterStateDto.getCounterStateItems(readingData.counterStateDtos));
-            adapter = new SpinnerCustomAdapter(activity, items);
-        }
         runOnUiThread(() -> {
             binding.textViewNotFound.setVisibility(readingData.onOffLoadDtos.size() > 0 ?
                     View.GONE : View.VISIBLE);
@@ -474,10 +466,6 @@ public class ReadingActivity extends BaseActivity {
             int position = data.getExtras().getInt(BundleEnum.POSITION.getValue());
             attemptSend(position, false, false);
         }
-    }
-
-    public SpinnerCustomAdapter getAdapter() {
-        return adapter;
     }
 
     @Override

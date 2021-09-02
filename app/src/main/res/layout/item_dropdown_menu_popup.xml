@@ -8,7 +8,7 @@
     android:padding="@dimen/low_dp">
 
     <CheckedTextView
-        android:id="@+id/checked_text_view"
+        android:id="@+id/text_view"
         style="?android:attr/spinnerDropDownItemStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/checked_text_view"
+        android:layout_below="@id/text_view"
         android:src="@drawable/img_bar"
         tools:ignore="ContentDescription" />
 </RelativeLayout>

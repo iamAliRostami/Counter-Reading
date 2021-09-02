@@ -51,7 +51,7 @@ public class CustomFile {
 
     public static Bitmap loadImage(Context context, String address) {
         try {
-            File f = new File(context.getExternalFilesDir(null), context.getString(R.string.camera_folder));
+            File f = new File(context.getExternalFilesDir("null"), context.getString(R.string.camera_folder));
             f = new File(f, address);
             return BitmapFactory.decodeStream(new FileInputStream(f));
         } catch (FileNotFoundException e) {

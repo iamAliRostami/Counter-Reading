@@ -12,6 +12,9 @@
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/border_gray_4.xml" value="0.2828125" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/border_gray_5.xml" value="0.2828125" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/border_gray_6.xml" value="0.2828125" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/border_green_1.xml" value="0.2640625" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/border_green_3.xml" value="0.2640625" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/drawable/border_white_3.xml" value="0.2640625" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_base.xml" value="0.2056159420289855" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_contact_us.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/activity_counter_place.xml" value="0.2" />
@@ -34,16 +37,17 @@
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/dialog_item_footer_confirm.xml" value="0.365625" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/footer.xml" value="0.536" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_ahad.xml" value="0.365625" />
-        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_are_you_sure.xml" value="0.2" />
-        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_contact_us.xml" value="0.365625" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_are_you_sure.xml" value="0.4" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_contact_us.xml" value="0.2" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_delete.xml" value="0.365625" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_download.xml" value="0.365625" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_high_fragment.xml" value="0.365625" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_high_quality.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_image.xml" value="0.365625" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_karbari.xml" value="0.365625" />
-        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_place.xml" value="0.17436661698956782" />
-        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_possible.xml" value="0.4" />
-        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_reading.xml" value="0.17436661698956782" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_place.xml" value="0.264" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_possible.xml" value="0.2" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_reading.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_reading_possible_setting.xml" value="0.2" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_reading_setting.xml" value="0.365625" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_reading_setting_delete.xml" value="0.365625" />
@@ -57,7 +61,10 @@
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_setting_update.xml" value="0.17436661698956782" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_upload.xml" value="0.4" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/item_dropdown_menu.xml" value="0.20234375" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/item_dropdown_menu_popup.xml" value="0.24375" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/item_dropdown_menu_temp.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/item_navigation_drawer_profile.xml" value="0.24375" />
+        <entry key="..\:/Programming/sdk/platforms/android-31/data/res/layout/simple_spinner_item.xml" value="0.2" />
       </map>
     </option>
   </component>
