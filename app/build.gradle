@@ -19,8 +19,8 @@ android {
         applicationId 'com.leon.counter_reading'
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 34
-        versionName "1.00.06.07"
+        versionCode 35
+        versionName "1.00.06.11"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         signingConfig signingConfigs.config
@@ -140,12 +140,12 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
 
-    ext {
-        DAGGER_VERSION = '2.35.1'
-    }
-    // Libraries For Dependency Injection Using Dagger 2
-    // implementation "com.google.dagger:dagger:$DAGGER_VERSION"
-    // implementation "com.google.dagger:dagger-android:$DAGGER_VERSION"
-    // annotationProcessor "com.google.dagger:dagger-android-processor:$DAGGER_VERSION"
-    // annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+//    ext {
+//        DAGGER_VERSION = '2.35.1'
+//    }
+//     Libraries For Dependency Injection Using Dagger 2
+//     implementation "com.google.dagger:dagger:$DAGGER_VERSION"
+//     implementation "com.google.dagger:dagger-android:$DAGGER_VERSION"
+//     annotationProcessor "com.google.dagger:dagger-android-processor:$DAGGER_VERSION"
+//     annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
 }

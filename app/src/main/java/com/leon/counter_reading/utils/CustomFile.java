@@ -51,7 +51,7 @@ public class CustomFile {
 
     public static Bitmap loadImage(Context context, String address) {
         try {
-            File f = new File(context.getExternalFilesDir("null"), context.getString(R.string.camera_folder));
+            File f = new File(context.getExternalFilesDir(null), context.getString(R.string.camera_folder));
             f = new File(f, address);
             return BitmapFactory.decodeStream(new FileInputStream(f));
         } catch (FileNotFoundException e) {
@@ -157,15 +157,11 @@ public class CustomFile {
         String timeStamp = (new SimpleDateFormat(context.getString(R.string.save_format_name))).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
+        return File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-        // Save a file: path for use with ACTION_VIEW intents
-//        MyApplication.fileName = null;
-//        MyApplication.fileName = image.getAbsolutePath();
-        return image;
     }
 
     @SuppressLint({"SimpleDateFormat"})
@@ -290,19 +286,9 @@ public class CustomFile {
         StrictMode.VmPolicy.Builder newBuilder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(newBuilder.build());//TODO Create directory
 
-        File storageDir = new File(String.valueOf(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS)));
-
-//        String root = Environment.getExternalStorageDirectory().toString();
-//        File storageDir =
-//                new File(root + File.separator + "Download" + File.separator + fileName);
+        File storageDir = new File(String.valueOf(Environment
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)));
         File toInstall = new File(storageDir, fileName);
-//        Intent intent = new Intent(Intent.ACTION_VIEW);
-//        intent.setDataAndType(
-//                Uri.fromFile(toInstall), "application/vnd.android.package-archive");
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        activity.startActivity(intent);
-
 
         Intent intent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
