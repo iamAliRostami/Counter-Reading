@@ -90,9 +90,8 @@ public class TakePhotoActivity extends AppCompatActivity {
                 new PrepareMultimedia(activity, position, result,
                         binding.editTextDescription.getText().toString().isEmpty() ?
                                 getString(R.string.description) :
-                                binding.editTextDescription.getText().toString(),
-                        images).
-                        execute(activity));
+                                binding.editTextDescription.getText().toString(), images)
+                        .execute(activity));
     }
 
     void askCameraPermission() {
@@ -182,7 +181,7 @@ public class TakePhotoActivity extends AppCompatActivity {
         Image image = new Image();
         image.OnOffLoadId = uuid;
         image.trackNumber = trackNumber;
-        image.File = CustomFile.bitmapToFile(MyApplication.BITMAP_SELECTED_IMAGE, activity);
+//        image.File = CustomFile.bitmapToFile(MyApplication.BITMAP_SELECTED_IMAGE, activity);
         image.bitmap = MyApplication.BITMAP_SELECTED_IMAGE;
         if (replace > 0) {
             MyApplication.getApplicationComponent().MyDatabase()

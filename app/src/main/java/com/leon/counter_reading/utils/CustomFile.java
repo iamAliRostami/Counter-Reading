@@ -19,6 +19,7 @@ import androidx.core.content.FileProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.leon.counter_reading.BuildConfig;
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.tables.ReadingData;
 
@@ -71,9 +72,11 @@ public class CustomFile {
             e.printStackTrace();
         }
         //Convert bitmap to byte array
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 40 /*ignored for PNG*/, bos);
-        byte[] bitmapData = bos.toByteArray();
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 99 /*ignored for PNG*/, bos);
+//        byte[] bitmapData = bos.toByteArray();
+
+        byte[] bitmapData = compressBitmap(bitmap/*, MyApplication.MAX_IMAGE_SIZE*/);
         //write the bytes in file
         FileOutputStream fos;
         try {
@@ -84,8 +87,40 @@ public class CustomFile {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        RequestBody reqFile = RequestBody.create(f, MediaType.parse("image/jpeg"));
-        return MultipartBody.Part.createFormData("File", f.getName(), reqFile);
+        RequestBody requestBody = RequestBody.create(f, MediaType.parse("image/jpeg"));
+        return MultipartBody.Part.createFormData("File", f.getName(), requestBody);
+    }
+
+    public static byte[] compressBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        Log.e("size 1", String.valueOf(stream.toByteArray().length));
+        if (stream.toByteArray().length > MyApplication.MAX_IMAGE_SIZE) {
+            int qualityPercent = (int) (100 * ((double) MyApplication.MAX_IMAGE_SIZE / stream.toByteArray().length));
+            Log.e("quality", String.valueOf(qualityPercent));
+            stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, Math.max(qualityPercent, 20), stream);
+        }
+        Log.e("size 2", String.valueOf(stream.toByteArray().length));
+
+        return stream.toByteArray();
+    }
+
+    public static byte[] compressBitmap(Bitmap bitmap, int maxSizeBytes) {
+        ByteArrayOutputStream stream;
+        int currSize;
+        int currQuality = 75;
+        do {
+            stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, currQuality, stream);
+            currSize = stream.toByteArray().length;
+            Log.e("quality", String.valueOf(currQuality));
+            Log.e("size", String.valueOf(currSize));
+            currQuality -= 5;
+
+        } while (currSize >= maxSizeBytes);
+
+        return stream.toByteArray();
     }
 
     public static String bitmapToBinary(Bitmap bitmap) {

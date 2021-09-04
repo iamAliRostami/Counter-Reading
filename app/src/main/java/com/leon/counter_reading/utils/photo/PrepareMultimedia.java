@@ -3,6 +3,7 @@ package com.leon.counter_reading.utils.photo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.leon.counter_reading.MyApplication;
@@ -53,11 +54,14 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
     protected Activity doInBackground(Activity... activities) {
         imageGrouped.File.clear();
         for (int i = 0; i < images.size(); i++) {
-            if (images.get(i).File == null)
-                images.get(i).File = CustomFile.bitmapToFile(images.get(i).bitmap, activities[0]);
             images.get(i).Description = description;
-            if (!images.get(i).isSent) {
-                imageGrouped.File.add(images.get(i).File);
+//            if (images.get(i).File == null)
+//                images.get(i).File = CustomFile.bitmapToFile(images.get(i).bitmap, activities[0]);
+//            if (!images.get(i).isSent) {
+//                imageGrouped.File.add(images.get(i).File);
+
+            if (!images.get(i).isSent && images.get(i).File == null) {
+                imageGrouped.File.add(CustomFile.bitmapToFile(images.get(i).bitmap, activities[0]));
             }
         }
         return activities[0];
@@ -77,16 +81,17 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
 
     void uploadImage(Activity activity) {
         if (imageGrouped.File.size() > 0) {
-            imageGrouped.OnOffLoadId = RequestBody.create(
-                    images.get(0).OnOffLoadId, MediaType.parse("text/plain"));
-            imageGrouped.Description = RequestBody.create(
-                    images.get(0).Description, MediaType.parse("text/plain"));
+            imageGrouped.OnOffLoadId = RequestBody.create(images.get(0).OnOffLoadId,
+                    MediaType.parse("text/plain"));
+            imageGrouped.Description = RequestBody.create(images.get(0).Description,
+                    MediaType.parse("text/plain"));
             Retrofit retrofit = MyApplication.getApplicationComponent().Retrofit();
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-            Call<MultimediaUploadResponse> call = iAbfaService.fileUploadGrouped(
-                    imageGrouped.File, imageGrouped.OnOffLoadId, imageGrouped.Description);
-            HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                    new UploadImages(activity), new UploadImagesIncomplete(activity), new UploadImagesError(activity));
+            Call<MultimediaUploadResponse> call = iAbfaService.fileUploadGrouped(imageGrouped.File,
+                    imageGrouped.OnOffLoadId, imageGrouped.Description);
+            HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW_CANCELABLE.getValue(), activity,
+                    new UploadImages(activity), new UploadImagesIncomplete(activity),
+                    new UploadImagesError(activity));
         } else if (result) {
             setResult(activity, true);
         } else {

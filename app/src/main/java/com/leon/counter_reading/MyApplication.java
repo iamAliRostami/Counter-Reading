@@ -51,6 +51,7 @@ public class MyApplication extends Application {
     public static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
     public static final long MIN_TIME_BW_UPDATES = 10000;
     public static final long FASTEST_INTERVAL = 10000;
+    public static final int MAX_IMAGE_SIZE = 200000;
 
     public static int POSITION = -1;
     public static Bitmap BITMAP_SELECTED_IMAGE;

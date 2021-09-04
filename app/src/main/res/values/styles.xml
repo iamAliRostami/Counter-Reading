@@ -337,6 +337,7 @@
         <item name="android:maxLength">2</item>
         <item name="android:gravity">center</item>
         <item name="background">@drawable/border</item>
+        <item name="android:textColor">@color/text_color_dark</item>
         <item name="android:background">@drawable/border</item>
         <item name="maxLines">1</item>
         <item name="android:padding">@dimen/low_dp</item>
