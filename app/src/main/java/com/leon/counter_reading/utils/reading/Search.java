@@ -54,7 +54,8 @@ public class Search extends AsyncTask<Activity, Void, Void> {
                         break;
                     case 1:
                         while (i < readingData.onOffLoadDtos.size() && !found) {
-                            found = readingData.onOffLoadDtos.get(i).radif == Integer.parseInt(key);
+//                            found = readingData.onOffLoadDtos.get(i).radif == Integer.parseInt(key);
+                            found = String.valueOf(readingData.onOffLoadDtos.get(i).radif).contains(key);
                             i++;
                         }
                         break;
@@ -88,13 +89,14 @@ public class Search extends AsyncTask<Activity, Void, Void> {
                     case 1:
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             readingDataTemp.onOffLoadDtos.forEach(onOffLoadDto -> {
-
-                                if (onOffLoadDto.radif == Integer.parseInt(key))
+//                                if (onOffLoadDto.radif == Integer.parseInt(key))
+                                if (String.valueOf(onOffLoadDto.radif).contains(key))
                                     readingData.onOffLoadDtos.add(onOffLoadDto);
                             });
                         } else
                             for (OnOffLoadDto onOffLoadDto : readingDataTemp.onOffLoadDtos) {
-                                if (onOffLoadDto.radif == Integer.parseInt(key))
+//                                if (onOffLoadDto.radif == Integer.parseInt(key))
+                                if (String.valueOf(onOffLoadDto.radif).contains(key))
                                     readingData.onOffLoadDtos.add(onOffLoadDto);
                             }
                         break;

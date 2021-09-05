@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Random;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -64,7 +65,7 @@ public class CustomFile {
     @SuppressLint("SimpleDateFormat")
     public static MultipartBody.Part bitmapToFile(Bitmap bitmap, Context context) {
         String timeStamp = (new SimpleDateFormat(context.getString(R.string.save_format_name))).format(new Date());
-        String fileNameToSave = "JPEG_" + timeStamp + ".jpg";
+        String fileNameToSave = "JPEG_" + new Random().nextInt() + "_" + timeStamp + ".jpg";
         File f = new File(context.getCacheDir(), fileNameToSave);
         try {
             f.createNewFile();
@@ -106,16 +107,33 @@ public class CustomFile {
         return stream.toByteArray();
     }
 
-    public static byte[] compressBitmap(Bitmap bitmap, int maxSizeBytes) {
-        ByteArrayOutputStream stream;
+    public static byte[] compressBitmap(String file, int width, int height, int maxSizeBytes) {
+        BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
+        bmpFactoryOptions.inJustDecodeBounds = true;
+        Bitmap bitmap;
+
+        int heightRatio = (int) Math.ceil(bmpFactoryOptions.outHeight / (float) height);
+        int widthRatio = (int) Math.ceil(bmpFactoryOptions.outWidth / (float) width);
+
+        if (heightRatio > 1 || widthRatio > 1) {
+            if (heightRatio > widthRatio) {
+                bmpFactoryOptions.inSampleSize = heightRatio;
+            } else {
+                bmpFactoryOptions.inSampleSize = widthRatio;
+            }
+        }
+
+        bmpFactoryOptions.inJustDecodeBounds = false;
+        bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
         int currSize;
-        int currQuality = 75;
+        int currQuality = 100;
+
         do {
-            stream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, currQuality, stream);
             currSize = stream.toByteArray().length;
-            Log.e("quality", String.valueOf(currQuality));
-            Log.e("size", String.valueOf(currSize));
+            // limit quality by 5 percent every time
             currQuality -= 5;
 
         } while (currSize >= maxSizeBytes);
@@ -181,8 +199,6 @@ public class CustomFile {
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         StringBuilder stringBuilder = (new StringBuilder()).append("file:");
         Objects.requireNonNull(image);
-//        MyApplication.fileName = null;
-//        MyApplication.fileName = stringBuilder.append(image.getAbsolutePath()).toString();
         return image;
     }
 
@@ -297,18 +313,17 @@ public class CustomFile {
                     runFile(activity, fileName);
                     return true;
                 } catch (IOException e) {
-                    Log.e("error", e.toString());
+                    e.printStackTrace();
                 } finally {
                     if (inputStream != null) {
                         inputStream.close();
                     }
-
                     if (outputStream != null) {
                         outputStream.close();
                     }
                 }
             } catch (IOException e) {
-                Log.e("error", e.toString());
+                e.printStackTrace();
             }
         } else {
             new CustomToast().warning(
@@ -320,11 +335,9 @@ public class CustomFile {
     public static void runFile(Activity activity, String fileName) {
         StrictMode.VmPolicy.Builder newBuilder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(newBuilder.build());//TODO Create directory
-
         File storageDir = new File(String.valueOf(Environment
                 .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)));
         File toInstall = new File(storageDir, fileName);
-
         Intent intent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Uri apkUri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID +
