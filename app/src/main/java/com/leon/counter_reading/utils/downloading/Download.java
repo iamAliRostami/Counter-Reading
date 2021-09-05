@@ -79,8 +79,8 @@ class DownloadCompleted implements ICallback<ReadingData> {
             ReadingData readingData = response.body();
             ReadingData readingDataTemp = response.body();
             MyDatabase myDatabase = MyApplication.getApplicationComponent().MyDatabase();
-            ArrayList<TrackingDto> trackingDtos = new ArrayList<>(
-                    myDatabase.trackingDao().getTrackingDtoNotArchive(false));
+            ArrayList<TrackingDto> trackingDtos = new ArrayList<>(myDatabase.trackingDao()
+                    .getTrackingDtoNotArchive(false));
             final boolean[] isActive = {false};
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

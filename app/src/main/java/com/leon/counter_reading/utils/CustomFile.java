@@ -97,10 +97,24 @@ public class CustomFile {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         Log.e("size 1", String.valueOf(stream.toByteArray().length));
         if (stream.toByteArray().length > MyApplication.MAX_IMAGE_SIZE) {
-            int qualityPercent = (int) (100 * ((double) MyApplication.MAX_IMAGE_SIZE / stream.toByteArray().length));
+//            int qualityPercent = (int) (100 * ((double) MyApplication.MAX_IMAGE_SIZE / stream.toByteArray().length));
+//            int qualityPercent = Math.max((int)
+//                            (100 * ((double) MyApplication.MAX_IMAGE_SIZE / stream.toByteArray().length))
+//                    , 20);
+            int qualityPercent = Math.max((int) ((double)
+                    stream.toByteArray().length / MyApplication.MAX_IMAGE_SIZE), 20);
             Log.e("quality", String.valueOf(qualityPercent));
+            Log.e("Height", String.valueOf(bitmap.getHeight()));
+            Log.e("Width", String.valueOf(bitmap.getWidth()));
+
+            bitmap = Bitmap.createScaledBitmap(bitmap
+                    , (int) ((double) bitmap.getWidth() * qualityPercent / 100)
+                    , (int) ((double) bitmap.getHeight() * qualityPercent / 100), false);
+            Log.e("Height", String.valueOf(bitmap.getHeight()));
+            Log.e("Width", String.valueOf(bitmap.getWidth()));
             stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, Math.max(qualityPercent, 20), stream);
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, Math.max(qualityPercent, 20), stream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, /*qualityPercent*/100, stream);
         }
         Log.e("size 2", String.valueOf(stream.toByteArray().length));
 
@@ -116,11 +130,7 @@ public class CustomFile {
         int widthRatio = (int) Math.ceil(bmpFactoryOptions.outWidth / (float) width);
 
         if (heightRatio > 1 || widthRatio > 1) {
-            if (heightRatio > widthRatio) {
-                bmpFactoryOptions.inSampleSize = heightRatio;
-            } else {
-                bmpFactoryOptions.inSampleSize = widthRatio;
-            }
+            bmpFactoryOptions.inSampleSize = Math.max(heightRatio, widthRatio);
         }
 
         bmpFactoryOptions.inJustDecodeBounds = false;

@@ -15,11 +15,11 @@ import com.leon.counter_reading.utils.MyDatabase;
 import java.util.ArrayList;
 
 public class GetReportDBData extends AsyncTask<Activity, Integer, Integer> {
-    CustomProgressBar customProgressBar;
-    MyDatabase myDatabase;
-    int zero, normal, high, low, unread, total, isMane;
-    ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
-    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    private final CustomProgressBar customProgressBar;
+    private final MyDatabase myDatabase;
+    private int zero, normal, high, low, unread, total, isMane;
+    private final ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
+    private final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
 
     public GetReportDBData(Activity activity) {
         super();
@@ -82,7 +82,6 @@ public class GetReportDBData extends AsyncTask<Activity, Integer, Integer> {
         activities[0].runOnUiThread(() -> ((ReportActivity) (activities[0])).
                 setupViewPager(counterStateDtos, trackingDtos,
                         zero, normal, high, low, total, isMane, unread));
-//        runOnUiThread(ReportActivity.this::setupViewPager);
         return null;
     }
 }
