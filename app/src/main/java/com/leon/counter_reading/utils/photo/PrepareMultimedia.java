@@ -143,7 +143,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
             } else {
                 new CustomToast().warning(activity.getString(R.string.error_upload), Toast.LENGTH_LONG);
             }
-            saveImages(response.body() != null && response.body().status == 200, activity);
+//            saveImages(response.body() != null && response.body().status == 200, activity);
             setResult(activity, result);
         }
     }

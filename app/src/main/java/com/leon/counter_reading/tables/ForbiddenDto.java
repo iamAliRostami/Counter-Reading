@@ -50,13 +50,13 @@ public class ForbiddenDto {
         this.tedadVahed = Integer.parseInt(tedadVahed);
         this.zoneId = zoneId;
         forbiddenDtoRequest = new ForbiddenDtoRequest();
-        prepareRequestBody(File, zoneId, description, preEshterak, nextEshterak, tedadVahed, x, y, gisAccuracy);
+        prepareRequestBody(/*File,*/ zoneId, description, preEshterak, nextEshterak, tedadVahed, x, y, gisAccuracy);
     }
 
-    void prepareRequestBody(ArrayList<MultipartBody.Part> file, int zoneId, String description,
+    void prepareRequestBody(/*ArrayList<MultipartBody.Part> file,*/ int zoneId, String description,
                             String preEshterak, String nextEshterak, String tedadVahed,
                             double x, double y, double gisAccuracy) {
-        File.addAll(file);
+//        File.addAll(file);
         forbiddenDtoRequest.description = RequestBody.create(description, MediaType.parse("text/plain"));
         forbiddenDtoRequest.preEshterak = RequestBody.create(preEshterak, MediaType.parse("text/plain"));
         forbiddenDtoRequest.nextEshterak = RequestBody.create(nextEshterak, MediaType.parse("text/plain"));

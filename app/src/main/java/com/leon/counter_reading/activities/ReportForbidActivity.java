@@ -18,6 +18,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -369,6 +370,7 @@ public class ReportForbidActivity extends AppCompatActivity {
             binding.relativeLayoutImage.setVisibility(View.VISIBLE);
             binding.imageViewTaken.setImageBitmap(MyApplication.BITMAP_SELECTED_IMAGE);
             forbiddenDto.File.add(CustomFile.bitmapToFile(MyApplication.BITMAP_SELECTED_IMAGE, activity));
+            Log.e("size", String.valueOf(forbiddenDto.File.size()));
         }
     }
 
