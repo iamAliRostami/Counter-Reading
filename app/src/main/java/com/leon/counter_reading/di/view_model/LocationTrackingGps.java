@@ -29,25 +29,17 @@ public class LocationTrackingGps implements ILocationTracking {
     private static boolean isRegistered = false;
     private volatile static Location location;
 
+    @Inject
+    public LocationTrackingGps(Context context) {
+        registerLocationListeners(context);
+    }
+
     public static synchronized LocationTrackingGps getInstance(Context context) {
         if (instance == null) {
             instance = new LocationTrackingGps(context);
         }
 
         return instance;
-    }
-
-    @Inject
-    public LocationTrackingGps(Context context) {
-        registerLocationListeners(context);
-    }
-
-    public synchronized boolean isRegistered() {
-        return isRegistered;
-    }
-
-    public synchronized boolean hasLocation() {
-        return location != null;
     }
 
     @SuppressLint("MissingPermission")
@@ -102,6 +94,37 @@ public class LocationTrackingGps implements ILocationTracking {
         };
     }
 
+    @SuppressLint("MissingPermission")
+    private static Location getBestLastKnownLocation(Context context) {
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.NO_REQUIREMENT);
+        Location bestLocation = null;
+        List<String> providers = locationManager.getProviders(criteria, false);
+        for (String provider : providers) {
+            Location location = locationManager.getLastKnownLocation(provider);
+            if (location != null) {
+
+                if (bestLocation == null) {
+                    bestLocation = location;
+                } else {
+                    if (location.getTime() > bestLocation.getTime())
+                        bestLocation = location;
+                }
+            }
+        }
+        instance.addLocation(bestLocation);
+        return bestLocation;
+    }
+
+    public synchronized boolean isRegistered() {
+        return isRegistered;
+    }
+
+    public synchronized boolean hasLocation() {
+        return location != null;
+    }
+
     @Override
     @SuppressLint("MissingPermission")
     public Location getCurrentLocation(Context context) {
@@ -131,29 +154,6 @@ public class LocationTrackingGps implements ILocationTracking {
             removeLocationListeners();
             return null;
         }
-    }
-
-    @SuppressLint("MissingPermission")
-    private static Location getBestLastKnownLocation(Context context) {
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.NO_REQUIREMENT);
-        Location bestLocation = null;
-        List<String> providers = locationManager.getProviders(criteria, false);
-        for (String provider : providers) {
-            Location location = locationManager.getLastKnownLocation(provider);
-            if (location != null) {
-
-                if (bestLocation == null) {
-                    bestLocation = location;
-                } else {
-                    if (location.getTime() > bestLocation.getTime())
-                        bestLocation = location;
-                }
-            }
-        }
-        instance.addLocation(bestLocation);
-        return bestLocation;
     }
 
     @Override

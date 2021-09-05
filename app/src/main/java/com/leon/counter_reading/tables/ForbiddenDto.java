@@ -54,8 +54,8 @@ public class ForbiddenDto {
     }
 
     void prepareRequestBody(/*ArrayList<MultipartBody.Part> file,*/ int zoneId, String description,
-                            String preEshterak, String nextEshterak, String tedadVahed,
-                            double x, double y, double gisAccuracy) {
+                                                                    String preEshterak, String nextEshterak, String tedadVahed,
+                                                                    double x, double y, double gisAccuracy) {
 //        File.addAll(file);
         forbiddenDtoRequest.description = RequestBody.create(description, MediaType.parse("text/plain"));
         forbiddenDtoRequest.preEshterak = RequestBody.create(preEshterak, MediaType.parse("text/plain"));

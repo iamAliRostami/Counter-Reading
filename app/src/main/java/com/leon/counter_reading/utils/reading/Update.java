@@ -5,7 +5,6 @@ import static com.leon.counter_reading.MyApplication.readingData;
 import android.app.Activity;
 import android.location.Location;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.leon.counter_reading.MyApplication;
 

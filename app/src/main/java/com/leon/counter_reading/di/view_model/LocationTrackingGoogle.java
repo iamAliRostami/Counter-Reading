@@ -25,8 +25,6 @@ import com.leon.counter_reading.tables.SavedLocation;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.inject.Inject;
-
 public class LocationTrackingGoogle extends Service implements ILocationTracking {
     private static LocationTrackingGoogle instance;
     private static FusedLocationProviderClient fusedLocationClient;
@@ -35,14 +33,7 @@ public class LocationTrackingGoogle extends Service implements ILocationTracking
     private static LocationCallback locationCallback;
     private final OnSuccessListener<Location> onSuccessListener = this::addLocation;
 
-    public static synchronized LocationTrackingGoogle getInstance(Activity activity) {
-        if (instance == null) {
-            instance = new LocationTrackingGoogle(activity);
-        }
-        return instance;
-    }
-
-//    @Inject
+    //    @Inject
     public LocationTrackingGoogle(Activity activity) {
         locationCallback = new LocationCallback() {
             @Override
@@ -53,6 +44,13 @@ public class LocationTrackingGoogle extends Service implements ILocationTracking
             }
         };
         startFusedLocation(activity);
+    }
+
+    public static synchronized LocationTrackingGoogle getInstance(Activity activity) {
+        if (instance == null) {
+            instance = new LocationTrackingGoogle(activity);
+        }
+        return instance;
     }
 
     void startFusedLocation(Activity activity) {

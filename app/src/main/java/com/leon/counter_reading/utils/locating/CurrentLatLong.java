@@ -2,15 +2,14 @@ package com.leon.counter_reading.utils.locating;
 
 public class CurrentLatLong {
     private final float MinAccuracy = 1;
-
+    // NB: units irrelevant, as long as same units used
+    // throughout
+    public int consecutiveRejectCount;
     private float Q_metres_per_second;
     private long TimeStamp_milliseconds;
     private double lat;
     private double lng;
     private float variance; // P matrix. Negative means object uninitialised.
-    // NB: units irrelevant, as long as same units used
-    // throughout
-    public int consecutiveRejectCount;
 
     public CurrentLatLong(float Q_metres_per_second) {
         this.Q_metres_per_second = Q_metres_per_second;

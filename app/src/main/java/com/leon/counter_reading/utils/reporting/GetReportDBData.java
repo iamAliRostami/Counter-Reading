@@ -17,9 +17,9 @@ import java.util.ArrayList;
 public class GetReportDBData extends AsyncTask<Activity, Integer, Integer> {
     private final CustomProgressBar customProgressBar;
     private final MyDatabase myDatabase;
-    private int zero, normal, high, low, unread, total, isMane;
     private final ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     private final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    private int zero, normal, high, low, unread, total, isMane;
 
     public GetReportDBData(Activity activity) {
         super();

@@ -2,7 +2,6 @@ package com.leon.counter_reading.utils.downloading;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.widget.Toast;
 
 import com.leon.counter_reading.BuildConfig;
@@ -83,28 +82,16 @@ class DownloadCompleted implements ICallback<ReadingData> {
                     .getTrackingDtoNotArchive(false));
             final boolean[] isActive = {false};
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                trackingDtos.forEach(trackingDto -> {
-                    for (int i = 0; i < readingDataTemp.trackingDtos.size(); i++) {
-                        if (trackingDto.id.equals(readingDataTemp.trackingDtos.get(i).id) ||
-                                trackingDto.trackNumber == readingDataTemp.trackingDtos.get(i).trackNumber)
-                            readingData.trackingDtos.remove(readingDataTemp.trackingDtos.get(i));
-                        if (trackingDto.isActive)
+            for (int i = 0, trackingDtosSize = trackingDtos.size(); i < trackingDtosSize; i++) {
+                TrackingDto trackingDtoI = trackingDtos.get(i);
+                for (int j = 0, dtosSize = readingDataTemp.trackingDtos.size(); j < dtosSize; j++) {
+                    TrackingDto trackingDtoJ = readingDataTemp.trackingDtos.get(j);
+                    if (trackingDtoI.id.equals(trackingDtoJ.id) ||
+                            trackingDtoI.trackNumber == trackingDtoJ.trackNumber) {
+                        readingData.trackingDtos.remove(trackingDtoJ);
+                        if (trackingDtoI.isActive)
                             isActive[0] = true;
                     }
-                });
-            } else {
-                for (TrackingDto trackingDto : trackingDtos) {
-                    for (TrackingDto trackingDto1 : readingDataTemp.trackingDtos) {
-                        if (trackingDto.id.equals(trackingDto1.id) ||
-                                trackingDto.trackNumber == trackingDto1.trackNumber) {
-                            myDatabase.trackingDao().updateTrackingDtoByArchive(trackingDto.id,
-                                    false, false);
-                            readingData.trackingDtos.remove(trackingDto1);
-                        }
-                    }
-                    if (trackingDto.isActive)
-                        isActive[0] = true;
                 }
             }
             if (readingData.trackingDtos.size() > 0) {
@@ -119,47 +106,57 @@ class DownloadCompleted implements ICallback<ReadingData> {
 //            Log.e("length", String.valueOf(endTime - startTime));
             ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>(
                     myDatabase.counterStateDao().getCounterStateDtos());
-            for (CounterStateDto counterStateDto : counterStateDtos)
+            for (int j = 0, counterStateDtosSize = counterStateDtos.size(); j < counterStateDtosSize; j++) {
+                CounterStateDto counterStateDto = counterStateDtos.get(j);
                 for (int i = 0; i < readingDataTemp.counterStateDtos.size(); i++) {
                     if (counterStateDto.id == readingDataTemp.counterStateDtos.get(i).id)
                         readingData.counterStateDtos.remove(
                                 readingDataTemp.counterStateDtos.get(i));
                 }
+            }
             myDatabase.counterStateDao().insertAllCounterStateDto(readingData.counterStateDtos);
 
             ArrayList<KarbariDto> karbariDtos = new ArrayList<>(
                     myDatabase.karbariDao().getAllKarbariDto());
-            for (KarbariDto karbariDto : karbariDtos)
+            for (int j = 0, karbariDtosSize = karbariDtos.size(); j < karbariDtosSize; j++) {
+                KarbariDto karbariDto = karbariDtos.get(j);
                 for (int i = 0; i < readingDataTemp.karbariDtos.size(); i++) {
                     if (karbariDto.id == readingDataTemp.karbariDtos.get(i).id)
                         readingData.karbariDtos.remove(readingDataTemp.karbariDtos.get(i));
                 }
+            }
             myDatabase.karbariDao().insertAllKarbariDtos(readingData.karbariDtos);
 
             ArrayList<QotrDictionary> qotrDictionaries = new ArrayList<>(
                     myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
-            for (QotrDictionary qotrDictionary : qotrDictionaries)
+            for (int j = 0, qotrDictionariesSize = qotrDictionaries.size(); j < qotrDictionariesSize; j++) {
+                QotrDictionary qotrDictionary = qotrDictionaries.get(j);
                 for (int i = 0; i < readingDataTemp.qotrDictionary.size(); i++) {
                     if (qotrDictionary.id == readingDataTemp.qotrDictionary.get(i).id)
                         readingData.qotrDictionary.remove(readingDataTemp.qotrDictionary.get(i));
                 }
+            }
             myDatabase.qotrDictionaryDao().insertQotrDictionaries(readingData.qotrDictionary);
 
             ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>(
                     myDatabase.readingConfigDefaultDao().getReadingConfigDefaultDtos());
-            for (ReadingConfigDefaultDto readingConfigDefaultDto : readingConfigDefaultDtos)
+            for (int j = 0, readingConfigDefaultDtosSize = readingConfigDefaultDtos.size();
+                 j < readingConfigDefaultDtosSize; j++) {
+                ReadingConfigDefaultDto readingConfigDefaultDto = readingConfigDefaultDtos.get(j);
                 for (int i = 0; i < readingDataTemp.readingConfigDefaultDtos.size(); i++) {
                     if (readingConfigDefaultDto.id.equals(
                             readingDataTemp.readingConfigDefaultDtos.get(i).id)) readingData.
                             readingConfigDefaultDtos.remove(readingDataTemp.
                             readingConfigDefaultDtos.get(i));
                 }
+            }
             myDatabase.readingConfigDefaultDao().insertAllReadingConfigDefault(
                     readingData.readingConfigDefaultDtos);
 
             ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>(
                     myDatabase.onOffLoadDao().getAllOnOffLoad());
-            for (OnOffLoadDto onOffLoadDto : onOffLoadDtos)
+            for (int j = 0, onOffLoadDtosSize = onOffLoadDtos.size(); j < onOffLoadDtosSize; j++) {
+                OnOffLoadDto onOffLoadDto = onOffLoadDtos.get(j);
                 for (int i = 0; i < readingDataTemp.onOffLoadDtos.size(); i++) {
                     if (onOffLoadDto.id.equals(readingDataTemp.onOffLoadDtos.get(i).id) &&
                             onOffLoadDto.trackingId.equals(readingDataTemp.onOffLoadDtos.get(i).trackingId)
@@ -167,6 +164,7 @@ class DownloadCompleted implements ICallback<ReadingData> {
                         readingData.onOffLoadDtos.remove(readingDataTemp.onOffLoadDtos.get(i));
                     }
                 }
+            }
             myDatabase.onOffLoadDao().insertAllOnOffLoad(readingData.onOffLoadDtos);
 
             if (readingData.counterReportDtos.size() > 0) {

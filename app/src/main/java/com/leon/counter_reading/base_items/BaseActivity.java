@@ -62,13 +62,23 @@ import java.util.List;
 
 public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static ActivityComponent activityComponent;
     private Activity activity;
     private Toolbar toolbar;
     private List<DrawerItem> dataList;
     private ActivityBaseBinding binding;
     private ISharedPreferenceManager sharedPreferenceManager;
     private boolean exit = false;
-    private static ActivityComponent activityComponent;
+
+    public static ActivityComponent getActivityComponent() {
+        return activityComponent;
+    }
+
+    public static ILocationTracking getLocationTracker(Activity activity) {
+        return CheckSensor.checkSensor(activity) ?
+                activityComponent.LocationTrackingGoogle() :
+                activityComponent.LocationTrackingGps();
+    }
 
     protected abstract void initialize();
 
@@ -293,16 +303,6 @@ public abstract class BaseActivity extends AppCompatActivity
                 else PermissionManager.enableNetwork(this);
             }
         }
-    }
-
-    public static ActivityComponent getActivityComponent() {
-        return activityComponent;
-    }
-
-    public static ILocationTracking getLocationTracker(Activity activity) {
-        return CheckSensor.checkSensor(activity) ?
-                activityComponent.LocationTrackingGoogle() :
-                activityComponent.LocationTrackingGps();
     }
 
     @Override
