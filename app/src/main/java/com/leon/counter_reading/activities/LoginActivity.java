@@ -173,6 +173,9 @@ public class LoginActivity extends AppCompatActivity {
             cancel = true;
         }
         if (!cancel) {
+            if (counter > 0 && !username.equals(binding.editTextUsername.getText().toString())
+                    && !password.equals(binding.editTextPassword.getText().toString()))
+                counter = 0;
             username = binding.editTextUsername.getText().toString();
             password = binding.editTextPassword.getText().toString();
             if (isLogin && isNetworkAvailable(activity)) {
