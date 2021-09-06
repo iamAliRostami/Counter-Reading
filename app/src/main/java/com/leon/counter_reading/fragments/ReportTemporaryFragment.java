@@ -3,9 +3,7 @@ package com.leon.counter_reading.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,30 +85,26 @@ public class ReportTemporaryFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ReadingActivity.class);
                 Gson gson = new Gson();
                 ArrayList<String> json1 = new ArrayList<>();
-                Log.e("position", String.valueOf(position));
                 if (position == 0) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        counterStateDtos.forEach(counterStateDto -> json1.add(gson.toJson(counterStateDto.id)));
-                    } else
-                        for (CounterStateDto counterStateDto : counterStateDtos) {
-                            json1.add(gson.toJson(counterStateDto.id));
-                        }
+                    for (int i = 0, counterStateDtosSize = counterStateDtos.size(); i < counterStateDtosSize; i++) {
+                        CounterStateDto counterStateDto = counterStateDtos.get(i);
+                        json1.add(gson.toJson(counterStateDto.id));
+                    }
                 } else if (position > counterStateDtos.size()) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        counterStateDtos.forEach(counterStateDto -> {
-                            if (counterStateDto.isMane)
-                                json1.add(gson.toJson(counterStateDto.id));
-                        });
-                    } else
-                        for (CounterStateDto counterStateDto : counterStateDtos) {
-                            if (counterStateDto.isMane)
-                                json1.add(gson.toJson(counterStateDto.id));
-                        }
+                    for (int i = 0, counterStateDtosSize = counterStateDtos.size(); i < counterStateDtosSize; i++) {
+                        CounterStateDto counterStateDto = counterStateDtos.get(i);
+                        if (counterStateDto.isMane)
+                            json1.add(gson.toJson(counterStateDto.id));
+                    }
                 } else {
                     json1.add(gson.toJson(counterStateDtos.get(position - 1).id));
                 }
+                if (position == counterStateDtos.size() + 2) {
+                    intent.putExtra(BundleEnum.READ_STATUS.getValue(), ReadStatusEnum.ALL_MANE_UNREAD.getValue());
+                } else {
+                    intent.putExtra(BundleEnum.READ_STATUS.getValue(), ReadStatusEnum.ALL_MANE.getValue());
+                }
                 intent.putExtra(BundleEnum.IS_MANE.getValue(), json1);
-                intent.putExtra(BundleEnum.READ_STATUS.getValue(), ReadStatusEnum.ALL_MANE.getValue());
                 MyApplication.POSITION = 1;
                 startActivity(intent);
             }
@@ -129,8 +123,10 @@ public class ReportTemporaryFragment extends Fragment {
             isMane = getArguments().getInt(BundleEnum.IS_MANE.getValue());
             counterStateDtos = new ArrayList<>(((ReportActivity) activity).getCounterStateDtos());
 //            items = new String[];
-            items = CounterStateDto.getCounterStateItems(counterStateDtos,
-                    getString(R.string.all_items), getString(R.string.all_mane));
+            items = CounterStateDto.getCounterStateItems(counterStateDtos, new String[]
+                    {getString(R.string.all_items),
+                            getString(R.string.all_mane),
+                            getString(R.string.all_mane_unread)});
         }
     }
 

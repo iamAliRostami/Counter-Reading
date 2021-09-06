@@ -3,7 +3,6 @@ package com.leon.counter_reading.utils.reading;
 import static com.leon.counter_reading.MyApplication.IS_MANE;
 
 import android.os.AsyncTask;
-import android.os.Build;
 
 import com.google.gson.Gson;
 
@@ -22,12 +21,10 @@ public class GetBundle extends AsyncTask<Void, Void, Void> {
         if (json != null) {
             Gson gson = new Gson();
             IS_MANE.clear();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                json.forEach(s -> IS_MANE.add(gson.fromJson(s, Integer.class)));
-            } else
-                for (String s : json) {
-                    IS_MANE.add(gson.fromJson(s, Integer.class));
-                }
+            for (int i = 0, jsonSize = json.size(); i < jsonSize; i++) {
+                String s = json.get(i);
+                IS_MANE.add(gson.fromJson(s, Integer.class));
+            }
         }
         return null;
     }

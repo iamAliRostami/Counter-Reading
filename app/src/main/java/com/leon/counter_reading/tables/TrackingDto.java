@@ -44,10 +44,10 @@ public class TrackingDto {
 
     public static String[] getTrackingDtoItems(ArrayList<TrackingDto> trackingDtos, String last) {
         String[] items = new String[trackingDtos.size() + 1];
+        items[0] = last;
         for (int i = 0; i < trackingDtos.size(); i++) {
-            items[i] = String.valueOf(trackingDtos.get(i).trackNumber);
+            items[i+1] = String.valueOf(trackingDtos.get(i).trackNumber);
         }
-        items[trackingDtos.size()] = last;
         return items;
     }
 }

@@ -176,6 +176,7 @@
     <string name="from">از</string>
     <string name="all_items">همه موارد</string>
     <string name="all_mane">همه موانع</string>
+    <string name="all_mane_unread">قرائت نشده و موانع</string>
 
     <string name="there_is_no_images">تصویری برای بارگذاری وجود ندارد.</string>
     <string name="there_is_no_message">پیامی برای بارگذاری وجود ندارد.</string>

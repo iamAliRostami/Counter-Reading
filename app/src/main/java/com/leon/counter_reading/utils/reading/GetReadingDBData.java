@@ -7,7 +7,6 @@ import static com.leon.counter_reading.MyApplication.readingDataTemp;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.os.Build;
 
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.enums.OffloadStateEnum;
@@ -55,58 +54,44 @@ public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
         readingData.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
         readingData.trackingDtos.addAll(myDatabase.trackingDao().
                 getTrackingDtosIsActiveNotArchive(true, false));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            readingData.trackingDtos.forEach(trackingDto ->
-                    readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
-                            getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId)));
-        } else {
-            for (TrackingDto dto : readingData.trackingDtos) {
-                readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
-                        getReadingConfigDefaultDtosByZoneId(dto.zoneId));
+        for (int i = 0, trackingDtosSize = readingData.trackingDtos.size(); i < trackingDtosSize; i++) {
+            TrackingDto trackingDto = readingData.trackingDtos.get(i);
+            readingData.readingConfigDefaultDtos.addAll(myDatabase.readingConfigDefaultDao().
+                    getReadingConfigDefaultDtosByZoneId(trackingDto.zoneId));
+        }
+
+        for (int j = 0, trackingDtosSize = readingData.trackingDtos.size(); j < trackingDtosSize; j++) {
+            TrackingDto trackingDto = readingData.trackingDtos.get(j);
+            if (readStatus == ReadStatusEnum.ALL.getValue()) {
+                readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                        getAllOnOffLoadByTracking(trackingDto.trackNumber));
+            } else if (readStatus == ReadStatusEnum.STATE.getValue()) {
+                readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                        getAllOnOffLoadByHighLowAndTracking(trackingDto.trackNumber, highLow));
+            } else if (readStatus == ReadStatusEnum.UNREAD.getValue()) {
+                readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                        getAllOnOffLoadNotRead(0, trackingDto.trackNumber));
+            } else if (readStatus == ReadStatusEnum.READ.getValue()) {
+                readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                        getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.trackNumber));
+            } else if (readStatus == ReadStatusEnum.ALL_MANE_UNREAD.getValue()) {
+                for (int k = 0, is_maneSize = IS_MANE.size(); k < is_maneSize; k++) {
+                    int i = IS_MANE.get(k);
+                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                            getOnOffLoadReadByIsMane(i, trackingDto.trackNumber));
+                }
+                readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                        getAllOnOffLoadNotRead(0, trackingDto.trackNumber));
+
+            } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
+                for (int k = 0, is_maneSize = IS_MANE.size(); k < is_maneSize; k++) {
+                    int i = IS_MANE.get(k);
+                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                            getOnOffLoadReadByIsMane(i, trackingDto.trackNumber));
+                }
             }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            readingData.trackingDtos.forEach(trackingDto -> {
-                if (readStatus == ReadStatusEnum.ALL.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadByTracking(trackingDto.trackNumber));
-                } else if (readStatus == ReadStatusEnum.STATE.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadByHighLowAndTracking(trackingDto.trackNumber, highLow));
-                } else if (readStatus == ReadStatusEnum.UNREAD.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadNotRead(0, trackingDto.trackNumber));
-                } else if (readStatus == ReadStatusEnum.READ.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.trackNumber));
-                } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
-                    IS_MANE.forEach(integer ->
-                            readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                                    getOnOffLoadReadByIsMane(integer, trackingDto.trackNumber)));
 
-                }
-            });
-        else
-            for (TrackingDto trackingDto : readingData.trackingDtos) {
-                if (readStatus == ReadStatusEnum.ALL.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadByTracking(trackingDto.trackNumber));
-                } else if (readStatus == ReadStatusEnum.STATE.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadByHighLowAndTracking(trackingDto.trackNumber, highLow));
-                } else if (readStatus == ReadStatusEnum.UNREAD.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadNotRead(0, trackingDto.trackNumber));
-                } else if (readStatus == ReadStatusEnum.READ.getValue()) {
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.trackNumber));
-                } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
-                    for (int i : IS_MANE) {
-                        readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                                getOnOffLoadReadByIsMane(i, trackingDto.trackNumber));
-                    }
-                }
-            }
 
         if (readingData != null && readingData.onOffLoadDtos != null && readingData.onOffLoadDtos.size() > 0) {
             readingDataTemp.onOffLoadDtos.addAll(readingData.onOffLoadDtos);

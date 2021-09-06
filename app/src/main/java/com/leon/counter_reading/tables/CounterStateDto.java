@@ -32,13 +32,15 @@ public class CounterStateDto {
     }
 
     public static String[] getCounterStateItems(ArrayList<CounterStateDto> counterStateDtos,
-                                                String first, String last) {
-        String[] items = new String[counterStateDtos.size() + 2];
-        items[0] = first;
+                                                String[] customItems) {
+        String[] items = new String[counterStateDtos.size() + 3];
+        items[0] = customItems[0];
         for (int i = 0; i < counterStateDtos.size(); i++) {
             items[i + 1] = counterStateDtos.get(i).title;
         }
-        items[items.length - 1] = last;
+//        items[items.length - 1] = last;
+        items[items.length - 2] = customItems[1];
+        items[items.length - 1] = customItems[2];
         return items;
     }
 }
