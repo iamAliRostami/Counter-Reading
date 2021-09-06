@@ -11,7 +11,7 @@ import com.leon.counter_reading.utils.CustomProgressBar;
 import java.util.ArrayList;
 
 public class GetUploadDBData extends AsyncTask<Activity, Integer, Integer> {
-    CustomProgressBar customProgressBar;
+    private final CustomProgressBar customProgressBar;
 
     public GetUploadDBData(Activity activity) {
         super();

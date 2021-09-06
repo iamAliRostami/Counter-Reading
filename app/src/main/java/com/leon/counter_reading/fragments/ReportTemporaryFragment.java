@@ -17,7 +17,7 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.activities.ReportActivity;
-import com.leon.counter_reading.adapters.SpinnerCustomAdapterNew;
+import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentReportTemporaryBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.ReadStatusEnum;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class ReportTemporaryFragment extends Fragment {
     private FragmentReportTemporaryBinding binding;
     private ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
-    private SpinnerCustomAdapterNew adapter;
+    private SpinnerCustomAdapter adapter;
     private Activity activity;
     private String[] items;
     private int total, isMane;
@@ -63,7 +63,6 @@ public class ReportTemporaryFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
         binding.imageViewTemporary.setImageDrawable(
                 ContextCompat.getDrawable(activity, R.drawable.img_temporary_report));
@@ -73,7 +72,7 @@ public class ReportTemporaryFragment extends Fragment {
     }
 
     void initializeSpinner() {
-        adapter = new SpinnerCustomAdapterNew(activity, items);
+        adapter = new SpinnerCustomAdapter(activity, items);
         binding.spinner.setAdapter(adapter);
         binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -122,7 +121,6 @@ public class ReportTemporaryFragment extends Fragment {
             total = getArguments().getInt(BundleEnum.TOTAL.getValue());
             isMane = getArguments().getInt(BundleEnum.IS_MANE.getValue());
             counterStateDtos = new ArrayList<>(((ReportActivity) activity).getCounterStateDtos());
-//            items = new String[];
             items = CounterStateDto.getCounterStateItems(counterStateDtos, new String[]
                     {getString(R.string.all_items),
                             getString(R.string.all_mane),

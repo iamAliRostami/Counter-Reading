@@ -33,7 +33,6 @@ public class LocationTrackingGoogle extends Service implements ILocationTracking
     private static LocationCallback locationCallback;
     private final OnSuccessListener<Location> onSuccessListener = this::addLocation;
 
-    //    @Inject
     public LocationTrackingGoogle(Activity activity) {
         locationCallback = new LocationCallback() {
             @Override

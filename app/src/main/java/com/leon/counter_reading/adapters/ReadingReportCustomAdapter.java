@@ -82,7 +82,7 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
                     ahadFragment.show(fragmentManager, context.getString(R.string.number).concat(DifferentCompanyManager.getAhad(DifferentCompanyManager.getActiveCompanyName())));
                 }
                 if (counterReportDtos.get(position).isTavizi) {
-                    TaviziFragment taviziFragment = TaviziFragment.newInstance(uuid, position);
+                    TaviziFragment taviziFragment = TaviziFragment.newInstance(uuid);
                     taviziFragment.show(fragmentManager, context.getString(R.string.counter_serial));
                 }
                 if (counterReportDtos.get(position).isKarbari) {

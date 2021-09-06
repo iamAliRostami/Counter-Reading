@@ -54,11 +54,6 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
         imageGrouped.File.clear();
         for (int i = 0; i < images.size(); i++) {
             images.get(i).Description = description;
-//            if (images.get(i).File == null)
-//                images.get(i).File = CustomFile.bitmapToFile(images.get(i).bitmap, activities[0]);
-//            if (!images.get(i).isSent) {
-//                imageGrouped.File.add(images.get(i).File);
-
             if (!images.get(i).isSent && images.get(i).File == null) {
                 imageGrouped.File.add(CustomFile.bitmapToFile(images.get(i).bitmap, activities[0]));
             }

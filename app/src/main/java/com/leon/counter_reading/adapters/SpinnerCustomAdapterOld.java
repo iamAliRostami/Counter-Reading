@@ -10,11 +10,13 @@ import android.widget.TextView;
 
 import com.leon.counter_reading.R;
 
-public class SpinnerCustomAdapterNew extends BaseAdapter {
-    private final String[] items;
+import java.util.ArrayList;
+
+public class SpinnerCustomAdapterOld extends BaseAdapter {
+    private final ArrayList<String> items;
     private final LayoutInflater inflater;
 
-    public SpinnerCustomAdapterNew(Activity activity, String[] items) {
+    public SpinnerCustomAdapterOld(Activity activity, ArrayList<String> items) {
         super();
         this.items = items;
         inflater = (LayoutInflater.from(activity));
@@ -24,8 +26,9 @@ public class SpinnerCustomAdapterNew extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         view = inflater.inflate(R.layout.item_dropdown_menu, null);
+//        view = inflater.inflate(android.R.layout.simple_spinner_item, null);
         TextView item = view.findViewById(R.id.text_view);
-        item.setText(items[position]);
+        item.setText(items.get(position));
         return view;
     }
 
@@ -33,19 +36,19 @@ public class SpinnerCustomAdapterNew extends BaseAdapter {
 //    @Override
 //    public View getDropDownView(int position, View view, ViewGroup parent) {
 //        view = inflater.inflate(R.layout.item_dropdown_menu_popup, null);
-//        TextView item = view.findViewById(R.id.text_view);
-//        item.setText(items[position]);
+//        TextView item = view.findViewById(R.id.checked_text_view);
+//        item.setText(items.get(position));
 //        return view;
 //    }
 
     @Override
     public int getCount() {
-        return items.length;
+        return items.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return items[i];
+        return items.get(i);
     }
 
     @Override

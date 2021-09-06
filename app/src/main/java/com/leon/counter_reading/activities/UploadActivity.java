@@ -163,7 +163,6 @@ public class UploadActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-//        MyDatabaseClient.getInstance(MyApplication.getContext()).destroyDatabase();
         Debug.getNativeHeapAllocatedSize();
         System.runFinalization();
         Runtime.getRuntime().totalMemory();

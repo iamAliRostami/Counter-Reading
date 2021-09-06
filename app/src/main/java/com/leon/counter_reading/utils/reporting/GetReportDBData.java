@@ -2,7 +2,6 @@ package com.leon.counter_reading.utils.reporting;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.os.Build;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.activities.ReportActivity;
@@ -44,41 +43,23 @@ public class GetReportDBData extends AsyncTask<Activity, Integer, Integer> {
         trackingDtos.addAll(myDatabase.trackingDao().getTrackingDtosIsActiveNotArchive(true, false));
         counterStateDtos.addAll(myDatabase.counterStateDao().getCounterStateDtos());
         ArrayList<Integer> isManes = new ArrayList<>(myDatabase.counterStateDao().getCounterStateDtosIsMane(true));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            trackingDtos.forEach(trackingDto -> {
-                isManes.forEach(integer ->
-                        isMane += myDatabase.onOffLoadDao().getOnOffLoadIsManeCount(integer,
-                                trackingDto.trackNumber));
-                zero += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-                        trackingDto.trackNumber, HighLowStateEnum.ZERO.getValue());
-                high += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-                        trackingDto.trackNumber, HighLowStateEnum.HIGH.getValue());
-                low += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-                        trackingDto.trackNumber, HighLowStateEnum.LOW.getValue());
-                normal += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-                        trackingDto.trackNumber, HighLowStateEnum.NORMAL.getValue());
-                unread += myDatabase.onOffLoadDao().getOnOffLoadReadCount(0,
+        for (int j = 0, trackingDtosSize = trackingDtos.size(); j < trackingDtosSize; j++) {
+            TrackingDto trackingDto = trackingDtos.get(j);
+            for (int i = 0; i < isManes.size(); i++) {
+                isMane += myDatabase.onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i),
                         trackingDto.trackNumber);
-                total += myDatabase.
-                        onOffLoadDao().getOnOffLoadCount(trackingDto.trackNumber);
-            });
-        } else
-            for (TrackingDto trackingDto : trackingDtos) {
-                for (int i = 0; i < isManes.size(); i++) {
-                    isMane += myDatabase.onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i),
-                            trackingDto.trackNumber);
-                }
-                zero += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-                        trackingDto.trackNumber, HighLowStateEnum.ZERO.getValue());
-                high += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-                        trackingDto.trackNumber, HighLowStateEnum.HIGH.getValue());
-                low += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-                        trackingDto.trackNumber, HighLowStateEnum.LOW.getValue());
-                normal += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
-                        trackingDto.trackNumber, HighLowStateEnum.NORMAL.getValue());
-                unread += myDatabase.onOffLoadDao().getOnOffLoadReadCount(0, trackingDto.trackNumber);
-                total += myDatabase.onOffLoadDao().getOnOffLoadCount(trackingDto.trackNumber);
             }
+            zero += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
+                    trackingDto.trackNumber, HighLowStateEnum.ZERO.getValue());
+            high += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
+                    trackingDto.trackNumber, HighLowStateEnum.HIGH.getValue());
+            low += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
+                    trackingDto.trackNumber, HighLowStateEnum.LOW.getValue());
+            normal += myDatabase.onOffLoadDao().getOnOffLoadReadCountByStatus(
+                    trackingDto.trackNumber, HighLowStateEnum.NORMAL.getValue());
+            unread += myDatabase.onOffLoadDao().getOnOffLoadReadCount(0, trackingDto.trackNumber);
+            total += myDatabase.onOffLoadDao().getOnOffLoadCount(trackingDto.trackNumber);
+        }
         activities[0].runOnUiThread(() -> ((ReportActivity) (activities[0])).
                 setupViewPager(counterStateDtos, trackingDtos,
                         zero, normal, high, low, total, isMane, unread));

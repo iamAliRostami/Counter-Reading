@@ -27,7 +27,7 @@ public class ViewPagerAdapterReading extends FragmentStatePagerAdapter {
     private final ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
     private final ArrayList<KarbariDto> karbariDtos = new ArrayList<>();
     private final ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
-    private final SpinnerCustomAdapterNew adapter;
+    private final SpinnerCustomAdapter adapter;
 
     public ViewPagerAdapterReading(@NonNull FragmentManager fm,
                                    ReadingData readingData, Activity activity) {
@@ -37,24 +37,32 @@ public class ViewPagerAdapterReading extends FragmentStatePagerAdapter {
         for (int i = 0; i < readingData.counterStateDtos.size(); i++) {
             items[i] = readingData.counterStateDtos.get(i).title;
         }
-        adapter = new SpinnerCustomAdapterNew(activity, items);
+        adapter = new SpinnerCustomAdapter(activity, items);
         counterStateDtos.addAll(readingData.counterStateDtos);
         for (int i = 0; i < readingData.onOffLoadDtos.size(); i++) {
-            for (ReadingConfigDefaultDto readingConfigDefaultDto : readingData.readingConfigDefaultDtos) {
+            ArrayList<ReadingConfigDefaultDto> configDefaultDtos = readingData.readingConfigDefaultDtos;
+            for (int j = 0, configDefaultDtosSize = configDefaultDtos.size(); j < configDefaultDtosSize; j++) {
+                ReadingConfigDefaultDto readingConfigDefaultDto = configDefaultDtos.get(j);
                 if (readingData.onOffLoadDtos.get(i).zoneId == readingConfigDefaultDto.zoneId)
                     readingConfigDefaultDtos.add(readingConfigDefaultDto);
             }
-            for (KarbariDto karbariDto : readingData.karbariDtos) {
+            ArrayList<KarbariDto> dtos = readingData.karbariDtos;
+            for (int j = 0, dtosSize = dtos.size(); j < dtosSize; j++) {
+                KarbariDto karbariDto = dtos.get(j);
                 if (readingData.onOffLoadDtos.get(i).karbariCode == karbariDto.moshtarakinId)
                     karbariDtos.add(karbariDto);
             }
-            for (QotrDictionary qotrDictionary : readingData.qotrDictionary) {
+            ArrayList<QotrDictionary> dictionary = readingData.qotrDictionary;
+            for (int j = 0, dictionarySize = dictionary.size(); j < dictionarySize; j++) {
+                QotrDictionary qotrDictionary = dictionary.get(j);
                 if (readingData.onOffLoadDtos.get(i).qotrCode == qotrDictionary.id)
                     readingData.onOffLoadDtos.get(i).qotr = qotrDictionary.title;
                 if (readingData.onOffLoadDtos.get(i).sifoonQotrCode == qotrDictionary.id)
                     readingData.onOffLoadDtos.get(i).sifoonQotr = qotrDictionary.title;
             }
-            for (TrackingDto trackingDto : readingData.trackingDtos) {
+            ArrayList<TrackingDto> trackingDtos = readingData.trackingDtos;
+            for (int j = 0, trackingDtosSize = trackingDtos.size(); j < trackingDtosSize; j++) {
+                TrackingDto trackingDto = trackingDtos.get(j);
                 if (readingData.onOffLoadDtos.get(i).trackNumber == trackingDto.trackNumber) {
                     readingData.onOffLoadDtos.get(i).hasPreNumber = trackingDto.hasPreNumber;
                     readingData.onOffLoadDtos.get(i).displayBillId = trackingDto.displayBillId;

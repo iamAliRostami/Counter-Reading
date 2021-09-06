@@ -138,7 +138,7 @@ public class ImageViewAdapter extends BaseAdapter {
                 }
             }
         });
-        builder.setNeutralButton("", (dialog, which) -> dialog.dismiss());
+//        builder.setNeutralButton("", (dialog, which) -> dialog.dismiss());
         builder.create().show();
     }
 }

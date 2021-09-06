@@ -1,6 +1,5 @@
 package com.leon.counter_reading.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,12 +20,9 @@ import com.leon.counter_reading.enums.ReadStatusEnum;
 import org.jetbrains.annotations.NotNull;
 
 public class ReportNotReadingFragment extends Fragment {
-    FragmentReportNotReadingBinding binding;
-    int unread, total;
-    Activity activity;
-
-    public ReportNotReadingFragment() {
-    }
+    private FragmentReportNotReadingBinding binding;
+    private int unread, total;
+    private Activity activity;
 
     public static ReportNotReadingFragment newInstance(int total, int unread) {
         ReportNotReadingFragment fragment = new ReportNotReadingFragment();
@@ -56,7 +52,6 @@ public class ReportNotReadingFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
         binding.textViewNotRead.setText(String.valueOf(unread));
         binding.textViewTotal.setText(String.valueOf(total));

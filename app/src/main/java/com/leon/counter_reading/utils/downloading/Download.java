@@ -81,7 +81,6 @@ class DownloadCompleted implements ICallback<ReadingData> {
             ArrayList<TrackingDto> trackingDtos = new ArrayList<>(myDatabase.trackingDao()
                     .getTrackingDtoNotArchive(false));
             final boolean[] isActive = {false};
-
             for (int i = 0, trackingDtosSize = trackingDtos.size(); i < trackingDtosSize; i++) {
                 TrackingDto trackingDtoI = trackingDtos.get(i);
                 for (int j = 0, dtosSize = readingDataTemp.trackingDtos.size(); j < dtosSize; j++) {

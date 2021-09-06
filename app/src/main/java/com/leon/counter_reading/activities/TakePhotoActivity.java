@@ -134,19 +134,6 @@ public class TakePhotoActivity extends AppCompatActivity {
                     bitmap = BitmapFactory.decodeStream(inputStream);
                     MyApplication.BITMAP_SELECTED_IMAGE = bitmap;
                     prepareImage();
-                    /* Image image = new Image();
-                    image.OnOffLoadId = uuid;
-                    image.trackNumber = trackNumber;
-                    image.File = CustomFile.bitmapToFile(MyApplication.bitmapSelectedImage, activity);
-                    image.bitmap = MyApplication.bitmapSelectedImage;
-                    if (replace > 0) {
-                        MyApplication.getApplicationComponent().MyDatabase()
-                                .imageDao().deleteImage(images.get(replace - 1).id);
-                        images.set(replace - 1, image);
-                    } else {
-                        images.add(image);
-                    }
-                    imageViewAdapter.notifyDataSetChanged();*/
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -155,19 +142,6 @@ public class TakePhotoActivity extends AppCompatActivity {
                     try {
                         MyApplication.BITMAP_SELECTED_IMAGE = MediaStore.Images.Media.getBitmap(getContentResolver(), MyApplication.PHOTO_URI);
                         prepareImage();
-                        /* Image image = new Image();
-                        image.OnOffLoadId = uuid;
-                        image.trackNumber = trackNumber;
-                        image.File = CustomFile.bitmapToFile(MyApplication.bitmapSelectedImage, activity);
-                        image.bitmap = MyApplication.bitmapSelectedImage;
-                        if (replace > 0) {
-                            MyApplication.getApplicationComponent().MyDatabase()
-                                    .imageDao().deleteImage(images.get(replace - 1).id);
-                            images.set(replace - 1, image);
-                        } else {
-                            images.add(image);
-                        }
-                        imageViewAdapter.notifyDataSetChanged();*/
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -181,7 +155,6 @@ public class TakePhotoActivity extends AppCompatActivity {
         Image image = new Image();
         image.OnOffLoadId = uuid;
         image.trackNumber = trackNumber;
-//        image.File = CustomFile.bitmapToFile(MyApplication.BITMAP_SELECTED_IMAGE, activity);
         image.bitmap = MyApplication.BITMAP_SELECTED_IMAGE;
         if (replace > 0) {
             MyApplication.getApplicationComponent().MyDatabase()

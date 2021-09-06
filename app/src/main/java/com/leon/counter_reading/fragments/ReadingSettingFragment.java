@@ -1,7 +1,6 @@
 package com.leon.counter_reading.fragments;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,24 +20,20 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class ReadingSettingFragment extends Fragment {
-    FragmentReadingSettingBinding binding;
-    ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
-    ArrayList<String> json = new ArrayList<>();
-    Context context;
-
-    public ReadingSettingFragment() {
-    }
+    private FragmentReadingSettingBinding binding;
+    private ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    private ArrayList<String> json = new ArrayList<>();
+    private Context context;
 
     public static ReadingSettingFragment newInstance(ArrayList<TrackingDto> trackingDtos) {
         ReadingSettingFragment fragment = new ReadingSettingFragment();
         Bundle args = new Bundle();
         Gson gson = new Gson();
         ArrayList<String> json = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            trackingDtos.forEach(trackingDto -> json.add(gson.toJson(trackingDto)));
-        else
-            for (TrackingDto trackingDto : trackingDtos)
-                json.add(gson.toJson(trackingDto));
+        for (int i = 0, trackingDtosSize = trackingDtos.size(); i < trackingDtosSize; i++) {
+            TrackingDto trackingDto = trackingDtos.get(i);
+            json.add(gson.toJson(trackingDto));
+        }
         args.putStringArrayList(BundleEnum.TRACKING.getValue(), json);
         fragment.setArguments(args);
         return fragment;
@@ -67,9 +62,8 @@ public class ReadingSettingFragment extends Fragment {
         context = getActivity();
         Gson gson = new Gson();
         trackingDtos.clear();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            json.forEach(s -> trackingDtos.add(gson.fromJson(s, TrackingDto.class)));
-        } else for (String s : json) {
+        for (int i = 0, jsonSize = json.size(); i < jsonSize; i++) {
+            String s = json.get(i);
             trackingDtos.add(gson.fromJson(s, TrackingDto.class));
         }
         setupListView();

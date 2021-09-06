@@ -1,8 +1,6 @@
 package com.leon.counter_reading.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
 import com.leon.counter_reading.R;
-import com.leon.counter_reading.adapters.SpinnerCustomAdapterNew;
+import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentReadingSettingDeleteBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.tables.TrackingDto;
@@ -23,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class ReadingSettingDeleteFragment extends Fragment {
-    FragmentReadingSettingDeleteBinding binding;
+    private FragmentReadingSettingDeleteBinding binding;
     private String[] items;
     private ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
     private ArrayList<String> json;
@@ -37,11 +35,10 @@ public class ReadingSettingDeleteFragment extends Fragment {
         Bundle args = new Bundle();
         Gson gson = new Gson();
         ArrayList<String> json = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            trackingDtos.forEach(trackingDto -> json.add(gson.toJson(trackingDto)));
-        else
-            for (TrackingDto trackingDto : trackingDtos)
-                json.add(gson.toJson(trackingDto));
+        for (int i = 0, trackingDtosSize = trackingDtos.size(); i < trackingDtosSize; i++) {
+            TrackingDto trackingDto = trackingDtos.get(i);
+            json.add(gson.toJson(trackingDto));
+        }
         args.putStringArrayList(BundleEnum.TRACKING.getValue(), json);
         fragment.setArguments(args);
         return fragment;
@@ -66,14 +63,13 @@ public class ReadingSettingDeleteFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
         Gson gson = new Gson();
         trackingDtos.clear();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            json.forEach(s -> trackingDtos.add(gson.fromJson(s, TrackingDto.class)));
-        } else
-            for (String s : json) trackingDtos.add(gson.fromJson(s, TrackingDto.class));
+        for (int i = 0, jsonSize = json.size(); i < jsonSize; i++) {
+            String s = json.get(i);
+            trackingDtos.add(gson.fromJson(s, TrackingDto.class));
+        }
         initializeSpinner();
         setOnButtonDeleteClickListener();
         binding.imageViewDelete.setImageDrawable(
@@ -101,7 +97,7 @@ public class ReadingSettingDeleteFragment extends Fragment {
             }
         }
         items[0] = getString(R.string.all_items);
-        SpinnerCustomAdapterNew adapter = new SpinnerCustomAdapterNew(activity, items);
+        SpinnerCustomAdapter adapter = new SpinnerCustomAdapter(activity, items);
         binding.spinner.setAdapter(adapter);
     }
 

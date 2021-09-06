@@ -25,13 +25,10 @@ import org.jetbrains.annotations.NotNull;
 import java.text.DecimalFormat;
 
 public class SettingUpdateFragment extends Fragment {
-    FragmentSettingUpdateBinding binding;
-    Activity activity;
-    boolean firstTime = true;
-    int versionCode;
-
-    public SettingUpdateFragment() {
-    }
+    private FragmentSettingUpdateBinding binding;
+    private Activity activity;
+    private boolean firstTime = true;
+    private int versionCode;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -22,7 +22,8 @@ public class Sent extends AsyncTask<OnOffLoadDto.OffLoadResponses, Integer, Inte
                     OffloadStateEnum.SENT_WITH_ERROR.getValue();
             MyApplication.getApplicationComponent().MyDatabase().onOffLoadDao()
                     .updateOnOffLoad(state, offLoadResponses[0].targetObject);
-            for (String s : offLoadResponses[0].targetObject) {
+            String[] targetObject = offLoadResponses[0].targetObject;
+            for (String s : targetObject) {
                 for (int j = 0; j < readingData.onOffLoadDtos.size(); j++) {
                     if (s.equals(readingData.onOffLoadDtos.get(j).id)) {
                         readingData.onOffLoadDtos.get(j).offLoadStateId = state;

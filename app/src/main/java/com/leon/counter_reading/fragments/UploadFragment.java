@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.UploadActivity;
-import com.leon.counter_reading.adapters.SpinnerCustomAdapterNew;
+import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentUploadBinding;
 import com.leon.counter_reading.di.view_model.CustomDialogModel;
 import com.leon.counter_reading.enums.BundleEnum;
@@ -85,7 +85,7 @@ public class UploadFragment extends Fragment {
     }
 
     void setupSpinner() {
-        SpinnerCustomAdapterNew spinnerCustomAdapter = new SpinnerCustomAdapterNew(activity, items);
+        SpinnerCustomAdapter spinnerCustomAdapter = new SpinnerCustomAdapter(activity, items);
         binding.spinner.setAdapter(spinnerCustomAdapter);
     }
 

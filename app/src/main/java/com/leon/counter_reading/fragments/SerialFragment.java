@@ -21,13 +21,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class SerialFragment extends DialogFragment {
-    int position;
-    int counterStatePosition;
-    int counterStateCode;
-    FragmentSerialBinding binding;
-
-    public SerialFragment() {
-    }
+    private int position;
+    private int counterStatePosition;
+    private int counterStateCode;
+    private FragmentSerialBinding binding;
 
     public static SerialFragment newInstance(int position, int counterStateCode, int counterStatePosition) {
         SerialFragment fragment = new SerialFragment();

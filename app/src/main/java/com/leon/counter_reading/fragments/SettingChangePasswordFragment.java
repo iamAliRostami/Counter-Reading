@@ -17,11 +17,8 @@ import com.leon.counter_reading.utils.updating.ChangePassword;
 import org.jetbrains.annotations.NotNull;
 
 public class SettingChangePasswordFragment extends Fragment {
-    FragmentSettingChangePasswordBinding binding;
-    Activity activity;
-
-    public SettingChangePasswordFragment() {
-    }
+    private FragmentSettingChangePasswordBinding binding;
+    private Activity activity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,8 +35,8 @@ public class SettingChangePasswordFragment extends Fragment {
     }
 
     void initialize() {
-        binding.imageViewPassword.setImageDrawable(
-                ContextCompat.getDrawable(activity, R.drawable.img_change_password));
+        binding.imageViewPassword.setImageDrawable(ContextCompat
+                .getDrawable(activity, R.drawable.img_change_password));
         setOnButtonChangePasswordClickListener();
     }
 

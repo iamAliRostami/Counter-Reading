@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class GetReadingReportDBData extends AsyncTask<Activity, Integer, Integer> {
     private final String uuid;
     private final int trackNumber;
-    CustomProgressBar customProgressBar;
+    private final CustomProgressBar customProgressBar;
 
     public GetReadingReportDBData(Activity activity, int trackNumber, String uuid) {
         super();

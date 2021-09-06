@@ -15,29 +15,19 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class HighFragmentFragment extends DialogFragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     FragmentHighFragmentBinding binding;
 
     public HighFragmentFragment() {
     }
 
-    public static HighFragmentFragment newInstance(String param1, String param2) {
+    public static HighFragmentFragment newInstance() {
         HighFragmentFragment fragment = new HighFragmentFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            String mParam1 = getArguments().getString(ARG_PARAM1);
-            String mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override

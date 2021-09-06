@@ -12,7 +12,7 @@ import android.view.WindowManager;
 import androidx.fragment.app.DialogFragment;
 
 import com.leon.counter_reading.MyApplication;
-import com.leon.counter_reading.adapters.SpinnerCustomAdapterNew;
+import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentKarbariBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.NotificationType;
@@ -74,7 +74,7 @@ public class KarbariFragment extends DialogFragment {
         items = new String[karbariDtos.size()];
         for (int i = 0; i < karbariDtos.size(); i++)
             items[i] = (karbariDtos.get(i).title);
-        SpinnerCustomAdapterNew spinnerCustomAdapter = new SpinnerCustomAdapterNew(activity, items);
+        SpinnerCustomAdapter spinnerCustomAdapter = new SpinnerCustomAdapter(activity, items);
         binding.spinner.setAdapter(spinnerCustomAdapter);
     }
 

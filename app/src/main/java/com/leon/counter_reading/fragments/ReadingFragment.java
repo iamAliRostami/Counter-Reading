@@ -20,7 +20,7 @@ import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
-import com.leon.counter_reading.adapters.SpinnerCustomAdapterNew;
+import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentReadingBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.HighLowStateEnum;
@@ -42,25 +42,22 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class ReadingFragment extends Fragment {
-    static SpinnerCustomAdapterNew adapter;
-    FragmentReadingBinding binding;
-    ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
-    OnOffLoadDto onOffLoadDto;
-    ReadingConfigDefaultDto readingConfigDefaultDto;
-    KarbariDto karbariDto;
-    int position, counterStateCode, counterStatePosition;
-    boolean canBeEmpty, canLessThanPre, isMakoos, isMane;
-    Activity activity;
-
-    public ReadingFragment() {
-    }
+    static SpinnerCustomAdapter adapter;
+    private FragmentReadingBinding binding;
+    private ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
+    private OnOffLoadDto onOffLoadDto;
+    private ReadingConfigDefaultDto readingConfigDefaultDto;
+    private KarbariDto karbariDto;
+    private int position, counterStateCode, counterStatePosition;
+    private boolean canBeEmpty, canLessThanPre, isMakoos, isMane;
+    private Activity activity;
 
     public static ReadingFragment newInstance(
             OnOffLoadDto onOffLoadDto,
             ReadingConfigDefaultDto readingConfigDefaultDto,
             KarbariDto karbariDto,
             ArrayList<CounterStateDto> counterStateDtos,
-            SpinnerCustomAdapterNew adapter,
+            SpinnerCustomAdapter adapter,
             int position) {
         ReadingFragment fragment = new ReadingFragment();
         fragment.setArguments(putBundle(onOffLoadDto, readingConfigDefaultDto, karbariDto,
@@ -72,7 +69,7 @@ public class ReadingFragment extends Fragment {
                             ReadingConfigDefaultDto readingConfigDefaultDto,
                             KarbariDto karbariDto,
                             ArrayList<CounterStateDto> counterStateDtos,
-                            SpinnerCustomAdapterNew adapterTemp,
+                            SpinnerCustomAdapter adapterTemp,
                             int position) {
         Bundle args = new Bundle();
         Gson gson = new Gson();
@@ -84,7 +81,8 @@ public class ReadingFragment extends Fragment {
         args.putString(BundleEnum.KARBARI_DICTONARY.getValue(), json3);
 
         ArrayList<String> json7 = new ArrayList<>();
-        for (CounterStateDto s : counterStateDtos) {
+        for (int i = 0, counterStateDtosSize = counterStateDtos.size(); i < counterStateDtosSize; i++) {
+            CounterStateDto s = counterStateDtos.get(i);
             String json = gson.toJson(s);
             json7.add(json);
         }

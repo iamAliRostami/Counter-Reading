@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
-import com.leon.counter_reading.adapters.SpinnerCustomAdapterNew;
+import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentPossibleBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.NotificationType;
@@ -42,8 +42,6 @@ public class PossibleFragment extends DialogFragment {
     private ISharedPreferenceManager sharedPreferenceManager;
     private ArrayList<KarbariDto> karbariDtos = new ArrayList<>();
     private ArrayList<CounterReportDto> counterReportDtos;
-    private String[] items1;
-    private String[] items2;
 
     public PossibleFragment() {
     }
@@ -122,7 +120,6 @@ public class PossibleFragment extends DialogFragment {
 
     void initializeTextViews() {
         //TODO
-
         binding.editTextAccount.setFilters(
                 new InputFilter[]{
                         new InputFilter.LengthFilter(DifferentCompanyManager.
@@ -193,11 +190,11 @@ public class PossibleFragment extends DialogFragment {
                 getBoolData(SharedReferenceKeys.KARBARI.getValue()) ? View.VISIBLE : View.GONE);
         if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue())) {
             karbariDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase().karbariDao().getAllKarbariDto());
-            items1 = new String[karbariDtos.size()];
+            String[] items1 = new String[karbariDtos.size()];
             for (int i = 0; i < karbariDtos.size(); i++) {
                 items1[i] = karbariDtos.get(i).title;
             }
-            SpinnerCustomAdapterNew spinnerCustomAdapterKarbari = new SpinnerCustomAdapterNew(activity, items1);
+            SpinnerCustomAdapter spinnerCustomAdapterKarbari = new SpinnerCustomAdapter(activity, items1);
             binding.spinnerKarbari.setAdapter(spinnerCustomAdapterKarbari);
             binding.spinnerKarbari.setSelection(onOffLoadDto.counterStatePosition);
         }
@@ -207,12 +204,12 @@ public class PossibleFragment extends DialogFragment {
         if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.READING_REPORT.getValue())) {
             counterReportDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase()
                     .counterReportDao().getAllCounterStateReport());
-            items2 = new String[counterReportDtos.size() + 1];
+            String[] items2 = new String[counterReportDtos.size() + 1];
             for (int i = 0; i < counterReportDtos.size(); i++) {
                 items2[i + 1] = counterReportDtos.get(i).title;
             }
             items2[0] = getString(R.string.reports);
-            SpinnerCustomAdapterNew spinnerCustomAdapterReadingReport = new SpinnerCustomAdapterNew(activity, items2);
+            SpinnerCustomAdapter spinnerCustomAdapterReadingReport = new SpinnerCustomAdapter(activity, items2);
             binding.spinnerReadingReport.setAdapter(spinnerCustomAdapterReadingReport);
         }
     }

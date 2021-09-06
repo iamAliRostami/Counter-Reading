@@ -23,9 +23,9 @@ import org.eazegraph.lib.models.PieModel;
 import org.jetbrains.annotations.NotNull;
 
 public class ReportTotalFragment extends Fragment {
-    FragmentReportTotalBinding binding;
-    int zero, normal, high, low;
-    Activity activity;
+    private FragmentReportTotalBinding binding;
+    private int zero, normal, high, low;
+    private Activity activity;
     @SuppressLint("NonConstantResourceId")
     View.OnClickListener onClickListener = v -> {
         Intent intent = new Intent(getActivity(), ReadingActivity.class);
@@ -50,9 +50,6 @@ public class ReportTotalFragment extends Fragment {
         startActivity(intent);
         activity.finish();
     };
-
-    public ReportTotalFragment() {
-    }
 
     public static ReportTotalFragment newInstance(int zero, int normal, int high, int low) {
         ReportTotalFragment fragment = new ReportTotalFragment();
@@ -85,7 +82,6 @@ public class ReportTotalFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
         setupChart();
         initializeTextViews();

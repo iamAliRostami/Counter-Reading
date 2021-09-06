@@ -21,11 +21,8 @@ import com.leon.counter_reading.utils.CustomToast;
 import org.jetbrains.annotations.NotNull;
 
 public class SettingChangeThemeFragment extends Fragment {
-    static int theme;
-    FragmentSettingChangeThemeBinding binding;
-
-    public SettingChangeThemeFragment() {
-    }
+    private static int theme;
+    private FragmentSettingChangeThemeBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,18 +37,17 @@ public class SettingChangeThemeFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     void initialize() {
-        binding.imageViewBlack.setImageDrawable(ContextCompat.getDrawable(
-                MyApplication.getContext(), R.drawable.img_black));
-        binding.imageViewBlue.setImageDrawable(ContextCompat.getDrawable(
-                MyApplication.getContext(), R.drawable.img_blue));
-        binding.imageViewLightBlue.setImageDrawable(ContextCompat.getDrawable(
-                MyApplication.getContext(), R.drawable.img_pale_blue));
-        binding.imageViewGreen.setImageDrawable(ContextCompat.getDrawable(
-                MyApplication.getContext(), R.drawable.img_green));
-        binding.imageViewTheme.setImageDrawable(ContextCompat.getDrawable(
-                MyApplication.getContext(), R.drawable.img_change_theme));
+        binding.imageViewBlack.setImageDrawable(ContextCompat
+                .getDrawable(MyApplication.getContext(), R.drawable.img_black));
+        binding.imageViewBlue.setImageDrawable(ContextCompat
+                .getDrawable(MyApplication.getContext(), R.drawable.img_blue));
+        binding.imageViewLightBlue.setImageDrawable(ContextCompat
+                .getDrawable(MyApplication.getContext(), R.drawable.img_pale_blue));
+        binding.imageViewGreen.setImageDrawable(ContextCompat
+                .getDrawable(MyApplication.getContext(), R.drawable.img_green));
+        binding.imageViewTheme.setImageDrawable(ContextCompat
+                .getDrawable(MyApplication.getContext(), R.drawable.img_change_theme));
         setOnChangeThemeClickListener();
         setButtonChangeThemeClickListener();
     }

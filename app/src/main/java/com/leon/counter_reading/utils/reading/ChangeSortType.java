@@ -37,15 +37,15 @@ public class ChangeSortType extends AsyncTask<Activity, Void, Void> {
     @Override
     protected Void doInBackground(Activity... activities) {
         if (sortType) {
-            Collections.sort(readingData.onOffLoadDtos, (o1, o2) -> o2.eshterak.compareTo(
-                    o1.eshterak));
-            Collections.sort(readingDataTemp.onOffLoadDtos, (o1, o2) -> o2.eshterak.compareTo(
-                    o1.eshterak));
+            Collections.sort(readingData.onOffLoadDtos,
+                    (o1, o2) -> o2.eshterak.compareTo(o1.eshterak));
+            Collections.sort(readingDataTemp.onOffLoadDtos,
+                    (o1, o2) -> o2.eshterak.compareTo(o1.eshterak));
         } else {
-            Collections.sort(readingData.onOffLoadDtos, (o1, o2) -> o1.eshterak.compareTo(
-                    o2.eshterak));
-            Collections.sort(readingDataTemp.onOffLoadDtos, (o1, o2) -> o1.eshterak.compareTo(
-                    o2.eshterak));
+            Collections.sort(readingData.onOffLoadDtos,
+                    (o1, o2) -> o1.eshterak.compareTo(o2.eshterak));
+            Collections.sort(readingDataTemp.onOffLoadDtos,
+                    (o1, o2) -> o1.eshterak.compareTo(o2.eshterak));
         }
         ((ReadingActivity) (activities[0])).setupViewPagerAdapter(0);
         return null;

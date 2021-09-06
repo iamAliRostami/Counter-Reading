@@ -22,19 +22,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class TaviziFragment extends DialogFragment {
-    String uuid;
-    int position;
-    FragmentSerialBinding binding;
-    Context context;
+    private String uuid;
+    private FragmentSerialBinding binding;
+    private Context context;
 
-    public TaviziFragment() {
-    }
-
-    public static TaviziFragment newInstance(String uuid, int position) {
+    public static TaviziFragment newInstance(String uuid) {
         TaviziFragment fragment = new TaviziFragment();
         Bundle args = new Bundle();
         args.putString(BundleEnum.BILL_ID.getValue(), uuid);
-        args.putInt(BundleEnum.POSITION.getValue(), position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,7 +39,6 @@ public class TaviziFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             uuid = getArguments().getString(BundleEnum.BILL_ID.getValue());
-            position = getArguments().getInt(BundleEnum.POSITION.getValue());
         }
     }
 

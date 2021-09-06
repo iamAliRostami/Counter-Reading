@@ -21,7 +21,6 @@ public class UpdateOnOffLoadByIsShown extends AsyncTask<Activity, Void, Void> {
         readingData.onOffLoadDtos.get(position).counterNumberShown = true;
         MyApplication.getApplicationComponent().MyDatabase()
                 .onOffLoadDao().updateOnOffLoad(readingData.onOffLoadDtos.get(position));
-//        ((ReadingActivity)(activities[0])).setupViewPagerAdapter(position);
         return null;
     }
 }

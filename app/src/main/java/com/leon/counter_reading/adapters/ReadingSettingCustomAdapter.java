@@ -19,11 +19,9 @@ import java.util.ArrayList;
 public class ReadingSettingCustomAdapter extends BaseAdapter {
     private final ArrayList<TrackingDto> trackingDtos;
     private final LayoutInflater inflater;
-    private final Context context;
 
     public ReadingSettingCustomAdapter(Context context, ArrayList<TrackingDto> trackingDtos) {
         this.trackingDtos = trackingDtos;
-        this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 

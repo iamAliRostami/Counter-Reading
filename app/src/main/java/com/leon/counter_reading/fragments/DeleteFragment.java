@@ -128,5 +128,4 @@ public class DeleteFragment extends DialogFragment {
     public void onDestroyView() {
         super.onDestroyView();
     }
-
 }
