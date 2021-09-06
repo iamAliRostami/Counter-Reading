@@ -20,9 +20,9 @@ import java.util.Collections;
 
 public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
     private final CustomProgressBar customProgressBar;
+    private final boolean sortType;
     private final int readStatus;
     private final int highLow;
-    private final boolean sortType;
 
     public GetReadingDBData(Activity activity, int readStatus, int highLow, boolean sortType) {
         super();
