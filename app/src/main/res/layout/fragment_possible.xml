@@ -60,6 +60,12 @@
                     android:hint="@string/address"
                     tools:ignore="Autofill,TextFields" />
 
+                <EditText
+                    android:id="@+id/edit_text_search"
+                    style="@style/InputPossible"
+                    android:hint="@string/karbari"
+                    tools:ignore="Autofill,TextFields" />
+
                 <LinearLayout
                     android:id="@+id/linear_layout_karbari"
                     android:layout_width="match_parent"

@@ -4,7 +4,9 @@ import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +43,9 @@ public class PossibleFragment extends DialogFragment {
     private Activity activity;
     private ISharedPreferenceManager sharedPreferenceManager;
     private ArrayList<KarbariDto> karbariDtos = new ArrayList<>();
+    private ArrayList<KarbariDto> karbariDtosTemp = new ArrayList<>();
     private ArrayList<CounterReportDto> counterReportDtos;
-
-    public PossibleFragment() {
-    }
+    private String[] items;
 
     public static PossibleFragment newInstance(OnOffLoadDto onOffLoadDto, int position, boolean justMobile) {
         PossibleFragment.justMobile = justMobile;
@@ -97,7 +98,6 @@ public class PossibleFragment extends DialogFragment {
             binding.textViewMobile.setText(String.valueOf(onOffLoadDto.mobile));
             binding.editTextMobile.setText(onOffLoadDto.possibleMobile);
 
-
             binding.editTextSerial.setVisibility(View.GONE);
             binding.editTextAddress.setVisibility(View.GONE);
             binding.editTextAccount.setVisibility(View.GONE);
@@ -111,12 +111,42 @@ public class PossibleFragment extends DialogFragment {
 
             binding.linearLayoutReadingReport.setVisibility(View.GONE);
             binding.linearLayoutKarbari.setVisibility(View.GONE);
+            binding.editTextSearch.setVisibility(View.GONE);
 
         } else
             initializeTextViews();
         setOnButtonsClickListener();
+        setOnEditTextSearchChangeListener();
     }
 
+    void setOnEditTextSearchChangeListener() {
+        binding.editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                ArrayList<String> itemsTemp = new ArrayList<>();
+                itemsTemp.add(getString(R.string.select_one));
+                karbariDtosTemp.clear();
+                for (int j = 0; j < karbariDtos.size(); j++) {
+                    if (karbariDtos.get(j).title.contains(charSequence)) {
+                        karbariDtosTemp.add(karbariDtos.get(j));
+                        itemsTemp.add(karbariDtos.get(j).title);
+                    }
+                }
+                items = itemsTemp.toArray(new String[0]);
+                SpinnerCustomAdapter spinnerCustomAdapterKarbari = new SpinnerCustomAdapter(activity, items);
+                binding.spinnerKarbari.setAdapter(spinnerCustomAdapterKarbari);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
 
     void initializeTextViews() {
         //TODO
@@ -147,7 +177,6 @@ public class PossibleFragment extends DialogFragment {
         binding.editTextAhadTotal.setText(String.valueOf(onOffLoadDto.possibleAhadSaierOrAbBaha));
 
         binding.editTextDescription.setText(onOffLoadDto.description);
-
 
         binding.editTextSerial.setVisibility(sharedPreferenceManager.
                 getBoolData(SharedReferenceKeys.SERIAL.getValue()) ? View.VISIBLE : View.GONE);
@@ -186,21 +215,22 @@ public class PossibleFragment extends DialogFragment {
     }
 
     void initializeSpinner() {
-        binding.linearLayoutKarbari.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.KARBARI.getValue()) ? View.VISIBLE : View.GONE);
         if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue())) {
-            karbariDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase().karbariDao().getAllKarbariDto());
-            String[] items1 = new String[karbariDtos.size()];
-            for (int i = 0; i < karbariDtos.size(); i++) {
-                items1[i] = karbariDtos.get(i).title;
+            karbariDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase()
+                    .karbariDao().getAllKarbariDto());
+            karbariDtosTemp = new ArrayList<>(karbariDtos);
+            items = new String[karbariDtosTemp.size() + 1];
+            for (int i = 0; i < karbariDtosTemp.size(); i++) {
+                items[i + 1] = karbariDtosTemp.get(i).title;
             }
-            SpinnerCustomAdapter spinnerCustomAdapterKarbari = new SpinnerCustomAdapter(activity, items1);
+            items[0] = getString(R.string.select_one);
+            SpinnerCustomAdapter spinnerCustomAdapterKarbari = new SpinnerCustomAdapter(activity, items);
             binding.spinnerKarbari.setAdapter(spinnerCustomAdapterKarbari);
-            binding.spinnerKarbari.setSelection(onOffLoadDto.counterStatePosition);
+            binding.spinnerKarbari.setSelection(onOffLoadDto.counterStatePosition + 1);
+        } else {
+            binding.linearLayoutKarbari.setVisibility(View.GONE);
+            binding.editTextSearch.setVisibility(View.GONE);
         }
-
-        binding.linearLayoutReadingReport.setVisibility(sharedPreferenceManager.
-                getBoolData(SharedReferenceKeys.READING_REPORT.getValue()) ? View.VISIBLE : View.GONE);
         if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.READING_REPORT.getValue())) {
             counterReportDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase()
                     .counterReportDao().getAllCounterStateReport());
@@ -211,6 +241,8 @@ public class PossibleFragment extends DialogFragment {
             items2[0] = getString(R.string.reports);
             SpinnerCustomAdapter spinnerCustomAdapterReadingReport = new SpinnerCustomAdapter(activity, items2);
             binding.spinnerReadingReport.setAdapter(spinnerCustomAdapterReadingReport);
+        } else {
+            binding.linearLayoutReadingReport.setVisibility(View.GONE);
         }
     }
 
@@ -218,9 +250,11 @@ public class PossibleFragment extends DialogFragment {
         binding.buttonSubmit.setOnClickListener(v -> {
             boolean cancel = false;
             View view = null;
-            if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue()))
-                onOffLoadDto.possibleKarbariCode = karbariDtos.get(
-                        binding.spinnerKarbari.getSelectedItemPosition()).moshtarakinId;
+            if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue())) {
+                int position = binding.spinnerKarbari.getSelectedItemPosition() - 1;
+                if (position >= 0)
+                    onOffLoadDto.possibleKarbariCode = karbariDtosTemp.get(position).moshtarakinId;
+            }
             if (binding.editTextMobile.getText().length() > 0) {
                 if (binding.editTextMobile.getText().length() < 11 ||
                         !binding.editTextMobile.getText().toString().substring(0, 2).contains("09")) {
