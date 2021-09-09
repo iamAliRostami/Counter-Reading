@@ -17,4 +17,7 @@ public interface KarbariDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAllKarbariDtos(List<KarbariDto> karbariDtos);
+
+    @Query("DELETE FROM KARBARIDTO")
+    void deleteKarbariDto();
 }

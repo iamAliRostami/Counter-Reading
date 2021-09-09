@@ -138,9 +138,9 @@ public class ReadingFragment extends Fragment {
 
         if (onOffLoadDto.displayRadif)
             binding.textViewRadif.setText(String.valueOf(onOffLoadDto.radif));
-
-        if (onOffLoadDto.displayBillId)
+        else if (onOffLoadDto.displayBillId)
             binding.textViewRadif.setText(String.valueOf(onOffLoadDto.billId));
+        else binding.textViewRadif.setVisibility(View.GONE);
 
         binding.textViewAhad1.setText(String.valueOf(onOffLoadDto.ahadMaskooniOrAsli));
 

@@ -45,7 +45,6 @@ public class PossibleFragment extends DialogFragment {
     private ArrayList<KarbariDto> karbariDtos = new ArrayList<>();
     private ArrayList<KarbariDto> karbariDtosTemp = new ArrayList<>();
     private ArrayList<CounterReportDto> counterReportDtos;
-    private String[] items;
 
     public static PossibleFragment newInstance(OnOffLoadDto onOffLoadDto, int position, boolean justMobile) {
         PossibleFragment.justMobile = justMobile;
@@ -136,7 +135,7 @@ public class PossibleFragment extends DialogFragment {
                         itemsTemp.add(karbariDtos.get(j).title);
                     }
                 }
-                items = itemsTemp.toArray(new String[0]);
+                String[] items = itemsTemp.toArray(new String[0]);
                 SpinnerCustomAdapter spinnerCustomAdapterKarbari = new SpinnerCustomAdapter(activity, items);
                 binding.spinnerKarbari.setAdapter(spinnerCustomAdapterKarbari);
             }
@@ -149,22 +148,26 @@ public class PossibleFragment extends DialogFragment {
     }
 
     void initializeTextViews() {
-        //TODO
-        binding.editTextAccount.setFilters(
-                new InputFilter[]{
-                        new InputFilter.LengthFilter(DifferentCompanyManager.
-                                getEshterakMaxLength(DifferentCompanyManager.getActiveCompanyName()))});
+        binding.editTextAccount.setFilters(new InputFilter[]{
+                new InputFilter.LengthFilter(DifferentCompanyManager
+                        .getEshterakMaxLength(DifferentCompanyManager.getActiveCompanyName()))});
 
-        binding.textViewAhad1Title.setText(DifferentCompanyManager.getAhad1(DifferentCompanyManager.getActiveCompanyName()).concat(":"));
-        binding.textViewAhad2Title.setText(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()).replaceFirst("آحاد ", "").concat(":"));
-        binding.textViewAhadTotalTitle.setText(DifferentCompanyManager.getAhadTotal(DifferentCompanyManager.getActiveCompanyName()).replaceFirst("آحاد ", "").concat(":"));
+        binding.textViewAhad1Title.setText(DifferentCompanyManager.getAhad1(DifferentCompanyManager
+                .getActiveCompanyName()).concat(":"));
+        binding.textViewAhad2Title.setText(DifferentCompanyManager.getAhad2(DifferentCompanyManager
+                .getActiveCompanyName()).replaceFirst("آحاد ", "").concat(":"));
+        binding.textViewAhadTotalTitle.setText(DifferentCompanyManager
+                .getAhadTotal(DifferentCompanyManager.getActiveCompanyName()).replaceFirst("آحاد ", "").concat(":"));
 
-        binding.editTextAhadEmpty.setHint(DifferentCompanyManager.getAhad(
-                DifferentCompanyManager.getActiveCompanyName()).concat(getString(R.string.empty)));
+        binding.editTextAhadEmpty.setHint(DifferentCompanyManager.getAhad(DifferentCompanyManager
+                .getActiveCompanyName()).concat(getString(R.string.empty)));
 
-        binding.editTextAhad1.setHint(DifferentCompanyManager.getAhad1(DifferentCompanyManager.getActiveCompanyName()));
-        binding.editTextAhad2.setHint(DifferentCompanyManager.getAhad2(DifferentCompanyManager.getActiveCompanyName()));
-        binding.editTextAhadTotal.setHint(DifferentCompanyManager.getAhadTotal(DifferentCompanyManager.getActiveCompanyName()));
+        binding.editTextAhad1.setHint(DifferentCompanyManager.getAhad1(DifferentCompanyManager
+                .getActiveCompanyName()));
+        binding.editTextAhad2.setHint(DifferentCompanyManager.getAhad2(DifferentCompanyManager
+                .getActiveCompanyName()));
+        binding.editTextAhadTotal.setHint(DifferentCompanyManager
+                .getAhadTotal(DifferentCompanyManager.getActiveCompanyName()));
 
         binding.editTextMobile.setText(onOffLoadDto.possibleMobile);
         binding.editTextAddress.setText(onOffLoadDto.possibleAddress);
@@ -219,7 +222,7 @@ public class PossibleFragment extends DialogFragment {
             karbariDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase()
                     .karbariDao().getAllKarbariDto());
             karbariDtosTemp = new ArrayList<>(karbariDtos);
-            items = new String[karbariDtosTemp.size() + 1];
+            String[] items = new String[karbariDtosTemp.size() + 1];
             for (int i = 0; i < karbariDtosTemp.size(); i++) {
                 items[i + 1] = karbariDtosTemp.get(i).title;
             }

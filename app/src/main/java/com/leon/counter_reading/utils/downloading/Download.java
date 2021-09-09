@@ -16,7 +16,6 @@ import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.CounterStateDto;
-import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.QotrDictionary;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
@@ -46,7 +45,7 @@ public class Download extends AsyncTask<Activity, Void, Void> {
     protected Void doInBackground(Activity... activities) {
         Retrofit retrofit = MyApplication.getApplicationComponent().Retrofit();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        Call<ReadingData> call = iAbfaService.loadData(BuildConfig.VERSION_CODE);
+        Call<ReadingData> call = iAbfaService.loadData(BuildConfig.VERSION_CODE-2);
         activities[0].runOnUiThread(() ->
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activities[0],
                         new DownloadCompleted(activities[0]), new DownloadIncomplete(), new DownloadError()));
@@ -115,15 +114,16 @@ class DownloadCompleted implements ICallback<ReadingData> {
             }
             myDatabase.counterStateDao().insertAllCounterStateDto(readingData.counterStateDtos);
 
-            ArrayList<KarbariDto> karbariDtos = new ArrayList<>(
-                    myDatabase.karbariDao().getAllKarbariDto());
-            for (int j = 0, karbariDtosSize = karbariDtos.size(); j < karbariDtosSize; j++) {
-                KarbariDto karbariDto = karbariDtos.get(j);
-                for (int i = 0; i < readingDataTemp.karbariDtos.size(); i++) {
-                    if (karbariDto.id == readingDataTemp.karbariDtos.get(i).id)
-                        readingData.karbariDtos.remove(readingDataTemp.karbariDtos.get(i));
-                }
-            }
+//            ArrayList<KarbariDto> karbariDtos = new ArrayList<>(
+//                    myDatabase.karbariDao().getAllKarbariDto());
+//            for (int j = 0, karbariDtosSize = karbariDtos.size(); j < karbariDtosSize; j++) {
+//                KarbariDto karbariDto = karbariDtos.get(j);
+//                for (int i = 0; i < readingDataTemp.karbariDtos.size(); i++) {
+//                    if (karbariDto.id == readingDataTemp.karbariDtos.get(i).id)
+//                        readingData.karbariDtos.remove(readingDataTemp.karbariDtos.get(i));
+//                }
+//            }
+            myDatabase.karbariDao().deleteKarbariDto();
             myDatabase.karbariDao().insertAllKarbariDtos(readingData.karbariDtos);
 
             ArrayList<QotrDictionary> qotrDictionaries = new ArrayList<>(
