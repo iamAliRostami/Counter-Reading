@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Debug;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -67,6 +68,8 @@ public class TakePhotoActivity extends AppCompatActivity {
             position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
             trackNumber = getIntent().getExtras().getInt(BundleEnum.TRACKING.getValue());
             result = getIntent().getExtras().getBoolean(BundleEnum.IMAGE.getValue());
+            binding.textViewNotSent.setVisibility(getIntent().getExtras()
+                    .getBoolean(BundleEnum.SENT.getValue()) ? View.GONE : View.VISIBLE);
         }
         imageSetup();
         setOnButtonSendClickListener();

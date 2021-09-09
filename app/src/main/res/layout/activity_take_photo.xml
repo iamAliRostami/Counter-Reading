@@ -5,12 +5,24 @@
     android:layout_height="match_parent"
     tools:context="com.leon.counter_reading.activities.TakePhotoActivity">
 
+    <TextView
+        android:id="@+id/text_view_not_sent"
+        style="@style/TitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:padding="@dimen/low_dp"
+        android:text="@string/not_sent" />
+
     <GridView
         android:id="@+id/grid_view_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/edit_text_description"
-        android:layout_margin="@dimen/medium_dp"
+        android:layout_below="@id/text_view_not_sent"
+        android:layout_marginLeft="@dimen/medium_dp"
+        android:layout_marginRight="@dimen/medium_dp"
         android:background="@drawable/border_gray_3"
         android:gravity="center"
         android:nestedScrollingEnabled="true"
@@ -34,12 +46,11 @@
     <Button
         android:id="@+id/button_save_send"
         style="@style/ButtonWarning"
-        android:layout_alignParentBottom="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/linear_layout_footer"
+        android:layout_alignParentBottom="false"
         android:layout_marginStart="@dimen/medium_dp"
-        android:layout_marginTop="@dimen/medium_dp"
         android:layout_marginEnd="@dimen/medium_dp"
         android:layout_marginBottom="@dimen/medium_dp"
         android:text="@string/save_send" />

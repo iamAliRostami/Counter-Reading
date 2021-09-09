@@ -7,6 +7,7 @@ import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Debug;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -112,6 +113,8 @@ public class ReadingActivity extends BaseActivity {
                 showNoEshterakFound();
             } else {
                 Intent intent = new Intent(activity, TakePhotoActivity.class);
+                intent.putExtra(BundleEnum.SENT.getValue(),
+                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).offLoadStateId > 0);
                 intent.putExtra(BundleEnum.BILL_ID.getValue(),
                         readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
                 intent.putExtra(BundleEnum.TRACKING.getValue(),
@@ -285,6 +288,8 @@ public class ReadingActivity extends BaseActivity {
                 readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).trackNumber);
         intent.putExtra(BundleEnum.POSITION.getValue(), position);
         intent.putExtra(BundleEnum.IMAGE.getValue(), true);
+        intent.putExtra(BundleEnum.SENT.getValue(),
+                readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).offLoadStateId > 0);
         startActivityForResult(intent, MyApplication.CAMERA);
     }
 

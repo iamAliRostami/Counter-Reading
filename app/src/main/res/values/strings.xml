@@ -229,5 +229,6 @@
     <string name="recommend_multimedia">توصیه می شود پیش از تخلیه نسبت به بارگذاری چندرسانه اقدام نمایید.\nآیا همچنان مایل به تخلیه هستید؟</string>
     <string name="show_points">نمایش نقاط</string>
     <string name="sort_reading_type">مرتب سازی نزولی</string>
+    <string name="not_sent">وضعیت این اشتراک هنوز مشخص نشده است.</string>
     <!--    <string name="COMPANY_NAME" />-->
 </resources>

@@ -26,6 +26,7 @@ public enum BundleEnum {
     READ_STATUS("read_status"),
     IMAGE_BITMAP("image_bitmap"),
     ZONE_ID("zone_id"),
+    SENT("sent"),
     TYPE("type");
 
     private final String value;
