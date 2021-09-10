@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Debug;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -232,6 +233,7 @@ public class LocationActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
+            Log.e("size", String.valueOf(savedLocations.size()));
         }
     }
 

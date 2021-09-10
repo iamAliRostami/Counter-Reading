@@ -23,6 +23,9 @@ public interface SavedLocationsDao {
     @Query("Select COUNT(*) From SavedLocation")
     int getSavedLocationsCount();
 
+    @Query("DELETE From SavedLocation")
+    int deleteSavedLocations();
+
     @Insert
     void insertSavedLocation(SavedLocation savedLocation);
 

@@ -1,5 +1,6 @@
 package com.leon.counter_reading.base_items;
 
+import static com.leon.counter_reading.MyApplication.getApplicationComponent;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 import android.Manifest;
@@ -53,12 +54,14 @@ import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.infrastructure.ILocationTracking;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
+import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.locating.CheckSensor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -85,7 +88,7 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
+        sharedPreferenceManager = getApplicationComponent().SharedPreferenceModel();
         int theme;
         if (getIntent().getExtras() != null) {
             theme = getIntent().getExtras().getInt(BundleEnum.THEME.getValue());
@@ -239,13 +242,22 @@ public abstract class BaseActivity extends AppCompatActivity
     @SuppressLint("RtlHardcoded")
     private void initializeBase() {
         activity = this;
-        //        MyDatabaseClient.deleteAndReset(this);
         MyDatabaseClientModel.migration(activity);
         activityComponent = DaggerActivityComponent
                 .builder()
                 .customDialogModule(new CustomDialogModule(activity))
                 .locationTrackingModule(new LocationTrackingModule(activity))
                 .build();
+//        getApplicationComponent().MyDatabase().savedLocationDao().deleteSavedLocations();
+//        for (int i = 0; i < 300; i++) {
+//            double latitude, longitude, accuracy;
+//            if (BaseActivity.getLocationTracker(this).getCurrentLocation(this) != null) {
+//                accuracy = BaseActivity.getLocationTracker(this).getCurrentLocation(this).getAccuracy();
+//                latitude = BaseActivity.getLocationTracker(this).getCurrentLocation(this).getLatitude() + (double) (new Random().nextInt(2000) - 1000) / 1000000;
+//                longitude = BaseActivity.getLocationTracker(this).getCurrentLocation(this).getLongitude() + (double) (new Random().nextInt(2000) - 1000) / 1000000;
+//                getApplicationComponent().MyDatabase().savedLocationDao().insertSavedLocation(new SavedLocation(accuracy, longitude, latitude));
+//            }
+//        }
         TextView textView = findViewById(R.id.text_view_title);
         textView.setText(sharedPreferenceManager.getStringData(
                 SharedReferenceKeys.DISPLAY_NAME.getValue()).

@@ -36,9 +36,9 @@ import java.util.ArrayList;
 
 public class TakePhotoActivity extends AppCompatActivity {
     public static int replace = 0;
-    boolean result;
-    String uuid;
-    int position, trackNumber;
+    private boolean result;
+    private String uuid;
+    private int position, trackNumber;
     private Activity activity;
     private ActivityTakePhotoBinding binding;
     private ArrayList<Image> images;
@@ -130,10 +130,10 @@ public class TakePhotoActivity extends AppCompatActivity {
         MyApplication.BITMAP_SELECTED_IMAGE = null;
         if (resultCode == RESULT_OK) {
             if (requestCode == MyApplication.GALLERY_REQUEST && data != null) {
-                Uri selectedImage = data.getData();
+                Uri uri = data.getData();
                 Bitmap bitmap;
                 try {
-                    InputStream inputStream = this.getContentResolver().openInputStream(selectedImage);
+                    InputStream inputStream = this.getContentResolver().openInputStream(uri);
                     bitmap = BitmapFactory.decodeStream(inputStream);
                     MyApplication.BITMAP_SELECTED_IMAGE = bitmap;
                     prepareImage();

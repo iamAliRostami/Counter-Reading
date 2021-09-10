@@ -2,6 +2,7 @@ package com.leon.counter_reading.activities;
 
 import android.content.Intent;
 import android.os.Debug;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,7 +13,10 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityHomeBinding;
+import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
+
+import java.util.Random;
 
 public class HomeActivity extends BaseActivity {
     private ActivityHomeBinding binding;
@@ -57,6 +61,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void initialize() {
+
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         View childLayout = binding.getRoot();
         ConstraintLayout parentLayout = findViewById(R.id.base_Content);
