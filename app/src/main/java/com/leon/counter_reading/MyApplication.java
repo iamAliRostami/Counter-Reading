@@ -161,8 +161,6 @@ public class MyApplication extends Application {
                 .sharedPreferenceModule(new SharedPreferenceModule(appContext, SharedReferenceNames.ACCOUNT))
                 .build();
         applicationComponent.inject(this);
-
-
         super.onCreate();
 //        .throw new RuntimeException("Test Crash");
     }
