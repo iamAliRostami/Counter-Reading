@@ -41,7 +41,6 @@ public class GetReportDBData extends AsyncTask<Activity, Integer, Integer> {
     @Override
     protected Integer doInBackground(Activity... activities) {
         trackingDtos.addAll(myDatabase.trackingDao().getTrackingDtosIsActiveNotArchive(true, false));
-        counterStateDtos.addAll(myDatabase.counterStateDao().getCounterStateDtos());
         ArrayList<Integer> isManes = new ArrayList<>(myDatabase.counterStateDao().getCounterStateDtosIsMane(true));
         for (int j = 0, trackingDtosSize = trackingDtos.size(); j < trackingDtosSize; j++) {
             TrackingDto trackingDto = trackingDtos.get(j);
@@ -60,6 +59,9 @@ public class GetReportDBData extends AsyncTask<Activity, Integer, Integer> {
             unread += myDatabase.onOffLoadDao().getOnOffLoadReadCount(0, trackingDto.trackNumber);
             total += myDatabase.onOffLoadDao().getOnOffLoadCount(trackingDto.trackNumber);
         }
+        if (trackingDtos.size() > 0)
+            counterStateDtos.addAll(myDatabase.counterStateDao().getCounterStateDtos(trackingDtos.get(0).zoneId));
+
         activities[0].runOnUiThread(() -> ((ReportActivity) (activities[0])).
                 setupViewPager(counterStateDtos, trackingDtos,
                         zero, normal, high, low, total, isMane, unread));

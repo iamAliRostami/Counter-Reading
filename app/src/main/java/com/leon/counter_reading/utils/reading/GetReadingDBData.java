@@ -49,9 +49,6 @@ public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
         readingData = new ReadingData();
         readingDataTemp = new ReadingData();
         MyDatabase myDatabase = getApplicationComponent().MyDatabase();
-        readingData.counterStateDtos.addAll(myDatabase.counterStateDao().getCounterStateDtos());
-        readingData.karbariDtos.addAll(myDatabase.karbariDao().getAllKarbariDto());
-        readingData.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
         readingData.trackingDtos.addAll(myDatabase.trackingDao().
                 getTrackingDtosIsActiveNotArchive(true, false));
         for (int i = 0, trackingDtosSize = readingData.trackingDtos.size(); i < trackingDtosSize; i++) {
@@ -92,14 +89,20 @@ public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
             }
         }
 
-
         if (readingData != null && readingData.onOffLoadDtos != null && readingData.onOffLoadDtos.size() > 0) {
-            readingDataTemp.onOffLoadDtos.addAll(readingData.onOffLoadDtos);
+            readingData.counterStateDtos.addAll(myDatabase.counterStateDao().getCounterStateDtos(readingData.onOffLoadDtos.get(0).zoneId));
             readingDataTemp.counterStateDtos.addAll(readingData.counterStateDtos);
-            readingDataTemp.qotrDictionary.addAll(readingData.qotrDictionary);
-            readingDataTemp.trackingDtos.addAll(readingData.trackingDtos);
+
+            readingData.karbariDtos.addAll(myDatabase.karbariDao().getAllKarbariDto());
             readingDataTemp.karbariDtos.addAll(readingData.karbariDtos);
+
+            readingData.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
+            readingDataTemp.qotrDictionary.addAll(readingData.qotrDictionary);
+
+            readingDataTemp.onOffLoadDtos.addAll(readingData.onOffLoadDtos);
+            readingDataTemp.trackingDtos.addAll(readingData.trackingDtos);
             readingDataTemp.readingConfigDefaultDtos.addAll(readingData.readingConfigDefaultDtos);
+
             if (sortType) {
                 Collections.sort(readingData.onOffLoadDtos, (o1, o2) -> o2.eshterak.compareTo(
                         o1.eshterak));

@@ -2,6 +2,7 @@ package com.leon.counter_reading.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,14 @@ import android.widget.TextView;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.tables.TrackingDto;
+import com.leon.counter_reading.utils.CustomToast;
 
 import java.util.ArrayList;
 
 public class ReadingSettingCustomAdapter extends BaseAdapter {
     private final ArrayList<TrackingDto> trackingDtos;
     private final LayoutInflater inflater;
+    private int zoneId;
 
     public ReadingSettingCustomAdapter(Context context, ArrayList<TrackingDto> trackingDtos) {
         this.trackingDtos = trackingDtos;
@@ -68,12 +71,25 @@ public class ReadingSettingCustomAdapter extends BaseAdapter {
         holder.textViewEndDate.setText(trackingDtos.get(position).toDate);
         holder.textViewNumber.setText(String.valueOf(trackingDtos.get(position).itemQuantity));
 
-        holder.linearLayout.setOnClickListener(view1 -> {
-            holder.checkBox.setChecked(!holder.checkBox.isChecked());
-            trackingDtos.get(position).isActive = holder.checkBox.isChecked();
+        //TODO
+        if (zoneId > 0 && trackingDtos.get(position).zoneId != zoneId && trackingDtos.get(position).isActive) {
             MyApplication.getApplicationComponent().MyDatabase().
-                    trackingDao().updateTrackingDtoByStatus(
-                    trackingDtos.get(position).id, trackingDtos.get(position).isActive);
+                    trackingDao().updateTrackingDtoByStatus(trackingDtos.get(position).id, false);
+            trackingDtos.get(position).isActive = false;
+        } else if (trackingDtos.get(position).isActive)
+            zoneId = trackingDtos.get(position).zoneId;
+
+        holder.linearLayout.setOnClickListener(view1 -> {
+            if (zoneId > 0 && zoneId != trackingDtos.get(position).zoneId && !holder.checkBox.isChecked()) {
+                new CustomToast().warning(MyApplication.getContext().getString(R.string.single_zone));
+            } else {
+                trackingDtos.get(position).isActive = !holder.checkBox.isChecked();
+                zoneId = 0;
+                MyApplication.getApplicationComponent().MyDatabase().
+                        trackingDao().updateTrackingDtoByStatus(trackingDtos.get(position).id,
+                        trackingDtos.get(position).isActive);
+                notifyDataSetChanged();
+            }
         });
         holder.checkBox.setChecked(trackingDtos.get(position).isActive);
         return convertView;
