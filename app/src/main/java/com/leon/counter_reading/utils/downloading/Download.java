@@ -1,6 +1,8 @@
 package com.leon.counter_reading.utils.downloading;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -16,17 +18,17 @@ import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.CounterStateDto;
-import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.QotrDictionary;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.ReadingData;
-import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.MyDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -45,7 +47,8 @@ public class Download extends AsyncTask<Activity, Void, Void> {
     protected Void doInBackground(Activity... activities) {
         Retrofit retrofit = MyApplication.getApplicationComponent().Retrofit();
         IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
-        Call<ReadingData> call = iAbfaService.loadData(BuildConfig.VERSION_CODE);
+        //TODO
+        Call<ReadingData> call = iAbfaService.loadData(BuildConfig.VERSION_CODE );
         activities[0].runOnUiThread(() ->
                 HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activities[0],
                         new DownloadCompleted(activities[0]), new DownloadIncomplete(), new DownloadError()));
@@ -77,61 +80,46 @@ class DownloadCompleted implements ICallback<ReadingData> {
             ReadingData readingData = response.body();
             ReadingData readingDataTemp = response.body();
             MyDatabase myDatabase = MyApplication.getApplicationComponent().MyDatabase();
-            ArrayList<TrackingDto> trackingDtos = new ArrayList<>(myDatabase.trackingDao()
-                    .getTrackingDtoNotArchive(false));
-            final boolean[] isActive = {false};
-            for (int i = 0, trackingDtosSize = trackingDtos.size(); i < trackingDtosSize; i++) {
-                TrackingDto trackingDtoI = trackingDtos.get(i);
-                for (int j = 0, dtosSize = readingDataTemp.trackingDtos.size(); j < dtosSize; j++) {
-                    TrackingDto trackingDtoJ = readingDataTemp.trackingDtos.get(j);
-                    if (trackingDtoI.id.equals(trackingDtoJ.id) ||
-                            trackingDtoI.trackNumber == trackingDtoJ.trackNumber) {
-                        readingData.trackingDtos.remove(trackingDtoJ);
-                        if (trackingDtoI.isActive)
-                            isActive[0] = true;
-                    }
+//            insert TrackingDto and OnOffLoadDto
+//            long startTime = Calendar.getInstance().getTimeInMillis();
+//            TODO SELECT INTO حالت یکی حذف، یکی فعال چی میشه؟!
+            for (int i = 0; i < readingData.trackingDtos.size(); i++) {
+                if (myDatabase.trackingDao().getTrackingDtoArchiveCountByTrackNumber(readingData
+                        .trackingDtos.get(i).trackNumber, true) > 0) {
+                    downloadArchive(readingData, i, myDatabase);
+                } else if (myDatabase.trackingDao().getTrackingDtoActivesCountByTracking(readingData
+                        .trackingDtos.get(i).trackNumber) > 0) {
+                    String message = String.format(activity.getString(R.string.download_message_error),
+                            readingData.trackingDtos.get(i).trackNumber);
+                    showMessage(message, DialogType.Yellow);
+                    return;
                 }
             }
-            if (readingData.trackingDtos.size() > 0) {
-                if (!isActive[0])
-                    readingData.trackingDtos.get(0).isActive = true;
-                myDatabase.trackingDao().insertAllTrackingDtos(readingData.trackingDtos);
+            if (readingData.trackingDtos.size() > 0 &&
+                    myDatabase.trackingDao().getTrackingDtoActivesCount(true, false) == 0) {
+                readingData.trackingDtos.get(0).isActive = true;
             }
-//            long startTime = Calendar.getInstance().getTimeInMillis();
-//            long endTime = Calendar.getInstance().getTimeInMillis();
-//            Log.e("start", String.valueOf(startTime));
-//            Log.e("end", String.valueOf(endTime));
-//            Log.e("length", String.valueOf(endTime - startTime));
-            ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>(
-                    myDatabase.counterStateDao().getCounterStateDtos());
-            for (int j = 0, counterStateDtosSize = counterStateDtos.size(); j < counterStateDtosSize; j++) {
-                CounterStateDto counterStateDto = counterStateDtos.get(j);
+            myDatabase.trackingDao().insertAllTrackingDtos(readingData.trackingDtos);
+            myDatabase.onOffLoadDao().insertAllOnOffLoad(readingData.onOffLoadDtos);
+
+            ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>(myDatabase
+                    .counterStateDao().getCounterStateDtos());
+            for (int j = 0; j < counterStateDtos.size(); j++) {
                 for (int i = 0; i < readingDataTemp.counterStateDtos.size(); i++) {
-                    if (counterStateDto.id == readingDataTemp.counterStateDtos.get(i).id)
-                        readingData.counterStateDtos.remove(
-                                readingDataTemp.counterStateDtos.get(i));
+                    if (counterStateDtos.get(j).id == readingDataTemp.counterStateDtos.get(i).id)
+                        readingData.counterStateDtos.remove(readingDataTemp.counterStateDtos.get(i));
                 }
             }
             myDatabase.counterStateDao().insertAllCounterStateDto(readingData.counterStateDtos);
 
-//            ArrayList<KarbariDto> karbariDtos = new ArrayList<>(
-//                    myDatabase.karbariDao().getAllKarbariDto());
-//            for (int j = 0, karbariDtosSize = karbariDtos.size(); j < karbariDtosSize; j++) {
-//                KarbariDto karbariDto = karbariDtos.get(j);
-//                for (int i = 0; i < readingDataTemp.karbariDtos.size(); i++) {
-//                    if (karbariDto.id == readingDataTemp.karbariDtos.get(i).id)
-//                        readingData.karbariDtos.remove(readingDataTemp.karbariDtos.get(i));
-//                }
-//            }
             myDatabase.karbariDao().deleteKarbariDto();
             myDatabase.karbariDao().insertAllKarbariDtos(readingData.karbariDtos);
 
-            ArrayList<QotrDictionary> qotrDictionaries = new ArrayList<>(
-                    myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
-            for (int j = 0, qotrDictionariesSize = qotrDictionaries.size(); j < qotrDictionariesSize; j++) {
-                QotrDictionary qotrDictionary = qotrDictionaries.get(j);
+            ArrayList<QotrDictionary> qotrDictionaries = new ArrayList<>(myDatabase
+                    .qotrDictionaryDao().getAllQotrDictionaries());
+            for (int j = 0; j < qotrDictionaries.size(); j++) {
                 for (int i = 0; i < readingDataTemp.qotrDictionary.size(); i++) {
-                    if (qotrDictionary.id == readingDataTemp.qotrDictionary.get(i).id)
+                    if (qotrDictionaries.get(j).id == readingDataTemp.qotrDictionary.get(i).id)
                         readingData.qotrDictionary.remove(readingDataTemp.qotrDictionary.get(i));
                 }
             }
@@ -139,46 +127,52 @@ class DownloadCompleted implements ICallback<ReadingData> {
 
             ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>(
                     myDatabase.readingConfigDefaultDao().getReadingConfigDefaultDtos());
-            for (int j = 0, readingConfigDefaultDtosSize = readingConfigDefaultDtos.size();
-                 j < readingConfigDefaultDtosSize; j++) {
-                ReadingConfigDefaultDto readingConfigDefaultDto = readingConfigDefaultDtos.get(j);
+            for (int j = 0; j < readingConfigDefaultDtos.size(); j++) {
                 for (int i = 0; i < readingDataTemp.readingConfigDefaultDtos.size(); i++) {
-                    if (readingConfigDefaultDto.id.equals(
-                            readingDataTemp.readingConfigDefaultDtos.get(i).id)) readingData.
-                            readingConfigDefaultDtos.remove(readingDataTemp.
-                            readingConfigDefaultDtos.get(i));
+                    if (readingConfigDefaultDtos.get(j).id.equals(readingDataTemp
+                            .readingConfigDefaultDtos.get(i).id))
+                        readingData.readingConfigDefaultDtos.remove(readingDataTemp
+                                .readingConfigDefaultDtos.get(i));
                 }
             }
             myDatabase.readingConfigDefaultDao().insertAllReadingConfigDefault(
                     readingData.readingConfigDefaultDtos);
 
-            ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>(
-                    myDatabase.onOffLoadDao().getAllOnOffLoad());
-            for (int j = 0, onOffLoadDtosSize = onOffLoadDtos.size(); j < onOffLoadDtosSize; j++) {
-                OnOffLoadDto onOffLoadDto = onOffLoadDtos.get(j);
-                for (int i = 0; i < readingDataTemp.onOffLoadDtos.size(); i++) {
-                    if (onOffLoadDto.id.equals(readingDataTemp.onOffLoadDtos.get(i).id) &&
-                            onOffLoadDto.trackingId.equals(readingDataTemp.onOffLoadDtos.get(i).trackingId)
-                    ) {
-                        readingData.onOffLoadDtos.remove(readingDataTemp.onOffLoadDtos.get(i));
-                    }
-                }
-            }
-            myDatabase.onOffLoadDao().insertAllOnOffLoad(readingData.onOffLoadDtos);
-
             if (readingData.counterReportDtos.size() > 0) {
                 myDatabase.counterReportDao().deleteAllCounterReport();
-                myDatabase.counterReportDao().insertAllCounterStateReport(
-                        readingData.counterReportDtos);
+                myDatabase.counterReportDao().insertAllCounterStateReport(readingData.counterReportDtos);
             }
             String message = String.format(MyApplication.getContext().getString(R.string.download_message),
                     readingData.trackingDtos.size(), readingData.onOffLoadDtos.size());
-            activity.runOnUiThread(() -> new CustomDialogModel(DialogType.Green,
-                    activity, message,
-                    MyApplication.getContext().getString(R.string.dear_user),
-                    MyApplication.getContext().getString(R.string.download),
-                    MyApplication.getContext().getString(R.string.accepted)));
+            showMessage(message, DialogType.Green);
         }
+    }
+
+    void showMessage(String message, DialogType dialogType) {
+        activity.runOnUiThread(() -> new CustomDialogModel(dialogType,
+                activity, message,
+                MyApplication.getContext().getString(R.string.dear_user),
+                MyApplication.getContext().getString(R.string.download),
+                MyApplication.getContext().getString(R.string.accepted)));
+    }
+
+    @SuppressLint({"DefaultLocale", "SimpleDateFormat"})
+    void downloadArchive(ReadingData readingData, int i, MyDatabase myDatabase) {
+        String time = (new SimpleDateFormat(activity
+                .getString(R.string.save_format_name))).format(new Date());
+        String query = "CREATE TABLE %s AS %s;";
+        String query1 = String.format(query, "TrackingDto_".concat(time), String
+                .format("SELECT * FROM TrackingDto WHERE trackNumber = %d AND isArchive = 1"
+                        , readingData.trackingDtos.get(i).trackNumber));
+        String query2 = String.format(query, "OnOffLoadDto_".concat(time), String
+                .format("SELECT * FROM OnOffLoadDto WHERE trackNumber = %d"
+                        , readingData.trackingDtos.get(i).trackNumber));
+        Cursor cursor = myDatabase.getOpenHelper().getWritableDatabase().query(query1);
+        cursor.moveToFirst();
+        cursor = myDatabase.getOpenHelper().getWritableDatabase().query(query2);
+        cursor.moveToFirst();
+        myDatabase.trackingDao().deleteTrackingDto(readingData.trackingDtos.get(i).trackNumber, true);
+        myDatabase.onOffLoadDao().deleteOnOffLoad(readingData.trackingDtos.get(i).trackNumber);
     }
 }
 

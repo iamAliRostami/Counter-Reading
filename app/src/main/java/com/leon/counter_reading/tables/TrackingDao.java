@@ -47,4 +47,16 @@ public interface TrackingDao {
 
     @Query("Update TrackingDto Set isArchive = :isArchive, isActive = :isActive")
     void updateTrackingDtoByArchive(boolean isArchive, boolean isActive);
+
+    @Query("DELETE FROM TrackingDto WHERE trackNumber = :trackNumber AND isArchive = :isArchive")
+    void deleteTrackingDto(int trackNumber, boolean isArchive);
+
+    @Query("SELECT COUNT(*) FROM TrackingDto WHERE isActive = :isActive AND isArchive = :isArchive")
+    int getTrackingDtoActivesCount(boolean isActive, boolean isArchive);
+
+    @Query("SELECT COUNT(*) FROM TrackingDto WHERE trackNumber= :trackNumber")
+    int getTrackingDtoActivesCountByTracking(int trackNumber);
+
+    @Query("SELECT COUNT(*) FROM TrackingDto WHERE trackNumber= :trackNumber AND isArchive = :isArchive")
+    int getTrackingDtoArchiveCountByTrackNumber(int trackNumber, boolean isArchive);
 }
