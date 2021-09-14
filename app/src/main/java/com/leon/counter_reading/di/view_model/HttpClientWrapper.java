@@ -28,7 +28,6 @@ public class HttpClientWrapper {
                                          final ICallback<T> callback,
                                          final ICallbackIncomplete<T> callbackIncomplete,
                                          final ICallbackError callbackError) {
-
         CustomProgressBar progressBar = new CustomProgressBar();
         if (progressType == ProgressType.SHOW.getValue()) {
             progressBar.show(context, context.getString(R.string.waiting));
