@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.provider.Settings;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.app.ActivityCompat;
 import androidx.core.location.LocationManagerCompat;
@@ -226,10 +227,9 @@ public class PermissionManager {
     public static boolean gpsEnabledNew(Activity activity) {
         LocationManager locationManager = (LocationManager)
                 activity.getSystemService(Context.LOCATION_SERVICE);
-        boolean enabled =
-                LocationManagerCompat.isLocationEnabled(Objects.requireNonNull(locationManager));
+        boolean enabled = LocationManagerCompat.isLocationEnabled(locationManager);
 //        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
-        androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(activity, R.style.AlertDialogCustom));
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(activity, R.style.AlertDialogCustom));
         if (!enabled) {
             alertDialog.setCancelable(false);
             alertDialog.setTitle(activity.getString(R.string.gps_setting));

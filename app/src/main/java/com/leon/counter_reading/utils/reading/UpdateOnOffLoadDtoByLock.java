@@ -7,7 +7,10 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
+import com.leon.counter_reading.di.view_model.CustomDialogModel;
+import com.leon.counter_reading.enums.DialogType;
 
 public class UpdateOnOffLoadDtoByLock extends AsyncTask<Activity, Void, Void> {
     private final int position;
@@ -23,13 +26,26 @@ public class UpdateOnOffLoadDtoByLock extends AsyncTask<Activity, Void, Void> {
 
     @Override
     protected Void doInBackground(Activity... activities) {
-        for (int i = 0; i < readingDataTemp.onOffLoadDtos.size(); i++) {
-            if (readingDataTemp.onOffLoadDtos.get(i).id.equals(id))
-                readingDataTemp.onOffLoadDtos.get(i).isLocked = true;
+        try {
+            int i = 0;
+            boolean found = false;
+            while (!found && i < readingDataTemp.onOffLoadDtos.size()) {
+                if (readingDataTemp.onOffLoadDtos.get(i).id.equals(id)) {
+                    readingDataTemp.onOffLoadDtos.get(i).isLocked = true;
+                    found = true;
+                }
+                i++;
+            }
+            MyApplication.getApplicationComponent().MyDatabase().onOffLoadDao().updateOnOffLoadByLock(id, trackNumber, true);
+            readingData.onOffLoadDtos.get(position).isLocked = true;
+            ((ReadingActivity) (activities[0])).setupViewPagerAdapter(position);
+        } catch (Exception e) {
+            activities[0].runOnUiThread(() -> new CustomDialogModel(DialogType.Red,
+                    activities[0], e.getMessage(),
+                    activities[0].getString(R.string.dear_user),
+                    activities[0].getString(R.string.take_screen_shot),
+                    activities[0].getString(R.string.accepted)));
         }
-        MyApplication.getApplicationComponent().MyDatabase().onOffLoadDao().updateOnOffLoadByLock(id, trackNumber, true);
-        readingData.onOffLoadDtos.get(position).isLocked = true;
-        ((ReadingActivity) (activities[0])).setupViewPagerAdapter(position);
         return null;
     }
 }

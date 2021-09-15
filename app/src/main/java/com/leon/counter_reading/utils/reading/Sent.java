@@ -3,10 +3,12 @@ package com.leon.counter_reading.utils.reading;
 import static com.leon.counter_reading.MyApplication.readingData;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.tables.OnOffLoadDto;
+import com.leon.counter_reading.utils.CustomToast;
 
 public class Sent extends AsyncTask<OnOffLoadDto.OffLoadResponses, Integer, Integer> {
     public Sent() {
@@ -31,9 +33,8 @@ public class Sent extends AsyncTask<OnOffLoadDto.OffLoadResponses, Integer, Inte
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            new CustomToast().error(e.getMessage(), Toast.LENGTH_LONG);
         }
-
         return null;
     }
 }

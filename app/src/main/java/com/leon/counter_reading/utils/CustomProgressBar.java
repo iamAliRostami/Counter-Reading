@@ -90,7 +90,7 @@ public final class CustomProgressBar {
         dialog.setCancelable(cancelable);
         if (cancelable) {
             dialog.setOnCancelListener(cancelListener);
-            RelativeLayout relativeLayout = view.findViewById(R.id.relativeLayout);
+            RelativeLayout relativeLayout = view.findViewById(R.id.relative_layout);
             relativeLayout.setOnClickListener(v -> {
                 dialog.dismiss();
                 dialog.cancel();

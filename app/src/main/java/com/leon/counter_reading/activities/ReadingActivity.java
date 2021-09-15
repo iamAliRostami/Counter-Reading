@@ -7,7 +7,6 @@ import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Debug;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -206,14 +205,22 @@ public class ReadingActivity extends BaseActivity {
     }
 
     public void changePage(int pageNumber) {
-        runOnUiThread(() -> {
-            if (pageNumber < readingData.onOffLoadDtos.size())
-                binding.viewPager.setCurrentItem(pageNumber);
-            else {
-                new CustomToast().success(getString(R.string.all_masir_bazdid));
-                binding.viewPager.setCurrentItem(0);
-            }
-        });
+        try {
+            runOnUiThread(() -> {
+                if (pageNumber < readingData.onOffLoadDtos.size())
+                    binding.viewPager.setCurrentItem(pageNumber);
+                else {
+                    new CustomToast().success(getString(R.string.all_masir_bazdid));
+//                binding.viewPager.setCurrentItem(0);
+                }
+            });
+        } catch (Exception e) {
+            activity.runOnUiThread(() -> new CustomDialogModel(DialogType.Red,
+                    activity, e.getMessage(),
+                    getString(R.string.dear_user),
+                    getString(R.string.take_screen_shot),
+                    getString(R.string.accepted)));
+        }
     }
 
     public void search(int type, String key, boolean goToPage) {
@@ -310,9 +317,10 @@ public class ReadingActivity extends BaseActivity {
             showImage(position);
         } else {
             makeRing(activity, NotificationType.SAVE);
-            new Update(position, BaseActivity.getLocationTracker(activity).getCurrentLocation(activity)).execute(activity);
-            new PrepareToSend(sharedPreferenceManager.
-                    getStringData(SharedReferenceKeys.TOKEN.getValue())).execute(activity);
+            new Update(position, BaseActivity.getLocationTracker(activity)
+                    .getCurrentLocation(activity)).execute(activity);
+            new PrepareToSend(sharedPreferenceManager
+                    .getStringData(SharedReferenceKeys.TOKEN.getValue())).execute(activity);
             changePage(binding.viewPager.getCurrentItem() + 1);
         }
     }

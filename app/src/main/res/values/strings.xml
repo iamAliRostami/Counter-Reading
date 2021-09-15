@@ -232,5 +232,6 @@
     <string name="sort_reading_type">مرتب سازی نزولی</string>
     <string name="not_sent">وضعیت این اشتراک هنوز مشخص نشده است.</string>
     <string name="single_zone">در یک زمان تنها یک ناحیه را میتوانید قرائت کنید.</string>
+    <string name="take_screen_shot">از این صفحه اسکرین شات بگیرید.</string>
     <!--    <string name="COMPANY_NAME" />-->
 </resources>

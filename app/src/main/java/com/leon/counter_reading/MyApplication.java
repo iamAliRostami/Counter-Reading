@@ -162,7 +162,6 @@ public class MyApplication extends Application {
                 .build();
         applicationComponent.inject(this);
         super.onCreate();
-//        .throw new RuntimeException("Test Crash");
     }
 
     @Override
