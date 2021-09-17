@@ -46,6 +46,8 @@ android {
         release {
             debuggable true
             signingConfig signingConfigs.config
+            buildConfigField 'com.leon.counter_reading.enums.CompanyNames', 'COMPANY_NAME',
+                    "com.leon.counter_reading.enums.CompanyNames.ESF"
         }
         esf {
             debuggable true
@@ -130,6 +132,8 @@ dependencies {
 //    implementation 'com.google.firebase:firebase-analytics'
 //    implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-perf'
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.1'
+    implementation 'com.google.firebase:firebase-analytics:19.0.1'
 
 
     annotationProcessor("javax.annotation:javax.annotation-api:1.3.2")
