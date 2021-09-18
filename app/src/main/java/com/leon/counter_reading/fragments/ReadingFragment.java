@@ -179,9 +179,9 @@ public class ReadingFragment extends Fragment {
         binding.spinner.setAdapter(adapter);
         if (onOffLoadDto.counterStatePosition != null)
             binding.spinner.setSelection(onOffLoadDto.counterStatePosition);
-        else {
+        else {//TODO
             for (int i = 0; i < counterStateDtos.size(); i++)
-                if (counterStateDtos.get(i).id == onOffLoadDto.preCounterStateCode)
+                if (counterStateDtos.get(i).moshtarakinId == onOffLoadDto.preCounterStateCode)
                     binding.spinner.setSelection(i);
         }
         setOnSpinnerSelectedListener();
@@ -203,7 +203,7 @@ public class ReadingFragment extends Fragment {
                 if (onOffLoadDto.counterStatePosition == null ||
                         onOffLoadDto.counterStatePosition != binding.spinner.getSelectedItemPosition()) {
                     if ((counterStateDto.isTavizi || counterStateDto.isXarab) &&
-                            counterStateDto.id != onOffLoadDto.preCounterStateCode) {
+                            counterStateDto.moshtarakinId != onOffLoadDto.preCounterStateCode) {
                         SerialFragment serialFragment = SerialFragment.newInstance(position,
                                 counterStateDto.id, counterStatePosition);
                         serialFragment.show(getChildFragmentManager(), getString(R.string.counter_serial));
