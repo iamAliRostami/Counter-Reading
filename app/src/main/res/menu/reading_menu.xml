@@ -14,12 +14,16 @@
         android:title="@string/location_counter"
         app:showAsAction="never" />
     <item
+        android:id="@+id/menu_last"
+        android:title="@string/last_unread"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/menu_report_forbid"
         android:title="@string/report_forbid"
         app:showAsAction="never" />
     <item
-        android:id="@+id/menu_last"
-        android:title="@string/last_unread"
+        android:id="@+id/menu_verification"
+        android:title="@string/verification_code"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_keyboard"
@@ -32,4 +36,5 @@
         android:checkable="true"
         android:title="@string/sort_reading_type"
         app:showAsAction="never" />
+
 </menu>

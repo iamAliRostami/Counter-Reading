@@ -1,5 +1,6 @@
 package com.leon.counter_reading.activities;
 
+import static com.leon.counter_reading.MyApplication.getLocationTracker;
 import static com.leon.counter_reading.MyApplication.readingData;
 import static com.leon.counter_reading.MyApplication.readingDataTemp;
 import static com.leon.counter_reading.utils.MakeNotification.makeRing;
@@ -7,6 +8,7 @@ import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Debug;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +40,7 @@ import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DepthPageTransformer;
+import com.leon.counter_reading.utils.login.TwoStepVerification;
 import com.leon.counter_reading.utils.reading.ChangeSortType;
 import com.leon.counter_reading.utils.reading.GetBundle;
 import com.leon.counter_reading.utils.reading.GetReadingDBData;
@@ -317,8 +320,8 @@ public class ReadingActivity extends BaseActivity {
             showImage(position);
         } else {
             makeRing(activity, NotificationType.SAVE);
-            new Update(position, BaseActivity.getLocationTracker(activity)
-                    .getCurrentLocation(activity)).execute(activity);
+            new Update(position, getLocationTracker(activity).getCurrentLocation(activity))
+                    .execute(activity);
             new PrepareToSend(sharedPreferenceManager
                     .getStringData(SharedReferenceKeys.TOKEN.getValue())).execute(activity);
             changePage(binding.viewPager.getCurrentItem() + 1);
@@ -463,6 +466,9 @@ public class ReadingActivity extends BaseActivity {
                 }
                 binding.viewPager.setCurrentItem(currentItem);
             }
+        } else if (id == R.id.menu_verification) {
+            Log.e("here", "R.id.menu_verification");
+            TwoStepVerification.showPersonalCode(activity);
         }
         return super.onOptionsItemSelected(item);
     }

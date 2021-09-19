@@ -1,6 +1,7 @@
 package com.leon.counter_reading.activities;
 
 import static com.leon.counter_reading.MyApplication.PHOTO_URI;
+import static com.leon.counter_reading.MyApplication.getLocationTracker;
 import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
@@ -260,10 +261,10 @@ public class ReportForbidActivity extends AppCompatActivity {
 
     void sendForbid() {
         double latitude = 0, longitude = 0, accuracy = 0;
-        if (BaseActivity.getLocationTracker(activity).getCurrentLocation(activity) != null) {
-            latitude = BaseActivity.getLocationTracker(activity).getCurrentLocation(activity).getLatitude();
-            longitude = BaseActivity.getLocationTracker(activity).getCurrentLocation(activity).getLatitude();
-            accuracy = BaseActivity.getLocationTracker(activity).getCurrentLocation(activity).getLatitude();
+        if (getLocationTracker(activity).getCurrentLocation(activity) != null) {
+            latitude = getLocationTracker(activity).getCurrentLocation(activity).getLatitude();
+            longitude = getLocationTracker(activity).getCurrentLocation(activity).getLatitude();
+            accuracy = getLocationTracker(activity).getCurrentLocation(activity).getLatitude();
         }
         forbiddenDto.prepareToSend(accuracy, longitude, latitude,
                 binding.editTextPostalCode.getText().toString(),

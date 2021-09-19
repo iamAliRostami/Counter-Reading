@@ -45,43 +45,24 @@ import com.leon.counter_reading.adapters.DrawerItem;
 import com.leon.counter_reading.adapters.NavigationDrawerAdapter;
 import com.leon.counter_reading.adapters.RecyclerItemClickListener;
 import com.leon.counter_reading.databinding.ActivityBaseBinding;
-import com.leon.counter_reading.di.component.ActivityComponent;
-import com.leon.counter_reading.di.component.DaggerActivityComponent;
-import com.leon.counter_reading.di.module.CustomDialogModule;
-import com.leon.counter_reading.di.module.LocationTrackingModule;
 import com.leon.counter_reading.di.view_model.MyDatabaseClientModel;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
-import com.leon.counter_reading.infrastructure.ILocationTracking;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
-import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.PermissionManager;
-import com.leon.counter_reading.utils.locating.CheckSensor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private static ActivityComponent activityComponent;
     private Activity activity;
     private Toolbar toolbar;
     private List<DrawerItem> dataList;
     private ActivityBaseBinding binding;
     private ISharedPreferenceManager sharedPreferenceManager;
     private boolean exit = false;
-
-    public static ActivityComponent getActivityComponent() {
-        return activityComponent;
-    }
-
-    public static ILocationTracking getLocationTracker(Activity activity) {
-        return CheckSensor.checkSensor(activity) ?
-                activityComponent.LocationTrackingGoogle() :
-                activityComponent.LocationTrackingGps();
-    }
 
     protected abstract void initialize();
 
@@ -231,7 +212,6 @@ public abstract class BaseActivity extends AppCompatActivity
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                         }
                     }
-
                     @Override
                     public void onLongItemClick(View view, int position) {
                     }
@@ -243,21 +223,7 @@ public abstract class BaseActivity extends AppCompatActivity
     private void initializeBase() {
         activity = this;
         MyDatabaseClientModel.migration(activity);
-        activityComponent = DaggerActivityComponent
-                .builder()
-                .customDialogModule(new CustomDialogModule(activity))
-                .locationTrackingModule(new LocationTrackingModule(activity))
-                .build();
-//        getApplicationComponent().MyDatabase().savedLocationDao().deleteSavedLocations();
-//        for (int i = 0; i < 300; i++) {
-//            double latitude, longitude, accuracy;
-//            if (BaseActivity.getLocationTracker(this).getCurrentLocation(this) != null) {
-//                accuracy = BaseActivity.getLocationTracker(this).getCurrentLocation(this).getAccuracy();
-//                latitude = BaseActivity.getLocationTracker(this).getCurrentLocation(this).getLatitude() + (double) (new Random().nextInt(2000) - 1000) / 1000000;
-//                longitude = BaseActivity.getLocationTracker(this).getCurrentLocation(this).getLongitude() + (double) (new Random().nextInt(2000) - 1000) / 1000000;
-//                getApplicationComponent().MyDatabase().savedLocationDao().insertSavedLocation(new SavedLocation(accuracy, longitude, latitude));
-//            }
-//        }
+        MyApplication.setActivityComponent(activity);
         TextView textView = findViewById(R.id.text_view_title);
         textView.setText(sharedPreferenceManager.getStringData(
                 SharedReferenceKeys.DISPLAY_NAME.getValue()).

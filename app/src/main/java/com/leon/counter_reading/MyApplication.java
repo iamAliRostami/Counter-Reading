@@ -18,14 +18,20 @@ import android.telephony.TelephonyManager;
 import androidx.core.app.ActivityCompat;
 import androidx.multidex.MultiDex;
 
+import com.leon.counter_reading.di.component.ActivityComponent;
 import com.leon.counter_reading.di.component.ApplicationComponent;
+import com.leon.counter_reading.di.component.DaggerActivityComponent;
 import com.leon.counter_reading.di.component.DaggerApplicationComponent;
+import com.leon.counter_reading.di.module.CustomDialogModule;
 import com.leon.counter_reading.di.module.FlashModule;
+import com.leon.counter_reading.di.module.LocationTrackingModule;
 import com.leon.counter_reading.di.module.MyDatabaseModule;
 import com.leon.counter_reading.di.module.NetworkModule;
 import com.leon.counter_reading.di.module.SharedPreferenceModule;
 import com.leon.counter_reading.enums.SharedReferenceNames;
+import com.leon.counter_reading.infrastructure.ILocationTracking;
 import com.leon.counter_reading.tables.ReadingData;
+import com.leon.counter_reading.utils.locating.CheckSensor;
 
 import java.util.ArrayList;
 
@@ -64,7 +70,24 @@ public class MyApplication extends Application {
     private static Context appContext;
     private static int ERROR_COUNTER = 0;
     private static ApplicationComponent applicationComponent;
+    private static ActivityComponent activityComponent;
 
+    public static ActivityComponent getActivityComponent() {
+        return activityComponent;
+    }
+
+    public static void setActivityComponent(Activity activity) {
+        MyApplication.activityComponent = DaggerActivityComponent
+                .builder()
+                .customDialogModule(new CustomDialogModule(activity))
+                .locationTrackingModule(new LocationTrackingModule(activity))
+                .build();
+    }
+    public static ILocationTracking getLocationTracker(Activity activity) {
+        return CheckSensor.checkSensor(activity) ?
+                activityComponent.LocationTrackingGoogle() :
+                activityComponent.LocationTrackingGps();
+    }
     public static ApplicationComponent getApplicationComponent() {
         return applicationComponent;
     }

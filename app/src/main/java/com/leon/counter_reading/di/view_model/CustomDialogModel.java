@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import androidx.core.content.ContextCompat;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.HomeActivity;
 import com.leon.counter_reading.base_items.BaseActivity;
@@ -24,7 +25,7 @@ public class CustomDialogModel {
 
     public CustomDialogModel(DialogType choose, Context context, String message, String title,
                              String top, String buttonText, Inline... inline) {
-        lovelyStandardDialog = BaseActivity.getActivityComponent().LovelyStandardDialog();
+        lovelyStandardDialog = MyApplication.getActivityComponent().LovelyStandardDialog();
         this.context = context;
         lovelyStandardDialog.setTitle(title)
                 .setMessage(message)

@@ -83,7 +83,6 @@ class DownloadCompleted implements ICallback<ReadingData> {
             MyDatabase myDatabase = MyApplication.getApplicationComponent().MyDatabase();
 //            insert TrackingDto and OnOffLoadDto
 //            long startTime = Calendar.getInstance().getTimeInMillis();
-//            TODO SELECT INTO حالت یکی حذف، یکی فعال چی میشه؟!
             for (int i = 0; i < readingData.trackingDtos.size(); i++) {
                 if (myDatabase.trackingDao().getTrackingDtoArchiveCountByTrackNumber(readingData
                         .trackingDtos.get(i).trackNumber, true) > 0) {

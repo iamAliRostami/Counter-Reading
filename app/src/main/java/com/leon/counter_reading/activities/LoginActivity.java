@@ -32,6 +32,7 @@ import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.PermissionManager;
 import com.leon.counter_reading.utils.login.AttemptLogin;
 import com.leon.counter_reading.utils.login.AttemptRegister;
+import com.leon.counter_reading.utils.login.TwoStepVerification;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         activity = this;
+        MyApplication.setActivityComponent(activity);
         checkReadPhoneStatePermission();
     }
 
@@ -98,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
         setOnButtonLoginClickListener();
         setOnButtonLongCLickListener();
         setOnImageViewPasswordClickListener();
+        setOnImageViewPerson();
         setEditTextUsernameOnFocusChangeListener();
         setEditTextPasswordOnFocusChangeListener();
     }
@@ -144,6 +147,19 @@ public class LoginActivity extends AppCompatActivity {
                         binding.editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT |
                                 InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 }));
+    }
+
+    void setOnImageViewPerson() {
+        binding.imageViewPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        binding.imageViewPerson.setOnLongClickListener(view -> {
+            TwoStepVerification.insertPersonalCode(activity);
+            return false;
+        });
     }
 
     void setOnButtonLongCLickListener() {

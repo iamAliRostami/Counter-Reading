@@ -1,12 +1,10 @@
 package com.leon.counter_reading.utils.custom_dialog;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,164 +19,22 @@ public class LovelyTextInputDialog extends AbsLovelyDialog<LovelyTextInputDialog
     private static final String KEY_HAS_ERROR = "key_has_error";
     private static final String KEY_TYPED_TEXT = "key_typed_text";
 
-    @SuppressLint("StaticFieldLeak")
-    private static EditText editText1, editText2, editText3, editText4, editText5;
+    private final EditText editText1;
     private final TextView errorMessage;
     private final TextView confirmButton;
     private final TextView negativeButton;
 
     private TextFilter filter;
-    private View viewFocus;
 
     {
         confirmButton = findView(R.id.button_confirm);
         negativeButton = findView(R.id.button_negative);
-        editText1 = findView(R.id.editTextNumber1);
-        editText2 = findView(R.id.editTextNumber2);
-        editText3 = findView(R.id.editTextNumber3);
-        editText4 = findView(R.id.editTextNumber4);
-        editText5 = findView(R.id.editTextNumber5);
+        editText1 = findView(R.id.edit_text_personal_code);
 
         errorMessage = findView(R.id.ld_error_message);
         editText1.addTextChangedListener(new HideErrorOnTextChanged());
-        editText2.addTextChangedListener(new HideErrorOnTextChanged());
-        editText3.addTextChangedListener(new HideErrorOnTextChanged());
-        editText4.addTextChangedListener(new HideErrorOnTextChanged());
-        editText5.addTextChangedListener(new HideErrorOnTextChanged());
 
-        editText1.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.length() > 0) {
-                    viewFocus = editText2;
-                    viewFocus.requestFocus();
-                }
-            }
-        });
-        editText2.addTextChangedListener(new TextWatcher() {
-//            private int previousLength;
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                previousLength = charSequence.length();
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.length() > 0) {
-                    viewFocus = editText3;
-                    viewFocus.requestFocus();
-                }
-//                boolean backSpace = previousLength > editable.length();
-//                if (backSpace) {
-//                    Log.e("textWatcher", "back");
-//                }
-            }
-        });
-        editText3.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.length() > 0) {
-                    viewFocus = editText4;
-                    viewFocus.requestFocus();
-                }
-            }
-        });
-        editText4.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.length() > 0) {
-                    viewFocus = editText5;
-                    viewFocus.requestFocus();
-                }
-            }
-        });
-
-        editText2.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (i == KeyEvent.KEYCODE_DEL) {
-                    if (editText2.getText().length() < 1) {
-                        viewFocus = editText1;
-                        viewFocus.requestFocus();
-                    }
-                }
-                return false;
-            }
-        });
-        editText3.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (i == KeyEvent.KEYCODE_DEL) {
-                    if (editText3.getText().length() < 1) {
-                        viewFocus = editText2;
-                        viewFocus.requestFocus();
-                    }
-                }
-                return false;
-            }
-        });
-        editText4.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (i == KeyEvent.KEYCODE_DEL) {
-                    if (editText4.getText().length() < 1) {
-                        viewFocus = editText3;
-                        viewFocus.requestFocus();
-                    }
-                }
-                return false;
-            }
-        });
-        editText5.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (i == KeyEvent.KEYCODE_DEL) {
-                    if (editText5.getText().length() < 1) {
-                        viewFocus = editText4;
-                        viewFocus.requestFocus();
-                    }
-                }
-                return false;
-            }
-        });
-
-        viewFocus = editText1;
-        viewFocus.requestFocus();
+        editText1.requestFocus();
 
     }
 
@@ -190,16 +46,8 @@ public class LovelyTextInputDialog extends AbsLovelyDialog<LovelyTextInputDialog
         super(context, theme);
     }
 
-    public static EditText getEditTextNumber(int i) {
-        if (i == 1)
+    public EditText getEditTextNumber() {
             return editText1;
-        else if (i == 2)
-            return editText2;
-        else if (i == 3)
-            return editText3;
-        else if (i == 4)
-            return editText4;
-        return editText5;
     }
 
     public LovelyTextInputDialog configureEditText(@NonNull ViewConfigurator<EditText> viewConfigurator) {

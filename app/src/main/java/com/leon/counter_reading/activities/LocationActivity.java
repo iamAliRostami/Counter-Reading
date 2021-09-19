@@ -1,5 +1,6 @@
 package com.leon.counter_reading.activities;
 
+import static com.leon.counter_reading.MyApplication.getLocationTracker;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 import android.Manifest;
@@ -149,9 +150,8 @@ public class LocationActivity extends BaseActivity {
         binding.mapView.setMultiTouchControls(true);
         IMapController mapController = binding.mapView.getController();
         mapController.setZoom(19.0);
-        GeoPoint startPoint = new GeoPoint(BaseActivity
-                .getLocationTracker(activity).getCurrentLocation(activity).getLatitude(), BaseActivity
-                .getLocationTracker(activity).getCurrentLocation(activity).getLongitude());
+        GeoPoint startPoint = new GeoPoint(getLocationTracker(activity).getCurrentLocation(activity).getLatitude(),
+                getLocationTracker(activity).getCurrentLocation(activity).getLongitude());
         mapController.setCenter(startPoint);
         MyLocationNewOverlay locationOverlay =
                 new MyLocationNewOverlay(new GpsMyLocationProvider(activity), binding.mapView);
