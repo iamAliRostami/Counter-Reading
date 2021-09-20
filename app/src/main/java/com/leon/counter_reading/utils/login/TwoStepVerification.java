@@ -52,8 +52,8 @@ public class TwoStepVerification {
                             .getIntData(SharedReferenceKeys.PERSONAL_CODE.getValue()) + 1313 *
                             calendarTool.getIranianMonth() * calendarTool.getIranianDay());
             new CustomDialogModel(DialogType.Green, context, verificationCode,
+                    MyApplication.getContext().getString(R.string.verification_code),
                     MyApplication.getContext().getString(R.string.dear_user),
-                    MyApplication.getContext().getString(R.string.personal_code),
                     MyApplication.getContext().getString(R.string.accepted));
         } else insertPersonalCode(context);
     }

@@ -236,5 +236,6 @@
     <string name="enter_personal_code">شماره پرسنلی خود را وارد کنید</string>
     <string name="verification_code">کد تایید دو مرحله ای</string>
     <string name="personal_code">شماره پرسنلی</string>
+    <string name="serial">سریال دستگاه</string>
     <!--    <string name="COMPANY_NAME" />-->
 </resources>

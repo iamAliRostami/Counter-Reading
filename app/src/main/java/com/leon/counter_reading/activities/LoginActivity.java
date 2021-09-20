@@ -24,6 +24,8 @@ import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivityLoginBinding;
+import com.leon.counter_reading.di.view_model.CustomDialogModel;
+import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.Crypto;
@@ -150,12 +152,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void setOnImageViewPerson() {
-        binding.imageViewPerson.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        binding.imageViewPerson.setOnClickListener(view ->
+                new CustomDialogModel(DialogType.Green, activity, MyApplication.getSerial(activity),
+                        MyApplication.getContext().getString(R.string.serial),
+                        MyApplication.getContext().getString(R.string.dear_user),
+                        MyApplication.getContext().getString(R.string.accepted)));
         binding.imageViewPerson.setOnLongClickListener(view -> {
             TwoStepVerification.insertPersonalCode(activity);
             return false;
