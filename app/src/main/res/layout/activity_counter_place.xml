@@ -37,7 +37,6 @@
             android:nextFocusUp="@+id/edit_Text_3"
             android:nextFocusDown="@+id/edit_Text_3"
             android:nextFocusForward="@+id/edit_Text_3"
-            android:padding="@dimen/medium_dp"
             tools:ignore="Autofill" />
 
         <TextView
@@ -54,7 +53,6 @@
             android:nextFocusUp="@+id/edit_Text_2"
             android:nextFocusDown="@+id/edit_Text_2"
             android:nextFocusForward="@+id/edit_Text_2"
-            android:padding="@dimen/medium_dp"
             tools:ignore="Autofill" />
     </LinearLayout>
 

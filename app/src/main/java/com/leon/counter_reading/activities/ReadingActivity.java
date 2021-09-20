@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -467,7 +468,6 @@ public class ReadingActivity extends BaseActivity {
                 binding.viewPager.setCurrentItem(currentItem);
             }
         } else if (id == R.id.menu_verification) {
-            Log.e("here", "R.id.menu_verification");
             TwoStepVerification.showPersonalCode(activity);
         }
         return super.onOptionsItemSelected(item);

@@ -17,10 +17,6 @@ import com.leon.counter_reading.R;
 
 public class LovelyStandardDialog extends AbsLovelyDialog<LovelyStandardDialog> {
 
-    public static final int POSITIVE_BUTTON = R.id.button_yes;
-    public static final int NEGATIVE_BUTTON = R.id.button_no;
-    public static final int NEUTRAL_BUTTON = R.id.button_neutral;
-
     private final Button positiveButton;
     private final Button negativeButton;
     private final Button neutralButton;

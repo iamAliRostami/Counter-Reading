@@ -2,6 +2,7 @@ package com.leon.counter_reading.utils.login;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -43,7 +44,7 @@ public class TwoStepVerification {
         lovelyTextInputDialog.show();
     }
 
-    public static void showPersonalCode(Context context) {
+    public static void showPersonalCode(Activity activity) {
         if (MyApplication.getApplicationComponent().SharedPreferenceModel()
                 .getIntData(SharedReferenceKeys.PERSONAL_CODE.getValue()) > 0) {
             CalendarTool calendarTool = new CalendarTool();
@@ -51,10 +52,13 @@ public class TwoStepVerification {
                     String.valueOf(MyApplication.getApplicationComponent().SharedPreferenceModel()
                             .getIntData(SharedReferenceKeys.PERSONAL_CODE.getValue()) + 1313 *
                             calendarTool.getIranianMonth() * calendarTool.getIranianDay());
-            new CustomDialogModel(DialogType.Green, context, verificationCode,
+            CustomDialogModel customDialogModel = new CustomDialogModel(DialogType.Green, activity,
+                    verificationCode,
                     MyApplication.getContext().getString(R.string.verification_code),
                     MyApplication.getContext().getString(R.string.dear_user),
                     MyApplication.getContext().getString(R.string.accepted));
-        } else insertPersonalCode(context);
+            customDialogModel.getLovelyStandardDialog().getMessageView()
+                    .setTextSize(activity.getResources().getDimension(R.dimen.text_size_huge));
+        } else insertPersonalCode(activity);
     }
 }

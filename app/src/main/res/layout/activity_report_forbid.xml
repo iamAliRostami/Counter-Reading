@@ -34,14 +34,8 @@
 
             <EditText
                 android:id="@+id/edit_text_pre_account"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/border"
-                android:gravity="center"
+                style="@style/InputNavigation"
                 android:inputType="number"
-                android:lines="1"
-                android:padding="@dimen/low_dp"
                 tools:ignore="Autofill,LabelFor" />
         </LinearLayout>
 
@@ -68,14 +62,8 @@
 
             <EditText
                 android:id="@+id/edit_text_next_account"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/border"
-                android:gravity="center"
+                style="@style/InputNavigation"
                 android:inputType="number"
-                android:lines="1"
-                android:padding="@dimen/low_dp"
                 tools:ignore="Autofill,LabelFor" />
         </LinearLayout>
 
@@ -102,15 +90,9 @@
 
             <EditText
                 android:id="@+id/edit_text_postal_code"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/border"
-                android:gravity="center"
+                style="@style/InputNavigation"
                 android:inputType="number"
-                android:lines="1"
                 android:maxLength="10"
-                android:padding="@dimen/low_dp"
                 tools:ignore="Autofill,LabelFor,TextFields" />
 
         </LinearLayout>
@@ -137,15 +119,9 @@
 
             <EditText
                 android:id="@+id/edit_text_ahad_number"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/border"
-                android:gravity="center"
+                style="@style/InputNavigation"
                 android:inputType="number"
-                android:lines="1"
                 android:maxLength="9"
-                android:padding="@dimen/low_dp"
                 tools:ignore="Autofill,LabelFor" />
 
         </LinearLayout>
@@ -173,15 +149,9 @@
 
             <EditText
                 android:id="@+id/edit_text_description"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/border"
-                android:gravity="center"
+                style="@style/InputNavigation"
                 android:inputType="text"
-                android:lines="1"
-                android:maxLines="1"
-                android:padding="@dimen/low_dp"
+                android:maxLength="1000"
                 tools:ignore="Autofill,LabelFor" />
 
         </LinearLayout>

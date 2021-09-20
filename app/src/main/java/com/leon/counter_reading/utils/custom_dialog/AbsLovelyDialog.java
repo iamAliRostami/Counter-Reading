@@ -229,5 +229,9 @@ public abstract class AbsLovelyDialog<T extends AbsLovelyDialog> {
             }
         }
     }
+
+    public TextView getMessageView() {
+        return messageView;
+    }
 }
 

@@ -138,6 +138,7 @@
             <EditText
                 android:id="@+id/edit_text_address"
                 android:inputType="text"
+                android:maxLength="1000"
                 style="@style/InputNavigation"
                 tools:ignore="Autofill,LabelFor,TextFields" />
 
