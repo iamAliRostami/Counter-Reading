@@ -320,6 +320,7 @@
     </style>
 
     <style name="InputPlace">
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">?android:textColor</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">0dp</item>
@@ -334,6 +335,7 @@
     </style>
 
     <style name="InputNavigation">
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">?android:textColor</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">0dp</item>
@@ -347,6 +349,7 @@
     </style>
 
     <style name="InputPassword">
+        <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
         <item name="android:padding">@dimen/medium_dp</item>
         <item name="android:inputType">textPassword</item>
@@ -357,6 +360,7 @@
     </style>
 
     <style name="InputGray">
+        <item name="android:textStyle">bold</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>

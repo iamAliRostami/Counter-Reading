@@ -28,7 +28,7 @@ class Incomplete implements ICallbackIncomplete<LoginFeedBack> {
     public void executeIncomplete(Response<LoginFeedBack> response) {
         CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(activity);
         String error = customErrorHandlingNew.getErrorMessageDefault(response);
-        if (response.code() == 401) {
+        if (response.code() == 401/*||response.code()==400*/) {
             error = activity.getString(R.string.error_is_not_match);
             if (response.errorBody() != null) {
                 try {

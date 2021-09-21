@@ -15,8 +15,8 @@ public interface CounterStateDao {
     @Query("Select * From CounterStateDto Where zoneId = :zoneId")
     List<CounterStateDto> getCounterStateDtos(int zoneId);
 
-    @Query("Select id From CounterStateDto WHERE isMane = :isMane")
-    List<Integer> getCounterStateDtosIsMane(boolean isMane);
+    @Query("Select id From CounterStateDto WHERE isMane = :isMane AND zoneId = :zoneId")
+    List<Integer> getCounterStateDtosIsMane(boolean isMane, int zoneId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCounterStateDto(CounterStateDto counterStateDto);

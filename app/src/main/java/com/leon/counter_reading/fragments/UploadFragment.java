@@ -97,13 +97,15 @@ public class UploadFragment extends Fragment {
             trackNumber = trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).trackNumber;
             total = myDatabase.onOffLoadDao().getOnOffLoadCount(trackNumber);
             unread = myDatabase.onOffLoadDao().getOnOffLoadUnreadCount(0, trackNumber);
+            //TODO
             ArrayList<Integer> isManes = new ArrayList<>(myDatabase.counterStateDao().
-                    getCounterStateDtosIsMane(true));
+                    getCounterStateDtosIsMane(true,
+                            trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).zoneId));
             for (int i = 0; i < isManes.size(); i++) {
-                mane = mane + myDatabase.onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i), trackNumber);
+                mane += myDatabase.onOffLoadDao().getOnOffLoadIsManeCount(isManes.get(i), trackNumber);
             }
-            alalPercent = myDatabase.trackingDao().getAlalHesabByZoneId(
-                    trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).zoneId);
+            alalPercent = myDatabase.trackingDao().getAlalHesabByZoneId(trackingDtos
+                    .get(binding.spinner.getSelectedItemPosition() - 1).zoneId);
             alalMane = (double) mane / total * 100;
             imagesCount = myDatabase.imageDao().getUnsentImageCountByTrackNumber(trackNumber, false);
             voicesCount = myDatabase.voiceDao().getUnsentVoiceCountByTrackNumber(trackNumber, false);
