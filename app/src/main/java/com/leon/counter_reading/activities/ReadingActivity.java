@@ -23,6 +23,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.gson.Gson;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.ViewPagerAdapterReading;
@@ -402,9 +403,13 @@ public class ReadingActivity extends BaseActivity {
                 showNoEshterakFound();
             } else {
                 intent = new Intent(activity, NavigationActivity.class);
-                intent.putExtra(BundleEnum.BILL_ID.getValue(),
-                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
+//                intent.putExtra(BundleEnum.BILL_ID.getValue(),
+//                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
                 intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
+
+                Gson gson = new Gson();
+                String json1 = gson.toJson(readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()));
+                intent.putExtra(BundleEnum.ON_OFF_LOAD.getValue(), json1);
                 startActivityForResult(intent, MyApplication.NAVIGATION);
             }
         } else if (id == R.id.menu_report_forbid) {

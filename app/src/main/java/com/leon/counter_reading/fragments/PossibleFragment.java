@@ -173,11 +173,14 @@ public class PossibleFragment extends DialogFragment {
         binding.editTextAddress.setText(onOffLoadDto.possibleAddress);
         binding.editTextAccount.setText(onOffLoadDto.possibleEshterak);
         binding.editTextSerial.setText(onOffLoadDto.possibleCounterSerial);
-
-        binding.editTextAhadEmpty.setText(String.valueOf(onOffLoadDto.possibleEmpty));
-        binding.editTextAhad1.setText(String.valueOf(onOffLoadDto.possibleAhadMaskooniOrAsli));
-        binding.editTextAhad2.setText(String.valueOf(onOffLoadDto.possibleAhadTejariOrFari));
-        binding.editTextAhadTotal.setText(String.valueOf(onOffLoadDto.possibleAhadSaierOrAbBaha));
+        if (onOffLoadDto.possibleEmpty > 0)
+            binding.editTextAhadEmpty.setText(String.valueOf(onOffLoadDto.possibleEmpty));
+        if (onOffLoadDto.possibleAhadMaskooniOrAsli > 0)
+            binding.editTextAhad1.setText(String.valueOf(onOffLoadDto.possibleAhadMaskooniOrAsli));
+        if (onOffLoadDto.possibleAhadTejariOrFari > 0)
+            binding.editTextAhad2.setText(String.valueOf(onOffLoadDto.possibleAhadTejariOrFari));
+        if (onOffLoadDto.possibleAhadSaierOrAbBaha > 0)
+            binding.editTextAhadTotal.setText(String.valueOf(onOffLoadDto.possibleAhadSaierOrAbBaha));
 
         binding.editTextDescription.setText(onOffLoadDto.description);
 

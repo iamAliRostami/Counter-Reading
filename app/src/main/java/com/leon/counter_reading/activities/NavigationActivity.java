@@ -11,11 +11,13 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 
+import com.google.gson.Gson;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivityNavigationBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
+import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.navigation.Navigating;
 
@@ -24,6 +26,7 @@ public class NavigationActivity extends AppCompatActivity {
     private Activity activity;
     private String uuid;
     private int position;
+    private OnOffLoadDto onOffLoadDto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,18 +42,33 @@ public class NavigationActivity extends AppCompatActivity {
 
     void initialize() {
         if (getIntent().getExtras() != null) {
-            uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
+            Gson gson = new Gson();
+            onOffLoadDto = gson.fromJson(getIntent().getExtras()
+                    .getString(BundleEnum.ON_OFF_LOAD.getValue()), OnOffLoadDto.class);
+            uuid = onOffLoadDto.id;
             position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
         }
+        setTextViews();
+        initializeImageViews();
+        setOnButtonNavigationClickListener();
+        setOnEditTextChangeListener();
+    }
+
+    private void setTextViews() {
         binding.textViewEmpty.setText(DifferentCompanyManager.getAhad(
                 DifferentCompanyManager.getActiveCompanyName()).concat(getString(R.string.empty)));
         binding.editTextAccount.setFilters(
                 new InputFilter[]{
                         new InputFilter.LengthFilter(DifferentCompanyManager.
                                 getEshterakMaxLength(DifferentCompanyManager.getActiveCompanyName()))});
-        initializeImageViews();
-        setOnButtonNavigationClickListener();
-        setOnEditTextChangeListener();
+
+        binding.editTextAccount.setText(onOffLoadDto.possibleEshterak);
+        if (onOffLoadDto.possibleEmpty > 0)
+            binding.editTextEmpty.setText(String.valueOf(onOffLoadDto.possibleEmpty));
+        binding.editTextMobile.setText(onOffLoadDto.possibleMobile);
+        binding.editTextPhone.setText(onOffLoadDto.possiblePhoneNumber);
+        binding.editTextSerialCounter.setText(onOffLoadDto.possibleCounterSerial);
+        binding.editTextAddress.setText(onOffLoadDto.possibleAddress);
     }
 
     void setOnButtonNavigationClickListener() {
