@@ -94,6 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity
             if (PermissionManager.checkLocationPermission(getApplicationContext())) {
                 askLocationPermission();
             } else if (PermissionManager.checkStoragePermission(getApplicationContext())) {
+
                 askStoragePermission();
             } else {
                 initialize();
@@ -131,6 +132,9 @@ public abstract class BaseActivity extends AppCompatActivity
             @Override
             public void onPermissionGranted() {
                 new CustomToast().info(getString(R.string.access_granted));
+                LocationTrackingGps.setInstance(null);
+                LocationTrackingGoogle.setInstance(null);
+                MyApplication.setActivityComponent(activity);
                 checkPermissions();
             }
 
@@ -271,9 +275,6 @@ public abstract class BaseActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == PackageManager.PERMISSION_GRANTED) {
             if (requestCode == MyApplication.GPS_CODE) {
-                LocationTrackingGps.setInstance(null);
-                LocationTrackingGoogle.setInstance(null);
-                MyApplication.setActivityComponent(activity);
                 checkPermissions();
             }
             if (requestCode == MyApplication.REQUEST_NETWORK_CODE) {
