@@ -45,6 +45,8 @@ import com.leon.counter_reading.adapters.DrawerItem;
 import com.leon.counter_reading.adapters.NavigationDrawerAdapter;
 import com.leon.counter_reading.adapters.RecyclerItemClickListener;
 import com.leon.counter_reading.databinding.ActivityBaseBinding;
+import com.leon.counter_reading.di.view_model.LocationTrackingGoogle;
+import com.leon.counter_reading.di.view_model.LocationTrackingGps;
 import com.leon.counter_reading.di.view_model.MyDatabaseClientModel;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
@@ -212,6 +214,7 @@ public abstract class BaseActivity extends AppCompatActivity
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                         }
                     }
+
                     @Override
                     public void onLongItemClick(View view, int position) {
                     }
@@ -223,7 +226,6 @@ public abstract class BaseActivity extends AppCompatActivity
     private void initializeBase() {
         activity = this;
         MyDatabaseClientModel.migration(activity);
-        MyApplication.setActivityComponent(activity);
         TextView textView = findViewById(R.id.text_view_title);
         textView.setText(sharedPreferenceManager.getStringData(
                 SharedReferenceKeys.DISPLAY_NAME.getValue()).
@@ -268,8 +270,12 @@ public abstract class BaseActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == PackageManager.PERMISSION_GRANTED) {
-            if (requestCode == MyApplication.GPS_CODE)
+            if (requestCode == MyApplication.GPS_CODE) {
+                LocationTrackingGps.setInstance(null);
+                LocationTrackingGoogle.setInstance(null);
+                MyApplication.setActivityComponent(activity);
                 checkPermissions();
+            }
             if (requestCode == MyApplication.REQUEST_NETWORK_CODE) {
                 if (isNetworkAvailable(getApplicationContext()))
                     checkPermissions();

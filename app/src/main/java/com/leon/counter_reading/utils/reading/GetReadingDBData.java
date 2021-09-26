@@ -7,6 +7,7 @@ import static com.leon.counter_reading.MyApplication.readingDataTemp;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.enums.OffloadStateEnum;
@@ -14,6 +15,7 @@ import com.leon.counter_reading.enums.ReadStatusEnum;
 import com.leon.counter_reading.tables.ReadingData;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomProgressBar;
+import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.MyDatabase;
 
 import java.util.Collections;
@@ -58,47 +60,58 @@ public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
         }
 
         for (int j = 0, trackingDtosSize = readingData.trackingDtos.size(); j < trackingDtosSize; j++) {
-            TrackingDto trackingDto = readingData.trackingDtos.get(j);
             if (readStatus == ReadStatusEnum.ALL.getValue()) {
                 readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                        getAllOnOffLoadByTracking(trackingDto.trackNumber));
+                        getAllOnOffLoadByTracking(readingData.trackingDtos.get(j).trackNumber));
             } else if (readStatus == ReadStatusEnum.STATE.getValue()) {
                 readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                        getAllOnOffLoadByHighLowAndTracking(trackingDto.trackNumber, highLow));
+                        getAllOnOffLoadByHighLowAndTracking(readingData.trackingDtos.get(j).trackNumber, highLow));
             } else if (readStatus == ReadStatusEnum.UNREAD.getValue()) {
                 readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                        getAllOnOffLoadNotRead(0, trackingDto.trackNumber));
+                        getAllOnOffLoadNotRead(0, readingData.trackingDtos.get(j).trackNumber));
             } else if (readStatus == ReadStatusEnum.READ.getValue()) {
                 readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                        getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), trackingDto.trackNumber));
+                        getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), readingData.trackingDtos.get(j).trackNumber));
             } else if (readStatus == ReadStatusEnum.ALL_MANE_UNREAD.getValue()) {
                 for (int k = 0, is_maneSize = IS_MANE.size(); k < is_maneSize; k++) {
                     int i = IS_MANE.get(k);
                     readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getOnOffLoadReadByIsMane(i, trackingDto.trackNumber));
+                            getOnOffLoadReadByIsMane(i, readingData.trackingDtos.get(j).trackNumber));
                 }
                 readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                        getAllOnOffLoadNotRead(0, trackingDto.trackNumber));
-
+                        getAllOnOffLoadNotRead(0, readingData.trackingDtos.get(j).trackNumber));
             } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
                 for (int k = 0, is_maneSize = IS_MANE.size(); k < is_maneSize; k++) {
                     int i = IS_MANE.get(k);
                     readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getOnOffLoadReadByIsMane(i, trackingDto.trackNumber));
+                            getOnOffLoadReadByIsMane(i, readingData.trackingDtos.get(j).trackNumber));
                 }
             }
         }
 
         if (readingData != null && readingData.onOffLoadDtos != null && readingData.onOffLoadDtos.size() > 0) {
             readingData.counterStateDtos.addAll(myDatabase.counterStateDao().getCounterStateDtos(readingData.onOffLoadDtos.get(0).zoneId));
-            readingDataTemp.counterStateDtos.addAll(readingData.counterStateDtos);
-
+            if (readingData.counterStateDtos.size() > 0)
+                readingDataTemp.counterStateDtos.addAll(readingData.counterStateDtos);
+            else {
+                activities[0].runOnUiThread(() -> new CustomToast().error("بارگیری وضعیت های کنتور به درستی انجام نشده است، با پشیبانی تماس بگیرید.", Toast.LENGTH_LONG));
+                return null;
+            }
             readingData.karbariDtos.addAll(myDatabase.karbariDao().getAllKarbariDto());
-            readingDataTemp.karbariDtos.addAll(readingData.karbariDtos);
+            if (readingData.karbariDtos.size() > 0)
+                readingDataTemp.karbariDtos.addAll(myDatabase.karbariDao().getAllKarbariDto());
+            else {
+                activities[0].runOnUiThread(() -> new CustomToast().error("بارگیری کاربری ها به درستی انجام نشده است، با پشیبانی تماس بگیرید.", Toast.LENGTH_LONG));
+                return null;
+            }
 
             readingData.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
-            readingDataTemp.qotrDictionary.addAll(readingData.qotrDictionary);
-
+            if (readingData.qotrDictionary.size() > 0)
+                readingDataTemp.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
+            else {
+                activities[0].runOnUiThread(() -> new CustomToast().error("بارگیری قطرها به درستی انجام نشده است، با پشیبانی تماس بگیرید.", Toast.LENGTH_LONG));
+                return null;
+            }
             readingDataTemp.onOffLoadDtos.addAll(readingData.onOffLoadDtos);
             readingDataTemp.trackingDtos.addAll(readingData.trackingDtos);
             readingDataTemp.readingConfigDefaultDtos.addAll(readingData.readingConfigDefaultDtos);

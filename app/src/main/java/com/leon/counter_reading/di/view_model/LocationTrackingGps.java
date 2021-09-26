@@ -190,4 +190,12 @@ public class LocationTrackingGps implements ILocationTracking {
             Log.e("gps", String.valueOf(getAccuracy()));
         }
     }
+
+    public static LocationTrackingGps getInstance() {
+        return instance;
+    }
+
+    public static void setInstance(LocationTrackingGps instance) {
+        LocationTrackingGps.instance = instance;
+    }
 }

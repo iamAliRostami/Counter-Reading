@@ -29,6 +29,7 @@ import com.leon.counter_reading.utils.MyDatabase;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -159,7 +160,8 @@ class DownloadCompleted implements ICallback<ReadingData> {
     @SuppressLint({"DefaultLocale", "SimpleDateFormat"})
     void downloadArchive(ReadingData readingData, int i, MyDatabase myDatabase) {
         String time = (new SimpleDateFormat(activity
-                .getString(R.string.save_format_name))).format(new Date());
+                .getString(R.string.save_format_name))).format(new Date())
+                .concat(String.valueOf(new Random().nextInt(1000)));
         String query = "CREATE TABLE %s AS %s;";
         String query1 = String.format(query, "TrackingDto_".concat(time), String
                 .format("SELECT * FROM TrackingDto WHERE trackNumber = %d AND isArchive = 1"

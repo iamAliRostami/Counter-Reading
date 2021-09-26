@@ -14,6 +14,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.core.app.ActivityCompat;
 import androidx.multidex.MultiDex;
@@ -83,11 +85,13 @@ public class MyApplication extends Application {
                 .locationTrackingModule(new LocationTrackingModule(activity))
                 .build();
     }
+
     public static ILocationTracking getLocationTracker(Activity activity) {
         return CheckSensor.checkSensor(activity) ?
                 activityComponent.LocationTrackingGoogle() :
                 activityComponent.LocationTrackingGps();
     }
+
     public static ApplicationComponent getApplicationComponent() {
         return applicationComponent;
     }
@@ -191,5 +195,26 @@ public class MyApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    public static void showSoftKeyboard(View view) {
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager) appContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+            try {
+//                imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void hideSoftKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) appContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        try {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -8,13 +8,12 @@ import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Debug;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -90,7 +89,6 @@ public class ReadingActivity extends BaseActivity {
     }
 
     void setOnImageViewsClickListener() {
-//        flashLightManager = new FlashLightManager(activity);
         flashLightManager = MyApplication.getApplicationComponent().FlashViewModel();
         ImageView imageViewFlash = findViewById(R.id.image_view_flash);
         imageViewFlash.setImageDrawable(AppCompatResources.getDrawable(getApplicationContext(),
@@ -266,9 +264,13 @@ public class ReadingActivity extends BaseActivity {
         viewPagerAdapterReading = new ViewPagerAdapterReading(getSupportFragmentManager(),
                 readingData, activity);
         runOnUiThread(() -> {
-            binding.viewPager.setAdapter(viewPagerAdapterReading);
-            if (currentItem > 0)
-                binding.viewPager.setCurrentItem(currentItem);
+            try {
+                binding.viewPager.setAdapter(viewPagerAdapterReading);
+                if (currentItem > 0)
+                    binding.viewPager.setCurrentItem(currentItem);
+            } catch (Exception e) {
+                new CustomToast().error(MyApplication.getContext().getString(R.string.error_download_data), Toast.LENGTH_LONG);
+            }
         });
     }
 
@@ -403,8 +405,6 @@ public class ReadingActivity extends BaseActivity {
                 showNoEshterakFound();
             } else {
                 intent = new Intent(activity, NavigationActivity.class);
-//                intent.putExtra(BundleEnum.BILL_ID.getValue(),
-//                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
                 intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
 
                 Gson gson = new Gson();
@@ -495,10 +495,9 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (isReading && !readingData.onOffLoadDtos.isEmpty()) {
+        if (isReading && !readingData.onOffLoadDtos.isEmpty()&&MyApplication.FOCUS_ON_EDIT_TEXT) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            if (MyApplication.FOCUS_ON_EDIT_TEXT)
-                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         }
     }
 
@@ -535,11 +534,7 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        try {
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        } catch (Exception ignored) {
-        }
+
         ImageView imageViewFlash = findViewById(R.id.image_view_flash);
         imageViewFlash.setImageDrawable(null);
         ImageView imageViewReverse = findViewById(R.id.image_view_reverse);

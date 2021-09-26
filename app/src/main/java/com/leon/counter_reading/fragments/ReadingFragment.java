@@ -4,11 +4,14 @@ import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -42,7 +45,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class ReadingFragment extends Fragment {
-    static SpinnerCustomAdapter adapter;
+    private static SpinnerCustomAdapter adapter;
     private FragmentReadingBinding binding;
     private ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     private OnOffLoadDto onOffLoadDto;
@@ -439,7 +442,6 @@ public class ReadingFragment extends Fragment {
             }
         }
     }
-
     @Override
     public void onResume() {
         super.onResume();

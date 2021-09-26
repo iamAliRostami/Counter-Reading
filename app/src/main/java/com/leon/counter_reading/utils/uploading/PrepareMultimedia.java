@@ -3,6 +3,7 @@ package com.leon.counter_reading.utils.uploading;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.leon.counter_reading.MyApplication;
@@ -24,6 +25,7 @@ import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -46,12 +48,14 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
 
     @Override
     protected Activity doInBackground(Activity... activities) {
+
         images.clear();
         images.addAll(MyApplication.getApplicationComponent().MyDatabase().imageDao()
                 .getImagesByBySent(false));
         voice.clear();
         voice.addAll(MyApplication.getApplicationComponent().MyDatabase().voiceDao().
                 getVoicesByBySent(false));
+        long startTime = Calendar.getInstance().getTimeInMillis();
         for (int i = 0; i < images.size(); i++) {
             Bitmap bitmap = CustomFile.loadImage(activities[0], images.get(i).address);
             if (bitmap != null) {
@@ -80,6 +84,8 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
                         deleteVoice(voice.get(i).id);
             }
         }
+        long endTime = Calendar.getInstance().getTimeInMillis();
+        Log.e("Time", String.valueOf(endTime - startTime));
         return activities[0];
     }
 
@@ -101,7 +107,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
                     new UploadVoices(voice), new UploadVoicesIncomplete(), new UploadMultimediaError());
         } else {
             activity.runOnUiThread(() ->
-                    new CustomToast().info(activity.getString(R.string.there_is_no_message),
+                    new CustomToast().info(activity.getString(R.string.there_is_no_voices),
                             Toast.LENGTH_LONG));
         }
     }

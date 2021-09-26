@@ -72,11 +72,6 @@ public class CustomFile {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //Convert bitmap to byte array
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 99 /*ignored for PNG*/, bos);
-//        byte[] bitmapData = bos.toByteArray();
-
         byte[] bitmapData = compressBitmap(bitmap/*, MyApplication.MAX_IMAGE_SIZE*/);
         //write the bytes in file
         FileOutputStream fos;
@@ -95,7 +90,6 @@ public class CustomFile {
     public static byte[] compressBitmap(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        Log.e("size 1", String.valueOf(stream.toByteArray().length));
         if (stream.toByteArray().length > MyApplication.MAX_IMAGE_SIZE) {
 //            int qualityPercent = (int) (100 * ((double) MyApplication.MAX_IMAGE_SIZE / stream.toByteArray().length));
 //            int qualityPercent = Math.max((int)
@@ -103,21 +97,14 @@ public class CustomFile {
 //                    , 20);
             int qualityPercent = Math.max((int) ((double)
                     stream.toByteArray().length / MyApplication.MAX_IMAGE_SIZE), 20);
-            Log.e("quality", String.valueOf(qualityPercent));
-            Log.e("Height", String.valueOf(bitmap.getHeight()));
-            Log.e("Width", String.valueOf(bitmap.getWidth()));
 
             bitmap = Bitmap.createScaledBitmap(bitmap
                     , (int) ((double) bitmap.getWidth() * qualityPercent / 100)
                     , (int) ((double) bitmap.getHeight() * qualityPercent / 100), false);
-            Log.e("Height", String.valueOf(bitmap.getHeight()));
-            Log.e("Width", String.valueOf(bitmap.getWidth()));
             stream = new ByteArrayOutputStream();
 //            bitmap.compress(Bitmap.CompressFormat.JPEG, Math.max(qualityPercent, 20), stream);
             bitmap.compress(Bitmap.CompressFormat.JPEG, /*qualityPercent*/100, stream);
         }
-        Log.e("size 2", String.valueOf(stream.toByteArray().length));
-
         return stream.toByteArray();
     }
 
@@ -192,7 +179,6 @@ public class CustomFile {
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("error", Objects.requireNonNull(e.getMessage()));
         }
         MediaScannerConnection.scanFile(context, new String[]{file.getPath()}, new String[]{"image/jpeg"}, null);
         return fileNameToSave;
@@ -271,7 +257,7 @@ public class CustomFile {
             }
             br.close();
         } catch (IOException ioException) {
-            Log.e("Error", ioException.toString());
+            ioException.printStackTrace();
         }
         String json = text.toString();
 //        Log.e("json", json);

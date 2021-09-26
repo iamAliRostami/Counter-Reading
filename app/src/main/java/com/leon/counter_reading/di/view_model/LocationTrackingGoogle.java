@@ -125,4 +125,12 @@ public class LocationTrackingGoogle extends Service implements ILocationTracking
         super.onDestroy();
         stopFusedLocation();
     }
+
+    public static LocationTrackingGoogle getInstance() {
+        return instance;
+    }
+
+    public static void setInstance(LocationTrackingGoogle instance) {
+        LocationTrackingGoogle.instance = instance;
+    }
 }

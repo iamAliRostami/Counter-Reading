@@ -263,6 +263,7 @@
             <EditText
                 android:id="@+id/edit_text_number"
                 style="@style/text_bold"
+                android:focusableInTouchMode="true"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/low_dp"
