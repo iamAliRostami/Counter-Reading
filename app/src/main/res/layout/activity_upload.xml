@@ -8,49 +8,24 @@
 
     <LinearLayout
         android:id="@+id/linear_layout_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryDark"
-        android:orientation="horizontal"
-        android:padding="@dimen/small_dp"
+        style="@style/ViewPagerMenu"
         android:weightSum="3">
 
         <TextView
             android:id="@+id/text_view_upload"
-            style="@style/text_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            style="@style/ViewPagerItems"
             android:background="@drawable/border_white_2"
-            android:gravity="center"
-            android:paddingTop="@dimen/medium_dp"
-            android:paddingBottom="@dimen/medium_dp"
-            android:text="@string/upload"
-            android:textColor="@color/text_color_light" />
+            android:text="@string/upload" />
 
         <TextView
             android:id="@+id/text_view_upload_off"
-            style="@style/text_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingTop="@dimen/medium_dp"
-            android:paddingBottom="@dimen/medium_dp"
-            android:text="@string/upload_off"
-            android:textColor="@color/text_color_light" />
+            style="@style/ViewPagerItems"
+            android:text="@string/upload_off" />
 
         <TextView
             android:id="@+id/text_view_upload_multimedia"
-            style="@style/text_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingTop="@dimen/medium_dp"
-            android:paddingBottom="@dimen/medium_dp"
-            android:text="@string/multimedia"
-            android:textColor="@color/text_color_light" />
+            style="@style/ViewPagerItems"
+            android:text="@string/multimedia"/>
 
     </LinearLayout>
 

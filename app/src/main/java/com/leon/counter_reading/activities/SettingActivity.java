@@ -14,6 +14,7 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.ViewPagerAdapterTab;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivitySettingBinding;
+import com.leon.counter_reading.fragments.SettingChangeAvatarFragment;
 import com.leon.counter_reading.fragments.SettingChangePasswordFragment;
 import com.leon.counter_reading.fragments.SettingChangeThemeFragment;
 import com.leon.counter_reading.fragments.SettingUpdateFragment;
@@ -43,6 +44,7 @@ public class SettingActivity extends BaseActivity {
         textViewChangeTheme();
         textViewChangePassword();
         textViewUpdate();
+        textViewAvatar();
     }
 
     void textViewChangeTheme() {
@@ -75,16 +77,25 @@ public class SettingActivity extends BaseActivity {
         });
     }
 
+    void textViewAvatar() {
+        binding.textViewChangeAvatar.setOnClickListener(view -> {
+            setColor();
+            binding.textViewChangeAvatar.
+                    setBackground(ContextCompat.getDrawable(activity, R.drawable.border_white_2));
+            setPadding();
+            binding.viewPager.setCurrentItem(3);
+        });
+    }
+
     private void setColor() {
         binding.textViewUpdate.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewUpdate.setTextColor(
-                ContextCompat.getColor(activity, R.color.text_color_light));
+        binding.textViewUpdate.setTextColor(ContextCompat.getColor(activity, R.color.text_color_light));
         binding.textViewChangeTheme.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewChangeTheme.setTextColor(
-                ContextCompat.getColor(activity, R.color.text_color_light));
+        binding.textViewChangeTheme.setTextColor(ContextCompat.getColor(activity, R.color.text_color_light));
         binding.textViewChangePassword.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewChangePassword.setTextColor(
-                ContextCompat.getColor(activity, R.color.text_color_light));
+        binding.textViewChangePassword.setTextColor(ContextCompat.getColor(activity, R.color.text_color_light));
+        binding.textViewChangeAvatar.setBackgroundColor(Color.TRANSPARENT);
+        binding.textViewChangeAvatar.setTextColor(ContextCompat.getColor(activity, R.color.text_color_light));
     }
 
     private void setPadding() {
@@ -97,6 +108,9 @@ public class SettingActivity extends BaseActivity {
         binding.textViewChangePassword.setPadding(0,
                 (int) getResources().getDimension(R.dimen.medium_dp), 0,
                 (int) getResources().getDimension(R.dimen.medium_dp));
+        binding.textViewChangeAvatar.setPadding(0,
+                (int) getResources().getDimension(R.dimen.medium_dp), 0,
+                (int) getResources().getDimension(R.dimen.medium_dp));
     }
 
     private void setupViewPager() {
@@ -104,6 +118,7 @@ public class SettingActivity extends BaseActivity {
         adapter.addFragment(new SettingChangeThemeFragment());
         adapter.addFragment(new SettingChangePasswordFragment());
         adapter.addFragment(new SettingUpdateFragment());
+        adapter.addFragment(new SettingChangeAvatarFragment());
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -118,17 +133,19 @@ public class SettingActivity extends BaseActivity {
                     binding.textViewChangePassword.callOnClick();
                 } else if (position == 2) {
                     binding.textViewUpdate.callOnClick();
+                } else if (position == 3) {
+                    binding.textViewChangeAvatar.callOnClick();
                 }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
                 int currentPage = binding.viewPager.getCurrentItem();
-                if (currentPage == 2 || currentPage == 0) {
+                if (currentPage == 3 || currentPage == 0) {
                     previousState = currentState;
                     currentState = state;
                     if (previousState == 1 && currentState == 0) {
-                        binding.viewPager.setCurrentItem(currentPage == 0 ? 2 : 0);
+                        binding.viewPager.setCurrentItem(currentPage == 0 ? 3 : 0);
                     }
                 }
             }

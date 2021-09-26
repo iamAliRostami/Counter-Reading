@@ -8,47 +8,23 @@
 
     <LinearLayout
         android:id="@+id/linear_layout_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryDark"
-        android:orientation="horizontal"
-        android:padding="@dimen/small_dp"
+        style="@style/ViewPagerMenu"
         android:weightSum="3">
 
         <TextView
             android:id="@+id/text_view_total"
-            style="@style/text_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            style="@style/ViewPagerItems"
             android:background="@drawable/border_white_2"
-            android:gravity="center"
-            android:paddingTop="@dimen/medium_dp"
-            android:paddingBottom="@dimen/medium_dp"
-            android:text="@string/total_statistic"
-            android:textColor="@color/text_color_light" />
+            android:text="@string/total_statistic" />
 
         <TextView
             android:id="@+id/text_view_not_read"
-            style="@style/text_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingTop="@dimen/medium_dp"
-            android:paddingBottom="@dimen/medium_dp"
-            android:text="@string/not_read"
-            android:textColor="@color/text_color_light" />
+            style="@style/ViewPagerItems"
+            android:text="@string/not_read" />
 
         <TextView
             android:id="@+id/text_view_temporary"
-            style="@style/text_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingTop="@dimen/medium_dp"
-            android:paddingBottom="@dimen/medium_dp"
+            style="@style/ViewPagerItems"
             android:text="@string/temporary"
             android:textColor="@color/text_color_light" />
 

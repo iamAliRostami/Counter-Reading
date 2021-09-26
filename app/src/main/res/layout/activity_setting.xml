@@ -52,6 +52,17 @@
             android:text="@string/update"
             android:textColor="@color/text_color_light" />
 
+        <TextView
+            android:id="@+id/text_view_change_avatar"
+            style="@style/text_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="@dimen/medium_dp"
+            android:paddingBottom="@dimen/medium_dp"
+            android:text="@string/change_avatar"
+            android:textColor="@color/text_color_light" />
     </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager

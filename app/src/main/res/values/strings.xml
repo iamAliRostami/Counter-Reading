@@ -29,7 +29,7 @@
     <string name="error_in_play_voice">در پخش صدا مشکلی به وجود آمد</string>
     <string name="dear_user">همکار گرامی!</string>
     <string name="error_other">خدمات فعلا مقدور نمیباشد، لحظاتی دیگر مجددا تلاش فرمایید.</string>
-<!--    <string name="error_internal">در حال به روزرسانی، لحظاتی دیگر امتحان فرمایید.</string>-->
+    <!--    <string name="error_internal">در حال به روزرسانی، لحظاتی دیگر امتحان فرمایید.</string>-->
     <string name="error_internal">خطای سرور، لحظاتی دیگر امتحان فرمایید.</string>
     <string name="error_change_server">خطای سرور، منتظر بمانید و در صورت برطرف نشدن مشکل با پشتیبان تماس حاصل فرمایید.</string>
     <string name="error_empty">این فیلد باید پر شود.</string>
@@ -238,5 +238,6 @@
     <string name="personal_code">شماره پرسنلی</string>
     <string name="serial">سریال دستگاه</string>
     <string name="error_download_data">بارگیری اطلاعات به درستی انجام نشده است، با پشتیبان تماس بگیرید.</string>
+    <string name="change_avatar">تغییر نمایه</string>
     <!--    <string name="COMPANY_NAME" />-->
 </resources>

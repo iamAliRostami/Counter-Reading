@@ -109,6 +109,7 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
     implementation 'gun0912.ted:tedpermission:1.0.3'
     implementation 'com.auth0.android:jwtdecode:2.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     testImplementation 'junit:junit:4.13.2'
     implementation 'com.google.android.material:material:1.4.0'

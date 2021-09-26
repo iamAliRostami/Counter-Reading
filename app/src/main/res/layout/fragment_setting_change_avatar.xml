@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/large_dp"
+    android:layout_marginRight="@dimen/large_dp"
+    android:padding="@dimen/large_dp"
+    tools:context=".fragments.SettingChangeAvatarFragment">
+
+    <ImageView
+        android:id="@+id/image_view_theme"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/button_change_avatar"
+        android:src="@drawable/img_profile"
+        tools:ignore="ContentDescription" />
+
+    <Button
+        android:id="@+id/button_change_avatar"
+        style="@style/ButtonWarning"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/low_dp"
+        android:text="@string/change_theme" />
+</RelativeLayout>

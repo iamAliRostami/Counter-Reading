@@ -149,8 +149,6 @@
     <Button
         android:id="@+id/button_change_theme"
         style="@style/ButtonWarning"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/low_dp"
         android:text="@string/change_theme" />

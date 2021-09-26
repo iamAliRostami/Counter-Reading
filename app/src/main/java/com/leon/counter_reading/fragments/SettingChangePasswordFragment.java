@@ -34,7 +34,7 @@ public class SettingChangePasswordFragment extends Fragment {
         return binding.getRoot();
     }
 
-    void initialize() {
+    private void initialize() {
         binding.imageViewPassword.setImageDrawable(ContextCompat
                 .getDrawable(activity, R.drawable.img_change_password));
         setOnButtonChangePasswordClickListener();
