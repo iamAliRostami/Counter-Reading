@@ -239,5 +239,6 @@
     <string name="serial">سریال دستگاه</string>
     <string name="error_download_data">بارگیری اطلاعات به درستی انجام نشده است، با پشتیبان تماس بگیرید.</string>
     <string name="change_avatar">تغییر نمایه</string>
+    <string name="profile_changed">تصویر نمایه با موفقیت تغییر کرد.</string>
     <!--    <string name="COMPANY_NAME" />-->
 </resources>

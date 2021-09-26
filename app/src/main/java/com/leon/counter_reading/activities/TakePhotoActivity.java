@@ -154,7 +154,7 @@ public class TakePhotoActivity extends AppCompatActivity {
         }
     }
 
-    void prepareImage() {
+    private void prepareImage() {
         Image image = new Image();
         image.OnOffLoadId = uuid;
         image.trackNumber = trackNumber;

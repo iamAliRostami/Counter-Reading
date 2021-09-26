@@ -9,17 +9,24 @@
     tools:context=".fragments.SettingChangeAvatarFragment">
 
     <ImageView
-        android:id="@+id/image_view_theme"
+        android:id="@+id/image_view_avatar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/button_change_avatar"
+        android:layout_above="@id/button_change_delete"
         android:src="@drawable/img_profile"
         tools:ignore="ContentDescription" />
+
+    <Button
+        android:id="@+id/button_change_delete"
+        style="@style/ButtonInfo"
+        android:layout_above="@id/button_change_avatar"
+        android:layout_marginTop="@dimen/low_dp"
+        android:text="@string/delete" />
 
     <Button
         android:id="@+id/button_change_avatar"
         style="@style/ButtonWarning"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/low_dp"
-        android:text="@string/change_theme" />
+        android:text="@string/change_avatar" />
 </RelativeLayout>

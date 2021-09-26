@@ -29,6 +29,7 @@ import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.Crypto;
+import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.PermissionManager;
@@ -97,7 +98,10 @@ public class LoginActivity extends AppCompatActivity {
         loadPreference();
         binding.imageViewPassword.setImageResource(R.drawable.img_password);
         binding.imageViewLogo.setImageResource(R.drawable.img_login_logo);
-        binding.imageViewPerson.setImageResource(R.drawable.img_profile);
+        if (sharedPreferenceManager.checkIsNotEmpty(SharedReferenceKeys.AVATAR.getValue()))
+            binding.imageViewPerson.setImageBitmap(CustomFile.loadImage(activity, MyApplication.getApplicationComponent().SharedPreferenceModel().getStringData(SharedReferenceKeys.AVATAR.getValue())));
+        else
+            binding.imageViewPerson.setImageResource(R.drawable.img_profile);
         binding.imageViewUsername.setImageResource(R.drawable.img_user);
         setOnButtonLoginClickListener();
         setOnButtonLongCLickListener();
