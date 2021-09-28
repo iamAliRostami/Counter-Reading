@@ -3,7 +3,6 @@ package com.leon.counter_reading.activities;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -141,7 +140,7 @@ public class TakePhotoActivity extends AppCompatActivity {
             } else if (requestCode == MyApplication.CAMERA_REQUEST) {
                 if (MyApplication.PHOTO_URI != null) {
                     try {
-                        MyApplication.BITMAP_SELECTED_IMAGE =MediaStore.Images.Media.getBitmap(getContentResolver(), MyApplication.PHOTO_URI);
+                        MyApplication.BITMAP_SELECTED_IMAGE = MediaStore.Images.Media.getBitmap(getContentResolver(), MyApplication.PHOTO_URI);
                         prepareImage();
                     } catch (IOException e) {
                         e.printStackTrace();

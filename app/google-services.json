@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "899903509032",
-    "project_id": "counter-reading-start",
-    "storage_bucket": "counter-reading-start.appspot.com"
+    "project_number": "79565274171",
+    "project_id": "counter-reading-6688e",
+    "storage_bucket": "counter-reading-6688e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:899903509032:android:2a074bc2eaa047afb09b1d",
+        "mobilesdk_app_id": "1:79565274171:android:bf78efdff7e188420cb01e",
         "android_client_info": {
           "package_name": "com.leon.counter_reading"
         }
       },
       "oauth_client": [
         {
-          "client_id": "899903509032-a9jjeuc3k6pjg391bs82chu6pd0kjqj2.apps.googleusercontent.com",
+          "client_id": "79565274171-dkil8e7f80elv6nsutdaev8ieq062rms.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBO7khaDH25mviY6bQgyPYoIhEkgg11WSM"
+          "current_key": "AIzaSyBzCLtL8cLXZmMQDyBU6Ujq5jPCH_nV2do"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "899903509032-a9jjeuc3k6pjg391bs82chu6pd0kjqj2.apps.googleusercontent.com",
+              "client_id": "79565274171-dkil8e7f80elv6nsutdaev8ieq062rms.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -36,27 +36,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:899903509032:android:9519c4ee0b397f4bb09b1d",
+        "mobilesdk_app_id": "1:79565274171:android:a939336a695aee5a0cb01e",
         "android_client_info": {
           "package_name": "com.leon.counter_reading.esf"
         }
       },
       "oauth_client": [
         {
-          "client_id": "899903509032-a9jjeuc3k6pjg391bs82chu6pd0kjqj2.apps.googleusercontent.com",
+          "client_id": "79565274171-dkil8e7f80elv6nsutdaev8ieq062rms.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBO7khaDH25mviY6bQgyPYoIhEkgg11WSM"
+          "current_key": "AIzaSyBzCLtL8cLXZmMQDyBU6Ujq5jPCH_nV2do"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "899903509032-a9jjeuc3k6pjg391bs82chu6pd0kjqj2.apps.googleusercontent.com",
+              "client_id": "79565274171-dkil8e7f80elv6nsutdaev8ieq062rms.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -65,27 +65,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:899903509032:android:59d2153190136d40b09b1d",
+        "mobilesdk_app_id": "1:79565274171:android:b8e81bdd6b1156600cb01e",
         "android_client_info": {
           "package_name": "com.leon.counter_reading.tse"
         }
       },
       "oauth_client": [
         {
-          "client_id": "899903509032-a9jjeuc3k6pjg391bs82chu6pd0kjqj2.apps.googleusercontent.com",
+          "client_id": "79565274171-dkil8e7f80elv6nsutdaev8ieq062rms.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBO7khaDH25mviY6bQgyPYoIhEkgg11WSM"
+          "current_key": "AIzaSyBzCLtL8cLXZmMQDyBU6Ujq5jPCH_nV2do"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "899903509032-a9jjeuc3k6pjg391bs82chu6pd0kjqj2.apps.googleusercontent.com",
+              "client_id": "79565274171-dkil8e7f80elv6nsutdaev8ieq062rms.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -94,27 +94,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:899903509032:android:ed1c0579b18d799fb09b1d",
+        "mobilesdk_app_id": "1:79565274171:android:f29f0c9b74e40d250cb01e",
         "android_client_info": {
-          "package_name": "com.leon.counter_reading.zone_4"
+          "package_name": "com.leon.counter_reading.zone4"
         }
       },
       "oauth_client": [
         {
-          "client_id": "899903509032-a9jjeuc3k6pjg391bs82chu6pd0kjqj2.apps.googleusercontent.com",
+          "client_id": "79565274171-dkil8e7f80elv6nsutdaev8ieq062rms.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBO7khaDH25mviY6bQgyPYoIhEkgg11WSM"
+          "current_key": "AIzaSyBzCLtL8cLXZmMQDyBU6Ujq5jPCH_nV2do"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "899903509032-a9jjeuc3k6pjg391bs82chu6pd0kjqj2.apps.googleusercontent.com",
+              "client_id": "79565274171-dkil8e7f80elv6nsutdaev8ieq062rms.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.core.app.ActivityCompat;
 import androidx.multidex.MultiDex;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.leon.counter_reading.di.component.ActivityComponent;
 import com.leon.counter_reading.di.component.ApplicationComponent;
 import com.leon.counter_reading.di.component.DaggerActivityComponent;
@@ -172,9 +173,13 @@ public class MyApplication extends Application {
         return isCarrier;
     }
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     public void onCreate() {
         appContext = getApplicationContext();
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         Toasty.Config.getInstance()
                 .tintIcon(true)
                 .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), MyApplication.FONT_NAME))
@@ -189,6 +194,7 @@ public class MyApplication extends Application {
                 .build();
         applicationComponent.inject(this);
         super.onCreate();
+//        throw new RuntimeException("Test Crash"); // Force a crash
     }
 
     @Override
