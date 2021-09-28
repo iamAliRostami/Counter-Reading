@@ -173,12 +173,9 @@ public class MyApplication extends Application {
         return isCarrier;
     }
 
-    private FirebaseAnalytics mFirebaseAnalytics;
-
     @Override
     public void onCreate() {
         appContext = getApplicationContext();
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         Toasty.Config.getInstance()
                 .tintIcon(true)

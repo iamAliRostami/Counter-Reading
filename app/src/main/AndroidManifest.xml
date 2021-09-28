@@ -145,6 +145,14 @@
             android:theme="@style/AppTheme">
 
         </activity>
+
+        <meta-data
+            android:name="io.sentry.traces.sample-rate"
+            android:value="1.0" />
+        <meta-data
+            android:name="io.sentry.dsn"
+            android:value="https://f65129b578e14ab78eb8054e4f497c51@o1017694.ingest.sentry.io/5983684" />
+
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="true" />

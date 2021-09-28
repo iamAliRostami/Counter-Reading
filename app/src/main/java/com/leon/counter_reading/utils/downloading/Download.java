@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
+import io.sentry.Sentry;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -65,7 +66,8 @@ public class Download extends AsyncTask<Activity, Void, Void> {
     protected void onPostExecute(Void unused) {
         customProgressBar.getDialog().dismiss();
         super.onPostExecute(unused);
-        throw new RuntimeException("Test Crash"); // Force a crash
+//        Sentry.captureMessage("testing SDK setup");
+        throw new RuntimeException("Test Force Crash"); // Force a crash
     }
 }
 
