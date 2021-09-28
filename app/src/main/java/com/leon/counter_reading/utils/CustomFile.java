@@ -19,6 +19,7 @@ import androidx.core.content.FileProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.leon.counter_reading.BuildConfig;
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.tables.ReadingData;
 
@@ -73,10 +74,10 @@ public class CustomFile {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        long startTime = Calendar.getInstance().getTimeInMillis();
+//        long startTime = Calendar.getInstance().getTimeInMillis();
         byte[] bitmapData = compressBitmap(bitmap/*, MyApplication.MAX_IMAGE_SIZE*/);
-        long endTime = Calendar.getInstance().getTimeInMillis();
-        Log.e("Time 2", String.valueOf(endTime - startTime));
+//        long endTime = Calendar.getInstance().getTimeInMillis();
+//        Log.e("Time 2", String.valueOf(endTime - startTime));
         FileOutputStream fos;
         try {
             fos = new FileOutputStream(f);
@@ -93,21 +94,21 @@ public class CustomFile {
     public static byte[] compressBitmap(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//        if (stream.toByteArray().length > MyApplication.MAX_IMAGE_SIZE) {
-////            int qualityPercent = (int) (100 * ((double) MyApplication.MAX_IMAGE_SIZE / stream.toByteArray().length));
-////            int qualityPercent = Math.max((int)
-////                            (100 * ((double) MyApplication.MAX_IMAGE_SIZE / stream.toByteArray().length))
-////                    , 20);
-//            int qualityPercent = Math.max((int) ((double)
-//                    stream.toByteArray().length / MyApplication.MAX_IMAGE_SIZE), 20);
-//
-//            bitmap = Bitmap.createScaledBitmap(bitmap
-//                    , (int) ((double) bitmap.getWidth() * qualityPercent / 100)
-//                    , (int) ((double) bitmap.getHeight() * qualityPercent / 100), false);
-//            stream = new ByteArrayOutputStream();
-////            bitmap.compress(Bitmap.CompressFormat.JPEG, Math.max(qualityPercent, 20), stream);
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, /*qualityPercent*/100, stream);
-//        }
+        if (stream.toByteArray().length > MyApplication.MAX_IMAGE_SIZE) {
+//            int qualityPercent = (int) (100 * ((double) MyApplication.MAX_IMAGE_SIZE / stream.toByteArray().length));
+//            int qualityPercent = Math.max((int)
+//                            (100 * ((double) MyApplication.MAX_IMAGE_SIZE / stream.toByteArray().length))
+//                    , 20);
+            int qualityPercent = Math.max((int) ((double)
+                    stream.toByteArray().length / MyApplication.MAX_IMAGE_SIZE), 20);
+
+            bitmap = Bitmap.createScaledBitmap(bitmap
+                    , (int) ((double) bitmap.getWidth() * qualityPercent / 100)
+                    , (int) ((double) bitmap.getHeight() * qualityPercent / 100), false);
+            stream = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, Math.max(qualityPercent, 20), stream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, /*qualityPercent*/100, stream);
+        }
         return stream.toByteArray();
     }
 

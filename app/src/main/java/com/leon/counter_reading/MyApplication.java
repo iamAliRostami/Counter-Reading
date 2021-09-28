@@ -87,7 +87,7 @@ public class MyApplication extends Application {
     }
 
     public static ILocationTracking getLocationTracker(Activity activity) {
-        return CheckSensor.checkSensor(activity) ?
+        return CheckSensor.checkSensor(activity, false) ?
                 activityComponent.LocationTrackingGoogle() :
                 activityComponent.LocationTrackingGps();
     }

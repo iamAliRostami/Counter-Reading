@@ -12,13 +12,13 @@ import org.osmdroid.config.Configuration;
 
 public class CheckSensor {
 
-    public static boolean checkSensor(Context context) {
+    public static boolean checkSensor(Context context, boolean showMessage) {
         Configuration.getInstance().load(context,
                 PreferenceManager.getDefaultSharedPreferences(context));
-        return checkGooglePlayServices(context);
+        return checkGooglePlayServices(context, showMessage);
     }
 
-    public static boolean checkGooglePlayServices(Context context) {
+    public static boolean checkGooglePlayServices(Context context, boolean showMessage) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         String message;
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(context);
@@ -28,7 +28,8 @@ public class CheckSensor {
             } else {
                 message = context.getString(R.string.google_is_not_available);
             }
-            new CustomToast().warning(message);
+            if (showMessage)
+                new CustomToast().warning(message);
             return false;
         }
         return true;

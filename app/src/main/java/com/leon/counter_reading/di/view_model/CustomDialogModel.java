@@ -51,7 +51,7 @@ public class CustomDialogModel {
             try {
                 lovelyStandardDialog.show();
             } catch (WindowManager.BadTokenException e) {
-                Log.e("WindowManagerBad ", e.toString());
+                e.printStackTrace();
             }
         }
     }

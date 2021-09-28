@@ -80,7 +80,7 @@ public class SettingChangeAvatarFragment extends Fragment {
                 String address = CustomFile.saveTempBitmap(MyApplication.BITMAP_SELECTED_IMAGE, activity);
                 if (!address.equals(activity.getString(R.string.error_external_storage_is_not_writable))) {
                     MyApplication.getApplicationComponent().SharedPreferenceModel().putData(SharedReferenceKeys.AVATAR.getValue(), address);
-                    new CustomToast().warning(getString(R.string.profile_changed));
+                    new CustomToast().success(getString(R.string.profile_changed));
                 }
             } else {
                 new CustomToast().warning(getString(R.string.there_is_no_images));

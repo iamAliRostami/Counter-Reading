@@ -7,6 +7,15 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Debug;
 import android.text.InputType;
@@ -17,6 +26,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -98,10 +109,13 @@ public class LoginActivity extends AppCompatActivity {
         loadPreference();
         binding.imageViewPassword.setImageResource(R.drawable.img_password);
         binding.imageViewLogo.setImageResource(R.drawable.img_login_logo);
-        if (sharedPreferenceManager.checkIsNotEmpty(SharedReferenceKeys.AVATAR.getValue()))
-            binding.imageViewPerson.setImageBitmap(CustomFile.loadImage(activity, MyApplication.getApplicationComponent().SharedPreferenceModel().getStringData(SharedReferenceKeys.AVATAR.getValue())));
+
+        if (sharedPreferenceManager.checkIsNotEmpty(SharedReferenceKeys.AVATAR.getValue())) {
+            binding.imageViewPerson.setImageBitmap( CustomFile.loadImage(activity, MyApplication.getApplicationComponent().SharedPreferenceModel().getStringData(SharedReferenceKeys.AVATAR.getValue())));
+        }
         else
             binding.imageViewPerson.setImageResource(R.drawable.img_profile);
+
         binding.imageViewUsername.setImageResource(R.drawable.img_user);
         setOnButtonLoginClickListener();
         setOnButtonLongCLickListener();
