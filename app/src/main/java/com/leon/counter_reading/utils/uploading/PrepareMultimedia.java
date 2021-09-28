@@ -48,7 +48,6 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
 
     @Override
     protected Activity doInBackground(Activity... activities) {
-
         images.clear();
         images.addAll(MyApplication.getApplicationComponent().MyDatabase().imageDao()
                 .getImagesByBySent(false));
@@ -57,20 +56,27 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
                 getVoicesByBySent(false));
         long startTime = Calendar.getInstance().getTimeInMillis();
         for (int i = 0; i < images.size(); i++) {
+            long time1 = Calendar.getInstance().getTimeInMillis();
             Bitmap bitmap = CustomFile.loadImage(activities[0], images.get(i).address);
+            long time2 = Calendar.getInstance().getTimeInMillis();
+            Log.e("time 1", String.valueOf(time2 - time1));
             if (bitmap != null) {
-                images.get(i).File = CustomFile.bitmapToFile(CustomFile.loadImage(activities[0],
-                        images.get(i).address), activities[0]);
                 imageMultiples.OnOffLoadId.add(RequestBody.create(images.get(i).OnOffLoadId,
                         MediaType.parse("text/plain")));
                 imageMultiples.Description.add(RequestBody.create(images.get(i).Description,
                         MediaType.parse("text/plain")));
-                imageMultiples.File.add(images.get(i).File);
+                imageMultiples.OnOffLoadId.add(RequestBody.create(images.get(i).OnOffLoadId,
+                        MediaType.parse("text/plain")));
+                imageMultiples.File.add(CustomFile.bitmapToFile(bitmap, activities[0]));
+                time1 = Calendar.getInstance().getTimeInMillis();
+                Log.e("time 3", String.valueOf(time1 - time2));
             } else {
                 MyApplication.getApplicationComponent().MyDatabase().imageDao().
                         deleteImage(images.get(i).id);
             }
         }
+        long endTime = Calendar.getInstance().getTimeInMillis();
+        Log.e("Time 4", String.valueOf(endTime - startTime));
         for (int i = 0; i < voice.size(); i++) {
             voice.get(i).File = CustomFile.prepareVoiceToSend(voice.get(i).address);
             if (voice.get(i).File != null) {
@@ -84,8 +90,8 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
                         deleteVoice(voice.get(i).id);
             }
         }
-        long endTime = Calendar.getInstance().getTimeInMillis();
-        Log.e("Time", String.valueOf(endTime - startTime));
+        startTime = Calendar.getInstance().getTimeInMillis();
+        Log.e("Time 5", String.valueOf(startTime - endTime));
         return activities[0];
     }
 
@@ -93,8 +99,8 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
     protected void onPostExecute(Activity activity) {
         super.onPostExecute(activity);
         customProgressBar.getDialog().dismiss();
-        uploadImages(activity);
-        uploadVoice(activity);
+//        uploadImages(activity);
+//        uploadVoice(activity);
     }
 
     void uploadVoice(Activity activity) {

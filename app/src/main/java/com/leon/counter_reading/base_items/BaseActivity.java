@@ -45,6 +45,7 @@ import com.leon.counter_reading.adapters.DrawerItem;
 import com.leon.counter_reading.adapters.NavigationDrawerAdapter;
 import com.leon.counter_reading.adapters.RecyclerItemClickListener;
 import com.leon.counter_reading.databinding.ActivityBaseBinding;
+import com.leon.counter_reading.di.view_model.CustomDialogModel;
 import com.leon.counter_reading.di.view_model.LocationTrackingGoogle;
 import com.leon.counter_reading.di.view_model.LocationTrackingGps;
 import com.leon.counter_reading.di.view_model.MyDatabaseClientModel;
@@ -134,6 +135,7 @@ public abstract class BaseActivity extends AppCompatActivity
                 new CustomToast().info(getString(R.string.access_granted));
                 LocationTrackingGps.setInstance(null);
                 LocationTrackingGoogle.setInstance(null);
+//                new CustomDialogModel();
                 MyApplication.setActivityComponent(activity);
                 checkPermissions();
             }
@@ -229,6 +231,7 @@ public abstract class BaseActivity extends AppCompatActivity
     @SuppressLint("RtlHardcoded")
     private void initializeBase() {
         activity = this;
+        MyApplication.setActivityComponent(activity);
         MyDatabaseClientModel.migration(activity);
         TextView textView = findViewById(R.id.text_view_title);
         textView.setText(sharedPreferenceManager.getStringData(

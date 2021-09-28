@@ -2,9 +2,11 @@ package com.leon.counter_reading.utils;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -82,7 +84,14 @@ public final class CustomProgressBar {
                 WindowManager.LayoutParams.MATCH_PARENT);
         final TextView tv = view.findViewById(R.id.text_view_title);
         tv.setText(title);
-        dialog.show();
+        if (!((Activity) context).isFinishing()) {
+            //show dialog
+            try {
+                dialog.show();
+            } catch (WindowManager.BadTokenException e) {
+                Log.e("WindowManagerBad ", e.toString());
+            }
+        }
         return dialog;
     }
 

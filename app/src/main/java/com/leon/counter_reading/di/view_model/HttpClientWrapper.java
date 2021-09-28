@@ -47,17 +47,17 @@ public class HttpClientWrapper {
             call.enqueue(new Callback<T>() {
                 @Override
                 public void onResponse(@NonNull Call<T> call, @NonNull Response<T> response) {
-                    if (response.isSuccessful()) {
-                        callback.execute(response);
-                    } else {
-                        ((Activity) context).runOnUiThread(() -> callbackIncomplete.executeIncomplete(response));
-                    }
                     if (progressBar.getDialog() != null)
                         try {
                             progressBar.getDialog().dismiss();
                         } catch (Exception e) {
                             new CustomToast().error(e.getMessage(), Toast.LENGTH_LONG);
                         }
+                    if (response.isSuccessful()) {
+                        callback.execute(response);
+                    } else {
+                        ((Activity) context).runOnUiThread(() -> callbackIncomplete.executeIncomplete(response));
+                    }
                 }
 
                 @Override

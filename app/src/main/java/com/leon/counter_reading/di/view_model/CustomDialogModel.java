@@ -1,14 +1,16 @@
 package com.leon.counter_reading.di.view_model;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+import android.view.WindowManager;
 
 import androidx.core.content.ContextCompat;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.HomeActivity;
-import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.utils.custom_dialog.LovelyStandardDialog;
 
@@ -42,6 +44,16 @@ public class CustomDialogModel {
             CustomYellowDialogRedirect(buttonText, inline);
         else if (choose == DialogType.RedRedirect)
             CustomRedDialogRedirect(buttonText);
+
+        if (lovelyStandardDialog.getMessageView().isShown())
+            lovelyStandardDialog.dismiss();
+        if (!((Activity) context).isFinishing()) {
+            try {
+                lovelyStandardDialog.show();
+            } catch (WindowManager.BadTokenException e) {
+                Log.e("WindowManagerBad ", e.toString());
+            }
+        }
     }
 
     public LovelyStandardDialog getLovelyStandardDialog() {
@@ -57,7 +69,7 @@ public class CustomDialogModel {
                     Intent intent = new Intent(context, HomeActivity.class);
                     context.startActivity(intent);
                 });
-        lovelyStandardDialog.show();
+//        lovelyStandardDialog.show();
     }
 
     public void CustomYellowDialogRedirect(String buttonText, Inline... inlines) {
@@ -66,7 +78,7 @@ public class CustomDialogModel {
                 .setButtonsBackground(R.drawable.border_yellow_1)
                 .setTopColorRes(R.color.yellow)
                 .setPositiveButton(buttonText, v -> inlines[0].inline())
-                .show();
+        /*.show()*/;
     }
 
     public void CustomRedDialogRedirect(String buttonText) {
@@ -75,7 +87,7 @@ public class CustomDialogModel {
                 .setTopTitleColor(ContextCompat.getColor(context, R.color.text_color_light))
                 .setButtonsBackground(R.drawable.border_red_1)
                 .setPositiveButton(buttonText, v -> lovelyStandardDialog.dismiss())
-                .show();
+        /*.show()*/;
     }
 
     public void CustomGreenDialog(String ButtonText) {
@@ -84,7 +96,7 @@ public class CustomDialogModel {
                 .setTopTitleColor(ContextCompat.getColor(context, R.color.text_color_light))
                 .setButtonsBackground(R.drawable.border_green_1)
                 .setPositiveButton(ButtonText, v -> lovelyStandardDialog.dismiss())
-                .show();
+        /*.show()*/;
     }
 
     public void CustomYellowDialog(String buttonText) {
@@ -93,7 +105,7 @@ public class CustomDialogModel {
                 .setTopColorRes(R.color.yellow)
                 .setButtonsBackground(R.drawable.border_yellow_1)
                 .setPositiveButton(buttonText, v -> lovelyStandardDialog.dismiss())
-                .show();
+        /*.show()*/;
     }
 
     public void CustomRedDialog(String buttonText) {
@@ -102,7 +114,7 @@ public class CustomDialogModel {
                 .setTopTitleColor(ContextCompat.getColor(context, R.color.text_color_light))
                 .setButtonsBackground(R.drawable.border_red_1)
                 .setPositiveButton(buttonText, v -> lovelyStandardDialog.dismiss())
-                .show();
+        /*.show()*/;
     }
 
     public interface Inline {
