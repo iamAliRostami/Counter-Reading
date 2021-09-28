@@ -20,7 +20,6 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.core.app.ActivityCompat;
 import androidx.multidex.MultiDex;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.leon.counter_reading.di.component.ActivityComponent;
 import com.leon.counter_reading.di.component.ApplicationComponent;
 import com.leon.counter_reading.di.component.DaggerActivityComponent;
