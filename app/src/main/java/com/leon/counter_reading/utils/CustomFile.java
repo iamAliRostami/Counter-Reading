@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -111,7 +112,12 @@ public class CustomFile {
         }
         return stream.toByteArray();
     }
-
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
+    }
     public static byte[] compressBitmap(String file, int width, int height, int maxSizeBytes) {
         BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
         bmpFactoryOptions.inJustDecodeBounds = true;

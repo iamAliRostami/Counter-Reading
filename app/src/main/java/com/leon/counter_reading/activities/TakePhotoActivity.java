@@ -131,11 +131,9 @@ public class TakePhotoActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == MyApplication.GALLERY_REQUEST && data != null) {
                 Uri uri = data.getData();
-                Bitmap bitmap;
                 try {
                     InputStream inputStream = this.getContentResolver().openInputStream(uri);
-                    bitmap = BitmapFactory.decodeStream(inputStream);
-                    MyApplication.BITMAP_SELECTED_IMAGE = bitmap;
+                    MyApplication.BITMAP_SELECTED_IMAGE = BitmapFactory.decodeStream(inputStream);
                     prepareImage();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -143,7 +141,7 @@ public class TakePhotoActivity extends AppCompatActivity {
             } else if (requestCode == MyApplication.CAMERA_REQUEST) {
                 if (MyApplication.PHOTO_URI != null) {
                     try {
-                        MyApplication.BITMAP_SELECTED_IMAGE = MediaStore.Images.Media.getBitmap(getContentResolver(), MyApplication.PHOTO_URI);
+                        MyApplication.BITMAP_SELECTED_IMAGE =MediaStore.Images.Media.getBitmap(getContentResolver(), MyApplication.PHOTO_URI);
                         prepareImage();
                     } catch (IOException e) {
                         e.printStackTrace();
