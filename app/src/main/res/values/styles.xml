@@ -1,5 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
+    <style name="NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -20,7 +25,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.GreenBlue">
+    <style name="GreenBlue" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:textColor">@color/text_color_light</item>
         <item name="android:textColorSecondary">@color/text_color_dark</item>
         <item name="background">@color/smoked</item>
@@ -30,7 +35,7 @@
         <item name="colorAccent">@color/yellow</item>
     </style>
 
-    <style name="AppTheme.GreenBlue.NoActionBar">
+    <style name="GreenBlue.NoActionBar">
         <item name="android:itemBackground">?colorPrimaryDark</item>
         <item name="android:itemTextAppearance">@style/MyActionBar.MenuTextStyle</item>
         <item name="windowActionBar">false</item>

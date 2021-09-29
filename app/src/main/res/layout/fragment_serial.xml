@@ -40,7 +40,7 @@
         <Button
             android:id="@+id/button_submit"
             style="@style/ButtonSubmit.Fragment"
-            android:text="@string/submit" />
+            android:text="@string/confirm_serial" />
 
         <Button
             android:id="@+id/button_close"

@@ -190,7 +190,7 @@
     <string name="karbari">کاربری</string>
     <string name="submit_for_back">برای بازگشت، دکمه ثبت را فشار دهید.</string>
     <string name="postal_code">کد پستی</string>
-    <string name="select_one">یکی از موارد را انتخاب کنید</string>
+    <string name="select_one">انتخاب کنید</string>
     <string name="insert_message">یک پیام نوشته یا ضبط شود.</string>
     <!--    <string name="visible_hide_keyboard">نمایش / عدم نمایش صفحه کلید</string>-->
     <string name="visible_hide_keyboard">نمایش صفحه کلید</string>
@@ -240,5 +240,6 @@
     <string name="error_download_data">بارگیری اطلاعات به درستی انجام نشده است، با پشتیبان تماس بگیرید.</string>
     <string name="change_avatar">تغییر نمایه</string>
     <string name="profile_changed">تصویر نمایه با موفقیت تغییر کرد.</string>
+    <string name="confirm_serial">ثبت سریال</string>
     <!--    <string name="COMPANY_NAME" />-->
 </resources>

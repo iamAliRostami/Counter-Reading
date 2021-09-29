@@ -45,10 +45,10 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MyApplication.onActivitySetTheme(this, MyApplication.getApplicationComponent()
+                        .SharedPreferenceModel().getIntData(SharedReferenceKeys.THEME_STABLE.getValue()),
+                true);
         super.onCreate(savedInstanceState);
-        int theme = MyApplication.getApplicationComponent().SharedPreferenceModel()
-                .getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
-        MyApplication.onActivitySetTheme(this, theme, true);
         binding = ActivityTakePhotoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         TextView textViewCompanyName = findViewById(R.id.text_view_company_name);

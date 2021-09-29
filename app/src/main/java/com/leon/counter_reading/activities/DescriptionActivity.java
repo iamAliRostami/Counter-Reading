@@ -47,10 +47,10 @@ public class DescriptionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         MyApplication.onActivitySetTheme(this, MyApplication.getApplicationComponent()
                         .SharedPreferenceModel().getIntData(SharedReferenceKeys.THEME_STABLE.getValue()),
                 true);
+        super.onCreate(savedInstanceState);
         binding = ActivityDescriptionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         TextView textViewCompanyName = findViewById(R.id.text_view_company_name);

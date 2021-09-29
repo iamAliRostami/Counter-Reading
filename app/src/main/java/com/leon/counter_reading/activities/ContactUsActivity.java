@@ -21,10 +21,9 @@ public class ContactUsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         sharedPreferenceManager = MyApplication.getApplicationComponent().SharedPreferenceModel();
-        int theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
-        MyApplication.onActivitySetTheme(this, theme, true);
+        MyApplication.onActivitySetTheme(this, sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue()), true);
+        super.onCreate(savedInstanceState);
         binding = ActivityContactUsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initialize();

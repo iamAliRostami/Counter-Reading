@@ -122,7 +122,7 @@ public class ReportTemporaryFragment extends Fragment {
             isMane = getArguments().getInt(BundleEnum.IS_MANE.getValue());
             counterStateDtos = new ArrayList<>(((ReportActivity) activity).getCounterStateDtos());
             items = CounterStateDto.getCounterStateItems(counterStateDtos, new String[]
-                    {getString(R.string.all_items),
+                    {getString(R.string.select_one),
                             getString(R.string.all_mane),
                             getString(R.string.all_mane_unread)});
         }

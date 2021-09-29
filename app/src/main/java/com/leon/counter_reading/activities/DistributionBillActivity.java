@@ -20,10 +20,10 @@ public class DistributionBillActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MyApplication.onActivitySetTheme(this, MyApplication.getApplicationComponent()
+                        .SharedPreferenceModel().getIntData(SharedReferenceKeys.THEME_STABLE.getValue()),
+                true);
         super.onCreate(savedInstanceState);
-        int theme = MyApplication.getApplicationComponent().SharedPreferenceModel()
-                .getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
-        MyApplication.onActivitySetTheme(this, theme, true);
         binding = ActivityDistributionBillBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initialize();

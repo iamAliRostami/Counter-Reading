@@ -29,10 +29,10 @@ public class ReadingReportActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MyApplication.onActivitySetTheme(this, MyApplication.getApplicationComponent()
+                        .SharedPreferenceModel().getIntData(SharedReferenceKeys.THEME_STABLE.getValue()),
+                true);
         super.onCreate(savedInstanceState);
-        int theme = MyApplication.getApplicationComponent().SharedPreferenceModel()
-                .getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
-        MyApplication.onActivitySetTheme(this, theme, true);
         binding = ActivityReadingReportBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         activity = this;

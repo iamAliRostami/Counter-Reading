@@ -172,7 +172,7 @@ public class MyApplication extends Application {
             if (theme == 1) {
                 activity.setTheme(R.style.AppTheme_NoActionBar);
             } else if (theme == 2) {
-                activity.setTheme(R.style.AppTheme_GreenBlue_NoActionBar);
+                activity.setTheme(R.style.GreenBlue_NoActionBar);
             } else if (theme == 3) {
                 activity.setTheme(R.style.AppTheme_Indigo_NoActionBar);
             } else if (theme == 4) {
@@ -182,7 +182,7 @@ public class MyApplication extends Application {
             if (theme == 1) {
                 activity.setTheme(R.style.AppTheme);
             } else if (theme == 2) {
-                activity.setTheme(R.style.AppTheme_GreenBlue);
+                activity.setTheme(R.style.GreenBlue);
             } else if (theme == 3) {
                 activity.setTheme(R.style.AppTheme_Indigo);
             } else if (theme == 4) {

@@ -23,10 +23,10 @@ public class CounterPlaceActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MyApplication.onActivitySetTheme(this, MyApplication.getApplicationComponent()
+                .SharedPreferenceModel().getIntData(SharedReferenceKeys.THEME_STABLE.getValue()),
+                true);
         super.onCreate(savedInstanceState);
-        int theme = MyApplication.getApplicationComponent().SharedPreferenceModel().
-                getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
-        MyApplication.onActivitySetTheme(this, theme, true);
         binding = ActivityCounterPlaceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         activity = this;
