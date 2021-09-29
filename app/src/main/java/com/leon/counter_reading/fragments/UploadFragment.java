@@ -88,9 +88,7 @@ public class UploadFragment extends Fragment {
         int imagesCount = MyApplication.getApplicationComponent().MyDatabase().imageDao().getUnsentImageCount(false);
         int voicesCount = MyApplication.getApplicationComponent().MyDatabase().voiceDao().getUnsentVoiceCount(false);
         String message = String.format(activity.getString(R.string.unuploaded_multimedia), imagesCount, voicesCount);
-        activity.runOnUiThread(() -> {
-            textView.setText(message);
-        });
+        activity.runOnUiThread(() -> binding.textViewMultimedia.setText(message));
 
     }
 
@@ -150,7 +148,7 @@ public class UploadFragment extends Fragment {
                             trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id).
                             execute(activity);
             } else if (type == 3) {
-                new PrepareMultimedia(activity, this,false).execute(activity);
+                new PrepareMultimedia(activity, this, false).execute(activity);
             }
         });
     }

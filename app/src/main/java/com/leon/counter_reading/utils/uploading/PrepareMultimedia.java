@@ -129,7 +129,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
             Call<MultimediaUploadResponse> call = iAbfaService.fileUploadMultiple(
                     imageMultiples.File, imageMultiples.OnOffLoadId, imageMultiples.Description);
-            HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
+            HttpClientWrapper.callHttpAsync(call,ProgressType.SHOW_CANCELABLE.getValue(), activity,
                     new UploadImages(images, activity, uploadFragment), new UploadImagesIncomplete(), new UploadMultimediaError());
         } else {
             activity.runOnUiThread(() ->
