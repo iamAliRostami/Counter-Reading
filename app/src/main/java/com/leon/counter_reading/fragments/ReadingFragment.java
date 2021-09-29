@@ -180,13 +180,21 @@ public class ReadingFragment extends Fragment {
 
     void initializeSpinner() {
         binding.spinner.setAdapter(adapter);
-        if (onOffLoadDto.counterStatePosition != null)
-            binding.spinner.setSelection(onOffLoadDto.counterStatePosition);
-        else {//TODO
-            for (int i = 0; i < counterStateDtos.size(); i++)
-                if (counterStateDtos.get(i).moshtarakinId == onOffLoadDto.preCounterStateCode)
-                    binding.spinner.setSelection(i);
-        }
+        for (int i = 0; i < counterStateDtos.size(); i++)
+            if (counterStateDtos.get(i).id == onOffLoadDto.counterStateId)
+                binding.spinner.setSelection(i);
+//        if (onOffLoadDto.counterStatePosition != null)
+//            binding.spinner.setSelection(onOffLoadDto.counterStatePosition);
+//        else  {
+//            for (int i = 0; i < counterStateDtos.size(); i++)
+//                if (counterStateDtos.get(i).id == onOffLoadDto.counterStateId)
+//                    binding.spinner.setSelection(i);
+//        }
+//        else {//TODO
+//            for (int i = 0; i < counterStateDtos.size(); i++)
+//                if (counterStateDtos.get(i).moshtarakinId == onOffLoadDto.preCounterStateCode)
+//                    binding.spinner.setSelection(i);
+//        }
         setOnSpinnerSelectedListener();
     }
 
