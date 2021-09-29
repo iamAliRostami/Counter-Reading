@@ -3,13 +3,13 @@ package com.leon.counter_reading.utils.uploading;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.ProgressType;
+import com.leon.counter_reading.fragments.UploadFragment;
 import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
@@ -25,7 +25,6 @@ import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -39,11 +38,15 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
     private final ArrayList<Voice> voice = new ArrayList<>();
     private final ImageMultiple imageMultiples = new ImageMultiple();
     private final VoiceMultiple voiceMultiples = new VoiceMultiple();
+    private final UploadFragment uploadFragment;
+    private final boolean justImages;
 
-    public PrepareMultimedia(Activity activity) {
+    public PrepareMultimedia(Activity activity, UploadFragment uploadFragment, boolean justImages) {
         super();
         customProgressBar = new CustomProgressBar();
         customProgressBar.show(activity, false);
+        this.uploadFragment = uploadFragment;
+        this.justImages = justImages;
     }
 
     @Override
@@ -52,8 +55,9 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
         images.addAll(MyApplication.getApplicationComponent().MyDatabase().imageDao()
                 .getImagesByBySent(false));
         voice.clear();
-        voice.addAll(MyApplication.getApplicationComponent().MyDatabase().voiceDao().
-                getVoicesByBySent(false));
+        if (!justImages)
+            voice.addAll(MyApplication.getApplicationComponent().MyDatabase().voiceDao().
+                    getVoicesByBySent(false));
 //        long startTime = Calendar.getInstance().getTimeInMillis();
         for (int i = 0; i < images.size(); i++) {
 //            long time1 = Calendar.getInstance().getTimeInMillis();
@@ -100,7 +104,8 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
         super.onPostExecute(activity);
         customProgressBar.getDialog().dismiss();
         uploadImages(activity);
-        uploadVoice(activity);
+        if (!justImages)
+            uploadVoice(activity);
     }
 
     void uploadVoice(Activity activity) {
@@ -125,7 +130,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
             Call<MultimediaUploadResponse> call = iAbfaService.fileUploadMultiple(
                     imageMultiples.File, imageMultiples.OnOffLoadId, imageMultiples.Description);
             HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activity,
-                    new UploadImages(images), new UploadImagesIncomplete(), new UploadMultimediaError());
+                    new UploadImages(images, activity, uploadFragment), new UploadImagesIncomplete(), new UploadMultimediaError());
         } else {
             activity.runOnUiThread(() ->
                     new CustomToast().info(activity.getString(R.string.there_is_no_images),
@@ -137,9 +142,13 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
 
 class UploadImages implements ICallback<MultimediaUploadResponse> {
     private final ArrayList<Image> images;
+    private final Activity activity;
+    private final UploadFragment uploadFragment;
 
-    public UploadImages(ArrayList<Image> images) {
+    public UploadImages(ArrayList<Image> images, Activity activity, UploadFragment uploadFragment) {
         this.images = new ArrayList<>(images);
+        this.activity = activity;
+        this.uploadFragment = uploadFragment;
     }
 
     @Override
@@ -147,6 +156,8 @@ class UploadImages implements ICallback<MultimediaUploadResponse> {
         if (response.body() != null && response.body().status == 200) {
             new CustomToast().success(response.body().message, Toast.LENGTH_LONG);
             updateImages();
+            uploadFragment.setMultimediaInfo(activity);
+            new PrepareMultimedia(activity, uploadFragment, true).execute(activity);
         }
     }
 

@@ -30,8 +30,8 @@
             android:background="@drawable/border_gray_6"
             android:paddingLeft="@dimen/low_dp"
             android:paddingRight="@dimen/low_dp"
-            android:textColor="@color/text_color_dark"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:textColor="@color/text_color_dark" />
 
         <Spinner
             android:id="@+id/spinner"

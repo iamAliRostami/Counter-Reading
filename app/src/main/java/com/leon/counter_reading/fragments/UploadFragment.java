@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -37,6 +38,7 @@ public class UploadFragment extends Fragment {
     private Activity activity;
     private String[] items;
     private ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    private TextView textView;
 
     public static UploadFragment newInstance(int type) {
         UploadFragment fragment = new UploadFragment();
@@ -68,14 +70,12 @@ public class UploadFragment extends Fragment {
         return binding.getRoot();
     }
 
-    void initialize() {
+    private void initialize() {
         if (type == 3) {
             binding.spinner.setVisibility(View.GONE);
             binding.textViewMultimedia.setVisibility(View.VISIBLE);
-            int imagesCount = MyApplication.getApplicationComponent().MyDatabase().imageDao().getUnsentImageCount(false);
-            int voicesCount = MyApplication.getApplicationComponent().MyDatabase().voiceDao().getUnsentVoiceCount(false);
-            String message = String.format(getString(R.string.unuploaded_multimedia), imagesCount, voicesCount);
-            binding.textViewMultimedia.setText(message);
+            textView = binding.getRoot().findViewById(R.id.text_view_multimedia);
+            setMultimediaInfo(activity);
         } else {
             items = TrackingDto.getTrackingDtoItems(trackingDtos, getString(R.string.select_one));
             setupSpinner();
@@ -84,12 +84,22 @@ public class UploadFragment extends Fragment {
         setOnButtonUploadClickListener();
     }
 
-    void setupSpinner() {
+    public void setMultimediaInfo(Activity activity) {
+        int imagesCount = MyApplication.getApplicationComponent().MyDatabase().imageDao().getUnsentImageCount(false);
+        int voicesCount = MyApplication.getApplicationComponent().MyDatabase().voiceDao().getUnsentVoiceCount(false);
+        String message = String.format(activity.getString(R.string.unuploaded_multimedia), imagesCount, voicesCount);
+        activity.runOnUiThread(() -> {
+            textView.setText(message);
+        });
+
+    }
+
+    private void setupSpinner() {
         SpinnerCustomAdapter spinnerCustomAdapter = new SpinnerCustomAdapter(activity, items);
         binding.spinner.setAdapter(spinnerCustomAdapter);
     }
 
-    boolean checkOnOffLoad() {
+    private boolean checkOnOffLoad() {
         int total, mane = 0, unread, alalPercent, imagesCount, voicesCount, trackNumber;
         double alalMane;
         MyDatabase myDatabase = MyApplication.getApplicationComponent().MyDatabase();
@@ -131,7 +141,7 @@ public class UploadFragment extends Fragment {
         return true;
     }
 
-    void setOnButtonUploadClickListener() {
+    private void setOnButtonUploadClickListener() {
         binding.buttonUpload.setOnClickListener(v -> {
             if (type == 1 || type == 2) {
                 if (checkOnOffLoad())
@@ -140,7 +150,7 @@ public class UploadFragment extends Fragment {
                             trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id).
                             execute(activity);
             } else if (type == 3) {
-                new PrepareMultimedia(activity).execute(activity);
+                new PrepareMultimedia(activity, this,false).execute(activity);
             }
         });
     }
@@ -159,7 +169,7 @@ public class UploadFragment extends Fragment {
         items = null;
     }
 
-    class Inline implements CustomDialogModel.Inline {
+    private class Inline implements CustomDialogModel.Inline {
         @Override
         public void inline() {
             new PrepareOffLoad(activity,

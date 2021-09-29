@@ -20,7 +20,7 @@ public interface ImageDao {
     @Query("SELECT * FROM Image WHERE id = :id")
     List<Image> getImagesById(int id);
 
-    @Query("SELECT * FROM Image WHERE isSent = :isSent")
+    @Query("SELECT * FROM Image WHERE isSent = :isSent LIMIT 10")
     List<Image> getImagesByBySent(boolean isSent);
 
     @Query("SELECT COUNT(*) FROM Image WHERE isSent = :isSent AND trackNumber = :trackNumber")
