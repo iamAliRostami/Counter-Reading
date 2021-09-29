@@ -30,7 +30,7 @@ public class HttpClientWrapper {
                                          final ICallback<T> callback,
                                          final ICallbackIncomplete<T> callbackIncomplete,
                                          final ICallbackError callbackError) {
-
+        cancel = false;
         CustomProgressBar progressBar = new CustomProgressBar();
         try {
             if (progressType == ProgressType.SHOW.getValue()) {
