@@ -66,8 +66,7 @@ public class Download extends AsyncTask<Activity, Void, Void> {
     protected void onPostExecute(Void unused) {
         customProgressBar.getDialog().dismiss();
         super.onPostExecute(unused);
-//        Sentry.captureMessage("testing SDK setup");
-        throw new RuntimeException("Test Force Crash"); // Force a crash
+//        throw new RuntimeException("Test Force Crash"); // Force a crash
     }
 }
 

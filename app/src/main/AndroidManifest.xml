@@ -147,6 +147,9 @@
         </activity>
 
         <meta-data
+            android:name="io.sentry.debug"
+            android:value="true" />
+        <meta-data
             android:name="io.sentry.traces.sample-rate"
             android:value="1.0" />
         <meta-data

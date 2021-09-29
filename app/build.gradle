@@ -149,4 +149,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
 
     implementation 'io.sentry:sentry-android:5.2.0'
+
+    implementation "ch.acra:acra-dialog:5.8.4"
+    implementation "ch.acra:acra-mail:5.8.4"
+    implementation "ch.acra:acra-advanced-scheduler:5.8.4"
 }

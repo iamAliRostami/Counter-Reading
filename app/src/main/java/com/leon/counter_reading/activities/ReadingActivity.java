@@ -157,14 +157,14 @@ public class ReadingActivity extends BaseActivity {
             }
         });
     }
-
+    // TODO
     void updateOnOffLoad(int position, int counterStateCode, int counterStatePosition) {
         readingData.onOffLoadDtos.get(position).isBazdid = true;
         readingData.onOffLoadDtos.get(position).offLoadStateId = OffloadStateEnum.INSERTED.getValue();
         readingData.onOffLoadDtos.get(position).counterStatePosition = counterStatePosition;
         readingData.onOffLoadDtos.get(position).counterStateId = counterStateCode;
     }
-
+    //TODO
     public void updateOnOffLoadWithoutCounterNumber(int position, int counterStateCode,
                                                     int counterStatePosition) {
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
