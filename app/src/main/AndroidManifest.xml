@@ -84,13 +84,24 @@
             android:label="@string/help" />
         <activity
             android:name=".activities.TakePhotoActivity"
-            android:label="@string/camera" />
+            android:label="@string/camera"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ReportForbidActivity"
-            android:label="@string/report_forbid" />
+            android:label="@string/report_forbid"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.NavigationActivity"
-            android:label="@string/navigation" />
+            android:label="@string/navigation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ReadingSettingActivity"
+            android:label="@string/reading_setting"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.DescriptionActivity"
+            android:label="@string/description"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ReportActivity"
             android:label="@string/reports" />
@@ -98,15 +109,8 @@
             android:name=".activities.SettingActivity"
             android:label="@string/app_setting" />
         <activity
-            android:name=".activities.ReadingSettingActivity"
-            android:label="@string/reading_setting" />
-        <activity
             android:name=".activities.ContactUsActivity"
-            android:label="@string/contact_us"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".activities.DescriptionActivity"
-            android:label="@string/description" />
+            android:label="@string/contact_us" />
         <activity
             android:name=".activities.DistributionBillActivity"
             android:label="@string/distribution" />
@@ -132,14 +136,17 @@
         </activity>
         <activity
             android:name=".activities.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LoginActivity" />
+        <activity
+            android:name=".activities.LoginActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme">

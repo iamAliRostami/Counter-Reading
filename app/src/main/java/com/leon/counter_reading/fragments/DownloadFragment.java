@@ -53,7 +53,7 @@ public class DownloadFragment extends Fragment {
     }
 
     void setOnButtonDownloadClickListener() {
-        binding.buttonDownload.setOnClickListener(v -> new Download(requireActivity()).execute(requireActivity()));
+        binding.buttonDownload.setOnClickListener(v -> new Download().execute(requireActivity()));
     }
 
     @Override

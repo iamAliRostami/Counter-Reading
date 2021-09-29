@@ -1,5 +1,6 @@
 package com.leon.counter_reading.activities;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Debug;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class ContactUsActivity extends AppCompatActivity {
         initialize();
     }
 
+    @SuppressLint("SetTextI18n")
     void initialize() {
 
         TextView textViewCompanyName = findViewById(R.id.text_view_company_name);
@@ -38,8 +40,7 @@ public class ContactUsActivity extends AppCompatActivity {
             binding.textViewDate.setText(sharedPreferenceManager.
                     getStringData(SharedReferenceKeys.DATE.getValue()));
         binding.textViewVersion.setText(BuildConfig.VERSION_NAME);
-        binding.textViewSite.setText(DifferentCompanyManager.
-                getSiteAddress(DifferentCompanyManager.getActiveCompanyName()));
+        binding.textViewSite.setText("tarnamesep.com");
         binding.imageViewLogo.setImageDrawable(AppCompatResources.getDrawable(
                 getApplicationContext(), R.drawable.img_logo));
     }

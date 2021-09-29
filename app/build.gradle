@@ -1,14 +1,7 @@
-//apply plugin: 'com.android.application'
-//apply plugin: 'com.google.gms.google-services'
-//apply plugin: 'com.google.firebase.crashlytics'
-//apply plugin: 'com.google.firebase.firebase-perf'
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
-//    id 'com.google.gms.google-services'
-//    id 'com.google.firebase.crashlytics'
-//    id 'com.google.firebase.firebase-perf'
 }
 android {
     compileSdkVersion 31
@@ -25,8 +18,8 @@ android {
         applicationId 'com.leon.counter_reading'
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 39
-        versionName "1.00.06.24"
+        versionCode 40
+        versionName "1.00.07.07"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         signingConfig signingConfigs.config
@@ -148,7 +141,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.1.0')
     implementation 'com.google.firebase:firebase-analytics'
 
-    implementation 'io.sentry:sentry-android:5.2.0'
+//    implementation 'io.sentry:sentry-android:5.2.0'
 
     implementation "ch.acra:acra-dialog:5.8.4"
     implementation "ch.acra:acra-mail:5.8.4"

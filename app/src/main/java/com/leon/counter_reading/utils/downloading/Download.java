@@ -31,18 +31,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
-import io.sentry.Sentry;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class Download extends AsyncTask<Activity, Void, Void> {
-    private final CustomProgressBar customProgressBar;
 
-    public Download(Activity activity) {
+    public Download() {
         super();
-        customProgressBar = new CustomProgressBar();
-        customProgressBar.show(activity, false);
     }
 
     @Override
@@ -64,7 +60,6 @@ public class Download extends AsyncTask<Activity, Void, Void> {
 
     @Override
     protected void onPostExecute(Void unused) {
-        customProgressBar.getDialog().dismiss();
         super.onPostExecute(unused);
 //        throw new RuntimeException("Test Force Crash"); // Force a crash
     }
