@@ -30,22 +30,20 @@ public final class CustomProgressBar {
         return show(context, title, false);
     }
 
-    public Dialog show(boolean cancelable, Context context, CharSequence title) {
-        return show(context, title, cancelable, dialog -> {
-            Toast.makeText(MyApplication.getContext(),
-                    MyApplication.getContext().getString(R.string.canceled),
-                    Toast.LENGTH_LONG).show();
-            HttpClientWrapper.call.cancel();
-        });
-    }
+//    public Dialog show(boolean cancelable, Context context, CharSequence title) {
+//        return show(context, title, cancelable, dialog -> {
+//            Toast.makeText(MyApplication.getContext(),
+//                    MyApplication.getContext().getString(R.string.canceled),
+//                    Toast.LENGTH_LONG).show();
+//            HttpClientWrapper.call.cancel();
+//        });
+//    }
 
     public Dialog show(Context context, boolean cancelable, CharSequence title) {
         return show(context, title, cancelable, dialog -> {
             Toast.makeText(MyApplication.getContext(),
                     MyApplication.getContext().getString(R.string.canceled),
                     Toast.LENGTH_LONG).show();
-            if (HttpClientWrapper.call != null)
-                HttpClientWrapper.call.cancel();
         });
     }
 
@@ -101,6 +99,11 @@ public final class CustomProgressBar {
             dialog.setOnCancelListener(cancelListener);
             RelativeLayout relativeLayout = view.findViewById(R.id.relative_layout);
             relativeLayout.setOnClickListener(v -> {
+                HttpClientWrapper.cancel = true;
+                if (HttpClientWrapper.call != null) {
+                    HttpClientWrapper.call.cancel();
+                    HttpClientWrapper.call = null;
+                }
                 dialog.dismiss();
                 dialog.cancel();
             });

@@ -2,6 +2,7 @@ package com.leon.counter_reading.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ public class SettingUpdateFragment extends Fragment {
         binding.imageViewUpdate.
                 setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.img_update));
         setOnButtonReceiveClickListener();
+        binding.imageViewUpdate.setOnClickListener(view -> Log.e("here","imageViewUpdate"));
     }
 
     void setOnButtonReceiveClickListener() {
@@ -81,6 +83,12 @@ public class SettingUpdateFragment extends Fragment {
         });
         versionCode = lastInfo.versionCode;
         firstTime = false;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        firstTime = true;
     }
 
     @Override

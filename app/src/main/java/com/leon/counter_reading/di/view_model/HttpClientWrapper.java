@@ -22,6 +22,7 @@ import retrofit2.Response;
 
 public class HttpClientWrapper {
     public static Call call;
+    public static boolean cancel;
     public static CustomProgressBar progressBarCancelable;
 
     public static <T> void callHttpAsync(Call<T> call, int progressType,
@@ -47,28 +48,32 @@ public class HttpClientWrapper {
             call.enqueue(new Callback<T>() {
                 @Override
                 public void onResponse(@NonNull Call<T> call, @NonNull Response<T> response) {
-                    if (progressBar.getDialog() != null)
-                        try {
-                            progressBar.getDialog().dismiss();
-                        } catch (Exception e) {
-                            new CustomToast().error(e.getMessage(), Toast.LENGTH_LONG);
+                    if (!cancel) {
+                        if (progressBar.getDialog() != null)
+                            try {
+                                progressBar.getDialog().dismiss();
+                            } catch (Exception e) {
+                                new CustomToast().error(e.getMessage(), Toast.LENGTH_LONG);
+                            }
+                        if (response.isSuccessful()) {
+                            callback.execute(response);
+                        } else {
+                            ((Activity) context).runOnUiThread(() -> callbackIncomplete.executeIncomplete(response));
                         }
-                    if (response.isSuccessful()) {
-                        callback.execute(response);
-                    } else {
-                        ((Activity) context).runOnUiThread(() -> callbackIncomplete.executeIncomplete(response));
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<T> call, @NonNull Throwable t) {
-                    ((Activity) context).runOnUiThread(() -> callbackError.executeError(t));
-                    if (progressBar.getDialog() != null)
-                        try {
-                            progressBar.getDialog().dismiss();
-                        } catch (Exception e) {
-                            new CustomToast().error(e.getMessage(), Toast.LENGTH_LONG);
-                        }
+                    if (!cancel) {
+                        ((Activity) context).runOnUiThread(() -> callbackError.executeError(t));
+                        if (progressBar.getDialog() != null)
+                            try {
+                                progressBar.getDialog().dismiss();
+                            } catch (Exception e) {
+                                new CustomToast().error(e.getMessage(), Toast.LENGTH_LONG);
+                            }
+                    }
                 }
             });
             HttpClientWrapper.call = call;
