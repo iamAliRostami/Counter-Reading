@@ -46,7 +46,6 @@ import com.leon.counter_reading.adapters.DrawerItem;
 import com.leon.counter_reading.adapters.NavigationDrawerAdapter;
 import com.leon.counter_reading.adapters.RecyclerItemClickListener;
 import com.leon.counter_reading.databinding.ActivityBaseBinding;
-import com.leon.counter_reading.di.view_model.CustomDialogModel;
 import com.leon.counter_reading.di.view_model.LocationTrackingGoogle;
 import com.leon.counter_reading.di.view_model.LocationTrackingGps;
 import com.leon.counter_reading.di.view_model.MyDatabaseClientModel;
@@ -225,6 +224,12 @@ public abstract class BaseActivity extends AppCompatActivity
 
                     @Override
                     public void onLongItemClick(View view, int position) {
+                        if (position == 1) {
+                            MyApplication.POSITION = position;
+                            Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     }
                 })
         );
