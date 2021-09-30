@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class PossibleFragment extends DialogFragment {
-    static boolean justMobile = false;
+    private static boolean justMobile = false;
     private FragmentPossibleBinding binding;
     private OnOffLoadDto onOffLoadDto;
     private int position;
@@ -111,7 +111,6 @@ public class PossibleFragment extends DialogFragment {
             binding.linearLayoutReadingReport.setVisibility(View.GONE);
             binding.linearLayoutKarbari.setVisibility(View.GONE);
             binding.editTextSearch.setVisibility(View.GONE);
-
         } else
             initializeTextViews();
         setOnButtonsClickListener();

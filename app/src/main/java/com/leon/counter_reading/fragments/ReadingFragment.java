@@ -4,14 +4,11 @@ import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -180,9 +177,14 @@ public class ReadingFragment extends Fragment {
 
     void initializeSpinner() {
         binding.spinner.setAdapter(adapter);
-        for (int i = 0; i < counterStateDtos.size(); i++)
-            if (counterStateDtos.get(i).id == onOffLoadDto.counterStateId)
-                binding.spinner.setSelection(i);
+        //TODO
+        boolean found = false;
+        int i;
+        for (i = 0; i < counterStateDtos.size() && !found; i++)
+            if (counterStateDtos.get(i).id == onOffLoadDto.counterStateId) {
+                found = true;
+            }
+        binding.spinner.setSelection(found ? i - 1 : 0);
 //        if (onOffLoadDto.counterStatePosition != null)
 //            binding.spinner.setSelection(onOffLoadDto.counterStatePosition);
 //        else  {
@@ -190,7 +192,7 @@ public class ReadingFragment extends Fragment {
 //                if (counterStateDtos.get(i).id == onOffLoadDto.counterStateId)
 //                    binding.spinner.setSelection(i);
 //        }
-//        else {//TODO
+//        else {
 //            for (int i = 0; i < counterStateDtos.size(); i++)
 //                if (counterStateDtos.get(i).moshtarakinId == onOffLoadDto.preCounterStateCode)
 //                    binding.spinner.setSelection(i);
@@ -450,6 +452,7 @@ public class ReadingFragment extends Fragment {
             }
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
