@@ -22,7 +22,6 @@ import com.leon.counter_reading.tables.QotrDictionary;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
 import com.leon.counter_reading.tables.ReadingData;
 import com.leon.counter_reading.utils.CustomErrorHandling;
-import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.MyDatabase;
 
@@ -61,7 +60,8 @@ public class Download extends AsyncTask<Activity, Void, Void> {
     @Override
     protected void onPostExecute(Void unused) {
         super.onPostExecute(unused);
-//        throw new RuntimeException("Test Force Crash"); // Force a crash
+        throw new RuntimeException("Test Force Crash"); // Force a crash
+
     }
 }
 

@@ -5,7 +5,6 @@ import static android.os.Build.UNKNOWN;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
-import android.app.job.JobInfo;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
@@ -35,20 +34,16 @@ import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ILocationTracking;
 import com.leon.counter_reading.tables.ReadingData;
 import com.leon.counter_reading.utils.locating.CheckSensor;
-
-import org.acra.annotation.AcraMailSender;
-import org.acra.annotation.AcraScheduler;
-import org.acra.config.CoreConfigurationBuilder;
-import org.acra.config.MailSenderConfigurationBuilder;
-import org.acra.data.StringFormat;
+import com.yandex.metrica.YandexMetrica;
+import com.yandex.metrica.YandexMetricaConfig;
 
 import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
 
-@AcraMailSender(mailTo = "ali.rostami33@ymail.com")
-@AcraScheduler(requiresNetworkType = JobInfo.NETWORK_TYPE_UNMETERED,
-        requiresBatteryNotLow = true)
+//@AcraMailSender(mailTo = "ali.rostami33@ymail.com")
+//@AcraScheduler(requiresNetworkType = JobInfo.NETWORK_TYPE_UNMETERED,
+//        requiresBatteryNotLow = true)
 public class MyApplication extends Application {
     public static final String FONT_NAME = "font/font_1.ttf";
     public static final int TOAST_TEXT_SIZE = 20;
@@ -87,7 +82,6 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         appContext = getApplicationContext();
-
         Toasty.Config.getInstance()
                 .tintIcon(true)
                 .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), MyApplication.FONT_NAME))
@@ -101,9 +95,16 @@ public class MyApplication extends Application {
                 .sharedPreferenceModule(new SharedPreferenceModule(appContext, SharedReferenceNames.ACCOUNT))
                 .build();
         applicationComponent.inject(this);
-
-
         super.onCreate();
+
+        YandexMetricaConfig config = YandexMetricaConfig
+                .newConfigBuilder("6d39e473-5c5c-4163-9c4c-21eb91758e8f").withLogs()
+                .withAppVersion(BuildConfig.VERSION_NAME).build();
+        // Initializing the AppMetrica SDK.
+        YandexMetrica.activate(appContext, config);
+        // Automatic tracking of user activity.
+        YandexMetrica.enableActivityAutoTracking(this);
+        YandexMetrica.activate(getApplicationContext(), config);
 //        throw new RuntimeException("Test Crash"); // Force a crash
     }
 
@@ -111,25 +112,6 @@ public class MyApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
-        CoreConfigurationBuilder builder = new CoreConfigurationBuilder(base);
-        //core configuration:
-        builder.withBuildConfigClass(BuildConfig.class).withReportFormat(StringFormat.JSON);
-        //each plugin you chose above can be configured with its builder like this:
-        builder.getPluginConfigurationBuilder(MailSenderConfigurationBuilder.class)
-                //required
-                .withMailTo("ali.rostami33@ymail.com")
-                //defaults to true
-                .withReportAsFile(true)
-                //defaults to ACRA-report.stacktrace
-                .withReportFileName("Crash.txt")
-                //defaults to "<applicationId> Crash Report"
-//                .withSubject("".concat(BuildConfig.COMPANY_NAME.name()))
-                //defaults to empty
-                .withBody("برنامه کرش کرده است.")
-                //make sure to enable all plugins you want to use:
-                .withEnabled(true);
-//        ACRA.init(this);
-//        Log.e("here", "after acra initialized");
     }
 
     public static ActivityComponent getActivityComponent() {
