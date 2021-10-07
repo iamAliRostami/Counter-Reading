@@ -153,7 +153,7 @@ public class SettingChangeAvatarFragment extends Fragment {
             } else if (requestCode == MyApplication.CAMERA_REQUEST) {
                 if (MyApplication.PHOTO_URI != null) {
                     try {
-                        prepareImage(MediaStore.Images.Media.getBitmap(activity.getContentResolver(), MyApplication.PHOTO_URI));
+                        prepareImage(CustomFile.rotateImage(MediaStore.Images.Media.getBitmap(activity.getContentResolver(), MyApplication.PHOTO_URI), 90));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
