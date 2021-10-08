@@ -8,13 +8,13 @@ import com.leon.counter_reading.activities.ReportActivity;
 import com.leon.counter_reading.enums.HighLowStateEnum;
 import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.TrackingDto;
-import com.leon.counter_reading.utils.CustomProgressBar;
+import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.utils.MyDatabase;
 
 import java.util.ArrayList;
 
 public class GetReportDBData extends AsyncTask<Activity, Integer, Integer> {
-    private final CustomProgressBar customProgressBar;
+    private final CustomProgressModel customProgressModel;
     private final MyDatabase myDatabase;
     private final ArrayList<CounterStateDto> counterStateDtos = new ArrayList<>();
     private final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
@@ -23,8 +23,8 @@ public class GetReportDBData extends AsyncTask<Activity, Integer, Integer> {
     public GetReportDBData(Activity activity) {
         super();
         myDatabase = MyApplication.getApplicationComponent().MyDatabase();
-        customProgressBar = new CustomProgressBar();
-        customProgressBar.show(activity, false);
+        customProgressModel = new CustomProgressModel();
+        customProgressModel.show(activity, false);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class GetReportDBData extends AsyncTask<Activity, Integer, Integer> {
     @Override
     protected void onPostExecute(Integer integer) {
         super.onPostExecute(integer);
-        customProgressBar.getDialog().dismiss();
+        customProgressModel.getDialog().dismiss();
     }
 
     @Override

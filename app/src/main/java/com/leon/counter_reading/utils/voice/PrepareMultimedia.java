@@ -21,7 +21,7 @@ import com.leon.counter_reading.tables.Voice;
 import com.leon.counter_reading.tables.VoiceGrouped;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
-import com.leon.counter_reading.utils.CustomProgressBar;
+import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.utils.CustomToast;
 
 import okhttp3.MediaType;
@@ -31,7 +31,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
-    private final CustomProgressBar customProgressBar;
+    private final CustomProgressModel customProgressModel;
     private final Voice voice;
     private final String uuid;
     private final int position;
@@ -39,8 +39,8 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
 
     public PrepareMultimedia(Activity activity, Voice voice, String description, String uuid, int position) {
         super();
-        customProgressBar = new CustomProgressBar();
-        customProgressBar.show(activity, false);
+        customProgressModel = new CustomProgressModel();
+        customProgressModel.show(activity, false);
         this.voice = voice;
         this.voice.Description = description;
         this.uuid = uuid;
@@ -64,7 +64,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
     @Override
     protected void onPostExecute(Activity activity) {
         super.onPostExecute(activity);
-        customProgressBar.getDialog().dismiss();
+        customProgressModel.getDialog().dismiss();
         uploadVoice(activity);
     }
 

@@ -7,19 +7,19 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.activities.ReadingReportActivity;
 import com.leon.counter_reading.tables.CounterReportDto;
 import com.leon.counter_reading.tables.OffLoadReport;
-import com.leon.counter_reading.utils.CustomProgressBar;
+import com.leon.counter_reading.di.view_model.CustomProgressModel;
 
 import java.util.ArrayList;
 
 public class GetReadingReportDBData extends AsyncTask<Activity, Integer, Integer> {
     private final String uuid;
     private final int trackNumber;
-    private final CustomProgressBar customProgressBar;
+    private final CustomProgressModel customProgressModel;
 
     public GetReadingReportDBData(Activity activity, int trackNumber, String uuid) {
         super();
-        customProgressBar = new CustomProgressBar();
-        customProgressBar.show(activity, false);
+        customProgressModel = new CustomProgressModel();
+        customProgressModel.show(activity, false);
         this.trackNumber = trackNumber;
         this.uuid = uuid;
     }
@@ -27,7 +27,7 @@ public class GetReadingReportDBData extends AsyncTask<Activity, Integer, Integer
     @Override
     protected void onPostExecute(Integer integer) {
         super.onPostExecute(integer);
-        customProgressBar.getDialog().dismiss();
+        customProgressModel.getDialog().dismiss();
     }
 
     @Override

@@ -15,7 +15,7 @@ import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.tables.ForbiddenDtoResponses;
 import com.leon.counter_reading.utils.CustomFile;
-import com.leon.counter_reading.utils.CustomProgressBar;
+import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.utils.CustomToast;
 
 import retrofit2.Call;
@@ -23,14 +23,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
-    private final CustomProgressBar customProgressBar;
+    private final CustomProgressModel customProgressModel;
     private final ForbiddenDto forbiddenDto;
     private final int zoneId;
 
     public PrepareForbid(Activity activity, ForbiddenDto forbiddenDto, int zoneId) {
         super();
-        customProgressBar = new CustomProgressBar();
-        customProgressBar.show(activity, false);
+        customProgressModel = new CustomProgressModel();
+        customProgressModel.show(activity, false);
         this.forbiddenDto = forbiddenDto;
         this.zoneId = zoneId;
     }
@@ -91,7 +91,7 @@ public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
     @Override
     protected void onPostExecute(Activity activity) {
         super.onPostExecute(activity);
-        customProgressBar.getDialog().dismiss();
+        customProgressModel.getDialog().dismiss();
     }
 
     void saveForbidden(Activity activity) {

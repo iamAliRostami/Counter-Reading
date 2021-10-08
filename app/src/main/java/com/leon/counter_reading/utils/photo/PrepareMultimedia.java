@@ -20,7 +20,7 @@ import com.leon.counter_reading.tables.ImageGrouped;
 import com.leon.counter_reading.tables.MultimediaUploadResponse;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
-import com.leon.counter_reading.utils.CustomProgressBar;
+import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.utils.CustomToast;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
-    private final CustomProgressBar customProgressBar;
+    private final CustomProgressModel customProgressModel;
     private final ImageGrouped imageGrouped = new ImageGrouped();
     private final ArrayList<Image> images;
     private final String description;
@@ -42,8 +42,8 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
     public PrepareMultimedia(Activity activity, int position, boolean result, String description,
                              ArrayList<Image> images) {
         super();
-        customProgressBar = new CustomProgressBar();
-        customProgressBar.show(activity, false);
+        customProgressModel = new CustomProgressModel();
+        customProgressModel.show(activity, false);
         this.description = description;
         this.position = position;
         this.result = result;
@@ -70,7 +70,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
     @Override
     protected void onPostExecute(Activity activity) {
         super.onPostExecute(activity);
-        customProgressBar.getDialog().dismiss();
+        customProgressModel.getDialog().dismiss();
         uploadImage(activity);
     }
 

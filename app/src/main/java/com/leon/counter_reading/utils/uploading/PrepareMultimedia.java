@@ -21,7 +21,7 @@ import com.leon.counter_reading.tables.Voice;
 import com.leon.counter_reading.tables.VoiceMultiple;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
-import com.leon.counter_reading.utils.CustomProgressBar;
+import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.utils.CustomToast;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
-    private final CustomProgressBar customProgressBar;
+    private final CustomProgressModel customProgressModel;
     private final ArrayList<Image> images = new ArrayList<>();
     private final ArrayList<Voice> voice = new ArrayList<>();
     private final ImageMultiple imageMultiples = new ImageMultiple();
@@ -43,8 +43,8 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
 
     public PrepareMultimedia(Activity activity, UploadFragment uploadFragment, boolean justImages) {
         super();
-        customProgressBar = new CustomProgressBar();
-        customProgressBar.show(activity, false);
+        customProgressModel = new CustomProgressModel();
+        customProgressModel.show(activity, false);
         this.uploadFragment = uploadFragment;
         this.justImages = justImages;
     }
@@ -102,7 +102,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
     @Override
     protected void onPostExecute(Activity activity) {
         super.onPostExecute(activity);
-        customProgressBar.getDialog().dismiss();
+        customProgressModel.getDialog().dismiss();
         uploadImages(activity);
         if (!justImages)
             uploadVoice(activity);

@@ -13,7 +13,6 @@ import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
-import com.leon.counter_reading.utils.CustomProgressBar;
 import com.leon.counter_reading.utils.CustomToast;
 
 import retrofit2.Call;
@@ -22,8 +21,8 @@ import retrofit2.Response;
 
 public class HttpClientWrapper {
     public static Call call;
+    public static CustomProgressModel progressBarCancelable;
     public static boolean cancel;
-    public static CustomProgressBar progressBarCancelable;
 
     public static <T> void callHttpAsync(Call<T> call, int progressType,
                                          final Context context,
@@ -31,7 +30,7 @@ public class HttpClientWrapper {
                                          final ICallbackIncomplete<T> callbackIncomplete,
                                          final ICallbackError callbackError) {
         cancel = false;
-        CustomProgressBar progressBar = new CustomProgressBar();
+        CustomProgressModel progressBar = new CustomProgressModel();
         try {
             if (progressType == ProgressType.SHOW.getValue()) {
                 progressBar.show(context, context.getString(R.string.waiting));
@@ -88,20 +87,23 @@ public class HttpClientWrapper {
         }
     }
 
-
     public static <T> void callHttpAsyncProgressDismiss(Call<T> call, int progressType,
                                                         final Context context,
                                                         final ICallback<T> callback,
                                                         final ICallbackIncomplete<T> callbackIncomplete,
                                                         final ICallbackError callbackError) {
 
-        progressBarCancelable = new CustomProgressBar();
-        if (progressType == ProgressType.SHOW.getValue()) {
-            progressBarCancelable.show(context, context.getString(R.string.waiting));
-        } else if (progressType == ProgressType.SHOW_CANCELABLE.getValue()) {
-            progressBarCancelable.show(context, true, context.getString(R.string.waiting));
-        } else if (progressType == ProgressType.SHOW_CANCELABLE_REDIRECT.getValue()) {
-            progressBarCancelable.show(context, context.getString(R.string.waiting), true);
+        progressBarCancelable = new CustomProgressModel();
+        try {
+            if (progressType == ProgressType.SHOW.getValue()) {
+                progressBarCancelable.show(context, context.getString(R.string.waiting));
+            } else if (progressType == ProgressType.SHOW_CANCELABLE.getValue()) {
+                progressBarCancelable.show(context, true, context.getString(R.string.waiting));
+            } else if (progressType == ProgressType.SHOW_CANCELABLE_REDIRECT.getValue()) {
+                progressBarCancelable.show(context, context.getString(R.string.waiting), true);
+            }
+        } catch (Exception e) {
+            new CustomToast().error(e.getMessage(), Toast.LENGTH_LONG);
         }
         if (isNetworkAvailable(context)) {
             call.enqueue(new Callback<T>() {

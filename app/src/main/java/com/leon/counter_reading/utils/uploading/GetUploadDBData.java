@@ -6,18 +6,18 @@ import android.os.AsyncTask;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.activities.UploadActivity;
 import com.leon.counter_reading.tables.TrackingDto;
-import com.leon.counter_reading.utils.CustomProgressBar;
+import com.leon.counter_reading.di.view_model.CustomProgressModel;
 
 import java.util.ArrayList;
 
 public class GetUploadDBData extends AsyncTask<Activity, Integer, Integer> {
-    private final CustomProgressBar customProgressBar;
+    private final CustomProgressModel customProgressModel;
 
     public GetUploadDBData(Activity activity) {
         super();
 
-        customProgressBar = new CustomProgressBar();
-        customProgressBar.show(activity, false);
+        customProgressModel = new CustomProgressModel();
+        customProgressModel.show(activity, false);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class GetUploadDBData extends AsyncTask<Activity, Integer, Integer> {
 
     @Override
     protected void onPostExecute(Integer integer) {
-        customProgressBar.getDialog().dismiss();
+        customProgressModel.getDialog().dismiss();
         super.onPostExecute(integer);
     }
 

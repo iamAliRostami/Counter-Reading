@@ -14,22 +14,22 @@ import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.enums.ReadStatusEnum;
 import com.leon.counter_reading.tables.ReadingData;
 import com.leon.counter_reading.tables.TrackingDto;
-import com.leon.counter_reading.utils.CustomProgressBar;
+import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.MyDatabase;
 
 import java.util.Collections;
 
 public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
-    private final CustomProgressBar customProgressBar;
+    private final CustomProgressModel customProgressModel;
     private final boolean sortType;
     private final int readStatus;
     private final int highLow;
 
     public GetReadingDBData(Activity activity, int readStatus, int highLow, boolean sortType) {
         super();
-        customProgressBar = new CustomProgressBar();
-        customProgressBar.show(activity, false);
+        customProgressModel = new CustomProgressModel();
+        customProgressModel.show(activity, false);
         this.sortType = sortType;
         this.highLow = highLow;
         this.readStatus = readStatus;
@@ -42,7 +42,7 @@ public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
 
     @Override
     protected void onPostExecute(Integer integer) {
-        customProgressBar.getDialog().dismiss();
+        customProgressModel.getDialog().dismiss();
         super.onPostExecute(integer);
     }
 

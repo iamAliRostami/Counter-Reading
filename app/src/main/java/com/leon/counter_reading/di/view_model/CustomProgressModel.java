@@ -1,4 +1,4 @@
-package com.leon.counter_reading.utils;
+package com.leon.counter_reading.di.view_model;
 
 
 import android.annotation.SuppressLint;
@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,10 +17,17 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 
-public final class CustomProgressBar {
+public final class CustomProgressModel {
 
     private Dialog dialog;
+    public static CustomProgressModel instance = null;
 
+    public static CustomProgressModel getInstance() {
+        if (instance == null) {
+            instance = new CustomProgressModel();
+        }
+        return instance;
+    }
     public Dialog show(Context context) {
         return show(context, "");
     }
@@ -87,7 +93,7 @@ public final class CustomProgressBar {
             try {
                 dialog.show();
             } catch (WindowManager.BadTokenException e) {
-                Log.e("WindowManagerBad ", e.toString());
+                e.printStackTrace();
             }
         }
         return dialog;
@@ -104,8 +110,11 @@ public final class CustomProgressBar {
                     HttpClientWrapper.call.cancel();
                     HttpClientWrapper.call = null;
                 }
-                dialog.dismiss();
-                dialog.cancel();
+                if (dialog != null) {
+                    dialog.dismiss();
+                    dialog.cancel();
+                    dialog = null;
+                }
             });
         }
     }

@@ -21,7 +21,7 @@ import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
-import com.leon.counter_reading.utils.CustomProgressBar;
+import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.utils.CustomToast;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class PrepareOffLoad extends AsyncTask<Activity, Activity, Activity> {
-    private final CustomProgressBar customProgressBar;
+    private final CustomProgressModel customProgressModel;
     private final ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
     private final ArrayList<OffLoadReport> offLoadReports = new ArrayList<>();
     private final ArrayList<ForbiddenDto> forbiddenDtos = new ArrayList<>();
@@ -42,8 +42,8 @@ public class PrepareOffLoad extends AsyncTask<Activity, Activity, Activity> {
         super();
         this.trackNumber = trackNumber;
         this.id = id;
-        customProgressBar = new CustomProgressBar();
-        customProgressBar.show(activity, false);
+        customProgressModel = new CustomProgressModel();
+        customProgressModel.show(activity, false);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class PrepareOffLoad extends AsyncTask<Activity, Activity, Activity> {
     @Override
     protected void onPostExecute(Activity activity) {
         super.onPostExecute(activity);
-        customProgressBar.getDialog().dismiss();
+        customProgressModel.getDialog().dismiss();
         uploadOffLoad(activity);
         if (forbiddenDtos.size() > 0) {
             uploadForbid(activity);
