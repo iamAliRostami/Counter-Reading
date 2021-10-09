@@ -33,8 +33,9 @@ public class CustomErrorHandling {
     public <T> String getErrorMessageDefault(Response<T> response) {
         String errorMessage;
         int code = response.code();
+        errorMessage = String.valueOf(code).concat(":\n");
         if (code == 504) {
-            errorMessage = context.getString(R.string.not_respond);
+            errorMessage += context.getString(R.string.not_respond);
         } else if (code == 503) {
             errorMessage = context.getString(R.string.error_overload);
         }
@@ -42,27 +43,27 @@ public class CustomErrorHandling {
 //            errorMessage = context.getString(R.string.error_turn_off_proxy);
 //        }
         else if (code >= 500 && code < 600) {
-            errorMessage = context.getString(R.string.error_internal);
+            errorMessage += context.getString(R.string.error_internal);
         } else if (code == 404) {
-            errorMessage = context.getString(R.string.error_change_server);
+            errorMessage += context.getString(R.string.error_change_server);
         } else if (code == 401 || code == 403) {
-            errorMessage = context.getString(R.string.error_not_auth);
+            errorMessage += context.getString(R.string.error_not_auth);
         } else {
-            errorMessage = context.getString(R.string.error_other);
+            errorMessage += context.getString(R.string.error_other);
         }
         return errorMessage;
     }
 
     public <T> String getErrorMessage(int code) {
-        String errorMessage;
+        String errorMessage = String.valueOf(code);
         if (code >= 500 && code < 600) {
-            errorMessage = context.getString(R.string.error_internal);
+            errorMessage += context.getString(R.string.error_internal);
         } else if (code == 404) {
-            errorMessage = context.getString(R.string.error_change_server);
+            errorMessage += context.getString(R.string.error_change_server);
         } else if (code >= 400 && code < 500) {
-            errorMessage = context.getString(R.string.error_not_auth);
+            errorMessage += context.getString(R.string.error_not_auth);
         } else {
-            errorMessage = context.getString(R.string.error_other);
+            errorMessage += context.getString(R.string.error_other);
         }
         return errorMessage;
     }

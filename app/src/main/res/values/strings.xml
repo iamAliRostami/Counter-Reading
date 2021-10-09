@@ -241,5 +241,6 @@
     <string name="change_avatar">تغییر نمایه</string>
     <string name="profile_changed">تصویر نمایه با موفقیت تغییر کرد.</string>
     <string name="confirm_serial">ثبت سریال</string>
+    <string name="offline_error_empty">دسترسی شما به شبکه قطع است، به دلیل اولین ورود شما به برنامه امکان دسترسی آفلاین وجود ندارد.</string>
     <!--    <string name="COMPANY_NAME" />-->
 </resources>

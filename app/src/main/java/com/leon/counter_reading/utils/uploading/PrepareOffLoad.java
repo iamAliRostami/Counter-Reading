@@ -42,7 +42,7 @@ public class PrepareOffLoad extends AsyncTask<Activity, Activity, Activity> {
         super();
         this.trackNumber = trackNumber;
         this.id = id;
-        customProgressModel = new CustomProgressModel();
+        customProgressModel = MyApplication.getApplicationComponent().CustomProgressModel();
         customProgressModel.show(activity, false);
     }
 

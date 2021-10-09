@@ -32,13 +32,12 @@ public class ContactUsActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     void initialize() {
-
         TextView textViewCompanyName = findViewById(R.id.text_view_company_name);
         textViewCompanyName.setText(DifferentCompanyManager.getCompanyName(DifferentCompanyManager.getActiveCompanyName()));
 
         if (sharedPreferenceManager.checkIsNotEmpty(SharedReferenceKeys.USERNAME_TEMP.getValue()))
-            binding.textViewDate.setText(sharedPreferenceManager.
-                    getStringData(SharedReferenceKeys.DATE.getValue()));
+            binding.textViewDate.setText(sharedPreferenceManager
+                    .getStringData(SharedReferenceKeys.DATE.getValue()));
         binding.textViewVersion.setText(BuildConfig.VERSION_NAME);
         binding.textViewSite.setText("tarnamesep.com");
         binding.imageViewLogo.setImageDrawable(AppCompatResources.getDrawable(

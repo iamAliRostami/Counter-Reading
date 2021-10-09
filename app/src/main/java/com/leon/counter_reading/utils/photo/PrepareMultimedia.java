@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.ProgressType;
@@ -20,7 +21,6 @@ import com.leon.counter_reading.tables.ImageGrouped;
 import com.leon.counter_reading.tables.MultimediaUploadResponse;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
-import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.utils.CustomToast;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
     public PrepareMultimedia(Activity activity, int position, boolean result, String description,
                              ArrayList<Image> images) {
         super();
-        customProgressModel = new CustomProgressModel();
+        customProgressModel = MyApplication.getApplicationComponent().CustomProgressModel();
         customProgressModel.show(activity, false);
         this.description = description;
         this.position = position;
@@ -81,8 +81,8 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
             imageGrouped.Description = RequestBody.create(images.get(0).Description,
                     MediaType.parse("text/plain"));
             Retrofit retrofit = MyApplication.getApplicationComponent().NetworkHelperModel()
-                    .getInstance(true,MyApplication.getApplicationComponent().SharedPreferenceModel()
-                            .getStringData(SharedReferenceKeys.TOKEN.getValue()),10,25,10);
+                    .getInstance(true, MyApplication.getApplicationComponent().SharedPreferenceModel()
+                            .getStringData(SharedReferenceKeys.TOKEN.getValue()), 10, 25, 10);
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
             Call<MultimediaUploadResponse> call = iAbfaService.fileUploadGrouped(imageGrouped.File,
                     imageGrouped.OnOffLoadId, imageGrouped.Description);

@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.enums.ReadStatusEnum;
@@ -28,7 +29,7 @@ public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
 
     public GetReadingDBData(Activity activity, int readStatus, int highLow, boolean sortType) {
         super();
-        customProgressModel = new CustomProgressModel();
+        customProgressModel = MyApplication.getApplicationComponent().CustomProgressModel();
         customProgressModel.show(activity, false);
         this.sortType = sortType;
         this.highLow = highLow;

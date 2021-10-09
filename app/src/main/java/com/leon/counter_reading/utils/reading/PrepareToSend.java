@@ -82,8 +82,9 @@ class offLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
         } else if (response.body() != null) {
             try {
                 MyApplication.setErrorCounter(MyApplication.getErrorCounter() + 1);
-                CustomErrorHandling customErrorHandlingNew = new CustomErrorHandling(MyApplication.getContext());
-                String error = customErrorHandlingNew.getErrorMessage(response.body().status);
+                CustomErrorHandling customErrorHandling = new CustomErrorHandling(MyApplication.getContext());
+                String error = customErrorHandling.getErrorMessage(response.body().status);
+//                String error = customErrorHandling.getErrorMessage(response.body().status);
                 new CustomToast().error(error);
             } catch (Exception e) {
                 activity.runOnUiThread(() -> new CustomDialogModel(DialogType.Red,

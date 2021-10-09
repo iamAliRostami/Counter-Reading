@@ -29,7 +29,7 @@ public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
 
     public PrepareForbid(Activity activity, ForbiddenDto forbiddenDto, int zoneId) {
         super();
-        customProgressModel = new CustomProgressModel();
+        customProgressModel = MyApplication.getApplicationComponent().CustomProgressModel();
         customProgressModel.show(activity, false);
         this.forbiddenDto = forbiddenDto;
         this.zoneId = zoneId;

@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.infrastructure.ICallback;
@@ -30,7 +31,7 @@ public class HttpClientWrapper {
                                          final ICallbackIncomplete<T> callbackIncomplete,
                                          final ICallbackError callbackError) {
         cancel = false;
-        CustomProgressModel progressBar = new CustomProgressModel();
+        CustomProgressModel progressBar = MyApplication.getApplicationComponent().CustomProgressModel();
         try {
             if (progressType == ProgressType.SHOW.getValue()) {
                 progressBar.show(context, context.getString(R.string.waiting));
@@ -93,12 +94,12 @@ public class HttpClientWrapper {
                                                         final ICallbackIncomplete<T> callbackIncomplete,
                                                         final ICallbackError callbackError) {
 
-        progressBarCancelable = new CustomProgressModel();
+        progressBarCancelable = MyApplication.getApplicationComponent().CustomProgressModel();
         try {
             if (progressType == ProgressType.SHOW.getValue()) {
                 progressBarCancelable.show(context, context.getString(R.string.waiting));
             } else if (progressType == ProgressType.SHOW_CANCELABLE.getValue()) {
-                progressBarCancelable.show(context, true, context.getString(R.string.waiting));
+                progressBarCancelable.show(context, context.getString(R.string.waiting), true);
             } else if (progressType == ProgressType.SHOW_CANCELABLE_REDIRECT.getValue()) {
                 progressBarCancelable.show(context, context.getString(R.string.waiting), true);
             }

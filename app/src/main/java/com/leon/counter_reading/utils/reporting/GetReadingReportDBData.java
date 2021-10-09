@@ -18,7 +18,7 @@ public class GetReadingReportDBData extends AsyncTask<Activity, Integer, Integer
 
     public GetReadingReportDBData(Activity activity, int trackNumber, String uuid) {
         super();
-        customProgressModel = new CustomProgressModel();
+        customProgressModel = MyApplication.getApplicationComponent().CustomProgressModel();
         customProgressModel.show(activity, false);
         this.trackNumber = trackNumber;
         this.uuid = uuid;

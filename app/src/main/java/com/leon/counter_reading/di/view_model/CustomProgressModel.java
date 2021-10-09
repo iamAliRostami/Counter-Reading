@@ -1,6 +1,5 @@
 package com.leon.counter_reading.di.view_model;
 
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -15,12 +14,11 @@ import android.widget.Toast;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
-import com.leon.counter_reading.di.view_model.HttpClientWrapper;
+import com.leon.counter_reading.utils.CustomToast;
 
 public final class CustomProgressModel {
-
     private Dialog dialog;
-    public static CustomProgressModel instance = null;
+    private static CustomProgressModel instance = null;
 
     public static CustomProgressModel getInstance() {
         if (instance == null) {
@@ -28,6 +26,7 @@ public final class CustomProgressModel {
         }
         return instance;
     }
+
     public Dialog show(Context context) {
         return show(context, "");
     }
@@ -36,41 +35,22 @@ public final class CustomProgressModel {
         return show(context, title, false);
     }
 
-//    public Dialog show(boolean cancelable, Context context, CharSequence title) {
-//        return show(context, title, cancelable, dialog -> {
-//            Toast.makeText(MyApplication.getContext(),
-//                    MyApplication.getContext().getString(R.string.canceled),
-//                    Toast.LENGTH_LONG).show();
-//            HttpClientWrapper.call.cancel();
-//        });
-//    }
-
-    public Dialog show(Context context, boolean cancelable, CharSequence title) {
-        return show(context, title, cancelable, dialog -> {
-            Toast.makeText(MyApplication.getContext(),
-                    MyApplication.getContext().getString(R.string.canceled),
-                    Toast.LENGTH_LONG).show();
-        });
-    }
-
     public Dialog show(Context context, CharSequence title, boolean cancelable) {
         return show(context, title, cancelable, dialog ->
-                Toast.makeText(context, context.getString(R.string.canceled),
-                        Toast.LENGTH_LONG).show());
+                new CustomToast().warning(MyApplication.getContext().getString(R.string.canceled),
+                        Toast.LENGTH_LONG));
     }
 
     public Dialog show(Context context, boolean cancelable) {
         return show(context, context.getString(R.string.waiting), cancelable, dialog ->
-                Toast.makeText(context, context.getString(R.string.canceled),
-                        Toast.LENGTH_LONG).show());
+                new CustomToast().warning(MyApplication.getContext().getString(R.string.canceled),
+                        Toast.LENGTH_LONG));
     }
 
-    @SuppressLint("InflateParams")
     public Dialog show(Context context, CharSequence title, DialogInterface.OnCancelListener cancelListener) {
         return show(context, title, true, cancelListener);
     }
 
-    @SuppressLint("InflateParams")
     public Dialog show(Context context, DialogInterface.OnCancelListener cancelListener) {
         return show(context, context.getString(R.string.waiting), true, cancelListener);
     }

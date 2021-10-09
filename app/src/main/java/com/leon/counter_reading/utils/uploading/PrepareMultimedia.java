@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.fragments.UploadFragment;
@@ -21,7 +22,6 @@ import com.leon.counter_reading.tables.Voice;
 import com.leon.counter_reading.tables.VoiceMultiple;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 import com.leon.counter_reading.utils.CustomFile;
-import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.utils.CustomToast;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
 
     public PrepareMultimedia(Activity activity, UploadFragment uploadFragment, boolean justImages) {
         super();
-        customProgressModel = new CustomProgressModel();
+        customProgressModel = MyApplication.getApplicationComponent().CustomProgressModel();
         customProgressModel.show(activity, false);
         this.uploadFragment = uploadFragment;
         this.justImages = justImages;
@@ -129,7 +129,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
             IAbfaService iAbfaService = retrofit.create(IAbfaService.class);
             Call<MultimediaUploadResponse> call = iAbfaService.fileUploadMultiple(
                     imageMultiples.File, imageMultiples.OnOffLoadId, imageMultiples.Description);
-            HttpClientWrapper.callHttpAsync(call,ProgressType.SHOW_CANCELABLE.getValue(), activity,
+            HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW_CANCELABLE.getValue(), activity,
                     new UploadImages(images, activity, uploadFragment), new UploadImagesIncomplete(), new UploadMultimediaError());
         } else {
             activity.runOnUiThread(() ->

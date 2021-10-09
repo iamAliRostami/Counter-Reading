@@ -25,6 +25,7 @@ import com.leon.counter_reading.di.component.ApplicationComponent;
 import com.leon.counter_reading.di.component.DaggerActivityComponent;
 import com.leon.counter_reading.di.component.DaggerApplicationComponent;
 import com.leon.counter_reading.di.module.CustomDialogModule;
+import com.leon.counter_reading.di.module.CustomProgressModule;
 import com.leon.counter_reading.di.module.FlashModule;
 import com.leon.counter_reading.di.module.LocationTrackingModule;
 import com.leon.counter_reading.di.module.MyDatabaseModule;
@@ -91,12 +92,13 @@ public class MyApplication extends Application {
                 .builder()
                 .networkModule(new NetworkModule())
                 .flashModule(new FlashModule(appContext))
+                .customProgressModule(new CustomProgressModule())
                 .myDatabaseModule(new MyDatabaseModule(appContext))
                 .sharedPreferenceModule(new SharedPreferenceModule(appContext, SharedReferenceNames.ACCOUNT))
                 .build();
         applicationComponent.inject(this);
         super.onCreate();
-
+//TODO on comment for release.
 //        YandexMetricaConfig config = YandexMetricaConfig
 //                .newConfigBuilder("6d39e473-5c5c-4163-9c4c-21eb91758e8f").withLogs()
 //                .withAppVersion(BuildConfig.VERSION_NAME).build();

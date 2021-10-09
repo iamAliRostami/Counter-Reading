@@ -39,7 +39,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
 
     public PrepareMultimedia(Activity activity, Voice voice, String description, String uuid, int position) {
         super();
-        customProgressModel = new CustomProgressModel();
+        customProgressModel = MyApplication.getApplicationComponent().CustomProgressModel();
         customProgressModel.show(activity, false);
         this.voice = voice;
         this.voice.Description = description;

@@ -7,6 +7,7 @@ import static com.leon.counter_reading.MyApplication.readingDataTemp;
 import android.app.Activity;
 import android.os.AsyncTask;
 
+import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.di.view_model.CustomProgressModel;
 
@@ -19,7 +20,7 @@ public class ChangeSortType extends AsyncTask<Activity, Void, Void> {
     public ChangeSortType(Activity activity, boolean sortType) {
         super();
         this.sortType = sortType;
-        customProgressModel = new CustomProgressModel();
+        customProgressModel = MyApplication.getApplicationComponent().CustomProgressModel();
         customProgressModel.show(activity, false);
     }
 

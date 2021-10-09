@@ -23,7 +23,7 @@ public class GetReportDBData extends AsyncTask<Activity, Integer, Integer> {
     public GetReportDBData(Activity activity) {
         super();
         myDatabase = MyApplication.getApplicationComponent().MyDatabase();
-        customProgressModel = new CustomProgressModel();
+        customProgressModel = MyApplication.getApplicationComponent().CustomProgressModel();
         customProgressModel.show(activity, false);
     }
 
