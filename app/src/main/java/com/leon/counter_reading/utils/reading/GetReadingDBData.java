@@ -10,12 +10,13 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
+import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.enums.ReadStatusEnum;
 import com.leon.counter_reading.tables.ReadingData;
 import com.leon.counter_reading.tables.TrackingDto;
-import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.MyDatabase;
 
@@ -74,19 +75,25 @@ public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
                 readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
                         getAllOnOffLoadRead(OffloadStateEnum.SENT.getValue(), readingData.trackingDtos.get(j).trackNumber));
             } else if (readStatus == ReadStatusEnum.ALL_MANE_UNREAD.getValue()) {
-                for (int k = 0, is_maneSize = IS_MANE.size(); k < is_maneSize; k++) {
-                    int i = IS_MANE.get(k);
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getOnOffLoadReadByIsMane(i, readingData.trackingDtos.get(j).trackNumber));
-                }
+                //TODO
+//                for (int k = 0, is_maneSize = IS_MANE.size(); k < is_maneSize; k++) {
+//                    int i = IS_MANE.get(k);
+//                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+//                            getOnOffLoadReadByIsMane(i, readingData.trackingDtos.get(j).trackNumber));
+//                }
+//                readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+//                        getAllOnOffLoadNotRead(0, readingData.trackingDtos.get(j).trackNumber));
+
                 readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                        getAllOnOffLoadNotRead(0, readingData.trackingDtos.get(j).trackNumber));
+                        getOnOffLoadReadByIsManeNotRead(IS_MANE, 0, readingData.trackingDtos.get(j).trackNumber));
+
             } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
-                for (int k = 0, is_maneSize = IS_MANE.size(); k < is_maneSize; k++) {
-                    int i = IS_MANE.get(k);
-                    readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                            getOnOffLoadReadByIsMane(i, readingData.trackingDtos.get(j).trackNumber));
-                }
+                //TODO
+//                for (int k = 0, is_maneSize = IS_MANE.size(); k < is_maneSize; k++) {
+//                    int i = IS_MANE.get(k);
+//                }
+                readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
+                        getOnOffLoadReadByIsMane(IS_MANE, readingData.trackingDtos.get(j).trackNumber));
             }
         }
 
@@ -95,14 +102,14 @@ public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
             if (readingData.counterStateDtos.size() > 0)
                 readingDataTemp.counterStateDtos.addAll(readingData.counterStateDtos);
             else {
-                activities[0].runOnUiThread(() -> new CustomToast().error("بارگیری وضعیت های کنتور به درستی انجام نشده است، با پشیبانی تماس بگیرید.", Toast.LENGTH_LONG));
+                activities[0].runOnUiThread(() -> new CustomToast().error(activities[0].getString(R.string.error_on_download_counter_states), Toast.LENGTH_LONG));
                 return null;
             }
             readingData.karbariDtos.addAll(myDatabase.karbariDao().getAllKarbariDto());
             if (readingData.karbariDtos.size() > 0)
                 readingDataTemp.karbariDtos.addAll(myDatabase.karbariDao().getAllKarbariDto());
             else {
-                activities[0].runOnUiThread(() -> new CustomToast().error("بارگیری کاربری ها به درستی انجام نشده است، با پشیبانی تماس بگیرید.", Toast.LENGTH_LONG));
+                activities[0].runOnUiThread(() -> new CustomToast().error(activities[0].getString(R.string.error_on_download_karbari), Toast.LENGTH_LONG));
                 return null;
             }
 
@@ -110,7 +117,7 @@ public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
             if (readingData.qotrDictionary.size() > 0)
                 readingDataTemp.qotrDictionary.addAll(myDatabase.qotrDictionaryDao().getAllQotrDictionaries());
             else {
-                activities[0].runOnUiThread(() -> new CustomToast().error("بارگیری قطرها به درستی انجام نشده است، با پشیبانی تماس بگیرید.", Toast.LENGTH_LONG));
+                activities[0].runOnUiThread(() -> new CustomToast().error(activities[0].getString(R.string.error_on_download_qotr), Toast.LENGTH_LONG));
                 return null;
             }
             readingDataTemp.onOffLoadDtos.addAll(readingData.onOffLoadDtos);
