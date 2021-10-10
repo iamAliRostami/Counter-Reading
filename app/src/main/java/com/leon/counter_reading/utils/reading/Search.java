@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
+import com.leon.counter_reading.enums.SearchTypeEnum;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomToast;
 
@@ -27,7 +28,7 @@ public class Search extends AsyncTask<Activity, Void, Void> {
 
     @Override
     protected Void doInBackground(Activity... activities) {
-        if (type == 3) {
+        if (type == SearchTypeEnum.NAME.getValue()) {
             readingData.onOffLoadDtos.clear();
             ArrayList<OnOffLoadDto> onOffLoadDtos = readingDataTemp.onOffLoadDtos;
             for (int i = 0, onOffLoadDtosSize = onOffLoadDtos.size(); i < onOffLoadDtosSize; i++) {
@@ -41,25 +42,21 @@ public class Search extends AsyncTask<Activity, Void, Void> {
             boolean found = false;
             int i = 0;
             if (goToPage) {
-                switch (type) {
-                    case 0:
-                        while (i < readingData.onOffLoadDtos.size() && !found) {
-                            found = readingData.onOffLoadDtos.get(i).eshterak.contains(key);
-                            i++;
-                        }
-                        break;
-                    case 1:
-                        while (i < readingData.onOffLoadDtos.size() && !found) {
-                            found = String.valueOf(readingData.onOffLoadDtos.get(i).radif).contains(key);
-                            i++;
-                        }
-                        break;
-                    case 2:
-                        while (i < readingData.onOffLoadDtos.size() && !found) {
-                            found = readingData.onOffLoadDtos.get(i).counterSerial.contains(key);
-                            i++;
-                        }
-                        break;
+                if (type == SearchTypeEnum.ESHTERAK.getValue()) {
+                    while (i < readingData.onOffLoadDtos.size() && !found) {
+                        found = readingData.onOffLoadDtos.get(i).eshterak.contains(key);
+                        i++;
+                    }
+                } else if (type == SearchTypeEnum.RADIF.getValue()) {
+                    while (i < readingData.onOffLoadDtos.size() && !found) {
+                        found = String.valueOf(readingData.onOffLoadDtos.get(i).radif).contains(key);
+                        i++;
+                    }
+                } else if (type == SearchTypeEnum.BODY_COUNTER.getValue()) {
+                    while (i < readingData.onOffLoadDtos.size() && !found) {
+                        found = readingData.onOffLoadDtos.get(i).counterSerial.contains(key);
+                        i++;
+                    }
                 }
                 if (found)
                     ((ReadingActivity) (activities[0])).changePage(i - 1);
@@ -68,32 +65,27 @@ public class Search extends AsyncTask<Activity, Void, Void> {
                             new CustomToast().warning(activities[0].getString(R.string.data_not_found)));
             } else {
                 readingData.onOffLoadDtos.clear();
-                switch (type) {
-                    case 0:
-                        ArrayList<OnOffLoadDto> onOffLoadDtos = readingDataTemp.onOffLoadDtos;
-                        for (int j = 0, onOffLoadDtosSize = onOffLoadDtos.size(); j < onOffLoadDtosSize; j++) {
-                            OnOffLoadDto onOffLoadDto = onOffLoadDtos.get(j);
-                            if (onOffLoadDto.eshterak.toLowerCase().contains(key))
-                                readingData.onOffLoadDtos.add(onOffLoadDto);
-                        }
-                        break;
-                    case 1:
-                        ArrayList<OnOffLoadDto> offLoadDtos = readingDataTemp.onOffLoadDtos;//                                if (onOffLoadDto.radif == Integer.parseInt(key))
-                        for (int j = 0, offLoadDtosSize = offLoadDtos.size(); j < offLoadDtosSize; j++) {
-                            OnOffLoadDto onOffLoadDto = offLoadDtos.get(j);
-                            if (String.valueOf(onOffLoadDto.radif).contains(key))
-                                readingData.onOffLoadDtos.add(onOffLoadDto);
-                        }
-                        break;
-                    case 2:
-                        ArrayList<OnOffLoadDto> loadDtos = readingDataTemp.onOffLoadDtos;
-                        for (int j = 0, loadDtosSize = loadDtos.size(); j < loadDtosSize; j++) {
-                            OnOffLoadDto onOffLoadDto = loadDtos.get(j);
-                            if (onOffLoadDto.counterSerial.toLowerCase().contains(key))
-                                readingData.onOffLoadDtos.add(onOffLoadDto);
-                        }
-                        break;
-
+                if (type == SearchTypeEnum.ESHTERAK.getValue()) {
+                    ArrayList<OnOffLoadDto> onOffLoadDtos = readingDataTemp.onOffLoadDtos;
+                    for (int j = 0, onOffLoadDtosSize = onOffLoadDtos.size(); j < onOffLoadDtosSize; j++) {
+                        OnOffLoadDto onOffLoadDto = onOffLoadDtos.get(j);
+                        if (onOffLoadDto.eshterak.toLowerCase().contains(key))
+                            readingData.onOffLoadDtos.add(onOffLoadDto);
+                    }
+                } else if (type == SearchTypeEnum.RADIF.getValue()) {
+                    ArrayList<OnOffLoadDto> offLoadDtos = readingDataTemp.onOffLoadDtos;//                                if (onOffLoadDto.radif == Integer.parseInt(key))
+                    for (int j = 0, offLoadDtosSize = offLoadDtos.size(); j < offLoadDtosSize; j++) {
+                        OnOffLoadDto onOffLoadDto = offLoadDtos.get(j);
+                        if (String.valueOf(onOffLoadDto.radif).contains(key))
+                            readingData.onOffLoadDtos.add(onOffLoadDto);
+                    }
+                } else if (type == SearchTypeEnum.BODY_COUNTER.getValue()) {
+                    ArrayList<OnOffLoadDto> loadDtos = readingDataTemp.onOffLoadDtos;
+                    for (int j = 0, loadDtosSize = loadDtos.size(); j < loadDtosSize; j++) {
+                        OnOffLoadDto onOffLoadDto = loadDtos.get(j);
+                        if (onOffLoadDto.counterSerial.toLowerCase().contains(key))
+                            readingData.onOffLoadDtos.add(onOffLoadDto);
+                    }
                 }
                 ((ReadingActivity) (activities[0])).setupViewPager();
             }

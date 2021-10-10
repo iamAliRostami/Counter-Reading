@@ -170,6 +170,7 @@
     <string name="counter_body_number">شماره بدنه کنتور</string>
     <string name="page_number">شماره صفحه</string>
     <string name="name">نام</string>
+    <string name="barcode">بارکد</string>
     <string name="all">همه</string>
     <string name="date">تاریخ</string>
     <string name="end">تا</string>

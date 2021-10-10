@@ -14,6 +14,7 @@ import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentSearchBinding;
+import com.leon.counter_reading.enums.SearchTypeEnum;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
 
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +46,7 @@ public class SearchFragment extends DialogFragment {
 
     void setOnButtonSearchClickListener() {
         binding.buttonSearch.setOnClickListener(v -> {
-            if (type == 5) {
+            if (type == SearchTypeEnum.All.getValue()) {
                 ((ReadingActivity) requireActivity()).search(type, null, false);
                 dismiss();
             } else {
@@ -71,15 +72,15 @@ public class SearchFragment extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 type = position;
-                if (position == 5)
+                if (position >= SearchTypeEnum.BARCODE.getValue())
                     binding.editTextSearch.setVisibility(View.GONE);
                 else binding.editTextSearch.setVisibility(View.VISIBLE);
 
-                if (position == 3 || position == 4 || position == 5)
+                if (position >= SearchTypeEnum.NAME.getValue()/* || position == 4 || position == 5*/)
                     binding.checkBoxGoToPage.setVisibility(View.GONE);
                 else binding.checkBoxGoToPage.setVisibility(View.VISIBLE);
 
-                if (position == 3)
+                if (position == SearchTypeEnum.NAME.getValue())
                     binding.editTextSearch.setInputType(InputType.TYPE_CLASS_TEXT);
                 else
                     binding.editTextSearch.setInputType(InputType.TYPE_CLASS_NUMBER);

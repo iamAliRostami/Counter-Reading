@@ -33,6 +33,7 @@ import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.DialogType;
 import com.leon.counter_reading.enums.NotificationType;
 import com.leon.counter_reading.enums.OffloadStateEnum;
+import com.leon.counter_reading.enums.SearchTypeEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.fragments.PossibleFragment;
 import com.leon.counter_reading.fragments.SearchFragment;
@@ -157,6 +158,7 @@ public class ReadingActivity extends BaseActivity {
             }
         });
     }
+
     // TODO
     void updateOnOffLoad(int position, int counterStateCode, int counterStatePosition) {
         readingData.onOffLoadDtos.get(position).isBazdid = true;
@@ -164,6 +166,7 @@ public class ReadingActivity extends BaseActivity {
         readingData.onOffLoadDtos.get(position).counterStatePosition = counterStatePosition;
         readingData.onOffLoadDtos.get(position).counterStateId = counterStateCode;
     }
+
     //TODO
     public void updateOnOffLoadWithoutCounterNumber(int position, int counterStateCode,
                                                     int counterStatePosition) {
@@ -227,17 +230,14 @@ public class ReadingActivity extends BaseActivity {
     }
 
     public void search(int type, String key, boolean goToPage) {
-        switch (type) {
-            case 4:
-                runOnUiThread(() -> binding.viewPager.setCurrentItem(Integer.parseInt(key) - 1));
-                break;
-            case 5:
-                readingData.onOffLoadDtos.clear();
-                readingData.onOffLoadDtos.addAll(readingDataTemp.onOffLoadDtos);
-                runOnUiThread(this::setupViewPager);
-                break;
-            default:
-                new Search(type, key, goToPage).execute(activity);
+        if (type == SearchTypeEnum.PAGE_NUMBER.getValue()) {
+            runOnUiThread(() -> binding.viewPager.setCurrentItem(Integer.parseInt(key) - 1));
+        } else if (type == SearchTypeEnum.All.getValue()) {
+            readingData.onOffLoadDtos.clear();
+            readingData.onOffLoadDtos.addAll(readingDataTemp.onOffLoadDtos);
+            runOnUiThread(this::setupViewPager);
+        } else {
+            new Search(type, key, goToPage).execute(activity);
         }
     }
 
@@ -495,7 +495,7 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (isReading && !readingData.onOffLoadDtos.isEmpty()&&MyApplication.FOCUS_ON_EDIT_TEXT) {
+        if (isReading && !readingData.onOffLoadDtos.isEmpty() && MyApplication.FOCUS_ON_EDIT_TEXT) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         }
