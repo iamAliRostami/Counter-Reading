@@ -60,6 +60,8 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -182,6 +184,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
+
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="barcode" />
     </application>
 
 </manifest>

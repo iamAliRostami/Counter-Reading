@@ -1,6 +1,8 @@
 package com.leon.counter_reading.base_items;
 
 import static com.leon.counter_reading.MyApplication.getApplicationComponent;
+import static com.leon.counter_reading.utils.PermissionManager.checkCameraPermission;
+import static com.leon.counter_reading.utils.PermissionManager.checkLocationPermission;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 import android.Manifest;
@@ -93,10 +95,9 @@ public abstract class BaseActivity extends AppCompatActivity
 
     void checkPermissions() {
         if (PermissionManager.gpsEnabled(this))
-            if (PermissionManager.checkLocationPermission(getApplicationContext())) {
+            if (checkLocationPermission(getApplicationContext())) {
                 askLocationPermission();
-            } else if (PermissionManager.checkStoragePermission(getApplicationContext())) {
-
+            } else if (!checkCameraPermission(getApplicationContext())) {
                 askStoragePermission();
             } else {
                 initialize();
@@ -124,6 +125,7 @@ public abstract class BaseActivity extends AppCompatActivity
                 .setDeniedCloseButtonText(getString(R.string.close))
                 .setGotoSettingButtonText(getString(R.string.allow_permission))
                 .setPermissions(
+                        Manifest.permission.CAMERA,
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ).check();
