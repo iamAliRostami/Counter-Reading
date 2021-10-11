@@ -98,15 +98,15 @@ public class MyApplication extends Application {
                 .build();
         applicationComponent.inject(this);
 //TODO on comment for release.
-//        YandexMetricaConfig config = YandexMetricaConfig
-//                .newConfigBuilder("6d39e473-5c5c-4163-9c4c-21eb91758e8f").withLogs()
-//                .withAppVersion(BuildConfig.VERSION_NAME).build();
-////         Initializing the AppMetrica SDK.
-//        YandexMetrica.activate(appContext, config);
-////         Automatic tracking of user activity.
-//        YandexMetrica.enableActivityAutoTracking(this);
-//        YandexMetrica.activate(getApplicationContext(), config);
-//        super.onCreate();
+        YandexMetricaConfig config = YandexMetricaConfig
+                .newConfigBuilder("6d39e473-5c5c-4163-9c4c-21eb91758e8f").withLogs()
+                .withAppVersion(BuildConfig.VERSION_NAME).build();
+//         Initializing the AppMetrica SDK.
+        YandexMetrica.activate(appContext, config);
+//         Automatic tracking of user activity.
+        YandexMetrica.enableActivityAutoTracking(this);
+        YandexMetrica.activate(getApplicationContext(), config);
+        super.onCreate();
     }
 
     @Override
