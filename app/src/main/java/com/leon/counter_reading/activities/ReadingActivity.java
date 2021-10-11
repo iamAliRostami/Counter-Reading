@@ -170,6 +170,7 @@ public class ReadingActivity extends BaseActivity {
     //TODO
     public void updateOnOffLoadWithoutCounterNumber(int position, int counterStateCode,
                                                     int counterStatePosition) {
+        readingData.onOffLoadDtos.get(position).counterNumber = null;
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
         attemptSend(position, true, true);
     }

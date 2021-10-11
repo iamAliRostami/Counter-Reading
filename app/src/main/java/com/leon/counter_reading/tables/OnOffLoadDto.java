@@ -54,7 +54,7 @@ public class OnOffLoadDto {
     public String mobile;
     public int hazf;//TODO 0 <  hazf movaqat
     public int noeVagozariId;//TODO 4: sax o saz or karbari isSaxt
-    public int counterNumber;
+    public Integer counterNumber;
     public int counterStateId;
     public String possibleAddress;
     public String possibleCounterSerial;
@@ -87,7 +87,7 @@ public class OnOffLoadDto {
 
     public static class OffLoad {
         public String id;
-        public int counterNumber;
+        public Integer counterNumber;
         public int counterStateId;
         public String possibleAddress;
         public String possibleCounterSerial;

@@ -144,7 +144,7 @@ public class ReadingFragment extends Fragment {
 
         binding.textViewAhad1.setText(String.valueOf(onOffLoadDto.ahadMaskooniOrAsli));
 
-        if (onOffLoadDto.counterNumber != 0)
+        if (onOffLoadDto.counterNumber != null)
             binding.editTextNumber.setText(String.valueOf(onOffLoadDto.counterNumber));
         binding.textViewAhad2.setText(String.valueOf(onOffLoadDto.ahadTejariOrFari));
         binding.textViewAhadTotal.setText(String.valueOf(onOffLoadDto.ahadSaierOrAbBaha));
@@ -167,7 +167,6 @@ public class ReadingFragment extends Fragment {
             }
         });
         binding.textViewAddress.setOnLongClickListener(v -> {
-            //TODO
             PossibleFragment possibleFragment = PossibleFragment.newInstance(onOffLoadDto,
                     position, true);
             possibleFragment.show(getChildFragmentManager(), getString(R.string.dynamic_navigation));
@@ -177,7 +176,6 @@ public class ReadingFragment extends Fragment {
 
     void initializeSpinner() {
         binding.spinner.setAdapter(adapter);
-        //TODO
         boolean found = false;
         int i;
         for (i = 0; i < counterStateDtos.size() && !found; i++)
@@ -185,18 +183,6 @@ public class ReadingFragment extends Fragment {
                 found = true;
             }
         binding.spinner.setSelection(found ? i - 1 : 0);
-//        if (onOffLoadDto.counterStatePosition != null)
-//            binding.spinner.setSelection(onOffLoadDto.counterStatePosition);
-//        else  {
-//            for (int i = 0; i < counterStateDtos.size(); i++)
-//                if (counterStateDtos.get(i).id == onOffLoadDto.counterStateId)
-//                    binding.spinner.setSelection(i);
-//        }
-//        else {
-//            for (int i = 0; i < counterStateDtos.size(); i++)
-//                if (counterStateDtos.get(i).moshtarakinId == onOffLoadDto.preCounterStateCode)
-//                    binding.spinner.setSelection(i);
-//        }
         setOnSpinnerSelectedListener();
     }
 
@@ -209,6 +195,9 @@ public class ReadingFragment extends Fragment {
                 CounterStateDto counterStateDto = counterStateDtos.get(counterStatePosition);
                 binding.editTextNumber.setEnabled(counterStateDto.canEnterNumber
                         || counterStateDto.shouldEnterNumber);
+                //TODO
+                if (!(counterStateDto.canEnterNumber || counterStateDto.shouldEnterNumber))
+                    binding.editTextNumber.setText("");
                 isMane = counterStateDto.isMane;
                 canBeEmpty = !counterStateDto.shouldEnterNumber;
                 canLessThanPre = counterStateDto.canNumberBeLessThanPre;
@@ -258,7 +247,6 @@ public class ReadingFragment extends Fragment {
         if (PermissionManager.gpsEnabledNew(activity))
             if (PermissionManager.checkLocationPermission(getContext())) {
                 askLocationPermission();
-                //TODO
             } else if (PermissionManager.checkStoragePermission(getContext())) {
                 askStoragePermission();
             } else {
