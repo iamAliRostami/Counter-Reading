@@ -29,6 +29,7 @@ import com.leon.counter_reading.tables.KarbariDto;
 import com.leon.counter_reading.tables.OffLoadReport;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
+import com.leon.counter_reading.utils.custom_dialog.LovelyChoiceDialog;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -44,7 +45,8 @@ public class PossibleFragment extends DialogFragment {
     private ISharedPreferenceManager sharedPreferenceManager;
     private ArrayList<KarbariDto> karbariDtos = new ArrayList<>();
     private ArrayList<KarbariDto> karbariDtosTemp = new ArrayList<>();
-    private ArrayList<CounterReportDto> counterReportDtos;
+    private ArrayList<CounterReportDto> counterReportDtos = new ArrayList<>();
+    private ArrayList<OffLoadReport> offLoadReports = new ArrayList<>();
 
     public static PossibleFragment newInstance(OnOffLoadDto onOffLoadDto, int position, boolean justMobile) {
         PossibleFragment.justMobile = justMobile;
@@ -108,7 +110,7 @@ public class PossibleFragment extends DialogFragment {
             binding.editTextAhad2.setVisibility(View.GONE);
             binding.editTextAhadTotal.setVisibility(View.GONE);
 
-            binding.linearLayoutReadingReport.setVisibility(View.GONE);
+            binding.textViewReport.setVisibility(View.GONE);
             binding.linearLayoutKarbari.setVisibility(View.GONE);
             binding.editTextSearch.setVisibility(View.GONE);
         } else
@@ -216,42 +218,64 @@ public class PossibleFragment extends DialogFragment {
 
         binding.textViewMobile.setText(String.valueOf(onOffLoadDto.mobile));
 
+        if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.READING_REPORT.getValue())) {
+            counterReportDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase()
+                    .counterReportDao().getAllCounterReportByZone(onOffLoadDto.zoneId));
+            offLoadReports = new ArrayList<>(MyApplication
+                    .getApplicationComponent().MyDatabase().offLoadReportDao()
+                    .getAllOffLoadReportById(onOffLoadDto.id, onOffLoadDto.trackNumber));
+            binding.textViewReport.setOnClickListener(v -> setOnTextViewCounterStateClickListener());
+        } else {
+            binding.textViewReport.setVisibility(View.GONE);
+        }
+
         initializeSpinner();
     }
 
-    void initializeSpinner() {
-        if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue())) {
-            karbariDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase()
-                    .karbariDao().getAllKarbariDto());
-            karbariDtosTemp = new ArrayList<>(karbariDtos);
-            String[] items = new String[karbariDtosTemp.size() + 1];
-            for (int i = 0; i < karbariDtosTemp.size(); i++) {
-                items[i + 1] = karbariDtosTemp.get(i).title;
+    private void setOnTextViewCounterStateClickListener() {
+        String[] itemNames = new String[counterReportDtos.size()];
+        boolean[] selection = new boolean[counterReportDtos.size()];
+        for (int i = 0; i < counterReportDtos.size(); i++) {
+            boolean found = false;
+            int j = 0;
+            while (!found && j < offLoadReports.size()) {
+                if (offLoadReports.get(j).reportId == counterReportDtos.get(i).id) {
+                    found = true;
+                }
+                j++;
             }
-            items[0] = getString(R.string.select_one);
-            SpinnerCustomAdapter karbariAdapter = new SpinnerCustomAdapter(activity, items);
-            binding.spinnerKarbari.setAdapter(karbariAdapter);
-            binding.spinnerKarbari.setSelection(onOffLoadDto.counterStatePosition + 1);
-        } else {
-            binding.linearLayoutKarbari.setVisibility(View.GONE);
-            binding.editTextSearch.setVisibility(View.GONE);
+            selection[i] = found;
+            itemNames[i] = counterReportDtos.get(i).title;
         }
-        if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.READING_REPORT.getValue())) {
-            counterReportDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase()
-                    .counterReportDao().getAllCounterStateReport());
-            String[] items2 = new String[counterReportDtos.size() + 1];
-            for (int i = 0; i < counterReportDtos.size(); i++) {
-                items2[i + 1] = counterReportDtos.get(i).title;
-            }
-            items2[0] = getString(R.string.reports);
-            SpinnerCustomAdapter readingReportAdapter = new SpinnerCustomAdapter(activity, items2);
-            binding.spinnerReadingReport.setAdapter(readingReportAdapter);
-        } else {
-            binding.linearLayoutReadingReport.setVisibility(View.GONE);
-        }
+        new LovelyChoiceDialog(activity/*, R.style.CheckBoxTintTheme*/)
+                .setTopColorRes(R.color.green)
+                .setTopTitle(R.string.reports)
+                .setItemsMultiChoice(itemNames, selection, (positions, items) -> {
+                    for (int i = 0; i < offLoadReports.size(); i++)
+                        MyApplication.getApplicationComponent().MyDatabase().offLoadReportDao().
+                                deleteOffLoadReport(offLoadReports.get(i).reportId,
+                                        onOffLoadDto.trackNumber, onOffLoadDto.id);
+
+                    for (int i = 0; i < positions.size(); i++) {
+                        OffLoadReport offLoadReport = new OffLoadReport();
+                        offLoadReport.reportId = counterReportDtos.get(positions.get(i)).id;
+                        offLoadReport.onOffLoadId = onOffLoadDto.id;
+                        offLoadReport.trackNumber = onOffLoadDto.trackNumber;
+                        MyApplication.getApplicationComponent().MyDatabase().offLoadReportDao()
+                                .insertOffLoadReport(offLoadReport);
+                    }
+                    counterReportDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase()
+                            .counterReportDao().getAllCounterReportByZone(onOffLoadDto.zoneId));
+                    offLoadReports = new ArrayList<>(MyApplication
+                            .getApplicationComponent().MyDatabase().offLoadReportDao()
+                            .getAllOffLoadReportById(onOffLoadDto.id, onOffLoadDto.trackNumber));
+                })
+                .setConfirmButtonText(getString(R.string.ok).concat(" ").concat(getString(R.string.reports)))
+                .show();
+
     }
 
-    void setOnButtonsClickListener() {
+    private void setOnButtonsClickListener() {
         binding.buttonSubmit.setOnClickListener(v -> {
             boolean cancel = false;
             View view = null;
@@ -306,15 +330,16 @@ public class PossibleFragment extends DialogFragment {
             if (cancel)
                 view.requestFocus();
             else {
-                if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.READING_REPORT.getValue())
-                        && binding.spinnerReadingReport.getSelectedItemPosition() != 0) {
-                    OffLoadReport offLoadReport = new OffLoadReport();
-                    offLoadReport.reportId = counterReportDtos.get(binding.spinnerReadingReport.getSelectedItemPosition() - 1).id;
-                    offLoadReport.onOffLoadId = onOffLoadDto.id;
-                    offLoadReport.trackNumber = onOffLoadDto.trackNumber;
-                    MyApplication.getApplicationComponent().MyDatabase()
-                            .offLoadReportDao().insertOffLoadReport(offLoadReport);
-                }
+                //TODO
+//                if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.READING_REPORT.getValue())
+//                        && binding.spinnerReadingReport.getSelectedItemPosition() != 0) {
+//                    OffLoadReport offLoadReport = new OffLoadReport();
+//                    offLoadReport.reportId = counterReportDtos.get(binding.spinnerReadingReport.getSelectedItemPosition() - 1).id;
+//                    offLoadReport.onOffLoadId = onOffLoadDto.id;
+//                    offLoadReport.trackNumber = onOffLoadDto.trackNumber;
+//                    MyApplication.getApplicationComponent().MyDatabase()
+//                            .offLoadReportDao().insertOffLoadReport(offLoadReport);
+//                }
                 ((ReadingActivity) activity).updateOnOffLoadByNavigation(position, onOffLoadDto, justMobile);
                 dismiss();
 
@@ -322,6 +347,28 @@ public class PossibleFragment extends DialogFragment {
         });
         binding.buttonClose.setOnClickListener(v -> dismiss());
     }
+
+    void initializeSpinner() {
+        if (sharedPreferenceManager.getBoolData(SharedReferenceKeys.KARBARI.getValue())) {
+            karbariDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase()
+                    .karbariDao().getAllKarbariDto());
+            karbariDtosTemp = new ArrayList<>(karbariDtos);
+            String[] items = new String[karbariDtosTemp.size() + 1];
+            for (int i = 0; i < karbariDtosTemp.size(); i++) {
+                items[i + 1] = karbariDtosTemp.get(i).title;
+            }
+            items[0] = getString(R.string.select_one);
+            SpinnerCustomAdapter karbariAdapter = new SpinnerCustomAdapter(activity, items);
+            binding.spinnerKarbari.setAdapter(karbariAdapter);
+            binding.spinnerKarbari.setSelection(onOffLoadDto.counterStatePosition + 1);
+        } else {
+            binding.linearLayoutKarbari.setVisibility(View.GONE);
+            binding.editTextSearch.setVisibility(View.GONE);
+        }
+
+
+    }
+
 
     @Override
     public void onResume() {

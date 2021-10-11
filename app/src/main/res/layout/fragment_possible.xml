@@ -192,24 +192,15 @@
                     android:hint="@string/description"
                     tools:ignore="Autofill,TextFields" />
 
-                <LinearLayout
-                    android:id="@+id/linear_layout_reading_report"
+                <TextView
+                    android:id="@+id/text_view_report"
+                    style="@style/InputPossible"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="@dimen/low_dp"
+                    android:textSize="@dimen/text_size_large"
+                    android:layout_marginLeft="@dimen/small_dp"
+                    android:layout_marginRight="@dimen/small_dp"
                     android:background="@drawable/border_gray_6"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/medium_dp">
-
-                    <Spinner
-                        android:id="@+id/spinner_reading_report"
-                        style="@style/Spinner"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        tools:listitem="@layout/item_dropdown_menu" />
-                </LinearLayout>
+                    android:text="@string/reports"/>
             </LinearLayout>
         </ScrollView>
 

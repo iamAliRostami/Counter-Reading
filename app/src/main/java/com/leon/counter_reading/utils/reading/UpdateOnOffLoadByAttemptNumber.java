@@ -25,7 +25,7 @@ public class UpdateOnOffLoadByAttemptNumber extends AsyncTask<Activity, Void, Vo
         try {
             MyApplication.getApplicationComponent().MyDatabase()
                     .onOffLoadDao().updateOnOffLoadByAttemptNumber(readingData.onOffLoadDtos.get(position).id, attemptNumber);
-            readingData.onOffLoadDtos.get(position).attemptNumber = attemptNumber;
+            readingData.onOffLoadDtos.get(position).attemptCount = attemptNumber;
         } catch (Exception e) {
             activities[0].runOnUiThread(() -> new CustomDialogModel(DialogType.Red,
                     activities[0], e.getMessage(),

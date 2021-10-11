@@ -25,7 +25,7 @@ public class ReadingReportActivity extends AppCompatActivity {
     private ActivityReadingReportBinding binding;
     private Activity activity;
     private String uuid;
-    private int position, trackNumber;
+    private int position, trackNumber, zoneId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +44,9 @@ public class ReadingReportActivity extends AppCompatActivity {
             uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
             trackNumber = getIntent().getExtras().getInt(BundleEnum.TRACKING.getValue());
             position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
+            zoneId = getIntent().getExtras().getInt(BundleEnum.ZONE_ID.getValue());
         }
-        new GetReadingReportDBData(activity, trackNumber, uuid).execute(activity);
+        new GetReadingReportDBData(activity, trackNumber,zoneId, uuid).execute(activity);
         binding.buttonSubmit.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.putExtra(BundleEnum.POSITION.getValue(), position);

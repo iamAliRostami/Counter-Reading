@@ -5,9 +5,13 @@
 
     <TextView
         android:id="@+id/ld_btn_confirm"
-        style="@style/DialogButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:text="@string/ok" />
+        android:layout_gravity="center"
+        android:background="@drawable/border_green_1"
+        android:paddingLeft="@dimen/large_dp"
+        android:paddingRight="@dimen/large_dp"
+        android:text="@string/ok"
+        android:textColor="@color/text_color_light"
+        android:textSize="@dimen/text_size_large" />
 </FrameLayout>

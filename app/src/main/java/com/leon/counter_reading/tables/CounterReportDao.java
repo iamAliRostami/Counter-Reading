@@ -10,10 +10,13 @@ import java.util.List;
 @Dao
 public interface CounterReportDao {
     @Query("SELECT * FROM CounterReportDto")
-    List<CounterReportDto> getAllCounterStateReport();
+    List<CounterReportDto> getAllCounterReport();
+
+    @Query("SELECT * FROM CounterReportDto WHERE zoneId = :zoneId ORDER BY clientOrder")
+    List<CounterReportDto> getAllCounterReportByZone(int zoneId);
 
     @Query("SELECT COUNT(*) FROM CounterReportDto WHERE id = :id")
-    int getAllCounterStateReport(int id);
+    int getAllCounterReport(int id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAllCounterStateReport(List<CounterReportDto> counterReportDtos);

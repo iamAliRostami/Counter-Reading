@@ -77,7 +77,7 @@ public class OnOffLoadDto {
     public double y;
     public boolean counterNumberShown;
 
-    public int attemptNumber;
+    public int attemptCount;
     public boolean isLocked;
 
     public int highLowStateId;
@@ -101,11 +101,13 @@ public class OnOffLoadDto {
         public int possibleKarbariCode;
         public String description;
         public boolean counterNumberShown;
+        public boolean isLocked;
         public double gisAccuracy;
         public double x;
         public double y;
         public String d1;
         public String d2;
+        public int attemptCount;
 
         public OffLoad() {
         }
@@ -131,6 +133,8 @@ public class OnOffLoadDto {
             d1 = onOffLoadDto.d1;
             d2 = onOffLoadDto.d2;
             gisAccuracy = onOffLoadDto.gisAccuracy;
+            attemptCount = onOffLoadDto.attemptCount;
+            isLocked = onOffLoadDto.isLocked;
         }
     }
 

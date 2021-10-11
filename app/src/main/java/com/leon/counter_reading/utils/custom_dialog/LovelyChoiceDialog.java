@@ -85,11 +85,12 @@ public class LovelyChoiceDialog extends AbsLovelyDialog<LovelyChoiceDialog> {
 
     @SuppressLint("InflateParams")
     public <T> LovelyChoiceDialog setItemsMultiChoice(ArrayAdapter<T> adapter, boolean[] selectionState, OnItemsSelectedListener<T> itemsSelectedListener) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View confirmBtnContainer = inflater.inflate(R.layout.dialog_item_footer_confirm, null);
-        confirmButton = confirmBtnContainer.findViewById(R.id.ld_btn_confirm);
+//        LayoutInflater inflater = LayoutInflater.from(getContext());
+//        View confirmBtnContainer = inflater.inflate(R.layout.dialog_item_footer_confirm, null);
+//        confirmButton = confirmBtnContainer.findViewById(R.id.ld_btn_confirm);
+        confirmButton = findView(R.id.ld_btn_confirm);
         confirmButton.setOnClickListener(new ItemsSelectedAdapter<>(itemsSelectedListener));
-        choicesList.addFooterView(confirmBtnContainer);
+//        choicesList.addFooterView(confirmBtnContainer);
 
         ListView choicesList = findView(R.id.list_view_choices);
         choicesList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);

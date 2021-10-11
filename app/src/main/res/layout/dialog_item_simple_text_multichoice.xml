@@ -9,4 +9,6 @@
     android:paddingStart="@dimen/large_dp"
     android:paddingEnd="@dimen/medium_dp"
     android:textAppearance="?android:attr/textAppearanceListItemSmall"
+    android:textColor="@color/black"
+    android:textSize="@dimen/text_size_medium"
     app:backgroundTint="#EBEE" />

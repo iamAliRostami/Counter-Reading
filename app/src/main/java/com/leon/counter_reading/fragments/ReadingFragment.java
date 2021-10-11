@@ -251,14 +251,14 @@ public class ReadingFragment extends Fragment {
                 askStoragePermission();
             } else {
                 //TODO
-                onOffLoadDto.attemptNumber++;
-                if (!onOffLoadDto.isLocked && onOffLoadDto.attemptNumber + 1 == DifferentCompanyManager.getLockNumber(DifferentCompanyManager.getActiveCompanyName()))
+                onOffLoadDto.attemptCount++;
+                if (!onOffLoadDto.isLocked && onOffLoadDto.attemptCount + 1 == DifferentCompanyManager.getLockNumber(DifferentCompanyManager.getActiveCompanyName()))
                     new CustomToast().warning(getString(R.string.mistakes_error), Toast.LENGTH_LONG);
-                if (!onOffLoadDto.isLocked && onOffLoadDto.attemptNumber == DifferentCompanyManager.getLockNumber(DifferentCompanyManager.getActiveCompanyName()))
+                if (!onOffLoadDto.isLocked && onOffLoadDto.attemptCount == DifferentCompanyManager.getLockNumber(DifferentCompanyManager.getActiveCompanyName()))
                     new CustomToast().error(getString(R.string.by_mistakes).
                             concat(onOffLoadDto.eshterak).concat(getString(R.string.is_locked)), Toast.LENGTH_LONG);
-                new UpdateOnOffLoadByAttemptNumber(position, onOffLoadDto.attemptNumber).execute(activity);
-                if (!onOffLoadDto.isLocked && onOffLoadDto.attemptNumber >= DifferentCompanyManager.getLockNumber(DifferentCompanyManager.getActiveCompanyName())) {
+                new UpdateOnOffLoadByAttemptNumber(position, onOffLoadDto.attemptCount).execute(activity);
+                if (!onOffLoadDto.isLocked && onOffLoadDto.attemptCount >= DifferentCompanyManager.getLockNumber(DifferentCompanyManager.getActiveCompanyName())) {
                     new UpdateOnOffLoadDtoByLock(position, onOffLoadDto.trackNumber, onOffLoadDto.id).execute(activity);
                 } else {
                     attemptSend();

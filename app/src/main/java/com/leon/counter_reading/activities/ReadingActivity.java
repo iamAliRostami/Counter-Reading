@@ -138,8 +138,9 @@ public class ReadingActivity extends BaseActivity {
                         readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
                 intent.putExtra(BundleEnum.TRACKING.getValue(),
                         readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).trackNumber);
-                intent.putExtra(BundleEnum.POSITION.getValue(),
-                        binding.viewPager.getCurrentItem());
+                intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
+                intent.putExtra(BundleEnum.ZONE_ID.getValue(),
+                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).zoneId);
                 startActivityForResult(intent, MyApplication.REPORT);
             }
         });

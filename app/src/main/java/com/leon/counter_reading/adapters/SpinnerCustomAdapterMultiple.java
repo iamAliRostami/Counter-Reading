@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import com.leon.counter_reading.R;
@@ -23,8 +24,8 @@ public class SpinnerCustomAdapterMultiple extends BaseAdapter {
     @SuppressLint({"ViewHolder", "InflateParams"})
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        view = inflater.inflate(R.layout.item_dropdown_menu, null);
-        TextView item = view.findViewById(R.id.text_view);
+        view = inflater.inflate(R.layout.item_dropdown_menu_multiple, null);
+        CheckedTextView item = view.findViewById(R.id.text_view);
         item.setText(items[position]);
         return view;
     }

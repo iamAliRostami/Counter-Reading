@@ -44,8 +44,9 @@ public interface OnOffLoadDao {
             "OnOffLoadDto.possiblePhoneNumber, OnOffLoadDto.possibleAhadMaskooniOrAsli, " +
             "OnOffLoadDto.possibleAhadTejariOrFari, OnOffLoadDto.possibleAhadSaierOrAbBaha, " +
             "OnOffLoadDto.possibleEmpty, OnOffLoadDto.possibleKarbariCode, " +
-            "OnOffLoadDto.description, OnOffLoadDto.counterNumberShown, OnOffLoadDto.gisAccuracy, " +
-            "OnOffLoadDto.x , OnOffLoadDto.y, OnOffLoadDto.d1, OnOffLoadDto.d2 From OnOffLoadDto " +
+            "OnOffLoadDto.description, OnOffLoadDto.counterNumberShown, OnOffLoadDto.attemptCount, " +
+            "OnOffLoadDto.isLocked, OnOffLoadDto.gisAccuracy, OnOffLoadDto.x , OnOffLoadDto.y," +
+            " OnOffLoadDto.d1, OnOffLoadDto.d2 From OnOffLoadDto " +
             "Inner JOIN TrackingDto on OnOffLoadDto.trackNumber = TrackingDto.trackNumber " +
             "WHERE OnOffLoadDto.offLoadStateId = :offLoadStateId AND TrackingDto.isActive = :isActive")
     List<OnOffLoadDto.OffLoad> getAllOnOffLoadInsert(int offLoadStateId, boolean isActive);
@@ -54,14 +55,14 @@ public interface OnOffLoadDao {
     @Query("select id, counterNumber, counterStateId, possibleAddress, possibleCounterSerial, " +
             "possibleEshterak, possibleMobile, possiblePhoneNumber, possibleAhadMaskooniOrAsli, " +
             "possibleAhadTejariOrFari, possibleAhadSaierOrAbBaha, possibleEmpty, possibleKarbariCode, " +
-            "description, counterNumberShown, gisAccuracy, x , y, d1, d2 From OnOffLoadDto " +
+            "description, counterNumberShown, attemptCount, isLocked, gisAccuracy, x , y, d1, d2 From OnOffLoadDto " +
             "WHERE offLoadStateId = :offLoadStateId AND trackNumber = :trackNumber")
     List<OnOffLoadDto.OffLoad> getAllOnOffLoadInsert(int offLoadStateId, int trackNumber);
 
     @Query("select id, counterNumber, counterStateId, possibleAddress, possibleCounterSerial, " +
             "possibleEshterak, possibleMobile, possiblePhoneNumber, possibleAhadMaskooniOrAsli, " +
             "possibleAhadTejariOrFari, possibleAhadSaierOrAbBaha, possibleEmpty, possibleKarbariCode, " +
-            "description, counterNumberShown, gisAccuracy, x , y, d1, d2 From OnOffLoadDto " +
+            "description, counterNumberShown, attemptCount, isLocked, gisAccuracy, x , y, d1, d2 From OnOffLoadDto " +
             "WHERE offLoadStateId = :offLoadStateId AND trackNumber IN (:trackNumber)")
     List<OnOffLoadDto.OffLoad> getAllOnOffLoadInsert(int offLoadStateId, List<Integer> trackNumber);
 
@@ -146,7 +147,7 @@ public interface OnOffLoadDao {
     void updateOnOffLoad(String id, String possibleEshterak, String possibleMobile, int possibleEmpty,
                          String phoneNumber, String serialNumber, String address);
 
-    @Query("UPDATE OnOffLoadDto set attemptNumber = :attemptNumber WHERE id = :id")
+    @Query("UPDATE OnOffLoadDto set attemptCount = :attemptNumber WHERE id = :id")
     void updateOnOffLoadByAttemptNumber(String id, int attemptNumber);
 
     @Query("UPDATE OnOffLoadDto set isLocked = :isLocked WHERE trackNumber = :trackNumber")
