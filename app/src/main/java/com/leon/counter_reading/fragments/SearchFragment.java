@@ -109,8 +109,8 @@ public class SearchFragment extends DialogFragment {
             } else {
                 binding.editTextSearch.setText(result.getContents());
                 binding.editTextSearch.setVisibility(View.VISIBLE);
-                binding.spinnerSearch.setSelection(SearchTypeEnum.ESHTERAK.getValue());
             }
+            binding.spinnerSearch.setSelection(SearchTypeEnum.RADIF.getValue());
         }
     }
 
