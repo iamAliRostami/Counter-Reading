@@ -229,8 +229,8 @@ public class PossibleFragment extends DialogFragment {
                 items[i + 1] = karbariDtosTemp.get(i).title;
             }
             items[0] = getString(R.string.select_one);
-            SpinnerCustomAdapter spinnerCustomAdapterKarbari = new SpinnerCustomAdapter(activity, items);
-            binding.spinnerKarbari.setAdapter(spinnerCustomAdapterKarbari);
+            SpinnerCustomAdapter karbariAdapter = new SpinnerCustomAdapter(activity, items);
+            binding.spinnerKarbari.setAdapter(karbariAdapter);
             binding.spinnerKarbari.setSelection(onOffLoadDto.counterStatePosition + 1);
         } else {
             binding.linearLayoutKarbari.setVisibility(View.GONE);
@@ -244,8 +244,8 @@ public class PossibleFragment extends DialogFragment {
                 items2[i + 1] = counterReportDtos.get(i).title;
             }
             items2[0] = getString(R.string.reports);
-            SpinnerCustomAdapter spinnerCustomAdapterReadingReport = new SpinnerCustomAdapter(activity, items2);
-            binding.spinnerReadingReport.setAdapter(spinnerCustomAdapterReadingReport);
+            SpinnerCustomAdapter readingReportAdapter = new SpinnerCustomAdapter(activity, items2);
+            binding.spinnerReadingReport.setAdapter(readingReportAdapter);
         } else {
             binding.linearLayoutReadingReport.setVisibility(View.GONE);
         }
