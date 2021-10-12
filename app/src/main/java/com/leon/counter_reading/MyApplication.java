@@ -2,6 +2,8 @@ package com.leon.counter_reading;
 
 import static android.os.Build.UNKNOWN;
 
+import static com.leon.counter_reading.utils.backup_restore.Restore.importDatabaseFromCSVFile;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
@@ -32,9 +34,12 @@ import com.leon.counter_reading.di.module.LocationTrackingModule;
 import com.leon.counter_reading.di.module.MyDatabaseModule;
 import com.leon.counter_reading.di.module.NetworkModule;
 import com.leon.counter_reading.di.module.SharedPreferenceModule;
+import com.leon.counter_reading.di.view_model.MyDatabaseClientModel;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ILocationTracking;
 import com.leon.counter_reading.tables.ReadingData;
+import com.leon.counter_reading.utils.backup_restore.BackUp;
+import com.leon.counter_reading.utils.backup_restore.Restore;
 import com.leon.counter_reading.utils.locating.CheckSensor;
 import com.yandex.metrica.YandexMetrica;
 import com.yandex.metrica.YandexMetricaConfig;
@@ -98,9 +103,10 @@ public class MyApplication extends Application {
                 .sharedPreferenceModule(new SharedPreferenceModule(appContext, SharedReferenceNames.ACCOUNT))
                 .build();
         applicationComponent.inject(this);
+
         if (!BuildConfig.BUILD_TYPE.equals("release")) {
             //TODO on comment for release.
-            Log.e("here","initialize Yandex");
+            Log.e("here", "initialize Yandex");
             YandexMetricaConfig config = YandexMetricaConfig
                     .newConfigBuilder("6d39e473-5c5c-4163-9c4c-21eb91758e8f").withLogs()
                     .withAppVersion(BuildConfig.VERSION_NAME).build();
