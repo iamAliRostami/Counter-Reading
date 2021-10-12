@@ -32,7 +32,7 @@ public class MakeNotification {
                     notificationPath = Uri.parse("android.resource://" + context.getPackageName() + "/raw/save");
                     break;
                 case LIGHT_ON:
-                    notificationPath = Uri.parse("android.resource://" + context.getPackageName() + "/raw/light_switch_on1");
+                    notificationPath = Uri.parse("android.resource://" + context.getPackageName() + "/raw/light_switch_on");
                     break;
                 case LIGHT_OFF:
                     notificationPath = Uri.parse("android.resource://" + context.getPackageName() + "/raw/light_switch_off");

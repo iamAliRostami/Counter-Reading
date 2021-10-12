@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -97,15 +98,18 @@ public class MyApplication extends Application {
                 .sharedPreferenceModule(new SharedPreferenceModule(appContext, SharedReferenceNames.ACCOUNT))
                 .build();
         applicationComponent.inject(this);
-//TODO on comment for release.
-        YandexMetricaConfig config = YandexMetricaConfig
-                .newConfigBuilder("6d39e473-5c5c-4163-9c4c-21eb91758e8f").withLogs()
-                .withAppVersion(BuildConfig.VERSION_NAME).build();
+        if (!BuildConfig.BUILD_TYPE.equals("release")) {
+            //TODO on comment for release.
+            Log.e("here","initialize Yandex");
+            YandexMetricaConfig config = YandexMetricaConfig
+                    .newConfigBuilder("6d39e473-5c5c-4163-9c4c-21eb91758e8f").withLogs()
+                    .withAppVersion(BuildConfig.VERSION_NAME).build();
 //         Initializing the AppMetrica SDK.
-        YandexMetrica.activate(appContext, config);
+            YandexMetrica.activate(appContext, config);
 //         Automatic tracking of user activity.
-        YandexMetrica.enableActivityAutoTracking(this);
-        YandexMetrica.activate(getApplicationContext(), config);
+            YandexMetrica.enableActivityAutoTracking(this);
+            YandexMetrica.activate(getApplicationContext(), config);
+        }
         super.onCreate();
     }
 
