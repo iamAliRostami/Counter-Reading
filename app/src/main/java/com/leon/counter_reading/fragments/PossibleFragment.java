@@ -257,10 +257,8 @@ public class PossibleFragment extends DialogFragment {
                                         onOffLoadDto.trackNumber, onOffLoadDto.id);
 
                     for (int i = 0; i < positions.size(); i++) {
-                        OffLoadReport offLoadReport = new OffLoadReport();
-                        offLoadReport.reportId = counterReportDtos.get(positions.get(i)).id;
-                        offLoadReport.onOffLoadId = onOffLoadDto.id;
-                        offLoadReport.trackNumber = onOffLoadDto.trackNumber;
+                        OffLoadReport offLoadReport = new OffLoadReport(onOffLoadDto.id,
+                                onOffLoadDto.trackNumber,counterReportDtos.get(positions.get(i)).id);
                         MyApplication.getApplicationComponent().MyDatabase().offLoadReportDao()
                                 .insertOffLoadReport(offLoadReport);
                     }

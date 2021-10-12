@@ -12,4 +12,10 @@ public class OffLoadReport {
     public int reportId;
     public boolean isSent;
     public int trackNumber;
+
+    public OffLoadReport(String onOffLoadId, int trackNumber, int reportId) {
+        this.onOffLoadId = onOffLoadId;
+        this.reportId = reportId;
+        this.trackNumber = trackNumber;
+    }
 }

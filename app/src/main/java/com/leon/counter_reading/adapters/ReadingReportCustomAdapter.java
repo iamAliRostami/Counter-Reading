@@ -69,10 +69,8 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
         holder.checkBox.setOnClickListener(view1 -> {
             holder.checkBox.setChecked(!holder.checkBox.isChecked());
             if (holder.checkBox.isChecked()) {
-                OffLoadReport offLoadReport = new OffLoadReport();
-                offLoadReport.reportId = counterReportDtos.get(position).id;
-                offLoadReport.onOffLoadId = uuid;
-                offLoadReport.trackNumber = tracking;
+                OffLoadReport offLoadReport = new OffLoadReport(uuid, tracking,
+                        counterReportDtos.get(position).id);
                 MyApplication.getApplicationComponent().MyDatabase()
                         .offLoadReportDao().insertOffLoadReport(offLoadReport);
                 offLoadReports.add(offLoadReport);
