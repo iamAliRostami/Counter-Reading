@@ -16,7 +16,7 @@
             android:background="?attr/colorPrimaryDark"
             android:gravity="center"
             android:padding="@dimen/low_dp"
-            android:text="@string/back_up"
+            android:text="@string/support"
             android:textColor="@color/text_color_light"
             android:textSize="@dimen/text_size_large" />
 

@@ -67,7 +67,7 @@
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_setting_change_avatar.xml" value="0.2" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_setting_change_password.xml" value="0.365625" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_setting_change_theme.xml" value="0.365625" />
-        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_setting_update.xml" value="0.17436661698956782" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_setting_update.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_upload.xml" value="0.4" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/item_dropdown_menu.xml" value="0.20234375" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/item_dropdown_menu_multiple.xml" value="0.4" />
@@ -78,6 +78,7 @@
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/progress_bar.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/toolbar.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/menu/reading_menu.xml" value="0.24375" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/menu/setting_menu.xml" value="0.24375" />
         <entry key="..\:/Programming/sdk/platforms/android-31/data/res/layout/simple_spinner_item.xml" value="0.2" />
       </map>
     </option>

@@ -96,7 +96,7 @@
     <string name="insert_information">ورود اطلاعات</string>
     <string name="search">جستجو</string>
     <string name="close">بستن</string>
-    <string name="back_up">پشتیبانی</string>
+    <string name="support">پشتیبانی</string>
     <string name="delete">حذف</string>
     <string name="is_high">رقم وارد شده بالاتر از میانگین بلند مدت است. آیا از رقم وارد شده اطمینان دارید؟</string>
     <string name="change_theme">تغییر پوسته</string>
@@ -246,5 +246,6 @@
     <string name="error_on_download_counter_states">بارگیری وضعیت های کنتور به درستی انجام نشده است، با پشیبانی تماس بگیرید.</string>
     <string name="error_on_download_karbari">بارگیری کاربری ها به درستی انجام نشده است، با پشیبانی تماس بگیرید.</string>
     <string name="error_on_download_qotr">بارگیری قطرها به درستی انجام نشده است، با پشیبانی تماس بگیرید.</string>
+    <string name="backup">پشتیبان گیری</string>
     <!--    <string name="COMPANY_NAME" />-->
 </resources>

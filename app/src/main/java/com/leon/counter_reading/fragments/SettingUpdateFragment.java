@@ -18,8 +18,6 @@ import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.tables.LastInfo;
 import com.leon.counter_reading.utils.CustomToast;
-import com.leon.counter_reading.utils.backup_restore.BackUp;
-import com.leon.counter_reading.utils.backup_restore.Restore;
 import com.leon.counter_reading.utils.updating.GetUpdateFile;
 import com.leon.counter_reading.utils.updating.GetUpdateInfo;
 
@@ -56,8 +54,6 @@ public class SettingUpdateFragment extends Fragment {
 
     void setOnButtonReceiveClickListener() {
         binding.buttonReceive.setOnClickListener(v -> {
-//            new BackUp(activity).execute(activity);
-//            new Restore(activity).execute(activity);
             if (firstTime) {
                 new GetUpdateInfo(activity, this);
             } else if (BuildConfig.VERSION_CODE >= versionCode) {

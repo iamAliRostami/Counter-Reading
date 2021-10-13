@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 
+import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.utils.CustomToast;
@@ -14,7 +14,6 @@ import com.leon.counter_reading.utils.CustomToast;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class BackUp extends AsyncTask<Activity, Integer, Void> {
     private final CustomProgressModel customProgressModel;
@@ -43,7 +42,15 @@ public class BackUp extends AsyncTask<Activity, Integer, Void> {
 
     @Override
     protected Void doInBackground(Activity... activities) {
+        exportDatabaseToCSVFile("ReadingConfigDefaultDto", activities[0]);
+        exportDatabaseToCSVFile("TrackingDto", activities[0]);
         exportDatabaseToCSVFile("OnOffLoadDto", activities[0]);
+        exportDatabaseToCSVFile("CounterStateDto", activities[0]);
+        exportDatabaseToCSVFile("QotrDictionary", activities[0]);
+        exportDatabaseToCSVFile("KarbariDto", activities[0]);
+        exportDatabaseToCSVFile("CounterReportDto", activities[0]);
+        exportDatabaseToCSVFile("OffLoadReport", activities[0]);
+        exportDatabaseToCSVFile("ForbiddenDto", activities[0]);
         return null;
     }
 
@@ -53,7 +60,7 @@ public class BackUp extends AsyncTask<Activity, Integer, Void> {
         if (!exportDir.exists()) {
             exportDir.mkdirs();
         }
-        File file = new File(exportDir, tableName + ".csv");
+        File file = new File(exportDir, tableName + "_" + BuildConfig.BUILD_TYPE + ".csv");
         try {
             file.createNewFile();
             CSVWriter csvWrite = new CSVWriter(new FileWriter(file));

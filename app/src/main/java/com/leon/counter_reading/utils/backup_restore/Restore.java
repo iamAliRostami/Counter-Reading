@@ -13,7 +13,6 @@ import com.leon.counter_reading.utils.CustomToast;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Restore extends AsyncTask<Activity, Integer, Void> {
     private final CustomProgressModel customProgressModel;
@@ -42,7 +41,15 @@ public class Restore extends AsyncTask<Activity, Integer, Void> {
 
     @Override
     protected Void doInBackground(Activity... activities) {
-        importDatabaseFromCSVFile("OnOffLoadDto", activities[0]);
+        importDatabaseFromCSVFile("ReadingConfigDefaultDto", activities[0]);
+//        importDatabaseFromCSVFile("TrackingDto", activities[0]);
+//        importDatabaseFromCSVFile("OnOffLoadDto", activities[0]);
+//        importDatabaseFromCSVFile("CounterStateDto", activities[0]);
+//        importDatabaseFromCSVFile("QotrDictionary", activities[0]);
+//        importDatabaseFromCSVFile("KarbariDto", activities[0]);
+//        importDatabaseFromCSVFile("CounterReportDto", activities[0]);
+//        importDatabaseFromCSVFile("OffLoadReport", activities[0]);
+//        importDatabaseFromCSVFile("ForbiddenDto", activities[0]);
         return null;
     }
 
@@ -53,18 +60,25 @@ public class Restore extends AsyncTask<Activity, Integer, Void> {
         try {
             csvReader = new CSVReader(new FileReader(importDir + "/" + tableName + ".csv"));
             String[] nextLine;
-            int count = 0;
+            String[] headerLine = null;
             StringBuilder columns = new StringBuilder();
             StringBuilder value = new StringBuilder();
             while ((nextLine = csvReader.readNext()) != null) {
                 // nextLine[] is an array of values from the line
-                for (int i = 0; i < nextLine.length - 1; i++) {
-                    if (i == nextLine.length - 2)
-                        columns.append(nextLine[i]);
-                    else
-                        columns.append(nextLine[i]).append(",");
+                if (headerLine == null) {
+                    headerLine = nextLine;
+                } else {
+                    for (int i = 0; i < nextLine.length - 1; i++) {
+                        if (i == nextLine.length - 2)
+                            columns.append(nextLine[i]);
+                        else
+                            columns.append(nextLine[i]).append(",");
+
+                        if (i == 0)
+                            Log.e("row 1", columns + "-------" + value);
+                    }
+                    Log.e("row 2", columns + "-------" + value);
                 }
-                Log.e("row", columns + "-------" + value);
             }
             activity.runOnUiThread(() ->
                     new CustomToast().success("بازیابی اطلاعات با موفقیت انجام شد.", Toast.LENGTH_LONG));
