@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.leon.counter_reading.BuildConfig;
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.utils.CustomToast;
@@ -42,14 +43,14 @@ public class Restore extends AsyncTask<Activity, Integer, Void> {
     @Override
     protected Void doInBackground(Activity... activities) {
         importDatabaseFromCSVFile("ReadingConfigDefaultDto", activities[0]);
-//        importDatabaseFromCSVFile("TrackingDto", activities[0]);
-//        importDatabaseFromCSVFile("OnOffLoadDto", activities[0]);
-//        importDatabaseFromCSVFile("CounterStateDto", activities[0]);
-//        importDatabaseFromCSVFile("QotrDictionary", activities[0]);
-//        importDatabaseFromCSVFile("KarbariDto", activities[0]);
-//        importDatabaseFromCSVFile("CounterReportDto", activities[0]);
-//        importDatabaseFromCSVFile("OffLoadReport", activities[0]);
-//        importDatabaseFromCSVFile("ForbiddenDto", activities[0]);
+        importDatabaseFromCSVFile("TrackingDto", activities[0]);
+        importDatabaseFromCSVFile("OnOffLoadDto", activities[0]);
+        importDatabaseFromCSVFile("CounterStateDto", activities[0]);
+        importDatabaseFromCSVFile("QotrDictionary", activities[0]);
+        importDatabaseFromCSVFile("KarbariDto", activities[0]);
+        importDatabaseFromCSVFile("CounterReportDto", activities[0]);
+        importDatabaseFromCSVFile("OffLoadReport", activities[0]);
+        importDatabaseFromCSVFile("ForbiddenDto", activities[0]);
         return null;
     }
 
@@ -58,28 +59,37 @@ public class Restore extends AsyncTask<Activity, Integer, Void> {
                 .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)));
         CSVReader csvReader;
         try {
-            csvReader = new CSVReader(new FileReader(importDir + "/" + tableName + ".csv"));
+            csvReader = new CSVReader(new FileReader(importDir + "/" + tableName + "_" + BuildConfig.BUILD_TYPE + ".csv"));
             String[] nextLine;
             String[] headerLine = null;
-            StringBuilder columns = new StringBuilder();
             StringBuilder value = new StringBuilder();
+            value.append("[");
             while ((nextLine = csvReader.readNext()) != null) {
                 // nextLine[] is an array of values from the line
                 if (headerLine == null) {
                     headerLine = nextLine;
                 } else {
+                    StringBuilder columns = new StringBuilder();
+                    columns.append("{");
                     for (int i = 0; i < nextLine.length - 1; i++) {
+                        columns.append("\"").append(headerLine[i]).append("\":");
                         if (i == nextLine.length - 2)
                             columns.append(nextLine[i]);
-                        else
+                        else {
                             columns.append(nextLine[i]).append(",");
-
-                        if (i == 0)
-                            Log.e("row 1", columns + "-------" + value);
+                        }
                     }
-                    Log.e("row 2", columns + "-------" + value);
+                    columns.append("}");
+                    value.append(columns).append(",");
                 }
             }
+            try {
+                value.replace(value.lastIndexOf(","), value.lastIndexOf(",") + 1, "]");
+            } catch (Exception e) {
+                value.append("]");
+                e.printStackTrace();
+            }
+            Log.e("value", String.valueOf(value));
             activity.runOnUiThread(() ->
                     new CustomToast().success("بازیابی اطلاعات با موفقیت انجام شد.", Toast.LENGTH_LONG));
         } catch (IOException e) {
