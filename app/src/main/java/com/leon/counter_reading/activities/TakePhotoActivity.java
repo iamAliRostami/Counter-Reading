@@ -90,10 +90,13 @@ public class TakePhotoActivity extends AppCompatActivity {
     void setOnButtonSendClickListener() {
         binding.buttonSaveSend.setOnClickListener(v ->
                 new PrepareMultimedia(activity, position, result,
-                        binding.editTextDescription.getText().toString().isEmpty() ?
-                                getString(R.string.description) :
-                                binding.editTextDescription.getText().toString(), images)
+                        binding.editTextDescription.getText().toString(), images)
                         .execute(activity));
+//                new PrepareMultimedia(activity, position, result,
+//                        binding.editTextDescription.getText().toString().isEmpty() ?
+//                                getString(R.string.description) :
+//                                binding.editTextDescription.getText().toString(), images)
+//                        .execute(activity));
     }
 
     void askCameraPermission() {

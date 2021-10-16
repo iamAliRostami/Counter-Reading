@@ -30,6 +30,7 @@ import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
 import com.leon.counter_reading.utils.PermissionManager;
+import com.leon.counter_reading.utils.voice.PrepareMultimedia;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -257,11 +258,14 @@ public class DescriptionActivity extends AppCompatActivity {
             voice.trackNumber = trackNumber;
             String message = binding.editTextMessage.getText().toString();
             if (voice.address != null && voice.address.length() > 0)
-                new com.leon.counter_reading.utils.voice.PrepareMultimedia(activity, voice,
-                        binding.editTextMessage.getText().toString().isEmpty() ?
-                                getString(R.string.description) :
-                                binding.editTextMessage.getText().toString()
+                new PrepareMultimedia(activity, voice, binding.editTextMessage.getText().toString()
                         , uuid, position).execute(activity);
+
+//            new PrepareMultimedia(activity, voice,
+//                    binding.editTextMessage.getText().toString().isEmpty() ?
+//                            getString(R.string.description) :
+//                            binding.editTextMessage.getText().toString()
+//                    , uuid, position).execute(activity);
             else if (message.length() > 0) {
                 finishDescription(message);
             } else {
