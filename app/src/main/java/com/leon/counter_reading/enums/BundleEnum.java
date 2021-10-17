@@ -27,6 +27,7 @@ public enum BundleEnum {
     IMAGE_BITMAP("image_bitmap"),
     ZONE_ID("zone_id"),
     SENT("sent"),
+    DESCRIPTION("description"),
     TYPE("type");
 
     private final String value;

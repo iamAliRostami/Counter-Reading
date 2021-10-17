@@ -42,7 +42,7 @@ public class DescriptionActivity extends AppCompatActivity {
     private Voice voice;
     private MediaPlayer mediaPlayer;
     private MediaRecorder mediaRecorder;
-    private String uuid;
+    private String uuid, description;
     private boolean play = false;
     private int position, startTime = 0, finalTime = 0, trackNumber;
 
@@ -68,6 +68,7 @@ public class DescriptionActivity extends AppCompatActivity {
             uuid = getIntent().getExtras().getString(BundleEnum.BILL_ID.getValue());
             position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
             trackNumber = getIntent().getExtras().getInt(BundleEnum.TRACKING.getValue());
+            description = getIntent().getExtras().getString(BundleEnum.DESCRIPTION.getValue());
         }
         binding.imageViewRecord.setImageDrawable(AppCompatResources.
                 getDrawable(activity, R.drawable.img_record));
@@ -238,6 +239,7 @@ public class DescriptionActivity extends AppCompatActivity {
                 getVoicesByOnOffLoadId(uuid);
         if (voice == null) {
             voice = new Voice();
+            binding.editTextMessage.setText(description);
             binding.buttonSend.setEnabled(true);
             binding.imageViewRecord.setEnabled(true);
             binding.imageViewPlay.setEnabled(false);
@@ -261,11 +263,6 @@ public class DescriptionActivity extends AppCompatActivity {
                 new PrepareMultimedia(activity, voice, binding.editTextMessage.getText().toString()
                         , uuid, position).execute(activity);
 
-//            new PrepareMultimedia(activity, voice,
-//                    binding.editTextMessage.getText().toString().isEmpty() ?
-//                            getString(R.string.description) :
-//                            binding.editTextMessage.getText().toString()
-//                    , uuid, position).execute(activity);
             else if (message.length() > 0) {
                 finishDescription(message);
             } else {

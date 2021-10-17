@@ -37,4 +37,5 @@ public class ReadingConfigDefaultDto {
     public boolean isActive;
     public boolean isArchive;
     public String zone;
+
 }

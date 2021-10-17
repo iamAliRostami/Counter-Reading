@@ -429,6 +429,8 @@ public class ReadingActivity extends BaseActivity {
                         readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
                 intent.putExtra(BundleEnum.TRACKING.getValue(),
                         readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).trackNumber);
+                intent.putExtra(BundleEnum.DESCRIPTION.getValue(),
+                        readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).description);
                 intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
                 startActivityForResult(intent, MyApplication.DESCRIPTION);
             }
