@@ -13,6 +13,9 @@ public class OffLoadReport {
     public boolean isSent;
     public int trackNumber;
 
+    public OffLoadReport() {
+    }
+
     public OffLoadReport(String onOffLoadId, int trackNumber, int reportId) {
         this.onOffLoadId = onOffLoadId;
         this.reportId = reportId;
