@@ -12,6 +12,7 @@ import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.tables.ReadingConfigDefaultDto;
+import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomToast;
 
 import java.io.File;
@@ -49,10 +50,9 @@ public class Restore extends AsyncTask<Activity, Integer, Void> {
     @Override
     protected Void doInBackground(Activity... activities) {
         restoreReadingConfigDefaultDto(activities[0]);
-//        restoreOnOffLoadDto(activities[0]);
-        importDatabaseFromCSVFileSample("OnOffLoadDto", activities[0]);
-//        importDatabaseFromCSVFile("TrackingDto", activities[0]);
-//        importDatabaseFromCSVFile("OnOffLoadDto", activities[0]);
+        restoreOnOffLoadDto(activities[0]);
+        restoreTrackingDto(activities[0]);
+
 //        importDatabaseFromCSVFile("CounterStateDto", activities[0]);
 //        importDatabaseFromCSVFile("QotrDictionary", activities[0]);
 //        importDatabaseFromCSVFile("KarbariDto", activities[0]);
@@ -63,7 +63,7 @@ public class Restore extends AsyncTask<Activity, Integer, Void> {
     }
 
     private void restoreReadingConfigDefaultDto(Activity activity) {
-        ArrayList<String> readingConfigDefaultDtoString = importDatabaseFromCSVFile("ReadingConfigDefaultDto", activity);
+        ArrayList<String> readingConfigDefaultDtoString = importTableFromCSVFile("ReadingConfigDefaultDto", activity);
         ArrayList<ReadingConfigDefaultDto> readingConfigDefaultDtos = new ArrayList<>();
         Gson gson = new Gson();
         for (int i = 0; i < readingConfigDefaultDtoString.size(); i++) {
@@ -75,7 +75,7 @@ public class Restore extends AsyncTask<Activity, Integer, Void> {
     }
 
     private void restoreOnOffLoadDto(Activity activity) {
-        ArrayList<String> onOffLoadDtoString = importDatabaseFromCSVFile("OnOffLoadDto", activity);
+        ArrayList<String> onOffLoadDtoString = importTableFromCSVFile("OnOffLoadDto", activity);
         ArrayList<OnOffLoadDto> onOffLoadDtos = new ArrayList<>();
         Gson gson = new Gson();
         for (int i = 0; i < onOffLoadDtoString.size(); i++) {
@@ -84,6 +84,70 @@ public class Restore extends AsyncTask<Activity, Integer, Void> {
             onOffLoadDtos.add(onOffLoadDtoTemp.getOnOffLoadDto());
         }
         Log.e("size", String.valueOf(onOffLoadDtos.size()));
+    }
+
+    private void restoreTrackingDto(Activity activity) {
+        ArrayList<String> trackingDtoString = importTableFromCSVFile("TrackingDto", activity);
+        ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+        Gson gson = new Gson();
+        for (int i = 0; i < trackingDtoString.size(); i++) {
+            TrackingDtoTemp trackingDtoTemp = gson
+                    .fromJson(trackingDtoString.get(i), TrackingDtoTemp.class);
+            trackingDtos.add(trackingDtoTemp.getTrackingDto());
+        }
+        Log.e("size", String.valueOf(trackingDtos.size()));
+    }
+
+    public static ArrayList<String> importTableFromCSVFile(String tableName, Activity activity) {
+        File importDir = new File(String.valueOf(Environment
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)));
+        CSVReader csvReader;
+        ArrayList<String> value = new ArrayList<>();
+        try {
+            csvReader = new CSVReader(new FileReader(importDir + "/" + tableName + "_" + BuildConfig.BUILD_TYPE + ".csv"));
+            String[] nextLine;
+            String[] headerLine = null;
+            while ((nextLine = csvReader.readNext()) != null) {
+                // nextLine[] is an array of values from the line
+                if (headerLine == null) {
+                    headerLine = nextLine;
+                } else {
+                    StringBuilder columns = new StringBuilder();
+                    columns.append("{");
+                    for (int i = 0; i < nextLine.length - 1; i++) {
+                        columns.append("\"").append(headerLine[i]).append("\":\"");
+                        if (i == nextLine.length - 2)
+                            columns.append(nextLine[i]);
+                        else {
+                            columns.append(nextLine[i]).append("\",");
+                        }
+                    }
+                    columns.append("\"}");
+                    value.add(String.valueOf(columns));
+                }
+            }
+            activity.runOnUiThread(() ->
+                    new CustomToast().success("بازیابی اطلاعات با موفقیت انجام شد.", Toast.LENGTH_SHORT));
+        } catch (IOException e) {
+            e.printStackTrace();
+            activity.runOnUiThread(() ->
+                    new CustomToast().error("خطا در بازیابی اطلاعات.\n".concat("علت خطا: ")
+                            .concat(e.toString()), Toast.LENGTH_LONG));
+
+        }
+        return value;
+    }
+
+    public static int getIntFromString(String intString) {
+        if (intString == null || intString.isEmpty())
+            return 0;
+        else return Integer.parseInt(intString);
+    }
+
+    public static double getDoubleFromString(String doubleString) {
+        if (doubleString == null || doubleString.isEmpty())
+            return 0;
+        else return Double.parseDouble(doubleString);
     }
 
     public static ArrayList<String> importDatabaseFromCSVFile(String tableName, Activity activity) {

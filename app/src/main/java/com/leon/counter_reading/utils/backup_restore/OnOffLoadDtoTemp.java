@@ -1,5 +1,7 @@
 package com.leon.counter_reading.utils.backup_restore;
 
+import static com.leon.counter_reading.utils.backup_restore.Restore.getIntFromString;
+
 import com.leon.counter_reading.tables.OnOffLoadDto;
 
 public class OnOffLoadDtoTemp {
@@ -32,35 +34,36 @@ public class OnOffLoadDtoTemp {
     public String mobile;
     //
     public int radif;
-    //    public int karbariCode;
-//    public int ahadMaskooniOrAsli;
-//    public int ahadTejariOrFari;
-//    public int ahadSaierOrAbBaha;
-//    public int qotrCode;
-//    public int sifoonQotrCode;
-//    public int preNumber;
-//    public int preCounterStateCode;
-//    public int trackNumber;
-//    public int zarfiat;
-//    public int hazf;
-//    public int noeVagozariId;
-//    public int counterStateId;
-//    public int possibleAhadMaskooniOrAsli;
-//    public int possibleAhadTejariOrFari;
-//    public int possibleAhadSaierOrAbBaha;
-//    public int possibleEmpty;
-//    public int possibleKarbariCode;
-//    public int offLoadStateId;
-//    public int zoneId;
+    public int karbariCode;
+    public int ahadMaskooniOrAsli;
+    public int ahadTejariOrFari;
+    public int ahadSaierOrAbBaha;
+    public int qotrCode;
+    public int sifoonQotrCode;
+    public int preNumber;
+    public int preCounterStateCode;
+    public int trackNumber;
+    public int zarfiat;
+    public int hazf;
+    public int noeVagozariId;
+    public int counterStateId;
+    public int possibleAhadMaskooniOrAsli;
+    public int possibleAhadTejariOrFari;
+    public int possibleAhadSaierOrAbBaha;
+    public int possibleEmpty;
+    public int possibleKarbariCode;
+    public int offLoadStateId;
+    public int zoneId;
     public int attemptCount;
-    //    public int highLowStateId;
-//
-//    public double gisAccuracy;
-//    public double preAverage;
-//    public double x;
-//    public double y;
-    public Integer counterNumber;
-//    public Integer counterStatePosition;
+    public int highLowStateId;
+
+    public double gisAccuracy;
+    public double preAverage;
+    public double x;
+    public double y;
+
+    public String counterNumber;
+    public String counterStatePosition;
 
     public int counterNumberShown;
     public int hasPreNumber;
@@ -77,7 +80,6 @@ public class OnOffLoadDtoTemp {
         onOffLoadDto.isLocked = isLocked == 1;
         onOffLoadDto.isBazdid = isBazdid == 1;
         onOffLoadDto.counterNumberShown = counterNumberShown == 1;
-
 
         onOffLoadDto.id = id;
         onOffLoadDto.billId = billId;
@@ -108,46 +110,38 @@ public class OnOffLoadDtoTemp {
         onOffLoadDto.mobile = mobile;
 //
         onOffLoadDto.radif = radif;
-//        onOffLoadDto.karbariCode = karbariCode;
-//        onOffLoadDto.ahadMaskooniOrAsli = ahadMaskooniOrAsli;
-//        onOffLoadDto.ahadTejariOrFari = ahadTejariOrFari;
-//        onOffLoadDto.ahadSaierOrAbBaha = ahadSaierOrAbBaha;
-//        onOffLoadDto.qotrCode = qotrCode;
-//        onOffLoadDto.sifoonQotrCode = sifoonQotrCode;
-//        onOffLoadDto.preNumber = preNumber;
-//        onOffLoadDto.preCounterStateCode = preCounterStateCode;
-//        onOffLoadDto.trackNumber = trackNumber;
-//        onOffLoadDto.zarfiat = zarfiat;
-//        onOffLoadDto.hazf = hazf;
-//        onOffLoadDto.noeVagozariId = noeVagozariId;
-//        onOffLoadDto.counterStateId = counterStateId;
-//        onOffLoadDto.possibleAhadMaskooniOrAsli = possibleAhadMaskooniOrAsli;
-//        onOffLoadDto.possibleAhadTejariOrFari = possibleAhadTejariOrFari;
-//        onOffLoadDto.possibleAhadSaierOrAbBaha = possibleAhadSaierOrAbBaha;
-//        onOffLoadDto.possibleEmpty = possibleEmpty;
-//        onOffLoadDto.possibleKarbariCode = possibleKarbariCode;
-//        onOffLoadDto.offLoadStateId = offLoadStateId;
-//        onOffLoadDto.zoneId = zoneId;
+        onOffLoadDto.karbariCode = karbariCode;
+        onOffLoadDto.ahadMaskooniOrAsli = ahadMaskooniOrAsli;
+        onOffLoadDto.ahadTejariOrFari = ahadTejariOrFari;
+        onOffLoadDto.ahadSaierOrAbBaha = ahadSaierOrAbBaha;
+        onOffLoadDto.qotrCode = qotrCode;
+        onOffLoadDto.sifoonQotrCode = sifoonQotrCode;
+        onOffLoadDto.preNumber = preNumber;
+        onOffLoadDto.preCounterStateCode = preCounterStateCode;
+        onOffLoadDto.trackNumber = trackNumber;
+        onOffLoadDto.zarfiat = zarfiat;
+        onOffLoadDto.hazf = hazf;
+        onOffLoadDto.noeVagozariId = noeVagozariId;
+        onOffLoadDto.counterStateId = counterStateId;
+        onOffLoadDto.possibleAhadMaskooniOrAsli = possibleAhadMaskooniOrAsli;
+        onOffLoadDto.possibleAhadTejariOrFari = possibleAhadTejariOrFari;
+        onOffLoadDto.possibleAhadSaierOrAbBaha = possibleAhadSaierOrAbBaha;
+        onOffLoadDto.possibleEmpty = possibleEmpty;
+        onOffLoadDto.possibleKarbariCode = possibleKarbariCode;
+        onOffLoadDto.offLoadStateId = offLoadStateId;
+        onOffLoadDto.zoneId = zoneId;
         onOffLoadDto.attemptCount = attemptCount;
-//        onOffLoadDto.highLowStateId = highLowStateId;
-//
-//        onOffLoadDto.gisAccuracy = gisAccuracy;
-//        onOffLoadDto.preAverage = preAverage;
-//        onOffLoadDto.x = x;
-//        onOffLoadDto.y = y;
-        onOffLoadDto.counterNumber = counterNumber;
-//        onOffLoadDto.counterStatePosition = counterStatePosition;
+        onOffLoadDto.highLowStateId = highLowStateId;
+
+        onOffLoadDto.gisAccuracy = gisAccuracy;
+        onOffLoadDto.preAverage = preAverage;
+        onOffLoadDto.x = x;
+        onOffLoadDto.y = y;
+        onOffLoadDto.counterNumber = getIntFromString(counterNumber);
+        onOffLoadDto.counterStatePosition = getIntFromString(counterStatePosition);
 
         return onOffLoadDto;
     }
-    private int getIntFromString(String intString){
-        if (intString.isEmpty())
-            return 0;
-        else return Integer.parseInt(intString);
-    }
-    private double getDoubleFromString(String intString){
-        if (intString.isEmpty())
-            return 0;
-        else return Double.parseDouble(intString);
-    }
+
+
 }
