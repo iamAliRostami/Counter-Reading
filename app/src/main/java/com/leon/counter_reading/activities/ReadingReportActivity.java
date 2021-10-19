@@ -45,7 +45,7 @@ public class ReadingReportActivity extends AppCompatActivity {
             trackNumber = getIntent().getExtras().getInt(BundleEnum.TRACKING.getValue());
             position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
             zoneId = getIntent().getExtras().getInt(BundleEnum.ZONE_ID.getValue());
-            getIntent().getExtras().clear();
+//            getIntent().getExtras().clear();
         }
         new GetReadingReportDBData(activity, trackNumber, zoneId, uuid).execute(activity);
         binding.buttonSubmit.setOnClickListener(v -> {

@@ -80,7 +80,8 @@
         tools:ignore="UnusedAttribute">
         <activity
             android:name=".activities.CounterPlaceActivity"
-            android:label="@string/location" />
+            android:label="@string/location"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.HelpActivity"
             android:label="@string/help" />
@@ -151,7 +152,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
 
         <meta-data
             android:name="io.sentry.debug"
@@ -164,7 +165,7 @@
             android:value="https://f65129b578e14ab78eb8054e4f497c51@o1017694.ingest.sentry.io/5983684" />
         <meta-data
             android:name="com.bugsnag.android.API_KEY"
-            android:value="59d371febd1113dd4863e3f8bcac9ddd"/>
+            android:value="59d371febd1113dd4863e3f8bcac9ddd" />
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="true" />
@@ -184,6 +185,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
