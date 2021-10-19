@@ -79,6 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity
             theme = getIntent().getExtras().getInt(BundleEnum.THEME.getValue());
             if (theme == 0)
                 theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
+            getIntent().getExtras().clear();
         } else {
             theme = sharedPreferenceManager.getIntData(SharedReferenceKeys.THEME_STABLE.getValue());
         }

@@ -69,6 +69,7 @@ public class DescriptionActivity extends AppCompatActivity {
             position = getIntent().getExtras().getInt(BundleEnum.POSITION.getValue());
             trackNumber = getIntent().getExtras().getInt(BundleEnum.TRACKING.getValue());
             description = getIntent().getExtras().getString(BundleEnum.DESCRIPTION.getValue());
+            getIntent().getExtras().clear();
         }
         binding.imageViewRecord.setImageDrawable(AppCompatResources.
                 getDrawable(activity, R.drawable.img_record));

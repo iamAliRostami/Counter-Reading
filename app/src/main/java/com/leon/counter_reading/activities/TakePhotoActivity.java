@@ -69,6 +69,7 @@ public class TakePhotoActivity extends AppCompatActivity {
             result = getIntent().getExtras().getBoolean(BundleEnum.IMAGE.getValue());
             binding.textViewNotSent.setVisibility(getIntent().getExtras()
                     .getBoolean(BundleEnum.SENT.getValue()) ? View.GONE : View.VISIBLE);
+            getIntent().getExtras().clear();
         }
         imageSetup();
         setOnButtonSendClickListener();

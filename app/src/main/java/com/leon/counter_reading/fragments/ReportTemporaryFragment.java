@@ -125,6 +125,7 @@ public class ReportTemporaryFragment extends Fragment {
                     {getString(R.string.select_one),
                             getString(R.string.all_mane),
                             getString(R.string.all_mane_unread)});
+            getArguments().clear();
         }
     }
 

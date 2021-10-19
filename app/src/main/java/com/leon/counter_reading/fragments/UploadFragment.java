@@ -59,6 +59,7 @@ public class UploadFragment extends Fragment {
         trackingDtos = new ArrayList<>(((UploadActivity) activity).getTrackingDtos());
         if (getArguments() != null) {
             type = getArguments().getInt(BundleEnum.TYPE.getValue());
+            getArguments().clear();
         }
     }
 

@@ -85,6 +85,7 @@ public class ReadingActivity extends BaseActivity {
             highLow = getIntent().getIntExtra(BundleEnum.TYPE.getValue(), 1);
             ArrayList<String> json = getIntent().getExtras().getStringArrayList(
                     BundleEnum.IS_MANE.getValue());
+            getIntent().getExtras().clear();
             new GetBundle(json).execute();
         }
     }
@@ -389,8 +390,10 @@ public class ReadingActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.reading_menu, menu);
         menu.getItem(5).setChecked(MyApplication.FOCUS_ON_EDIT_TEXT);
-        menu.getItem(6).setChecked(
-                sharedPreferenceManager.getBoolData(SharedReferenceKeys.SORT_TYPE.getValue()));
+        //TODO
+        if (sharedPreferenceManager.checkIsNotEmpty(SharedReferenceKeys.SORT_TYPE.getValue()))
+            menu.getItem(6).setChecked(sharedPreferenceManager
+                    .getBoolData(SharedReferenceKeys.SORT_TYPE.getValue()));
         return super.onCreateOptionsMenu(menu);
     }
 

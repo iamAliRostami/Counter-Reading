@@ -64,7 +64,6 @@ public class Restore extends AsyncTask<Activity, Integer, Void> {
         restoreCounterReportDto(activities[0]);
         restoreOffLoadReport(activities[0]);
         restoreForbiddenDto(activities[0]);
-//        importDatabaseFromCSVFile("ForbiddenDto", activities[0]);
         return null;
     }
 

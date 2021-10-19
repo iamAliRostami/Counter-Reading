@@ -132,8 +132,10 @@ public class ReportForbidActivity extends AppCompatActivity {
     }
 
     void initialize() {
-        if (getIntent().getExtras() != null)
+        if (getIntent().getExtras() != null) {
             zoneId = getIntent().getExtras().getInt(BundleEnum.ZONE_ID.getValue());
+            getIntent().getExtras().clear();
+        }
         binding.textViewHome.setText(getString(R.string.number).concat(DifferentCompanyManager
                 .getAhad(DifferentCompanyManager.getActiveCompanyName())));
 

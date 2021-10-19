@@ -48,6 +48,7 @@ public class DeleteFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             id = getArguments().getString(BundleEnum.BILL_ID.getValue());
+            getArguments().clear();
         }
     }
 

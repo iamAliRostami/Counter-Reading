@@ -34,7 +34,7 @@ public class ContactUsActivity extends AppCompatActivity {
     void initialize() {
         TextView textViewCompanyName = findViewById(R.id.text_view_company_name);
         textViewCompanyName.setText(DifferentCompanyManager.getCompanyName(DifferentCompanyManager.getActiveCompanyName()));
-
+        //TODO
         if (sharedPreferenceManager.checkIsNotEmpty(SharedReferenceKeys.USERNAME_TEMP.getValue()))
             binding.textViewDate.setText(sharedPreferenceManager
                     .getStringData(SharedReferenceKeys.DATE.getValue()));

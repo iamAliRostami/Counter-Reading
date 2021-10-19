@@ -52,6 +52,7 @@ public class AreYouSureFragment extends DialogFragment {
             type = getArguments().getInt(BundleEnum.TYPE.getValue());
             counterStateCode = getArguments().getInt(BundleEnum.COUNTER_STATE_CODE.getValue());
             counterStatePosition = getArguments().getInt(BundleEnum.COUNTER_STATE_POSITION.getValue());
+            getArguments().clear();
         }
     }
 

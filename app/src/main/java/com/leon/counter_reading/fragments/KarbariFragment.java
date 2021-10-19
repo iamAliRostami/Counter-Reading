@@ -50,6 +50,7 @@ public class KarbariFragment extends DialogFragment {
         if (getArguments() != null) {
             uuid = getArguments().getString(BundleEnum.BILL_ID.getValue());
             position = getArguments().getInt(BundleEnum.POSITION.getValue());
+            getArguments().clear();
         }
     }
 

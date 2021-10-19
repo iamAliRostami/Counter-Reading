@@ -438,6 +438,7 @@ public class ReadingFragment extends Fragment {
             for (String s : json1) {
                 counterStateDtos.add(gson.fromJson(s, CounterStateDto.class));
             }
+            getArguments().clear();
         }
     }
 

@@ -43,6 +43,7 @@ public class SerialFragment extends DialogFragment {
             position = getArguments().getInt(BundleEnum.POSITION.getValue());
             counterStateCode = getArguments().getInt(BundleEnum.COUNTER_STATE_CODE.getValue());
             counterStatePosition = getArguments().getInt(BundleEnum.COUNTER_STATE_POSITION.getValue());
+            getArguments().clear();
         }
     }
 

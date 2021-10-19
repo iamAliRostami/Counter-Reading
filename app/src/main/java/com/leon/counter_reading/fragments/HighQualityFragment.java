@@ -43,6 +43,7 @@ public class HighQualityFragment extends DialogFragment {
             if (bytes != null) {
                 bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             }
+            getArguments().clear();
         }
     }
 
