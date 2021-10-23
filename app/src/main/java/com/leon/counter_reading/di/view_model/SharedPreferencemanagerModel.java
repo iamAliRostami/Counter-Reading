@@ -27,6 +27,11 @@ public class SharedPreferencemanagerModel implements ISharedPreferenceManager {
     }
 
     @Override
+    public boolean checkIsNotEmpty(String key, boolean b) {
+        return appPrefs != null;
+    }
+
+    @Override
     public void putData(String key, int value) {
         SharedPreferences.Editor prefsEditor = appPrefs.edit();
         prefsEditor.putInt(key, value);

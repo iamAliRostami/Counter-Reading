@@ -45,8 +45,9 @@ public interface OnOffLoadDao {
             "OnOffLoadDto.possibleAhadTejariOrFari, OnOffLoadDto.possibleAhadSaierOrAbBaha, " +
             "OnOffLoadDto.possibleEmpty, OnOffLoadDto.possibleKarbariCode, " +
             "OnOffLoadDto.description, OnOffLoadDto.counterNumberShown, OnOffLoadDto.attemptCount, " +
-            "OnOffLoadDto.isLocked, OnOffLoadDto.gisAccuracy, OnOffLoadDto.x , OnOffLoadDto.y," +
-            " OnOffLoadDto.d1, OnOffLoadDto.d2 From OnOffLoadDto " +
+            "OnOffLoadDto.isLocked, OnOffLoadDto.gisAccuracy, OnOffLoadDto.phoneDateTime, " +
+            "OnOffLoadDto.locationDateTime, OnOffLoadDto.x , OnOffLoadDto.y, " +
+            "OnOffLoadDto.d1, OnOffLoadDto.d2 From OnOffLoadDto " +
             "Inner JOIN TrackingDto on OnOffLoadDto.trackNumber = TrackingDto.trackNumber " +
             "WHERE OnOffLoadDto.offLoadStateId = :offLoadStateId AND TrackingDto.isActive = :isActive")
     List<OnOffLoadDto.OffLoad> getAllOnOffLoadInsert(int offLoadStateId, boolean isActive);

@@ -169,7 +169,8 @@ public class SettingActivity extends BaseActivity {
         int id = item.getItemId();
         if (id == R.id.menu_backup) {
             new BackUp(activity).execute(activity);
-//            new Restore(activity).execute(activity);
+        } else if (id ==R.id.menu_restore){
+            new Restore(activity).execute(activity);
         }
         return super.onOptionsItemSelected(item);
     }

@@ -67,6 +67,10 @@ public class OnOffLoadDto {
     public int possibleEmpty;
     public int possibleKarbariCode;
     public String description;
+//    @Ignore
+    public String phoneDateTime;
+//    @Ignore
+    public String locationDateTime;
     //TODO
     public String d1;
     public String d2;
@@ -108,6 +112,8 @@ public class OnOffLoadDto {
         public String d1;
         public String d2;
         public int attemptCount;
+        public String phoneDateTime;
+        public String locationDateTime;
 
         public OffLoad() {
         }
@@ -135,6 +141,9 @@ public class OnOffLoadDto {
             gisAccuracy = onOffLoadDto.gisAccuracy;
             attemptCount = onOffLoadDto.attemptCount;
             isLocked = onOffLoadDto.isLocked;
+
+            phoneDateTime = onOffLoadDto.phoneDateTime;
+            locationDateTime = onOffLoadDto.locationDateTime;
         }
     }
 

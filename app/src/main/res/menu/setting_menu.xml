@@ -5,4 +5,8 @@
         android:id="@+id/menu_backup"
         android:title="@string/backup"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_restore"
+        android:title="@string/restore"
+        app:showAsAction="never" />
 </menu>

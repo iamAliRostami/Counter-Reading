@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Dao
@@ -16,6 +17,9 @@ public interface ForbiddenDao {
 
     @Insert
     long insertForbiddenDto(ForbiddenDto forbiddenDto);
+
+    @Insert
+    void insertForbiddenDto(ArrayList<ForbiddenDto> forbiddenDtos);
 
     @Query("UPDATE ForbiddenDto set isSent = :isSent WHERE customId = :id")
     void updateForbiddenDtoBySent(boolean isSent, int id);

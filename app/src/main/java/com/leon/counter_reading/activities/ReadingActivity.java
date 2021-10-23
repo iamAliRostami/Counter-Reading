@@ -391,7 +391,7 @@ public class ReadingActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.reading_menu, menu);
         menu.getItem(5).setChecked(MyApplication.FOCUS_ON_EDIT_TEXT);
         //TODO
-        if (sharedPreferenceManager.checkIsNotEmpty(SharedReferenceKeys.SORT_TYPE.getValue()))
+        if (sharedPreferenceManager.checkIsNotEmpty(SharedReferenceKeys.SORT_TYPE.getValue(), true))
             menu.getItem(6).setChecked(sharedPreferenceManager
                     .getBoolData(SharedReferenceKeys.SORT_TYPE.getValue()));
         return super.onCreateOptionsMenu(menu);

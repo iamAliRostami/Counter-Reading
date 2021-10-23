@@ -18,4 +18,6 @@ public interface ISharedPreferenceManager {
     boolean getBoolData(String key);
 
     boolean checkIsNotEmpty(String key);
+
+    boolean checkIsNotEmpty(String key, boolean b);
 }
