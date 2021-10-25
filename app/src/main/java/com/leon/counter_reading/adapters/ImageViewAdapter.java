@@ -67,7 +67,8 @@ public class ImageViewAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.item_image, null);
         }
         ImageViewHolder holder = new ImageViewHolder(view);
-        holder.imageViewDelete.setVisibility(position < images.size() && !images.get(position).isSent ? View.VISIBLE : View.GONE);
+        holder.imageViewDelete.setVisibility(position < images.size() && !images.get(position).isSent ?
+                View.VISIBLE : View.GONE);
         holder.imageViewSent.setVisibility(position < images.size() && images.get(position).isSent ?
                 View.VISIBLE : View.GONE);
         holder.imageView.setOnClickListener(view1 -> {
@@ -98,7 +99,6 @@ public class ImageViewAdapter extends BaseAdapter {
             });
         } else {
             holder.imageView.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.img_camera));
-
         }
         return view;
     }

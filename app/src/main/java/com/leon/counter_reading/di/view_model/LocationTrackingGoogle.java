@@ -27,11 +27,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class LocationTrackingGoogle extends Service implements ILocationTracking {
     private static LocationTrackingGoogle instance;
-    private static FusedLocationProviderClient fusedLocationClient;
-    private static LocationRequest locationRequest;
     private static Location location;
     private static LocationCallback locationCallback;
     private final OnSuccessListener<Location> onSuccessListener = this::addLocation;
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationRequest locationRequest;
 
     public LocationTrackingGoogle(Activity activity) {
         locationCallback = new LocationCallback() {

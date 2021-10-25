@@ -70,7 +70,8 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
     @Override
     protected void onPostExecute(Activity activity) {
         super.onPostExecute(activity);
-        customProgressModel.getDialog().dismiss();
+        if (customProgressModel.getDialog() != null)
+            customProgressModel.getDialog().dismiss();
         uploadImage(activity);
     }
 

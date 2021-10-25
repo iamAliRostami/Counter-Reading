@@ -32,6 +32,7 @@ import com.leon.counter_reading.di.module.LocationTrackingModule;
 import com.leon.counter_reading.di.module.MyDatabaseModule;
 import com.leon.counter_reading.di.module.NetworkModule;
 import com.leon.counter_reading.di.module.SharedPreferenceModule;
+import com.leon.counter_reading.di.view_model.LocationTrackingGps;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ILocationTracking;
 import com.leon.counter_reading.tables.ReadingData;
@@ -80,10 +81,12 @@ public class MyApplication extends Application {
     private static int ERROR_COUNTER = 0;
     private static ApplicationComponent applicationComponent;
     private static ActivityComponent activityComponent;
+    LocationTrackingGps locationTrackingGps1;
 
     @Override
     public void onCreate() {
         appContext = getApplicationContext();
+//        locationTrackingGps1 = new LocationTrackingGps(appContext);
         Toasty.Config.getInstance()
                 .tintIcon(true)
                 .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), MyApplication.FONT_NAME))

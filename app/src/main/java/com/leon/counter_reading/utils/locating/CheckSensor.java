@@ -15,7 +15,7 @@ public class CheckSensor {
     public static boolean checkSensor(Context context, boolean showMessage) {
         Configuration.getInstance().load(context,
                 PreferenceManager.getDefaultSharedPreferences(context));
-        return checkGooglePlayServices(context, showMessage);
+        return !checkGooglePlayServices(context, showMessage);
     }
 
     public static boolean checkGooglePlayServices(Context context, boolean showMessage) {
