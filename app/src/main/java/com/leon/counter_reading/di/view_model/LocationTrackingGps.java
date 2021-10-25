@@ -12,7 +12,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
@@ -27,8 +26,6 @@ public class LocationTrackingGps extends Service implements LocationListener, IL
     private double latitude;
     private double longitude;
 
-//    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;
-//    private static final long MIN_TIME_BW_UPDATES = 10 * 2;
     protected LocationManager locationManager;
 
     public LocationTrackingGps(Context context) {
@@ -48,7 +45,7 @@ public class LocationTrackingGps extends Service implements LocationListener, IL
     @Override
     public Location getLocation() {
         try {
-            Log.e("here", "1");
+//            Log.e("here", "1");
             locationManager = (LocationManager) context
                     .getSystemService(LOCATION_SERVICE);
 
@@ -60,52 +57,49 @@ public class LocationTrackingGps extends Service implements LocationListener, IL
             boolean checkNetwork = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-            if (!checkGPS && !checkNetwork) {
-                Toast.makeText(context, "No Service Provider is available", Toast.LENGTH_SHORT).show();
-            } else {
-                Log.e("here", "2");
+            if (checkGPS || checkNetwork) {
+//                Log.e("here", "2");
                 // if GPS Enabled get lat/long using GPS Services
                 if (checkGPS) {
-                    Log.e("here", "3");
+//                    Log.e("here", "3");
                     locationManager.requestLocationUpdates(
                             LocationManager.GPS_PROVIDER,
                             MIN_TIME_BW_UPDATES,
                             MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                     if (locationManager != null) {
-                        Log.e("here", "4");
+//                        Log.e("here", "4");
                         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         if (location != null) {
-                            Log.e("here", "5");
+//                            Log.e("here", "5");
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
                         }
                     }
                 }
                 if (checkNetwork) {
-                    Log.e("here", "6");
+//                    Log.e("here", "6");
                     if (locationManager != null) {
-                        Log.e("here", "7");
+//                        Log.e("here", "7");
                         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
                                 MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                     }
                     if (locationManager != null) {
-                        Log.e("here", "8");
+//                        Log.e("here", "8");
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                     }
                     if (location != null) {
-                        Log.e("here", "9");
+//                        Log.e("here", "9");
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
                     }
                 }
-            }
+            } /*else {
+//                Toast.makeText(context, "No Service Provider is available", Toast.LENGTH_SHORT).show();
+            }*/
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("error", e.toString());
-        }
-        if (location != null) {
-            Log.e("location", String.valueOf(location.getAccuracy()));
+//            Log.e("error", e.toString());
         }
         return location;
     }
@@ -151,7 +145,7 @@ public class LocationTrackingGps extends Service implements LocationListener, IL
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.e("here", "onLocationChanged".concat(String.valueOf(location.getAccuracy())));
+        Log.e("onLocationChanged",String.valueOf(location.getAccuracy()));
         instance.addLocation(location);
     }
 

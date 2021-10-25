@@ -139,7 +139,6 @@ public abstract class BaseActivity extends AppCompatActivity
                 new CustomToast().info(getString(R.string.access_granted));
                 LocationTrackingGps.setInstance(null);
                 LocationTrackingGoogle.setInstance(null);
-//                new CustomDialogModel();
                 MyApplication.setActivityComponent(activity);
                 checkPermissions();
             }

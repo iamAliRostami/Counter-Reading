@@ -86,7 +86,6 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         appContext = getApplicationContext();
-//        locationTrackingGps1 = new LocationTrackingGps(appContext);
         Toasty.Config.getInstance()
                 .tintIcon(true)
                 .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), MyApplication.FONT_NAME))
