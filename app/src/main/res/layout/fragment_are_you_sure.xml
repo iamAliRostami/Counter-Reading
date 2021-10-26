@@ -21,6 +21,7 @@
         android:layout_marginBottom="@dimen/low_dp"
         android:gravity="center"
         android:padding="@dimen/medium_dp"
+        android:text="@string/high_use"
         android:textColor="@color/text_color_dark"
         android:textSize="@dimen/text_size_large" />
 

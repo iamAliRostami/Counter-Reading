@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.leon.counter_reading.R;
@@ -22,15 +23,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class AreYouSureFragment extends DialogFragment {
-    FragmentAreYouSureBinding binding;
-    int position, currentNumber, type, counterStateCode, counterStatePosition;
-
-    public AreYouSureFragment() {
-    }
+    private FragmentAreYouSureBinding binding;
+    private int position, currentNumber, type, counterStateCode, counterStatePosition;
 
     public static AreYouSureFragment newInstance(int position, int number, int type,
                                                  int counterStateCode, int counterStatePosition
-
     ) {
         AreYouSureFragment fragment = new AreYouSureFragment();
         Bundle args = new Bundle();
@@ -71,12 +68,16 @@ public class AreYouSureFragment extends DialogFragment {
     }
 
     void setTextViewMessage() {
-        if (type == HighLowStateEnum.HIGH.getValue())
+        if (type == HighLowStateEnum.HIGH.getValue()) {
             binding.textViewAreYouSure.setText(getString(R.string.high_use));
-        else if (type == HighLowStateEnum.LOW.getValue())
+            binding.buttonSubmit.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.border_red_1));
+        } else if (type == HighLowStateEnum.LOW.getValue()) {
             binding.textViewAreYouSure.setText(getString(R.string.low_use));
-        else if (type == HighLowStateEnum.ZERO.getValue())
+            binding.buttonSubmit.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.border_yellow_1));
+        } else if (type == HighLowStateEnum.ZERO.getValue()) {
             binding.textViewAreYouSure.setText(getString(R.string.zero_use));
+            binding.buttonSubmit.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.border_yellow_1));
+        }
     }
 
     void setOnButtonsClickListener() {

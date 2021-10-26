@@ -114,7 +114,7 @@ public class ReadingFragment extends Fragment {
         });
         if (onOffLoadDto.isLocked) {
             new CustomToast().error(getString(R.string.by_mistakes).concat(onOffLoadDto.eshterak).
-                    concat(getString(R.string.is_locked)), Toast.LENGTH_LONG);
+                    concat(getString(R.string.is_locked)), Toast.LENGTH_SHORT);
             binding.editTextNumber.setFocusable(false);
             binding.editTextNumber.setEnabled(false);
         }
