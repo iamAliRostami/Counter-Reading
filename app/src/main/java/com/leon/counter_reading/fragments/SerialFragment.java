@@ -64,13 +64,14 @@ public class SerialFragment extends DialogFragment {
         binding.buttonClose.setOnClickListener(v -> dismiss());
         binding.buttonSubmit.setOnClickListener(v -> {
             String number = binding.editTextSerial.getText().toString();
-            if (number.length() < 3) {
+            if (number.length() > 0 && number.length() < 3) {
                 View view = binding.editTextSerial;
                 binding.editTextSerial.setError(getString(R.string.error_format));
                 view.requestFocus();
             } else {
                 ((ReadingActivity) (requireActivity())).updateOnOffLoadByCounterSerial(
                         position, counterStatePosition, counterStateCode, number);
+//                ReadingFragment.attemptSend();
                 dismiss();
             }
         });

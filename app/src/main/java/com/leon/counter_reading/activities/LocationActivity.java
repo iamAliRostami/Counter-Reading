@@ -150,9 +150,9 @@ public class LocationActivity extends BaseActivity {
         binding.mapView.setMultiTouchControls(true);
         IMapController mapController = binding.mapView.getController();
         mapController.setZoom(19.0);
-        if (getLocationTracker(activity).getCurrentLocation(activity) != null) {
-            GeoPoint startPoint = new GeoPoint(getLocationTracker(activity).getCurrentLocation(activity).getLatitude(),
-                    getLocationTracker(activity).getCurrentLocation(activity).getLongitude());
+        if (getLocationTracker(activity).getCurrentLocation() != null) {
+            GeoPoint startPoint = new GeoPoint(getLocationTracker(activity).getCurrentLocation().getLatitude(),
+                    getLocationTracker(activity).getCurrentLocation().getLongitude());
             mapController.setCenter(startPoint);
         }
         MyLocationNewOverlay locationOverlay =

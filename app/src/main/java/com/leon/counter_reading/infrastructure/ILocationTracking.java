@@ -15,5 +15,5 @@ public interface ILocationTracking {
 
     void addLocation(Location location);
 
-    Location getCurrentLocation(Context context);
+    Location getCurrentLocation(/*Context context*/);
 }

@@ -37,8 +37,10 @@ import com.leon.counter_reading.enums.SearchTypeEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.fragments.PossibleFragment;
 import com.leon.counter_reading.fragments.SearchFragment;
+import com.leon.counter_reading.fragments.SerialFragment;
 import com.leon.counter_reading.infrastructure.IFlashLightManager;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
+import com.leon.counter_reading.tables.CounterStateDto;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.DepthPageTransformer;
@@ -62,7 +64,7 @@ public class ReadingActivity extends BaseActivity {
     private ViewPagerAdapterReading viewPagerAdapterReading;
     private ISharedPreferenceManager sharedPreferenceManager;
     private int readStatus = 0, highLow = 1;
-    private boolean isReading = false;
+    private boolean isReading = false, isShowing = false;
 
     @Override
     protected void initialize() {
@@ -181,6 +183,8 @@ public class ReadingActivity extends BaseActivity {
                                                int counterStateCode, String counterSerial) {
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
         readingData.onOffLoadDtos.get(position).possibleCounterSerial = counterSerial;
+        isShowing = true;
+        attemptSend(position, false, false);
     }
 
     public void updateOnOffLoadByCounterNumber(int position, int number, int counterStateCode,
@@ -326,12 +330,25 @@ public class ReadingActivity extends BaseActivity {
         } else if (isImage && sharedPreferenceManager.getBoolData(SharedReferenceKeys.IMAGE.getValue())) {
             showImage(position);
         } else {
-            makeRing(activity, NotificationType.SAVE);
-            new Update(position, getLocationTracker(activity).getCurrentLocation(activity))
-                    .execute(activity);
-            new PrepareToSend(sharedPreferenceManager
-                    .getStringData(SharedReferenceKeys.TOKEN.getValue())).execute(activity);
-            changePage(binding.viewPager.getCurrentItem() + 1);
+            if (!isShowing) {
+                CounterStateDto counterStateDto = readingData.counterStateDtos.get(readingData.onOffLoadDtos.get(position).counterStatePosition);
+                if ((counterStateDto.isTavizi || counterStateDto.isXarab) &&
+                        counterStateDto.moshtarakinId != readingData.onOffLoadDtos.get(position).preCounterStateCode) {
+//                    isShowing = true;
+                    SerialFragment serialFragment = SerialFragment.newInstance(position,
+                            counterStateDto.id, readingData.onOffLoadDtos.get(position).counterStatePosition);
+                    serialFragment.show(getSupportFragmentManager(), getString(R.string.counter_serial));
+                } else isShowing = true;
+            }
+            if (isShowing) {
+                isShowing = false;
+                makeRing(activity, NotificationType.SAVE);
+                new Update(position, getLocationTracker(activity).getCurrentLocation())
+                        .execute(activity);
+                new PrepareToSend(sharedPreferenceManager
+                        .getStringData(SharedReferenceKeys.TOKEN.getValue())).execute(activity);
+                changePage(binding.viewPager.getCurrentItem() + 1);
+            }
         }
     }
 

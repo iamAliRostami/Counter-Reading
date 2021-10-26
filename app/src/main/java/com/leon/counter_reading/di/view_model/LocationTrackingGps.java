@@ -139,7 +139,7 @@ public class LocationTrackingGps extends Service implements LocationListener, IL
     }
 
     @Override
-    public Location getCurrentLocation(Context context) {
+    public Location getCurrentLocation(/*Context context*/) {
         return getLocation();
     }
 

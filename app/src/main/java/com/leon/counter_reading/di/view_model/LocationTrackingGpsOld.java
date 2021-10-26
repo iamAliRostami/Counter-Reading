@@ -125,7 +125,8 @@ public class LocationTrackingGpsOld implements ILocationTracking {
 
     @Override
     @SuppressLint("MissingPermission")
-    public Location getCurrentLocation(Context context) {
+    public Location getCurrentLocation(/*Context context*/) {
+        Context context = MyApplication.getContext();
         if (!isRegistered()) return getBestLastKnownLocation(context);
         Location bestLocation = null;
         try {

@@ -89,7 +89,7 @@ public class LocationTrackingGoogle extends Service implements ILocationTracking
     }
 
     @Override
-    public Location getCurrentLocation(Context context) {
+    public Location getCurrentLocation(/*Context context*/) {
         return location;
     }
 
