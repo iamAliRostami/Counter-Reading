@@ -2,10 +2,10 @@ package com.leon.counter_reading.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -26,19 +26,20 @@ import com.leon.counter_reading.utils.uploading.PrepareOffLoad;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class UploadFragment extends Fragment {
+    private FragmentUploadBinding binding;
+    private Activity activity;
+    private int type;
     private int[] imageSrc = {
             R.drawable.img_upload_on,
             R.drawable.img_upload_off,
             R.drawable.img_multimedia};
-    private int type;
-    private FragmentUploadBinding binding;
-    private Activity activity;
     private String[] items;
     private ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
-    private TextView textView;
+//    private TextView textView;
 
     public static UploadFragment newInstance(int type) {
         UploadFragment fragment = new UploadFragment();
@@ -75,7 +76,7 @@ public class UploadFragment extends Fragment {
         if (type == 3) {
             binding.spinner.setVisibility(View.GONE);
             binding.textViewMultimedia.setVisibility(View.VISIBLE);
-            textView = binding.getRoot().findViewById(R.id.text_view_multimedia);
+//            textView = binding.getRoot().findViewById(R.id.text_view_multimedia);
             setMultimediaInfo(activity);
         } else {
             items = TrackingDto.getTrackingDtoItems(trackingDtos, getString(R.string.select_one));
@@ -90,7 +91,6 @@ public class UploadFragment extends Fragment {
         int voicesCount = MyApplication.getApplicationComponent().MyDatabase().voiceDao().getUnsentVoiceCount(false);
         String message = String.format(activity.getString(R.string.unuploaded_multimedia), imagesCount, voicesCount);
         activity.runOnUiThread(() -> binding.textViewMultimedia.setText(message));
-
     }
 
     private void setupSpinner() {
@@ -118,20 +118,24 @@ public class UploadFragment extends Fragment {
             alalMane = (double) mane / total * 100;
             imagesCount = myDatabase.imageDao().getUnsentImageCountByTrackNumber(trackNumber, false);
             voicesCount = myDatabase.voiceDao().getUnsentVoiceCountByTrackNumber(trackNumber, false);
-
         } else return false;
+
         if (unread > 0) {
             String message = String.format(getString(R.string.unread_number), unread);
             new CustomToast().info(message, Toast.LENGTH_LONG);
             return false;
         } else if (mane > 0 && alalMane > (double) alalPercent) {
-            new CustomToast().info(getString(R.string.darsad_alal), Toast.LENGTH_LONG);
+            //TODO
+            String message = String.format(getString(R.string.darsad_alal_1), alalPercent, new DecimalFormat("###.##").format(alalMane), mane);
+            new CustomToast().info(message, Toast.LENGTH_LONG);
+//            Log.e("alal message", message1);
+//            String message = String.format(getString(R.string.darsad_alal_1), alalPercent, alalMane, mane);
+//            new CustomToast().info(getString(R.string.darsad_alal), Toast.LENGTH_LONG);
             return false;
         } else if (imagesCount > 0 || voicesCount > 0) {
             String message = String.format(getString(R.string.unuploaded_multimedia),
                     imagesCount, voicesCount).concat("\n")
                     .concat(getString(R.string.recommend_multimedia));
-            //TODO
             new CustomDialogModel(DialogType.YellowRedirect, activity, message,
                     getString(R.string.dear_user),
                     getString(R.string.upload), getString(R.string.confirm), new Inline());

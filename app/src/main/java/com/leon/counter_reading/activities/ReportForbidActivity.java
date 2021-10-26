@@ -240,7 +240,8 @@ public class ReportForbidActivity extends AppCompatActivity {
                 binding.editTextNextAccount.setError(getString(R.string.error_format));
                 view = binding.editTextNextAccount;
                 cancel = true;
-            } else if (binding.editTextPostalCode.getText().length() < 10) {
+            } else if (binding.editTextPostalCode.getText().length() > 0 &&
+                    binding.editTextPostalCode.getText().length() < 10) {
                 binding.editTextPostalCode.setError(getString(R.string.error_format));
                 view = binding.editTextPostalCode;
                 cancel = true;

@@ -36,8 +36,8 @@ public class LocationTrackingGps extends Service implements LocationListener, IL
     public static synchronized LocationTrackingGps getInstance(Context context) {
         if (instance == null) {
             instance = new LocationTrackingGps(context);
+            instance.addLocation(location);
         }
-        instance.addLocation(location);
         return instance;
     }
 
@@ -145,7 +145,6 @@ public class LocationTrackingGps extends Service implements LocationListener, IL
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.e("onLocationChanged",String.valueOf(location.getAccuracy()));
         instance.addLocation(location);
     }
 

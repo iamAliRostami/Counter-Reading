@@ -424,21 +424,20 @@ public class ReadingFragment extends Fragment {
             position = getArguments().getInt(BundleEnum.POSITION.getValue());
 
             Gson gson = new Gson();
-            onOffLoadDto = gson.fromJson(getArguments().getString(
-                    BundleEnum.ON_OFF_LOAD.getValue()), OnOffLoadDto.class);
-            readingConfigDefaultDto = gson.fromJson(getArguments().getString(
-                    BundleEnum.READING_CONFIG.getValue()),
+            onOffLoadDto = gson.fromJson(getArguments().getString(BundleEnum.ON_OFF_LOAD.getValue()),
+                    OnOffLoadDto.class);
+            readingConfigDefaultDto = gson.fromJson(getArguments()
+                            .getString(BundleEnum.READING_CONFIG.getValue()),
                     ReadingConfigDefaultDto.class);
-            karbariDto = gson.fromJson(getArguments().getString(
-                    BundleEnum.KARBARI_DICTONARY.getValue()),
-                    KarbariDto.class);
-            ArrayList<String> json1 = getArguments().getStringArrayList(
-                    BundleEnum.COUNTER_STATE.getValue());
+            karbariDto = gson.fromJson(getArguments()
+                    .getString(BundleEnum.KARBARI_DICTONARY.getValue()), KarbariDto.class);
+            ArrayList<String> json1 = getArguments()
+                    .getStringArrayList(BundleEnum.COUNTER_STATE.getValue());
             counterStateDtos.clear();
             for (String s : json1) {
                 counterStateDtos.add(gson.fromJson(s, CounterStateDto.class));
             }
-            getArguments().clear();
+//            getArguments().clear();
         }
     }
 

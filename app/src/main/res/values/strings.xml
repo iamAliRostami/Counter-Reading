@@ -45,8 +45,8 @@
     <string name="ok">ثبت</string>
     <string name="dont_show_again">دیگر نمایش نده</string>
     <string name="home">خانه</string>
-    <string name="upload_information">تخلیه اطلاعات</string>
-    <string name="upload">تخلیه</string>
+    <string name="upload_information">بارگذاری اطلاعات</string>
+    <string name="upload">بارگذاری</string>
     <string name="reading">قرائت</string>
     <string name="download_information">بارگیری اطلاعات</string>
     <string name="download">بارگیری</string>
@@ -227,8 +227,9 @@
     <string name="download_message_error">در بارگیری شماره پیگیری %d خطایی به وجود آمد، با پشتیبان تماس بگیرید.</string>
     <string name="unread_number">همکار گرامی!\nتعداد %d اشتراک قرائت نشده است.</string>
     <string name="darsad_alal">همکار گرامی!\nدرصد علی الحساب بالاتر از حد مجاز است.</string>
-    <string name="unuploaded_multimedia">تعداد %d عکس و %d صدای تخلیه نشده باقی مانده است.</string>
-    <string name="recommend_multimedia">توصیه می شود پیش از تخلیه نسبت به بارگذاری چندرسانه اقدام نمایید.\nآیا همچنان مایل به تخلیه هستید؟</string>
+    <string name="darsad_alal_1">همکار گرامی!\nدرصد علی الحساب مجاز %d درصد است.\nدرصد علی الحساب شما: %s\nتعداد علی الحساب شما: %d</string>
+    <string name="unuploaded_multimedia">تعداد %d عکس و %d صدای بارگذاری نشده باقی مانده است.</string>
+    <string name="recommend_multimedia">توصیه می شود پیش از بارگذاری نسبت به بارگذاری چندرسانه اقدام نمایید.\nآیا همچنان مایل به بارگذاری هستید؟</string>
     <string name="show_points">نمایش نقاط</string>
     <string name="sort_reading_type">مرتب سازی نزولی</string>
     <string name="not_sent">وضعیت این اشتراک هنوز مشخص نشده است.</string>
