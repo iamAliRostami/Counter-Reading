@@ -1,14 +1,13 @@
 package com.leon.counter_reading.utils.reading;
 
-import static com.leon.counter_reading.MyApplication.readingData;
+import static com.leon.counter_reading.helpers.Constants.readingData;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.location.Location;
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

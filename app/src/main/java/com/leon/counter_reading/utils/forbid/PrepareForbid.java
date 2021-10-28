@@ -4,10 +4,11 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
-import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
+import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.ProgressType;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.infrastructure.IAbfaService;
 import com.leon.counter_reading.infrastructure.ICallback;
 import com.leon.counter_reading.infrastructure.ICallbackError;
@@ -15,7 +16,6 @@ import com.leon.counter_reading.infrastructure.ICallbackIncomplete;
 import com.leon.counter_reading.tables.ForbiddenDto;
 import com.leon.counter_reading.tables.ForbiddenDtoResponses;
 import com.leon.counter_reading.utils.CustomFile;
-import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.utils.CustomToast;
 
 import retrofit2.Call;
@@ -80,18 +80,22 @@ public class PrepareForbid extends AsyncTask<Activity, Activity, Activity> {
                     forbiddenDto.forbiddenDtoRequest.y,
                     forbiddenDto.forbiddenDtoRequest.gisAccuracy);
         }
-        activities[0].runOnUiThread(() ->
-                HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activities[0],
-                        new Forbidden(activities[0], forbiddenDto),
-                        new ForbiddenIncomplete(activities[0]),
-                        new ForbiddenError(activities[0])));
+//        activities[0].runOnUiThread(() ->
+//                );
+        //TODO
+        activities[0].runOnUiThread(() -> {
+            customProgressModel.getDialog().dismiss();
+            HttpClientWrapper.callHttpAsync(call, ProgressType.SHOW.getValue(), activities[0],
+                    new Forbidden(activities[0], forbiddenDto),
+                    new ForbiddenIncomplete(activities[0]),
+                    new ForbiddenError(activities[0]));
+        });
         return null;
     }
 
     @Override
     protected void onPostExecute(Activity activity) {
         super.onPostExecute(activity);
-        customProgressModel.getDialog().dismiss();
     }
 
     void saveForbidden(Activity activity) {

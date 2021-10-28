@@ -15,7 +15,7 @@ import android.view.WindowManager;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.gson.Gson;
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;

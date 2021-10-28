@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import com.leon.counter_reading.BuildConfig;
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivityContactUsBinding;
 import com.leon.counter_reading.enums.SharedReferenceKeys;

@@ -1,6 +1,5 @@
 package com.leon.counter_reading.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +9,7 @@ import android.view.ViewGroup;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.SettingActivity;
 import com.leon.counter_reading.databinding.FragmentSettingChangeThemeBinding;

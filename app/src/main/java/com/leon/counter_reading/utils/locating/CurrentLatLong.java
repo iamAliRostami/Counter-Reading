@@ -1,7 +1,6 @@
 package com.leon.counter_reading.utils.locating;
 
 public class CurrentLatLong {
-    private final float MinAccuracy = 1;
     // NB: units irrelevant, as long as same units used
     // throughout
     public int consecutiveRejectCount;
@@ -55,8 +54,9 @@ public class CurrentLatLong {
                         float accuracy, long TimeStamp_milliseconds, float Q_metres_per_second) {
         this.Q_metres_per_second = Q_metres_per_second;
 
-        if (accuracy < MinAccuracy)
-            accuracy = MinAccuracy;
+        float minAccuracy = 1;
+        if (accuracy < minAccuracy)
+            accuracy = minAccuracy;
         if (variance < 0) {
             // if variance < 0, object is unitialised, so initialise with
             // current values

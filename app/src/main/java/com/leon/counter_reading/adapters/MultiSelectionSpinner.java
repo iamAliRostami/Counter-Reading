@@ -9,7 +9,7 @@ import android.widget.SpinnerAdapter;
 
 import androidx.appcompat.widget.AppCompatSpinner;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class MultiSelectionSpinner extends AppCompatSpinner implements
 
     private ArrayList<MultiSelectionItem> multiSelectionItems = null;
     private boolean[] selection = null;
-    ArrayAdapter adapter;
+    private final ArrayAdapter adapter;
 
     public MultiSelectionSpinner(Context context) {
         super(context);

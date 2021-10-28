@@ -1,20 +1,20 @@
 package com.leon.counter_reading.utils.reading;
 
-import static com.leon.counter_reading.MyApplication.IS_MANE;
-import static com.leon.counter_reading.MyApplication.getApplicationComponent;
-import static com.leon.counter_reading.MyApplication.readingData;
-import static com.leon.counter_reading.MyApplication.readingDataTemp;
+import static com.leon.counter_reading.helpers.Constants.IS_MANE;
+import static com.leon.counter_reading.helpers.Constants.readingData;
+import static com.leon.counter_reading.helpers.Constants.readingDataTemp;
+import static com.leon.counter_reading.helpers.MyApplication.getApplicationComponent;
 
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.enums.ReadStatusEnum;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.tables.ReadingData;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomToast;
@@ -85,7 +85,8 @@ public class GetReadingDBData extends AsyncTask<Activity, Integer, Integer> {
 //                        getAllOnOffLoadNotRead(0, readingData.trackingDtos.get(j).trackNumber));
 
                 readingData.onOffLoadDtos.addAll(myDatabase.onOffLoadDao().
-                        getOnOffLoadReadByIsManeNotRead(IS_MANE, 0, readingData.trackingDtos.get(j).trackNumber));
+                        getOnOffLoadReadByIsManeNotRead(IS_MANE, 0,
+                                readingData.trackingDtos.get(j).trackNumber));
 
             } else if (readStatus == ReadStatusEnum.ALL_MANE.getValue()) {
                 //TODO

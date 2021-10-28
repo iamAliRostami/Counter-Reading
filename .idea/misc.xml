@@ -59,7 +59,9 @@
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_reading_possible_setting.xml" value="0.2" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_reading_setting.xml" value="0.365625" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_reading_setting_delete.xml" value="0.365625" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_report_karkard.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_report_not_reading.xml" value="0.365625" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_report_performance.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_report_temporary.xml" value="0.17436661698956782" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_report_total.xml" value="0.365625" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/fragment_search.xml" value="0.264" />
@@ -75,6 +77,8 @@
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/item_dropdown_menu_temp.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/item_image.xml" value="0.2388888888888889" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/item_navigation_drawer_profile.xml" value="0.24375" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/item_reading_setting_1.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/item_reading_setting_2.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/progress_bar.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/layout/toolbar.xml" value="0.24375" />
         <entry key="..\:/AndroidStudioProjects/Counter-Reading/app/src/main/res/menu/reading_menu.xml" value="0.24375" />

@@ -1,6 +1,7 @@
 package com.leon.counter_reading.fragments;
 
-import android.annotation.SuppressLint;
+import static com.leon.counter_reading.helpers.Constants.POSITION;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
-import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.activities.ReportActivity;
@@ -104,7 +104,7 @@ public class ReportTemporaryFragment extends Fragment {
                     intent.putExtra(BundleEnum.READ_STATUS.getValue(), ReadStatusEnum.ALL_MANE.getValue());
                 }
                 intent.putExtra(BundleEnum.IS_MANE.getValue(), json1);
-                MyApplication.POSITION = 1;
+                POSITION = 1;
                 startActivity(intent);
             }
 

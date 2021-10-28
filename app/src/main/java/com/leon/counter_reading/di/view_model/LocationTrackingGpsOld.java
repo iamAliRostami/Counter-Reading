@@ -1,8 +1,8 @@
 package com.leon.counter_reading.di.view_model;
 
 
-import static com.leon.counter_reading.MyApplication.MIN_DISTANCE_CHANGE_FOR_UPDATES;
-import static com.leon.counter_reading.MyApplication.MIN_TIME_BW_UPDATES;
+import static com.leon.counter_reading.helpers.Constants.MIN_DISTANCE_CHANGE_FOR_UPDATES;
+import static com.leon.counter_reading.helpers.Constants.MIN_TIME_BW_UPDATES;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,8 +13,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.infrastructure.ILocationTracking;
 import com.leon.counter_reading.tables.SavedLocation;
 

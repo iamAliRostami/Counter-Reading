@@ -3,7 +3,7 @@ package com.leon.counter_reading.utils.login;
 import android.app.Activity;
 import android.os.AsyncTask;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.ProgressType;
 import com.leon.counter_reading.infrastructure.IAbfaService;

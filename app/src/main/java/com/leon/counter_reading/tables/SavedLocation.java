@@ -18,8 +18,8 @@ public class SavedLocation {
     }
 
     public static class LocationOnMap {
-        public double longitude;
-        public double latitude;
+        public final double longitude;
+        public final double latitude;
 
 //        public LocationOnMap() {
 //        }

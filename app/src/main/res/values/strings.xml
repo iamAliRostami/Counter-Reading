@@ -249,5 +249,10 @@
     <string name="error_on_download_qotr">بارگیری قطرها به درستی انجام نشده است، با پشیبانی تماس بگیرید.</string>
     <string name="backup">پشتیبان گیری</string>
     <string name="restore">بازیابی</string>
+    <string name="performance">کارکرد</string>
+    <string name="faqed">فاقد</string>
+    <string name="xarab">خراب</string>
+    <string name="taviz">تعویض</string>
+    <string name="mane">مانع</string>
     <!--    <string name="COMPANY_NAME" />-->
 </resources>

@@ -13,7 +13,7 @@ import android.view.WindowManager;
 
 import androidx.fragment.app.DialogFragment;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentDeleteBinding;
 import com.leon.counter_reading.enums.BundleEnum;

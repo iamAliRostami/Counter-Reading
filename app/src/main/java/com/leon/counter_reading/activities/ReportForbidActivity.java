@@ -1,7 +1,13 @@
 package com.leon.counter_reading.activities;
 
-import static com.leon.counter_reading.MyApplication.PHOTO_URI;
-import static com.leon.counter_reading.MyApplication.getLocationTracker;
+import static com.leon.counter_reading.helpers.Constants.BITMAP_SELECTED_IMAGE;
+import static com.leon.counter_reading.helpers.Constants.CAMERA_REQUEST;
+import static com.leon.counter_reading.helpers.Constants.GALLERY_REQUEST;
+import static com.leon.counter_reading.helpers.Constants.GPS_CODE;
+import static com.leon.counter_reading.helpers.Constants.PHOTO_URI;
+import static com.leon.counter_reading.helpers.Constants.REQUEST_NETWORK_CODE;
+import static com.leon.counter_reading.helpers.Constants.REQUEST_WIFI_CODE;
+import static com.leon.counter_reading.helpers.MyApplication.getLocationTracker;
 import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
@@ -31,7 +37,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.BuildConfig;
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivityReportForbidBinding;
 import com.leon.counter_reading.enums.BundleEnum;
@@ -298,7 +304,7 @@ public class ReportForbidActivity extends AppCompatActivity {
 //                startActivityForResult(Intent.createChooser(intent, "Select Picture"), MyApplication.GALLERY_REQUEST);
                 Intent intent = new Intent("android.intent.action.PICK");
                 intent.setType("image/*");
-                startActivityForResult(intent, MyApplication.GALLERY_REQUEST);
+                startActivityForResult(intent, GALLERY_REQUEST);
             });
             builder.setNegativeButton(R.string.camera, (dialog, which) -> {
                 dialog.dismiss();
@@ -318,7 +324,7 @@ public class ReportForbidActivity extends AppCompatActivity {
                                 photoFile);
                         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, PHOTO_URI);
                         try {
-                            startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
+                            startActivityForResult(cameraIntent, CAMERA_REQUEST);
                         } catch (ActivityNotFoundException e) {
                             e.printStackTrace();
                         }
@@ -334,44 +340,44 @@ public class ReportForbidActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == PackageManager.PERMISSION_GRANTED) {
-            if (requestCode == MyApplication.GPS_CODE)
+            if (requestCode == GPS_CODE)
                 checkPermissions();
-            if (requestCode == MyApplication.REQUEST_NETWORK_CODE) {
+            if (requestCode == REQUEST_NETWORK_CODE) {
                 if (isNetworkAvailable(getApplicationContext()))
                     checkPermissions();
                 else PermissionManager.setMobileWifiEnabled(this);
             }
-            if (requestCode == MyApplication.REQUEST_WIFI_CODE) {
+            if (requestCode == REQUEST_WIFI_CODE) {
                 if (isNetworkAvailable(getApplicationContext()))
                     checkPermissions();
                 else PermissionManager.enableNetwork(this);
             }
         }
 
-        MyApplication.BITMAP_SELECTED_IMAGE = null;
+        BITMAP_SELECTED_IMAGE = null;
         if (resultCode == RESULT_OK) {
-            if (requestCode == MyApplication.GALLERY_REQUEST && data != null) {
+            if (requestCode == GALLERY_REQUEST && data != null) {
                 Uri selectedImage = data.getData();
                 Bitmap bitmap;
                 try {
                     InputStream inputStream = this.getContentResolver().openInputStream(selectedImage);
                     bitmap = BitmapFactory.decodeStream(inputStream);
-                    MyApplication.BITMAP_SELECTED_IMAGE = bitmap;
+                    BITMAP_SELECTED_IMAGE = bitmap;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (requestCode == MyApplication.CAMERA_REQUEST) {
+            } else if (requestCode == CAMERA_REQUEST) {
                 try {
-                    MyApplication.BITMAP_SELECTED_IMAGE =
-                            MediaStore.Images.Media.getBitmap(getContentResolver(), MyApplication.PHOTO_URI);
+                    BITMAP_SELECTED_IMAGE =
+                            MediaStore.Images.Media.getBitmap(getContentResolver(), PHOTO_URI);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            forbiddenDto.bitmaps.add(MyApplication.BITMAP_SELECTED_IMAGE);
+            forbiddenDto.bitmaps.add(BITMAP_SELECTED_IMAGE);
             binding.relativeLayoutImage.setVisibility(View.VISIBLE);
-            binding.imageViewTaken.setImageBitmap(MyApplication.BITMAP_SELECTED_IMAGE);
-            forbiddenDto.File.add(CustomFile.bitmapToFile(MyApplication.BITMAP_SELECTED_IMAGE, activity));
+            binding.imageViewTaken.setImageBitmap(BITMAP_SELECTED_IMAGE);
+            forbiddenDto.File.add(CustomFile.bitmapToFile(BITMAP_SELECTED_IMAGE, activity));
         }
     }
 

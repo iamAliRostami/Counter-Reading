@@ -1,7 +1,11 @@
 package com.leon.counter_reading.fragments;
 
 import static android.app.Activity.RESULT_OK;
-import static com.leon.counter_reading.MyApplication.PHOTO_URI;
+import static com.leon.counter_reading.helpers.Constants.BITMAP_SELECTED_IMAGE;
+import static com.leon.counter_reading.helpers.Constants.CAMERA_REQUEST;
+import static com.leon.counter_reading.helpers.Constants.GALLERY_REQUEST;
+import static com.leon.counter_reading.helpers.Constants.PHOTO_URI;
+import static com.leon.counter_reading.helpers.MyApplication.getApplicationComponent;
 import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 
 import android.app.Activity;
@@ -25,7 +29,6 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.leon.counter_reading.BuildConfig;
-import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentSettingChangeAvatarBinding;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
@@ -62,8 +65,8 @@ public class SettingChangeAvatarFragment extends Fragment {
     }
 
     private void initialize() {
-        if (MyApplication.getApplicationComponent().SharedPreferenceModel().checkIsNotEmpty(SharedReferenceKeys.AVATAR.getValue())) {
-            binding.imageViewAvatar.setImageBitmap(CustomFile.loadImage(activity, MyApplication.getApplicationComponent().SharedPreferenceModel().getStringData(SharedReferenceKeys.AVATAR.getValue())));
+        if (getApplicationComponent().SharedPreferenceModel().checkIsNotEmpty(SharedReferenceKeys.AVATAR.getValue())) {
+            binding.imageViewAvatar.setImageBitmap(CustomFile.loadImage(activity, getApplicationComponent().SharedPreferenceModel().getStringData(SharedReferenceKeys.AVATAR.getValue())));
         } else {
             binding.imageViewAvatar.setImageDrawable(ContextCompat
                     .getDrawable(activity, R.drawable.img_profile));
@@ -76,10 +79,10 @@ public class SettingChangeAvatarFragment extends Fragment {
 
     private void setOnButtonChangeAvatarClickListener() {
         binding.buttonChangeAvatar.setOnClickListener(view -> {
-            if (MyApplication.BITMAP_SELECTED_IMAGE != null) {
-                String address = CustomFile.saveTempBitmap(MyApplication.BITMAP_SELECTED_IMAGE, activity);
+            if (BITMAP_SELECTED_IMAGE != null) {
+                String address = CustomFile.saveTempBitmap(BITMAP_SELECTED_IMAGE, activity);
                 if (!address.equals(activity.getString(R.string.error_external_storage_is_not_writable))) {
-                    MyApplication.getApplicationComponent().SharedPreferenceModel().putData(SharedReferenceKeys.AVATAR.getValue(), address);
+                    getApplicationComponent().SharedPreferenceModel().putData(SharedReferenceKeys.AVATAR.getValue(), address);
                     new CustomToast().success(getString(R.string.profile_changed));
                 }
             } else {
@@ -90,8 +93,8 @@ public class SettingChangeAvatarFragment extends Fragment {
 
     private void setOnButtonDeleteClickListener() {
         binding.buttonChangeDelete.setOnClickListener(view -> {
-            MyApplication.BITMAP_SELECTED_IMAGE = null;
-            MyApplication.getApplicationComponent().SharedPreferenceModel().putData(SharedReferenceKeys.AVATAR.getValue(), null);
+            BITMAP_SELECTED_IMAGE = null;
+            getApplicationComponent().SharedPreferenceModel().putData(SharedReferenceKeys.AVATAR.getValue(), null);
             initialize();
         });
     }
@@ -105,7 +108,7 @@ public class SettingChangeAvatarFragment extends Fragment {
                 dialog.dismiss();
                 Intent intent = new Intent("android.intent.action.PICK");
                 intent.setType("image/*");
-                startActivityForResult(intent, MyApplication.GALLERY_REQUEST);
+                startActivityForResult(intent, GALLERY_REQUEST);
             });
             builder.setNegativeButton(R.string.camera, (dialog, which) -> {
                 dialog.dismiss();
@@ -123,7 +126,7 @@ public class SettingChangeAvatarFragment extends Fragment {
                                 photoFile);
                         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, PHOTO_URI);
                         try {
-                            startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
+                            startActivityForResult(cameraIntent, CAMERA_REQUEST);
                         } catch (ActivityNotFoundException e) {
                             e.printStackTrace();
                         }
@@ -138,9 +141,9 @@ public class SettingChangeAvatarFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        MyApplication.BITMAP_SELECTED_IMAGE = null;
+        BITMAP_SELECTED_IMAGE = null;
         if (resultCode == RESULT_OK) {
-            if (requestCode == MyApplication.GALLERY_REQUEST && data != null) {
+            if (requestCode == GALLERY_REQUEST && data != null) {
                 Uri uri = data.getData();
                 Bitmap bitmap;
                 try {
@@ -150,10 +153,10 @@ public class SettingChangeAvatarFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (requestCode == MyApplication.CAMERA_REQUEST) {
-                if (MyApplication.PHOTO_URI != null) {
+            } else if (requestCode == CAMERA_REQUEST) {
+                if (PHOTO_URI != null) {
                     try {
-                        prepareImage(CustomFile.rotateImage(MediaStore.Images.Media.getBitmap(activity.getContentResolver(), MyApplication.PHOTO_URI), 90));
+                        prepareImage(CustomFile.rotateImage(MediaStore.Images.Media.getBitmap(activity.getContentResolver(), PHOTO_URI), 90));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -163,7 +166,7 @@ public class SettingChangeAvatarFragment extends Fragment {
     }
 
     private void prepareImage(Bitmap bitmap) {
-        MyApplication.BITMAP_SELECTED_IMAGE = bitmap;
+        BITMAP_SELECTED_IMAGE = bitmap;
         binding.imageViewAvatar.setImageBitmap(bitmap);
         binding.buttonChangeDelete.setVisibility(View.VISIBLE);
     }

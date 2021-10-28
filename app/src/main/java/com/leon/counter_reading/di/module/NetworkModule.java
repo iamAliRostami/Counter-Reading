@@ -1,7 +1,7 @@
 package com.leon.counter_reading.di.module;
 
 import com.google.gson.Gson;
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.di.view_model.NetworkHelperModel;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
 
@@ -14,7 +14,7 @@ import retrofit2.Retrofit;
 @Singleton
 @Module
 public class NetworkModule {
-    NetworkHelperModel networkHelperModel;
+    private final NetworkHelperModel networkHelperModel;
 
     public NetworkModule() {
         networkHelperModel = new NetworkHelperModel();

@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.leon.counter_reading.BuildConfig;
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.di.view_model.CustomDialogModel;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;
@@ -66,7 +66,7 @@ public class Download extends AsyncTask<Activity, Void, Void> {
 }
 
 class DownloadCompleted implements ICallback<ReadingData> {
-    Activity activity;
+    private final Activity activity;
 
     public DownloadCompleted(Activity activity) {
         this.activity = activity;

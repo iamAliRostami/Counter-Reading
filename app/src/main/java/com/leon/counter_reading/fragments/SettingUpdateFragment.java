@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.leon.counter_reading.BuildConfig;
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentSettingUpdateBinding;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;

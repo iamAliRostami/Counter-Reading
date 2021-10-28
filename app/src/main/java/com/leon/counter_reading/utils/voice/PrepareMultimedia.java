@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;
 import com.leon.counter_reading.enums.BundleEnum;
@@ -102,7 +102,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
     }
 
     class UploadVoice implements ICallback<MultimediaUploadResponse> {
-        Activity activity;
+        private final Activity activity;
 
         public UploadVoice(Activity activity) {
             this.activity = activity;
@@ -121,7 +121,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
     }
 
     class UploadVoiceIncomplete implements ICallbackIncomplete<MultimediaUploadResponse> {
-        Activity activity;
+        private final Activity activity;
 
         public UploadVoiceIncomplete(Activity activity) {
             this.activity = activity;
@@ -138,7 +138,7 @@ public class PrepareMultimedia extends AsyncTask<Activity, Activity, Activity> {
     }
 
     class uploadVoiceError implements ICallbackError {
-        Activity activity;
+        private final Activity activity;
 
         public uploadVoiceError(Activity activity) {
             this.activity = activity;

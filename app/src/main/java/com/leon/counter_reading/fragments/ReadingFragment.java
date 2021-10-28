@@ -1,11 +1,11 @@
 package com.leon.counter_reading.fragments;
 
+import static com.leon.counter_reading.helpers.Constants.FOCUS_ON_EDIT_TEXT;
 import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 import android.Manifest;
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.gson.Gson;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.ReadingActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
@@ -291,38 +291,6 @@ public class ReadingFragment extends Fragment {
                 if (!onOffLoadDto.isLocked && onOffLoadDto.attemptCount >= DifferentCompanyManager.getLockNumber(DifferentCompanyManager.getActiveCompanyName())) {
                     new UpdateOnOffLoadDtoByLock(position, onOffLoadDto.trackNumber, onOffLoadDto.id).execute(activity);
                 } else {
-                    //TODO
-//                    if (onOffLoadDto.counterStatePosition == null ||
-//                            onOffLoadDto.counterStatePosition != binding.spinner.getSelectedItemPosition()) {
-//                        CounterStateDto counterStateDto = counterStateDtos.get(counterStatePosition);
-//                        if ((counterStateDto.isTavizi || counterStateDto.isXarab) &&
-//                                counterStateDto.moshtarakinId != onOffLoadDto.preCounterStateCode) {
-//                            SerialFragment serialFragment = SerialFragment.newInstance(position,
-//                                    counterStateDto.id, counterStatePosition);
-//                            serialFragment.show(getChildFragmentManager(), getString(R.string.counter_serial));
-//                            isShowing = true;
-//                            while (isShowing) {
-//                                Log.e("here", "serial showing");
-//                            }
-//                            Log.e("here", "attemptSend");
-////                            if (serialFragment.getDialog() != null && serialFragment.getDialog().isShowing()) {
-////                                Log.e("here", "dialog is showing so do something");
-////                            }
-////                            if (!serialFragment.isRemoving()) {
-////                                Log.e("here", "dialog is not Removing so do something");
-////                            }
-////                            if (serialFragment.getDialog() != null &&
-////                                    serialFragment.getDialog().isShowing() &&
-////                                    !serialFragment.isRemoving()) {
-////                                Log.e("here", "dialog is showing so do something");
-////                            } else {
-////                                Log.e("here", "dialog is not showing");
-////                                //dialog is not showing
-////                            }
-////                            while (!serialFragment.isCancelable()) Log.e("here", "on Serial");
-////                            attemptSend();
-//                        }
-//                    } else
                     attemptSend();
                 }
             }
@@ -477,7 +445,7 @@ public class ReadingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (MyApplication.FOCUS_ON_EDIT_TEXT) {
+        if (FOCUS_ON_EDIT_TEXT) {
             View viewFocus = binding.editTextNumber;
             viewFocus.requestFocus();
         }

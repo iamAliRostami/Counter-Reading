@@ -21,8 +21,7 @@ public class HighFragmentFragment extends DialogFragment {
     }
 
     public static HighFragmentFragment newInstance() {
-        HighFragmentFragment fragment = new HighFragmentFragment();
-        return fragment;
+        return new HighFragmentFragment();
     }
 
     @Override

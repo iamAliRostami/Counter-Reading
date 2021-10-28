@@ -1,8 +1,14 @@
 package com.leon.counter_reading.activities;
 
-import static com.leon.counter_reading.MyApplication.getLocationTracker;
-import static com.leon.counter_reading.MyApplication.readingData;
-import static com.leon.counter_reading.MyApplication.readingDataTemp;
+import static com.leon.counter_reading.helpers.Constants.CAMERA;
+import static com.leon.counter_reading.helpers.Constants.COUNTER_LOCATION;
+import static com.leon.counter_reading.helpers.Constants.DESCRIPTION;
+import static com.leon.counter_reading.helpers.Constants.FOCUS_ON_EDIT_TEXT;
+import static com.leon.counter_reading.helpers.Constants.NAVIGATION;
+import static com.leon.counter_reading.helpers.Constants.REPORT;
+import static com.leon.counter_reading.helpers.Constants.readingData;
+import static com.leon.counter_reading.helpers.Constants.readingDataTemp;
+import static com.leon.counter_reading.helpers.MyApplication.getLocationTracker;
 import static com.leon.counter_reading.utils.MakeNotification.makeRing;
 
 import android.app.Activity;
@@ -23,7 +29,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.gson.Gson;
-import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.ViewPagerAdapterReading;
 import com.leon.counter_reading.base_items.BaseActivity;
@@ -38,6 +43,8 @@ import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.fragments.PossibleFragment;
 import com.leon.counter_reading.fragments.SearchFragment;
 import com.leon.counter_reading.fragments.SerialFragment;
+import com.leon.counter_reading.helpers.Constants;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.infrastructure.IFlashLightManager;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.tables.CounterStateDto;
@@ -144,7 +151,7 @@ public class ReadingActivity extends BaseActivity {
                 intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
                 intent.putExtra(BundleEnum.ZONE_ID.getValue(),
                         readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).zoneId);
-                startActivityForResult(intent, MyApplication.REPORT);
+                startActivityForResult(intent, REPORT);
             }
         });
 
@@ -171,7 +178,6 @@ public class ReadingActivity extends BaseActivity {
         readingData.onOffLoadDtos.get(position).counterStateId = counterStateCode;
     }
 
-    //TODO
     public void updateOnOffLoadWithoutCounterNumber(int position, int counterStateCode,
                                                     int counterStatePosition) {
         readingData.onOffLoadDtos.get(position).counterNumber = null;
@@ -179,6 +185,7 @@ public class ReadingActivity extends BaseActivity {
         attemptSend(position, true, true);
     }
 
+    //TODO
     public void updateOnOffLoadByCounterSerial(int position, int counterStatePosition,
                                                int counterStateCode, String counterSerial) {
         updateOnOffLoad(position, counterStateCode, counterStatePosition);
@@ -262,7 +269,7 @@ public class ReadingActivity extends BaseActivity {
 
         setupViewPagerAdapter(0);
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        if (MyApplication.FOCUS_ON_EDIT_TEXT)
+        if (FOCUS_ON_EDIT_TEXT)
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         isReading = true;
     }
@@ -311,7 +318,7 @@ public class ReadingActivity extends BaseActivity {
         intent.putExtra(BundleEnum.IMAGE.getValue(), true);
         intent.putExtra(BundleEnum.SENT.getValue(),
                 readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).offLoadStateId > 0);
-        startActivityForResult(intent, MyApplication.CAMERA);
+        startActivityForResult(intent, CAMERA);
     }
 
     void attemptSend(int position, boolean isForm, boolean isImage) {
@@ -334,7 +341,6 @@ public class ReadingActivity extends BaseActivity {
                 CounterStateDto counterStateDto = readingData.counterStateDtos.get(readingData.onOffLoadDtos.get(position).counterStatePosition);
                 if ((counterStateDto.isTavizi || counterStateDto.isXarab) &&
                         counterStateDto.moshtarakinId != readingData.onOffLoadDtos.get(position).preCounterStateCode) {
-//                    isShowing = true;
                     SerialFragment serialFragment = SerialFragment.newInstance(position,
                             counterStateDto.id, readingData.onOffLoadDtos.get(position).counterStatePosition);
                     serialFragment.show(getSupportFragmentManager(), getString(R.string.counter_serial));
@@ -406,7 +412,7 @@ public class ReadingActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.reading_menu, menu);
-        menu.getItem(5).setChecked(MyApplication.FOCUS_ON_EDIT_TEXT);
+        menu.getItem(5).setChecked(FOCUS_ON_EDIT_TEXT);
         //TODO
         if (sharedPreferenceManager.checkIsNotEmpty(SharedReferenceKeys.SORT_TYPE.getValue(), true))
             menu.getItem(6).setChecked(sharedPreferenceManager
@@ -432,7 +438,7 @@ public class ReadingActivity extends BaseActivity {
                 Gson gson = new Gson();
                 String json1 = gson.toJson(readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()));
                 intent.putExtra(BundleEnum.ON_OFF_LOAD.getValue(), json1);
-                startActivityForResult(intent, MyApplication.NAVIGATION);
+                startActivityForResult(intent, NAVIGATION);
             }
         } else if (id == R.id.menu_report_forbid) {
             intent = new Intent(activity, ReportForbidActivity.class);
@@ -452,7 +458,7 @@ public class ReadingActivity extends BaseActivity {
                 intent.putExtra(BundleEnum.DESCRIPTION.getValue(),
                         readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).description);
                 intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
-                startActivityForResult(intent, MyApplication.DESCRIPTION);
+                startActivityForResult(intent, DESCRIPTION);
             }
         }
         if (id == R.id.menu_location) {
@@ -463,7 +469,7 @@ public class ReadingActivity extends BaseActivity {
                 intent.putExtra(BundleEnum.BILL_ID.getValue(),
                         readingData.onOffLoadDtos.get(binding.viewPager.getCurrentItem()).id);
                 intent.putExtra(BundleEnum.POSITION.getValue(), binding.viewPager.getCurrentItem());
-                startActivityForResult(intent, MyApplication.COUNTER_LOCATION);
+                startActivityForResult(intent, COUNTER_LOCATION);
             }
         } else if (id == R.id.menu_keyboard) {
             if (readingData.onOffLoadDtos.isEmpty()) {
@@ -471,7 +477,7 @@ public class ReadingActivity extends BaseActivity {
             } else {
                 item.setChecked(!item.isChecked());
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                if (MyApplication.FOCUS_ON_EDIT_TEXT) {
+                if (FOCUS_ON_EDIT_TEXT) {
                     try {
                         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                     } catch (Exception e) {
@@ -480,7 +486,7 @@ public class ReadingActivity extends BaseActivity {
                 } else if (!inputMethodManager.isAcceptingText()) {
                     inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                 }
-                MyApplication.FOCUS_ON_EDIT_TEXT = !MyApplication.FOCUS_ON_EDIT_TEXT;
+                FOCUS_ON_EDIT_TEXT = !FOCUS_ON_EDIT_TEXT;
             }
         } else if (id == R.id.menu_last) {
             if (readingData.onOffLoadDtos.isEmpty()) {
@@ -505,12 +511,12 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if ((requestCode == MyApplication.REPORT || requestCode == MyApplication.NAVIGATION ||
-                requestCode == MyApplication.DESCRIPTION ||
-                requestCode == MyApplication.COUNTER_LOCATION) && resultCode == RESULT_OK) {
+        if ((requestCode == REPORT || requestCode == NAVIGATION ||
+                requestCode == DESCRIPTION ||
+                requestCode == COUNTER_LOCATION) && resultCode == RESULT_OK) {
             new Result(data).execute(activity);
 
-        } else if (requestCode == MyApplication.CAMERA && resultCode == RESULT_OK) {
+        } else if (requestCode == CAMERA && resultCode == RESULT_OK) {
             int position = data.getExtras().getInt(BundleEnum.POSITION.getValue());
             attemptSend(position, false, false);
         }
@@ -519,7 +525,7 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (isReading && !readingData.onOffLoadDtos.isEmpty() && MyApplication.FOCUS_ON_EDIT_TEXT) {
+        if (isReading && !readingData.onOffLoadDtos.isEmpty() && FOCUS_ON_EDIT_TEXT) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         }

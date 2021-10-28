@@ -1,6 +1,6 @@
 package com.leon.counter_reading.activities;
 
-import static com.leon.counter_reading.MyApplication.getAndroidVersion;
+import static com.leon.counter_reading.helpers.MyApplication.getAndroidVersion;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
 
 import android.Manifest;
@@ -21,7 +21,7 @@ import androidx.core.content.ContextCompat;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.BuildConfig;
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.ActivityLoginBinding;
 import com.leon.counter_reading.di.view_model.CustomDialogModel;

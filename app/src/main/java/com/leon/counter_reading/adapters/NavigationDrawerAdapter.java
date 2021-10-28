@@ -1,5 +1,7 @@
 package com.leon.counter_reading.adapters;
 
+import static com.leon.counter_reading.helpers.Constants.POSITION;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.TypedValue;
@@ -14,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 
 import java.util.List;
@@ -43,7 +45,7 @@ public class NavigationDrawerAdapter extends
         DrawerItem drawerItem = drawerItemList.get(position);
         if (position == 8) {
             holder.textViewTitle.setTextColor(ContextCompat.getColor(context, R.color.red));
-        } else if (position == MyApplication.POSITION) {
+        } else if (position == POSITION) {
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = context.getTheme();
             theme.resolveAttribute(android.R.attr.textColorSecondary, typedValue, true);

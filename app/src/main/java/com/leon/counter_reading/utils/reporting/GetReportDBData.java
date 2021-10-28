@@ -3,7 +3,7 @@ package com.leon.counter_reading.utils.reporting;
 import android.app.Activity;
 import android.os.AsyncTask;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.activities.ReportActivity;
 import com.leon.counter_reading.enums.HighLowStateEnum;
 import com.leon.counter_reading.tables.CounterStateDto;

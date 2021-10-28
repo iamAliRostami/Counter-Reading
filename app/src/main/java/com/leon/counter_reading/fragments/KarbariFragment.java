@@ -11,7 +11,7 @@ import android.view.WindowManager;
 
 import androidx.fragment.app.DialogFragment;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentKarbariBinding;
 import com.leon.counter_reading.enums.BundleEnum;

@@ -3,7 +3,7 @@ package com.leon.counter_reading.utils.reading;
 import android.app.Activity;
 import android.os.AsyncTask;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.di.view_model.CustomDialogModel;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;
@@ -69,7 +69,7 @@ public class PrepareToSend extends AsyncTask<Activity, Integer, Integer> {
 }
 
 class offLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
-    Activity activity;
+    private final Activity activity;
 
     public offLoadData(Activity activity) {
         this.activity = activity;
@@ -98,7 +98,7 @@ class offLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
 }
 
 class offLoadError implements ICallbackError {
-    Activity activity;
+    private final Activity activity;
 
     public offLoadError(Activity activity) {
         this.activity = activity;
@@ -125,7 +125,7 @@ class offLoadError implements ICallbackError {
 }
 
 class offLoadDataIncomplete implements ICallbackIncomplete<OnOffLoadDto.OffLoadResponses> {
-    Activity activity;
+    private final Activity activity;
 
     public offLoadDataIncomplete(Activity activity) {
         this.activity = activity;

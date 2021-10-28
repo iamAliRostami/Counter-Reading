@@ -1,6 +1,6 @@
 package com.leon.counter_reading.utils.reading;
 
-import static com.leon.counter_reading.MyApplication.IS_MANE;
+import static com.leon.counter_reading.helpers.Constants.IS_MANE;
 
 import android.os.AsyncTask;
 

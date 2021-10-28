@@ -9,7 +9,7 @@ import com.leon.counter_reading.infrastructure.ICallbackError;
 import com.leon.counter_reading.utils.CustomErrorHandling;
 
 public class UpdateError implements ICallbackError {
-    Context context;
+    private final Context context;
 
     public UpdateError(Context context) {
         this.context = context;

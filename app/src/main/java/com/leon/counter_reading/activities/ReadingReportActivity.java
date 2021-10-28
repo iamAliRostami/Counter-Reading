@@ -8,7 +8,7 @@ import android.os.Debug;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.ReadingReportCustomAdapter;
 import com.leon.counter_reading.databinding.ActivityReadingReportBinding;

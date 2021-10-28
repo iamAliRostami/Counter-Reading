@@ -3,7 +3,7 @@ package com.leon.counter_reading.utils.updating;
 import android.app.Activity;
 import android.content.Context;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.di.view_model.CustomDialogModel;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;
@@ -32,7 +32,7 @@ public class GetUpdateInfo {
 }
 
 class UpdateInfo implements ICallback<LastInfo> {
-    SettingUpdateFragment settingUpdateFragment;
+    private final SettingUpdateFragment settingUpdateFragment;
 
     public UpdateInfo(SettingUpdateFragment settingUpdateFragment) {
         this.settingUpdateFragment = settingUpdateFragment;
@@ -47,7 +47,7 @@ class UpdateInfo implements ICallback<LastInfo> {
 }
 
 class UpdateInfoIncomplete implements ICallbackIncomplete<LastInfo> {
-    Context context;
+    final Context context;
 
     public UpdateInfoIncomplete(Context context) {
         this.context = context;

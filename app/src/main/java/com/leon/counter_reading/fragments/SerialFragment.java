@@ -71,7 +71,6 @@ public class SerialFragment extends DialogFragment {
             } else {
                 ((ReadingActivity) (requireActivity())).updateOnOffLoadByCounterSerial(
                         position, counterStatePosition, counterStateCode, number);
-//                ReadingFragment.attemptSend();
                 dismiss();
             }
         });

@@ -82,7 +82,7 @@ public class BackgroundLocationService extends Service {
         this.onDestroy();
     }
 
-    private class LocationListener implements android.location.LocationListener {
+    private static class LocationListener implements android.location.LocationListener {
         private final String TAG = "LocationListener";
         Location mLastLocation;
 

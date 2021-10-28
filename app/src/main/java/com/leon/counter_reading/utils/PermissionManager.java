@@ -1,5 +1,10 @@
 package com.leon.counter_reading.utils;
 
+import static com.leon.counter_reading.helpers.Constants.GPS_CODE;
+import static com.leon.counter_reading.helpers.Constants.POSITION;
+import static com.leon.counter_reading.helpers.Constants.REQUEST_NETWORK_CODE;
+import static com.leon.counter_reading.helpers.Constants.REQUEST_WIFI_CODE;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +21,6 @@ import androidx.core.location.LocationManagerCompat;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 
 import java.util.ArrayList;
@@ -213,7 +217,7 @@ public class PermissionManager {
             alertDialog.setMessage(R.string.active_gps);
             alertDialog.setPositiveButton(R.string.setting, (dialog, which) -> {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                activity.startActivityForResult(intent, MyApplication.GPS_CODE);
+                activity.startActivityForResult(intent, GPS_CODE);
             });
             alertDialog.setNegativeButton(R.string.close, (dialog, which) -> {
                 dialog.cancel();
@@ -270,17 +274,17 @@ public class PermissionManager {
 
     public static void setMobileDataEnabled(Activity activity) {
         activity.startActivityForResult(
-                new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS), MyApplication.REQUEST_NETWORK_CODE);
+                new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS), REQUEST_NETWORK_CODE);
     }
 
     public static void setMobileWifiEnabled(Activity activity) {
         activity.startActivityForResult(
-                new Intent(Settings.ACTION_WIFI_SETTINGS), MyApplication.REQUEST_WIFI_CODE);
+                new Intent(Settings.ACTION_WIFI_SETTINGS), REQUEST_WIFI_CODE);
     }
 
     public static void forceClose(Activity activity) {
         new CustomToast().error(activity.getString(R.string.permission_not_completed));
-        MyApplication.POSITION = -1;
+        POSITION = -1;
         activity.finish();
     }
 }

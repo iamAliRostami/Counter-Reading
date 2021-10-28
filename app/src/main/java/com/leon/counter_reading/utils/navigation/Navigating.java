@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.enums.BundleEnum;
 
 public class Navigating extends AsyncTask<Activity, Void, Void> {

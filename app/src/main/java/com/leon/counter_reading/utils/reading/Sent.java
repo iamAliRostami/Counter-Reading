@@ -1,11 +1,11 @@
 package com.leon.counter_reading.utils.reading;
 
-import static com.leon.counter_reading.MyApplication.readingData;
+import static com.leon.counter_reading.helpers.Constants.readingData;
 
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.enums.OffloadStateEnum;
 import com.leon.counter_reading.tables.OnOffLoadDto;
 import com.leon.counter_reading.utils.CustomToast;

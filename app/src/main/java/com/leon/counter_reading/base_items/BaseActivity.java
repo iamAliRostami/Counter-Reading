@@ -1,6 +1,10 @@
 package com.leon.counter_reading.base_items;
 
-import static com.leon.counter_reading.MyApplication.getApplicationComponent;
+import static com.leon.counter_reading.helpers.Constants.GPS_CODE;
+import static com.leon.counter_reading.helpers.Constants.POSITION;
+import static com.leon.counter_reading.helpers.Constants.REQUEST_NETWORK_CODE;
+import static com.leon.counter_reading.helpers.Constants.REQUEST_WIFI_CODE;
+import static com.leon.counter_reading.helpers.MyApplication.getApplicationComponent;
 import static com.leon.counter_reading.utils.PermissionManager.checkCameraPermission;
 import static com.leon.counter_reading.utils.PermissionManager.checkLocationPermission;
 import static com.leon.counter_reading.utils.PermissionManager.isNetworkAvailable;
@@ -33,7 +37,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.leon.counter_reading.BuildConfig;
-import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.DownloadActivity;
 import com.leon.counter_reading.activities.HelpActivity;
@@ -53,6 +56,7 @@ import com.leon.counter_reading.di.view_model.LocationTrackingGps;
 import com.leon.counter_reading.di.view_model.MyDatabaseClientModel;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.PermissionManager;
@@ -179,8 +183,8 @@ public abstract class BaseActivity extends AppCompatActivity
 
     void setOnDrawerItemClick() {
         binding.imageViewHeader.setOnClickListener(v -> {
-            if (MyApplication.POSITION != -1) {
-                MyApplication.POSITION = -1;
+            if (POSITION != -1) {
+                POSITION = -1;
                 Intent intent = new Intent(MyApplication.getContext(), HomeActivity.class);
                 startActivity(intent);
                 finish();
@@ -195,11 +199,11 @@ public abstract class BaseActivity extends AppCompatActivity
                     public void onItemClick(View view, int position) {
                         binding.drawerLayout.closeDrawer(GravityCompat.START);
                         if (position == 8) {
-                            MyApplication.POSITION = -1;
+                            POSITION = -1;
                             exit = true;
                             finishAffinity();
-                        } else if (MyApplication.POSITION != position) {
-                            MyApplication.POSITION = position;
+                        } else if (POSITION != position) {
+                            POSITION = position;
                             Intent intent = new Intent();
                             if (position == 0) {
                                 intent = new Intent(getApplicationContext(), DownloadActivity.class);
@@ -227,7 +231,7 @@ public abstract class BaseActivity extends AppCompatActivity
                     @Override
                     public void onLongItemClick(View view, int position) {
                         if (position == 1) {
-                            MyApplication.POSITION = position;
+                            POSITION = position;
                             Intent intent = new Intent(getApplicationContext(), ReadingActivity.class);
                             startActivity(intent);
                             finish();
@@ -250,7 +254,7 @@ public abstract class BaseActivity extends AppCompatActivity
         binding.textViewVersion.setText(getString(R.string.version).concat(" ")
                 .concat(BuildConfig.VERSION_NAME));
         LinearLayout linearLayout = findViewById(R.id.linear_layout_reading_header);
-        if (MyApplication.POSITION == 1) {
+        if (POSITION == 1) {
             linearLayout.setVisibility(View.VISIBLE);
         }
         toolbar = findViewById(R.id.toolbar);
@@ -286,15 +290,15 @@ public abstract class BaseActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == PackageManager.PERMISSION_GRANTED) {
-            if (requestCode == MyApplication.GPS_CODE) {
+            if (requestCode == GPS_CODE) {
                 checkPermissions();
             }
-            if (requestCode == MyApplication.REQUEST_NETWORK_CODE) {
+            if (requestCode == REQUEST_NETWORK_CODE) {
                 if (isNetworkAvailable(getApplicationContext()))
                     checkPermissions();
                 else PermissionManager.setMobileWifiEnabled(this);
             }
-            if (requestCode == MyApplication.REQUEST_WIFI_CODE) {
+            if (requestCode == REQUEST_WIFI_CODE) {
                 if (isNetworkAvailable(getApplicationContext()))
                     checkPermissions();
                 else PermissionManager.enableNetwork(this);

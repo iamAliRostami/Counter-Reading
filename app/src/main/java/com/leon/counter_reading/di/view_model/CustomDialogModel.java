@@ -3,12 +3,11 @@ package com.leon.counter_reading.di.view_model;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.WindowManager;
 
 import androidx.core.content.ContextCompat;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.HomeActivity;
 import com.leon.counter_reading.enums.DialogType;

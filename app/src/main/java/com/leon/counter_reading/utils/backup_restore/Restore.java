@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.leon.counter_reading.BuildConfig;
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.di.view_model.CustomProgressModel;
 import com.leon.counter_reading.tables.CounterReportDto;
 import com.leon.counter_reading.tables.CounterStateDto;

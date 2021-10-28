@@ -1,28 +1,20 @@
 package com.leon.counter_reading.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Debug;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityHomeBinding;
-import com.leon.counter_reading.tables.SavedLocation;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
-import com.leon.counter_reading.utils.MyDatabase;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
-
+import static com.leon.counter_reading.helpers.Constants.POSITION;
 public class HomeActivity extends BaseActivity {
     private ActivityHomeBinding binding;
     private boolean exit = false;
@@ -31,28 +23,28 @@ public class HomeActivity extends BaseActivity {
         int id = v.getId();
         Intent intent = new Intent();
         if (id == R.id.linear_layout_download) {
-            MyApplication.POSITION = 0;
+            POSITION = 0;
             intent = new Intent(getApplicationContext(), DownloadActivity.class);
         } else if (id == R.id.linear_layout_reading) {
-            MyApplication.POSITION = 1;
+            POSITION = 1;
             intent = new Intent(getApplicationContext(), ReadingActivity.class);
         } else if (id == R.id.linear_layout_upload) {
-            MyApplication.POSITION = 2;
+            POSITION = 2;
             intent = new Intent(getApplicationContext(), UploadActivity.class);
         } else if (id == R.id.linear_layout_report) {
-            MyApplication.POSITION = 3;
+            POSITION = 3;
             intent = new Intent(getApplicationContext(), ReportActivity.class);
         } else if (id == R.id.linear_layout_location) {
-            MyApplication.POSITION = 4;
+            POSITION = 4;
             intent = new Intent(getApplicationContext(), LocationActivity.class);
         } else if (id == R.id.linear_layout_reading_setting) {
-            MyApplication.POSITION = 5;
+            POSITION = 5;
             intent = new Intent(getApplicationContext(), ReadingSettingActivity.class);
         } else if (id == R.id.linear_layout_app_setting) {
-            MyApplication.POSITION = 6;
+            POSITION = 6;
             intent = new Intent(getApplicationContext(), SettingActivity.class);
         } else if (id == R.id.linear_layout_help) {
-            MyApplication.POSITION = 7;
+            POSITION = 7;
             intent = new Intent(getApplicationContext(), HelpActivity.class);
         } else if (id == R.id.linear_layout_exit) {
             exit = true;

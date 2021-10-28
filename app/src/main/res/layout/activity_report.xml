@@ -8,8 +8,7 @@
 
     <LinearLayout
         android:id="@+id/linear_layout_header"
-        style="@style/ViewPagerMenu"
-        android:weightSum="3">
+        style="@style/ViewPagerMenu">
 
         <TextView
             android:id="@+id/text_view_total"
@@ -28,6 +27,11 @@
             android:text="@string/temporary"
             android:textColor="@color/text_color_light" />
 
+        <TextView
+            android:id="@+id/text_view_performance"
+            style="@style/ViewPagerItems"
+            android:text="@string/performance"
+            android:textColor="@color/text_color_light" />
     </LinearLayout>
 
 

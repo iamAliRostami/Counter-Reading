@@ -1,7 +1,9 @@
 package com.leon.counter_reading.adapters;
 
-import static com.leon.counter_reading.MyApplication.PHOTO_URI;
 import static com.leon.counter_reading.activities.TakePhotoActivity.replace;
+import static com.leon.counter_reading.helpers.Constants.CAMERA_REQUEST;
+import static com.leon.counter_reading.helpers.Constants.GALLERY_REQUEST;
+import static com.leon.counter_reading.helpers.Constants.PHOTO_URI;
 import static com.leon.counter_reading.utils.CustomFile.createImageFile;
 
 import android.annotation.SuppressLint;
@@ -24,7 +26,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.leon.counter_reading.BuildConfig;
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.TakePhotoActivity;
 import com.leon.counter_reading.fragments.HighQualityFragment;
@@ -111,7 +113,7 @@ public class ImageViewAdapter extends BaseAdapter {
             dialog.dismiss();
             Intent intent = new Intent("android.intent.action.PICK");
             intent.setType("image/*");
-            ((TakePhotoActivity) (context)).startActivityForResult(intent, MyApplication.GALLERY_REQUEST);
+            ((TakePhotoActivity) (context)).startActivityForResult(intent, GALLERY_REQUEST);
         });
         builder.setNegativeButton(R.string.camera, (dialog, which) -> {
             dialog.dismiss();
@@ -131,7 +133,7 @@ public class ImageViewAdapter extends BaseAdapter {
                             photoFile);
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, PHOTO_URI);
                     try {
-                        ((TakePhotoActivity) (context)).startActivityForResult(cameraIntent, MyApplication.CAMERA_REQUEST);
+                        ((TakePhotoActivity) (context)).startActivityForResult(cameraIntent, CAMERA_REQUEST);
                     } catch (ActivityNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -145,7 +147,9 @@ public class ImageViewAdapter extends BaseAdapter {
 
 class ImageViewHolder {
 
-    public ImageView imageView, imageViewDelete, imageViewSent;
+    public final ImageView imageView;
+    public final ImageView imageViewDelete;
+    public final ImageView imageViewSent;
 
     public ImageViewHolder(View view) {
         imageView = view.findViewById(R.id.image_view);

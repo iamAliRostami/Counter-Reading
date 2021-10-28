@@ -1,7 +1,7 @@
 package com.leon.counter_reading.di.component;
 
 import com.google.gson.Gson;
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.di.module.CustomProgressModule;
 import com.leon.counter_reading.di.module.FlashModule;
 import com.leon.counter_reading.di.module.MyDatabaseModule;

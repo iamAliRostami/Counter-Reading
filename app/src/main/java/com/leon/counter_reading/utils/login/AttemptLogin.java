@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.auth0.android.jwt.JWT;
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.HomeActivity;
 import com.leon.counter_reading.di.view_model.HttpClientWrapper;

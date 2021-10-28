@@ -14,6 +14,7 @@ import com.leon.counter_reading.adapters.ViewPagerAdapterTab;
 import com.leon.counter_reading.base_items.BaseActivity;
 import com.leon.counter_reading.databinding.ActivityReportBinding;
 import com.leon.counter_reading.fragments.ReportNotReadingFragment;
+import com.leon.counter_reading.fragments.ReportPerformanceFragment;
 import com.leon.counter_reading.fragments.ReportTemporaryFragment;
 import com.leon.counter_reading.fragments.ReportTotalFragment;
 import com.leon.counter_reading.tables.CounterStateDto;
@@ -46,6 +47,7 @@ public class ReportActivity extends BaseActivity {
         textViewTotalNormal();
         textViewTemporary();
         textViewNotRead();
+        textViewPerformance();
     }
 
     void textViewTotalNormal() {
@@ -78,16 +80,29 @@ public class ReportActivity extends BaseActivity {
         });
     }
 
+    void textViewPerformance() {
+        binding.textViewPerformance.setOnClickListener(view -> {
+            setColor();
+            binding.textViewPerformance.
+                    setBackground(ContextCompat.getDrawable(activity, R.drawable.border_white_2));
+            setPadding();
+            binding.viewPager.setCurrentItem(3);
+        });
+    }
+
     private void setColor() {
         binding.textViewNotRead.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewNotRead.setTextColor(
-                ContextCompat.getColor(activity, R.color.text_color_light));
+        binding.textViewNotRead.setTextColor(ContextCompat
+                .getColor(activity, R.color.text_color_light));
         binding.textViewTotal.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewTotal.setTextColor(
-                ContextCompat.getColor(activity, R.color.text_color_light));
+        binding.textViewTotal.setTextColor(ContextCompat
+                .getColor(activity, R.color.text_color_light));
         binding.textViewTemporary.setBackgroundColor(Color.TRANSPARENT);
-        binding.textViewTemporary.setTextColor(
-                ContextCompat.getColor(activity, R.color.text_color_light));
+        binding.textViewTemporary.setTextColor(ContextCompat
+                .getColor(activity, R.color.text_color_light));
+        binding.textViewPerformance.setBackgroundColor(Color.TRANSPARENT);
+        binding.textViewPerformance.setTextColor(ContextCompat
+                .getColor(activity, R.color.text_color_light));
     }
 
     private void setPadding() {
@@ -98,6 +113,9 @@ public class ReportActivity extends BaseActivity {
                 (int) getResources().getDimension(R.dimen.medium_dp), 0,
                 (int) getResources().getDimension(R.dimen.medium_dp));
         binding.textViewTemporary.setPadding(0,
+                (int) getResources().getDimension(R.dimen.medium_dp), 0,
+                (int) getResources().getDimension(R.dimen.medium_dp));
+        binding.textViewPerformance.setPadding(0,
                 (int) getResources().getDimension(R.dimen.medium_dp), 0,
                 (int) getResources().getDimension(R.dimen.medium_dp));
     }
@@ -112,6 +130,7 @@ public class ReportActivity extends BaseActivity {
         adapter.addFragment(ReportTotalFragment.newInstance(zero, normal, high, low));
         adapter.addFragment(ReportNotReadingFragment.newInstance(total, unread));
         adapter.addFragment(ReportTemporaryFragment.newInstance(total, isMane));
+        adapter.addFragment(ReportPerformanceFragment.newInstance());
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -126,17 +145,19 @@ public class ReportActivity extends BaseActivity {
                     binding.textViewNotRead.callOnClick();
                 } else if (position == 2) {
                     binding.textViewTemporary.callOnClick();
+                } else if (position == 3) {
+                    binding.textViewPerformance.callOnClick();
                 }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
                 int currentPage = binding.viewPager.getCurrentItem();
-                if (currentPage == 2 || currentPage == 0) {
+                if (currentPage == 3 || currentPage == 0) {
                     previousState = currentState;
                     currentState = state;
                     if (previousState == 1 && currentState == 0) {
-                        binding.viewPager.setCurrentItem(currentPage == 0 ? 2 : 0);
+                        binding.viewPager.setCurrentItem(currentPage == 0 ? 3 : 0);
                     }
                 }
             }

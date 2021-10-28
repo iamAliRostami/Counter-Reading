@@ -2,7 +2,7 @@ package com.leon.counter_reading.utils;
 
 import android.widget.Toast;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 
 import es.dmoral.toasty.Toasty;
 

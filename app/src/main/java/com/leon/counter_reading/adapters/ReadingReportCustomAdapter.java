@@ -11,7 +11,7 @@ import android.widget.CheckedTextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.leon.counter_reading.MyApplication;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.fragments.AhadFragment;
 import com.leon.counter_reading.fragments.KarbariFragment;

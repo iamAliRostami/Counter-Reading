@@ -1,5 +1,10 @@
 package com.leon.counter_reading.activities;
 
+import static com.leon.counter_reading.helpers.Constants.CAMERA_REQUEST;
+import static com.leon.counter_reading.helpers.Constants.GALLERY_REQUEST;
+import static com.leon.counter_reading.helpers.Constants.PHOTO_URI;
+import static com.leon.counter_reading.helpers.Constants.BITMAP_SELECTED_IMAGE;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -16,12 +21,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-import com.leon.counter_reading.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.adapters.ImageViewAdapter;
 import com.leon.counter_reading.databinding.ActivityTakePhotoBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.SharedReferenceKeys;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.tables.Image;
 import com.leon.counter_reading.utils.CustomFile;
 import com.leon.counter_reading.utils.CustomToast;
@@ -125,21 +130,21 @@ public class TakePhotoActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        MyApplication.BITMAP_SELECTED_IMAGE = null;
+        BITMAP_SELECTED_IMAGE = null;
         if (resultCode == RESULT_OK) {
-            if (requestCode == MyApplication.GALLERY_REQUEST && data != null) {
+            if (requestCode == GALLERY_REQUEST && data != null) {
                 Uri uri = data.getData();
                 try {
                     InputStream inputStream = this.getContentResolver().openInputStream(uri);
-                    MyApplication.BITMAP_SELECTED_IMAGE = BitmapFactory.decodeStream(inputStream);
+                    BITMAP_SELECTED_IMAGE = BitmapFactory.decodeStream(inputStream);
                     prepareImage();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (requestCode == MyApplication.CAMERA_REQUEST) {
-                if (MyApplication.PHOTO_URI != null) {
+            } else if (requestCode == CAMERA_REQUEST) {
+                if (PHOTO_URI != null) {
                     try {
-                        MyApplication.BITMAP_SELECTED_IMAGE = MediaStore.Images.Media.getBitmap(getContentResolver(), MyApplication.PHOTO_URI);
+                        BITMAP_SELECTED_IMAGE = MediaStore.Images.Media.getBitmap(getContentResolver(), PHOTO_URI);
                         prepareImage();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -152,9 +157,10 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     private void prepareImage() {
         Image image = new Image();
+        image.bitmap = BITMAP_SELECTED_IMAGE;
+        BITMAP_SELECTED_IMAGE = null;
         image.OnOffLoadId = uuid;
         image.trackNumber = trackNumber;
-        image.bitmap = MyApplication.BITMAP_SELECTED_IMAGE;
         if (replace > 0) {
             MyApplication.getApplicationComponent().MyDatabase()
                     .imageDao().deleteImage(images.get(replace - 1).id);
@@ -179,7 +185,7 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        MyApplication.BITMAP_SELECTED_IMAGE = null;
+        BITMAP_SELECTED_IMAGE = null;
         images = null;
         binding = null;
         Debug.getNativeHeapAllocatedSize();
