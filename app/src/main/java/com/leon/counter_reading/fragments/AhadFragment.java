@@ -11,11 +11,11 @@ import android.view.WindowManager;
 
 import androidx.fragment.app.DialogFragment;
 
-import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentAhadBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.NotificationType;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.utils.DifferentCompanyManager;
 
 import org.jetbrains.annotations.NotNull;
@@ -24,19 +24,18 @@ import java.util.Objects;
 
 public class AhadFragment extends DialogFragment {
 
-    FragmentAhadBinding binding;
-    String uuid;
-    int position;
-    Context context;
+    private FragmentAhadBinding binding;
+    private String uuid;
+    private Context context;
 
     public AhadFragment() {
     }
 
-    public static AhadFragment newInstance(String uuid, int position) {
+    public static AhadFragment newInstance(String uuid) {
         AhadFragment fragment = new AhadFragment();
         Bundle args = new Bundle();
         args.putString(BundleEnum.BILL_ID.getValue(), uuid);
-        args.putInt(BundleEnum.POSITION.getValue(), position);
+//        args.putInt(BundleEnum.POSITION.getValue(), position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,7 +45,6 @@ public class AhadFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             uuid = getArguments().getString(BundleEnum.BILL_ID.getValue());
-            position = getArguments().getInt(BundleEnum.POSITION.getValue());
             getArguments().clear();
         }
     }

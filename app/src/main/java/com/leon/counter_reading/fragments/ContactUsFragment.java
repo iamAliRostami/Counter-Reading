@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class ContactUsFragment extends DialogFragment {
-    FragmentContactUsBinding binding;
+    private FragmentContactUsBinding binding;
 
     public ContactUsFragment() {
     }

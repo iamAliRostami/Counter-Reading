@@ -19,7 +19,7 @@ import com.sardari.daterangepicker.utils.PersianCalendar;
 public class ReportPerformanceFragment extends Fragment {
     private FragmentReportPerformanceBinding binding;
     private Activity activity;
-    private boolean visible = true;
+//    private boolean visible = true;
 
     public ReportPerformanceFragment() {
     }
@@ -65,14 +65,14 @@ public class ReportPerformanceFragment extends Fragment {
 //            }
 //        });
         binding.buttonSubmit.setOnClickListener(v -> {
-            if (visible)
+//            if (visible)
                 new GetPerformance(activity, this, binding.textViewFrom.getText().toString(),
                         binding.textViewEnd.getText().toString()).execute(activity);
-            else {
-                binding.linearLayoutFrom.setVisibility(View.VISIBLE);
-                binding.linearLayoutEnd.setVisibility(View.VISIBLE);
-                visible = true;
-            }
+//            else {
+//                binding.linearLayoutFrom.setVisibility(View.VISIBLE);
+//                binding.linearLayoutEnd.setVisibility(View.VISIBLE);
+//                visible = true;
+//            }
         });
     }
 
@@ -117,10 +117,10 @@ public class ReportPerformanceFragment extends Fragment {
 
     public void setTextViewTextSetter(PerformanceResponse performanceResponse) {
         activity.runOnUiThread(() -> {
-            binding.linearLayoutEnd.setVisibility(View.GONE);
-            binding.linearLayoutFrom.setVisibility(View.GONE);
+//            binding.linearLayoutEnd.setVisibility(View.GONE);
+//            binding.linearLayoutFrom.setVisibility(View.GONE);
+//            visible = false;
             binding.relativeLayoutDetail.setVisibility(View.VISIBLE);
-            visible = false;
             binding.textViewAdiCount.setText(String.valueOf(performanceResponse.adiCount));
             binding.textViewTotal.setText(String.valueOf(performanceResponse.overalCount));
             binding.textViewMedia.setText(String.valueOf(performanceResponse.mediaCount));

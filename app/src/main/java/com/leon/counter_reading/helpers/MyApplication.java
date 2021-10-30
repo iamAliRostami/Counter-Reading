@@ -38,6 +38,8 @@ import com.leon.counter_reading.di.module.SharedPreferenceModule;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ILocationTracking;
 import com.leon.counter_reading.utils.locating.CheckSensor;
+//import com.squareup.leakcanary.LeakCanary;
+//import com.squareup.leakcanary.RefWatcher;
 import com.yandex.metrica.YandexMetrica;
 import com.yandex.metrica.YandexMetricaConfig;
 
@@ -69,23 +71,20 @@ public class MyApplication extends Application {
                 .build();
         applicationComponent.inject(this);
 
+        super.onCreate();
         if (BuildConfig.BUILD_TYPE.equals("release")) {
             setupYandex();
         } else {
-//            if (LeakCanary.isInAnalyzerProcess(this)) {
-//                return;
-//            }
-//            refWatcher = LeakCanary.install(this);
             setupLeakCanary();
         }
-        super.onCreate();
     }
 
-    protected void setupLeakCanary() {
+    protected void /*RefWatcher*/ setupLeakCanary() {
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
-//            Log.e("here","1");
+//            Log.e("here", "1");
 //            return RefWatcher.DISABLED;
-//        }Log.e("here","2");
+//        }
+//        Log.e("here", "2");
 //        return LeakCanary.install(this);
     }
 

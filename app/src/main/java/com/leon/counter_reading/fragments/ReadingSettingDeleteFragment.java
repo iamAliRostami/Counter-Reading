@@ -85,6 +85,7 @@ public class ReadingSettingDeleteFragment extends Fragment {
                 deleteFragment = DeleteFragment.newInstance(
                         trackingDtos.get(binding.spinner.getSelectedItemPosition() - 1).id);
             }
+            deleteFragment.setCancelable(false);
             deleteFragment.show(getParentFragmentManager(), "");
         });
     }
