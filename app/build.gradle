@@ -154,6 +154,7 @@ dependencies {
 //    releaseImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+    releaseImplementation  'com.squareup.leakcanary:leakcanary-android:2.7'
 //    releaseImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
 //    testImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'

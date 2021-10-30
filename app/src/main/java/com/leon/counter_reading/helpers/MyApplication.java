@@ -13,6 +13,7 @@ import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.StrictMode;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.view.View;
@@ -37,24 +38,26 @@ import com.leon.counter_reading.di.module.SharedPreferenceModule;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ILocationTracking;
 import com.leon.counter_reading.utils.locating.CheckSensor;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
+//import com.squareup.leakcanary.LeakCanary;
+//import com.squareup.leakcanary.RefWatcher;
 import com.yandex.metrica.YandexMetrica;
 import com.yandex.metrica.YandexMetricaConfig;
 
 import es.dmoral.toasty.Toasty;
 
 public class MyApplication extends Application {
-
+    public static MyApplication instance;
     private static Context appContext;
-    private static int ERROR_COUNTER = 0;
     private static ApplicationComponent applicationComponent;
     private static ActivityComponent activityComponent;
+    private static int ERROR_COUNTER = 0;
+    private com.squareup.leakcanary.RefWatcher refWatcher;
 
 
     @Override
     public void onCreate() {
         appContext = getApplicationContext();
+        instance = this;
         Toasty.Config.getInstance()
                 .tintIcon(true)
                 .setToastTypeface(Typeface.createFromAsset(appContext.getAssets(), FONT_NAME))
@@ -78,11 +81,37 @@ public class MyApplication extends Application {
         }
     }
 
-    protected /*void*/ RefWatcher setupLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return RefWatcher.DISABLED;
+    protected void /*RefWatcher*/ setupLeakCanary() {
+//        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+//                .detectCustomSlowCalls()
+//                .detectNetwork()
+//                .penaltyLog()
+//                .penaltyDeath()
+//                .build());
+//        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+//                .detectActivityLeaks()
+//                .detectLeakedClosableObjects()
+//                .detectLeakedRegistrationObjects()
+//                .detectLeakedSqlLiteObjects()
+//                .penaltyLog()
+//                .penaltyDeath()
+//                .build());
+        refWatcher = com.squareup.leakcanary.LeakCanary.install(this);
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            return RefWatcher.DISABLED;
+//        }
+//        return LeakCanary.install(this);
+    }
+
+    public static com.squareup.leakcanary.RefWatcher getRefWatcher(Context context) {
+        MyApplication application = (MyApplication) context.getApplicationContext();
+        return application.refWatcher;
+    }
+
+    public void mustDie(Object object) {
+        if (refWatcher != null) {
+            refWatcher.watch(object);
         }
-        return LeakCanary.install(this);
     }
 
     protected void setupYandex() {

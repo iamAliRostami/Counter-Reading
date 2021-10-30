@@ -52,6 +52,7 @@
                     android:hint="@string/mobile_number"
                     android:inputType="phone"
                     android:maxLength="11"
+                    android:text="8738273"
                     tools:ignore="Autofill" />
 
                 <EditText

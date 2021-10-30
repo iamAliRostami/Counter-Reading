@@ -189,7 +189,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/border_gray_2</item>
         <item name="android:textColorHint">@color/smoked</item>
-        <item name="android:textColor">@color/text_color_dark</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
         <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:padding">@dimen/medium_dp</item>
         <item name="android:layout_margin">@dimen/low_dp</item>

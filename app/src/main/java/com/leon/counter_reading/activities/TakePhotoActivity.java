@@ -1,9 +1,9 @@
 package com.leon.counter_reading.activities;
 
+import static com.leon.counter_reading.helpers.Constants.BITMAP_SELECTED_IMAGE;
 import static com.leon.counter_reading.helpers.Constants.CAMERA_REQUEST;
 import static com.leon.counter_reading.helpers.Constants.GALLERY_REQUEST;
 import static com.leon.counter_reading.helpers.Constants.PHOTO_URI;
-import static com.leon.counter_reading.helpers.Constants.BITMAP_SELECTED_IMAGE;
 
 import android.Manifest;
 import android.app.Activity;
@@ -149,7 +149,6 @@ public class TakePhotoActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 }
             }
         }
@@ -162,8 +161,8 @@ public class TakePhotoActivity extends AppCompatActivity {
         image.OnOffLoadId = uuid;
         image.trackNumber = trackNumber;
         if (replace > 0) {
-            MyApplication.getApplicationComponent().MyDatabase()
-                    .imageDao().deleteImage(images.get(replace - 1).id);
+            MyApplication.getApplicationComponent().MyDatabase().imageDao()
+                    .deleteImage(images.get(replace - 1).id);
             images.set(replace - 1, image);
         } else {
             images.add(image);

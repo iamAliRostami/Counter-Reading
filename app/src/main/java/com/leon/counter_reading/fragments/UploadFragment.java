@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.activities.UploadActivity;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
@@ -17,6 +16,7 @@ import com.leon.counter_reading.databinding.FragmentUploadBinding;
 import com.leon.counter_reading.di.view_model.CustomDialogModel;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.DialogType;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.tables.TrackingDto;
 import com.leon.counter_reading.utils.CustomToast;
 import com.leon.counter_reading.utils.MyDatabase;
@@ -56,7 +56,7 @@ public class UploadFragment extends Fragment {
     }
 
     void getBundle() {
-        trackingDtos = new ArrayList<>(((UploadActivity) activity).getTrackingDtos());
+        trackingDtos.addAll(((UploadActivity) activity).getTrackingDtos());
         if (getArguments() != null) {
             type = getArguments().getInt(BundleEnum.TYPE.getValue());
             getArguments().clear();
