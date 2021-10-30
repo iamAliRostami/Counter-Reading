@@ -11,11 +11,11 @@ import android.view.WindowManager;
 
 import androidx.fragment.app.DialogFragment;
 
-import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.R;
 import com.leon.counter_reading.databinding.FragmentSerialBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.NotificationType;
+import com.leon.counter_reading.helpers.MyApplication;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -61,7 +61,7 @@ public class TaviziFragment extends DialogFragment {
         binding.buttonClose.setOnClickListener(v -> dismiss());
         binding.buttonSubmit.setOnClickListener(v -> {
             String number = binding.editTextSerial.getText().toString();
-            if (number.length() < 3) {
+            if (number.length() > 0 && number.length() < 3) {
                 View view = binding.editTextSerial;
                 binding.editTextSerial.setError(getString(R.string.error_format));
                 view.requestFocus();

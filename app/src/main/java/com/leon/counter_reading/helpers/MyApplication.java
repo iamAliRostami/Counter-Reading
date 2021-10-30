@@ -15,7 +15,6 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -38,8 +37,8 @@ import com.leon.counter_reading.di.module.SharedPreferenceModule;
 import com.leon.counter_reading.enums.SharedReferenceNames;
 import com.leon.counter_reading.infrastructure.ILocationTracking;
 import com.leon.counter_reading.utils.locating.CheckSensor;
-//import com.squareup.leakcanary.LeakCanary;
-//import com.squareup.leakcanary.RefWatcher;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.yandex.metrica.YandexMetrica;
 import com.yandex.metrica.YandexMetricaConfig;
 
@@ -72,20 +71,18 @@ public class MyApplication extends Application {
         applicationComponent.inject(this);
 
         super.onCreate();
-        if (BuildConfig.BUILD_TYPE.equals("release")) {
+        if (!BuildConfig.BUILD_TYPE.equals("release")) {
             setupYandex();
         } else {
             setupLeakCanary();
         }
     }
 
-    protected void /*RefWatcher*/ setupLeakCanary() {
-//        if (LeakCanary.isInAnalyzerProcess(this)) {
-//            Log.e("here", "1");
-//            return RefWatcher.DISABLED;
-//        }
-//        Log.e("here", "2");
-//        return LeakCanary.install(this);
+    protected /*void*/ RefWatcher setupLeakCanary() {
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return RefWatcher.DISABLED;
+        }
+        return LeakCanary.install(this);
     }
 
     protected void setupYandex() {
