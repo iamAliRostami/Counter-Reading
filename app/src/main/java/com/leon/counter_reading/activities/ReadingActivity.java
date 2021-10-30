@@ -43,7 +43,6 @@ import com.leon.counter_reading.enums.SharedReferenceKeys;
 import com.leon.counter_reading.fragments.PossibleFragment;
 import com.leon.counter_reading.fragments.SearchFragment;
 import com.leon.counter_reading.fragments.SerialFragment;
-import com.leon.counter_reading.helpers.Constants;
 import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.infrastructure.IFlashLightManager;
 import com.leon.counter_reading.infrastructure.ISharedPreferenceManager;
@@ -360,8 +359,8 @@ public class ReadingActivity extends BaseActivity {
 
     void showPossible(int position) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        PossibleFragment possibleFragment = PossibleFragment.newInstance(
-                readingData.onOffLoadDtos.get(position), position, false);
+        PossibleFragment possibleFragment = PossibleFragment.newInstance(readingData
+                .onOffLoadDtos.get(position), position, false);
         possibleFragment.show(fragmentTransaction, getString(R.string.dynamic_navigation));
     }
 

@@ -52,6 +52,7 @@ public class PossibleFragment extends DialogFragment {
         PossibleFragment.justMobile = justMobile;
         PossibleFragment fragment = new PossibleFragment();
         fragment.setArguments(putBundle(onOffLoadDto, position));
+        fragment.setCancelable(false);
         return fragment;
     }
 

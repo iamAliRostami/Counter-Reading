@@ -31,6 +31,7 @@ public class TaviziFragment extends DialogFragment {
         Bundle args = new Bundle();
         args.putString(BundleEnum.BILL_ID.getValue(), uuid);
         fragment.setArguments(args);
+        fragment.setCancelable(false);
         return fragment;
     }
 

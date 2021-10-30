@@ -77,7 +77,6 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
                 FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
                 if (counterReportDtos.get(position).isAhad) {
                     AhadFragment ahadFragment = AhadFragment.newInstance(uuid);
-                    ahadFragment.setCancelable(false);
                     ahadFragment.show(fragmentManager, context.getString(R.string.number).concat(DifferentCompanyManager.getAhad(DifferentCompanyManager.getActiveCompanyName())));
                 }
                 if (counterReportDtos.get(position).isTavizi) {
@@ -85,7 +84,7 @@ public class ReadingReportCustomAdapter extends BaseAdapter {
                     taviziFragment.show(fragmentManager, context.getString(R.string.counter_serial));
                 }
                 if (counterReportDtos.get(position).isKarbari) {
-                    KarbariFragment karbariFragment = KarbariFragment.newInstance(uuid, position);
+                    KarbariFragment karbariFragment = KarbariFragment.newInstance(uuid);
                     karbariFragment.show(fragmentManager, context.getString(R.string.karbari));
                 }
             } else {

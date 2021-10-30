@@ -11,11 +11,11 @@ import android.view.WindowManager;
 
 import androidx.fragment.app.DialogFragment;
 
-import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.adapters.SpinnerCustomAdapter;
 import com.leon.counter_reading.databinding.FragmentKarbariBinding;
 import com.leon.counter_reading.enums.BundleEnum;
 import com.leon.counter_reading.enums.NotificationType;
+import com.leon.counter_reading.helpers.MyApplication;
 import com.leon.counter_reading.tables.KarbariDto;
 
 import org.jetbrains.annotations.NotNull;
@@ -25,22 +25,20 @@ import java.util.Objects;
 
 public class KarbariFragment extends DialogFragment {
 
-    FragmentKarbariBinding binding;
-    String uuid;
-    int position;
-    Activity activity;
-    ArrayList<KarbariDto> karbariDtos;
-    String[] items;
+    private FragmentKarbariBinding binding;
+    private String uuid;
+    private Activity activity;
+    private ArrayList<KarbariDto> karbariDtos;
 
     public KarbariFragment() {
     }
 
-    public static KarbariFragment newInstance(String uuid, int position) {
+    public static KarbariFragment newInstance(String uuid) {
         KarbariFragment fragment = new KarbariFragment();
         Bundle args = new Bundle();
         args.putString(BundleEnum.BILL_ID.getValue(), uuid);
-        args.putInt(BundleEnum.POSITION.getValue(), position);
         fragment.setArguments(args);
+        fragment.setCancelable(false);
         return fragment;
     }
 
@@ -49,7 +47,6 @@ public class KarbariFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             uuid = getArguments().getString(BundleEnum.BILL_ID.getValue());
-            position = getArguments().getInt(BundleEnum.POSITION.getValue());
             getArguments().clear();
         }
     }
@@ -72,7 +69,7 @@ public class KarbariFragment extends DialogFragment {
     void initializeSpinner() {
         karbariDtos = new ArrayList<>(MyApplication.getApplicationComponent().MyDatabase().
                 karbariDao().getAllKarbariDto());
-        items = new String[karbariDtos.size()];
+        String[] items = new String[karbariDtos.size()];
         for (int i = 0; i < karbariDtos.size(); i++)
             items[i] = (karbariDtos.get(i).title);
         SpinnerCustomAdapter spinnerCustomAdapter = new SpinnerCustomAdapter(activity, items);

@@ -33,6 +33,7 @@ public class SerialFragment extends DialogFragment {
         args.putInt(BundleEnum.COUNTER_STATE_CODE.getValue(), counterStateCode);
         args.putInt(BundleEnum.COUNTER_STATE_POSITION.getValue(), counterStatePosition);
         fragment.setArguments(args);
+        fragment.setCancelable(false);
         return fragment;
     }
 

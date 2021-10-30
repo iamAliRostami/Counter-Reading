@@ -35,8 +35,8 @@ public class AhadFragment extends DialogFragment {
         AhadFragment fragment = new AhadFragment();
         Bundle args = new Bundle();
         args.putString(BundleEnum.BILL_ID.getValue(), uuid);
-//        args.putInt(BundleEnum.POSITION.getValue(), position);
         fragment.setArguments(args);
+        fragment.setCancelable(false);
         return fragment;
     }
 
