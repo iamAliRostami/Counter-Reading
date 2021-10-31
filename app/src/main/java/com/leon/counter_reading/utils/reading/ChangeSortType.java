@@ -26,11 +26,6 @@ public class ChangeSortType extends AsyncTask<Activity, Void, Void> {
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
     protected void onPostExecute(Void unused) {
         super.onPostExecute(unused);
         customProgressModel.getDialog().dismiss();

@@ -13,7 +13,6 @@ import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.os.StrictMode;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.view.View;
@@ -51,7 +50,6 @@ public class MyApplication extends Application {
     private static ApplicationComponent applicationComponent;
     private static ActivityComponent activityComponent;
     private static int ERROR_COUNTER = 0;
-    private com.squareup.leakcanary.RefWatcher refWatcher;
 
 
     @Override
@@ -81,6 +79,7 @@ public class MyApplication extends Application {
         }
     }
 
+    private com.squareup.leakcanary.RefWatcher refWatcher;
     protected void /*RefWatcher*/ setupLeakCanary() {
 //        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
 //                .detectCustomSlowCalls()

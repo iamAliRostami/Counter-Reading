@@ -35,6 +35,6 @@ public class Constants {
     public static Uri PHOTO_URI;
 
     public static boolean FOCUS_ON_EDIT_TEXT;
-    public static ArrayList<Integer> IS_MANE = new ArrayList<>();
+    public static final ArrayList<Integer> IS_MANE = new ArrayList<>();
     public static ReadingData readingData, readingDataTemp;
 }

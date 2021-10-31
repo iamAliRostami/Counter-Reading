@@ -63,11 +63,6 @@ public class PrepareMultimedia extends AsyncTask<Activity, Integer, Activity> {
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
     protected void onPostExecute(Activity activity) {
         super.onPostExecute(activity);
         if (customProgressModel.getDialog() != null)

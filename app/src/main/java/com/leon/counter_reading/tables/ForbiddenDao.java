@@ -16,7 +16,7 @@ public interface ForbiddenDao {
     List<ForbiddenDto> getAllForbiddenDto(boolean isSent);
 
     @Insert
-    long insertForbiddenDto(ForbiddenDto forbiddenDto);
+    void insertForbiddenDto(ForbiddenDto forbiddenDto);
 
     @Insert
     void insertForbiddenDto(ArrayList<ForbiddenDto> forbiddenDtos);

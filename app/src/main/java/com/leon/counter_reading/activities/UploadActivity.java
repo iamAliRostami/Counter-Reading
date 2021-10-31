@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class UploadActivity extends BaseActivity {
     private ActivityUploadBinding binding;
     private int previousState, currentState;
-    private ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
+    private final ArrayList<TrackingDto> trackingDtos = new ArrayList<>();
 
     public ArrayList<TrackingDto> getTrackingDtos() {
         return trackingDtos;

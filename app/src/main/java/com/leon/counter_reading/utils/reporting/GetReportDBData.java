@@ -28,11 +28,6 @@ public class GetReportDBData extends AsyncTask<Activity, Integer, Integer> {
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
     protected void onPostExecute(Integer integer) {
         super.onPostExecute(integer);
         customProgressModel.getDialog().dismiss();

@@ -38,11 +38,6 @@ public class Restore extends AsyncTask<Activity, Integer, Void> {
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
     protected void onPostExecute(Void unused) {
         super.onPostExecute(unused);
         customProgressModel.getDialog().dismiss();

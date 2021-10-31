@@ -53,11 +53,6 @@ public class Download extends AsyncTask<Activity, Void, Void> {
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
     protected void onPostExecute(Void unused) {
         super.onPostExecute(unused);
 //        throw new RuntimeException("Test Force Crash"); // Force a crash

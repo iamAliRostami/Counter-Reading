@@ -15,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class ContactUsFragment extends DialogFragment {
-    private FragmentContactUsBinding binding;
 
     public ContactUsFragment() {
     }
@@ -28,7 +27,7 @@ public class ContactUsFragment extends DialogFragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentContactUsBinding.inflate(inflater, container, false);
+        com.leon.counter_reading.databinding.FragmentContactUsBinding binding = FragmentContactUsBinding.inflate(inflater, container, false);
         initialize();
         return binding.getRoot();
     }

@@ -61,11 +61,6 @@ public class PrepareToSend extends AsyncTask<Activity, Integer, Integer> {
         return null;
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
 }
 
 class offLoadData implements ICallback<OnOffLoadDto.OffLoadResponses> {
